@@ -13,3 +13,8 @@ export default {
   }
 }
 </script>
+<style>
+  #app{
+    background-color: rgb(240, 240, 240);
+  }
+</style>
