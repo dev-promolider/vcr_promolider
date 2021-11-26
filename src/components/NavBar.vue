@@ -85,7 +85,7 @@ export default {
 
 <style scoped>
 .nav-general {
-  width: 100vw;
+  width: 100%;
   height: 104px;
   background-color: #fff;
 }
