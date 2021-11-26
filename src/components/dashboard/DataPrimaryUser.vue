@@ -2,6 +2,7 @@
  <template>
   <div class="contenedor mt-4 ">
 
+      
    
      <ul class="d-flex">
 
@@ -20,6 +21,8 @@
         <p>Afiliado</p>
       </li>
     </ul> 
+  
+
   </div>
 </template>
 <script>
@@ -31,6 +34,7 @@ export default {
       payment: 0,
       typePlans: "",
       affilates: 0,
+      
     };
 
     
@@ -51,15 +55,17 @@ export default {
       //UNICA MODIFICACION
 
         // añadi la api y un for each para recorrer el arreglo
-      this.axios.get("dashboard/saleshistory").then((response)=>{
-           const respuesta = response.data.data;
-           console.log(respuesta.client_last_name);
-          respuesta.forEach( nombre =>{
-              console.log(nombre.course)
+      // this.axios.get("dashboard/saleshistory").then((response)=>{
+      //      const respuesta = response.data.data;
+      //      console.log(respuesta.client_last_name);
+      //     respuesta.forEach( nombre =>{
+              // this.nombre = nombre.client_last_name
+              // this.cursos =nombre.course
+      //         console.log(nombre)
             
-          })
+      //     })
 		
-       })
+      //  })
     },
   },
   created() {
@@ -113,30 +119,3 @@ export default {
  
 </style>>
   
-
- }
-  li{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-     background: rgb(253, 253, 253);
-     text-align: center;
-     color:black;
-     width: 50%;
-     list-style: none;
-     padding: 5%;
-     flex-grow: 1;
-   
-     border: 0.5px solid rgb(236, 236, 236);
-  
-     
-  }  
-  .one{
-    border-radius: 15px 0px 0px 15px;
-    background: rgb(120, 202, 38);
-    
-  }
-  .four{
-    border-radius: 0px 15px 15px 0px;
-  }
- 
