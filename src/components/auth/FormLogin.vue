@@ -42,6 +42,7 @@ export default {
               const authToken = d.data.access_token;
               localStorage.setItem('access_token', authToken);
               this.$router.push('/')
+              
           })
       }
   }

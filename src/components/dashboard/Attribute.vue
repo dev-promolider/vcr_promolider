@@ -1,32 +1,35 @@
 <template>
   <div id="Attribute" class="container">
     <!-- <div class="post" v-for="respuestas in respuesta" :key="respuestas" > -->
-
+      
     <div class="row justify-content-center">
-      <div v-for="item in info" :key="item.id" >
-        
-         
-  <div class="col-sm-12">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">cliente</h5>
-        <p class="card-text"> {{item.client_name}} {{item.client_last_name}}</p>
-       
-        <p class="card-text"> curso :{{item.course}}</p>
-         <p class="card-text">duracion del curso : {{item.created_at}}</p>
-          <p class="card-text">Precio : {{item.price}} modalidad : {{item.client_account}}</p>
+      <div v-for="item in info" :key="item.id">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">cliente</h5>
+              <p class="card-text">
+                {{ item.client_name }} {{ item.client_last_name }}
+              </p>
 
-        <a href="#" class="btn btn-primary">Ver curso</a>
+              <p class="card-text">curso :{{ item.course }}</p>
+              <p class="card-text"> pyment : {{ item.payment_id }}</p>
+              <p class="card-text">
+                duracion del curso : {{ item.created_at }}
+              </p>
+              <p class="card-text">
+                Precio : {{ item.price }} modalidad : {{ item.client_account }}
+              </p>
+
+              <a href="#" class="btn btn-primary">Ver curso</a>
+            </div>
+          </div>
+          
+        </div>
       </div>
     </div>
-     <br>
-  </div>
-  
 
-      </div>
-    </div>
-
-    <br />
+    
   </div>
 </template>
 <script>
@@ -39,20 +42,8 @@ export default {
   },
   methods: {
     getAttributes() {
-      //UNICA MODIFICACION
+    
 
-      // añadi la api y un for each para recorrer el arreglo
-      // this.axios.get("dashboard/saleshistory").then((response)=>{
-      //      const respuesta = response.data.data;
-      //      console.log(respuesta.client_last_name);
-      // respuesta.forEach( nombre =>{
-      //     this.nombre = nombre.client_last_name
-      //     this.cursos =nombre.course
-      //     console.log(nombre)
-
-      //  })
-
-      //  })
       this.axios.get("dashboard/saleshistory").then((respuesta) => {
         this.info = respuesta.data.data;
         console.log(this.info);
