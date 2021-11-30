@@ -11,11 +11,9 @@
 <script>
 import NavBar from '@/components/NavBar.vue';
 export default {
+    name: 'ContentUser',
     components:{
         NavBar
-    },
-    setup() {
-        
-    },
+    }
 }
 </script>

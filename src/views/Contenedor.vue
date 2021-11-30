@@ -4,18 +4,16 @@
         <NavBarV/>
     </div>
     <div class="content-user">
-      <div>
         <ContentUser/>
-      </div>
-      <div></div>
     </div>
   </div>
 </template>
 <script>
 
 import NavBarV from '@/components/NavBarV.vue';
-import ContentUser from "./content/ContentUser.vue";
+import ContentUser from "@/views/content/ContentUser.vue";
 export default {
+  name: 'Contenedor',
   components: {
     ContentUser,
     NavBarV
@@ -30,10 +28,12 @@ export default {
     display: flex;
   }
   .nav-v{
-    width: 20%;
+    width: 218px;
     min-height:100%;
+    background: #494949;
+
   }
   .content-user{
-    width: 80%;
+    flex-grow: 1;
   }
 </style>
