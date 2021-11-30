@@ -9,11 +9,13 @@
                     <Attribute />
 
                     <!--pruba del cliente--->
-                    <ClienteVenta />
+                    
                 <!-- Coleccion de mensajes para el productor -->
                 <MessengerColletion />
             </b-col>
-            <b-col cols="4"></b-col>
+            <b-col cols="4">
+                <ClienteVenta />
+            </b-col>
         </b-row>
     </b-container>
 </template>

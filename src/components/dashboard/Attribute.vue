@@ -1,8 +1,12 @@
 <template>
-  <div id="Attribute" class="container">
+ <div id="Attribute">
+
+      <!-- este componente sera para mostrar los atributos del cliente -->
+
+  <!-- <div id="Attribute" class="container"> -->
     <!-- <div class="post" v-for="respuestas in respuesta" :key="respuestas" > -->
       
-    <div class="row justify-content-center">
+    <!-- <div class="row justify-content-center">
       <div v-for="item in info" :key="item.id">
         <div class="col-sm-12">
           <div class="card">
@@ -27,7 +31,7 @@
           
         </div>
       </div>
-    </div>
+    </div> -->
 
     
   </div>
@@ -40,18 +44,18 @@ export default {
       info: [],
     };
   },
-  methods: {
-    getAttributes() {
+  // methods: {
+  //   getAttributes() {
     
 
-      this.axios.get("dashboard/saleshistory").then((respuesta) => {
-        this.info = respuesta.data.data;
-        console.log(this.info);
-      });
-    },
-  },
-  created() {
-    this.getAttributes();
-  },
+  //     this.axios.get("dashboard/saleshistory").then((respuesta) => {
+  //       this.info = respuesta.data.data;
+  //       console.log(this.info);
+  //     });
+  //   },
+  // },
+  // created() {
+  //   this.getAttributes();
+  // },
 };
 </script>

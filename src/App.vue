@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <NavBar />
-    <router-view/>
+    <NavBar/>
+    <router-view />
   </div>
 </template>
 
@@ -13,3 +13,10 @@ export default {
   }
 }
 </script>
+<style>
+  #app{
+    width: 100vw;
+    height: 100vh;
+    background-color: #E5E5E5;
+  }
+</style>
