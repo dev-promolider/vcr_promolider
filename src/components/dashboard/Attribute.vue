@@ -41,7 +41,7 @@ export default {
   name: "Attribute",
   data() {
     return {
-      info: [],
+      // info: [],
     };
   },
   // methods: {

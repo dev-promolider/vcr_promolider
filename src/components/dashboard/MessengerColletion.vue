@@ -17,6 +17,6 @@
 </template>
 <script>
 export default {
-    name: 'MessengerColletion'
-}
+  name: "MessengerColletion",
+};
 </script>
