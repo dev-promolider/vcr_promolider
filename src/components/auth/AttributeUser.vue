@@ -41,13 +41,13 @@ export default {
   methods: {
     getAttributes() {
       this.payment_id = this.$route.params.id;
-      console.log(this.payment_id);
+      // console.log(this.payment_id);
 
       this.axios
         .get("dashboard/saleshistory/" + this.payment_id)
         .then((datos) => {
           this.lord=false
-          console.log(datos.data.data);
+          // console.log(datos.data.data);
           this.informacion = datos.data.data;
         });
     },

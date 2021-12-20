@@ -60,7 +60,7 @@ export default {
       this.axios.get("dashboard/saleshistory").then((respuesta) => {
         this.lord = false;
         this.seleccionar = respuesta.data.data;
-        console.log(this.seleccionar);
+        // console.log(this.seleccionar);
       });
     },
   },
