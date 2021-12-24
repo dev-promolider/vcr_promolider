@@ -1,22 +1,46 @@
 <template>
   <div class="content"> 
-    <div class="nav-v">
-        <NavBarV/>
+
+    <div class="nav-v" v-if="islogin">
+        <NavBarV />
     </div>
-    <div class="content-user">
-        <ContentUser/>
+
+    <div class="content-user" v-if="islogin" >
+        <div>
+            <NavBar/>
+        </div>
+        <div>
+          <router-view/>
+        </div>
     </div>
+    
+    <Login v-else />
+
   </div>
 </template>
 <script>
-
+import NavBar from '@/components/NavBar.vue';
 import NavBarV from '@/components/NavBarV.vue';
-import ContentUser from "@/views/content/ContentUser.vue";
+import Login from "@/views/auth/Login.vue";
 export default {
   name: 'Contenedor',
   components: {
-    ContentUser,
-    NavBarV
+    NavBarV,
+    NavBar,
+    Login
+  },
+  data(){
+    return{
+     islogin: true
+    }
+  },
+  mounted(){
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      this.islogin = false;
+    }else{
+      this.$router.push("/");
+    }
   }
 };
 </script>

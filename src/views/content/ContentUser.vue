@@ -13,7 +13,7 @@ import NavBar from '@/components/NavBar.vue';
 export default {
     name: 'ContentUser',
     components:{
-        NavBar
+        NavBar,
     }
 }
 </script>
