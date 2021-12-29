@@ -30,6 +30,7 @@ export default {
       payment: 0,
       typePlans: "",
       affilates: 0,
+      
     };
   },
   methods: {
