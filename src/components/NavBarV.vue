@@ -6,13 +6,13 @@
         <div>
             <ul class="nav ">
                 <li class="nav-item" :class="{'is-active': isActive('/')}">
-                    <router-link to="/" class="nav-link link-v" :class="{'is-active': isActive('/')}" >
+                    <router-link to="/cursos" class="nav-link link-v" :class="{'is-active': isActive('/')}">
                         <img src="./../assets/home.svg" alt="">
                         Inicio
                     </router-link>
                 </li>
                 <li class="nav-item" :class="{'is-active': isActive('cursos')}">
-                    <router-link to="/cursos" class="nav-link link-v" :class="{'is-active': isActive('cursos')}">
+                    <router-link to="cursos" class="nav-link link-v" :class="{'is-active': isActive('cursos')}">
                         <img src="./../assets/courses.svg" alt="">
                         Cursos
                     </router-link>
@@ -50,13 +50,13 @@ export default {
      name: 'NavBarV',
      methods:{
          isActive(path){
-             if(path === '/'){
-                 return this.$route.name === "Dashboard"
-             }
+            if(path === '/'){
+                return this.$route.name === "Dashboard"
+            }
              return this.$route.path.includes(path);
-         }
+         },
      },
-     mounted(){
+     mounted(){  
          console.log(this.$route)
      }
 }

@@ -33,5 +33,6 @@ export default {
         ClienteVenta
         
     }
+    
 }
 </script>

@@ -51,8 +51,8 @@
             <img class="img-menuitem" src="../assets/subcription.png" />
             Subcripción</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">
-            <router-link to="/signin" class="nav-link">Sign out</router-link>
+          <a class="dropdown-item" href="#"
+              @click="closeSesion()">Sign out
           </a>
         </div>
       </ul>
@@ -69,20 +69,18 @@ export default {
       link: ''
     };
   },
-  mounted() {
+  mounted() {    
+    
     this.desplegar();
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      this.$router.push("/signin");
-    }
   },
   methods: {
-    seccion(){
-      
-    },
     desplegar() {
       this.vermenu = !this.vermenu;
     },
+    closeSesion(){
+      localStorage.removeItem("access_token");
+      window.location.reload(true);
+    }
   },
 };
 </script>
