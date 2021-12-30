@@ -6,7 +6,7 @@
         <div>
             <ul class="nav ">
                 <li class="nav-item" :class="{'is-active': isActive('/')}">
-                    <router-link to="/cursos" class="nav-link link-v" :class="{'is-active': isActive('/')}">
+                    <router-link to="/" class="nav-link link-v" :class="{'is-active': isActive('/')}">
                         <img src="./../assets/home.svg" alt="">
                         Inicio
                     </router-link>

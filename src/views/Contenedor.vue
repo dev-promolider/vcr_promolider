@@ -1,63 +1,51 @@
 <template>
-  <div class="content"> 
-
+  <div class="content">
     <div class="nav-v" v-if="islogin">
-        <NavBarV />
+      <NavBarV v-if="islogin" />
     </div>
-
-    <div class="content-user" v-if="islogin" >
-        <div>
-            <NavBar/>
-        </div>
-        <div>
-          <router-view/>
-        </div>
+    <div class="content-user">
+      <NavBar v-if="islogin" />
+      <router-view v-if="islogin" />
+      <Login v-else />
     </div>
-    
-    <Login v-else />
-
   </div>
 </template>
 <script>
-import NavBar from '@/components/NavBar.vue';
-import NavBarV from '@/components/NavBarV.vue';
+import NavBar from "@/components/NavBar.vue";
+import NavBarV from "@/components/NavBarV.vue";
 import Login from "@/views/auth/Login.vue";
 export default {
-  name: 'Contenedor',
+  name: "Contenedor",
   components: {
     NavBarV,
     NavBar,
-    Login
+    Login,
   },
-  data(){
-    return{
-     islogin: true
-    }
+  data() {
+    return {
+      islogin: true,
+    };
   },
-  mounted(){
+  created() {
     const token = localStorage.getItem("access_token");
     if (!token) {
       this.islogin = false;
-    }else{
-      this.$router.push("/");
     }
-  }
+  },
 };
 </script>
 <style scope>
-
-  .content{
-    width: 100%;
-    min-height: 100%;
-    display: flex;
-  }
-  .nav-v{
-    width: 218px;
-    min-height:100%;
-    background: #494949;
-
-  }
-  .content-user{
-    flex-grow: 1;
-  }
+.content {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+}
+.nav-v {
+  width: 218px;
+  min-height: 100%;
+  background: #494949;
+}
+.content-user {
+  flex-grow: 1;
+}
 </style>
