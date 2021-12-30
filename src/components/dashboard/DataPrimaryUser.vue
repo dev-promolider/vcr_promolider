@@ -77,7 +77,6 @@ export default {
         this.payment = Math.round(rs.totalPayments);
         this.typePlans = rs.accountType;
         this.affilates = rs.totalClients;
-        // console.log(r);
       });
     },
   },
@@ -93,8 +92,6 @@ export default {
   */
 .contenedor {
   width: 100%;
-
-  display: flex;
   justify-content: center;
 }
 ul {
@@ -124,4 +121,3 @@ li {
   border-radius: 0px 15px 15px 0px;
 }
 </style>
->

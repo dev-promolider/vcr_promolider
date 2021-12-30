@@ -1,11 +1,11 @@
 <template>
   <div class="nav-general d-flex">
-    <ul class="nav seccion justify-content-star align-items-center">
+    <ul class="nav seccion justify-content-star align-self-center">
       <li class="nav-item logo-king">
-        <span class="d-flex flex-grap nav-link active" href="#">
+        <span class="d-flex flex-grap nav-link" href="#">
           <img class="img-king" src="../assets/logo-king.png" />
           <span class="ml-1">
-            Sección de
+            {{link}}Sección de
             <b>Portada de información del curso</b></span>
         </span>
       </li>
@@ -19,7 +19,7 @@
           </span>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">
+          <a class="nav-link" href="#">
             <img class="img-help" src="../assets/help.png" />
           </a>
         </li>
@@ -31,7 +31,7 @@
       </ul>
       <ul class="nav nav-sub-h2 justify-content-between align-items-center">
         <li class="nav-item logo-classroom">
-          <span class="nav-link active pl-2 pr-1" href="#">
+          <span class="nav-link pl-2 pr-1" href="#">
             <img class="img-classroom" src="../assets/logo-aula3.png" />
           </span>
         </li>
@@ -51,8 +51,8 @@
             <img class="img-menuitem" src="../assets/subcription.png" />
             Subcripción</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">
-            <router-link to="/signin" class="nav-link">Sign out</router-link>
+          <a class="dropdown-item" href="#"
+              @click="closeSesion()">Sign out
           </a>
         </div>
       </ul>
@@ -66,26 +66,28 @@ export default {
   data() {
     return {
       vermenu: true,
+      link: ''
     };
   },
-  mounted() {
+  mounted() {    
+    
     this.desplegar();
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      this.$router.push("/signin");
-    }
   },
   methods: {
     desplegar() {
       this.vermenu = !this.vermenu;
     },
+    closeSesion(){
+      localStorage.removeItem("access_token");
+      window.location.reload(true);
+    }
   },
 };
 </script>
 
 <style scoped>
 .nav-general {
-  width: 100vw;
+  width: 100%;
   height: 104px;
   background-color: #fff;
 }
@@ -127,6 +129,10 @@ export default {
 .img-help {
   width: 32px;
   height: 32px;
+}
+.ml-1{
+  align-self:center;
+  font-size: 14px;
 }
 .img-king {
   width: 24px;
@@ -170,8 +176,12 @@ export default {
   width: 18px;
   height: 14px;
 }
+.nav-sub-h1{
+  flex-direction: row;
+}
 .nav-sub-h2 {
   position: relative;
+  flex-direction: row;
 }
 
 @media only screen and (max-width: 671px) {

@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/auth/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import AttributeVenta from '../components/auth/AttributeVenta.vue'
 import AttributeUser from '../components/auth/AttributeUser.vue'
 import AttributeCourse from '../components/auth/AttributeCourse.vue'
+import Cursos from '../views/content/course/Cursos.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -12,12 +13,7 @@ const routes = [
     path: '/',
     name: 'Dashboard',
     component: Dashboard
-  },
-  {
-    path: '/signin',
-    name: 'Sign In',
-    component: Login
-  },
+  },  
   {
     path: '/attribute',
     name: 'attribute',
@@ -32,6 +28,11 @@ const routes = [
     path: '/attribute-course',
     name: 'attribute-course',
     component: AttributeCourse
+  },
+  {
+    path: '/cursos',
+    name: 'Cursos',
+    component: Cursos
   }
 ]
 
