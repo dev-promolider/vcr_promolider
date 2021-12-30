@@ -43,7 +43,8 @@ export default {
 </script>
 <style scoped>
 .header >a{
-  color:  #448F3C
+  color:  #448F3C;
+  font-size: 12px;
 }
 .card-message{
   background-color: #fff;

@@ -8,16 +8,6 @@ import Cursos from '../views/content/course/Cursos.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  // {
-  //   path: '/signin',
-  //   name: 'Sign In',
-  //   component: Login
-  // },
-  // {
-  //   path: '/',
-  //   name: 'Content',
-  //   component: Content
-  // },
   {
     path: '/',
     name: 'Dashboard',
