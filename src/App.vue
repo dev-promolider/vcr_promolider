@@ -20,6 +20,6 @@ export default {
   #app{
     width: 100vw;
     height: 100vh;
-    background-color: rgb(255, 255, 255);
+    background-color: #E5E5E5;
   }
 </style>

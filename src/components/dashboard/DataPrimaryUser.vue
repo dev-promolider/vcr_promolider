@@ -43,15 +43,6 @@ export default {
         this.affilates = rs.totalClients;
         //  console.log(r);
       });
-      //UNICA MODIFICACION
-      // añadi la api y un for each para recorrer el arreglo
-      this.axios.get("dashboard/saleshistory").then((response) => {
-        const respuesta = response.data.data;
-        console.log(respuesta.client_last_name);
-        respuesta.forEach((nombre) => {
-          console.log(nombre.course);
-        });
-      });
     },
   },
   created() {
