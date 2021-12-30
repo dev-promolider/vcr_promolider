@@ -4,19 +4,19 @@
       <ul class="d-flex">
         <li class="one">
           <div
-            class="spinner-border spinner-border-sm ml-5"
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
             role="status"
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar">{{ courses }}</p>
-          <p>Cursos</p>
+          <p v-if="mostrar" style="color:white">{{ courses }}</p>
+          <p style="color:white">Cursos</p>
         </li>
 
         <li>
           <div
-            class="spinner-border spinner-border-sm ml-5"
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
             role="status"
           >
@@ -28,7 +28,7 @@
 
         <li>
           <div
-            class="spinner-border spinner-border-sm ml-5"
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
             role="status"
           >
@@ -40,7 +40,7 @@
 
         <li class="four">
           <div
-            class="spinner-border spinner-border-sm ml-5"
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
             role="status"
           >

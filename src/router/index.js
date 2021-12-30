@@ -4,6 +4,7 @@ import Login from '../views/auth/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import AttributeVenta from '../components/auth/AttributeVenta.vue'
 import AttributeUser from '../components/auth/AttributeUser.vue'
+import AttributeCourse from '../components/auth/AttributeCourse.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
     path: '/attribute-user/:id',
     name: 'attribute-user',
     component: AttributeUser
+  },
+  {
+    path: '/attribute-course',
+    name: 'attribute-course',
+    component: AttributeCourse
   }
 ]
 
