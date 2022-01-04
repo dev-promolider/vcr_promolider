@@ -1,47 +1,82 @@
+<template>
+  <div>
+    <div class="contenedor mt-4">
+      <ul class="d-flex">
+        <li class="one">
+          <div
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
+            v-if="loading"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <p v-if="mostrar" style="color:white">{{ courses }}</p>
+          <p style="color:white">Cursos</p>
+        </li>
 
- <template>
-  <div class="contenedor mt-4">
-    <ul class="d-flex">
-      <li class="one">
-        <p>{{ courses }}</p>
-        <p>Cursos</p>
-      </li>
-      <li>
-        <p>S/.{{ payment }}</p>
-        <p>Ventas</p>
-      </li>
-      <li>
-        <p>Plan</p>
-        <p>{{ typePlans }}</p>
-      </li>
-      <li class="four">
-        <p>{{ affilates }}</p>
-        <p>Afiliado</p>
-      </li>
-    </ul>
+        <li>
+          <div
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
+            v-if="loading"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <p v-if="mostrar">S/.{{ payment }}</p>
+          <p>Ventas</p>
+        </li>
+
+        <li>
+          <div
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
+            v-if="loading"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <p v-if="mostrar">{{ typePlans }}</p>
+          <p>Plan</p>
+        </li>
+
+        <li class="four">
+          <div
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
+            v-if="loading"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <p v-if="mostrar">{{ affilates }}</p>
+          <p>Afiliado</p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
 export default {
   name: "DataPrimaryUser",
+  comoponents: {},
   data() {
     return {
-      courses: 0,
-      payment: 0,
+      courses: "",
+      payment: "",
       typePlans: "",
-      affilates: 0,
-      
+      affilates: "",
+      mostrar: false,
+      loading: true,
     };
   },
   methods: {
     getAttributes() {
       this.axios.get("dashboard/getattributes").then((r) => {
+        this.loading = false;
+        this.mostrar = true;
         const rs = r.data.data;
         this.courses = rs.totalCourses;
         this.payment = Math.round(rs.totalPayments);
         this.typePlans = rs.accountType;
         this.affilates = rs.totalClients;
-        //  console.log(r);
       });
     },
   },
@@ -57,7 +92,6 @@ export default {
   */
 .contenedor {
   width: 100%;
-  display: flex;
   justify-content: center;
 }
 ul {
@@ -87,4 +121,3 @@ li {
   border-radius: 0px 15px 15px 0px;
 }
 </style>
- 

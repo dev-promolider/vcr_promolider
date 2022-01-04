@@ -1,29 +1,53 @@
 <template>
   <div id="ClienteVenta">
-    <!-- <div  class="cliente" v-for="item in info" :key="item.id" > -->
     <div class="marco" style="width: 401px">
       <div class="titulos">
         <p class="titulo_dentro">Última Ventas</p>
-        <p class="titulo_esquina">ver progreso completo</p>
+        <router-link to="/attribute"
+          ><p class="titulo_esquina">ver progreso completo</p></router-link
+        >
       </div>
+
+      <div class="mover ml-2 mt-2" v-if="loading">
+          
+      <div class="decorar ">
+
+        <p>Cargando....</p>
+
+      </div>
+
+      <div class="decorar mt-3">
+
+        <p>Cargando....</p>
+
+      </div>
+
+      <div class="decorar mt-3">
+
+        <p>Cargando....</p>
+
+      </div>
+
+      </div>
+
       <div
         class="cliente"
-        v-for="item in info"
-        :key="item.id"
+        v-for="(item, index) in info"
+        :key="index"
         style="max-width: 336px"
-        v-on:click="mostrar"
+        v-on:click="mostrar(item.payment_id)"
       >
-        <b-list-group-item class="d-flex align-items-center color">
+        <b-list-group-item class="d-flex align-items-center color" >
           <b-avatar
             variant="info"
             size="1.9rem"
             src="https://placekitten.com/300/300"
-            class="mr-3"
+            class="ml-2"
           ></b-avatar>
-          <span class="mr-auto cliente_user"
-            >{{ item.client_last_name }} {{ item.client_name }}</span
+          <span class="mr-auto  cliente_user"
+            >{{ item.client }} {{ item.client_last_name }}</span
           >
-          <span class="cursos">{{ item.course }}</span>
+          <span class=" cursos ">{{ item.course }}</span>
         </b-list-group-item>
       </div>
     </div>
@@ -33,20 +57,25 @@
 <script>
 export default {
   name: "ClienteVenta",
+  components: {},
   data() {
     return {
       info: [],
+      loading: true,
+      desabilitado:0
     };
   },
   methods: {
     getAttributes() {
       this.axios.get("dashboard/saleshistory").then((respuesta) => {
+        this.loading = false;
         this.info = respuesta.data.data;
+        //  console.log(this.info);
       });
     },
 
-    mostrar() {
-      console.log("si estsa funcionando");
+    mostrar(id) {
+      this.$router.push("/attribute-user/ " + id);
     },
   },
   created() {
@@ -54,10 +83,26 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+
+.decorar{
+  background: rgb(235, 235, 235);
+  color:rgb(14, 13, 13);
+  width: 336px;
+  margin-left: 20px;
+  height: 60px;
+   border-radius: 0.9rem;
+
+}
+.decorar p{
+  padding-top: 15px;
+  font-weight: 700;
+}
+.mover {
+  margin-left: 30%;
+}
 .cliente {
   border-radius: 0.9rem;
-
   margin-left: 32px;
   margin-right: 33px;
 }
@@ -65,6 +110,11 @@ export default {
   background: #9fbdf8;
   margin-bottom: 13px;
   height: 64px;
+  cursor: pointer;
+}
+
+.cliente .color:hover {
+  background: #7e9bd4;
 }
 
 .marco {
@@ -106,10 +156,13 @@ export default {
   font-size: 10px;
   color: white;
   font-weight: 300px;
+  flex: right;
+  margin-left: 20px;
 }
 .cursos {
   font-size: 10px;
   color: white;
   font-weight: 700;
+  margin-right: 15px;
 }
 </style>

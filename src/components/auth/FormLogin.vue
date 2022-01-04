@@ -84,10 +84,10 @@ export default {
     singin() {
       this.axios.post("/auth/login", this.form).then((r) => {
         const d = r.data;
+        // const de= d.data;
         const authToken = d.data.access_token;
         localStorage.setItem("access_token", authToken);
         window.location.reload(true);
-        //this.$router.push("/dashboard");
       });
     },
   },
