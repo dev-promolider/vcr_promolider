@@ -36,6 +36,7 @@
           
             
       </div>
+      <button v-on:click="aumentar()" > cargar más cursos</button>
     </div>
   </div>
 </template>
@@ -44,7 +45,6 @@
 import Spinner from "@/components/auth/Spinner.vue";
 export default {
   name: "AttributeVenta",
-
   components: {
     Spinner,
   },
@@ -52,6 +52,7 @@ export default {
     return {
       seleccionar: [],
       lord: true,
+      limite: 3
     };
   },
 
@@ -59,7 +60,13 @@ export default {
     getAttributes() {
       this.axios.get("dashboard/saleshistory").then((respuesta) => {
         this.lord = false;
-        this.seleccionar = respuesta.data.data;
+        const array = respuesta.data;
+        console.log(array);
+        for (const iterator of array.data) {
+          if (this.seleccionar.length < this.limite) {
+            this.seleccionar.push(iterator)            
+          }
+        }
         // console.log(this.seleccionar);
       });
     },
