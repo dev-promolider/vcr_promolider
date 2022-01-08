@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import Contenedor from '@/views/Contenedor.vue';
+import Contenedor from '@/views/content/contenedor/Contenedor.vue';
 export default {
   components: {
     Contenedor

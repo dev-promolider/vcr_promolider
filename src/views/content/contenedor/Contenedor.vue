@@ -11,8 +11,8 @@
   </div>
 </template>
 <script>
-import NavBar from "@/components/NavBar.vue";
-import NavBarV from "@/components/NavBarV.vue";
+import NavBar from "@/components/Navbar/NavBar.vue";
+import NavBarV from "@/components/Navbar/NavBarV.vue";
 import Login from "@/views/auth/Login.vue";
 export default {
   name: "Contenedor",

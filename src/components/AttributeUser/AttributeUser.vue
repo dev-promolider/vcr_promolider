@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Spinner from '@/components/auth/Spinner.vue'
+import Spinner from '@/components/auth/Spinner/Spinner.vue'
 export default {
   name: "AttributeUser",
   components:{

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '../views/content/dashboard/Dashboard.vue'
-import AttributeVenta from '../components/auth/AttributeVenta.vue'
-import AttributeUser from '../components/auth/AttributeUser.vue'
-import AttributeCourse from '../components/auth/AttributeCourse.vue'
+import AttributeVenta from '../components/AttributeVenta/AttributeVenta.vue'
+import AttributeUser from '../components/AttributeUser/AttributeUser.vue'
+import AttributeCourse from '../components/AttributeCourse/AttributeCourse.vue'
 import Cursos from '../views/content/course/Cursos.vue'
 
 Vue.use(VueRouter)

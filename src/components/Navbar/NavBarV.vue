@@ -1,43 +1,43 @@
 <template>
     <div>
        <div class="title-aula">
-           <img src="../assets/logo-aula.png" >
+           <img src="../../assets/logo-aula.png" >
         </div>
         <div>
             <ul class="nav ">
                 <li class="nav-item" :class="{'is-active': isActive('/')}">
                     <router-link to="/" class="nav-link link-v" :class="{'is-active': isActive('/')}">
-                        <img src="./../assets/home.svg" alt="">
+                        <img src="./../../assets/home.svg" alt="">
                         Inicio
                     </router-link>
                 </li>
                 <li class="nav-item" :class="{'is-active': isActive('cursos')}">
                     <router-link to="cursos" class="nav-link link-v" :class="{'is-active': isActive('cursos')}">
-                        <img src="./../assets/courses.svg" alt="">
+                        <img src="./../../assets/courses.svg" alt="">
                         Cursos
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/cursos" class="nav-link link-v">
-                        <img src="./../assets/messange.svg" alt="">
+                        <img src="./../../assets/messange.svg" alt="">
                         Mensajes
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link-v" href="#">
-                        <img src="./../assets/sales.svg" alt="">
+                        <img src="./../../assets/sales.svg" alt="">
                         Ventas
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link-v" href="#">
-                        <img src="./../assets/estadisticas.svg" alt="">
+                        <img src="./../../assets/estadisticas.svg" alt="">
                         Estadisitcas
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link-v" href="#">
-                        <img src="./../assets/roles-permisos.svg" alt="">
+                        <img src="./../../assets/roles-permisos.svg" alt="">
                         Roles y Permisos
                     </a>
                 </li>
