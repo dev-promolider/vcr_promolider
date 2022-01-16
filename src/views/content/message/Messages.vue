@@ -1,10 +1,14 @@
 <template>
-  
+        <Message/>
 </template>
 
 <script>
+import Message from "@/components/message/message.vue"
 export default {
-    name: "Messages.vue"
+    name: "Messages",
+    components: {
+        Message
+    }
 }
 </script>
 

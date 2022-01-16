@@ -5,7 +5,8 @@ import AttributeVenta from '../components/AttributeVenta/AttributeVenta.vue'
 import AttributeUser from '../components/AttributeUser/AttributeUser.vue'
 import AttributeCourse from '../components/AttributeCourse/AttributeCourse.vue'
 import Cursos from '../views/content/course/Cursos.vue'
-
+import Messages from '../views/content/message/Messages.vue'
+import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +34,16 @@ const routes = [
     path: '/cursos',
     name: 'Cursos',
     component: Cursos
+  },
+  {
+    path: '/messages',
+    name: 'Messages',
+    component: Messages
+  },
+  {
+    path: '/preferences',
+    name: 'Preferences',
+    component: PreferencesCateg
   }
 ]
 

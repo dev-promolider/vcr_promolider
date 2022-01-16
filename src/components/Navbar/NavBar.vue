@@ -5,8 +5,10 @@
         <span class="d-flex flex-grap nav-link" href="#">
           <img class="img-king" src="../../assets/logo-king.png" />
           <span class="ml-1">
-            {{link}} Sección de
-            <b>Portada de información del curso</b></span>
+          {{titulo}} 
+          <!-- {{$store.getters['course/getCurso']}} -->
+          </span
+          >
         </span>
       </li>
     </ul>
@@ -20,7 +22,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
-            <img class="img-help" src="../../assets/help.png" />
+            <img @click="sendTitle()" class="img-help" src="../../assets/help.png" />
           </a>
         </li>
         <li class="nav-item">
@@ -43,17 +45,21 @@
             </a>
           </span>
         </li>
-        <div class="viewmenu-list" v-show="vermenu" aria-labelledby="navbarDropdown">
+        <div
+          class="viewmenu-list"
+          v-show="vermenu"
+          aria-labelledby="navbarDropdown"
+        >
           <a class="dropdown-item" href="#">
-            <img class="img-menuitem" src="../../assets/perfil.png" /> 
-            Perfil</a>
+            <img class="img-menuitem" src="../../assets/perfil.png" />
+            Perfil</a
+          >
           <a class="dropdown-item" href="#">
             <img class="img-menuitem" src="../../assets/subcription.png" />
-            Subcripción</a>
+            Subcripción</a
+          >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#"
-              @click="closeSesion()">Sign out
-          </a>
+          <a class="dropdown-item" href="#" @click="closeSesion()">Sign out </a>
         </div>
       </ul>
     </div>
@@ -61,27 +67,41 @@
 </template>
 
 <script>
-
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "NavBar",
   data() {
     return {
       vermenu: true,
-      link: ''
+      link: "",
     };
   },
-  mounted() {    
-    
+  computed: {
+    // ...mapState(['title','count']),
+    ...mapState( {
+      //titulo: state => state.title
+      titulo: state => state.course.title
+    }),
+    ...mapGetters('course',{
+      vuexTitle: "title",
+    }),
+
+    // titulo(){
+    //   return this.$store.state.title
+    // }
+  },
+  mounted() {
     this.desplegar();
   },
   methods: {
     desplegar() {
       this.vermenu = !this.vermenu;
     },
-    closeSesion(){
-      localStorage.removeItem("access_token");
+    closeSesion() {
+      localStorage.removeItem("access_token");      
       window.location.reload(true);
-    }
+    },
   },
 };
 </script>
@@ -89,7 +109,7 @@ export default {
 <style scoped>
 .nav-general {
   width: 100%;
-  height: 104px;
+  height: 80px;
   background-color: #fff;
 }
 .seccion {
@@ -131,8 +151,8 @@ export default {
   width: 32px;
   height: 32px;
 }
-.ml-1{
-  align-self:center;
+.ml-1 {
+  align-self: center;
   font-size: 14px;
 }
 .img-king {
@@ -155,7 +175,7 @@ export default {
   border-radius: 15px;
   width: 226px;
   height: 207px;
-  top: 107px;
+  top: 72px;
   right: 4px;
   border-radius: 10px;
   z-index: 100;
@@ -177,7 +197,7 @@ export default {
   width: 18px;
   height: 14px;
 }
-.nav-sub-h1{
+.nav-sub-h1 {
   flex-direction: row;
 }
 .nav-sub-h2 {

@@ -37,7 +37,7 @@ export default {
 <style scope>
 .content {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   display: flex;
 }
 .nav-v {
@@ -47,5 +47,9 @@ export default {
 }
 .content-user {
   flex-grow: 1;
+  display: flex;
+  width: 100%;
+  max-height: 100%;
+  flex-direction: column;
 }
 </style>
