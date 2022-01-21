@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-courses">
     <div class="spinners" v-if="lord">
       <b-spinner
         variant="success"
@@ -25,55 +25,43 @@
         label="Spinning"
         class="mr-4"
       ></b-spinner>
-    </div>
+    </div>   
     <div class="buscador" v-if="guardar">
       <input type="text" placeholder="buscar el curso requerido" />
-      <img src="@/assets/buscador1.png" alt="" />
+      <img src="@/assets/logo.png" alt="" />
     </div>
 
-      <div class="Todo">
+    <div class="Todo">
+      <div class="relacionados">
+        <p>Cursos Relacionados</p>
+      </div>
 
-         <div  class="relacionados">
-            <p>Cursos Relacionados</p>
+      <div class="avanza">
+        <div class="contenidos" v-for="items in informacion" :key="items.id">
+          <div>
+            <b-img
+              src="https://picsum.photos/300/150/?image=41"
+              fluid
+              alt="Responsive image"
+            ></b-img>
           </div>
+          <b-card-text class="mt-3">
+            <p class="titulos">S/. {{ items.price }}</p>
+          </b-card-text>
 
-<div class="avanza">
-          
-      <div
-        class="contenidos"
-        v-for="items  in informacion"
-        :key="items.id"
-      >
-        <div>
-       
-          <b-img
-            src="https://picsum.photos/300/150/?image=41"
-            fluid
-            alt="Responsive image"
-          ></b-img>
-        </div>
-        <b-card-text class="mt-3 ">
-          <p class="titulos">
-            
-            S/. {{ items.price}}
-          </p>
-        </b-card-text>
-
-      
-       <div class="descripcion">
-          <span class="ml-2 "> Descripcion :</span>
-          <p >
-                {{ items.description}}
-          </p>
-        </div>
+          <div class="descripcion">
+            <span class="ml-2"> Descripcion :</span>
+            <p>
+              {{ items.description }}
+            </p>
+          </div>
           <b-button class="El_button1" href="#" variant="primary"
-          >Ver Progreso completo</b-button
-        >
+            >Ver Progreso completo</b-button
+          >
+        </div>
       </div>
     </div>
-      </div>
-  
-    
+
     <div class="movere">
       <button v-on:click="aumentar()" v-if="prendido">cargar más cursos</button>
 
@@ -82,14 +70,11 @@
       </div>
     </div>
     <div v-if="noexis">
-       <p >no existe mas datos</p>
+      <p>no existe mas datos</p>
     </div>
-
     <div class="ulti">
-        <p>ultimos agregados
-        </p>
-    </div>
-   
+      <p>ultimos agregados</p>
+    </div>     
   </div>
 </template>
 
@@ -118,14 +103,9 @@ export default {
       this.axios.get("course/list").then((datos) => {
         this.lord = false;
         this.guardar = true;
+        
         const array = datos.data.data;
-        this.total = array[0].courses_related
-        console.log(array)
-          console.log(this.total)
-       
-   
-       
-      //  console.log(this.total.length)
+        this.total = array[0].courses_related;
         for (let i = this.informacion.length; i < this.limite; i++) {
           this.informacion.push(this.total[i]);
           this.lorde = false;
@@ -136,7 +116,7 @@ export default {
     aumentar() {
       this.limite += 3;
       this.lorde = true;
-      if (this.informacion.length == (this.total.length-1) ) {
+      if (this.informacion.length == this.total.length - 1) {
         this.prendido = false;
         this.lorde = false;
         this.noexis = true;
@@ -151,7 +131,12 @@ export default {
 };
 </script>
 
-<style  >
+<style  scoped>
+.container-courses{
+  margin:0px;
+  width: 100%;
+  max-height: 100%;
+}
 .spinners {
   width: 100%;
   height: 100vh;
@@ -191,6 +176,7 @@ export default {
 .buscador input:focus {
   /* para quitar el color de marco de 
     input */
+  margin: 0;
   outline: none;
 }
 
@@ -201,8 +187,7 @@ export default {
   margin-top: 10px;
 }
 
-.relacionados{
-
+.relacionados {
   background: rgb(202, 202, 202);
   width: 200px;
   margin-top: 30px;
@@ -211,28 +196,26 @@ export default {
   margin-left: auto;
 }
 
-.titulos{
+.titulos {
   text-align: left;
   font-weight: bold;
   color: black;
   font-size: 0.9rem;
-  
 }
 .El_button1 {
   margin-left: 45px;
   margin-bottom: 10px;
 }
 .avanza {
- 
-   display: flex;
-   flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
   margin-right: 45px;
   margin-left: 45px;
   margin-top: 40px;
 }
 .contenidos {
-  margin-left: 65px;
-  
+  margin-left: 30px;
+
   width: 280px;
   /* height: 280px; */
 }
@@ -241,14 +224,14 @@ export default {
   margin-left: 45%;
 }
 
-.descripcion span{
-  color:rgb(85, 20, 146);
+.descripcion span {
+  color: rgb(85, 20, 146);
 }
 
-.descripcion p{
+.descripcion p {
   margin-top: 5px;
-   text-align: center;
-  padding: 0px 15px ;
+  text-align: center;
+  padding: 0px 15px;
   font-size: 1.2rem;
   /* font-weight: bold; */
   color: rgb(17, 16, 16);
@@ -256,12 +239,10 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
-.ulti{
+.ulti {
   margin-top: 20px;
 }
-
-
 </style>

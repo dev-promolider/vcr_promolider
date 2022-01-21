@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { mapActions, } from 'vuex';
 export default {
   name: "FormLogin",
   data() {
@@ -82,28 +83,22 @@ export default {
     
   },
   methods: {
+    ...mapActions('user',{
+      actionUser: 'actionUser'}),
+    
     singin() {
-      this.axios.post("/auth/login", this.form).then((r) => {
-        const d = r.data;
-        // const infor= d.data.user.status_user;
-        const authToken = d.data.access_token;
-       
-          console.log(d.data)
-        localStorage.setItem("access_token", authToken);
-        // if(infor==1){
-            window.location.reload(true)
-            // this.$router.push("/preferences")
-        // }else{
-          
-        //   window.location.reload(true)
-          // this.$router.push("/preferences")
-        // }
-        // window.location.reload(true);
+      this.actionUser(this.form)    
       
-        
-      });
-    },
-  },
+    //   this.axios.post("/auth/login", this.form).then((r) => {
+    //     const d = r.data;
+    //     // const de= d.data;
+    //     const authToken = d.data.access_token;
+    //     localStorage.setItem("access_token", authToken);
+    //     window.location.reload(true);
+    //   });
+    }  
+
+  }
 };
 </script>
 <style>

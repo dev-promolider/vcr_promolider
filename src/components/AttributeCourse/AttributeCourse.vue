@@ -11,20 +11,20 @@
 </template>
 
 <script>
-// import Spinner from '@/components/auth/Spinner.vue'
-// export default {
+// import Spinner from '@/components/auth/Spinner/Spinner.vue'
+export default {
    
-//   name: "AttributeUser",
-//   components:{
-//     Spinner
-//   },
-//   data() {
-//     return {
-//       payment_id: null,
-//       informacion: [],
-//       lord:true
-//     };
-//   },
+  name: "AttributeUser",
+  components:{
+  //   Spinner
+  },
+  data() {
+    return {
+      // payment_id: null,
+      // informacion: [],
+      // lord:true
+    };
+  },
 
 //   methods: {
 //     getAttributes() {
@@ -42,7 +42,7 @@
 //   created() {
 //     this.getAttributes();
 //   },
-// };
+};
 
 
-// </script>
+</script>

@@ -10,7 +10,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar" style="color:white">{{ courses }}</p>
+          <p v-if="mostrar" style="color:white">{{courses}}</p>
           <p style="color:white">Cursos</p>
         </li>
 
@@ -54,6 +54,7 @@
   </div>
 </template>
 <script>
+// import {useDispatch} from 'vuex';
 export default {
   name: "DataPrimaryUser",
   comoponents: {},
@@ -66,7 +67,7 @@ export default {
       mostrar: false,
       loading: true,
     };
-  },
+  }, 
   methods: {
     getAttributes() {
       this.axios.get("dashboard/getattributes").then((r) => {

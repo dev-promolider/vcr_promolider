@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="all-course">
         <Prueba/>
     
     </div>
@@ -13,3 +13,11 @@ export default {
     }
 }
 </script>
+<style scoped>
+    .all-course{
+        flex-grow: 1;
+        padding: 10px 2px;
+        max-height: 100%;
+        overflow: auto;
+    }
+</style>
