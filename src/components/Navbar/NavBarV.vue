@@ -7,29 +7,30 @@
       <li
         @click="sendTitle('Inicio')"
         class="nav-item"
-        :class="{ 'is-active': isActive('/') }"
-      >
+        :class="{ 'is-active': isActive('/home') }">
         <router-link
-          to="/"
+          to="/home"
           class="nav-link link-v"
-          :class="{ 'is-active': isActive('/') }"
+          :class="{ 'is-active': isActive('/home') }"
         >
           <img src="./../../assets/home.svg" alt="" />
           Inicio
         </router-link>
       </li>
+
       <li
         @click="sendTitle('Cursos')"
         class="nav-item"
-        :class="{ 'is-active': isActive('cursos') }"      >
+        :class="{ 'is-active': isActive('cursos') }">
         <router-link
-          to="cursos"
+          to="/cursos"
           class="nav-link link-v"
         >
           <img src="./../../assets/courses.svg" alt="" />
           Cursos
         </router-link>
       </li>
+
       <li
         @click="sendTitle('Mensajes')"
         class="nav-item"
@@ -76,9 +77,9 @@ export default {
   },
   methods: {
     isActive(path) {
-      if (path === "/") {
-        return this.$route.name === "Dashboard";
-      }
+      // if (path === "/home") {
+      //   return this.$route.name === "home";
+      // }
       return this.$route.path.includes(path);
     },
     sendTitle(payload) {

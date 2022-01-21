@@ -4,9 +4,7 @@
       <div class="colum-contacts">
         <div class="header-search">
           <div class="user">
-            <img
-              src="../../assets/logo-perfil.png"
-            />
+            <img src="../../assets/logo-perfil.png" />
             <span></span>
           </div>
           <input
@@ -20,95 +18,20 @@
             <p>Chats</p>
           </div>
           <div class="chat-all">
-            <div class="item-chat">
-              <div class="user">
-                <img
-                  src="../../assets/contacto.svg"
-                />
-                <span></span>
-              </div>
-              <div class="user-message">
-                <p class="user-name"><b>Gabriela Casas</b></p>
-                <p class="message-inline">Hola! El curso viene con evaluación</p>
-              </div>
-              <div class="time-message">
-                <p class="hora">4:14PM</p>
-              </div>
-            </div>
             <div
               class="item-chat"
-              :class="{ 'item-chat-activity': cambiarFondo() }"
+              v-for="chat in chats"
+              :key="chat.transmitter_id"
             >
               <div class="user">
-                <img
-                  src="https://www.clarin.com/img/2020/08/16/avatar-the-last-airbender-foto___pck4_8liS_1256x620__2.jpg"
-                />
+                <img src="../../assets/contacto.svg" />
                 <span></span>
               </div>
               <div class="user-message">
-                <p class="user-name"><b>Gabriela Casas</b></p>
-                <p class="message-inline">Hola! El curso viene con evaluación</p>
-              </div>
-              <div class="time-message">
-                <p class="hora">4:14PM</p>
-              </div>
-            </div>
-            
-            <div class="item-chat">
-              <div class="user">
-                <img
-                  src="https://www.clarin.com/img/2020/08/16/avatar-the-last-airbender-foto___pck4_8liS_1256x620__2.jpg"
-                />
-                <span></span>
-              </div>
-              <div class="user-message">
-                <p class="user-name"><b>Gabriela Casas</b></p>
-                <p class="message-inline">Hola! El curso viene con evaluación</p>
-              </div>
-              <div class="time-message">
-                <p class="hora">4:14PM</p>
-              </div>
-            </div>
-            <div class="item-chat">
-              <div class="user">
-                <img
-                  src="https://www.clarin.com/img/2020/08/16/avatar-the-last-airbender-foto___pck4_8liS_1256x620__2.jpg"
-                />
-                <span></span>
-              </div>
-              <div class="user-message">
-                <p class="user-name"><b>Gabriela Casas</b></p>
-                <p class="message-inline">Hola! El curso viene con evaluación</p>
-              </div>
-              <div class="time-message">
-                <p class="hora">4:14PM</p>
-              </div>
-            </div>
-            <div class="item-chat">
-              <div class="user">
-                <img
-                  src="https://www.clarin.com/img/2020/08/16/avatar-the-last-airbender-foto___pck4_8liS_1256x620__2.jpg"
-                />
-                <span></span>
-              </div>
-              <div class="user-message">
-                <p class="user-name"><b>Gabriela Casas</b></p>
-                <p class="message-inline">Hola! El curso viene con evaluación</p>
-              </div>
-              <div class="time-message">
-                <p class="hora">4:14PM</p>
-              </div>
-            </div>
-            <div class="item-chat">
-              <div class="user">
-                <img
-                  src="https://www.clarin.com/img/2020/08/16/avatar-the-last-airbender-foto___pck4_8liS_1256x620__2.jpg"
-                />
-                <span></span>
-              </div>
-              <div class="user-message">
-                <p class="user-name"><b>Gabriela Casas</b></p>
-                <p class="message-inline">Hola! El curso viene con evaluación</p>
+                <p class="user-name">
+                  <b>{{ chat.fullname }}</b>
+                </p>
+                <p size="30" class="message-inline">{{ chat.message }}</p>
               </div>
               <div class="time-message">
                 <p class="hora">4:14PM</p>
@@ -138,23 +61,35 @@
       <div class="colum-chat">
         <div class="parallel header">
           <div class="user">
-            <img
-              src="../../assets/contacto.svg"
-            />
+            <img src="../../assets/contacto.svg" />
             <span></span>
           </div>
           <p>Gabriela Casas</p>
           <button class="btn-options">
-            <img src="../../assets/Menuchat.svg" alt="">
+            <img src="../../assets/Menuchat.svg" alt="" />
           </button>
         </div>
         <div class="body-chat">
-          
+          <section
+              class="message-general"
+              v-for="mensa in general"
+              :key="mensa.id"
+            >
+              <div class="message-contact" v-if="mensa.name != name_user">
+                <p>{{ mensa.message }}</p>
+              </div>
+              <div class="message-user" v-else>
+                <p>{{ mensa.message }}</p>
+              </div>
+            <!-- <div class="message-contact">
+              <p></p>
+            </div>
+            <div class="message-user">
+              <p></p>
+            </div> -->
+          </section>
         </div>
-        <div class="parallel footer">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas dolores
-          ducimus reiciendis si suscipi?
-        </div>
+        <div class="parallel footer"></div>
       </div>
     </div>
   </div>
@@ -163,10 +98,37 @@
 <script>
 export default {
   name: "message",
+  data() {
+    return {
+      chats: null,
+      general: null,
+      name_user: null,
+    };
+  },
   methods: {
     cambiarFondo() {
       return (this.fondo = true);
     },
+    lista() {
+      this.axios.get("messages/listAll").then((r) => {
+        const res = r.data.data;
+        this.chats = res;
+        console.log(this.chats);
+      });
+    },
+    listarMensajes() {
+      this.name_user = localStorage.getItem("name_user");
+      this.axios.get("messages/with/admin@promolider.test").then((r) => {
+        const res = r.data.data;
+        this.general = res;
+        console.log(this.general);
+        //console.log('res :>> ', res);
+      });
+    },
+  },
+  created() {
+    this.lista();
+    this.listarMensajes();
   },
 };
 </script>
@@ -191,6 +153,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-width: 260px;
+  max-width: 260px;
   height: 100%;
   background: #fff;
   border-top-left-radius: 15px;
@@ -213,17 +176,17 @@ export default {
   min-height: 60px;
   padding: 14px 24px;
 }
-.header p{
+.header p {
   display: inline-flex;
   align-items: center;
   font-size: 12px;
   margin: 0;
   padding-left: 10px;
 }
-.btn-options{
+.btn-options {
   position: absolute;
   top: 15px;
-  right:10px;
+  right: 10px;
   border: none;
   background: none;
 }
@@ -234,6 +197,36 @@ export default {
 .body-chat {
   flex-grow: 1;
 }
+.message-general{
+  width:100%;
+}
+.message-contact{
+  display: flex;
+  text-align: left;
+  font-size: 13px;
+  widows: 100%;
+  height: 62px;  
+  border: 1px solid #EFEFEF;
+}
+.message-contact p{
+  max-width: 294px;
+  background: #FFFFFF;
+  border-radius: 0px 15px 15px 15px;   
+}
+.message-user{
+  display: flex;
+  justify-content: end;
+  font-size: 13px;
+  width: 100%;
+  min-height: 35px;
+  max-height: 62px;
+  border: 1px solid #EFEFEF;
+}
+.message-user p{
+  max-width: 294px;
+  background: #FFFFFF;
+  border-radius: 15px 0px 15px 15px;
+}
 .header-search {
   display: flex;
   flex-wrap: wrap;
@@ -242,8 +235,8 @@ export default {
   min-height: 60px;
   padding: 14px 15px;
 }
-.header-search input{
-  color:#9D9D9D;
+.header-search input {
+  color: #9d9d9d;
 }
 .user {
   position: relative;
@@ -293,7 +286,7 @@ export default {
   max-height: calc(100%-60px);
   /* overflow: auto; */
 }
-.chat-all{
+.chat-all {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -328,14 +321,25 @@ export default {
 .message-inline {
   font-weight: 300;
   display: -webkit-box;
+  padding-right: 10px;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   -webkit-line-clamp: 1;
   overflow: hidden;
   padding-right: 5px;
 }
+/* .message-inline{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  overflow: hidden;
+  font-size: 10px;
+} */
 .hora {
   font-size: 9px;
+  font-weight: 300;
+  font-family: "Roboto";
 }
 .contactos {
   display: flex;

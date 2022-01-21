@@ -1,36 +1,40 @@
 <template>
   <div class="content">
-    <div class="nav-v" v-if="islogin">
-      <NavBarV v-if="islogin" />
+    <div class="nav-v" >
+      <NavBarV />
     </div>
     <div class="content-user">
-      <NavBar v-if="islogin" />
-      <router-view v-if="islogin" />
-      <Login v-else />
+      <NavBar/>
+      <router-view />
     </div>
   </div>
 </template>
 <script>
 import NavBar from "@/components/Navbar/NavBar.vue";
 import NavBarV from "@/components/Navbar/NavBarV.vue";
-import Login from "@/views/auth/Login.vue";
+// import Login from "@/views/auth/Login.vue";
+// consoleimport { mapGetters } from 'vuex';
 export default {
   name: "Contenedor",
   components: {
     NavBarV,
-    NavBar,
-    Login,
+    NavBar
+    //Login
   },
   data() {
     return {
-      islogin: true,
+      //islogin: true,
     };
   },
+  // computedd:{
+  //   ...mapGetters('user',{
+  //     statususer: 'getStatusUser'})
+  //},
   created() {
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      this.islogin = false;
-    }
+    // const token = localStorage.getItem("access_token");
+    // if ( !token) {
+    //   this.islogin = false;
+    // }
   },
 };
 </script>

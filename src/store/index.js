@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import courseStore from './course'
 import attribute  from "./attribute";
 import lastmessage  from "./lastmessage";
+import user from "./user";
 
 Vue.use(Vuex)
 
@@ -37,13 +38,13 @@ export default new Vuex.Store({
     //     commit('updateValue', payload);
     //   }
     // }
-
-
   modules: {
     
     lastMessage: lastmessage,
     
     course: courseStore,
+
+    user: user,
 
     attribute: attribute
 

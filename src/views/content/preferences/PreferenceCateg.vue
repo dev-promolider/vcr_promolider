@@ -5,7 +5,7 @@
     </div>
 
     <div class="cajitas" v-for="items in item" :key="items.id">
-      <button class="caja">{{ items.name }}</button>
+      <button @click="escoger(items.id)" class="caja">{{ items.name }}</button>
     </div>
 
     <div class="escoger">
@@ -21,9 +21,13 @@ export default {
   data() {
     return {
       item: [],
+      preferencias: []
     };
   },
   methods: {
+    escoger(id){
+      console.log(id-1);
+    },
     getAttributes() {
       this.axios.get("/category/list").then((respuesta) => {
         this.item = respuesta.data.data;

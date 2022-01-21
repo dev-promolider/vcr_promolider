@@ -5,7 +5,7 @@
         <span class="d-flex flex-grap nav-link" href="#">
           <img class="img-king" src="../../assets/logo-king.png" />
           <span class="ml-1">
-          {{titulo}} 
+          {{titulo}}
           <!-- {{$store.getters['course/getCurso']}} -->
           </span
           >
@@ -59,7 +59,7 @@
             Subcripción</a
           >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" @click="closeSesion()">Sign out </a>
+          <a class="dropdown-item" @click="closeSesion()">Sign out </a>
         </div>
       </ul>
     </div>
@@ -75,6 +75,7 @@ export default {
     return {
       vermenu: true,
       link: "",
+      name: ""
     };
   },
   computed: {
@@ -95,15 +96,20 @@ export default {
     this.desplegar();
   },
   methods: {
+
     desplegar() {
       this.vermenu = !this.vermenu;
     },
     closeSesion() {
-      localStorage.removeItem("access_token");      
-      window.location.reload(true);
+      localStorage.removeItem("access_token"); 
+      localStorage.removeItem('status_user');
+      localStorage.removeItem('name_user');           
+      //window.location.reload(true);
+      this.$router.push('/login');
     },
   },
 };
+
 </script>
 
 <style scoped>

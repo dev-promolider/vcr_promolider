@@ -100,15 +100,12 @@ export default {
 
   methods: {
     getAttributes() {
-      this.axios.put("course/list").then((datos) => {
+      this.axios.get("course/list").then((datos) => {
         this.lord = false;
         this.guardar = true;
+        
         const array = datos.data.data;
         this.total = array[0].courses_related;
-        console.log(array);
-        console.log(this.total);
-
-        //  console.log(this.total.length)
         for (let i = this.informacion.length; i < this.limite; i++) {
           this.informacion.push(this.total[i]);
           this.lorde = false;
