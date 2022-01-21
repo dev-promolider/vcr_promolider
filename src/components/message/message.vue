@@ -209,6 +209,8 @@ export default {
   border: 1px solid #EFEFEF;
 }
 .message-contact p{
+  text-align: left;
+  padding: 1px 1px 1px 2px;
   max-width: 294px;
   background: #FFFFFF;
   border-radius: 0px 15px 15px 15px;   
@@ -223,7 +225,10 @@ export default {
   border: 1px solid #EFEFEF;
 }
 .message-user p{
+  text-align: right;
+  padding: 1px 2px 1px 4px;
   max-width: 294px;
+  min-height: 30px;
   background: #FFFFFF;
   border-radius: 15px 0px 15px 15px;
 }
