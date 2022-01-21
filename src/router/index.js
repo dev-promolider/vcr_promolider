@@ -5,7 +5,7 @@ import AttributeVenta from '../components/auth/AttributeVenta.vue'
 import AttributeUser from '../components/auth/AttributeUser.vue'
 import AttributeCourse from '../components/auth/AttributeCourse.vue'
 import Cursos from '../views/content/course/Cursos.vue'
-
+import Perfil from'../views/content/perfil/Perfil.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +33,11 @@ const routes = [
     path: '/cursos',
     name: 'Cursos',
     component: Cursos
+  },
+  {
+    path: '/perfil',
+    name: 'Perfil',
+    component: Perfil
   }
 ]
 

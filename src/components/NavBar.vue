@@ -5,8 +5,8 @@
         <span class="d-flex flex-grap nav-link" href="#">
           <img class="img-king" src="../assets/logo-king.png" />
           <span class="ml-1">
-            {{link}}Sección de
-            <b>Portada de información del curso</b></span>
+            {{ link }}Sección de <b>Portada de información del curso</b></span
+          >
         </span>
       </li>
     </ul>
@@ -43,17 +43,21 @@
             </a>
           </span>
         </li>
-        <div class="viewmenu-list" v-show="vermenu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">
-            <img class="img-menuitem" src="../assets/perfil.png" /> 
-            Perfil</a>
+        <div
+          class="viewmenu-list"
+          v-show="vermenu"
+          aria-labelledby="navbarDropdown"
+        >
+          <router-link to="/perfil" class="dropdown-item" href="#">
+            <img class="img-menuitem" src="../assets/perfil.png" />
+            Perfil</router-link
+          >
           <a class="dropdown-item" href="#">
             <img class="img-menuitem" src="../assets/subcription.png" />
-            Subcripción</a>
+            Subcripción</a
+          >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#"
-              @click="closeSesion()">Sign out
-          </a>
+          <a class="dropdown-item" href="#" @click="closeSesion()">Sign out </a>
         </div>
       </ul>
     </div>
@@ -66,21 +70,20 @@ export default {
   data() {
     return {
       vermenu: true,
-      link: ''
+      link: "",
     };
   },
-  mounted() {    
-    
+  mounted() {
     this.desplegar();
   },
   methods: {
     desplegar() {
       this.vermenu = !this.vermenu;
     },
-    closeSesion(){
+    closeSesion() {
       localStorage.removeItem("access_token");
       window.location.reload(true);
-    }
+    },
   },
 };
 </script>
@@ -130,8 +133,8 @@ export default {
   width: 32px;
   height: 32px;
 }
-.ml-1{
-  align-self:center;
+.ml-1 {
+  align-self: center;
   font-size: 14px;
 }
 .img-king {
@@ -176,7 +179,7 @@ export default {
   width: 18px;
   height: 14px;
 }
-.nav-sub-h1{
+.nav-sub-h1 {
   flex-direction: row;
 }
 .nav-sub-h2 {
