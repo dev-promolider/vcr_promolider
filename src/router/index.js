@@ -9,6 +9,7 @@ import Cursos from '../views/content/course/Cursos.vue'
 import Messages from '../views/content/message/Messages.vue'
 import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
 import Login from '../views/auth/Login.vue'
+import Perfil from'../views/content/perfil/Perfil.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -20,7 +21,8 @@ const routes = [
       { path: '/cursos', component: Cursos, name: 'cursos' },
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
-      { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse }
+      { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
+      { path: '/perfil', name: 'perfil', component: Perfil },
       
     ]
   },
