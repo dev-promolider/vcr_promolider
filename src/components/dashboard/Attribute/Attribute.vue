@@ -18,7 +18,8 @@ export default {
   //   getAttributes() {
     
 
-  //     this.axios.get("dashboard/saleshistory").then((respuesta) => {
+  //     this.axios.get("dashboard/saleshistory")
+  //     .then((respuesta) => {
   //       this.info = respuesta.data.data;
   //       console.log(this.info);
   //     });
