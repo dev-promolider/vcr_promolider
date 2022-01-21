@@ -1,14 +1,25 @@
 <template>
   <div id="app">
-    <Contenedor/> 
+    <Contenedor /> 
+   
   </div>
 </template>
 <script>
 import Contenedor from '@/views/Contenedor.vue';
+
 export default {
   components: {
-    Contenedor
+    Contenedor,
+   
   },  
+
+  data() {
+    return {
+     
+     
+    }
+  },
+  
 }
 </script>
 <style>

@@ -25,7 +25,7 @@
         </b-form-checkbox-group>
       </b-form-group>
 
-      <b-button
+      <b-button 
         class="submit-iniciar rounded-pill bg-success"
         type="submit"
         block
@@ -74,6 +74,7 @@ export default {
       form: {
         username: "user-brayan ",
         password: "secret",
+      
       },
     };
   },
@@ -84,10 +85,22 @@ export default {
     singin() {
       this.axios.post("/auth/login", this.form).then((r) => {
         const d = r.data;
-        // const de= d.data;
+        // const infor= d.data.user.status_user;
         const authToken = d.data.access_token;
+       
+          console.log(d.data)
         localStorage.setItem("access_token", authToken);
-        window.location.reload(true);
+        // if(infor==1){
+            window.location.reload(true)
+            // this.$router.push("/preferences")
+        // }else{
+          
+        //   window.location.reload(true)
+          // this.$router.push("/preferences")
+        // }
+        // window.location.reload(true);
+      
+        
       });
     },
   },

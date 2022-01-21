@@ -36,7 +36,18 @@
           
             
       </div>
+    
     </div>
+    
+    <div class="movere">
+        <button v-on:click="aumentar()" v-if="prendido" > cargar más cursos</button>
+
+            <div >
+  <b-spinner  label="Loading..." v-if="lorde"></b-spinner>
+</div>
+    </div>
+
+    
   </div>
 </template>
 
@@ -52,17 +63,42 @@ export default {
     return {
       seleccionar: [],
       lord: true,
+      limite:2,
+      lorde:false,
+      prendido:true
     };
   },
 
   methods: {
-    getAttributes() {
+    // getAttributes() {
+    //   this.axios.get("dashboard/saleshistory").then((respuesta) => {
+    //     this.lord = false;
+    //     this.seleccionar = respuesta.data.data;
+        // console.log(this.seleccionar);
+      getAttributes() {
       this.axios.get("dashboard/saleshistory").then((respuesta) => {
         this.lord = false;
-        this.seleccionar = respuesta.data.data;
-        // console.log(this.seleccionar);
+        const array = respuesta.data;
+        //  console.log(array);
+      
+             for(let i=this.seleccionar.length; i<this.limite ; i++){
+                
+             this.seleccionar.push(array.data[i]) 
+             this.lorde = false
+           }
+        
       });
     },
+
+    aumentar() {
+      this.limite += 2;
+      this.lorde= true;
+      this.prendido=false;
+      this.getAttributes();
+      
+    
+    },
+    
   },
 
   created() {
@@ -95,5 +131,11 @@ p {
 span {
   margin-left: 0%;
   font-weight: 700;
+}
+
+.movere{
+  display: flex;
+  margin-left: 400px;
+ 
 }
 </style>

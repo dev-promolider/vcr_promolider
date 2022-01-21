@@ -1,6 +1,7 @@
 <template>
     <div>
         <Prueba/>
+    
     </div>
 </template>
 <script>
