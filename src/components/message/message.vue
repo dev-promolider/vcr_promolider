@@ -19,6 +19,9 @@
           </div>
           <div class="chat-all">
             <div
+              @click="listarMensajes(chat.email),
+                     message_add.id = chat.transmitter_id
+                     email = chat.email"
               class="item-chat"
               v-for="chat in chats"
               :key="chat.transmitter_id"
@@ -76,10 +79,12 @@
               :key="mensa.id"
             >
               <div class="message-contact" v-if="mensa.name != name_user">
-                <p>{{ mensa.message }}</p>
+                <img src="../../assets/contacto.svg" >
+                <p>{{ mensa.message }} {{mensa.id}}</p>
               </div>
               <div class="message-user" v-else>
                 <p>{{ mensa.message }}</p>
+                <img src="../../assets/logo-perfil.png" >
               </div>
             <!-- <div class="message-contact">
               <p></p>
@@ -89,7 +94,18 @@
             </div> -->
           </section>
         </div>
-        <div class="parallel footer"></div>
+        <div class="parallel footer">
+          <div></div>
+          <div class="message-send">
+              <input class="message-wrriten" v-model="message_add.message" type="text" placeholder="Escribe un mensaje">
+              <div class="btn-send">
+                <img @click="sendMessage" src="../../assets/send.svg" alt="">
+              </div>
+
+          </div>
+          <div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -103,9 +119,24 @@ export default {
       chats: null,
       general: null,
       name_user: null,
+      email: null,
+      message_add:{
+        id: 1,
+        message : "Probando envio de mensaje 4 :D"
+      }
     };
   },
   methods: {
+    sendMessage(){
+      this.axios.post("messages/add", this.message_add)
+      .then((r) => {
+          console.log("Mensaje enviado" + r);
+          this.listarMensajes(this.email);
+      })
+      .catch(() =>{
+           console.log("Error en enviar");
+      })
+    },
     cambiarFondo() {
       return (this.fondo = true);
     },
@@ -116,9 +147,9 @@ export default {
         console.log(this.chats);
       });
     },
-    listarMensajes() {
+    listarMensajes(email) {
       this.name_user = localStorage.getItem("name_user");
-      this.axios.get("messages/with/admin@promolider.test").then((r) => {
+      this.axios.get("messages/with/"+email).then((r) => {
         const res = r.data.data;
         this.general = res;
         console.log(this.general);
@@ -128,14 +159,14 @@ export default {
   },
   created() {
     this.lista();
-    this.listarMensajes();
+    //this.listarMensajes();
   },
 };
 </script>
 <style scoped>
 .contenedor {
   width: 100%;
-  height: 100%;
+  max-height: calc(100vh - 62.99px);
   padding: 25px 75px;
   background-color: #e5e5e5;
 }
@@ -192,45 +223,102 @@ export default {
 }
 .footer {
   border-bottom-right-radius: 15px;
-  height: 60px;
+  height: 68px;
+}
+.message-send{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-left: 10px;
+}
+.message-wrriten{
+  flex-grow: 1;
+  height: 32px;
+  border-radius: 38px;
+  border: 0.5px solid #9D9D9D;
+  font-size: 10px;
+  padding-left: 10px;
+  padding-right: 8px;
+}
+.btn-send{
+  display: flex;
+  align-items: center;
+  width: 60px;
+  height: 50px;  
+  /* padding-left: 5px; */
+}
+.btn-send img{
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+}
+.btn-send img:active{
+  transform: scale(.9);
 }
 .body-chat {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding:7px 25px;
+  gap: 10px;
+  /* height: calc(100%-110px); */
+  margin-bottom: 5px;
+  overflow: auto;
 }
+.body-chat::-webkit-scrollbar{ width: 7px; background: #d3d3d356;}
+.body-chat::-webkit-scrollbar-thumb{ background: #d3d3d3; border-radius: 10px;}
 .message-general{
   width:100%;
 }
 .message-contact{
   display: flex;
+  gap: 15px;
   text-align: left;
   font-size: 13px;
-  widows: 100%;
-  height: 62px;  
+  width: 100%;
+  min-height: 35px;
+  max-height: 120px;
   border: 1px solid #EFEFEF;
 }
 .message-contact p{
   text-align: left;
-  padding: 1px 1px 1px 2px;
-  max-width: 294px;
+  font-weight: 300;
+  line-height: 15px;
+  padding: 15px 12px;
+  max-width: 300px;
+  min-height: 30px;
+  margin: 0;
   background: #FFFFFF;
   border-radius: 0px 15px 15px 15px;   
 }
 .message-user{
   display: flex;
+  gap: 15px;
   justify-content: end;
   font-size: 13px;
   width: 100%;
   min-height: 35px;
-  max-height: 62px;
+  max-height: 140px;
   border: 1px solid #EFEFEF;
 }
 .message-user p{
-  text-align: right;
-  padding: 1px 2px 1px 4px;
-  max-width: 294px;
-  min-height: 30px;
+  text-align: left;
+  font-weight: 300;
+  line-height: 15px;
+  padding: 15px 12px;
+  max-width: 300px;
+  min-height: 30px;  
+  margin: 0;
   background: #FFFFFF;
   border-radius: 15px 0px 15px 15px;
+}
+.message-user img{
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #FFFFFF;
 }
 .header-search {
   display: flex;

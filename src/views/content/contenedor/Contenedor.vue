@@ -45,12 +45,11 @@ export default {
   display: flex;
 }
 .nav-v {
-  width: 218px;
+  width: 239px;
   min-height: 100%;
   background: #494949;
 }
 .content-user {
-  flex-grow: 1;
   display: flex;
   width: 100%;
   max-height: 100%;

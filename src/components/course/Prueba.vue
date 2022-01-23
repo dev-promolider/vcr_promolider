@@ -57,7 +57,7 @@
           </div>
           <b-button class="El_button1" href="#" variant="primary"
             >Ver Progreso completo</b-button
-          >
+          >          
         </div>
       </div>
     </div>
@@ -133,13 +133,15 @@ export default {
 
 <style  scoped>
 .container-courses{
+  display: flex;
+  flex-direction: column;
   margin:0px;
   width: 100%;
   max-height: 100%;
 }
 .spinners {
   width: 100%;
-  height: 100vh;
+  height: 100vh;  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,23 +152,20 @@ export default {
   left: 0;
 }
 .buscador {
+  align-self: flex-end;
   background: rgb(255, 255, 255);
-  width: 585px;
-  height: 58px;
-  margin-left: 510px;
-  margin-top: 34px;
+  width: 280px;
+  height: 38px;
+  margin-right: 0px;
   display: flex;
+  align-items: center;
   border: 0.5px solid #c4c4c4;
+  border-radius: 15px;
   box-sizing: border-box;
-  border-radius: 0px 15px 15px 0px;
 }
 .buscador input {
   width: 348px;
   height: 14px;
-  margin-left: 40px;
-  margin-right: 197px;
-  margin-top: 22px;
-  margin-bottom: 22px;
   border: none;
   font-style: normal;
   font-weight: normal;
@@ -183,8 +182,6 @@ export default {
 .buscador img {
   width: 42px;
   height: 35px;
-  margin-right: 25px;
-  margin-top: 10px;
 }
 
 .relacionados {
@@ -215,8 +212,7 @@ export default {
 }
 .contenidos {
   margin-left: 30px;
-
-  width: 280px;
+  width: 210px;
   /* height: 280px; */
 }
 .movere {

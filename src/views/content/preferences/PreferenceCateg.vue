@@ -20,22 +20,33 @@
 export default {
   data() {
     return {
-      item: [],
-      preferencias: []
+      item: null,
+      preferencias:{
+        category : ''
+      }
     };
   },
   methods: {
     escoger(id){
-      console.log(id-1);
+      console.log(id);
+      this.preferencias.category = id
+      console.log("It is category: " + this.category);
     },
     getAttributes() {
-      this.axios.get("/category/list").then((respuesta) => {
+      this.axios.get("category/list").then((respuesta) => {
         this.item = respuesta.data.data;
         console.log(this.item);
       });
     },
+
     cambiar() {
-      console.log("estoy funcioando mamon");
+      console.log(this.preferencias.category)
+      this.axios.post('preferences/add', this.preferencias.category)
+      .then((res) => {        
+        // true => una caja de guardo exitoso
+        console.log("Estoy funcioando mano: "+ res); 
+        //this.$router.push('/home')
+      })
     },
   },
 
