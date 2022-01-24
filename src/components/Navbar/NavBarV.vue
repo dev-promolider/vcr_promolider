@@ -96,7 +96,7 @@ export default {
 <style scope>
 :root {
   --text-size: 14px;
-  --active-link: 2px solid #5cc151;
+  --active-link: 3px solid #5cc151;
   --opcion-link: invert(0.5) sepia(5%) saturate(5162%) hue-rotate(64deg)
     brightness(96%) contrast(92%);
 }

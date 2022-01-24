@@ -28,9 +28,10 @@ export const actionUser = async (context ,body)=>{
     localStorage.setItem("status_user", statususer);
     localStorage.setItem("name_user", name)
 
-    if (statususer == 0) {
+    if (statususer == 1) {
         router.push('/preferences')
-    } else {
+    } else if(statususer == 0) {
+        window.location.reload(true);
         router.push('/home')
     }
     //window.location.reload(true);
