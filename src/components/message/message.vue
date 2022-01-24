@@ -166,7 +166,8 @@ export default {
 <style scoped>
 .contenedor {
   width: 100%;
-  max-height: calc(100vh - 62.99px);
+  /* 62.99 */
+  max-height: calc(100vh - 80px);
   padding: 25px 75px;
   background-color: #e5e5e5;
 }

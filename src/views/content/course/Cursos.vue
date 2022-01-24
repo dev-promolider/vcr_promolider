@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import Prueba from "@/components/course/Prueba.vue";
+import Prueba from "@/components/courses/Courses.vue";
 export default {
   name: "Cursos",
   components: {
