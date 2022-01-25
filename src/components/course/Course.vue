@@ -7,7 +7,6 @@
     <div class="description-comments">
       <div class="description">
         <Descripcion />
-             <div></div>
       </div>
       <div class="comment">
         <Comentarios />
