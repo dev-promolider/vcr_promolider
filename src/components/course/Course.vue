@@ -38,7 +38,6 @@ export default {
 .temario-video{
     widows: 100%;
     height: 50%;
-    border: 0.3px solid;
 }
 .description-comments{
     display: flex;
@@ -54,4 +53,4 @@ export default {
     width: 35%;
     border: 0.3px solid;
 }
-</style>>
+</style>
