@@ -1,48 +1,47 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                Acá va el video
-            </div>
-
-            <div class="col-md-4" >
-               <div class="contenedor-temario bg-white my-2">    
+            <div>
+               <div class="contenedor-temario bg-white">    
                        <div class="row">
                            <div class="container">
                             <h5 class="ml-5 mt-4"><i class="fas fa-list-alt mr-2"></i>Temario</h5>
                            </div>
                         </div>
 
-                        <div class="row temario">
+                        <div class="col temario">
                             <ul class="ml-5 mt-2" >
-                                <li class="nav-temario"><strong> 1. Edición</strong>
+                                <li class="nav-temario" > <span v-b-toggle.collapse-1> <strong> 1. Edición</strong> </span>
+                                    <b-collapse id="collapse-1">
+                                    <ul >
+                                        <li><input checked type="checkbox"><a href="#"  >Intro</a></li> 
+                                        <li><input type="checkbox"><a href="#" >Importando Archivos</a></li>
+                                        <li><input type="checkbox"><a href="#" >Editando archivos</a></li>  
+                                        <li><input type="checkbox"><a href="#" >Importando audio</a></li>  
+                                        <li><input type="checkbox"><a href="#" >Eliminando Sonidos</a></li>  
+                                    </ul>
+                                    </b-collapse>
+                                </li>
+
+                                <li class="nav-temario my-2" v-b-toggle.collapse-2> <strong>2. Renderizado</strong>
+                                    <b-collapse id="collapse-2">
                                     <ul>
                                         <li><input type="checkbox"><a href="#" class="active">Intro</a></li> 
                                         <li><input type="checkbox"><a href="#" class="active">Importando Archivos</a></li>
                                         <li><input type="checkbox"><a href="#" class="active">Editando archivos</a></li>  
                                         <li><input type="checkbox"><a href="#" class="active">Importando audio</a></li>  
-                                        <li><input type="checkbox"><a href="#" class="active">Elimnado Sonidos</a></li>  
+                                        <li><input type="checkbox"><a href="#" class="active">Eliminando Sonidos</a></li>  
                                     </ul>
+                                    </b-collapse>
                                 </li>
+                                
                             </ul>
-                            <ul class="ml-5 mt-2" >
-                                <li class="nav-temario"> 1. Edición
-                                    <ul>
-                                        <li><input type="checkbox"><a href="#" class="active">Intro</a></li> 
-                                        <li><input type="checkbox"><a href="#" class="active">Importando Archivos</a></li>
-                                        <li><input type="checkbox"><a href="#" class="active">Editando archivos</a></li>  
-                                        <li><input type="checkbox"><a href="#" class="active">Importando audio</a></li>  
-                                        <li><input type="checkbox"><a href="#" class="active">Elimnado Sonidos</a></li>  
-                                    </ul>
-                                </li>
-                            </ul>
+                            
                         </div>
 
-                        <div class="row pt-3">
-                            <div class="col-md-3">
-                                <h5 class="ml-5">75%</h5>
+                        <div class="row py-3 progressBar">
+                            <div class="col-2">
+                                <span class="ml-5">75%</span>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-10">
                                 <div class="progress mr-5 rounded-pill">
                                     <div class="progress-bar bg-secondary progress-bar-striped w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                  </div>
@@ -52,46 +51,32 @@
  
                    
                </div>
-            </div>
-
-        </div>
-    </div>    
+            </div> 
 </template>
 
 <script>
-    export default {
-    data() {
-      return {
-        selected: [], // Must be an array reference!
-        options: [
-          { text: 'Orange', value: 'orange' },
-          { text: 'Apple', value: 'apple' },
-          { text: 'Pineapple', value: 'pineapple' },
-          { text: 'Grape', value: 'grape' }
-        ]
-      }
-    }
-  }
+    
 </script>
 
 <style scoped>
 
     /*contenedor*/
     .contenedor-temario{
-        width: 379px;
-        height: 451px;
+        width: 100%;
+        height: 100%;
         border-radius: 15px;
         font-size: 12px ;
+        margin: auto;
     }
 
     .temario{
-        width: 379px;
-        height: 350px;
+        width: 100%;
+        height: 330px;
         overflow-y: scroll ;
     }
 
     ul{
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .temario::-webkit-scrollbar {
@@ -157,13 +142,17 @@
         background: white;
     }
 
-    input[type="checkbox"]:checked:after{
+    input[type="checkbox"]:checked{
         font-family: "Font Awesome 5 Free";
         content: "\f058";
         font-weight: 900;
         color: black;
         font-size: 24px;
-        background: white;
     }
-   
+
+    /* Barra de progreso */
+    .progressBar{
+        font-size: 12px;
+    }
+
 </style>
