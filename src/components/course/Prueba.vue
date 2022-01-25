@@ -31,50 +31,21 @@
       <img src="@/assets/logo.png" alt="" />
     </div>
 
-    <div class="Todo">
-      <div class="relacionados">
-        <p>Cursos Relacionados</p>
-      </div>
+<div class="caja">
 
-      <div class="avanza">
-        <div class="contenidos" v-for="items in informacion" :key="items.id">
-          <div>
-            <b-img
-              src="https://picsum.photos/300/150/?image=41"
-              fluid
-              alt="Responsive image"
-            ></b-img>
-          </div>
-          <b-card-text class="mt-3">
-            <p class="titulos">S/. {{ items.price }}</p>
-          </b-card-text>
+  <button class="boton1">A</button>
+  <div class="cajita" v-for="items in informacion" :key="items.id">
 
-          <div class="descripcion">
-            <span class="ml-2"> Descripcion :</span>
-            <p>
-              {{ items.description }}
-            </p>
-          </div>
-          <b-button class="El_button1" href="#" variant="primary"
-            >Ver Progreso completo</b-button
-          >
-        </div>
-      </div>
-    </div>
+    <img :src="items.image" width="270" height="158" alt="">
 
-    <div class="movere">
-      <button v-on:click="aumentar()" v-if="prendido">cargar más cursos</button>
+  </div>
+<button class="boton2" v-on:click="aumentar()">A</button>
+</div>
 
-      <div>
-        <b-spinner label="Loading..." v-if="lorde"></b-spinner>
-      </div>
-    </div>
-    <div v-if="noexis">
-      <p>no existe mas datos</p>
-    </div>
-    <div class="ulti">
-      <p>ultimos agregados</p>
-    </div>     
+
+    
+
+  
   </div>
 </template>
 
@@ -89,12 +60,17 @@ export default {
     return {
       informacion: [],
       lord: true,
-      limite: 3,
+      limite: 5,
       lorde: false,
       prendido: true,
       guardar: false,
       total: [],
       noexis: false,
+      loading: true,
+      mostrar:false,
+      // age: 12345
+      
+
     };
   },
 
@@ -103,30 +79,49 @@ export default {
       this.axios.get("course/list").then((datos) => {
         this.lord = false;
         this.guardar = true;
-        
+         this.loading= false;
+          this.mostrar=true;
         const array = datos.data.data;
+        // this.informacion = array[0].courses_related;
+        console.log(array);
+       
+      //  this.informacion.forEach(cursos =>{
+         
+      //  })
         this.total = array[0].courses_related;
+        
         for (let i = this.informacion.length; i < this.limite; i++) {
           this.informacion.push(this.total[i]);
           this.lorde = false;
         }
+
       });
     },
 
     aumentar() {
-      this.limite += 3;
+      this.limite += 5;
       this.lorde = true;
       if (this.informacion.length == this.total.length - 1) {
         this.prendido = false;
         this.lorde = false;
         this.noexis = true;
+         
       }
+
+      // this.informacion.forEach(cursos=>{
+      //   this.age =cursos.id + 1
+      //   console.log(this.age)
+      // })
 
       this.getAttributes();
     },
+
+ 
+  
   },
   created() {
     this.getAttributes();
+  
   },
 };
 </script>
@@ -155,10 +150,12 @@ export default {
   height: 58px;
   margin-left: 510px;
   margin-top: 34px;
+  margin-bottom: 45px;
   display: flex;
   border: 0.5px solid #c4c4c4;
   box-sizing: border-box;
   border-radius: 0px 15px 15px 0px;
+
 }
 .buscador input {
   width: 348px;
@@ -187,62 +184,41 @@ export default {
   margin-top: 10px;
 }
 
-.relacionados {
-  background: rgb(202, 202, 202);
-  width: 200px;
-  margin-top: 30px;
-  text-align: center;
+.caja{
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
   margin-right: auto;
   margin-left: auto;
+  height: 70%;
+  display: flex;
+  gap: 15px;
+  position: relative;
+  
 }
 
-.titulos {
-  text-align: left;
-  font-weight: bold;
-  color: black;
-  font-size: 0.9rem;
+.cajita{
+
+  width: 600px;
+  height: 158px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+
 }
-.El_button1 {
-  margin-left: 45px;
-  margin-bottom: 10px;
+
+.boton1{
+  position: absolute;
+  margin-top: 50px;
+  left: 0;
+  
 }
-.avanza {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: 45px;
-  margin-left: 45px;
+
+.boton2{
+  position: relative;
+  right: 0;
   margin-top: 40px;
 }
-.contenidos {
-  margin-left: 30px;
 
-  width: 280px;
-  /* height: 280px; */
-}
-.movere {
-  display: flex;
-  margin-left: 45%;
-}
 
-.descripcion span {
-  color: rgb(85, 20, 146);
-}
-
-.descripcion p {
-  margin-top: 5px;
-  text-align: center;
-  padding: 0px 15px;
-  font-size: 1.2rem;
-  /* font-weight: bold; */
-  color: rgb(17, 16, 16);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  overflow: hidden;
-}
-
-.ulti {
-  margin-top: 20px;
-}
 </style>

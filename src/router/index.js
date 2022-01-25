@@ -45,9 +45,9 @@ router.beforeEach((to, from, next) => {
   let status = localStorage.getItem('status_user')
   if (autenticado && !token) {
     next('login');
-  } else if ((!autenticado && token) && status == 0 ) {
+  } else if ((!autenticado && token) && status == 1 ) {
     next('/preferences');
-  } else if ((!autenticado && token) && status == 1) {
+  } else if ((!autenticado && token) && status == 0) {
     next('/home');
   } else {
     next()
