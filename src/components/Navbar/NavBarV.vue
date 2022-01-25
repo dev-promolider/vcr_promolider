@@ -11,7 +11,6 @@
         <router-link
           to="/home"
           class="nav-link link-v"
-          :class="{ 'is-active': isActive('/home') }"
         >
           <img src="./../../assets/home.svg" alt="" />
           Inicio
@@ -34,7 +33,6 @@
       <li
         @click="sendTitle('Mensajes')"
         class="nav-item"
-        :class="{ 'is-active': isActive('messages') }"
       >
         <router-link
           to="/messages"
@@ -96,7 +94,7 @@ export default {
 <style scope>
 :root {
   --text-size: 14px;
-  --active-link: 3px solid #5cc151;
+  --active-link: 4px solid #5cc151;
   --opcion-link: invert(0.5) sepia(5%) saturate(5162%) hue-rotate(64deg)
     brightness(96%) contrast(92%);
 }
