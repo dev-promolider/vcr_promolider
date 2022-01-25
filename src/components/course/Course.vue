@@ -2,13 +2,16 @@
   <div class="content-course d-flex flex-column">
     <div class="temario-video">
       <Temario />
+      <h1></h1>
     </div>
     <div class="description-comments">
       <div class="description">
         <Descripcion />
+             <div></div>
       </div>
       <div class="comment">
         <Comentarios />
+        <h1></h1>
       </div>
     </div>
   </div>
