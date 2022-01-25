@@ -7,6 +7,9 @@
     <div class="description-comments">
       <div class="description">
         <Descripcion />
+        
+
+
       </div>
       <div class="comment">
         <Comentarios />
@@ -56,4 +59,7 @@ export default {
     width: 35%;
     border: 0.3px solid;
 }
+/*  */
+
+
 </style>>
