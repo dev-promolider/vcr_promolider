@@ -184,6 +184,7 @@ export default {
   margin-top: 10px;
 }
 
+/* contenedores de imagenes nuevo!*/ 
 .caja{
   width: 100%;
   max-width: 100%;
@@ -220,5 +221,6 @@ export default {
   margin-top: 40px;
 }
 
+/* terimna aqui!! */
 
 </style>
