@@ -43,7 +43,7 @@
                                 <h5 class="ml-5">75%</h5>
                             </div>
                             <div class="col-md-9">
-                                <div class="progress mr-5">
+                                <div class="progress mr-5 rounded-pill">
                                     <div class="progress-bar bg-secondary progress-bar-striped w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                  </div>
                             </div>
@@ -115,7 +115,7 @@
         width: 2px;
         height: calc(100% - 50px);
         left: 20px;
-        top: 10px;
+        top: 12px;
         background: black;
         z-index: -1;
         margin-top: 29px;
