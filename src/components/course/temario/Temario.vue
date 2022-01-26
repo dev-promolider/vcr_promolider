@@ -44,27 +44,35 @@
                 modules: null,
                 lessons:null,
                 progress: 0,
-                allLessons:6,
-                completedLessons: ["Schuster Row","Boehm Prairie"]
+                allLessons:0,
+                completedLessons: ["Schuster Row","Ortiz Locks"]
             }
         },
         methods:{
             // Definir funciones
-            getModuls(){
+
+            getTemary(){
                 this.axios.get('course/temary/get-all-class/9').then((res)=>{
                 this.modules = res.data.data.modules;
+
+                // Calculando todas las lecciones
+                for(let i=0; i<this.modules.length; i++){
+                    this.allLessons += this.modules[i].lessons.length
+                }
             });
             },
 
-             getProgress(){
-                const completed = Object.keys(this.completedLessons).length;
-                this.progress = Math.round((completed/this.allLessons)*100);
-             }
+            getProgress(){
+            const completed = Object.keys(this.completedLessons).length;
+            this.progress = Math.round((completed/this.allLessons)*100);
+            },
+
+
+             
         },
         created(){
             // Ejecutar funciones locales
-            this.getModuls();
-            
+            this.getTemary();
         },
         mounted(){
             // Ejecutar funciones globales
