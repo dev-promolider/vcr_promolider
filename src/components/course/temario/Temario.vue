@@ -8,27 +8,14 @@
                         </div>
 
                         <div class="col temario">
-                            <ul class="ml-5 mt-2" >
-                                <li class="nav-temario" > <span v-b-toggle.collapse-1> <strong> 1. Edición</strong> </span>
+                            <ul class="ml-5 mt-2" v-for="(model,index) in modules" :key="index" >
+                                <li class="nav-temario"  > <span v-b-toggle.collapse-1> <strong> {{index + 1 }}. {{model.name}}</strong> </span>
                                     <b-collapse id="collapse-1">
                                     <ul >
-                                        <li><input checked type="checkbox"><a href="#"  >Intro</a></li> 
-                                        <li><input type="checkbox"><a href="#" >Importando Archivos</a></li>
-                                        <li><input type="checkbox"><a href="#" >Editando archivos</a></li>  
-                                        <li><input type="checkbox"><a href="#" >Importando audio</a></li>  
-                                        <li><input type="checkbox"><a href="#" >Eliminando Sonidos</a></li>  
-                                    </ul>
-                                    </b-collapse>
-                                </li>
-
-                                <li class="nav-temario my-2" v-b-toggle.collapse-2> <strong>2. Renderizado</strong>
-                                    <b-collapse id="collapse-2">
-                                    <ul>
-                                        <li><input type="checkbox"><a href="#" class="active">Intro</a></li> 
-                                        <li><input type="checkbox"><a href="#" class="active">Importando Archivos</a></li>
-                                        <li><input type="checkbox"><a href="#" class="active">Editando archivos</a></li>  
-                                        <li><input type="checkbox"><a href="#" class="active">Importando audio</a></li>  
-                                        <li><input type="checkbox"><a href="#" class="active">Eliminando Sonidos</a></li>  
+                                        <li v-for="less in modules[index].lessons" :key="less" >
+                                            <input type="checkbox" v-model="completedLessons" :value=less.name >
+                                            <a href="#"  >{{less.name}}</a>
+                                        </li>  
                                     </ul>
                                     </b-collapse>
                                 </li>
@@ -37,25 +24,58 @@
                             
                         </div>
 
-                        <div class="row py-3 progressBar">
-                            <div class="col-2">
-                                <span class="ml-5">75%</span>
+                        <div class="row py-3 ">
+                            <div class="col-2 d-flex justify-content-end" >
+                                <span >{{progress}}%</span>
                             </div>
-                            <div class="col-10">
-                                <div class="progress mr-5 rounded-pill">
-                                    <div class="progress-bar bg-secondary progress-bar-striped w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                 </div>
+                            <div class="col-9">
+                                    <b-progress animated :value="progress" variant="secondary" :striped="striped" class="mr-2"></b-progress>                         
                             </div>
-        
-                        </div>
- 
-                   
+                        </div>            
                </div>
             </div> 
 </template>
 
 <script>
-    
+    export default{
+        name:"Temario",
+        data(){
+            return{
+                modules: null,
+                lessons:null,
+                progress: 0,
+                allLessons:6,
+                completedLessons: ["Schuster Row","Boehm Prairie"]
+            }
+        },
+        methods:{
+            // Definir funciones
+            getModuls(){
+                this.axios.get('course/temary/get-all-class/9').then((res)=>{
+                this.modules = res.data.data.modules;
+            });
+            },
+
+             getProgress(){
+                const completed = Object.keys(this.completedLessons).length;
+                this.progress = Math.round((completed/this.allLessons)*100);
+             }
+        },
+        created(){
+            // Ejecutar funciones locales
+            this.getModuls();
+            
+        },
+        mounted(){
+            // Ejecutar funciones globales
+        }
+        ,
+        updated(){
+            this.getProgress();
+        }
+
+    }
+
 </script>
 
 <style scoped>
