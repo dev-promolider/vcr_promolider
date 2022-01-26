@@ -1,26 +1,12 @@
 <template>
-<<<<<<< HEAD
-  <div class="content-course d-flex flex-column">
-    <div class="temario-video">
-      <Temario />
-      <h1></h1>
-=======
   <div class="content-course d-flex">
     <div class="navtap-video">
       <div class="video"></div>
       <Descripcion />
->>>>>>> 1418b28b5163c1caf830303407ef78145db1a53a
     </div>
     <div class="temario-comments">
       <div class="description">
-<<<<<<< HEAD
-        <Descripcion />
-        
-
-
-=======
         <Temario />
->>>>>>> 1418b28b5163c1caf830303407ef78145db1a53a
       </div>
       <div class="comment">
         <Comentarios />
