@@ -1,14 +1,21 @@
 <template>
   <div id="app">
-    <Contenedor/> 
+    <router-view />
   </div>
 </template>
 <script>
-import Contenedor from '@/views/Contenedor.vue';
+//import Contenedor from '@/views/content/contenedor/Contenedor.vue';
 export default {
   components: {
-    Contenedor
   },  
+
+  data() {
+    return {
+     
+     
+    }
+  },
+  
 }
 </script>
 <style>

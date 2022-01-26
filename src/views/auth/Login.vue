@@ -20,8 +20,8 @@
   </div>
 </template>
 <script>
-import FormLogin from "@/components/auth/FormLogin.vue";
-import FormWelcome from "@/components/auth/FormWelcome.vue";
+import FormLogin from "@/components/auth/FormUser/FormLogin.vue";
+import FormWelcome from "@/components/auth/FormUser/FormWelcome.vue";
 export default {
   name: "Login",
   components: {
@@ -29,7 +29,7 @@ export default {
     FormWelcome,
   },
   methods:{
-
+    
   }
 };
 </script>
@@ -67,8 +67,7 @@ export default {
   padding: 30px 30px 30px; 
   margin-bottom: 10px;
 }
-.bienvenido{
-}
+
 .img-welcome {
   margin-bottom: 30px;
 }

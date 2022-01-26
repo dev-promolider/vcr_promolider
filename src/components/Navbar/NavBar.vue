@@ -3,9 +3,11 @@
     <ul class="nav seccion justify-content-star align-self-center">
       <li class="nav-item logo-king">
         <span class="d-flex flex-grap nav-link" href="#">
-          <img class="img-king" src="../assets/logo-king.png" />
+          <img class="img-king" src="../../assets/logo-king.png" />
           <span class="ml-1">
-            {{ link }}Sección de <b>Portada de información del curso</b></span
+          {{titulo}}
+          <!-- {{$store.getters['course/getCurso']}} -->
+          </span
           >
         </span>
       </li>
@@ -14,32 +16,32 @@
       <ul class="nav nav-sub-h1 justify-content-end align-items-center">
         <li class="nav-item">
           <span class="nav-link text-dark" href="#">
-            <img class="img-puntos" src="../assets/logo-puntos.png" />
+            <img class="img-puntos" src="../../assets/logo-puntos.png" />
             <b>173</b> Puntos
           </span>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
-            <img class="img-help" src="../assets/help.png" />
+            <img @click="sendTitle()" class="img-help" src="../../assets/help.png" />
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
-            <img class="img-help" src="../assets/notification.png" />
+            <img class="img-help" src="../../assets/notification.png" />
           </a>
         </li>
       </ul>
       <ul class="nav nav-sub-h2 justify-content-between align-items-center">
         <li class="nav-item logo-classroom">
           <span class="nav-link pl-2 pr-1" href="#">
-            <img class="img-classroom" src="../assets/logo-aula3.png" />
+            <img class="img-classroom" src="../../assets/logo-aula3.png" />
           </span>
         </li>
         <li class="nav-item profile">
           <span class="submenu">
-            <img class="img-photo" src="../assets/logo-perfil.png" />
+            <img class="img-photo" src="../../assets/logo-perfil.png" />
             <a class="viewmenu" v-on:click="desplegar()">
-              <img class="img-viewmenu" src="../assets/flecha-abajo.png" />
+              <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
             </a>
           </span>
         </li>
@@ -48,16 +50,16 @@
           v-show="vermenu"
           aria-labelledby="navbarDropdown"
         >
-          <router-link to="/perfil" class="dropdown-item" href="#">
-            <img class="img-menuitem" src="../assets/perfil.png" />
-            Perfil</router-link
+          <a class="dropdown-item" href="#">
+            <img class="img-menuitem" src="../../assets/perfil.png" />
+            Perfil</a
           >
           <a class="dropdown-item" href="#">
-            <img class="img-menuitem" src="../assets/subcription.png" />
+            <img class="img-menuitem" src="../../assets/subcription.png" />
             Subcripción</a
           >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" @click="closeSesion()">Sign out </a>
+          <a class="dropdown-item" @click="closeSesion()">Sign out </a>
         </div>
       </ul>
     </div>
@@ -65,33 +67,55 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "NavBar",
   data() {
     return {
       vermenu: true,
       link: "",
+      name: ""
     };
+  },
+  computed: {
+    // ...mapState(['title','count']),
+    ...mapState( {
+      //titulo: state => state.title
+      titulo: state => state.course.title
+    }),
+    ...mapGetters('course',{
+      vuexTitle: "title",
+    }),
+
+    // titulo(){
+    //   return this.$store.state.title
+    // }
   },
   mounted() {
     this.desplegar();
   },
   methods: {
+
     desplegar() {
       this.vermenu = !this.vermenu;
     },
     closeSesion() {
-      localStorage.removeItem("access_token");
-      window.location.reload(true);
+      localStorage.removeItem("access_token"); 
+      localStorage.removeItem('status_user');
+      localStorage.removeItem('name_user');           
+      //window.location.reload(true);
+      this.$router.push('/login');
     },
   },
 };
+
 </script>
 
 <style scoped>
 .nav-general {
   width: 100%;
-  height: 104px;
+  min-height: 80px;
   background-color: #fff;
 }
 .seccion {
@@ -157,7 +181,7 @@ export default {
   border-radius: 15px;
   width: 226px;
   height: 207px;
-  top: 107px;
+  top: 72px;
   right: 4px;
   border-radius: 10px;
   z-index: 100;

@@ -20,10 +20,10 @@
   </b-container>
 </template>
 <script>
-import Attribute from "@/components/dashboard/Attribute.vue";
+import Attribute from "@/components/dashboard/Attribute/Attribute.vue";
 import DataPrimaryUser from "@/components/dashboard/DataPrimaryUser.vue";
-import MessengerColletion from "@/components/dashboard/MessengerColletion.vue";
-import ClienteVenta from "@/components/dashboard/ClienteVenta.vue";
+import MessengerColletion from "@/components/dashboard/Message/MessengerColletion.vue";
+import ClienteVenta from "@/components/dashboard/SalesHistory/ClienteVenta.vue";
 
 export default {
   name: "Dashboard",

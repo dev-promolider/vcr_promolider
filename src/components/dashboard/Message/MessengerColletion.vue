@@ -4,12 +4,8 @@
       <p>Mensajes</p>
       <router-link to="/messages">Todos los Mensajes</router-link>
     </div>
-    <div class="message d-flex mb-3" v-for="user in users" :key="user.id">
+    <div class="message d-flex mb-3" v-for="user in getLastMessages" :key="user.id">
       <b-avatar variant="info" src="https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240"></b-avatar>
-      <!-- <img
-        src="https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240"
-        style="width: 30px; height: 30px;"
-      /> -->
       <div class="card-body text-message p-2">
         <p class="card-title mb-1"><b>{{user.fullname}}</b></p>
         <p class="card-text">
@@ -20,24 +16,25 @@
   </div>
 </template>
 <script>
+import {mapGetters, mapActions} from 'vuex' 
 export default {
   name: "MessengerColletion",
   data() {
     return {
-      users: [],
     };
   },
+  computed:{
+    ...mapGetters('lastMessage',["getLastMessages"]),
+    
+  },
   methods: {
-    getMessanges() {
-      this.axios.get("messages/list").then((r) => {
-        console.log(r.data);
-        let usuarios = r.data.data;
-        this.users = usuarios.sort((a, b) => a - b);
-      });
-    },
+    ...mapActions('lastMessage',{
+        actionLastMessages: "actionLastMessages"
+    }),
   },
   created() {
-    this.getMessanges();
+    this.actionLastMessages();
+    //this.$store.dispatch('lastMessage/actionLastMessages')
   },
 };
 </script>
