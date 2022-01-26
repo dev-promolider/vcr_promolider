@@ -211,6 +211,7 @@ export default {
 }
 
 .boton2{
+  /* posiciones */
   position: relative;
   right: 0;
   margin-top: 40px;
