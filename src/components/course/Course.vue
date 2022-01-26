@@ -1,14 +1,30 @@
 <template>
+<<<<<<< HEAD
   <div class="content-course d-flex flex-column">
     <div class="temario-video">
       <Temario />
+      <h1></h1>
+=======
+  <div class="content-course d-flex">
+    <div class="navtap-video">
+      <div class="video"></div>
+      <Descripcion />
+>>>>>>> 1418b28b5163c1caf830303407ef78145db1a53a
     </div>
-    <div class="description-comments">
+    <div class="temario-comments">
       <div class="description">
+<<<<<<< HEAD
         <Descripcion />
+        
+
+
+=======
+        <Temario />
+>>>>>>> 1418b28b5163c1caf830303407ef78145db1a53a
       </div>
       <div class="comment">
         <Comentarios />
+        <h1></h1>
       </div>
     </div>
   </div>
@@ -29,29 +45,25 @@ export default {
 </script>
 
 <style scoped>
-.content-course {
-    width: 100%;
-    height: calc(100vh - 80px);
+.content-course { display: flex; width: 100%; height: calc(100vh - 80px);
     max-height: calc(100vh - 80px);
+    padding: 11px 102px 27px 69px;
     border: 1px solid royalblue;
+    gap: 36px;
 }
-.temario-video{
-    widows: 100%;
-    height: 50%;
-    border: 0.3px solid;
+.navtap-video{  width: 65%; height: 100%;  border: 0.3px solid;
 }
-.description-comments{
-    display: flex;
-    widows: 100%;
-    height: 50%;
+.video{width:100%; height: 64%; border: 1px solid royalblue;
+}
+.temario-comments{  display: flex; flex-direction: column; gap: 22px;
+    width: 35%;  height: 100%;
     border: 0.3px solid coral;
 }
-.description{
-    width: 65%;
-    border: 0.3px solid coral;
+.description{width: 100%;  height: 50%;  border: 0.3px solid coral;
 }
-.comment{
-    width: 35%;
-    border: 0.3px solid;
+.comment{  width: 100%;  height: 50%; 
 }
+/*  */
+
+
 </style>>
