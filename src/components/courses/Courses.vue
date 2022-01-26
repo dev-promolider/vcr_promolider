@@ -91,6 +91,7 @@ export default {
         for (let i = this.informacion.length; i < this.limite; i++) {
           this.informacion.push(this.total[i]);
           this.lorde = false;
+          //console.log("funciona")
         }
       });
     },
