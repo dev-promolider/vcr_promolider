@@ -4,20 +4,20 @@
       <div class="cuadro1-1">
         <div class="perfil">
           <div class="imagen1">
-            <img src="../../assets/logo-perfil.png" alt="" />
+            <img :src="photo" alt="" />
           </div>
           <div class="pais">
-            <img class="icoban" src="../../assets/logo-bandera.svg"/>          
+            <img class="icoban" src="../../assets/logo-bandera.svg" />
             <p>Lima,Peru</p>
           </div>
         </div>
 
         <div class="parrafos">
           <div class="p1">
-            <p>Jesus Galvez</p>
+            <p>{{name}}</p>
           </div>
           <div class="p2">
-            <p>albejes12@gmail.com</p>
+            <p> {{email}} </p>
           </div>
         </div>
       </div>
@@ -63,13 +63,14 @@
     <div class="cuadro2">
       <div class="cuadro2-1">
         <div class="imagen">
-          <img src="../../assets/logo-perfil.png" alt="" />
+          <img :src="photo" alt="" />
+          <div> <img class="lapiz" src="../../assets/logo-lapiz.svg" alt=""> </div>
         </div>
 
         <div class="data1">
           <div class="nombre">
-            <img class="userico" src="../../assets/userico.svg" alt="" />
-            <input type="text" required placeholder="Nombre completo" />
+            <img  class="userico" src="../../assets/userico.svg" alt="" />
+            <input v-model="fullName" type="text" required placeholder="Nombre completo" />
           </div>
 
           <div class="region">
@@ -80,7 +81,7 @@
       </div>
       <div class="data2">
         <input type="text" required placeholder="Genero" />
-        <input type="text" required placeholder="Fecha de nacimiento" />
+        <input v-model="date_birth" type="text" required placeholder="Fecha de nacimiento" />
       </div>
       <div class="biografia">
         <textarea
@@ -100,7 +101,26 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "perfil",
+
+  data() {
+    return {
+      fullName: "",
+      photo: "",
+      date_birth: "",
+      email: "",
+      name:"",
+    };
+  },
+  created() {
+    this.fullName = localStorage.getItem("fullName_user");
+    this.photo = localStorage.getItem("photo_user");
+    this.date_birth = localStorage.getItem("date_birth_user");
+    this.email = localStorage.getItem("email_user");
+    this.name = localStorage.getItem("name_user");
+  },
+};
 </script>
 
 <style scope>
@@ -143,7 +163,6 @@ export default {};
   display: flex;
 }
 @media only screen and (max-width: 671px) {
-  
 }
 .pais p {
   width: 100%;
@@ -157,20 +176,19 @@ export default {};
   display: flex;
   flex-direction: column;
   height: 84px;
-
 }
 
-.p1 p{
+.p1 p {
   display: flex;
-  flex-wrap:wrap ;
-font-size: 14px;
-text-align: left;
+  flex-wrap: wrap;
+  font-size: 14px;
+  text-align: left;
 }
-.p2 p{
+.p2 p {
   display: flex;
-font-size: 11px;
-text-align: left;
-flex-wrap:wrap ;
+  font-size: 11px;
+  text-align: left;
+  flex-wrap: wrap;
 }
 .icoban {
   height: 18px;
@@ -240,11 +258,29 @@ flex-wrap:wrap ;
 }
 .imagen {
   display: flex;
+  position: relative;
   width: 134px;
   height: 134px;
 }
 .imagen img {
   border-radius: 50%;
+}
+
+.imagen div {
+  display:flex;
+  position:absolute;
+  width: 24px;
+  height: 24px;
+  
+  right:0;
+  bottom:20px;
+  border-radius: 50%;
+} 
+.lapiz{
+ width: 100%;
+  height: 100%;
+
+   
 }
 
 .data1 {
