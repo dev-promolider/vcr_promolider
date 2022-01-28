@@ -21,16 +21,15 @@ export default {
   data() {
     return {
       item: null,
-      preferencias:{
-        category : ''
-      }
+      preferencia:[]
     };
   },
   methods: {
     escoger(id){
       console.log(id);
-      this.preferencias.category = id
-      console.log("It is category: " + this.category);
+      this.preferencia.push(id)
+      
+      
     },
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {

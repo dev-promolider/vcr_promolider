@@ -67,8 +67,7 @@ export default {
   padding: 30px 30px 30px; 
   margin-bottom: 10px;
 }
-.bienvenido{
-}
+
 .img-welcome {
   margin-bottom: 30px;
 }
