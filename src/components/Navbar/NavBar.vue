@@ -50,10 +50,9 @@
           v-show="vermenu"
           aria-labelledby="navbarDropdown"
         >
-          <a class="dropdown-item" href="#">
+          <router-link class="dropdown-item" to="/perfil">
             <img class="img-menuitem" src="../../assets/perfil.png" />
-            Perfil</a
-          >
+            Perfil</router-link>
           <a class="dropdown-item" href="#">
             <img class="img-menuitem" src="../../assets/subcription.png" />
             Subcripción</a
@@ -96,7 +95,6 @@ export default {
     this.desplegar();
   },
   methods: {
-
     desplegar() {
       this.vermenu = !this.vermenu;
     },
