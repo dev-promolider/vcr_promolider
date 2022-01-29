@@ -17,10 +17,9 @@ const routes = [
   {
     path: '/', name: 'Dashboard', component: Dashboard, meta: { autenticado: true },
     children: [
-
       { path: '/home', component: Home, name: 'home' },
       { path: '/cursos', component: Cursos, name: 'cursos' },
-      { path: '/curso', component: Curso, name: 'curso' },
+      { path: '/curso', component: Curso, name: 'curso' }, //course?virtual=12&class=1
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },

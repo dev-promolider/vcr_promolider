@@ -55,9 +55,7 @@
               {{ items.description }}
             </p>
           </div>
-          <b-button class="El_button1" href="#" variant="primary"
-            >Ver Progreso completo</b-button
-          >          
+          <b-button class="El_button1" variant="primary" @click="goToClass(items.id)">Ver Progreso completo</b-button>
         </div>
       </div>
     </div>
@@ -94,7 +92,7 @@ export default {
       prendido: true,
       guardar: false,
       total: [],
-      noexis: false,
+      noexis: false
     };
   },
 
@@ -124,6 +122,18 @@ export default {
 
       this.getAttributes();
     },
+
+    goToClass(courseId){
+      this.$router.push({
+        name: 'curso',
+        query: { 
+          course: courseId,
+          class: 1
+          }
+        }
+      );
+    }
+
   },
   created() {
     this.getAttributes();

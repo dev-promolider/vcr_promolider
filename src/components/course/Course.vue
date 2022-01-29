@@ -1,7 +1,7 @@
 <template>
   <div class="content-course d-flex">
     <div class="navtap-video">
-      <div class="video"></div>
+      <div class="video"><h5>Reproduciondo la clase: {{ this.$route.query.class  }}</h5></div>
       <Descripcion />
     </div>
     <div class="temario-comments">
