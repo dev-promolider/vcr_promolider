@@ -12,7 +12,7 @@
                 <Carousel :per-page="2" class="cajas" >
         <Slide v-for="movie in movies" :key="movie.id" >
            <b-card
-    :img-src="movie.banner"
+    :img-src="movie.image"
     img-alt="Image"
     img-top
     style="max-width: 15rem;"
@@ -52,10 +52,26 @@ export default {
     },
     data() {
         return {
+        
+          
+          mostrando:[]
             
         };
     },
+    methods:{
 
+        datos(){
+         
+            console.log(this.movies)
+        
+          
+        }
+
+    },
+created() {
+    this.datos();
+  
+  },
     mounted() {
         
     },

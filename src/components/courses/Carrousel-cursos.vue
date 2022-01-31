@@ -71,19 +71,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .marco{
-    border:1px solid black;
+    border:2px solid rgb(116, 115, 115);
     margin-bottom: 20px;
     width: 100%;
-    margin-right: auto;
-    margin-left: auto;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 .contenido{
     width: 100%;
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 20px;
-    
+  
 }
 
 .lista{
@@ -122,6 +123,8 @@ export default {
      
 
 }
+
+
 
 .descripcion p{
      display: -webkit-box;
