@@ -62,7 +62,9 @@ export default {
 
         datos(){
          
-            console.log(this.movies)
+           this.movies.forEach(datos=>{
+                console.log(datos)
+           })
         
           
         }
