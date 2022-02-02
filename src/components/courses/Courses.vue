@@ -42,10 +42,6 @@
 <button class="boton2" v-on:click="aumentar()">A</button>
 </div>
 
-
-    
-
-  
   </div>
 </template>
 
@@ -93,6 +89,7 @@ export default {
           this.lorde = false;
           //console.log("funciona")
         }
+
       });
     },
     aumentar() {

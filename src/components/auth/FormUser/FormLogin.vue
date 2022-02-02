@@ -25,7 +25,7 @@
         </b-form-checkbox-group>
       </b-form-group>
 
-      <b-button
+      <b-button 
         class="submit-iniciar rounded-pill bg-success"
         type="submit"
         block
@@ -75,6 +75,7 @@ export default {
       form: {
         username: "user-brayan ",
         password: "secret",
+      
       },
     };
   },

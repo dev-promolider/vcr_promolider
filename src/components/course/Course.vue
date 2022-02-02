@@ -10,6 +10,7 @@
       </div>
       <div class="comment">
         <Comentarios />
+        <h1></h1>
       </div>
     </div>
   </div>
@@ -45,4 +46,7 @@ export default {
 }
 .comment{  width: 100%;  height: 50%; 
 }
-</style>>
+/*  */
+
+
+</style>
