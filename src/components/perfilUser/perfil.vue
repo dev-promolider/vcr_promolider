@@ -47,10 +47,6 @@
           <p>Si no quieres cambiar tu contraseña deja esto en blanco</p>
           <br />
           <br />
-<<<<<<< HEAD
-
-          <input class="boton1-2" type="submit" value="Guardar" name="" id="" />
-=======
           <div class="botonguardar1">
             <input
               class="boton1-1"
@@ -60,7 +56,6 @@
               id=""
             />
           </div>
->>>>>>> 5a6000ce38253772bacf582b3ebbd8907b926bdb
         </form>
       </div>
     </div>
@@ -69,21 +64,6 @@
       <div class="cuadro2-1">
         <div class="imagen">
           <img src="../../assets/logo-perfil.png" alt="" />
-<<<<<<< HEAD
-        </div>
-
-        <div class="data1">
-          <div class="nombre">
-            <input
-              type="text" required placeholder="Nombre completo"
-            />
-          </div>
-          <div class="region">
-            <input type="text" required placeholder="Ciudad" />
-            <input type="text" required placeholder="Pais" />
-          </div>
-        </div>
-=======
         </div>
 
         <div class="data1">
@@ -114,7 +94,6 @@
       </div>
       <div class="botonguardar">
         <input class="boton1-2" type="submit" value="Guardar" name="" id="" />
->>>>>>> 5a6000ce38253772bacf582b3ebbd8907b926bdb
       </div>
     </div>
   </div>
@@ -139,101 +118,12 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
-<<<<<<< HEAD
-  padding: 10px 67px;
-  gap: 15px;
-=======
   padding: 23px 89px 131px 92px;
   gap: 27px;
->>>>>>> 5a6000ce38253772bacf582b3ebbd8907b926bdb
 }
 .cuadro1 {
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-  width: 30%;
-  height: 100%;
-  background: #e5e5e5;
-  gap: 15px;
-}
-
-.cuadro1-1 {
-  height: 30%;
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #97f18d;
-}
-.cuadro1-2 {
-  display: flex;
-  flex-direction: column;
-
-  height: 50%;
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #97f18d;
-}
-
-.cuadro2 {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  height: 60%;
-  background-color: white;
-  border-radius: 10px;
-  border: 1px solid #97f18d;
-  padding: 60px 50px;
-}
-.formulario1-2 {
-  width: 80%;
-  margin: auto;
-}
-.formulario1-2 .contraseña {
-  width: 100%;
-  border-radius: 10px;
-  background: #f7f7f7;
-  border: none;
-  height: 47px;
-  text-indent: 20px;
-}
-.formulario1-2 p {
-  text-align: start;
-}
-.boton1-2 {
-  background-color: #97f18d;
-  border-radius: 10px;
-  border: none;
-  height: 47px;
-  width: 100%;
-  color: #fff;
-}
-.cuadro2-1 {
-  display: flex;
-  width: 100%;
-  height: 135px;
-}
-.imagen {
-  display: flex;
-  width: 134px;
-  height: 134px;
-}
-.imagen img {
-  border-radius: 50%;
-}
-
-.data1 {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: 100%;
-  gap: 15px;
-}
-.nombre {
-  width: 100%;
-  height: 50%;
-}
-.nombre input {
-  width: 100%;
-=======
   align-items: center;
   width: 30%;
   height: 757px;
@@ -420,31 +310,11 @@ flex-wrap:wrap ;
 }
 .data2 input {
   width: 50%;
->>>>>>> 5a6000ce38253772bacf582b3ebbd8907b926bdb
   height: 100%;
   border-radius: 10px;
   border: none;
   background: #f7f7f7;
   text-indent: 20px;
-<<<<<<< HEAD
-}
-.region {
-  display: flex;
-  width: 100%;
-  gap: 20px;
-  height: 50%;
-}
-.region input {
-  width: 50%;
-  border-radius: 10px;
-  border: none;
-  background: #f7f7f7;
-  text-indent: 20px;
-}
-
-.data2 {
-  display: flex;
-=======
 }
 .biografia {
   width: 100%;
@@ -474,6 +344,5 @@ flex-wrap:wrap ;
   width: 218px;
   color: #fff;
   margin-top: 54px;
->>>>>>> 5a6000ce38253772bacf582b3ebbd8907b926bdb
 }
 </style>
