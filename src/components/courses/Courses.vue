@@ -42,10 +42,6 @@
 <button class="boton2" v-on:click="aumentar()">A</button>
 </div>
 
-
-    
-
-  
   </div>
 </template>
 
@@ -70,10 +66,8 @@ export default {
       mostrar:false,
       // age: 12345
       
-
     };
   },
-
   methods: {
     getAttributes() {
       this.axios.get("course/list").then((datos) => {
@@ -93,11 +87,11 @@ export default {
         for (let i = this.informacion.length; i < this.limite; i++) {
           this.informacion.push(this.total[i]);
           this.lorde = false;
+          //console.log("funciona")
         }
 
       });
     },
-
     aumentar() {
       this.limite += 5;
       this.lorde = true;
@@ -107,15 +101,12 @@ export default {
         this.noexis = true;
          
       }
-
       // this.informacion.forEach(cursos=>{
       //   this.age =cursos.id + 1
       //   console.log(this.age)
       // })
-
       this.getAttributes();
     },
-
  
   
   },
@@ -173,12 +164,10 @@ export default {
   margin: 0;
   outline: none;
 }
-
 .buscador img {
   width: 42px;
   height: 35px;
 }
-
 /* contenedores de imagenes nuevo!*/ 
 .caja{
   width: 100%;
@@ -192,31 +181,22 @@ export default {
   position: relative;
   
 }
-
 .cajita{
-
   width: 600px;
   height: 158px;
   margin-top: 5px;
   margin-bottom: 5px;
-
-
 }
-
 .boton1{
   position: absolute;
   margin-top: 50px;
   left: 0;
   
 }
-
 .boton2{
-  /* posiciones */
   position: relative;
   right: 0;
   margin-top: 40px;
 }
-
 /* terimna aqui!! */
-
 </style>
