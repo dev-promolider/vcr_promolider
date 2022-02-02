@@ -97,9 +97,12 @@
         <div class="parallel footer">
           <div></div>
           <div class="message-send">
-              <input class="message-wrriten" v-model="message_add.message" type="text" placeholder="Escribe un mensaje">
+              <input class="message-wrriten" v-model="message_add.message"
+              @keyup.enter="sendMessage"
+               type="text" placeholder="Escribe un mensaje">
               <div class="btn-send">
-                <img @click="sendMessage" src="../../assets/send.svg" alt="">
+                <img @click="sendMessage"                 
+                src="../../assets/send.svg" alt="">
               </div>
 
           </div>
@@ -131,11 +134,13 @@ export default {
       this.axios.post("messages/add", this.message_add)
       .then((r) => {
           console.log("Mensaje enviado" + r);
+          this.message_add.message = '';
           this.listarMensajes(this.email);
       })
       .catch(() =>{
            console.log("Error en enviar");
       })
+      
     },
     cambiarFondo() {
       return (this.fondo = true);
@@ -296,7 +301,7 @@ export default {
 .message-user{
   display: flex;
   gap: 15px;
-  justify-content: end;
+  justify-content: flex-end;
   font-size: 13px;
   width: 100%;
   min-height: 35px;

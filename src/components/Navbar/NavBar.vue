@@ -15,7 +15,7 @@
     <div class="nav-horizontal flex-grow-2">
       <ul class="nav nav-sub-h1 justify-content-end align-items-center">
         <li class="nav-item">
-          <span class="nav-link text-dark" href="#">
+          <span class="nav-link text-dark">
             <img class="img-puntos" src="../../assets/logo-puntos.png" />
             <b>173</b> Puntos
           </span>
@@ -33,14 +33,14 @@
       </ul>
       <ul class="nav nav-sub-h2 justify-content-between align-items-center">
         <li class="nav-item logo-classroom">
-          <span class="nav-link pl-2 pr-1" href="#">
+          <span class="nav-link pl-2 pr-1" >
             <img class="img-classroom" src="../../assets/logo-aula3.png" />
           </span>
         </li>
         <li class="nav-item profile">
           <span class="submenu">
             <img class="img-photo" src="../../assets/logo-perfil.png" />
-            <a class="viewmenu" v-on:click="desplegar()">
+            <a class="viewmenu" href="#" v-on:click="desplegar()">
               <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
             </a>
           </span>
@@ -50,16 +50,15 @@
           v-show="vermenu"
           aria-labelledby="navbarDropdown"
         >
-          <a class="dropdown-item" href="#">
+          <router-link class="dropdown-item" to="/perfil">
             <img class="img-menuitem" src="../../assets/perfil.png" />
-            Perfil</a
-          >
+            Perfil</router-link>
           <a class="dropdown-item" href="#">
             <img class="img-menuitem" src="../../assets/subcription.png" />
             Subcripción</a
           >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" @click="closeSesion()">Sign out </a>
+          <a class="dropdown-item" href="#" @click="closeSesion()">Sign out </a>
         </div>
       </ul>
     </div>
@@ -96,7 +95,6 @@ export default {
     this.desplegar();
   },
   methods: {
-
     desplegar() {
       this.vermenu = !this.vermenu;
     },
@@ -125,7 +123,7 @@ export default {
   position: relative;
   display: flex;
   width: 59.9%;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 20px;
 }
 .profile {
