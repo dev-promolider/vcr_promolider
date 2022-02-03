@@ -125,7 +125,7 @@ export default {
   position: relative;
   display: flex;
   width: 59.9%;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 20px;
 }
 .profile {

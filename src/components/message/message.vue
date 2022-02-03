@@ -296,7 +296,7 @@ export default {
 .message-user{
   display: flex;
   gap: 15px;
-  justify-content: end;
+  justify-content: flex-end;
   font-size: 13px;
   width: 100%;
   min-height: 35px;
