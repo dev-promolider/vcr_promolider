@@ -100,7 +100,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Perfil",
+  // BLOQUE PARA CREAR PROPIEDADES/ VARIABLES
+  data() {
+    return {
+    };
+  },
+  // BLoque => se ejecuta una vez accedas a la vista
+  created() {
+  },
+};
 </script>
 
 <style scope>

@@ -32,18 +32,15 @@ export default {
 
 <style scoped>
 .content-course { display: flex; width: 100%; height: calc(100vh - 80px);
-    max-height: calc(100vh - 80px);
-    padding: 11px 102px 27px 69px;
-    border: 1px solid royalblue;
-    gap: 36px;
+    max-height: calc(100vh - 80px);  padding: 11px 102px 27px 69px;
+    border: 1px solid royalblue; gap: 36px;
 }
 .navtap-video{  width: 65%; height: 100%;  border: 0.3px solid;
 }
 .video{width:100%; height: 64%; border: 1px solid royalblue;
 }
 .temario-comments{  display: flex; flex-direction: column; gap: 22px;
-    width: 35%;  height: 100%;
-    border: 0.3px solid coral;
+    width: 35%;  height: 100%;  border: 0.3px solid coral;
 }
 .description{width: 100%;  height: 50%;  border: 0.3px solid coral;
 }
@@ -52,4 +49,4 @@ export default {
 /*  */
 
 
-</style>>
+</style>
