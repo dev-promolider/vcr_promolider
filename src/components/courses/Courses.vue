@@ -48,7 +48,7 @@
 <script>
 // import Spinner from '@/components/auth/Spinner.vue'
 export default {
-  name: "Prueba",
+  name: "Courses",
   components: {
     // Spinner
   },
