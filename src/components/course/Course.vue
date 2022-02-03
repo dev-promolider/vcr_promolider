@@ -1,12 +1,12 @@
 <template>
   <div class="content-course d-flex">
     <div class="navtap-video">
-      <div class="video"><h5>Reproduciondo la clase: {{ this.$route.query.class  }}</h5></div>
+      <div class="video"></div>
       <Descripcion />
     </div>
     <div class="temario-comments">
       <div class="description">
-        <Temario />
+        <Temario/>
       </div>
       <div class="comment">
         <Comentarios />
@@ -26,7 +26,7 @@ export default {
     Temario,
     Descripcion,
     Comentarios,
-  },
+  }
 };
 </script>
 

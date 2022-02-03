@@ -5,7 +5,7 @@
             <!-- Cabecera temario -->
             <div class="row " >
                 <div class="container">
-                <h5 class="ml-5 mt-4"><i class="fas fa-list-alt mr-2"></i>Temario</h5>
+                <h5 class="ml-5 mt-4"><i class="fas fa-clone mr-2"></i>Temario</h5>
                 </div>
             </div>            
 
@@ -15,13 +15,13 @@
                        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
                    </div>
 
-                <ul class="ml-5 mt-2" v-for="(model,index) in modules" :key="index" v-else>
-                    <li class="nav-temario"  > <span v-b-toggle.collapse-1> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
-                        <b-collapse visible id="collapse-1">
+                <ul class="ml-5 mt-2" v-for="(model,index) in modules" :key=index v-else>
+                    <li class="nav-temario"  > <span v-b-toggle="model.name"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
+                        <b-collapse visible :id="model.name">
                         <ul >
-                            <li v-for="less in modules[index].lessons" :key="less" >
+                            <li v-for="(less,index) in modules[index].lessons" :key=index >
                                 <input type="checkbox" v-model="completedLessons" :value=less.name >
-                                <a @click="changeClass(less.name)">{{less.name}}</a>
+                                <a @click="changeClass(less)" :class="{'activo':less.name===clase}" v-bind="less.name===clase ? urlClass=less.url : '' " >{{less.name}}  </a>
                             </li>  
                         </ul>
                         </b-collapse>
@@ -36,7 +36,8 @@
                     <span>{{progress}}%</span>
                             </div>
                 <div class="col-9 mt-1">
-                        <b-progress animated :value="progress" variant="secondary" :striped="striped" class="mr-2" ></b-progress>                         
+                        <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress> 
+                        <p> URL ---> {{ urlClass }}</p>                        
                 </div>
             </div>            
     </div>       
@@ -53,7 +54,9 @@
                 progress: 0,
                 allLessons:0,
                 completedLessons: [],
-                cargar: true
+                cargar: true,
+                clase: null,
+                urlClass: null 
             }
         },
         methods:{
@@ -83,33 +86,35 @@
             },    
             
             // Cambiar de clase
-            changeClass(className){
-                if(className!=this.$route.query.class){
+            changeClass(less){
+                if(less.name!=this.$route.query.class){
+                    this.urlClass=less.url;
                     this.$router.push({
-                    query: {
-                    course: this.$route.query.course,
-                    class: className 
-                    }
-                    }
-                );
+                        query: {
+                            course: this.$route.query.course,
+                            class: less.name 
+                        }
+                    });
+                    this.$emit('urlClass',this.urlClass);
                 }
-                
             }
+
         },
         created(){
             // Ejecutar funciones locales
             this.getTemary();
         },
-        mounted(){
-            // Ejecutar funciones globales
-        }
-        ,
         updated(){
             this.getProgress();
         },
-        beforeCreate(){
-
-        },
+        watch:{
+            "$route.query.class":{
+                immediate: true,
+                handler(titleClass){
+                    this.clase=titleClass;
+                }
+            }
+        }
         
 
     }
@@ -135,7 +140,7 @@
     }
 
     ul{
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .temario::-webkit-scrollbar {
@@ -163,7 +168,7 @@
         width: 2px;
         height: calc(100% - 50px);
         left: 20px;
-        top: 12px;
+        top: 15px;
         background: black;
         z-index: -1;
         margin-top: 29px;
@@ -177,7 +182,7 @@
         text-decoration: none;
         position: relative;
         color: black;
-        font-size: 12px;
+        font-size: 14px;
         line-height: 1rem;
         font-weight: 500;
         top: 8px;
@@ -220,5 +225,10 @@
 
     .spinner{
         margin-top: 25% ;
+    }
+
+    .activo{
+        color: rgb(87, 167, 8) !important;
+        font-weight: bold !important;
     }
 </style>
