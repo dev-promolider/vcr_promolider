@@ -117,11 +117,33 @@
         }
         
 
-    }
-
+    getProgress() {
+      const completed = Object.keys(this.completedLessons).length;
+      this.progress = Math.round((completed / this.allLessons) * 100);
+    },
+  },
+  created() {
+    // Ejecutar funciones locales
+    this.getTemary();
+  },
+  mounted() {
+    // Ejecutar funciones globales
+  },
+  updated() {
+    this.getProgress();
+  },
+};
 </script>
 
 <style scoped>
+/*contenedor*/
+.contenedor-temario {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  font-size: 12px;
+  margin: auto;
+}
 
     /*contenedor*/
     .contenedor-temario{
@@ -143,9 +165,7 @@
         font-size: 16px;
     }
 
-    .temario::-webkit-scrollbar {
-    display: none;
-    }
+/* Lista de reproduccion */
 
     .contenedor-temario::-webkit-scrollbar {
     display: none;
@@ -153,13 +173,22 @@
 
     /* Lista de reproduccion */
 
-    ul{
-        list-style: none;
-    }
+.nav-temario {
+  transform: translateY(0%);
+}
 
-    .nav-temario{
-        transform: translateY(0%);
-    }
+/* Linea vertical */
+.nav-temario ul::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: calc(100% - 50px);
+  left: 20px;
+  top: 12px;
+  background: black;
+  z-index: -1;
+  margin-top: 29px;
+}
 
     /* Linea vertical */
     .nav-temario ul::after{
@@ -174,11 +203,17 @@
         margin-top: 29px;
     }
 
-    .nav-temario ul li{
-        padding: 12px 0;
-    }
+.nav-temario ul li a {
+  text-decoration: none;
+  position: relative;
+  color: black;
+  font-size: 12px;
+  line-height: 1rem;
+  font-weight: 500;
+  top: 8px;
+}
 
-    .nav-temario ul li a {
+.nav-temario ul li a {
         text-decoration: none;
         position: relative;
         color: black;
@@ -188,40 +223,35 @@
         top: 8px;
     }
 
-    /* Pintando el checkbox */
-    input[type="checkbox"]{
-        appearance: none;
-        -webkit-appearance: none;
-        position: absolute;
-        height: 24px;
-        width: 24px;
-        left: 9px;
-        border-radius:50% ;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-    }
+/* Pintando el checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  left: 9px;
+  border-radius: 50%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
 
-    input[type="checkbox"]:after{
-        font-family: "Font Awesome 5 Free";
-        content: "\f058";
-        color: black;
-        font-size: 24px;
-        background: white;
-    }
+input[type="checkbox"]:after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f058";
+  color: black;
+  font-size: 24px;
+  background: white;
+}
 
-    input[type="checkbox"]:checked{
-        font-family: "Font Awesome 5 Free";
-        content: "\f058";
-        font-weight: 900;
-        color: black;
-        font-size: 24px;
-    }
-
-    /* Barra de progreso */
-    .progressBar{
-        font-size: 12px;
-    }
+input[type="checkbox"]:checked {
+  font-family: "Font Awesome 5 Free";
+  content: "\f058";
+  font-weight: 900;
+  color: black;
+  font-size: 24px;
+}
 
     .spinner{
         margin-top: 25% ;
@@ -231,4 +261,8 @@
         color: rgb(87, 167, 8) !important;
         font-weight: bold !important;
     }
+    
+    .progressBar {
+  font-size: 12px;
+}
 </style>
