@@ -11,17 +11,17 @@
 
             <!-- Cuerpo temario -->
             <div class="col temario ">
-                <div class="d-flex justify-content-center spinner" v-if="cargar">
+                <div class="d-flex justify-content-center spinner" v-if="cargar=false">
                        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
                    </div>
 
-                <ul class="ml-5 mt-2" v-for="(model,index) in modules" :key=index v-else>
+                <ul class="ml-5 mt-2" v-for="(model,index) in course.modules" :key=index v-else>
                     <li class="nav-temario" > <span v-b-toggle="model.name"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
                         <b-collapse visible :id="model.name">
                         <ul >
-                            <li v-for="(less,index) in modules[index].lessons" :key=index >
+                            <li v-for="(less,index) in course.modules[index].lessons" :key=index >
                                 <input type="checkbox" v-model="completedLessons" :value=less.name >
-                                <a @click="changeClass(less)" :class="{'activo':less.name===clase}" v-bind="less.name===clase ? urlClass=less.url : '' " >{{less.name}}  </a>
+                                <a @click="getLesson(less), changeClass(less)" :class="{'activo':less.name===clase}" v-bind="less.name===clase ? urlClass=less.url : '' " >{{less.name}}  </a>
                             </li>  
                         </ul>
                         </b-collapse>
@@ -36,7 +36,8 @@
                     <span>{{progress}}%</span>
                             </div>
                 <div class="col-9 mt-1">
-                        <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress>                        
+                        <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress> 
+                        Estoy en nueva rama para pruebas  {{ allLessons }}              
                 </div>
             </div>            
     </div>       
@@ -44,6 +45,8 @@
 </template>
 
 <script>
+    import { mapState, mapActions } from 'vuex';
+
     export default{
         name:"Temario",
         data(){
@@ -51,26 +54,24 @@
                 modules: null,
                 lessons:null,
                 progress: 0,
-                allLessons:0,
                 completedLessons: [],
                 cargar: true,
                 clase: null,
                 urlClass: null 
             }
         },
+        computed:{
+            ...mapState('course',['course','allLessons'])
+        },
         methods:{     
-            // Funcion para mostrar temario del curso
-            getTemary(){
-                this.axios.get('course/temary/get-all-class/'+this.$route.query.course).then((res)=>{
-                this.cargar=false;
-                this.modules = res.data.data.modules;
+            ...mapActions('course',{
+                getCourse: 'getCourse',
+                getLesson: 'getLesson'
+            }),
 
-                // Calculando todas las lecciones
-                for(let i=0; i<this.modules.length; i++){
-                    this.allLessons += this.modules[i].lessons.length
-                }
-            });
-            },
+
+            // Funcion para mostrar temario del curso
+            
 
             // Funcion para calcular el progreso del curso
             getProgress(){
@@ -93,14 +94,15 @@
                             class: less.name 
                         }
                     });
-                    this.$emit('urlClass',this.urlClass);
                 }
             }
 
         },
         created(){
             // Ejecutar funciones locales
-            this.getTemary();
+            this.getCourse(this.$route.query.course);
+           
+        
         },
         updated(){
             this.getProgress();

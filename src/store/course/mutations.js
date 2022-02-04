@@ -1,10 +1,7 @@
-
-export const  setTitle = (state, payload) =>{
-    state.title = payload
+export const SET_COURSE= (state, course) =>{
+    state.course = course;
 }
 
-export const setLoading = (state, payload) =>{
-    state.isLoading = payload
-    state.ultimo = 'setLoading ' + payload
+export const SET_LESSON = (state, lesson) =>{
+    state.lesson = lesson
 }
-
