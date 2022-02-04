@@ -16,7 +16,7 @@
                    </div>
 
                 <ul class="ml-5 mt-2" v-for="(model,index) in modules" :key=index v-else>
-                    <li class="nav-temario"  > <span v-b-toggle="model.name"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
+                    <li class="nav-temario" > <span v-b-toggle="model.name"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
                         <b-collapse visible :id="model.name">
                         <ul >
                             <li v-for="(less,index) in modules[index].lessons" :key=index >
@@ -36,8 +36,7 @@
                     <span>{{progress}}%</span>
                             </div>
                 <div class="col-9 mt-1">
-                        <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress> 
-                        <p> URL ---> {{ urlClass }}</p>                        
+                        <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress>                        
                 </div>
             </div>            
     </div>       
@@ -59,8 +58,7 @@
                 urlClass: null 
             }
         },
-        methods:{
-            
+        methods:{     
             // Funcion para mostrar temario del curso
             getTemary(){
                 this.axios.get('course/temary/get-all-class/'+this.$route.query.course).then((res)=>{
@@ -114,36 +112,20 @@
                     this.clase=titleClass;
                 }
             }
-        }
-        
-
-    getProgress() {
-      const completed = Object.keys(this.completedLessons).length;
-      this.progress = Math.round((completed / this.allLessons) * 100);
-    },
-  },
-  created() {
-    // Ejecutar funciones locales
-    this.getTemary();
-  },
-  mounted() {
-    // Ejecutar funciones globales
-  },
-  updated() {
-    this.getProgress();
-  },
-};
+        },
+}
 </script>
 
 <style scoped>
-/*contenedor*/
-.contenedor-temario {
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  font-size: 12px;
-  margin: auto;
-}
+
+    /*contenedor*/
+    .contenedor-temario {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    font-size: 12px;
+    margin: auto;
+    }
 
     /*contenedor*/
     .contenedor-temario{
@@ -152,7 +134,7 @@
         border-radius: 25px;
         margin: auto;
         position: relative;
-        overflow: auto ;
+        overflow-y: scroll ;
     }
 
     .temario{
@@ -162,12 +144,12 @@
     }
 
     ul{
-        font-size: 16px;
+        font-size: 20px;
     }
 
 /* Lista de reproduccion */
 
-    .contenedor-temario::-webkit-scrollbar {
+    .contenedor-temario::-webkit-scrollbar, .temario::-webkit-scrollbar {
     display: none;
     }
 
@@ -175,53 +157,36 @@
 
 .nav-temario {
   transform: translateY(0%);
+  list-style: none;
 }
 
 /* Linea vertical */
 .nav-temario ul::after {
   content: "";
   position: absolute;
-  width: 2px;
-  height: calc(100% - 50px);
+  width: 3px;
+  height: calc(100% - 70px);
   left: 20px;
-  top: 12px;
+  top: 19px;
   background: black;
   z-index: -1;
   margin-top: 29px;
 }
 
-    /* Linea vertical */
-    .nav-temario ul::after{
-        content: "";
-        position: absolute;
-        width: 2px;
-        height: calc(100% - 50px);
-        left: 20px;
-        top: 15px;
-        background: black;
-        z-index: -1;
-        margin-top: 29px;
+.nav-temario ul li{
+        padding: 12px 0;
     }
 
-.nav-temario ul li a {
+    .nav-temario ul li a {
   text-decoration: none;
   position: relative;
   color: black;
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1rem;
   font-weight: 500;
-  top: 8px;
+  top: 2px;
+  cursor: pointer;
 }
-
-.nav-temario ul li a {
-        text-decoration: none;
-        position: relative;
-        color: black;
-        font-size: 14px;
-        line-height: 1rem;
-        font-weight: 500;
-        top: 8px;
-    }
 
 /* Pintando el checkbox */
 input[type="checkbox"] {
@@ -232,7 +197,6 @@ input[type="checkbox"] {
   width: 24px;
   left: 9px;
   border-radius: 50%;
-  cursor: pointer;
   align-items: center;
   justify-content: center;
 }
@@ -261,7 +225,7 @@ input[type="checkbox"]:checked {
         color: rgb(87, 167, 8) !important;
         font-weight: bold !important;
     }
-    
+
     .progressBar {
   font-size: 12px;
 }

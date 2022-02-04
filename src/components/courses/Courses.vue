@@ -63,15 +63,11 @@ export default {
       prendido: true,
       guardar: false,
       total: [],
-<<<<<<< HEAD
-      noexis: false
-=======
       noexis: false,
       loading: true,
       mostrar:false,
       // age: 12345
       
->>>>>>> ef308045615354c0c387fa4960b44b21f55ebeff
     };
   },
   methods: {
@@ -113,11 +109,10 @@ export default {
       // })
       this.getAttributes();
     },
-<<<<<<< HEAD
 
     goToClass(courseId){
       this.$router.push({
-        name: 'curso',
+        name: 'course-user',
         query: { 
           course: courseId,
           class: 1
@@ -126,10 +121,6 @@ export default {
       );
     }
 
-=======
- 
-  
->>>>>>> ef308045615354c0c387fa4960b44b21f55ebeff
   },
   created() {
     this.getAttributes();
