@@ -64,7 +64,29 @@ export default {
       noexis: false,
       loading: true,
       mostrar:false,
-      // age: 12345
+
+      title:'1231',
+      age: 123,
+      courses:[
+       
+      ],
+      movies:[
+        // {id:1, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:2, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:3, banner: 'https://picsum.photos/600/300/?image=25' },
+
+        // {id:4, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:5, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:6, banner: 'https://picsum.photos/600/300/?image=25' },
+
+        // {id:7, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:8, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:9, banner: 'https://picsum.photos/600/300/?image=25' },
+
+        // {id:10, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:11, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:12, banner: 'https://picsum.photos/600/300/?image=25' },
+      ]
       
     };
   },
@@ -76,19 +98,25 @@ export default {
          this.loading= false;
           this.mostrar=true;
         const array = datos.data.data;
+        const array2 =datos.data.data;
         // this.informacion = array[0].courses_related;
-        console.log(array);
-       
+        // console.log(array[0].courses_related)
+        // console.log(array2[1].last_courses)
       //  this.informacion.forEach(cursos =>{
          
       //  })
-        this.total = array[0].courses_related;
+         this.courses = array[0].courses_related;
+          this.movies = array2[1].last_courses;
+          // console.log(this.courses)
+
         
-        for (let i = this.informacion.length; i < this.limite; i++) {
-          this.informacion.push(this.total[i]);
-          this.lorde = false;
+
+          
+        // for (let i = this.informacion.length; i < this.limite; i++) {
+        //   this.informacion.push(this.total[i]);
+        //   this.lorde = false;
           //console.log("funciona")
-        }
+        // }
 
       });
     },
@@ -118,6 +146,8 @@ export default {
 </script>
 
 <style  scoped>
+
+
 .container-courses{
   display: flex;
   flex-direction: column;
@@ -140,12 +170,13 @@ export default {
 .buscador {
   align-self: flex-end;
   background: rgb(255, 255, 255);
-  width: 280px;
-  height: 38px;
+  width: 340px;
+  height: 48px;
+  margin-left: 810px;
   margin-right: 0px;
   display: flex;
   align-items: center;
-  border: 0.5px solid #c4c4c4;
+  border: 1px solid #c4c4c4;
   border-radius: 15px;
   box-sizing: border-box;
 }
