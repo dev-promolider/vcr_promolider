@@ -1,9 +1,9 @@
 <template>
  <div id="Attribute">
-
+<!-- 
       <router-link to="/attribute-course"
           ><p class="titulo_esquina">ver progreso completo</p></router-link
-        >
+        > -->
   </div>
 </template>
 <script>

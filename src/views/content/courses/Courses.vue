@@ -1,14 +1,15 @@
 <template>
-  <div class="all-course">
-    <Prueba />
-  </div>
+    <div class="all-course">
+        <Cursos/>
+    
+    </div>
 </template>
 <script>
-import Prueba from "@/components/courses/Courses.vue";
+import Cursos from "@/components/courses/Courses.vue";
 export default {
   name: "Cursos",
   components: {
-    Prueba,
+    Cursos,
   },
 };
 </script>

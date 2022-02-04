@@ -11,6 +11,8 @@
         name=""
         id=""
         placeholder="Escribe tu comentario o pregunta"
+        v-model="newComment.comments"
+        @keyup.enter="sendComment"
       />
     </div>
     <section class="comments d-flex">
@@ -25,7 +27,33 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Comentarios",
+  data() {
+    return {
+      newComment:{
+          issuing_user_id: "2",
+          receiving_user_id: "2",
+          comments: "Mi primer comentario de la clase"
+      }
+    }
+  },
+  created() {
+  },
+  methods: {
+    sendComment(){
+      this.axios.post("comments/send-comments",this.newComment)
+      .then((res) => {
+          console.log("comentario enviado con exíto" + res);
+      })
+      this.newComment.comments ='';
+      console.log("TECLA ENTER!!!!!");
+    }
+  },
+  mounted(){
+
+  }
+};
 </script>
 
 <style scoped>

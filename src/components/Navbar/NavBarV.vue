@@ -22,7 +22,7 @@
         class="nav-item"
         :class="{ 'is-active': isActive('cursos') }">
         <router-link
-          to="/cursos"
+          to="/courses"
           class="nav-link link-v"
         >
           <img src="./../../assets/courses.svg" alt="" />

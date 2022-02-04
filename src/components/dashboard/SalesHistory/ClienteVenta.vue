@@ -50,6 +50,7 @@
           <span class=" cursos ">{{ item.course }}</span>
         </b-list-group-item>
       </div>
+      
     </div>
   </div>
 </template>
@@ -70,9 +71,11 @@ export default {
       this.axios.get("dashboard/saleshistory").then((respuesta) => {
         this.loading = false;
         this.info = respuesta.data.data;
-        //  console.log(this.info);
+        // console.log(this.info);
+      
       });
     },
+    
 
     mostrar(id) {
       this.$router.push("/attribute-user/ " + id);
