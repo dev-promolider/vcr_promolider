@@ -40,7 +40,7 @@
         <li class="nav-item profile">
           <span class="submenu">
             <img class="img-photo" src="../../assets/logo-perfil.png" />
-            <a class="viewmenu" href="#" v-on:click="desplegar()">
+            <a class="viewmenu"  v-on:click="desplegar()">
               <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
             </a>
           </span>
@@ -58,7 +58,7 @@
             Subcripción</a
           >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" @click="closeSesion()">Sign out </a>
+          <a class="dropdown-item"  @click="closeSesion()">Sign out </a>
         </div>
       </ul>
     </div>
