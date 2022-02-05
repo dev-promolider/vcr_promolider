@@ -1,56 +1,32 @@
 <template>
   <div class="container-courses">
-    <div class="spinners" v-if="lord">
-      <b-spinner
-        variant="success"
-        type="grow"
-        label="Spinning"
-        class="mr-4"
-      ></b-spinner>
-      <b-spinner
-        variant="success"
-        type="grow"
-        label="Spinning"
-        class="mr-4"
-      ></b-spinner>
-      <b-spinner
-        variant="success"
-        type="grow"
-        label="Spinning"
-        class="mr-4"
-      ></b-spinner>
-      <b-spinner
-        variant="success"
-        type="grow"
-        label="Spinning"
-        class="mr-4"
-      ></b-spinner>
+    <div class="spinner" v-if="lord">
+     
     </div>   
     <div class="buscador" v-if="guardar">
       <input type="text" placeholder="buscar el curso requerido" />
       <img src="@/assets/logo.png" alt="" />
     </div>
 
-<div class="caja">
 
-  <button class="boton1">A</button>
-  <div class="cajita" v-for="items in informacion" :key="items.id">
-
-    <img :src="items.image" width="270" height="158" alt="">
-
-  </div>
-<button class="boton2" v-on:click="aumentar()">A</button>
-</div>
+  <PreferecesSection :movies="movies" v-if="guardar" />
+  <MoviesSection :courses="courses" v-if="guardar"/>
+ 
 
   </div>
 </template>
 
 <script>
 // import Spinner from '@/components/auth/Spinner.vue'
+import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
+import MoviesSection from '@/components/courses/Carrousel-cursos.vue'
 export default {
   name: "Courses",
   components: {
     // Spinner
+    MoviesSection,
+    PreferecesSection
+
   },
   data() {
     return {
@@ -147,6 +123,10 @@ export default {
 
 <style  scoped>
 
+/* links
+https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
+https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
+*/
 
 .container-courses{
   display: flex;
@@ -155,24 +135,33 @@ export default {
   width: 100%;
   max-height: 100%;
 }
-.spinners {
-  width: 100%;
-  height: 100vh;  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(236, 236, 236);
-  transition: clip-path 0.4s ease-in-out;
-  /* position: fixed; */
-  top: 0;
-  left: 0;
+.spinner {
+  border: 9px solid rgba(0, 0, 0, 0.3);
+  width: 106px;
+  height: 106px;
+  border-radius: 50%;
+  border-left-color: #078812;
+  margin-left: 485px;
+  margin-top: 200px;
+  animation: spin 1s ease infinite;
+  position: absolute;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .buscador {
-  align-self: flex-end;
+ 
   background: rgb(255, 255, 255);
   width: 340px;
   height: 48px;
-  margin-left: 810px;
+  margin-left: 710px;
   margin-right: 0px;
   display: flex;
   align-items: center;
