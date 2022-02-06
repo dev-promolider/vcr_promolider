@@ -1,7 +1,16 @@
 <template>
   <div class="content-course d-flex">
     <div class="navtap-video">
-      <div class="video"></div>
+      <div class="video">
+        <video width="100%" height="77.9%" 
+        style="border-radius: 20px; 
+        background: rgb(0,0,0);
+        background: radial-gradient(circle, rgba(0,0,0,1) 82%, rgba(11,90,184,1) 100%);
+        " 
+        controls>
+          <source :src=lesson.url type="video/mp4">
+        </video>
+      </div>
       <Descripcion />
     </div>
     <div class="temario-comments">
@@ -17,6 +26,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Temario from "@/components/course/temario/Temario.vue";
 import Descripcion from "@/components/course/descripcion/Descripcion.vue";
 import Comentarios from "@/components/course/comentarios/Comentarios.vue";
@@ -26,6 +36,9 @@ export default {
     Temario,
     Descripcion,
     Comentarios,
+  },
+  computed:{
+    ...mapState('course',['lesson'])
   }
 };
 </script>

@@ -11,7 +11,7 @@
 
             <!-- Cuerpo temario -->
             <div class="col temario ">
-                <div class="d-flex justify-content-center spinner" v-if="cargar=false">
+                <div class="d-flex justify-content-center spinner" v-if="isLoading">
                        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
                    </div>
 
@@ -21,7 +21,7 @@
                         <ul >
                             <li v-for="(less,index) in course.modules[index].lessons" :key=index >
                                 <input type="checkbox" v-model="completedLessons" :value=less.name >
-                                <a @click="getLesson(less), changeClass(less)" :class="{'activo':less.name===clase}" v-bind="less.name===clase ? urlClass=less.url : '' " >{{less.name}}  </a>
+                                <a @click="getLesson(less), changeClass(less)" :class="{'activo':less.name===clase}"  >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
                             </li>  
                         </ul>
                         </b-collapse>
@@ -36,8 +36,7 @@
                     <span>{{progress}}%</span>
                             </div>
                 <div class="col-9 mt-1">
-                        <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress> 
-                        Estoy en nueva rama para pruebas  {{ allLessons }}              
+                        <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress>                       
                 </div>
             </div>            
     </div>       
@@ -61,18 +60,26 @@
             }
         },
         computed:{
-            ...mapState('course',['course','allLessons'])
+            ...mapState('course',['course','allLessons','lesson','isLoading'])
         },
-        methods:{     
+        methods:{
+            
             ...mapActions('course',{
                 getCourse: 'getCourse',
-                getLesson: 'getLesson'
+                getLesson: 'getLesson',
             }),
-
-
-            // Funcion para mostrar temario del curso
             
-
+            // Funcion para mostrar temario del curso
+            // getTemary(){
+            //     this.axios.get('course/temary/get-all-class/'+this.$route.query.course).then((res)=>{
+            //     this.cargar=false;
+            //     this.modules = res.data.data.modules;
+            //     // Calculando todas las lecciones
+            //     for(let i=0; i<this.modules.length; i++){
+            //         this.allLessons += this.modules[i].lessons.length
+            //     }
+            // });
+            // },
             // Funcion para calcular el progreso del curso
             getProgress(){
                 const completed = Object.keys(this.completedLessons).length;
@@ -87,7 +94,6 @@
             // Cambiar de clase
             changeClass(less){
                 if(less.name!=this.$route.query.class){
-                    this.urlClass=less.url;
                     this.$router.push({
                         query: {
                             course: this.$route.query.course,
@@ -96,13 +102,12 @@
                     });
                 }
             }
-
         },
         created(){
             // Ejecutar funciones locales
+            //this.getTemary();
+
             this.getCourse(this.$route.query.course);
-           
-        
         },
         updated(){
             this.getProgress();
@@ -119,7 +124,6 @@
 </script>
 
 <style scoped>
-
     /*contenedor*/
     .contenedor-temario {
     width: 100%;
@@ -128,7 +132,6 @@
     font-size: 12px;
     margin: auto;
     }
-
     /*contenedor*/
     .contenedor-temario{
         width: 100%;
@@ -138,30 +141,23 @@
         position: relative;
         overflow-y: scroll ;
     }
-
     .temario{
         width: 100%;
         height: 70%;
         overflow-y: scroll ;
     }
-
     ul{
         font-size: 20px;
     }
-
 /* Lista de reproduccion */
-
     .contenedor-temario::-webkit-scrollbar, .temario::-webkit-scrollbar {
     display: none;
     }
-
     /* Lista de reproduccion */
-
 .nav-temario {
   transform: translateY(0%);
   list-style: none;
 }
-
 /* Linea vertical */
 .nav-temario ul::after {
   content: "";
@@ -174,11 +170,9 @@
   z-index: -1;
   margin-top: 29px;
 }
-
 .nav-temario ul li{
         padding: 12px 0;
     }
-
     .nav-temario ul li a {
   text-decoration: none;
   position: relative;
@@ -189,7 +183,6 @@
   top: 2px;
   cursor: pointer;
 }
-
 /* Pintando el checkbox */
 input[type="checkbox"] {
   appearance: none;
@@ -202,7 +195,6 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: center;
 }
-
 input[type="checkbox"]:after {
   font-family: "Font Awesome 5 Free";
   content: "\f058";
@@ -210,7 +202,6 @@ input[type="checkbox"]:after {
   font-size: 24px;
   background: white;
 }
-
 input[type="checkbox"]:checked {
   font-family: "Font Awesome 5 Free";
   content: "\f058";
@@ -218,16 +209,13 @@ input[type="checkbox"]:checked {
   color: black;
   font-size: 24px;
 }
-
     .spinner{
         margin-top: 25% ;
     }
-
     .activo{
         color: rgb(87, 167, 8) !important;
         font-weight: bold !important;
     }
-
     .progressBar {
   font-size: 12px;
 }

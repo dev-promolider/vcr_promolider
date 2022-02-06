@@ -6,5 +6,6 @@ export default () => ({
     count: 1,
     isLoading: false,
     ultimo: '',
-    lesson:[]
+    lesson:[],
+    allLessons: 0
 })

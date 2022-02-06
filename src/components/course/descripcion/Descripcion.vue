@@ -2,7 +2,7 @@
   <div class="mytabs">
     <ul class="nav nav-tabs d-flex flex-row" id="myTab" role="tablist" >
          
-            <li class="nav-item" role="presentation" @click="cambiar()" :class="{active:resumen}">
+            <li class="nav-item" role="presentation" @click="changeTab()" :class="{active:resumen}">
               <a
                 class="nav-link text-center"
                 id="home-tab"
@@ -15,7 +15,7 @@
               >
             </li>
 
-            <li class="nav-item " role="presentation" @click="cambiar()" :class="{active:recursos}">
+            <li class="nav-item " role="presentation" @click="changeTab()" :class="{active:recursos}">
               <a
                 class="nav-link text-center"
                 id="home-tab"
@@ -38,8 +38,9 @@
               aria-labelledby="home-tab"
             >
             <div class="mx-4 mt-4">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum doloribus repellendus, iste aliquam laboriosam, eos, perspiciatis illo quod ut quibusdam iusto tempore sed in doloremque dolorem amet mollitia. Fuga, ab.
-
+              <p>
+                {{ lesson.description }}
+              </p>
             </div>
 
             </div>
@@ -74,6 +75,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     data(){
       return{
@@ -81,11 +84,25 @@
         recursos: false
       }
     },
+    computed:{
+      ...mapState('course',['lesson'])
+    },
     methods:{
-      cambiar(){
+      changeTab(){
         this.resumen = !this.resumen;
         this.recursos = !this.recursos;
+      },
+
+      //Se necesita una funcion para recojer los recursos descargables
+      downloadResource(){
+        this.axios.get('class-resource/download-resource?id=2',{responseType: "blob"} ).then(
+            (res) => {
+            console.log(' Recibiendo el archivo -->'+URL.createObjectURL(new Blob[res.data]));
+        })
       }
+    },
+    created(){
+
     }
 
   }
