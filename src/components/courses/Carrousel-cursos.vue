@@ -5,7 +5,7 @@
         </div>
         
         <div class="marco">
-            <Carousel :per-page="6" >
+            <Carousel :per-page="4" >
         <Slide v-for="course in courses" :key="course.id" >
 
             <div class="contenido">
@@ -75,7 +75,7 @@ export default {
 .marco{
     border:2px solid rgb(116, 115, 115);
     margin-bottom: 20px;
-    width: 100%;
+    width: 85%;
     margin-right: 10px;
     margin-left: 10px;
 }
