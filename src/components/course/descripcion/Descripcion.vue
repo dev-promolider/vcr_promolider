@@ -51,23 +51,22 @@
               aria-labelledby="profile-tab"
             >
               <div class="mx-4 mt-4">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                    Recurso 1. 
-                    <a class="ml-3 text-decoration-none text-success" href="../../assets/Archivo de prueba.txt" download="Renderizando videos.txt"> <i class="fas fa-download mr-1"></i> Renderizando videos</a>
-                  </li>
+                <div v-if="resources=['']">
+                  <p> Esta clase no tiene recursos .... </p>
+                </div>
 
-                  <li class="list-group-item">
-                    Recurso 2. 
-                    <a class="ml-3 text-decoration-none text-success" href="../../assets/Archivo de prueba.txt" download="Renderizando videos.txt"> <i class="fas fa-download mr-1"></i> Renderizando videos</a>
-                  </li>
+                <div v-else>
+                  <ul class="list-group list-group-flush" >
+                    <li class="list-group-item" v-for="(resource,index) in resources" :key="index">
+                      <a class="ml-3 text-decoration-none text-success" @click="downloadResource(resource)"> 
+                        <i class="fas fa-download mr-1"></i> {{ resource.resource_file }} {{ cargando }}
+                        <b-spinner small label="Small Spinner" variant="success"></b-spinner>
+                      </a>
+                    </li>                              
+                  </ul>
+                </div>
 
-                  <li class="list-group-item">
-                    Recurso 3. 
-                    <a class="ml-3 text-decoration-none text-success" href="../../assets/Archivo de prueba.txt" download="Renderizando videos.txt"> <i class="fas fa-download mr-1"></i> Renderizando videos</a>
-                  </li>
-                </ul>
-
+                
               </div>
             </div>
           </div>
@@ -81,28 +80,47 @@
     data(){
       return{
         resumen: true,
-        recursos: false
+        recursos: false,
+        resources: null,
+        cargando: ''
       }
     },
     computed:{
       ...mapState('course',['lesson'])
     },
     methods:{
+
       changeTab(){
         this.resumen = !this.resumen;
         this.recursos = !this.recursos;
       },
 
       //Se necesita una funcion para recojer los recursos descargables
-      downloadResource(){
-        this.axios.get('class-resource/download-resource?id=2',{responseType: "blob"} ).then(
+      downloadResource(resource){
+        this.cargando = "Espere . . . ";
+        this.axios.get(`class-resource/download-resource?id=${resource.id}`,{responseType: "blob"} ).then(
             (res) => {
-            console.log(' Recibiendo el archivo -->'+URL.createObjectURL(new Blob[res.data]));
+            var FILE = window.URL.createObjectURL(new Blob([res.data]));
+
+            var docUrl = document.createElement('a');
+            docUrl.href = FILE;
+            docUrl.setAttribute('download', `${resource.resource_file}`);
+            document.body.appendChild(docUrl);
+            docUrl.click();
+            this.cargando = ""
         })
+      },
+
+      showResources(){
+        this.axios.get(`class-resource/show-resources?name=${this.lesson.name}`).then(
+          (res)=>{
+            this.resources = res.data;
+          }
+        );
       }
     },
     created(){
-
+      this.showResources();
     }
 
   }

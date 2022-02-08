@@ -13,7 +13,7 @@
             <div class="col temario ">
                 <div class="d-flex justify-content-center spinner" v-if="isLoading">
                        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
-                   </div>
+                </div>
 
                 <ul class="ml-5 mt-2" v-for="(model,index) in course.modules" :key=index v-else>
                     <li class="nav-temario" > <span v-b-toggle="model.name"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
@@ -69,6 +69,7 @@
                 getLesson: 'getLesson',
             }),
             
+
             // Funcion para mostrar temario del curso
             // getTemary(){
             //     this.axios.get('course/temary/get-all-class/'+this.$route.query.course).then((res)=>{
@@ -108,6 +109,7 @@
             //this.getTemary();
 
             this.getCourse(this.$route.query.course);
+ 
         },
         updated(){
             this.getProgress();
