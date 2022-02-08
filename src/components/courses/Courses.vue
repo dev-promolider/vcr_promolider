@@ -1,58 +1,32 @@
 <template>
   <div class="container-courses">
-    <div class="spinners" v-if="lord">
-      <b-spinner
-        variant="success"
-        type="grow"
-        label="Spinning"
-        class="mr-4"
-      ></b-spinner>
-      <b-spinner
-        variant="success"
-        type="grow"
-        label="Spinning"
-        class="mr-4"
-      ></b-spinner>
-      <b-spinner
-        variant="success"
-        type="grow"
-        label="Spinning"
-        class="mr-4"
-      ></b-spinner>
-      <b-spinner
-        variant="success"
-        type="grow"
-        label="Spinning"
-        class="mr-4"
-      ></b-spinner>
+    <div class="spinner" v-if="lord">
+     
     </div>   
     <div class="buscador" v-if="guardar">
       <input type="text" placeholder="buscar el curso requerido" />
       <img src="@/assets/logo.png" alt="" />
     </div>
 
-<div class="caja">
 
-  <button class="boton1">A</button>
-  <div class="cajita" v-for="items in informacion" :key="items.id">
-
-    <img :src="items.image" width="270" height="158" alt="">
-
-    <b-button class="El_button1" variant="primary" @click="goToClass(items.id)">Ver Progreso completo</b-button>
-
-  </div>
-<button class="boton2" v-on:click="aumentar()">A</button>
-</div>
+  <PreferecesSection :movies="movies" v-if="guardar" />
+  <MoviesSection :courses="courses" v-if="guardar"/>
+ 
 
   </div>
 </template>
 
 <script>
 // import Spinner from '@/components/auth/Spinner.vue'
+import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
+import MoviesSection from '@/components/courses/Carrousel-cursos.vue'
 export default {
-  name: "Prueba",
+  name: "Courses",
   components: {
     // Spinner
+    MoviesSection,
+    PreferecesSection
+
   },
   data() {
     return {
@@ -66,7 +40,29 @@ export default {
       noexis: false,
       loading: true,
       mostrar:false,
-      // age: 12345
+
+      title:'1231',
+      age: 123,
+      courses:[
+       
+      ],
+      movies:[
+        // {id:1, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:2, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:3, banner: 'https://picsum.photos/600/300/?image=25' },
+
+        // {id:4, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:5, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:6, banner: 'https://picsum.photos/600/300/?image=25' },
+
+        // {id:7, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:8, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:9, banner: 'https://picsum.photos/600/300/?image=25' },
+
+        // {id:10, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:11, banner: 'https://picsum.photos/600/300/?image=25' },
+        // {id:12, banner: 'https://picsum.photos/600/300/?image=25' },
+      ]
       
     };
   },
@@ -78,19 +74,25 @@ export default {
          this.loading= false;
           this.mostrar=true;
         const array = datos.data.data;
+        const array2 =datos.data.data;
         // this.informacion = array[0].courses_related;
-        console.log(array);
-       
+        // console.log(array[0].courses_related)
+        // console.log(array2[1].last_courses)
       //  this.informacion.forEach(cursos =>{
          
       //  })
-        this.total = array[0].courses_related;
+         this.courses = array[0].courses_related;
+          this.movies = array2[1].last_courses;
+          // console.log(this.courses)
+
         
-        for (let i = this.informacion.length; i < this.limite; i++) {
-          this.informacion.push(this.total[i]);
-          this.lorde = false;
+
+          
+        // for (let i = this.informacion.length; i < this.limite; i++) {
+        //   this.informacion.push(this.total[i]);
+        //   this.lorde = false;
           //console.log("funciona")
-        }
+        // }
 
       });
     },
@@ -130,6 +132,12 @@ export default {
 </script>
 
 <style  scoped>
+
+/* links
+https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
+https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
+*/
+
 .container-courses{
   display: flex;
   flex-direction: column;
@@ -137,27 +145,37 @@ export default {
   width: 100%;
   max-height: 100%;
 }
-.spinners {
-  width: 100%;
-  height: 100vh;  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(236, 236, 236);
-  transition: clip-path 0.4s ease-in-out;
-  /* position: fixed; */
-  top: 0;
-  left: 0;
+.spinner {
+  border: 9px solid rgba(0, 0, 0, 0.3);
+  width: 106px;
+  height: 106px;
+  border-radius: 50%;
+  border-left-color: #078812;
+  margin-left: 485px;
+  margin-top: 200px;
+  animation: spin 1s ease infinite;
+  position: absolute;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .buscador {
-  align-self: flex-end;
+ 
   background: rgb(255, 255, 255);
-  width: 280px;
-  height: 38px;
+  width: 340px;
+  height: 48px;
+  margin-left: 710px;
   margin-right: 0px;
   display: flex;
   align-items: center;
-  border: 0.5px solid #c4c4c4;
+  border: 1px solid #c4c4c4;
   border-radius: 15px;
   box-sizing: border-box;
 }
