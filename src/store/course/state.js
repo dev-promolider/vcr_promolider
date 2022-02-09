@@ -7,5 +7,7 @@ export default () => ({
     isLoading: false,
     ultimo: '',
     lesson:[],
-    allLessons: 0
+    allLessons: 0,
+    resources: null,
+    isResources: false
 })

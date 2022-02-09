@@ -11,3 +11,11 @@ export const getCourse = async (context, id) =>{
 export const getLesson = (context, less) =>{
     context.commit("SET_LESSON",less)
 }
+
+export const getResources = async (context, less)=>{
+    await axios.get(`class-resource/show-resources?name=${less}`).then(
+      (res)=>{
+          context.commit("SET_RESOURCES",res.data)
+      }
+    )
+  }
