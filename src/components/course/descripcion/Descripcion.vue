@@ -53,7 +53,7 @@
             >
               <div class="mx-4 mt-4">
                 <div v-if="!isResources">
-                  <p> Esta clase no tiene recursos .. </p>
+                  <p> Esta clase no tiene recursos ... </p>
                 </div>
 
                 <div v-else> 
