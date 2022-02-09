@@ -82,7 +82,6 @@
       return{
         resumen: true,
         recursos: false,
-        download: ''
       }
     },
     computed:{
@@ -101,7 +100,6 @@
 
       //Se necesita una funcion para recojer los recursos descargables
       downloadResource(resource){
-        this.download = "Descargando . . . ";
         this.axios.get(`class-resource/download-resource?id=${resource.id}`,{responseType: "blob"} ).then(
             (res) => {
             var FILE = window.URL.createObjectURL(new Blob([res.data]));
@@ -111,7 +109,6 @@
             docUrl.setAttribute('download', `${resource.resource_file}`);
             document.body.appendChild(docUrl);
             docUrl.click();
-            this.download = ""
         })
       }
 
