@@ -50,13 +50,9 @@
         name:"Temario",
         data(){
             return{
-                modules: null,
-                lessons:null,
                 progress: 0,
                 completedLessons: [],
-                cargar: true,
-                clase: null,
-                urlClass: null 
+                clase: null
             }
         },
         computed:{
@@ -81,6 +77,7 @@
             //     }
             // });
             // },
+            
             // Funcion para calcular el progreso del curso
             getProgress(){
                 const completed = Object.keys(this.completedLessons).length;

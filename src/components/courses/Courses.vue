@@ -10,7 +10,7 @@
 
 
   <PreferecesSection :movies="movies" v-if="guardar" />
-  <MoviesSection :courses="courses" v-if="guardar"/>
+  <!--<MoviesSection :courses="courses" v-if="guardar"/>-->
  
 
   </div>
@@ -18,14 +18,14 @@
 
 <script>
 // import Spinner from '@/components/auth/Spinner.vue'
-import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
-import MoviesSection from '@/components/courses/Carrousel-cursos.vue'
+//import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
+//import MoviesSection from '@/components/courses/Carrousel-cursos.vue'
 export default {
   name: "Courses",
   components: {
     // Spinner
-    MoviesSection,
-    PreferecesSection
+    //MoviesSection,
+    //PreferecesSection
 
   },
   data() {

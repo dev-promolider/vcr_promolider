@@ -11,6 +11,7 @@
                 role="tab"
                 aria-controls="home"
                 aria-selected="true"
+                style="width: 112px;"
                 >Resumen</a
               >
             </li>
@@ -51,22 +52,15 @@
               aria-labelledby="profile-tab"
             >
               <div class="mx-4 mt-4">
-                <div v-if="resources=['']">
-                  <p> Esta clase no tiene recursos .... </p>
-                </div>
-
-                <div v-else>
+                <div>
                   <ul class="list-group list-group-flush" >
                     <li class="list-group-item" v-for="(resource,index) in resources" :key="index">
                       <a class="ml-3 text-decoration-none text-success" @click="downloadResource(resource)"> 
-                        <i class="fas fa-download mr-1"></i> {{ resource.resource_file }} {{ cargando }}
-                        <b-spinner small label="Small Spinner" variant="success"></b-spinner>
+                        <i class="fas fa-download mr-1"></i> {{ resource.resource_file }} {{ download }}            
                       </a>
                     </li>                              
                   </ul>
                 </div>
-
-                
               </div>
             </div>
           </div>
@@ -82,7 +76,7 @@
         resumen: true,
         recursos: false,
         resources: null,
-        cargando: ''
+        download: ''
       }
     },
     computed:{
@@ -97,7 +91,7 @@
 
       //Se necesita una funcion para recojer los recursos descargables
       downloadResource(resource){
-        this.cargando = "Espere . . . ";
+        this.download = "Descargando . . . ";
         this.axios.get(`class-resource/download-resource?id=${resource.id}`,{responseType: "blob"} ).then(
             (res) => {
             var FILE = window.URL.createObjectURL(new Blob([res.data]));
@@ -107,7 +101,7 @@
             docUrl.setAttribute('download', `${resource.resource_file}`);
             document.body.appendChild(docUrl);
             docUrl.click();
-            this.cargando = ""
+            this.download = ""
         })
       },
 
@@ -178,6 +172,7 @@
 .nav-tabs .active {
   /* Highest, active tab is on top */
   z-index: 3;
+  pointer-events: none;
 }
 .nav-tabs .active a { 
   /* Colors when tab is active */
