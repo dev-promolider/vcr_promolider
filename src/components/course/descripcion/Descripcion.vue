@@ -52,15 +52,22 @@
               aria-labelledby="profile-tab"
             >
               <div class="mx-4 mt-4">
-                <div>
+                <div v-if="!isResources">
+                  <p> Esta clase no tiene recursos ... </p>
+                </div>
+
+                <div v-else> 
+    
                   <ul class="list-group list-group-flush" >
                     <li class="list-group-item" v-for="(resource,index) in resources" :key="index">
+                      Recurso {{index+1}}.
                       <a class="ml-3 text-decoration-none text-success" @click="downloadResource(resource)"> 
-                        <i class="fas fa-download mr-1"></i> {{ resource.resource_file }} {{ download }}            
+                        <i class="fas fa-download mr-1"></i> {{ resource.resource_file }}            
                       </a>
                     </li>                              
                   </ul>
                 </div>
+
               </div>
             </div>
           </div>
@@ -68,21 +75,23 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapState, mapActions } from 'vuex';
 
   export default {
     data(){
       return{
         resumen: true,
         recursos: false,
-        resources: null,
-        download: ''
       }
     },
     computed:{
-      ...mapState('course',['lesson'])
+      ...mapState('course',['lesson','resources','isResources'])
     },
     methods:{
+
+      ...mapActions('course',{
+        getResources: 'getResources'
+      }),
 
       changeTab(){
         this.resumen = !this.resumen;
@@ -91,7 +100,6 @@
 
       //Se necesita una funcion para recojer los recursos descargables
       downloadResource(resource){
-        this.download = "Descargando . . . ";
         this.axios.get(`class-resource/download-resource?id=${resource.id}`,{responseType: "blob"} ).then(
             (res) => {
             var FILE = window.URL.createObjectURL(new Blob([res.data]));
@@ -101,20 +109,12 @@
             docUrl.setAttribute('download', `${resource.resource_file}`);
             document.body.appendChild(docUrl);
             docUrl.click();
-            this.download = ""
         })
-      },
-
-      showResources(){
-        this.axios.get(`class-resource/show-resources?name=${this.lesson.name}`).then(
-          (res)=>{
-            this.resources = res.data;
-          }
-        );
       }
+
     },
     created(){
-      this.showResources();
+      this.getResources(this.$route.query.class)
     }
 
   }

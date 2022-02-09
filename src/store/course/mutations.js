@@ -12,3 +12,13 @@ export const SET_COURSE= (state, course) =>{
 export const SET_LESSON = (state, lesson) =>{
     state.lesson = lesson
 }
+
+export const SET_RESOURCES = (state, resources) => {
+    state.resources = resources;
+
+    if(resources.length != 0){
+        state.isResources=true;
+      }else{
+        state.isResources=false;
+      }
+}

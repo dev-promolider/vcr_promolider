@@ -21,7 +21,7 @@
                         <ul >
                             <li v-for="(less,index) in course.modules[index].lessons" :key=index >
                                 <input type="checkbox" v-model="completedLessons" :value=less.name >
-                                <a @click="getLesson(less), changeClass(less)" :class="{'activo':less.name===clase}"  >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
+                                <a @click="getLesson(less), changeClass(less), getResources(lesson.name)" :class="{'activo':less.name===clase}"  >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
                             </li>  
                         </ul>
                         </b-collapse>
@@ -63,6 +63,7 @@
             ...mapActions('course',{
                 getCourse: 'getCourse',
                 getLesson: 'getLesson',
+                getResources: 'getResources'
             }),
             
 
