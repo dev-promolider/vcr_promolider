@@ -1,9 +1,11 @@
 
 
 export default () => ({
-    title: 'Inicio',
-    curso: '50',
+    title: 'Curso',
+    course: [],
     count: 1,
     isLoading: false,
-    ultimo: ''
+    ultimo: '',
+    lesson:[],
+    allLessons: 0
 })
