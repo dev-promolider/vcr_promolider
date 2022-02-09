@@ -83,7 +83,7 @@ export default {
       //  })
          this.courses = array[0].courses_related;
           this.movies = array2[1].last_courses;
-          // console.log(this.courses)
+           console.log(this.courses)
 
         
 

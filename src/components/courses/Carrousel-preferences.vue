@@ -8,20 +8,19 @@
       <div class="contenedor">
         <div class="carrusel">
           <Carousel :per-page="2" class="cajas">
-            <Slide v-for="movie in movies" :key="movie.id">
+            <Slide v-for="curso in cursos" :key="curso.id">
               <b-card
-                :img-src="movie.image"
+                :img-src=curso.image
                 img-alt="Image"
                 img-top
-                style="max-width: 15rem"
+                style="min-width:250px; height:120px; ;"
                 class="mb-2"
               >
                 <b-card-text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  <p class="description-course">{{curso.description}}</p>
                 </b-card-text>
 
-                <b-button href="#" variant="primary">Go somewhere</b-button>
+                <b-button  variant="primary">{{curso.title}}</b-button>
               </b-card>
             </Slide>
           </Carousel>
@@ -46,25 +45,33 @@ export default {
   },
   data() {
     return {
-      mostrando: [],
-      gaa: []
+      preferens: [],
+      cursos: [],
     };
   },
   methods: {
     datos() {
-        console.log(this.movies);
-        this.movies.forEach(ele => {
-            this.gaa.push(ele)
-            for( const aa of  this.gaa){
-            this.mostrando.push(aa);
-            }
-        })
-        console.log(this.mostrando)
+      this.movies.forEach((datos) => {
+        this.preferens.push(datos);
+      });
+      console.log(this.preferens);
+      const categorias = this.preferens.map((p) => {
+        for (const i in p) {
+          return p[i];
+        }
+      });
+      categorias.forEach((cat) => {
+        for (const i in cat) {
+          this.cursos.push(cat[i]);
+        }
+      });
+      console.log(this.cursos);
     },
   },
   created() {
     this.datos();
   },
+  mounted() {},
 };
 </script>
 

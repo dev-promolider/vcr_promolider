@@ -6,11 +6,11 @@
         
         <div class="marco">
             <Carousel :per-page="4" >
-        <Slide v-for="course in courses" :key="course.id" >
+        <Slide v-for="course in courses" :key="course.id"  >
 
             <div class="contenido">
 
-                    <img :src="course.image" alt="" width="250" height="150" >
+                    <!-- <img :src="course.image" alt="" width="250" height="150" v-on:click="mostrar(course.id)"  > -->
                     
                     <div class="precio">
                         <p >
@@ -64,6 +64,14 @@ export default {
             
         };
     },
+
+    methods: {
+
+        mostrar(id){
+            this.$router.push("/buy-cursos/ " + id);
+        }
+
+    }
 
 
 
