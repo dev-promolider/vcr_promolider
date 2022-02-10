@@ -14,10 +14,10 @@
 
         <div class="parrafos">
           <div class="p1">
-            <p>{{name}}</p>
+            <p>{{ cuaDetalles }}</p>
           </div>
           <div class="p2">
-            <p> {{email}} </p>
+            <p>{{ userUp.email }}</p>
           </div>
         </div>
       </div>
@@ -64,37 +64,65 @@
       <div class="cuadro2-1">
         <div class="imagen">
           <img :src="photo" alt="" />
-          <div> <img class="lapiz" src="../../assets/logo-lapiz.svg" alt=""> </div>
+          <div>
+            <img class="lapiz" src="../../assets/logo-lapiz.svg" alt="" />
+          </div>
         </div>
 
         <div class="data1">
           <div class="nombre">
-            <img  class="userico" src="../../assets/userico.svg" alt="" />
-            <input v-model="fullName" type="text" required placeholder="Nombre completo" />
+            <img class="userico" src="../../assets/userico.svg" alt="" />
+
+            <div class="nombresCompletos">
+              <div class="bordeado"> <input v-model="userUp.name" type="text" required placeholder="Nombres"/>   </div>
+              <div class="bordeado"> <input v-model="userUp.last_name" type="text" required placeholder="Apellidos" />   </div>
+              
+            </div>
           </div>
 
           <div class="region">
-            <input type="text" required placeholder="Ciudad" />
-            <input type="text" required placeholder="Pais" />
+          
+          
+          <input type="text" required placeholder="Ciudad" />
+            <!-- <select class="ciudadApi" > 
+                <option value="" selected> Ciudad</option>
+            </select>  -->
+
+
+
+            <select class="paisApi" > 
+                
+                <option value="" selected >--seleccionar--</option>
+                <option v-for="pais in namePais" :key="pais.common" value=""> {{pais.common}} </option>
+            </select> 
+
           </div>
         </div>
       </div>
       <div class="data2">
         <input type="text" required placeholder="Genero" />
-        <input v-model="date_birth" type="text" required placeholder="Fecha de nacimiento" />
+        <input v-model="userUp.date_birth" type="date" required placeholder="Fecha de nacimiento"
+        />
       </div>
       <div class="biografia">
-        <textarea
+        <textarea v-model="userUp.biography"
           name=""
           id=""
           cols="30"
           rows="10"
-          required
+          required  
           placeholder="Biografia"
         ></textarea>
       </div>
       <div class="botonguardar">
-        <input class="boton1-2" type="submit" value="Guardar" name="" id="" />
+        <input 
+          @click="userUpdate"
+          class="boton1-2"
+          type="submit"
+          value="Guardar"
+          name=""
+          id=""
+        />
       </div>
     </div>
   </div>
@@ -104,24 +132,68 @@
 export default {
   name: "perfil",
 
+
+
   data() {
     return {
-      fullName: "",
       photo: "",
-      date_birth: "",
-      email: "",
-      name:"",
+
+      userUp: {
+        email: " ",
+        name: "",
+        last_name: "",
+        date_birth: "",
+        id_country: "",
+        biography:"",
+      },
+
+    cuaDetalles:"",
+
+     pais:[],
+     namePais:[],
+      
     };
   },
   created() {
-    this.fullName = localStorage.getItem("fullName_user");
+    this.userUp.last_name = localStorage.getItem("last_name_user");
     this.photo = localStorage.getItem("photo_user");
-    this.date_birth = localStorage.getItem("date_birth_user");
-    this.email = localStorage.getItem("email_user");
-    this.name = localStorage.getItem("name_user");
+    this.userUp.date_birth = localStorage.getItem("date_birth_user");
+    this.userUp.email = localStorage.getItem("email_user");
+    this.userUp.name = localStorage.getItem("name_user");
+    this.cuaDetalles= localStorage.getItem("name_user");
+    this.userUp.biography= localStorage.getItem("biography_user");
+    
+    this.userUp.id_country = localStorage.getItem("id_country_user");
+    this.obtenePaises();
   },
+  methods: {
+    userUpdate() {
+      this.axios.post("/user/update",this.userUp).then((res) =>{
+        console.log(res.status);
+      }).catch((error)=>{
+        console.log(error);
+      })
+    },
+    
+    
+    async obtenePaises(){
+      let url = 'https://restcountries.com/v3.1/all';
+      const res = await fetch(url);
+      const listPaises = await res.json();
+      this.paises = listPaises;
+      this.paises.forEach(pais => {
+      this.namePais.push(pais.name);
+      // console.log(this.namePais);
+
+      console.log(pais.name.common == 'Peru'? pais.name.common : '');
+      });
+    }
+  },
+  mounted() {},
 };
 </script>
+
+
 
 <style scope>
 .contenedor {
@@ -267,20 +339,18 @@ export default {
 }
 
 .imagen div {
-  display:flex;
-  position:absolute;
+  display: flex;
+  position: absolute;
   width: 24px;
   height: 24px;
-  
-  right:0;
-  bottom:20px;
-  border-radius: 50%;
-} 
-.lapiz{
- width: 100%;
-  height: 100%;
 
-   
+  right: 0;
+  bottom: 20px;
+  border-radius: 50%;
+}
+.lapiz {
+  width: 100%;
+  height: 100%;
 }
 
 .data1 {
@@ -288,6 +358,7 @@ export default {
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
+  width: 100%;
   gap: 15px;
 }
 
@@ -296,11 +367,12 @@ export default {
   width: 100%;
   height: 50%;
   align-items: center;
-  background: #f7f7f7;
-  padding-left: 28px;
-  gap: 24px;
+  /* background: #da3636; */
+  padding-left:5px;  /* */
+  gap:10px;
   border-radius: 10px;
 }
+
 .userico {
   width: 24px;
   height: 24px;
@@ -311,8 +383,28 @@ export default {
   border-radius: 10px;
   border: none;
   background: #f7f7f7;
-  text-indent: 20px;
+  text-indent:10px;   /* sirve para dar espacio entre el cuadro con la letra escrita (dentro) */
+  /* gap: 20px; */
 }
+
+
+
+.nombresCompletos {
+display:flex;
+  width:100%;
+  height: 100%; 
+  gap: 15px;
+}
+.bordeado{
+  width:50%;
+  height: 100%;
+}
+
+
+/* .nombresCompletos input:focus{
+  /* para quitar el fondo por defecto del input */
+/* outline:none;
+} */ 
 
 .region {
   display: flex;
@@ -326,6 +418,21 @@ export default {
   border: none;
   background: #f7f7f7;
   text-indent: 20px;
+}
+
+.paisApi {
+  height: 100%;
+width: 50%;
+ border-radius: 10px;
+ background: #f7f7f7;
+ text-indent: 20px;
+}
+.ciudadApi{
+   height: 100%;
+width: 50%;
+ border-radius: 10px;
+ background: #f7f7f7;
+ text-indent: 20px;
 }
 
 .data2 {
