@@ -10,7 +10,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar" style="font-size: 2.5rem;" class="font-weight-bold text-white">{{courses}}</p>
+          <p v-if="mostrar" class="font-weight-bold text-white font-size-2-5">{{courses}}</p>
           <p style="color:white">Cursos</p>
         </li>
 
@@ -22,7 +22,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p class="font-weight-bold mt-4" style="font-size: 1.4rem;" v-if="mostrar">S/.{{ payment }}</p>
+          <p class="font-weight-bold mt-4 font-size-1-4" v-if="mostrar">S/.{{ payment }}</p>
           <p>Ventas</p>
         </li>
 
@@ -35,7 +35,7 @@
             <span class="sr-only">Loading...</span>
           </div>
           <p>Plan</p>
-          <p class="font-weight-bold" style="font-size: 1.7rem;" v-if="mostrar"> {{ typePlans.toUpperCase() }}</p>
+          <p class="font-weight-bold font-size-1-4"  v-if="mostrar"> {{ typePlans.toUpperCase() }}</p>
           <p> <i class="fas fa-infinity mr-2"></i> días restantes</p>
         </li>
 
@@ -47,7 +47,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar" class="font-weight-bold" style="font-size: 2.5rem;">{{ affilates }}</p>
+          <p v-if="mostrar" class="font-weight-bold font-size-2-5" >{{ affilates }}</p>
           <p>Afiliado</p>
         </li>
       </ul>
@@ -121,5 +121,11 @@ li {
 }
 .four {
   border-radius: 0px 25px 25px 0px;
+}
+.font-size-2-5{
+  font-size: 2.5rem;
+}
+.font-size-1-4{
+  font-size: 1.4rem;
 }
 </style>
