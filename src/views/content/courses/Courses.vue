@@ -1,7 +1,6 @@
 <template>
     <div class="all-course">
-        <Courses/>
-    
+        <Courses/>    
     </div>
 </template>
 <script>

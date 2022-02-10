@@ -34,6 +34,8 @@ export default {
       newComment:{
           issuing_user_id: "2",
           receiving_user_id: "2",
+          // class_id: 4,
+          // 
           comments: "Mi primer comentario de la clase"
       }
     }

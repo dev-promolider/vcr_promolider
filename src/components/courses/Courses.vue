@@ -1,15 +1,27 @@
 <template>
-  <div>
-    CURSOSSS!!!!!
+  <div class="container-courses">
+    <div class="spinner" v-if="lord"></div>
+    <div class="buscador" v-if="guardar">
+      <input type="text" placeholder="buscar el curso requerido" />
+      <img src="@/assets/logo.png" alt="" />
+    </div>
+
+    <PreferecesSection :movies="movies" v-if="guardar" />
+    <!--<MoviesSection :courses="courses" v-if="guardar"/>-->
   </div>
 </template>
 
 <script>
-
+// import Spinner from '@/components/auth/Spinner.vue'
+//import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
+//import MoviesSection from '@/components/courses/Carrousel-cursos.vue'
 export default {
-  name: "Prueba",
+  name: "Courses",
   components: {
     // Spinner
+    //MoviesSection,
+    //PreferecesSection
+
   },
   data() {
     return {
@@ -39,47 +51,79 @@ export default {
       this.axios.get("course/list").then((datos) => {
         this.lord = false;
         this.guardar = true;
-         this.loading= false;
-          this.mostrar=true;
+        this.loading= false;
+        this.mostrar=true;
         const array = datos.data.data;
         const array2 =datos.data.data;
 
-         this.courses = array[0].courses_related;
-          this.movies = array2[1].last_courses;
+        this.courses = array[0].courses_related;
+        this.movies = array2[1].last_courses;
          
-      })
+      }) 
+      // this.informacion.forEach(cursos=>{
+      //   this.age =cursos.id + 1
+      //   console.log(this.age)
+      // })
+    },
+
+    goToClass(courseId){
+      this.$router.push({
+        name: 'course-user',
+        query: { 
+          course: courseId,
+          class: 1
+          }
+        }
+      );
     }
-  }
-}
+
+  },
+  created() {
+    this.getAttributes();
+  
+  },
+};
 </script>
 
 <style  scoped>
+/* links
+https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
+https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
+*/
 
-.container-courses{
+.container-courses {
   display: flex;
   flex-direction: column;
-  margin:0px;
+  margin: 0px;
   width: 100%;
   max-height: 100%;
 }
-.spinners {
-  width: 100%;
-  height: 100vh;  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(236, 236, 236);
-  transition: clip-path 0.4s ease-in-out;
-  /* position: fixed; */
-  top: 0;
-  left: 0;
+.spinner {
+  border: 9px solid rgba(0, 0, 0, 0.3);
+  width: 106px;
+  height: 106px;
+  border-radius: 50%;
+  border-left-color: #078812;
+  margin-left: 485px;
+  margin-top: 200px;
+  animation: spin 1s ease infinite;
+  position: absolute;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .buscador {
-  align-self: flex-end;
   background: rgb(255, 255, 255);
   width: 340px;
   height: 48px;
-  margin-left: 810px;
+  margin-left: 710px;
   margin-right: 0px;
   display: flex;
   align-items: center;
@@ -106,8 +150,8 @@ export default {
   width: 42px;
   height: 35px;
 }
-/* contenedores de imagenes nuevo!*/ 
-.caja{
+/* contenedores de imagenes nuevo!*/
+.caja {
   width: 100%;
   max-width: 100%;
   overflow: auto;
@@ -117,21 +161,19 @@ export default {
   display: flex;
   gap: 15px;
   position: relative;
-  
 }
-.cajita{
+.cajita {
   width: 600px;
   height: 158px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.boton1{
+.boton1 {
   position: absolute;
   margin-top: 50px;
   left: 0;
-  
 }
-.boton2{
+.boton2 {
   position: relative;
   right: 0;
   margin-top: 40px;
