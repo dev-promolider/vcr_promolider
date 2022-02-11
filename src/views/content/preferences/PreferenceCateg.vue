@@ -30,7 +30,7 @@ export default {
     escoger(id){
       console.log(id);
       this.preferencias.category = id
-      console.log("It is category: " + this.category);
+      console.log("It is category: " + this.preferencias.category);
     },
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {
