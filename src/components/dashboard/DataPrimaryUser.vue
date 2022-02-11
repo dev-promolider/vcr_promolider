@@ -10,7 +10,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar" style="color:white">{{courses}}</p>
+          <p v-if="mostrar" class="font-weight-bold text-white font-size-2-5">{{courses}}</p>
           <p style="color:white">Cursos</p>
         </li>
 
@@ -22,7 +22,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar">S/.{{ payment }}</p>
+          <p class="font-weight-bold mt-4 font-size-1-4" v-if="mostrar">S/.{{ payment }}</p>
           <p>Ventas</p>
         </li>
 
@@ -34,8 +34,9 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar">{{ typePlans }}</p>
           <p>Plan</p>
+          <p class="font-weight-bold font-size-1-4"  v-if="mostrar"> {{ typePlans.toUpperCase() }}</p>
+          <p> <i class="fas fa-infinity mr-2"></i> días restantes</p>
         </li>
 
         <li class="four">
@@ -46,7 +47,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar">{{ affilates }}</p>
+          <p v-if="mostrar" class="font-weight-bold font-size-2-5" >{{ affilates }}</p>
           <p>Afiliado</p>
         </li>
       </ul>
@@ -96,7 +97,7 @@ export default {
   justify-content: center;
 }
 ul {
-  width: 80%;
+  width: 100%;
   justify-content: space-between;
   padding: 0px;
 }
@@ -109,16 +110,22 @@ li {
   color: black;
   width: 50%;
   list-style: none;
-  padding: 5%;
+  padding: 1%;
   flex-grow: 1;
 
   border: 0.5px solid rgb(236, 236, 236);
 }
 .one {
-  border-radius: 15px 0px 0px 15px;
-  background: rgb(120, 202, 38);
+  border-radius: 25px 0px 0px 25px;
+  background: #99CC93;
 }
 .four {
-  border-radius: 0px 15px 15px 0px;
+  border-radius: 0px 25px 25px 0px;
+}
+.font-size-2-5{
+  font-size: 2.5rem;
+}
+.font-size-1-4{
+  font-size: 1.4rem;
 }
 </style>

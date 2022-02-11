@@ -1,32 +1,32 @@
 <template>
   <div id="ClienteVenta">
-    <div class="marco" style="width: 401px">
+    <div class="marco" >
       <div class="titulos">
         <p class="titulo_dentro">Última Ventas</p>
         <router-link to="/attribute"
-          ><p class="titulo_esquina">ver progreso completo</p></router-link
+          ><p class="titulo_esquina text-success">ver progreso completo</p></router-link
         >
       </div>
 
       <div class="mover ml-2 mt-2" v-if="loading">
           
-      <div class="decorar ">
+        <div class="decorar ">
 
-        <p>Cargando....</p>
+          <p>Cargando....</p>
 
-      </div>
+        </div>
 
-      <div class="decorar mt-3">
+        <div class="decorar mt-3">
 
-        <p>Cargando....</p>
+          <p>Cargando....</p>
 
-      </div>
+        </div>
 
-      <div class="decorar mt-3">
+        <div class="decorar mt-3">
 
-        <p>Cargando....</p>
+          <p>Cargando....</p>
 
-      </div>
+        </div>
 
       </div>
 
@@ -91,8 +91,8 @@ export default {
 .decorar{
   background: rgb(235, 235, 235);
   color:rgb(14, 13, 13);
-  width: 336px;
-  margin-left: 20px;
+  width: 90%;
+  margin:auto;
   height: 60px;
    border-radius: 0.9rem;
 
@@ -126,7 +126,7 @@ export default {
   border-radius: 4%;
   padding-bottom: 28px;
   background: white;
-  margin-right: 90px;
+  width: 75%;
 }
 .titulos {
   display: flex;

@@ -5,9 +5,9 @@ import Home from '../views/content/dashboard/Dashboard.vue'
 import AttributeVenta from '../components/AttributeVenta/AttributeVenta.vue'
 import AttributeUser from '../components/AttributeUser/AttributeUser.vue'
 import AttributeCourse from '../components/AttributeCourse/AttributeCourse.vue'
-import Cursos from '../views/content/course/Cursos.vue'
-import Curso from '../views/content/course/Curso.vue'
+import Cursos from '../views/content/courses/Courses.vue'
 import Messages from '../views/content/message/Messages.vue'
+import CursoUser from '../views/content/course/Course.vue'
 import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
 import Login from '../views/auth/Login.vue'
 import Perfil from'../views/content/perfil/Perfil.vue'
@@ -17,10 +17,11 @@ const routes = [
   {
     path: '/', name: 'Dashboard', component: Dashboard, meta: { autenticado: true },
     children: [
-
+      
       { path: '/home', component: Home, name: 'home' },
-      { path: '/cursos', component: Cursos, name: 'cursos' },
-      { path: '/curso', component: Curso, name: 'curso' },
+      { path: '/', component: Home, name: 'home' },
+      { path: '/courses', component: Cursos, name: 'cursos' },
+      { path: '/course-user', component: CursoUser, name: 'curso' },
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
@@ -30,8 +31,6 @@ const routes = [
   },
   { path: '/login', name: 'Login', component: Login },
   { path: '/attribute', name: 'attribute', component: AttributeVenta },
-  //{ path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },  
-  { path: '/cursos', name: 'Cursos', component: Cursos },
   { path: '/preferences', name: 'Preferences', component: PreferencesCateg, meta: { autenticado: true } }
 ]
 
