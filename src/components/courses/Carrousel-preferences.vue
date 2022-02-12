@@ -10,17 +10,17 @@
           <Carousel :per-page="2" class="cajas">
             <Slide v-for="curso in cursos" :key="curso.id">
               <b-card
-                :img-src=curso.image
+                :img-src="curso.image"
                 img-alt="Image"
                 img-top
-                style="min-width:250px; height:120px; ;"
-                class="mb-2"
+                style="min-width: 250px; height: 240px ;"
+                class="mb-2 ml-3"
               >
                 <b-card-text>
-                  <p class="description-course">{{curso.description}}</p>
+                  <p class="description-course">{{ curso.description }}</p>
                 </b-card-text>
 
-                <b-button  variant="primary">{{curso.title}}</b-button>
+                <b-button variant="primary">{{ curso.title }}</b-button>
               </b-card>
             </Slide>
           </Carousel>
@@ -54,7 +54,7 @@ export default {
       this.movies.forEach((datos) => {
         this.preferens.push(datos);
       });
-      console.log(this.preferens);
+      // console.log(this.preferens);
       const categorias = this.preferens.map((p) => {
         for (const i in p) {
           return p[i];
@@ -65,7 +65,7 @@ export default {
           this.cursos.push(cat[i]);
         }
       });
-      console.log(this.cursos);
+      // console.log(this.cursos);
     },
   },
   created() {
@@ -91,15 +91,20 @@ export default {
 }
 .contenedor {
   background: rgb(116, 115, 115);
-  width: 680px;
+  width: 690px;
+  height: 375px;
   border: 1px solid rgb(121, 112, 112);
   border-radius: 10px 10px 10px 10px;
   margin-left: 15px;
+  padding-left: 50px;
+  
 }
 .carrusel {
   margin-top: 30px;
-  height: 150px;
+
   width: 680px;
+  margin-right: 20px;
+  margin-left: 0px;
 }
 
 .cajas {

@@ -1,63 +1,49 @@
 <template>
-    <div class="mt-4 corrector">
-        <div class="lista">
-            <p >Lista de Cursos</p>
-        </div>
-        
-        <div class="marco">
-            <Carousel :per-page="4" >
-        <Slide v-for="course in courses" :key="course.id"  >
+    <div class="corrector">
+        <p> ultimos cursos</p>
+        <div class="total">
+            <Carousel :per-page="3" >
+            <Slide  v-for="lastCourse in lastCourses" :key="lastCourse.id">
 
-            <div class="contenido">
+             <div class="contenido">
 
-                    <img :src="course.image" alt="" width="250" height="150" v-on:click="mostrar(course.id)"  >
+                    <img :src="lastCourse.image" alt="" width="250" height="150">
                     
                     <div class="precio">
                         <p >
-                        {{course.price}}
+                        {{lastCourse.price}}
                     </p>
                     </div>
                     
                     <div class="titulo">
                         <p >
-                       Curso : {{course.title}}
+                       Curso : {{lastCourse.title}}
                     </p>
                     </div>
                      
                     <div class="descripcion">
                         <p >
-                        {{course.description}}
+                        {{lastCourse.description}}
                     </p>
                     </div>
                     
 
             </div>
-           
-               
-           
-    
- 
-        </Slide>
+             </Slide>
         </Carousel>
+       
         </div>
         
     </div>
 </template>
 
 <script>
-
 import { Carousel , Slide } from 'vue-carousel'
 export default {
-    name: 'VirtualClassroomCarrousel',
-    components:{
+    name: 'VirtualClassroomLastCourses',
+components:{
         Carousel,
         Slide
-    },
-
-    props:{
-        courses:{
-            type: Array
-        },
     },
     data() {
         return {
@@ -65,50 +51,60 @@ export default {
         };
     },
 
+    props:{
+        lastCourses:{
+            type: Array
+        },
+    },
+
+    mounted() {
+        
+    },
+
     methods: {
 
-        
+//          getAttributes() {
+//       this.axios.get("course/last-courses-rep").then((datos) => {
+//             console.log(datos)
+//             console.log("hola mundo")
+//    });
 
-        // mostrar(id){
-            // this.$router.push("/buy-cursos/ " + id);
-           
-        // }
+//    },
+
+
+ created() {
+    this.getAttributes();
+  
+  },
 
     }
-
-
-
 };
 </script>
 
 <style lang="scss" scoped>
 .corrector{
     width:1150px;
-   
+    
 }
-
-.marco{
-    border:1px solid rgb(167, 166, 166);
-    // margin-bottom: 20px;
+.total{
+    border:1px solid rgb(144, 148, 144);
        opacity: .8;
-    width: 97%;
-    // background: rgb(222, 237, 250);
+    // background: rgb(226, 252, 222);
+    margin-bottom: 20px;
+    width: 90%;
     margin-right: auto;
-    margin-left: auto;
+    margin-left:auto;
+    
+    // margin-right: 10px;
+    // margin-left: 80px;
 }
 .contenido{
-    width: 100%;
-    margin-left: 15px;
+    
+    width: 20%;
+    margin-left: 40px;
     margin-right: 10px;
     margin-top: 20px;
   
-}
-
-.lista{
-    width: 200px;
-
-    margin-right: auto;
-    margin-left: auto;
 }
 .titulo{
     
@@ -140,8 +136,6 @@ export default {
      
 
 }
-
-
 
 .descripcion p{
      display: -webkit-box;

@@ -45,7 +45,7 @@ export default {
       .then((res) => {        
         // true => una caja de guardo exitoso
         console.log("Estoy funcioando mano: "+ res); 
-        //this.$router.push('/home')
+        this.$router.push('/home')
       })
     },
   },

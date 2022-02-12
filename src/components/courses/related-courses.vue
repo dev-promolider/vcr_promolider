@@ -1,115 +1,103 @@
 <template>
-    <div class="mt-4 corrector">
-        <div class="lista">
-            <p >Lista de Cursos</p>
-        </div>
-        
-        <div class="marco">
-            <Carousel :per-page="4" >
-        <Slide v-for="course in courses" :key="course.id"  >
-
-            <div class="contenido">
-
-                    <img :src="course.image" alt="" width="250" height="150" v-on:click="mostrar(course.id)"  >
+    <div class="corrector">
+        <p> Cursos recien lanzados</p>
+        <div class="total">
+             <Carousel :per-page="2" >
+        <Slide v-for="relatedCourse in relatedCourses" :key="relatedCourse.id">
+           
+            
+             <div class="contenido">
+                        <!-- <div class="imag"> -->
+                            <img  :src="relatedCourse.image" alt="" width="250" height="150">
+                        <!-- </div> -->
+                    
                     
                     <div class="precio">
                         <p >
-                        {{course.price}}
+                        {{relatedCourse.price}}
                     </p>
                     </div>
                     
                     <div class="titulo">
                         <p >
-                       Curso : {{course.title}}
+                       Curso : {{relatedCourse.title}}
+                       <br>
+                       nacimiento : {{relatedCourse.created_at}}
                     </p>
                     </div>
                      
                     <div class="descripcion">
                         <p >
-                        {{course.description}}
+                        {{relatedCourse.description}}
                     </p>
                     </div>
                     
 
             </div>
            
-               
-           
-    
- 
         </Slide>
-        </Carousel>
+         </Carousel>
         </div>
-        
     </div>
 </template>
 
 <script>
-
 import { Carousel , Slide } from 'vue-carousel'
 export default {
-    name: 'VirtualClassroomCarrousel',
+    name: 'VirtualClassroomRelatedCourses',
+
     components:{
-        Carousel,
+         Carousel,
         Slide
     },
 
-    props:{
-        courses:{
-            type: Array
-        },
-    },
     data() {
         return {
             
         };
     },
+     props:{
+        relatedCourses:{
+            type: Array
+        },
+    },
+
+    mounted() {
+        
+    },
 
     methods: {
-
         
-
-        // mostrar(id){
-            // this.$router.push("/buy-cursos/ " + id);
-           
-        // }
-
-    }
-
-
-
+    },
 };
 </script>
 
 <style lang="scss" scoped>
 .corrector{
-    width:1150px;
+  width:1150px;
    
 }
 
-.marco{
-    border:1px solid rgb(167, 166, 166);
-    // margin-bottom: 20px;
-       opacity: .8;
-    width: 97%;
-    // background: rgb(222, 237, 250);
-    margin-right: auto;
-    margin-left: auto;
+.total{
+   border:1px solid rgb(187, 187, 187);
+//    background-color: rgb(238, 236, 243);
+   opacity: .8;
+    margin-bottom: 20px;
+    width: 52%;
+        
+   
+    margin-right: 10px;
+    margin-left: 18px;
 }
 .contenido{
+    
     width: 100%;
-    margin-left: 15px;
-    margin-right: 10px;
+    margin-left: 35px;
+    margin-right: auto;
     margin-top: 20px;
   
 }
 
-.lista{
-    width: 200px;
-
-    margin-right: auto;
-    margin-left: auto;
-}
 .titulo{
     
     
@@ -136,13 +124,7 @@ export default {
 }
 .descripcion{
     width: 250px;
- 
-     
-
 }
-
-
-
 .descripcion p{
      display: -webkit-box;
       margin-bottom: 0px;

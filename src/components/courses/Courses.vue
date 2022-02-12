@@ -9,23 +9,31 @@
     </div>
 
 
-  <PreferecesSection :movies="movies" v-if="guardar" />
+  <!-- <PreferecesSection :movies="movies" v-if="guardar" /> -->
+  <LastCourses :lastCourses="lastCourses" v-if="guardar"  />
   <MoviesSection :courses="courses" v-if="guardar"/>
- 
+  <InteresCourses :interesCourses ="interesCourses" v-if="guardar"/>
+  <RelatedCourses :relatedCourses ="relatedCourses" v-if ="guardar" />
 
   </div>
 </template>
 
 <script>
 // import Spinner from '@/components/auth/Spinner.vue'
-import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
+import LastCourses from '@/components/courses/last-courses.vue'
+// import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
 import MoviesSection from '@/components/courses/Carrousel-cursos.vue'
+import InteresCourses from '@/components/courses/interes-courses.vue'
+import RelatedCourses from '@/components/courses/related-courses.vue'
 export default {
   name: "Courses",
   components: {
     // Spinner
     MoviesSection,
-    PreferecesSection
+    // PreferecesSection,
+    LastCourses,
+    InteresCourses,
+    RelatedCourses
 
   },
   data() {
@@ -43,58 +51,51 @@ export default {
 
       title:'1231',
       age: 123,
-      courses:[
-       
-      ],
-      movies:[
-        // {id:1, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:2, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:3, banner: 'https://picsum.photos/600/300/?image=25' },
-
-        // {id:4, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:5, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:6, banner: 'https://picsum.photos/600/300/?image=25' },
-
-        // {id:7, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:8, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:9, banner: 'https://picsum.photos/600/300/?image=25' },
-
-        // {id:10, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:11, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:12, banner: 'https://picsum.photos/600/300/?image=25' },
-      ]
+      courses:[],
+      movies:[],
+      lastCourses:[],
+      interesCourses:[],
+      relatedCourses:[]
       
     };
   },
   methods: {
     getAttributes() {
-      this.axios.get("course/list").then((datos) => {
+      this.axios.get("course/related-courses").then((datos) => {
         this.lord = false;
         this.guardar = true;
          this.loading= false;
           this.mostrar=true;
-        const array = datos.data.data;
-        const array2 =datos.data.data;
+        // const array = datos.data.data;
+         this.courses =datos.data;
         // this.informacion = array[0].courses_related;
         // console.log(array[0].courses_related)
         // console.log(array2[1].last_courses)
       //  this.informacion.forEach(cursos =>{
          
       //  })
-         this.courses = array[0].courses_related;
-          this.movies = array2[1].last_courses;
-           console.log(this.courses)
-
         
+          // console.log(this.courses)
 
-          
-        // for (let i = this.informacion.length; i < this.limite; i++) {
-        //   this.informacion.push(this.total[i]);
-        //   this.lorde = false;
-          //console.log("funciona")
-        // }
 
       });
+
+       this.axios.get("course/last-courses-rep").then((datos) => {
+            this.lastCourses =datos.data
+           
+   });
+
+
+    this.axios.get("course/interesting-courses").then((datos) => {
+            this.interesCourses =datos.data
+           
+   });
+
+    this.axios.get("course/released-courses").then((datos) => {
+            this.relatedCourses =datos.data
+            console.log(this.relatedCourses)
+           
+   });
     },
     aumentar() {
       this.limite += 5;
@@ -161,8 +162,9 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   background: rgb(255, 255, 255);
   width: 340px;
   height: 48px;
-  margin-left: 710px;
-  margin-right: 0px;
+  
+   margin-left: 725px;
+  margin-right: 0px; 
   display: flex;
   align-items: center;
   border: 1px solid #c4c4c4;
