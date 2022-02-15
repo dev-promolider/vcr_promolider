@@ -22,3 +22,11 @@ export const SET_RESOURCES = (state, resources) => {
         state.isResources=false;
       }
 }
+
+export const SET_COMPLETED_LESSONS = (state, lessons) =>{
+    for(const index in lessons.data){
+        if(lessons.status[index]==="SEEN"){
+            state.completedLessons.push(lessons.data[index])
+        }
+    }
+}

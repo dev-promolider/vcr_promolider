@@ -5,7 +5,7 @@
       <router-link to="/messages" class="text-decoration-none text-success">Todos los Mensajes</router-link>
     </div>
 
-    <div v-if="getLastMessages.length==0" class="center-element no-result">
+    <div v-if="getLastMessages==0" class="center-element no-result">
       <span>Sin resultados</span>
     </div>
 

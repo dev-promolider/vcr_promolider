@@ -20,7 +20,7 @@
                         <b-collapse visible :id="model.name">
                         <ul >
                             <li v-for="(less,index) in course.modules[index].lessons" :key=index >
-                                <input type="checkbox" v-model="completedLessons" :value=less.name >
+                                <input type="checkbox" v-model="completedLessons" :value=less.id >
                                 <a @click="getLesson(less), changeClass(less), getResources(lesson.name)" :class="{'activo':less.name===clase}"  >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
                             </li>  
                         </ul>
@@ -51,8 +51,8 @@
         data(){
             return{
                 progress: 0,
-                completedLessons: [],
-                clase: null
+                clase: null,
+                completedLessons: []
             }
         },
         computed:{
@@ -100,14 +100,26 @@
                         }
                     });
                 }
+            },
+
+            // Clases completadas
+            getCompletedLessons(id){
+                this.axios.get(`purchased/show?course_id=${id}`).then((res)=>{
+                for(const index in res.data.data){
+                    if(res.data.status[index]==="SEEN"){
+                        this.completedLessons.push(res.data.data[index])
+                    }
+                }
+            });
             }
+
         },
         created(){
             // Ejecutar funciones locales
             //this.getTemary();
 
             this.getCourse(this.$route.query.course);
- 
+            this.getCompletedLessons(this.$route.query.course);
         },
         updated(){
             this.getProgress();
@@ -118,7 +130,7 @@
                 handler(titleClass){
                     this.clase=titleClass;
                 }
-            }
+            },
         },
 }
 </script>
