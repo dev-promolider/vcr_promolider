@@ -49,7 +49,7 @@
           <br />
           <div class="botonguardar1">
             <input
-              class="boton1-1"
+              class="btn-custom"
               type="submit"
               value="Guardar"
               name=""
@@ -93,7 +93,7 @@
         ></textarea>
       </div>
       <div class="botonguardar">
-        <input class="boton1-2" type="submit" value="Guardar" name="" id="" />
+        <input class=" btn-custom" type="submit" value="Guardar" name="" id="" />
       </div>
     </div>
   </div>
@@ -231,15 +231,7 @@ flex-wrap:wrap ;
 .formulario1-2 p {
   text-align: start;
 }
-.boton1-1 {
-  background-color: #97f18d;
-  border-radius: 10px;
-  border: none;
-  height: 53px;
-  width: 218px;
-  color: #fff;
-}
-.botonguardar1 {
+.botonguardar1, .botonguardar {
   text-align: center;
 }
 .cuadro2-1 {
@@ -333,16 +325,5 @@ flex-wrap:wrap ;
 .biografia textarea::placeholder {
   padding-top: 20px;
 }
-.botonguardar {
-  text-align: center;
-}
-.boton1-2 {
-  background-color: #97f18d;
-  border-radius: 10px;
-  border: none;
-  height: 53px;
-  width: 218px;
-  color: #fff;
-  margin-top: 54px;
-}
+
 </style>

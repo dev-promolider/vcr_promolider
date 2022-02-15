@@ -4,7 +4,12 @@
       <p>Mensajes</p>
       <router-link to="/messages" class="text-decoration-none text-success">Todos los Mensajes</router-link>
     </div>
-    <div class="message d-flex mb-3" v-for="user in getLastMessages" :key="user.id">
+
+    <div v-if="getLastMessages.length==0" class="center-element no-result">
+      <span>Sin resultados</span>
+    </div>
+
+    <div v-else class="message d-flex mb-3" v-for="user in getLastMessages" :key="user.id">
       <b-avatar variant="info" src="https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240"></b-avatar>
       <div class="card-body text-message p-2">
         <p class="card-title mb-1"><b>{{user.fullname}}</b></p>

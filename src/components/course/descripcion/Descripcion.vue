@@ -33,7 +33,7 @@
 
           <div class="tab-content" id="myTabContent">
             <div
-              class="tab-pane fade show active bg-white"
+              class="tab-pane fade show active border-box"
               id="resumen"
               role="tabpanel"
               aria-labelledby="home-tab"
@@ -46,7 +46,7 @@
 
             </div>
             <div
-              class="tab-pane fade bg-white"
+              class="tab-pane fade border-box"
               id="recursos"
               role="tabpanel"
               aria-labelledby="profile-tab"
@@ -123,8 +123,6 @@
 <style scoped>
 
 .tab-pane{
-  border-radius: 15px ;
-  border: 0.5px solid #EFEFEF !important;
   width: 100%;
   height: 215px;
   overflow-y: auto ;
@@ -135,7 +133,6 @@
 }
 
 .nav-item{
-  margin-right:10px  !important;
   margin-left:25px  !important;
 }
 
@@ -146,7 +143,7 @@
   border-top-right-radius: 15px !important;
   width: 161px;
   height: 37px;
-  border-bottom: solid #E5E5E5  1px !important;
+  border-bottom: solid #E5E5E5  0.2px !important;
 }
 
 .nav-tabs li { 

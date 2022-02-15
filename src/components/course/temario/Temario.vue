@@ -1,6 +1,6 @@
 <template>
 
-    <div class="contenedor-temario bg-white col" > 
+    <div class="contenedor-temario col border-box" > 
 
             <!-- Cabecera temario -->
             <div class="row " >
@@ -11,7 +11,7 @@
 
             <!-- Cuerpo temario -->
             <div class="col temario ">
-                <div class="d-flex justify-content-center spinner" v-if="isLoading">
+                <div class="center-spinner" v-if="isLoading">
                        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
                 </div>
 
@@ -128,18 +128,10 @@
     .contenedor-temario {
     width: 100%;
     height: 100%;
-    border-radius: 15px;
     font-size: 12px;
     margin: auto;
-    }
-    /*contenedor*/
-    .contenedor-temario{
-        width: 100%;
-        height: 100%;
-        border-radius: 25px;
-        margin: auto;
-        position: relative;
-        overflow-y: scroll ;
+    position: relative;
+    overflow-y: scroll ;
     }
     .temario{
         width: 100%;
@@ -209,9 +201,7 @@ input[type="checkbox"]:checked {
   color: black;
   font-size: 24px;
 }
-    .spinner{
-        margin-top: 25% ;
-    }
+    
     .activo{
         color: rgb(87, 167, 8) !important;
         font-weight: bold !important;

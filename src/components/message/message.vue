@@ -73,7 +73,8 @@
           </button>
         </div>
         <div class="body-chat">
-          <div v-if="message_add.isLoadingMessage" class="loading d-flex justify-content-center flex-column">
+
+          <div v-if="message_add.isLoadingMessage" class="center-spinner">
             <b-spinner class="b-spinner" label="Loading..." variant="success"/>
             <p class="text-success">Cargando mensajes ...</p>
           </div>
@@ -473,12 +474,6 @@ export default {
 .user-data p {
   text-align: start;
   margin: 0;
-}
-
-.loading{
-  width: 100%;
-  height: 100%;
-  align-items: center;
 }
 
 .b-spinner{
