@@ -1,18 +1,13 @@
 <template>
   <div class="container-courses">
-    <div class="spinner" v-if="lord">
-     
-    </div>   
+    <div class="spinner" v-if="lord"></div>
     <div class="buscador" v-if="guardar">
       <input type="text" placeholder="buscar el curso requerido" />
       <img src="@/assets/logo.png" alt="" />
     </div>
 
-
-  <PreferecesSection :movies="movies" v-if="guardar" />
-  <!--<MoviesSection :courses="courses" v-if="guardar"/>-->
- 
-
+    <PreferecesSection :movies="movies" v-if="guardar" />
+    <!--<MoviesSection :courses="courses" v-if="guardar"/>-->
   </div>
 </template>
 
@@ -47,21 +42,6 @@ export default {
        
       ],
       movies:[
-        // {id:1, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:2, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:3, banner: 'https://picsum.photos/600/300/?image=25' },
-
-        // {id:4, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:5, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:6, banner: 'https://picsum.photos/600/300/?image=25' },
-
-        // {id:7, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:8, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:9, banner: 'https://picsum.photos/600/300/?image=25' },
-
-        // {id:10, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:11, banner: 'https://picsum.photos/600/300/?image=25' },
-        // {id:12, banner: 'https://picsum.photos/600/300/?image=25' },
       ]
       
     };
@@ -71,45 +51,19 @@ export default {
       this.axios.get("course/list").then((datos) => {
         this.lord = false;
         this.guardar = true;
-         this.loading= false;
-          this.mostrar=true;
+        this.loading= false;
+        this.mostrar=true;
         const array = datos.data.data;
         const array2 =datos.data.data;
-        // this.informacion = array[0].courses_related;
-        // console.log(array[0].courses_related)
-        // console.log(array2[1].last_courses)
-      //  this.informacion.forEach(cursos =>{
+
+        this.courses = array[0].courses_related;
+        this.movies = array2[1].last_courses;
          
-      //  })
-         this.courses = array[0].courses_related;
-          this.movies = array2[1].last_courses;
-          // console.log(this.courses)
-
-        
-
-          
-        // for (let i = this.informacion.length; i < this.limite; i++) {
-        //   this.informacion.push(this.total[i]);
-        //   this.lorde = false;
-          //console.log("funciona")
-        // }
-
-      });
-    },
-    aumentar() {
-      this.limite += 5;
-      this.lorde = true;
-      if (this.informacion.length == this.total.length - 1) {
-        this.prendido = false;
-        this.lorde = false;
-        this.noexis = true;
-         
-      }
+      }) 
       // this.informacion.forEach(cursos=>{
       //   this.age =cursos.id + 1
       //   console.log(this.age)
       // })
-      this.getAttributes();
     },
 
     goToClass(courseId){
@@ -132,16 +86,15 @@ export default {
 </script>
 
 <style  scoped>
-
 /* links
 https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
 https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 */
 
-.container-courses{
+.container-courses {
   display: flex;
   flex-direction: column;
-  margin:0px;
+  margin: 0px;
   width: 100%;
   max-height: 100%;
 }
@@ -167,7 +120,6 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   }
 }
 .buscador {
- 
   background: rgb(255, 255, 255);
   width: 340px;
   height: 48px;
@@ -198,8 +150,8 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   width: 42px;
   height: 35px;
 }
-/* contenedores de imagenes nuevo!*/ 
-.caja{
+/* contenedores de imagenes nuevo!*/
+.caja {
   width: 100%;
   max-width: 100%;
   overflow: auto;
@@ -209,24 +161,21 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   display: flex;
   gap: 15px;
   position: relative;
-  
 }
-.cajita{
+.cajita {
   width: 600px;
   height: 158px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.boton1{
+.boton1 {
   position: absolute;
   margin-top: 50px;
   left: 0;
-  
 }
-.boton2{
+.boton2 {
   position: relative;
   right: 0;
   margin-top: 40px;
 }
-/* terimna aqui!! */
 </style>
