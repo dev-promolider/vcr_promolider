@@ -117,7 +117,7 @@
       <div class="botonguardar">
         <input 
           @click="userUpdate"
-          class="boton1-2"
+          class="btn-custom"
           type="submit"
           value="Guardar"
           name=""
