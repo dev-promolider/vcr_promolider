@@ -11,7 +11,7 @@
             <span class="sr-only">Loading...</span>
           </div>
           <p v-if="mostrar" class="font-weight-bold text-white font-size-2-5">{{courses}}</p>
-          <p style="color:white">Cursos</p>
+          <p class="text-white">Cursos</p>
         </li>
 
         <li>
@@ -22,7 +22,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p class="font-weight-bold mt-4 font-size-1-4" v-if="mostrar">S/.{{ payment }}</p>
+          <p class="font-weight-bold mt-2 font-size-1-4" v-if="mostrar">S/.{{ payment }}</p>
           <p>Ventas</p>
         </li>
 

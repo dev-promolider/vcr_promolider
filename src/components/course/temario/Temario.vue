@@ -1,6 +1,6 @@
 <template>
 
-    <div class="contenedor-temario bg-white col" > 
+    <div class="contenedor-temario col border-box" > 
 
             <!-- Cabecera temario -->
             <div class="row " >
@@ -11,7 +11,7 @@
 
             <!-- Cuerpo temario -->
             <div class="col temario ">
-                <div class="d-flex justify-content-center spinner" v-if="isLoading">
+                <div class="center-spinner" v-if="isLoading">
                        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
                 </div>
 
@@ -20,7 +20,7 @@
                         <b-collapse visible :id="model.name">
                         <ul >
                             <li v-for="(less,index) in course.modules[index].lessons" :key=index >
-                                <input type="checkbox" v-model="completedLessons" :value=less.name >
+                                <input type="checkbox" v-model="completedLessons" :value=less.id >
                                 <a @click="getLesson(less), changeClass(less), getResources(lesson.name)" :class="{'activo':less.name===clase}"  >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
                             </li>  
                         </ul>
@@ -51,8 +51,8 @@
         data(){
             return{
                 progress: 0,
-                completedLessons: [],
-                clase: null
+                clase: null,
+                completedLessons: []
             }
         },
         computed:{
@@ -100,14 +100,26 @@
                         }
                     });
                 }
+            },
+
+            // Clases completadas
+            getCompletedLessons(id){
+                this.axios.get(`purchased/show?course_id=${id}`).then((res)=>{
+                for(const index in res.data.data){
+                    if(res.data.status[index]==="SEEN"){
+                        this.completedLessons.push(res.data.data[index])
+                    }
+                }
+            });
             }
+
         },
         created(){
             // Ejecutar funciones locales
             //this.getTemary();
 
             this.getCourse(this.$route.query.course);
- 
+            this.getCompletedLessons(this.$route.query.course);
         },
         updated(){
             this.getProgress();
@@ -118,7 +130,7 @@
                 handler(titleClass){
                     this.clase=titleClass;
                 }
-            }
+            },
         },
 }
 </script>
@@ -128,18 +140,10 @@
     .contenedor-temario {
     width: 100%;
     height: 100%;
-    border-radius: 15px;
     font-size: 12px;
     margin: auto;
-    }
-    /*contenedor*/
-    .contenedor-temario{
-        width: 100%;
-        height: 100%;
-        border-radius: 25px;
-        margin: auto;
-        position: relative;
-        overflow-y: scroll ;
+    position: relative;
+    overflow-y: scroll ;
     }
     .temario{
         width: 100%;
@@ -209,9 +213,7 @@ input[type="checkbox"]:checked {
   color: black;
   font-size: 24px;
 }
-    .spinner{
-        margin-top: 25% ;
-    }
+    
     .activo{
         color: rgb(87, 167, 8) !important;
         font-weight: bold !important;

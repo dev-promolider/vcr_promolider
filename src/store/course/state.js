@@ -9,5 +9,6 @@ export default () => ({
     lesson:[],
     allLessons: 0,
     resources: null,
-    isResources: false
+    isResources: false,
+    completedLessons: []
 })
