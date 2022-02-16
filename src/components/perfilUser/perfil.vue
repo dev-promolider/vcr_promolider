@@ -94,7 +94,7 @@
       </div>
       <div class="botonguardar">
         <input 
-          @click="userUpdate"
+          @click="userUpdate()"
           class="btn-custom"
           type="submit"
           value="Guardar"
