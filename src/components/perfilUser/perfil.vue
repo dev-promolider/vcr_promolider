@@ -93,7 +93,14 @@
         ></textarea>
       </div>
       <div class="botonguardar">
-        <input class=" btn-custom" type="submit" value="Guardar" name="" id="" />
+        <input 
+          @click="userUpdate"
+          class="btn-custom"
+          type="submit"
+          value="Guardar"
+          name=""
+          id=""
+        />
       </div>
     </div>
   </div>
