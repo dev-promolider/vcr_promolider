@@ -1,8 +1,8 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col cols="8">
-        <!-- obtener los datos totales de cursos, ventas, tipo de plan, afiliacion -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-8 col-lg-12">
+      <!-- obtener los datos totales de cursos, ventas, tipo de plan, afiliacion -->
         <DataPrimaryUser />
 
         <!-- //importe atributos para verificar datos del api -->
@@ -12,12 +12,15 @@
 
         <!-- Coleccion de mensajes para el productor -->
         <MessengerColletion />
-      </b-col>
-      <b-col cols="4">
+      </div>
+
+      <div class="col-xl-4 col-lg-12 ">
         <ClienteVenta />
-      </b-col>
-    </b-row>
-  </b-container>
+      </div>
+    </div>
+    
+  </div>
+  
 </template>
 <script>
 import Attribute from "@/components/dashboard/Attribute/Attribute.vue";
@@ -38,3 +41,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .container-fluid{
+    overflow: auto !important;
+  }
+
+  .container-fluid::-webkit-scrollbar {
+    display: none;
+  }
+</style>

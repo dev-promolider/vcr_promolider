@@ -4,20 +4,20 @@
       <div class="cuadro1-1">
         <div class="perfil">
           <div class="imagen1">
-            <img src="../../assets/logo-perfil.png" alt="" />
+            <img :src="photo" alt="" />
           </div>
           <div class="pais">
-            <img class="icoban" src="../../assets/logo-bandera.svg"/>          
+            <img class="icoban" src="../../assets/logo-bandera.svg" />
             <p>Lima,Peru</p>
           </div>
         </div>
 
         <div class="parrafos">
           <div class="p1">
-            <p>Jesus Galvez</p>
+            <p>{{ cuaDetalles }}</p>
           </div>
           <div class="p2">
-            <p>albejes12@gmail.com</p>
+            <p>{{ userUp.email }}</p>
           </div>
         </div>
       </div>
@@ -63,37 +63,66 @@
     <div class="cuadro2">
       <div class="cuadro2-1">
         <div class="imagen">
-          <img src="../../assets/logo-perfil.png" alt="" />
+          <img :src="photo" alt="" />
+          <div>
+            <img class="lapiz" src="../../assets/logo-lapiz.svg" alt="" />
+          </div>
         </div>
 
         <div class="data1">
           <div class="nombre">
             <img class="userico" src="../../assets/userico.svg" alt="" />
-            <input type="text" required placeholder="Nombre completo" />
+
+            <div class="nombresCompletos">
+              <div class="bordeado"> <input v-model="userUp.name" type="text" required placeholder="Nombres"/>   </div>
+              <div class="bordeado"> <input v-model="userUp.last_name" type="text" required placeholder="Apellidos" />   </div>
+              
+            </div>
           </div>
 
           <div class="region">
-            <input type="text" required placeholder="Ciudad" />
-            <input type="text" required placeholder="Pais" />
+          
+          
+          <input type="text" required placeholder="Ciudad" />
+            <!-- <select class="ciudadApi" > 
+                <option value="" selected> Ciudad</option>
+            </select>  -->
+
+
+
+            <select class="paisApi" > 
+                
+                <option value="" selected >--seleccionar--</option>
+                <option v-for="pais in namePais" :key="pais.common" value=""> {{pais.common}} </option>
+            </select> 
+
           </div>
         </div>
       </div>
       <div class="data2">
         <input type="text" required placeholder="Genero" />
-        <input type="text" required placeholder="Fecha de nacimiento" />
+        <input v-model="userUp.date_birth" type="date" required placeholder="Fecha de nacimiento"
+        />
       </div>
       <div class="biografia">
-        <textarea
+        <textarea v-model="userUp.biography"
           name=""
           id=""
           cols="30"
           rows="10"
-          required
+          required  
           placeholder="Biografia"
         ></textarea>
       </div>
       <div class="botonguardar">
-        <input class="boton1-2" type="submit" value="Guardar" name="" id="" />
+        <input 
+          @click="userUpdate"
+          class="boton1-2"
+          type="submit"
+          value="Guardar"
+          name=""
+          id=""
+        />
       </div>
     </div>
   </div>
@@ -101,17 +130,70 @@
 
 <script>
 export default {
-  name: "Perfil",
-  // BLOQUE PARA CREAR PROPIEDADES/ VARIABLES
+  name: "perfil",
+
+
+
   data() {
     return {
+      photo: "",
+
+      userUp: {
+        email: " ",
+        name: "",
+        last_name: "",
+        date_birth: "",
+        id_country: "",
+        biography:"",
+      },
+
+    cuaDetalles:"",
+
+     pais:[],
+     namePais:[],
+      
     };
   },
-  // BLoque => se ejecuta una vez accedas a la vista
   created() {
+    this.userUp.last_name = localStorage.getItem("last_name_user");
+    this.photo = localStorage.getItem("photo_user");
+    this.userUp.date_birth = localStorage.getItem("date_birth_user");
+    this.userUp.email = localStorage.getItem("email_user");
+    this.userUp.name = localStorage.getItem("name_user");
+    this.cuaDetalles= localStorage.getItem("name_user");
+    this.userUp.biography= localStorage.getItem("biography_user");
+    
+    this.userUp.id_country = localStorage.getItem("id_country_user");
+    this.obtenePaises();
   },
+  methods: {
+    userUpdate() {
+      this.axios.post("/user/update",this.userUp).then((res) =>{
+        console.log(res.status);
+      }).catch((error)=>{
+        console.log(error);
+      })
+    },
+    
+    
+    async obtenePaises(){
+      let url = 'https://restcountries.com/v3.1/all';
+      const res = await fetch(url);
+      const listPaises = await res.json();
+      this.paises = listPaises;
+      this.paises.forEach(pais => {
+      this.namePais.push(pais.name);
+      // console.log(this.namePais);
+
+      console.log(pais.name.common == 'Peru'? pais.name.common : '');
+      });
+    }
+  },
+  mounted() {},
 };
 </script>
+
+
 
 <style scope>
 .contenedor {
@@ -153,7 +235,6 @@ export default {
   display: flex;
 }
 @media only screen and (max-width: 671px) {
-  
 }
 .pais p {
   width: 100%;
@@ -167,20 +248,19 @@ export default {
   display: flex;
   flex-direction: column;
   height: 84px;
-
 }
 
-.p1 p{
+.p1 p {
   display: flex;
-  flex-wrap:wrap ;
-font-size: 14px;
-text-align: left;
+  flex-wrap: wrap;
+  font-size: 14px;
+  text-align: left;
 }
-.p2 p{
+.p2 p {
   display: flex;
-font-size: 11px;
-text-align: left;
-flex-wrap:wrap ;
+  font-size: 11px;
+  text-align: left;
+  flex-wrap: wrap;
 }
 .icoban {
   height: 18px;
@@ -250,6 +330,7 @@ flex-wrap:wrap ;
 }
 .imagen {
   display: flex;
+  position: relative;
   width: 134px;
   height: 134px;
 }
@@ -257,11 +338,27 @@ flex-wrap:wrap ;
   border-radius: 50%;
 }
 
+.imagen div {
+  display: flex;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+
+  right: 0;
+  bottom: 20px;
+  border-radius: 50%;
+}
+.lapiz {
+  width: 100%;
+  height: 100%;
+}
+
 .data1 {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
+  width: 100%;
   gap: 15px;
 }
 
@@ -270,11 +367,12 @@ flex-wrap:wrap ;
   width: 100%;
   height: 50%;
   align-items: center;
-  background: #f7f7f7;
-  padding-left: 28px;
-  gap: 24px;
+  /* background: #da3636; */
+  padding-left:5px;  /* */
+  gap:10px;
   border-radius: 10px;
 }
+
 .userico {
   width: 24px;
   height: 24px;
@@ -285,8 +383,28 @@ flex-wrap:wrap ;
   border-radius: 10px;
   border: none;
   background: #f7f7f7;
-  text-indent: 20px;
+  text-indent:10px;   /* sirve para dar espacio entre el cuadro con la letra escrita (dentro) */
+  /* gap: 20px; */
 }
+
+
+
+.nombresCompletos {
+display:flex;
+  width:100%;
+  height: 100%; 
+  gap: 15px;
+}
+.bordeado{
+  width:50%;
+  height: 100%;
+}
+
+
+/* .nombresCompletos input:focus{
+  /* para quitar el fondo por defecto del input */
+/* outline:none;
+} */ 
 
 .region {
   display: flex;
@@ -300,6 +418,21 @@ flex-wrap:wrap ;
   border: none;
   background: #f7f7f7;
   text-indent: 20px;
+}
+
+.paisApi {
+  height: 100%;
+width: 50%;
+ border-radius: 10px;
+ background: #f7f7f7;
+ text-indent: 20px;
+}
+.ciudadApi{
+   height: 100%;
+width: 50%;
+ border-radius: 10px;
+ background: #f7f7f7;
+ text-indent: 20px;
 }
 
 .data2 {

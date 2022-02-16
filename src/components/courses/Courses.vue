@@ -1,8 +1,6 @@
 <template>
   <div class="container-courses">
-    <div class="spinner" v-if="lord">
-     
-    </div>   
+    <div class="spinner" v-if="lord"></div>
     <div class="buscador" v-if="guardar">
       <input type="text" placeholder="buscar el curso requerido" />
       <img src="@/assets/logo.png" alt="" />
@@ -107,15 +105,25 @@ export default {
         this.lorde = false;
         this.noexis = true;
          
-      }
+      } 
       // this.informacion.forEach(cursos=>{
       //   this.age =cursos.id + 1
       //   console.log(this.age)
       // })
-      this.getAttributes();
+    
     },
- 
-  
+
+    goToClass(courseId){
+      this.$router.push({
+        name: 'course-user',
+        query: { 
+          course: courseId,
+          class: 1
+          }
+        }
+      );
+    }
+
   },
   created() {
     this.getAttributes();
@@ -125,16 +133,15 @@ export default {
 </script>
 
 <style  scoped>
-
 /* links
 https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
 https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 */
 
-.container-courses{
+.container-courses {
   display: flex;
   flex-direction: column;
-  margin:0px;
+  margin: 0px;
   width: 100%;
   max-height: 100%;
 }
@@ -160,7 +167,6 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   }
 }
 .buscador {
- 
   background: rgb(255, 255, 255);
   width: 340px;
   height: 48px;
@@ -192,8 +198,8 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   width: 42px;
   height: 35px;
 }
-/* contenedores de imagenes nuevo!*/ 
-.caja{
+/* contenedores de imagenes nuevo!*/
+.caja {
   width: 100%;
   max-width: 100%;
   overflow: auto;
@@ -203,24 +209,21 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   display: flex;
   gap: 15px;
   position: relative;
-  
 }
-.cajita{
+.cajita {
   width: 600px;
   height: 158px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.boton1{
+.boton1 {
   position: absolute;
   margin-top: 50px;
   left: 0;
-  
 }
-.boton2{
+.boton2 {
   position: relative;
   right: 0;
   margin-top: 40px;
 }
-/* terimna aqui!! */
 </style>

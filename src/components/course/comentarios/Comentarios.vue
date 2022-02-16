@@ -15,12 +15,20 @@
         @keyup.enter="sendComment"
       />
     </div>
-    <section class="comments d-flex">
-      <img class="img-users" src="@/assets/logo-perfil.png" alt="" />
+    <section class="comments d-flex" v-for="comment in allComments" :key="comment">
+      <img class="img-users" src="@/assets/logo-comment.svg" alt="" />
       <div class="users-comment">
-        <p class="name">Daniel Rodriguez</p>
-        <p class="date">Hace 2 dias</p>
-        <p class="info">Cuál es el archivo mencionado en la classes , ¿FTX.wav o FTQ.wav?</p>
+        <p class="name">{{comment.username}}</p>
+        <p class="date">Hace 1 dia</p>
+        <p class="info">{{comment.comments}}</p>
+        <!-- <div class="comments d-flex">
+          <img class="img-users" src="@/assets/logo-comment.svg" alt="" />
+          <div class="users-comment">
+            <p class="name">Daniel Rodriguez</p>
+            <p class="date">Hace 2 dias</p>
+            <p class="info">Cuál es el archivo mencionado en la clase , ¿FTX.wav o FTQ.wav?</p>
+          </div>
+        </div> -->
       </div>
     </section>
   </div>
@@ -31,16 +39,22 @@ export default {
   name: "Comentarios",
   data() {
     return {
+      useId: "",
       newComment:{
           issuing_user_id: "2",
           receiving_user_id: "2",
-          // class_id: 4,
-          // 
-          comments: "Mi primer comentario de la clase"
-      }
+          class_id: 1,
+          comments: ""
+      },
+      allComments: null
     }
   },
   created() {
+    this.axios.get("comments/show-comments?class_id=1")
+    .then((res) =>{
+      this.allComments = res.data;
+      console.log(this.allComments);
+    })
   },
   methods: {
     sendComment(){
@@ -59,7 +73,8 @@ export default {
 </script>
 
 <style scoped>
-.content-comments {  width: 100%; height: 100%; padding-left: 36px;
+.content-comments {  
+  width: 100%; height: 100%; padding-left: 36px; overflow:auto;
 }
 .titulo{ margin-bottom: 27px; gap: 7px;}
 .titulo-text{ margin: 0; font-size: 12px; font-weight: 400;}

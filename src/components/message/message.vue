@@ -73,10 +73,16 @@
           </button>
         </div>
         <div class="body-chat">
+          <div v-if="message_add.isLoadingMessage" class="loading d-flex justify-content-center flex-column">
+            <b-spinner class="b-spinner" label="Loading..." variant="success"/>
+            <p class="text-success">Cargando mensajes ...</p>
+          </div>
+
           <section
               class="message-general"
               v-for="mensa in general"
               :key="mensa.id"
+              v-else-if="!message_add.isLoadingMessage"
             >
               <div class="message-contact" v-if="mensa.name != name_user">
                 <img src="../../assets/contacto.svg" >
@@ -125,7 +131,8 @@ export default {
       email: null,
       message_add:{
         id: 1,
-        message : "Probando envio de mensaje 4 :D"
+        message : "Probando envio de mensaje 4 :D",
+        isLoadingMessage: null
       }
     };
   },
@@ -153,12 +160,14 @@ export default {
       });
     },
     listarMensajes(email) {
+      this.message_add.isLoadingMessage=true;
       this.name_user = localStorage.getItem("name_user");
       this.axios.get("messages/with/"+email).then((r) => {
         const res = r.data.data;
         this.general = res;
         console.log(this.general);
         //console.log('res :>> ', res);
+        this.message_add.isLoadingMessage=false;
       });
     },
   },
@@ -464,5 +473,16 @@ export default {
 .user-data p {
   text-align: start;
   margin: 0;
+}
+
+.loading{
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+.b-spinner{
+  width: 4rem ;
+  height: 4rem;
 }
 </style>

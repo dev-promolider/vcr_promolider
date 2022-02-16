@@ -2,7 +2,7 @@
   <div class="card-message p-4 d-flex flex-column">
     <div class="header d-flex justify-content-between mb-2">
       <p>Mensajes</p>
-      <router-link to="/messages">Todos los Mensajes</router-link>
+      <router-link to="/messages" class="text-decoration-none text-success">Todos los Mensajes</router-link>
     </div>
     <div class="message d-flex mb-3" v-for="user in getLastMessages" :key="user.id">
       <b-avatar variant="info" src="https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240"></b-avatar>

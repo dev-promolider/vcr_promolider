@@ -12,7 +12,6 @@
       <p class="seleccionar">Selecciopne 1 a 3 categorias de su preferencia</p>
     </div>
 
-    <button class="botoncito" v-on:click="cambiar">Siguiente</button>
   </div>
 </template>
 
@@ -26,11 +25,13 @@ export default {
       }
     };
   },
+ 
   methods: {
     escoger(id){
       console.log(id);
       this.preferencias.category = id
-      console.log("It is category: " + this.category);
+      console.log("It is category: " + this.preferencias.category);
+
     },
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {
@@ -39,22 +40,7 @@ export default {
       });
     },
 
-    cambiar() {
-      // console.log(this.preferencias.category)
-      // this.axios.post('preferences/add')
-      // .then((res) => {        
-        // true => una caja de guardo exitoso
-        // console.log(res); 
-
-        //  this.$router.push('/home')
-      // })
-       const status_user = localStorage.getItem("status_user");
-        if(status_user == 0){
-          this.$router.push('/home')
-      }else if(status_user == 1){
-          window.location.reload(true);
-      }
-    },
+    
   },
 
   created() {

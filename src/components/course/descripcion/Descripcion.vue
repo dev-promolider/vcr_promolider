@@ -1,15 +1,241 @@
 <template>
-  <div>
-      
+  <div class="mytabs">
+    <ul class="nav nav-tabs d-flex flex-row" id="myTab" role="tablist" >
+         
+            <li class="nav-item" role="presentation" @click="changeTab()" :class="{active:resumen}">
+              <a
+                class="nav-link text-center"
+                id="home-tab"
+                data-toggle="tab"
+                href="#resumen"
+                role="tab"
+                aria-controls="home"
+                aria-selected="true"
+                style="width: 112px;"
+                >Resumen</a
+              >
+            </li>
+
+            <li class="nav-item " role="presentation" @click="changeTab()" :class="{active:recursos}">
+              <a
+                class="nav-link text-center"
+                id="home-tab"
+                data-toggle="tab"
+                href="#recursos"
+                role="tab"
+                aria-controls="home"
+                aria-selected="true"
+                >Recursos</a
+              >
+            </li>
+            
+          </ul>
+
+          <div class="tab-content" id="myTabContent">
+            <div
+              class="tab-pane fade show active bg-white"
+              id="resumen"
+              role="tabpanel"
+              aria-labelledby="home-tab"
+            >
+            <div class="mx-4 mt-4">
+              <p>
+                {{ lesson.description }}
+              </p>
+            </div>
+
+            </div>
+            <div
+              class="tab-pane fade bg-white"
+              id="recursos"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+            >
+              <div class="mx-4 mt-4">
+                <div v-if="!isResources">
+                  <p> Esta clase no tiene recursos ... </p>
+                </div>
+
+                <div v-else> 
+    
+                  <ul class="list-group list-group-flush" >
+                    <li class="list-group-item" v-for="(resource,index) in resources" :key="index">
+                      Recurso {{index+1}}.
+                      <a class="ml-3 text-decoration-none text-success" @click="downloadResource(resource)"> 
+                        <i class="fas fa-download mr-1"></i> {{ resource.resource_file }}            
+                      </a>
+                    </li>                              
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+          </div>
   </div>
 </template>
 
 <script>
-export default {
+  import { mapState, mapActions } from 'vuex';
 
-}
+  export default {
+    data(){
+      return{
+        resumen: true,
+        recursos: false,
+      }
+    },
+    computed:{
+      ...mapState('course',['lesson','resources','isResources'])
+    },
+    methods:{
+
+      ...mapActions('course',{
+        getResources: 'getResources'
+      }),
+
+      changeTab(){
+        this.resumen = !this.resumen;
+        this.recursos = !this.recursos;
+      },
+
+      //Se necesita una funcion para recojer los recursos descargables
+      downloadResource(resource){
+        this.axios.get(`class-resource/download-resource?id=${resource.id}`,{responseType: "blob"} ).then(
+            (res) => {
+            var FILE = window.URL.createObjectURL(new Blob([res.data]));
+
+            var docUrl = document.createElement('a');
+            docUrl.href = FILE;
+            docUrl.setAttribute('download', `${resource.resource_file}`);
+            document.body.appendChild(docUrl);
+            docUrl.click();
+        })
+      }
+
+    },
+    created(){
+      this.getResources(this.$route.query.class)
+    }
+
+  }
 </script>
 
-<style>
+<style scoped>
 
+.tab-pane{
+  border-radius: 15px ;
+  border: 0.5px solid #EFEFEF !important;
+  width: 100%;
+  height: 215px;
+  overflow-y: auto ;
+}
+
+.tab-pane::-webkit-scrollbar{
+  display: none;
+}
+
+.nav-item{
+  margin-right:10px  !important;
+  margin-left:25px  !important;
+}
+
+
+.nav-link{
+  border: none !important;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+  width: 161px;
+  height: 37px;
+  border-bottom: solid #E5E5E5  1px !important;
+}
+
+.nav-tabs li { 
+  /* Makes a horizontal row */
+  float: left; 
+	
+  /* So the psueudo elements can be
+     abs. positioned inside */
+  position: relative; 
+  cursor: pointer;
+}
+.nav-tabs a { 
+  /* Make them block level
+     and only as wide as they need */
+  float: left; 
+  text-decoration: none;
+  
+  /* Default colors */ 
+  color: white;
+  background: #C4C4C4; 
+  
+}
+.nav-tabs .active {
+  /* Highest, active tab is on top */
+  z-index: 3;
+  pointer-events: none;
+}
+.nav-tabs .active a { 
+  /* Colors when tab is active */
+  background: white; 
+  color: black; 
+}
+.nav-tabs .nav-item:before, .nav-tabs .nav-item:after, 
+.nav-tabs .nav-link:before, .nav-tabs .nav-link:after {
+  /* All pseudo elements are 
+     abs. positioned and on bottom */
+  position: absolute;
+  bottom: 0 ;
+}
+/* Only the first, last, and active
+   tabs need pseudo elements at all */
+.nav-tabs .nav-item:after,   .nav-tabs .nav-item a:after,
+.nav-tabs .nav-item:before, .nav-tabs .nav-item a:before,
+.nav-tabs .active:after,   .nav-tabs .active:before, 
+.nav-tabs .active a:after, .nav-tabs .active a:before {
+  content: "";
+}
+.nav-tabs .active:before, .nav-tabs .active:after {
+  background: white; 
+  
+  /* Squares below circles */
+  z-index: 1;
+}
+/* Squares */
+.nav-tabs li:before, .nav-tabs li:after {
+  background: #C4C4C4;;
+  width: 10px;
+  height: 10px;
+}
+.nav-tabs li:before {
+  left: -10px;      
+}
+.nav-tabs li:after { 
+  right: -10px;
+}
+/* Circles */
+.nav-tabs li a:after, .nav-tabs li a:before {
+  width: 20px; 
+  height: 20px;
+  /* Circles are circular */
+  -webkit-border-radius: 10px;
+  -moz-border-radius:    10px;
+  border-radius:         10px;
+  background: #E5E5E5;
+  
+  /* Circles over squares */
+  z-index: 2;
+}
+.nav-tabs .active a:after, .nav-tabs .active a:before {
+  background: #E5E5E5;
+  z-index: 3;
+}
+/* First and last tabs have different
+   outside color needs */
+
+.nav-tabs li a:before {
+  left: -20px;
+}
+.nav-tabs li a:after {
+  right: -20px;
+}
 </style>

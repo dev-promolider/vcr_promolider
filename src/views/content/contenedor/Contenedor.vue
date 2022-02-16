@@ -1,7 +1,11 @@
 <template>
   <div class="content">
-      <div class="pref" v-if="mostrar">
-        <Preferencias/>
+      <div class="pref"  v-if="mostrar">
+        <Preferencias />
+          
+      
+          <button class="botoncito" v-on:click="cambiar" >Siguiente</button>
+    
       </div>
     <div class="nav-v" >
       <NavBarV  />
@@ -31,6 +35,7 @@ export default {
       //islogin: true,
       mostrar:true,
       // Nmostrar:false
+      status_user: null
     };
   },
   
@@ -40,14 +45,30 @@ export default {
   //},
   methods:{
       
+       cambiar() {
+
+    
+    this.status_user = localStorage.getItem("status_user");
+      if(this.status_user == 0 ){
+
+        this.mostrar = false
+          console.log(this.mostrar)
+      }else{
+     
+        window.location.reload(true);
+      }
+     
+    },
   },
+ 
   created() {
-    const status_user = localStorage.getItem("status_user");
+  this.status_user = localStorage.getItem("status_user");
+    // console.log(this.status_user)
       // if ( !token) {
       //   this.islogin = false;
-      // }
-      if(status_user == 0){
-          this.mostrar =true
+      // // }
+      if(this.status_user == 0){
+          this.mostrar =false
       }else {
           this.mostrar = true
       }
@@ -61,6 +82,16 @@ export default {
   height: 100%;
   position: relative;
   display: flex;
+}
+.botoncito {
+  width: 200px;
+  height: 35px;
+  color: darkblue;
+  border-radius: 7px 7px 7px 7px;
+  margin-left: 550px;
+  border: 2px solid rgb(212, 212, 212);
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 .pref{
 border: 1px solid rgb(150, 150, 150);
