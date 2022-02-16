@@ -1,6 +1,9 @@
 <template>
     <div class="corrector">
-        <p> cursos de interes</p>
+        <div class="title">
+            <p> cursos de interes</p>
+        </div>
+        
 <div class="total">
  <Carousel :per-page="3" >
 
@@ -12,7 +15,7 @@
                     
                     <div class="precio">
                         <p >
-                        {{interesCourse.price}}
+                        S/{{interesCourse.price}}
                     </p>
                     </div>
                     
@@ -75,7 +78,7 @@ export default {
    
 }
 .total{
-    border:1px solid rgb(172, 171, 170);
+    border:1px solid rgb(214, 214, 214);;
        opacity: .8;
     // background: rgb(250, 239, 231);
     margin-bottom: 20px;
@@ -84,6 +87,27 @@ export default {
     margin-left: auto;
     // margin-right: 10px;
     // margin-left: 10px;
+}
+.title{
+font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+background: #d7ddf0;
+width: 210px;
+overflow: hidden; 
+padding: 14px 2px 2px 2px;
+border-radius: 25px 25px 25px 25px; 
+-moz-border-radius: 25px 25px 25px 25px; 
+-webkit-border-radius: 25px 25px 25px 25px; 
+border: 2px solid #b9c6e9;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 20px;
+margin-top: 20px;
+}
+.title p{
+    color: #4b4747; 
+    font-size: 16px; 
+font-weight: 700;
+text-align: center; 
 }
 .contenido{
     

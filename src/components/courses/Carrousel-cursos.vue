@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4 corrector">
-        <div class="lista">
+        <div class="title">
             <p >Lista de Cursos</p>
         </div>
         
@@ -10,11 +10,11 @@
 
             <div class="contenido">
 
-                    <img :src="course.image" alt="" width="250" height="150" v-on:click="mostrar(course.id)"  >
+                    <img :src="course.image" alt="" width="250" height="150"   >
                     
                     <div class="precio">
                         <p >
-                        {{course.price}}
+                        S/{{course.price}}
                     </p>
                     </div>
                     
@@ -88,9 +88,9 @@ export default {
 }
 
 .marco{
-    border:1px solid rgb(167, 166, 166);
+    border: 1px solid rgb(214, 214, 214);
     // margin-bottom: 20px;
-       opacity: .8;
+    opacity: .8;
     width: 97%;
     // background: rgb(222, 237, 250);
     margin-right: auto;
@@ -103,13 +103,28 @@ export default {
     margin-top: 20px;
   
 }
-
-.lista{
-    width: 200px;
-
-    margin-right: auto;
-    margin-left: auto;
+.title{
+font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+background: #d7ddf0;
+width: 210px;
+overflow: hidden; 
+padding: 14px 2px 2px 2px;
+border-radius: 25px 25px 25px 25px; 
+-moz-border-radius: 25px 25px 25px 25px; 
+-webkit-border-radius: 25px 25px 25px 25px; 
+border: 2px solid #b9c6e9;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 20px;
+margin-top: 20px;
 }
+.title p{
+    color: #4b4747; 
+    font-size: 16px; 
+font-weight: 700;
+text-align: center; 
+}
+
 .titulo{
     
     

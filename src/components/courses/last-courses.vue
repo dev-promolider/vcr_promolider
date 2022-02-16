@@ -1,6 +1,9 @@
 <template>
     <div class="corrector">
-        <p> ultimos cursos</p>
+    <div class="title">
+         <p> ultimos cursos</p>
+    </div>
+       
         <div class="total">
             <Carousel :per-page="3" >
             <Slide  v-for="lastCourse in lastCourses" :key="lastCourse.id">
@@ -11,7 +14,7 @@
                     
                     <div class="precio">
                         <p >
-                        {{lastCourse.price}}
+                        S/{{lastCourse.price}}
                     </p>
                     </div>
                     
@@ -87,7 +90,7 @@ components:{
     
 }
 .total{
-    border:1px solid rgb(144, 148, 144);
+    border:1px solid rgb(214, 214, 214);;
        opacity: .8;
     // background: rgb(226, 252, 222);
     margin-bottom: 20px;
@@ -106,10 +109,29 @@ components:{
     margin-top: 20px;
   
 }
+
+.title{
+font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+background: #d7ddf0;
+width: 180px;
+overflow: hidden; 
+padding: 14px 0px 0px 0px;
+border-radius: 25px 25px 25px 25px; 
+-moz-border-radius: 25px 25px 25px 25px; 
+-webkit-border-radius: 25px 25px 25px 25px; 
+border: 2px solid #b9c6e9;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 20px;
+margin-top: 20px;
+}
+.title p{
+    color: #4b4747; 
+    font-size: 16px; 
+font-weight: 700;
+text-align: center; 
+}
 .titulo{
-    
-    
-    
     width: 250px;
 }
 .titulo p{

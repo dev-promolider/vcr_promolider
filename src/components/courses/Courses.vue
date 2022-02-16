@@ -67,7 +67,7 @@ export default {
          this.loading= false;
           this.mostrar=true;
         // const array = datos.data.data;
-         this.courses =datos.data;
+         this.courses =datos.data.data;
         // this.informacion = array[0].courses_related;
         // console.log(array[0].courses_related)
         // console.log(array2[1].last_courses)
@@ -75,24 +75,26 @@ export default {
          
       //  })
         
-          // console.log(this.courses)
+           console.log(this.courses)
 
 
       });
 
        this.axios.get("course/last-courses-rep").then((datos) => {
-            this.lastCourses =datos.data
+            this.lastCourses =datos.data.data
+            console.log(this.lastCourses)
            
    });
 
 
     this.axios.get("course/interesting-courses").then((datos) => {
-            this.interesCourses =datos.data
+            this.interesCourses =datos.data.data
+            // console.log(this.interesCourses)
            
    });
 
     this.axios.get("course/released-courses").then((datos) => {
-            this.relatedCourses =datos.data
+            this.relatedCourses =datos.data.data
             console.log(this.relatedCourses)
            
    });

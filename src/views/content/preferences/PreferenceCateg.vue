@@ -40,13 +40,20 @@ export default {
     },
 
     cambiar() {
-      console.log(this.preferencias.category)
-      this.axios.post('preferences/add', this.preferencias.category)
-      .then((res) => {        
+      // console.log(this.preferencias.category)
+      // this.axios.post('preferences/add')
+      // .then((res) => {        
         // true => una caja de guardo exitoso
-        console.log("Estoy funcioando mano: "+ res); 
-        this.$router.push('/home')
-      })
+        // console.log(res); 
+
+        //  this.$router.push('/home')
+      // })
+       const status_user = localStorage.getItem("status_user");
+        if(status_user == 0){
+          this.$router.push('/home')
+      }else if(status_user == 1){
+          window.location.reload(true);
+      }
     },
   },
 
@@ -58,8 +65,9 @@ export default {
 
 <style>
 .tomalo {
-  margin-left: 15%;
-  margin-right: 20%;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 800px;
 }
 
 .letra {
@@ -100,7 +108,7 @@ export default {
   text-align: left;
   color: darkblue;
   font-weight: 700;
-  margin-top: 150px;
+  margin-top: 50px;
 }
 
 .botoncito {
@@ -110,7 +118,7 @@ export default {
   border-radius: 7px 7px 7px 7px;
   margin-left: 550px;
   border: 2px solid rgb(212, 212, 212);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-weight: 500;
 }
 .botoncito:focus {
