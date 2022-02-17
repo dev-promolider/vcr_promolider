@@ -12,7 +12,6 @@
       <p class="seleccionar">Selecciopne 1 a 3 categorias de su preferencia</p>
     </div>
 
-    <button class="botoncito" v-on:click="cambiar">Siguiente</button>
   </div>
 </template>
 
@@ -26,28 +25,22 @@ export default {
       }
     };
   },
+ 
   methods: {
     escoger(id){
       console.log(id);
       this.preferencias.category = id
       console.log("It is category: " + this.preferencias.category);
+
     },
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {
         this.item = respuesta.data.data;
-        console.log(this.item);
+        // console.log(this.item);
       });
     },
 
-    cambiar() {
-      console.log(this.preferencias.category)
-      this.axios.post('preferences/add', this.preferencias.category)
-      .then((res) => {        
-        // true => una caja de guardo exitoso
-        console.log("Estoy funcioando mano: "+ res); 
-        //this.$router.push('/home')
-      })
-    },
+    
   },
 
   created() {
@@ -58,8 +51,9 @@ export default {
 
 <style>
 .tomalo {
-  margin-left: 15%;
-  margin-right: 20%;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 800px;
 }
 
 .letra {
@@ -100,7 +94,7 @@ export default {
   text-align: left;
   color: darkblue;
   font-weight: 700;
-  margin-top: 150px;
+  margin-top: 50px;
 }
 
 .botoncito {
@@ -110,7 +104,7 @@ export default {
   border-radius: 7px 7px 7px 7px;
   margin-left: 550px;
   border: 2px solid rgb(212, 212, 212);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-weight: 500;
 }
 .botoncito:focus {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import router from "../../router";
+// import router from "../../router";
 
 export const actionUser = async (context ,body)=>{
 
@@ -36,11 +36,12 @@ export const actionUser = async (context ,body)=>{
     localStorage.setItem("biography_user", biography);
 
     if (statususer == 1) {
-        router.push('/preferences')
+        this.$router.push('/preferences')
+       
     } else if(statususer == 0) {
         window.location.reload(true);
-        router.push('/home')
+        this.$router.push('/home')
     }
-    //window.location.reload(true);
+    // window.location.reload(true);
     
 }
