@@ -73,14 +73,14 @@ export default {
          
       //  })
         
-           console.log(this.courses)
+          //  console.log(this.courses)
 
 
       });
 
        this.axios.get("course/last-courses-rep").then((datos) => {
             this.lastCourses =datos.data.data
-            console.log(this.lastCourses)
+            // console.log(this.lastCourses)
            
    });
 
@@ -93,7 +93,7 @@ export default {
 
     this.axios.get("course/released-courses").then((datos) => {
             this.relatedCourses =datos.data.data
-            console.log(this.relatedCourses)
+            // console.log(this.relatedCourses)
            
    });
     },

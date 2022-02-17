@@ -52,7 +52,7 @@ export default {
       if(this.status_user == 0 ){
 
         this.mostrar = false
-          console.log(this.mostrar)
+          // console.log(this.mostrar)
       }else{
      
         window.location.reload(true);

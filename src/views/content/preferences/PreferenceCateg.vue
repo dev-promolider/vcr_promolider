@@ -36,7 +36,7 @@ export default {
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {
         this.item = respuesta.data.data;
-        console.log(this.item);
+        // console.log(this.item);
       });
     },
 
