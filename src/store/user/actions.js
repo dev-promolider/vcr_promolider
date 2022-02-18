@@ -35,13 +35,13 @@ export const actionUser = async (context ,body)=>{
     localStorage.setItem("id_country_user", id_country);
     localStorage.setItem("biography_user", biography);
 
-    if (statususer == 1) {
-        this.$router.push('/preferences')
+    // if (statususer == 1) {
+    //     this.$router.push('/preferences')
        
-    } else if(statususer == 0) {
-        window.location.reload(true);
-        this.$router.push('/home')
-    }
-    // window.location.reload(true);
+    // } else if(statususer == 0) {
+    //     window.location.reload(true);
+        // this.$router.push('/home')
+    // }
+     window.location.reload(true);
     
 }

@@ -21,7 +21,7 @@ const routes = [
     children: [
       
       { path: '/home', component: Home, name: 'home' },
-      { path: '/', component: Home, name: 'home' },
+   
       { path: '/courses', component: Cursos, name: 'cursos' },
       { path: '/course-user', component: CursoUser, name: 'curso' },
       { path: '/messages', component: Messages, name: 'Messages' },
@@ -48,15 +48,17 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('access_token');
   let autenticado = to.matched.some(record => record.meta.autenticado);
-  let status = localStorage.getItem('status_user')
+  // let status = localStorage.getItem('status_user')
   if (autenticado && !token) {
     next('login');
   }
-   if ((!autenticado && token) && status == 0 ) {
-    next('preferences');
-  } else if ((!autenticado && token) && status == 1) {
-    next('home');
-  } else {
+  //  if ((!autenticado && token) && status == 0 ) {
+  //   next('/preferences');
+   else if ((!autenticado && token)) {
+    next('/home');
+  }
+   else{
+    
     next()
   }
 })

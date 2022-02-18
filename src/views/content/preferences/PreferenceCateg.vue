@@ -9,7 +9,7 @@
     </div>
 
     <div class="escoger">
-      <p class="seleccionar">Selecciopne 1 a 3 categorias de su preferencia</p>
+      <p class="seleccionar">Seleccione 1 a 3 categorias de su preferencia</p>
     </div>
 
   </div>
@@ -51,27 +51,35 @@ export default {
 
 <style>
 .tomalo {
-  margin-left: 5%;
-  margin-right: 5%;
-  width: 800px;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 900px;
+  background: rgb(189, 189, 233);
+  padding:20px 20px 50px 20px;
+  border-radius:20px 20px 20px 20px;
 }
 
 .letra {
   text-align: left;
-  color: rgb(0, 0, 0);
-  font-size: 1.42rem;
+  color: rgb(27, 10, 66);
+  font-size: 38px;
   font-weight: 800;
 }
 .cajitas {
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 25px;
+  
+  
 }
 .caja {
-  background-color: #fff;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-
-  width: 230px;
-  height: 40px;
+  background-color: rgb(240, 200, 200);
+  box-shadow: 0px 4px 6px rgba(104, 104, 104, 0.1);
+  font-size: 18px;
+  font-weight: 700;
+  color: rgb(86, 86, 202);
+  width: 250px;
+  height: 50px;
   text-align: center;
   margin-left: 15px;
   border-radius: 10px 10px 10px 10px;
@@ -85,29 +93,17 @@ export default {
 }
 
 .escoger {
-  margin-top: 20px;
+  margin-top: 50px;
   margin-left: 20px;
   margin-right: 20px;
 }
 
 .seleccionar {
   text-align: left;
-  color: darkblue;
+  color: rgb(22, 22, 51);
   font-weight: 700;
   margin-top: 50px;
 }
 
-.botoncito {
-  width: 200px;
-  height: 35px;
-  color: darkblue;
-  border-radius: 7px 7px 7px 7px;
-  margin-left: 550px;
-  border: 2px solid rgb(212, 212, 212);
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-.botoncito:focus {
-  outline: none;
-}
+
 </style>

@@ -53,7 +53,8 @@ export default {
       movies:[],
       lastCourses:[],
       interesCourses:[],
-      relatedCourses:[]
+      relatedCourses:[],
+      prueba:[],
       
     };
   },
@@ -73,27 +74,29 @@ export default {
          
       //  })
         
-          //  console.log(this.courses)
+           console.log(this.courses)
 
 
       });
 
        this.axios.get("course/last-courses-rep").then((datos) => {
             this.lastCourses =datos.data.data
-            // console.log(this.lastCourses)
+            console.log(this.lastCourses)
            
    });
 
 
+     
     this.axios.get("course/interesting-courses").then((datos) => {
+            
             this.interesCourses =datos.data.data
-            // console.log(this.interesCourses)
+            console.log(this.interesCourses)
            
    });
 
     this.axios.get("course/released-courses").then((datos) => {
             this.relatedCourses =datos.data.data
-            // console.log(this.relatedCourses)
+            console.log(this.relatedCourses)
            
    });
     },
