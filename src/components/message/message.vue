@@ -140,13 +140,13 @@ export default {
   methods: {
     sendMessage(){
       this.axios.post("messages/add", this.message_add)
-      .then((r) => {
-          console.log("Mensaje enviado" + r);
+      .then(() => {
+          //console.log("Mensaje enviado" + r);
           this.message_add.message = '';
           this.listarMensajes(this.email);
       })
       .catch(() =>{
-           console.log("Error en enviar");
+           //console.log("Error en enviar");
       })
       
     },
@@ -157,7 +157,7 @@ export default {
       this.axios.get("messages/listAll").then((r) => {
         const res = r.data.data;
         this.chats = res;
-        console.log(this.chats);
+        //console.log(this.chats);
       });
     },
     listarMensajes(email) {
@@ -166,7 +166,7 @@ export default {
       this.axios.get("messages/with/"+email).then((r) => {
         const res = r.data.data;
         this.general = res;
-        console.log(this.general);
+        //console.log(this.general);
         //console.log('res :>> ', res);
         this.message_add.isLoadingMessage=false;
       });

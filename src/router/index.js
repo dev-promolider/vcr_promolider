@@ -18,10 +18,9 @@ const routes = [
     path: '/', name: 'Dashboard', component: Dashboard, meta: { autenticado: true },
     children: [
       
-      { path: '/home', component: Home, name: 'home' },
-      { path: '/', component: Home, name: 'home' },
+      { path: '', component: Home, name: 'home' },
       { path: '/courses', component: Cursos, name: 'cursos' },
-      { path: '/course-user', component: CursoUser, name: 'curso' },
+      { path: '/course-user', query:{course:'',class:''}, component: CursoUser, name: 'curso' },
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
@@ -49,7 +48,7 @@ router.beforeEach((to, from, next) => {
   } else if ((!autenticado && token) && status == 1 ) {
     next('/preferences');
   } else if ((!autenticado && token) && status == 0) {
-    next('/home');
+    next('/');
   } else {
     next()
   }

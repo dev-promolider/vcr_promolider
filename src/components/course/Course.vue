@@ -1,12 +1,22 @@
 <template>
   <div class="content-course d-flex">
     <div class="navtap-video">
-      <div class="video"></div>
+      <div class="video">
+        <div class="seccion_video">
+          <Video v-if="renderVideo"  :url="url" :time="time"/>
+          <div v-else class="center-spinner">
+            <b-spinner style="width: 3rem; height: 3rem;" variant="success" label="Large Spinner"></b-spinner>
+          </div>
+        </div>
+        <div class="seccion_inferior_video">
+          <SeccionInferior/>
+        </div>
+      </div>
       <Descripcion />
     </div>
     <div class="temario-comments">
       <div class="description">
-        <Temario/>
+        <Temario @renderVideo="renderVideo=$event"/>
       </div>
       <div class="comment">
         <Comentarios />
@@ -17,35 +27,73 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import Temario from "@/components/course/temario/Temario.vue";
 import Descripcion from "@/components/course/descripcion/Descripcion.vue";
 import Comentarios from "@/components/course/comentarios/Comentarios.vue";
+import Video from "@/components/course/video/Video.vue";
+import SeccionInferior from "@/components/course/video/SeccionInferior.vue";
 export default {
   name: "Course",
+  data(){
+    return{
+      time:100,
+      render: false,
+      url:'',
+    }
+  },
   components: {
     Temario,
     Descripcion,
     Comentarios,
+    Video,
+    SeccionInferior
   },
   computed:{
-    ...mapState('course',['lesson'])
+    ...mapState('course',['lesson','renderVideo']),
+    ...mapGetters('course',['urlVideo'])
   },
   methods:{
         ...mapActions('course',{
-      getLesson: 'getLesson',
-    }),
+          getLesson: 'getLesson',
+          getVideo: 'getVideo'
+        }),
 
+    // Leccion activa al momento de renderizar el componente
     activeLesson(){
       this.axios.get(`class/show-class?name=${this.$route.query.class}`).then(
       (res)=>{
           this.getLesson(res.data[0]);
+          this.getVideo(res.data[0].id)
           }
         );
       },
   },
   created(){
     this.activeLesson();
+  },
+  beforeMount(){
+    
+
+    // if(!this.$route.query.class && !this.$route.query.course){
+    //   this.$router.push('/');
+    // }else if(!this.$route.query.class){
+    //    this.$router.push({
+    //        query: {
+    //            course: this.$route.query.course,
+    //            class: 'clase1'
+    //        }
+    //    });
+    // }else if(this.$route.query.class && this.$route.query.course){
+    //   this.$router.push({
+    //        query: {
+    //            course: this.$route.query.course,
+    //            class: this.$route.query.course
+    //        }
+    //    });
+    // }
+  },
+  updated(){
   }
   
 };
@@ -54,11 +102,22 @@ export default {
 <style scoped>
 .content-course { display: flex; width: 100%; height: calc(100vh - 80px);
     max-height: calc(100vh - 80px);  padding: 11px 102px 27px 69px;
-    border: 1px solid royalblue; gap: 36px;
+    gap: 36px;
 }
 .navtap-video{  width: 65%; height: 100%; 
 }
-.video{width:100%; height: 64%; border: 1px solid royalblue;
+.video{width:100%; height: 64%;
+}
+.seccion_video{
+  width: 100%;
+  height: 78%;
+  background: rgb(2, 2, 2);
+  /* background: rgb(66,66,66);
+  background: radial-gradient(circle, rgba(66,66,66,0.9192051820728291) 0%, rgba(0,0,0,1) 100%); */
+}
+.seccion_inferior_video{
+  width: 100%;
+  height: 22%;
 }
 .temario-comments{  display: flex; flex-direction: column; gap: 22px;
     width: 35%;  height: 100%;  

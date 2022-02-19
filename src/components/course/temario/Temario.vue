@@ -1,7 +1,5 @@
 <template>
-
     <div class="contenedor-temario col border-box" > 
-
             <!-- Cabecera temario -->
             <div class="row " >
                 <div class="container">
@@ -20,8 +18,8 @@
                         <b-collapse visible :id="model.name">
                         <ul >
                             <li v-for="(less,index) in course.modules[index].lessons" :key=index >
-                                <input type="checkbox" v-model="completedLessons" :value=less.id >
-                                <a @click="getLesson(less), changeClass(less), getResources(lesson.name)" :class="{'activo':less.name===clase}"  >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
+                                <input type="checkbox" v-model="completedLessons" :value=less.id @click="checkClass(less.id)">
+                                <a @click="changeClass(less)" :class="{'activo':less.name===clase}"  >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
                             </li>  
                         </ul>
                         </b-collapse>
@@ -39,8 +37,7 @@
                         <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress>                       
                 </div>
             </div>            
-    </div>       
-             
+    </div>                   
 </template>
 
 <script>
@@ -63,21 +60,9 @@
             ...mapActions('course',{
                 getCourse: 'getCourse',
                 getLesson: 'getLesson',
-                getResources: 'getResources'
+                getResources: 'getResources',
+                getVideo: 'getVideo'
             }),
-            
-
-            // Funcion para mostrar temario del curso
-            // getTemary(){
-            //     this.axios.get('course/temary/get-all-class/'+this.$route.query.course).then((res)=>{
-            //     this.cargar=false;
-            //     this.modules = res.data.data.modules;
-            //     // Calculando todas las lecciones
-            //     for(let i=0; i<this.modules.length; i++){
-            //         this.allLessons += this.modules[i].lessons.length
-            //     }
-            // });
-            // },
             
             // Funcion para calcular el progreso del curso
             getProgress(){
@@ -92,6 +77,16 @@
             
             // Cambiar de clase
             changeClass(less){
+                // Enviando informacion de la nueva clase
+                this.getLesson(less);
+
+                //Buscando el recurso de la clase
+                this.getResources(this.lesson.name)
+
+                // Cambiando video de la clase
+                this.getVideo(less.id)
+
+                // Cambiando de ruta
                 if(less.name!=this.$route.query.class){
                     this.$router.push({
                         query: {
@@ -105,23 +100,28 @@
             // Clases completadas
             getCompletedLessons(id){
                 this.axios.get(`purchased/show?course_id=${id}`).then((res)=>{
-                for(const index in res.data.data){
-                    if(res.data.status[index]==="SEEN"){
-                        this.completedLessons.push(res.data.data[index])
+                    for(const index in res.data.data){
+                        if(res.data.status[index]==="SEEN"){
+                            this.completedLessons.push(res.data.data[index])
+                        }
                     }
-                }
-            });
+                });
+            },
+
+            // Enviando nueva clase vista
+            checkClass(idClass){
+                this.axios.put(`purchased/update?course_id=${this.$route.query.course}&class_id=${idClass}`)
             }
 
         },
         created(){
-            // Ejecutar funciones locales
-            //this.getTemary();
-
+            // Enviando inforamcion del curso para obtener temario
             this.getCourse(this.$route.query.course);
+            // Recibiendo las clases completadas del curso
             this.getCompletedLessons(this.$route.query.course);
         },
         updated(){
+            // Actualizando la barra de progreso
             this.getProgress();
         },
         watch:{
@@ -132,7 +132,7 @@
                 }
             },
         },
-}
+    }
 </script>
 
 <style scoped>
@@ -212,11 +212,13 @@ input[type="checkbox"]:checked {
   font-weight: 900;
   color: black;
   font-size: 24px;
+  pointer-events:none;
 }
     
     .activo{
         color: rgb(87, 167, 8) !important;
         font-weight: bold !important;
+        pointer-events:none;
     }
     .progressBar {
   font-size: 12px;
