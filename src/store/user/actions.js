@@ -1,5 +1,5 @@
 import axios from "axios";
-import router from "../../router";
+// import router from "../../router";
 
 export const actionUser = async (context ,body)=>{
 
@@ -35,12 +35,13 @@ export const actionUser = async (context ,body)=>{
     localStorage.setItem("id_country_user", id_country);
     localStorage.setItem("biography_user", biography);
 
-    if (statususer == 1) {
-        router.push('/preferences')
-    } else if(statususer == 0) {
-        window.location.reload(true);
-        router.push('/')
-    }
-    //window.location.reload(true);
+    // if (statususer == 1) {
+    //     this.$router.push('/preferences')
+       
+    // } else if(statususer == 0) {
+    //     window.location.reload(true);
+        // this.$router.push('/home')
+    // }
+     window.location.reload(true);
     
 }

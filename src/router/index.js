@@ -8,29 +8,35 @@ import AttributeCourse from '../components/AttributeCourse/AttributeCourse.vue'
 import Cursos from '../views/content/courses/Courses.vue'
 import Messages from '../views/content/message/Messages.vue'
 import CursoUser from '../views/content/course/Course.vue'
-import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
+// import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
 import Login from '../views/auth/Login.vue'
 import Perfil from'../views/content/perfil/Perfil.vue'
+import buycursos from '../components/courses/buy-cursos.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/', name: 'Dashboard', component: Dashboard, meta: { autenticado: true },
+    path: '/', name: 'Dashboard', component: Dashboard,
+     meta: { autenticado: true },
     children: [
       
-      { path: '', component: Home, name: 'home' },
+      { path: '/home', component: Home, name: 'home' },
+   
       { path: '/courses', component: Cursos, name: 'cursos' },
       { path: '/course-user', query:{course:'',class:''}, component: CursoUser, name: 'curso' },
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
       { path: '/perfil', name: 'perfil', component: Perfil },
+      { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos },
+      
       
     ]
   },
   { path: '/login', name: 'Login', component: Login },
   { path: '/attribute', name: 'attribute', component: AttributeVenta },
-  { path: '/preferences', name: 'Preferences', component: PreferencesCateg, meta: { autenticado: true } }
+  // { path: '/preferences', name: 'Preferences', component: PreferencesCateg, meta: { autenticado: true } },
+ 
 ]
 
 const router = new VueRouter({
@@ -42,14 +48,17 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('access_token');
   let autenticado = to.matched.some(record => record.meta.autenticado);
-  let status = localStorage.getItem('status_user')
+  // let status = localStorage.getItem('status_user')
   if (autenticado && !token) {
     next('login');
-  } else if ((!autenticado && token) && status == 1 ) {
-    next('/preferences');
-  } else if ((!autenticado && token) && status == 0) {
-    next('/');
-  } else {
+  }
+  //  if ((!autenticado && token) && status == 0 ) {
+  //   next('/preferences');
+   else if ((!autenticado && token)) {
+    next('/home');
+  }
+   else{
+    
     next()
   }
 })
