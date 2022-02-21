@@ -14,7 +14,7 @@
 
         <div class="parrafos">
           <div class="p1">
-            <p>{{ cuaDetalles }}</p>
+            <p>{{ userUp.name }}</p>
           </div>
           <div class="p2">
             <p>{{ userUp.email }}</p>
@@ -83,24 +83,24 @@
           <div class="region">
           
           
-          <input type="text" required placeholder="Ciudad" />
+          <input type="text" required placeholder="Ciudad" v-model="userUp.city" />
             <!-- <select class="ciudadApi" > 
                 <option value="" selected> Ciudad</option>
             </select>  -->
 
 
 
-            <select class="paisApi" > 
+            <select class="paisApi" v-model="userUp.country" > 
                 
                 <option value="" selected >--seleccionar--</option>
-                <option v-for="pais in namePais" :key="pais.common" value=""> {{pais.common}} </option>
+                <option v-for="pais in namePais" :key="pais.common" > {{pais.common}} </option>
             </select> 
 
           </div>
         </div>
       </div>
       <div class="data2">
-        <input type="text" required placeholder="Genero" />
+        <input type="text" required placeholder="Genero" disabled />
         <input v-model="userUp.date_birth" type="date" required placeholder="Fecha de nacimiento"
         />
       </div>
@@ -129,6 +129,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: "perfil",
 
@@ -139,12 +141,13 @@ export default {
       photo: "",
 
       userUp: {
-        email: " ",
-        name: "",
-        last_name: "",
-        date_birth: "",
-        id_country: "",
-        biography:"",
+        email: "",
+        name: localStorage.getItem("name_user"),
+        last_name: localStorage.getItem("last_name_user"),
+        date_birth: localStorage.getItem("date_birth_user"),
+        country: localStorage.getItem("country_user") ,
+        biography:localStorage.getItem("biography_user"),
+        city:localStorage.getItem("city")
       },
 
     cuaDetalles:"",
@@ -155,26 +158,38 @@ export default {
     };
   },
   created() {
-    this.userUp.last_name = localStorage.getItem("last_name_user");
+    //this.userUp.last_name = localStorage.getItem("last_name_user");
     this.photo = localStorage.getItem("photo_user");
-    this.userUp.date_birth = localStorage.getItem("date_birth_user");
+    //this.userUp.date_birth = localStorage.getItem("date_birth_user");
     this.userUp.email = localStorage.getItem("email_user");
-    this.userUp.name = localStorage.getItem("name_user");
+    //this.userUp.name = localStorage.getItem("name_user");
     this.cuaDetalles= localStorage.getItem("name_user");
-    this.userUp.biography= localStorage.getItem("biography_user");
+    //this.userUp.biography= localStorage.getItem("biography_user");
+    //this.userUp.city= localStorage.getItem("city");
     
-    this.userUp.id_country = localStorage.getItem("id_country_user");
+    //this.userUp.country = localStorage.getItem("country_user");
     this.obtenePaises();
+  },
+  computed:{
+    ...mapState('user',['id_user'])
   },
   methods: {
     userUpdate() {
       this.axios.post("/user/update",this.userUp).then(() =>{
-        //console.log(res.status);
+        // console.log(res);
       }).catch(()=>{
         //console.log(error);
-      })
+      });
+
+      this.axios.get(`/user/show?id=${localStorage.getItem("id_user")}`).then((res)=>{
+        localStorage.setItem("name_user", res.data.name);
+        localStorage.setItem("last_name_user", res.data.last_name);
+        localStorage.setItem("date_birth_user", res.data.date_birth);
+        localStorage.setItem("country_user", res.data.country);
+        localStorage.setItem("biography_user", res.data.biography);
+        localStorage.setItem("city", res.data.city);
+      });
     },
-    
     
     async obtenePaises(){
       let url = 'https://restcountries.com/v3.1/all';
