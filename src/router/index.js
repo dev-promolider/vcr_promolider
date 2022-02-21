@@ -23,7 +23,7 @@ const routes = [
       { path: '/home', component: Home, name: 'home' },
    
       { path: '/courses', component: Cursos, name: 'cursos' },
-      { path: '/course-user', component: CursoUser, name: 'curso' },
+      { path: '/course-user', query:{course:'',class:''}, component: CursoUser, name: 'curso' },
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },

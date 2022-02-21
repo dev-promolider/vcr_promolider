@@ -168,10 +168,10 @@ export default {
   },
   methods: {
     userUpdate() {
-      this.axios.post("/user/update",this.userUp).then((res) =>{
-        console.log(res.status);
-      }).catch((error)=>{
-        console.log(error);
+      this.axios.post("/user/update",this.userUp).then(() =>{
+        //console.log(res.status);
+      }).catch(()=>{
+        //console.log(error);
       })
     },
     
@@ -185,7 +185,7 @@ export default {
       this.namePais.push(pais.name);
       // console.log(this.namePais);
 
-      console.log(pais.name.common == 'Peru'? pais.name.common : '');
+      //console.log(pais.name.common == 'Peru'? pais.name.common : '');
       });
     }
   },

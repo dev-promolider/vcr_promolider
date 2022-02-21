@@ -18,8 +18,8 @@ export const actionUser = async (context ,body)=>{
     
     //context.commit("SET_NAME",fullName)
 
-    console.log(res.data.data.user.status_user);
-    console.log(res.data.data.user.name);
+    //console.log(res.data.data.user.status_user);
+    //console.log(res.data.data.user.name);
     
     
     let authToken = res.data.data.access_token;

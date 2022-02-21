@@ -53,7 +53,7 @@ export default {
     this.axios.get("comments/show-comments?class_id=1")
     .then((res) =>{
       this.allComments = res.data;
-      console.log(this.allComments);
+      //console.log(this.allComments);
     })
   },
   methods: {
@@ -63,7 +63,7 @@ export default {
           console.log("comentario enviado con exíto" + res);
       })
       this.newComment.comments ='';
-      console.log("TECLA ENTER!!!!!");
+       //console.log("TECLA ENTER!!!!!");
     }
   },
   mounted(){
