@@ -5,4 +5,5 @@ export const isLoading = (state) => state.isLoading;
 export const resources = (state) => state.resources;
 export const isResources = (state) => state.isResources;
 export const completedLessons = (state) => state.completedLessons;
-export const urlVideo = (state) => state.urlVideo
+export const urlVideo = (state) => state.urlVideo; 
+export const timeReady = (state) => state.timeReady;

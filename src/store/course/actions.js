@@ -40,7 +40,12 @@ export const getVideo = async (context, classId) =>{
           const url = URL.createObjectURL(new Blob([res.data], {type: "video/mp4"}));
           context.commit('SET_VIDEO',url);
         }
-    ).catch(err=>console.log(err))
+    );
+
 }
 
+// Enviar estado de reproduccion
+export const getTimeReproduction = (context,time)=>{
+    context.commit('UPDATE_TIME',time);
+}
 

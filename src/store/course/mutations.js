@@ -41,3 +41,7 @@ export const SET_VIDEO = (state, url)=>{
     state.urlVideo=url;
     state.renderVideo = true;
 }
+
+export const UPDATE_TIME = (state, time) =>{
+    state.timeReady = time
+}

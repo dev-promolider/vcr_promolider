@@ -42,24 +42,16 @@ import { mapGetters } from 'vuex'
     },
     data() {
       return {
-        // videojs options
-        //url:'',
-        //time: 330,
         playerOptions: {}
       }
     },
-    props:[
-      'url',
-      'time'
-    ],
-
     mounted() {
       this.playerOptions= { 
           height:100,
           preload: "auto",
           autoplay: true,
           muted: true,
-          language: 'en',
+          language: 'es',
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
             type: "video/mp4",
@@ -98,13 +90,14 @@ import { mapGetters } from 'vuex'
       player() {
         return this.$refs.videoPlayer.player
       },
-      ...mapGetters('course',['urlVideo'])
+      ...mapGetters('course',['urlVideo','timeReady'])
     },
     methods: {
       // listen event
       onPlayerPlay() {
       },
-      onPlayerPause() {
+      onPlayerPause(player) {
+        console.log('Tiempo en pause ->'+player.currentTime());
       },
       onPlayerEnded() {
       },
@@ -127,10 +120,18 @@ import { mapGetters } from 'vuex'
       playerReadied(player) {
         // seek to 10s
         //console.log('example player 1 readied', player)
-        player.currentTime(this.time)
+        player.currentTime(this.timeReady)
         // console.log('example 01: the player is readied', player)
       }
-    }
+    },
+    beforeDestroy() {
+      console.log('componente destriudo y se quedo en ->'+this.player.currentTime())
+    },
+    // events:{
+    //   'window.onbeforeunload': onbeforeunload_handler(){
+
+    //   };
+    // }
   }
 </script>
 
