@@ -1,11 +1,15 @@
 <template>
-  <div class="content-course d-flex">
+<div class="cont">
+  <div v-if="error" class="no-result center-element">
+    <span>Lo sentimos se produjo un error</span>
+  </div>
+  <div v-else class="content-course d-flex">
     <div class="navtap-video">
       <div class="video">
         <div class="seccion_video">
           <Video v-if="renderVideo"  :url="url" :time="time"/>
           <div v-else class="center-spinner">
-            <b-spinner style="width: 3rem; height: 3rem;" variant="success" label="Large Spinner"></b-spinner>
+            <b-spinner style="width: 3rem; height: 3rem;" variant="secondary" label="Large Spinner"></b-spinner>
           </div>
         </div>
         <div class="seccion_inferior_video">
@@ -24,6 +28,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -37,9 +42,10 @@ export default {
   name: "Course",
   data(){
     return{
-      time:100,
+      time:0,
       render: false,
       url:'',
+      error: false
     }
   },
   components: {
@@ -75,9 +81,14 @@ export default {
   beforeMount(){
     
 
-    // if(!this.$route.query.class && !this.$route.query.course){
-    //   this.$router.push('/');
-    // }else if(!this.$route.query.class){
+     if(!this.$route.query.class && !this.$route.query.course){
+       this.error=true;
+       //this.$router.push('/home');
+     }else if(!this.$route.query.class || !this.$route.query.course){
+       this.error=true
+       //this.$router.push('/home');
+     }
+    //else if(!this.$route.query.class){
     //    this.$router.push({
     //        query: {
     //            course: this.$route.query.course,
@@ -100,6 +111,10 @@ export default {
 </script>
 
 <style scoped>
+.cont{
+  height: 100%;
+  width: 100%;
+}
 .content-course { display: flex; width: 100%; height: calc(100vh - 80px);
     max-height: calc(100vh - 80px);  padding: 11px 102px 27px 69px;
     gap: 36px;
