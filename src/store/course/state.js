@@ -12,5 +12,6 @@ export default () => ({
     isResources: false,
     completedLessons: [],
     renderVideo:false,
-    urlVideo: ''
+    urlVideo: '',
+    timeReady: 0
 })

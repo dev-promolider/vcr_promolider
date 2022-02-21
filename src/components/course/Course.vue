@@ -7,7 +7,7 @@
     <div class="navtap-video">
       <div class="video">
         <div class="seccion_video">
-          <Video v-if="renderVideo"  :url="url" :time="time"/>
+          <Video v-if="renderVideo" />
           <div v-else class="center-spinner">
             <b-spinner style="width: 3rem; height: 3rem;" variant="secondary" label="Large Spinner"></b-spinner>
           </div>
@@ -42,9 +42,6 @@ export default {
   name: "Course",
   data(){
     return{
-      time:0,
-      render: false,
-      url:'',
       error: false
     }
   },
