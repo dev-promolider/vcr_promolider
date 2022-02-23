@@ -136,7 +136,7 @@ export default {
   display: block;
  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   white-space: nowrap;
-  width: 17ch;
+  width: 20ch;
   // border-right: 4px solid;
   animation: typing 2s steps(12), blink .5s infinite step-end alternate;
   overflow: hidden;

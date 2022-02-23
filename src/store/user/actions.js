@@ -15,15 +15,19 @@ export const actionUser = async (context ,body)=>{
     let name=res.data.data.user.name
     let biography=res.data.data.user.biography
     let statususer = res.data.data.user.status_user
+    let city = res.data.data.user.city
+    let id_user = res.data.data.user.id
+    
     
     //context.commit("SET_NAME",fullName)
 
-    console.log(res.data.data.user.status_user);
-    console.log(res.data.data.user.name);
+    //console.log(res.data.data.user.status_user);
+    //console.log(res.data.data.user.name);
     
     
     let authToken = res.data.data.access_token;
-    
+
+    localStorage.setItem("id_user", id_user);
     localStorage.setItem("access_token", authToken);
     localStorage.setItem("status_user", statususer);
     //localStorage.setItem("fullName_user", fullName);
@@ -32,8 +36,9 @@ export const actionUser = async (context ,body)=>{
     localStorage.setItem("photo_user", photo);
     localStorage.setItem("date_birth_user", date_birth);
     localStorage.setItem("email_user", email);
-    localStorage.setItem("id_country_user", id_country);
+    localStorage.setItem("country_user", id_country);
     localStorage.setItem("biography_user", biography);
+    localStorage.setItem("city", city);
 
     // if (statususer == 1) {
     //     this.$router.push('/preferences')
