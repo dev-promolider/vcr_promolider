@@ -91,12 +91,16 @@ export default {
   margin-right: 10px;
   margin-top: 20px;
 }
-.contenido:hover{
-    background: #b9c6e9;
-     opacity: 0.6;
-     width: 90%;
-     height: 56%;
-     cursor: pointer;
+.contenido img {
+
+  transition: all 300ms;
+  position:relative;
+}
+.contenido img:hover{
+  transform: scale(1.10);
+   background: #b9c6e9;
+   opacity: 0.6;
+  cursor: pointer;
 }
 .title {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
