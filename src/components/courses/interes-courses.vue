@@ -67,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 .corrector {
-  width: 1228px;
+  width: 1028px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -91,7 +91,7 @@ export default {
   }
 }
 .total {
-  border: 1px solid rgb(214, 214, 214);
+  border: 2px solid rgb(221, 220, 220);
   opacity: 0.8;
   background: rgb(253, 253, 253);
   margin-bottom: 20px;
@@ -130,8 +130,8 @@ export default {
 .contenido:hover{
     background: #b9c6e9;
      opacity: 0.6;
-     width: 81.5%;
-     height: 51%;
+     width: 82.5%;
+     height: 56%;
      cursor: pointer;
 }
 .titulo {
@@ -154,7 +154,7 @@ export default {
    text-align: left;
   margin-bottom: 0px;
   color: rgb(129, 11, 11);
-  font-weight: 800;
+  font-weight: 900;
   font-size: 20px;
 }
 .descripcion {
@@ -167,7 +167,8 @@ export default {
   -webkit-line-clamp: 2;
   line-clamp: 2;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 15px;
   text-align: left;
+  color:rgb(190, 160, 26);
 }
 </style>

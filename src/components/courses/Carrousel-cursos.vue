@@ -70,13 +70,13 @@ export default {
 
 <style lang="scss" scoped>
 .corrector {
-  width: 1228px;
+  width: 1150px;
   margin-right: auto;
   margin-left: auto;
 }
 
 .marco {
-  border: 1px solid rgb(214, 214, 214);
+  border: 2px solid rgb(221, 220, 220);
    background: rgb(253, 253, 253);
   // margin-bottom: 20px;
   opacity: 0.8;
@@ -94,8 +94,8 @@ export default {
 .contenido:hover{
     background: #b9c6e9;
      opacity: 0.6;
-     width: 84%;
-     height: 57%;
+     width: 90%;
+     height: 56%;
      cursor: pointer;
 }
 .title {
@@ -140,7 +140,7 @@ export default {
    text-align: left;
   margin-bottom: 0px;
   color: rgb(129, 11, 11);
-  font-weight: 800;
+  font-weight: 900;
   font-size: 20px;
 }
 .descripcion {
@@ -155,7 +155,8 @@ export default {
   -webkit-line-clamp: 1;
   line-clamp: 1;
   overflow: hidden;
-  font-size: 13px;
+ font-size: 15px;
   text-align: left;
+  color:rgb(190, 160, 26);
 }
 </style>

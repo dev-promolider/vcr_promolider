@@ -46,65 +46,71 @@ export default {
     return {
       loading: true,
       mostrar: false,
+      lastCourses:[]
     };
   },
 
-  props: {
-    lastCourses: {
-      type: Array,
-    },
-  },
+  // props: {
+  //   lastCourses: {
+  //     type: Array,
+  //   },
+  // },
 
   mounted() {
-    if (this.lastCourses) {
-      this.mostrar = true;
-      this.loading = false;
-    }
+    // if (this.lastCourses) {
+    //   this.mostrar = true;
+    //   this.loading = false;
+    // }
   },
 
   methods: {
-    //          getAttributes() {
-    //       this.axios.get("course/last-courses-rep").then((datos) => {
-    //             console.log(datos)
-    //             console.log("hola mundo")
-    //    });
-
-    //    },
-
+    
+             getAttributes() {
+         this.axios.get("course/last-courses-rep").then((datos) => {
+        this.lastCourses = datos.data.data;
+        this.loading= false,
+        this.mostrar= true,
+        console.log(this.lastCourses);
+      });
+       },
+  },
     created() {
       this.getAttributes();
     },
-  },
+  
 };
 </script>
 
 <style lang="scss" scoped>
 .corrector {
-  width: 1228px;
+  width: 1170px;
   margin-right: auto;
   margin-left: auto;
+   margin-top:20px;
 }
 .total {
-  border: 1px solid rgb(214, 214, 214);
+  border: 2px solid rgb(221, 220, 220);
   opacity: 0.8;
   margin-bottom: 20px;
   width: 90%;
   margin-right: auto;
   margin-left: auto;
   padding-bottom: 20px;
+  
  background: rgb(253, 253, 253);
+ 
 }
 .contenido {
   width: 25%;
-  margin-left: 40px;
-  margin-right: 10px;
+  margin-left: 25px;
+  margin-right: 0px;
   margin-top: 20px;
 }
 .contenido:hover{
     background: #b9c6e9;
      opacity: 0.6;
      width: 81%;
-     height: 57%;
+     height: 56%;
      cursor: pointer;
 }
 
@@ -148,7 +154,7 @@ export default {
   text-align: left;
   margin-bottom: 0px;
   color: rgb(129, 11, 11);
-  font-weight: 800;
+  font-weight: 900;
   font-size: 20px;
   margin-top:5px;
 }
@@ -163,7 +169,8 @@ export default {
   -webkit-line-clamp: 2;
   line-clamp: 2;
   overflow: hidden;
-  font-size: 13px;
+   font-size: 15px;
   text-align: left;
+  color:rgb(190, 160, 26);
 }
 </style>

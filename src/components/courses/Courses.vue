@@ -8,7 +8,8 @@
     </div>
 
     <!-- <PreferecesSection :movies="movies" v-if="guardar" /> -->
-    <LastCourses :lastCourses="lastCourses" v-if="guardar" />
+    <LastCourses  v-if="guardar" />
+    <!-- :lastCourses="lastCourses" -->
 
     <MoviesSection :courses="courses" v-if="guardar" />
     <InteresCourses :interesCourses="interesCourses" v-if="guardar" />
@@ -77,7 +78,7 @@ export default {
 
       this.axios.get("course/last-courses-rep").then((datos) => {
         this.lastCourses = datos.data.data;
-        console.log(this.lastCourses);
+        // console.log(this.lastCourses);
       });
 
       this.axios.get("course/interesting-courses").then((datos) => {
@@ -158,25 +159,27 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 
 .buscador {
   background: rgb(255, 255, 255);
-  width: 380px;
-  height: 78px;
-  margin-right: 30px;
+  width: 480px;
+  height: 98px;
+  margin-right: 150px;
   margin-left: auto;
   margin-top: 20px;
   display: flex;
   align-items: center;
   border: 1px solid #c4c4c4;
   border-radius: 15px;
+  padding:5px;
   box-sizing: border-box;
 }
 .buscador input {
-  width: 348px;
-  height: 18px;
+  width: 358px;
+  height: 45px;
   border: none;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
+  font-size: 15px;
   line-height: 14px;
+  margin-left: 30px;
 }
 .buscador input:focus {
   /* para quitar el color de marco de 

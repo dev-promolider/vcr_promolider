@@ -82,9 +82,9 @@ export default {
 }
 
 .total {
- 
+
  background: rgb(253, 253, 253);
-  border: 1px solid rgb(214, 214, 214);
+ border: 2px solid rgb(221, 220, 220);
   //    background-color: rgb(238, 236, 243);
   opacity: 0.8;
   margin-bottom: 20px;
@@ -102,7 +102,7 @@ export default {
 .contenido:hover{
     background: #b9c6e9;
      opacity: 0.6;
-     width: 84%;
+     width: 85%;
      height: 51%;
      cursor: pointer;
 }
@@ -149,7 +149,7 @@ export default {
    text-align: left;
   margin-bottom: 0px;
   color: rgb(129, 11, 11);
-  font-weight: 800;
+  font-weight: 900;
   font-size: 20px;
 }
 .descripcion {
@@ -162,7 +162,8 @@ export default {
   -webkit-line-clamp: 2;
   line-clamp: 2;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 15px;
   text-align: left;
+  color:rgb(190, 160, 26);
 }
 </style>
