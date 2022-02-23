@@ -135,10 +135,26 @@ export default {
   margin-top: 20px;
 }
 .title p {
+  margin-right: auto;
+  margin-left: auto;
   color: #4b4747;
   font-size: 16px;
   font-weight: 700;
   text-align: center;
+  display: block;
+ font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+  white-space: nowrap;
+  width: 17ch;
+  // border-right: 4px solid;
+  animation: typing 2s steps(12), blink .5s infinite step-end alternate;
+  overflow: hidden;
+}
+@keyframes typing {
+  from { width :0}
+}
+@keyframes blink {
+  50% { border-color :transparent}
+  
 }
 .titulo {
   width: 320px;
