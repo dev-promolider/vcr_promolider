@@ -1,28 +1,29 @@
 <template>
   <div class="container-courses">
     <div class="spinner" v-if="lord"></div>
+
     <div class="buscador" v-if="guardar">
       <input type="text" placeholder="buscar el curso requerido" />
       <img src="@/assets/logo.png" alt="" />
     </div>
 
+    <!-- <PreferecesSection :movies="movies" v-if="guardar" /> -->
+    <LastCourses  v-if="guardar" />
+    <!-- :lastCourses="lastCourses" -->
 
-  <!-- <PreferecesSection :movies="movies" v-if="guardar" /> -->
-  <LastCourses :lastCourses="lastCourses" v-if="guardar"  />
-  <MoviesSection :courses="courses" v-if="guardar"/>
-  <InteresCourses :interesCourses ="interesCourses" v-if="guardar"/>
-  <RelatedCourses :relatedCourses ="relatedCourses" v-if ="guardar" />
-
+    <MoviesSection :courses="courses" v-if="guardar" />
+    <InteresCourses :interesCourses="interesCourses" v-if="guardar" />
+    <RelatedCourses :relatedCourses="relatedCourses" v-if="guardar" />
   </div>
 </template>
 
 <script>
 // import Spinner from '@/components/auth/Spinner.vue'
-import LastCourses from '@/components/courses/last-courses.vue'
+import LastCourses from "@/components/courses/last-courses.vue";
 // import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
-import MoviesSection from '@/components/courses/Carrousel-cursos.vue'
-import InteresCourses from '@/components/courses/interes-courses.vue'
-import RelatedCourses from '@/components/courses/related-courses.vue'
+import MoviesSection from "@/components/courses/Carrousel-cursos.vue";
+import InteresCourses from "@/components/courses/interes-courses.vue";
+import RelatedCourses from "@/components/courses/related-courses.vue";
 export default {
   name: "Courses",
   components: {
@@ -31,31 +32,29 @@ export default {
     // PreferecesSection,
     LastCourses,
     InteresCourses,
-    RelatedCourses
-
+    RelatedCourses,
   },
   data() {
     return {
       informacion: [],
       lord: true,
       limite: 5,
-      lorde: false,
+      lorde: true,
       prendido: true,
       guardar: false,
       total: [],
       noexis: false,
       loading: true,
-      mostrar:false,
+      mostrar: false,
 
-      title:'1231',
+      title: "1231",
       age: 123,
-      courses:[],
-      movies:[],
-      lastCourses:[],
-      interesCourses:[],
-      relatedCourses:[],
-      prueba:[],
-      
+      courses: [],
+      movies: [],
+      lastCourses: [],
+      interesCourses: [],
+      relatedCourses: [],
+      prueba: [],
     };
   },
   methods: {
@@ -63,42 +62,34 @@ export default {
       this.axios.get("course/related-courses").then((datos) => {
         this.lord = false;
         this.guardar = true;
-         this.loading= false;
-          this.mostrar=true;
+        this.loading = false;
+        this.mostrar = true;
         // const array = datos.data.data;
-         this.courses =datos.data.data;
+        this.courses = datos.data.data;
         // this.informacion = array[0].courses_related;
         // console.log(array[0].courses_related)
         // console.log(array2[1].last_courses)
-      //  this.informacion.forEach(cursos =>{
-         
-      //  })
-        
-           console.log(this.courses)
+        //  this.informacion.forEach(cursos =>{
 
+        //  })
 
+        // console.log(this.courses);
       });
 
-       this.axios.get("course/last-courses-rep").then((datos) => {
-            this.lastCourses =datos.data.data
-            console.log(this.lastCourses)
-           
-   });
+      this.axios.get("course/last-courses-rep").then((datos) => {
+        this.lastCourses = datos.data.data;
+        // console.log(this.lastCourses);
+      });
 
+      this.axios.get("course/interesting-courses").then((datos) => {
+        this.interesCourses = datos.data.data;
+        // console.log(this.interesCourses);
+      });
 
-     
-    this.axios.get("course/interesting-courses").then((datos) => {
-            
-            this.interesCourses =datos.data.data
-            console.log(this.interesCourses)
-           
-   });
-
-    this.axios.get("course/released-courses").then((datos) => {
-            this.relatedCourses =datos.data.data
-            console.log(this.relatedCourses)
-           
-   });
+      this.axios.get("course/released-courses").then((datos) => {
+        this.relatedCourses = datos.data.data;
+        // console.log(this.relatedCourses);
+      });
     },
     aumentar() {
       this.limite += 5;
@@ -107,35 +98,30 @@ export default {
         this.prendido = false;
         this.lorde = false;
         this.noexis = true;
-         
-      } 
+      }
       // this.informacion.forEach(cursos=>{
       //   this.age =cursos.id + 1
       //   console.log(this.age)
       // })
-    
     },
 
-    goToClass(courseId){
+    goToClass(courseId) {
       this.$router.push({
-        name: 'course-user',
-        query: { 
+        name: "course-user",
+        query: {
           course: courseId,
-          class: 1
-          }
-        }
-      );
-    }
-
+          class: 1,
+        },
+      });
+    },
   },
   created() {
     this.getAttributes();
-  
   },
 };
 </script>
 
-<style  scoped>
+<style scoped>
 /* links
 https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
 https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
@@ -154,10 +140,11 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   height: 106px;
   border-radius: 50%;
   border-left-color: #078812;
-  margin-left: 485px;
-  margin-top: 200px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 350px;
   animation: spin 1s ease infinite;
-  position: absolute;
+  position: relative;
 }
 
 @keyframes spin {
@@ -169,27 +156,30 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
     transform: rotate(360deg);
   }
 }
+
 .buscador {
   background: rgb(255, 255, 255);
-  width: 340px;
-  height: 48px;
-  
-   margin-left: 725px;
-  margin-right: 0px; 
+  width: 480px;
+  height: 98px;
+  margin-right: 150px;
+  margin-left: auto;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   border: 1px solid #c4c4c4;
   border-radius: 15px;
+  padding:5px;
   box-sizing: border-box;
 }
 .buscador input {
-  width: 348px;
-  height: 14px;
+  width: 358px;
+  height: 45px;
   border: none;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
+  font-size: 15px;
   line-height: 14px;
+  margin-left: 30px;
 }
 .buscador input:focus {
   /* para quitar el color de marco de 
