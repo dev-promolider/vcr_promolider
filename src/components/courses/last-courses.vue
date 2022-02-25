@@ -46,7 +46,8 @@ export default {
     return {
       loading: true,
       mostrar: false,
-      lastCourses:[]
+      lastCourses:[],
+      img:''
     };
   },
 
@@ -70,6 +71,8 @@ export default {
         this.lastCourses = datos.data.data;
         this.loading= false,
         this.mostrar= true,
+        this.img= this.lastCourses.image
+        console.log(this.img)
         console.log(this.lastCourses);
       });
 

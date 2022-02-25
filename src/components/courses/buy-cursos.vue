@@ -5,7 +5,7 @@
         {{ titulo }}
       </div>
       <div class="imagen">
-         <img :src="img" alt="" width="280" height="150" />
+         <img :src="img" alt="" width="300" height="180" />
       </div>
       <div class="level">
         <p> Nivel del curso : {{ level }}</p> 
@@ -89,6 +89,7 @@ export default {
 
 .imagen img{
    margin:auto;
+   object-fit: cover;
 }
 
 .precios {
