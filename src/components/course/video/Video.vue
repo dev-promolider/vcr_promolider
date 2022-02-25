@@ -2,7 +2,7 @@
 
 
   <div class="player bg-dark">
-      <video-player  class="video vjs-custom-skin"
+      <video-player  class="video vjs-custom-skin vjs-big-play-centered"
           ref="videoPlayer"
           :options="playerOptions"
           :playsinline="true"
@@ -53,8 +53,9 @@ import { mapGetters } from 'vuex'
           muted: true,
           language: 'es',
           playbackRates: [0.7, 1.0, 1.5, 2.0],
+          techOrder: ["youtube"],
           sources: [{
-            type: "video/mp4",
+            type: "Video/mp4",
             // mp4
             src: this.urlVideo,
             // webm
