@@ -1,14 +1,14 @@
 <template>
   <div class="mt-4 corrector">
     <div class="title">
-      <p>Lista de Cursos</p>
+      <p>LISTA DE CURSOS</p>
     </div>
 
     <div class="marco">
       <Carousel :per-page="4">
         <Slide v-for="course in courses" :key="course.id">
           <div class="contenido">
-            <img :src="course.image" alt="" width="250" height="150" />
+            <img :src="course.image" alt="" width="250" height="150" v-on:click="editar(course.id)"/>
 
             <div class="titulo">
               <p> {{ course.title }}</p>
@@ -63,6 +63,9 @@ export default {
   methods: {
     // mostrar(id){
     // this.$router.push("/buy-cursos/ " + id);
+      editar(id){
+         this.$router.push('/buy-cursos/' + id)
+       }
     // }
   },
 };
@@ -121,7 +124,7 @@ export default {
   margin-right: auto;
   margin-left: auto;
   color: #4b4747;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   text-align: center;
   display: block;

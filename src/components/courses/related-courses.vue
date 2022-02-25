@@ -1,7 +1,7 @@
 <template>
   <div class="corrector">
     <div class="title">
-      <p>Cursos recien lanzados</p>
+      <p>CURSOS RECIEN LANZADOS</p>
     </div>
 
     <div class="total">
@@ -9,7 +9,7 @@
         <Slide v-for="relatedCourse in relatedCourses" :key="relatedCourse.id">
           <div class="contenido">
             <!-- <div class="imag"> -->
-            <img :src="relatedCourse.image" alt="" width="250" height="150" />
+            <img :src="relatedCourse.image" alt="" width="250" height="150" v-on:click="editar(relatedCourse.id)" />
             <!-- </div> -->
 
             <div class="titulo">
@@ -70,7 +70,11 @@ export default {
     }
   },
 
-  methods: {},
+  methods: {
+     editar(id){
+         this.$router.push('/buy-cursos/' + id)
+       }
+  },
 };
 </script>
 
@@ -114,7 +118,7 @@ export default {
 .title {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   background: #d7ddf0;
-  width: 210px;
+  width: 280px;
   overflow: hidden;
   padding: 14px 2px 2px 2px;
   border-radius: 25px 25px 25px 25px;
@@ -130,13 +134,13 @@ export default {
   margin-right: auto;
   margin-left: auto;
   color: #4b4747;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   text-align: center;
   display: block;
  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   white-space: nowrap;
-  width: 20ch;
+  width: 24ch;
   // border-right: 4px solid;
   animation: typing 2s steps(12), blink .5s infinite step-end alternate;
   overflow: hidden;

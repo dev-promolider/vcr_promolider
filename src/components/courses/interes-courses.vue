@@ -1,14 +1,14 @@
 <template>
   <div class="corrector">
     <div class="title">
-      <p>cursos de interes</p>
+      <p>CURSOS DE INTERES</p>
     </div>
 
     <div class="total">
       <Carousel :per-page="4">
         <Slide v-for="interesCourse in interesCourses" :key="interesCourse.id">
           <div class="contenido">
-            <img :src="interesCourse.image" alt="" width="250" height="150" />
+            <img :src="interesCourse.image" alt="" width="250" height="150" v-on:click="editar(interesCourse.id)"/>
 
             <div class="titulo">
               <p>
@@ -54,6 +54,11 @@ export default {
       type: Array,
     },
   },
+  methods:{
+     editar(id){
+         this.$router.push('/buy-cursos/' + id)
+       }
+  },
   mounted() {
     if (this.interesCourses) {
       this.mostrar = true;
@@ -61,7 +66,7 @@ export default {
     }
   },
 
-  methods: {},
+
 };
 </script>
 
@@ -112,13 +117,13 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .title p {
   margin-right: auto;
   margin-left: auto;
   color: #4b4747;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   text-align: center;
   display: block;

@@ -38,7 +38,7 @@ export default {
 
   methods: {
     getAttributes() {
-      this.pao_id = this.$route.params.ide;
+      this.pao_id = this.$route.params.ideses;
       console.log(this.pao_id);
 
       this.axios.get("course/details/" + this.pao_id).then((datos) => {
