@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="titulo">
-        <p class="texto">Tus preferencias</p>
+        <p class="texto">TUS PREFERENCIAS</p>
       </div>
 
       <div class="contenedor">

@@ -1,14 +1,14 @@
 <template>
   <div class="corrector">
     <div class="title">
-      <p>ultimos cursos</p>
+      <p>ULTIMOS CURSOS</p>
     </div>
 
     <div class="total">
       <Carousel :per-page="3">
-        <Slide v-for="lastCourse in lastCourses" :key="lastCourse.id">
+        <Slide v-for="lastCourse in lastCourses" :key="lastCourse.id" >
           <div class="contenido">
-            <img :src="lastCourse.image" alt="" width="300" height="150" />
+            <img :src="lastCourse.image" alt="" width="300" height="150" v-on:click="editar(lastCourse.id)" />
 
             <div class="titulo">
               <p> {{ lastCourse.title }}</p>
@@ -72,10 +72,18 @@ export default {
         this.mostrar= true,
         console.log(this.lastCourses);
       });
+
+      
        },
+
+          editar(id){
+         this.$router.push('/buy-cursos/' + id)
+       }
+      
   },
     created() {
       this.getAttributes();
+    
     },
   
 };
@@ -138,7 +146,7 @@ export default {
   margin-right: auto;
   margin-left: auto;
   color: #4b4747;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   text-align: center;
   display: block;
