@@ -11,10 +11,10 @@
         <p> Nivel del curso : {{ level }}</p> 
       </div>
       <div class="descripcion">
-        {{ descripcion }}
+        <p>{{ descripcion }}</p> 
       </div>
       <div class="precios">
-        S/ {{ precio }}
+         <button > Comprar S/{{ precio }}</button>
       </div>
     </div>
   </div>
@@ -63,13 +63,13 @@ export default {
 
 .contenidos{
   border:1px solid rgb(199, 198, 198);
-  border-radius: 20px;
+  border-radius: 15px;
   width:  700px;
-  height: 400px;
+  height: 450px;
   padding:20px;
   margin-top:50px;
    margin-right: auto;
-  margin-left: auto;
+  margin-left: 5%;
 }
 .titulo{
   text-align: center;
@@ -89,26 +89,73 @@ export default {
 
 .imagen img{
    margin:auto;
-   object-fit: cover;
+  //  object-fit: cover;
+    transition: all 400ms;
+  position:relative;
+  border-radius: 0px;
 }
 
-.precios {
-  color: rgb(182, 28, 17);
+.imagen img:hover{
+  transform: scale(1.15);
+   background: #b9c6e9;
+   opacity: 0.6;
+  // cursor: pointer;
+}
+
+.precios{
+  width: 25%;
+ 
+  margin-right: auto;
+  margin-left: auto;
+    margin-top: 15px;
+}
+
+.precios button{
+  width: 100%;
+  background: linear-gradient(180deg, #5CC151 -131.4%, #97F18D 100%);
+  color: rgb(0, 0, 0);
   font-weight: 800;
   font-size: 19px;
   text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 9px;
+  border:2px solid rgb(207, 204, 204);
+  border-radius: 20px;
+   transition: all 400ms;
+  position:relative;
+
+}
+.precios button:hover{
+  background: linear-gradient(180deg, #4da043 -131.4%, #97F18D 90%);
+  transform: scale(1.15);
+  color:rgb(88, 50, 50);
 }
 .level p{
   color: rgb(199, 134, 13);
   font-weight: 800;
   font-size: 19px;
   text-align: center;
+  
 }
 
 .descripcion{
-   color: rgb(104, 95, 78);
+  width: 80%;
+  color: rgb(104, 95, 78);
   font-weight: 800;
   font-size: 19px;
   text-align: center;
+  
+  margin-right: auto;
+  margin-left: auto;
+
+}
+.descripcion p{
+  display: -webkit-box;
+  margin-bottom: 0px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
 }
 </style>

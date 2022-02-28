@@ -142,9 +142,11 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   border-left-color: #078812;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 350px;
+  margin-top: 280px;
   animation: spin 1s ease infinite;
   position: relative;
+  overflow: hidden;
+  
 }
 
 @keyframes spin {
