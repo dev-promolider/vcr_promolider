@@ -14,7 +14,7 @@
 
             <div class="titulo">
               <p>
-                {{ relatedCourse.title }}
+                {{ relatedCourse.title }} 
                 <!-- <br>
                        nacimiento : {{relatedCourse.created_at}} -->
               </p>
