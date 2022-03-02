@@ -15,7 +15,9 @@
 
         <div class="nivel">
           
-          <p>Nivel {{level}}</p>
+          <p> Nivel : {{level}}</p>
+           <p> Fecha de Lanzamiento : {{level}}</p>
+            <p> Categoria del curso : {{level}}</p>
           
           </div>
         <div class="el_button">
@@ -32,14 +34,14 @@
       <div class="temarios">
         <div class="acerca_todo">
           <div class="acerca">
-            <p>Acerca de este curso</p>
-            <p>{{ curso_detalle }}</p>
+            <p class="acercacourse">Acerca de este curso</p>
+            <p class="curso_detalle">{{ curso_detalle }}</p>
           </div>
 
           <div class="aprender">
             <div>
               <div class="pregunta">
-                <p>Que aprenderas</p>
+                <p>¿Que aprenderás?</p>
               </div>
 
               <p class="respuesta">{{ aprendera }}</p>
@@ -47,7 +49,7 @@
 
             <div>
               <div class="pregunta">
-                <p>Conocimientos previos</p>
+                <p>¿Que Conocimientos previos necesitas?</p>
               </div>
 
               <p class="respuesta">{{ previos }}</p>
@@ -55,7 +57,7 @@
 
             <div>
               <div class="pregunta">
-                <p>Va dirigido</p>
+                <p>¿A quién va dirigido este curso?</p>
               </div>
 
               <p class="respuesta">{{ dirigido }}</p>
@@ -87,8 +89,23 @@
         <div class="titulo_recom">
           <p>Recomendaciones</p>
         </div>
+        
+        <div class="reco">
+           <div class="recomendaciones" v-for="course in courses1" :key="course.id">
+          <div class="ima">
+            <img :src="course.image" alt="soy un video"  />
+            <div class="recomendaciones2">
+          <p>asf}</p>
+        </div>
+          </div>
+          
+           
+        </div>
+        </div>
+       
+       
 
-        <div class="recomendaciones">
+        <!-- <div class="recomendaciones">
           <img src="" alt="soy un video" />
         </div>
         <div class="recomendaciones2">
@@ -100,14 +117,7 @@
         </div>
         <div class="recomendaciones2">
           <p>asfasf</p>
-        </div>
-
-        <div class="recomendaciones">
-          <img src="" alt="soy un video" />
-        </div>
-        <div class="recomendaciones2">
-          <p>asfasf</p>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -138,6 +148,8 @@ export default {
       lecciones4:[],
       description:"",
       limite : 4,
+    courses:[],
+    courses1:[]
     };
   },
 
@@ -164,7 +176,7 @@ export default {
           this.lecciones2= this.lecciones
               
           this.lecciones3 = this.lecciones2.slice(0,5)
-           this.lecciones4 = this.lecciones2.slice(6,12)
+           this.lecciones4 = this.lecciones2.slice(6,7)
           
         
         
@@ -177,6 +189,24 @@ export default {
       
         console.log(this.items);
       });
+
+      this.axios.get("course/related-courses").then((datos) => {
+        this.lord = false;
+        this.guardar = true;
+        this.loading = false;
+        this.mostrar = true;
+        // const array = datos.data.data;
+        this.courses = datos.data.data;
+        // this.informacion = array[0].courses_related;
+        // console.log(array[0].courses_related)
+        // console.log(array2[1].last_courses)
+        //  this.informacion.forEach(cursos =>{
+
+        //  })
+    this.courses1 =this.courses.slice(0,3)
+        console.log(this.courses);
+      });
+
     },
   },
   created() {
@@ -194,23 +224,31 @@ export default {
   display: flex;
   padding: 10px;
   margin-top: 50px;
-  height: 390px;
-  overflow: auto;
+  height: 460px;
+  overflow: hidden;
  
 }
 .contenido1 {
   // background: darkblue;
-  width: 60%;
+  width: 45%;
   height: 356px;
   margin: 2px;
 }
 .titulo_red {
   // background: rgb(99, 75, 72);
-  font-size: 20px;
+  
   font-weight: 800;
   margin-right: 10px;
-  margin-left: 10px;
+  margin-left: 20px;
   margin-top: 10px;
+  
+font-family: Roboto;
+font-style: normal;
+font-weight: 900;
+font-size: 24px;
+line-height: 28px;
+
+color: #494949;
 }
 .texto {
   // background: wheat;
@@ -231,12 +269,20 @@ export default {
 
 .nivel p{
   text-align: left;
-  color:black;
+ font-family: Roboto;
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 26px;
+/* or 186% */
+
+
+color: #494949;
 
 }
 .el_button button {
   background: linear-gradient(180deg, #5cc151 -131.4%, #97f18d 100%);
-  color: rgb(0, 0, 0);
+  
   font-weight: 800;
   font-size: 19px;
   text-align: center;
@@ -249,19 +295,20 @@ export default {
   width: 282px;
 height: 43px;
 padding-top: 5px;
+color: #FFFFFF;
 
 }
 
 .contenido2 {
   // background: darkgoldenrod;
-  width: 40%;
+  width: 55%;
   height: 356px;
   margin-top: 2px;
   margin-left: 35px;
 }
 .contenido2 img {
   width: 98%;
-  height: 336px;
+  height: 416px;
   border: 1px solid #efefef;
   box-sizing: border-box;
   border-radius: 15px;
@@ -284,6 +331,7 @@ padding-top: 5px;
 .leccion{
   width: 10%;
   margin-left: 55px;
+  margin-top: 40px;
 }
 
 .temarios {
@@ -294,16 +342,35 @@ padding-top: 5px;
 
 .acerca_todo {
   padding: 10px;
+  
+background: #FFFFFF;
+border: 1px solid #EFEFEF;
+box-sizing: border-box;
+border-radius: 15px;
+height: 35%;
   // background: wheat;
 }
-.acerca p {
+.acercacourse{
+  font-weight: 700;
+  font-size: 17px;
+    text-align: left;
+    font-style: normal;
+    font-family: Roboto;
+    color:black;
+    margin-left: 45px;
+      margin-top: 35px;
+  
+}
+.curso_detalle {
   text-align: left;
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
-
+  margin-top: 10px;
+margin-left: 45px;
+margin-right: 25px;
   color: #000000;
 }
 
@@ -312,6 +379,18 @@ padding-top: 5px;
 }
 .pregunta p {
   text-align: left;
+  margin-left: 45px;
+  font-family: Roboto;
+font-style: normal;
+font-weight: 800;
+font-size: 15px;
+line-height: 14px;
+margin-right: 10px;
+margin-top: 28px;
+/* identical to box height */
+
+
+color: #000000;
 }
 
 .respuesta {
@@ -322,18 +401,27 @@ padding-top: 5px;
   -webkit-line-clamp: 3;
   line-clamp: 3;
   overflow: hidden;
+  margin-left: 65px;
+  margin-right: 5px;
+  margin-top: 10px;
 }
 
 .titulo {
-  margin-top: 20px;
+  margin-top: 32px;
+  margin-bottom: 40px;
   // background: blueviolet;
   width: 30%;
 }
 .titulo p {
   text-align: left;
   color: black;
-  font-size: 28px;
-  font-weight: 900;
+ font-family: Roboto;
+font-style: normal;
+font-weight: 900;
+font-size: 25px;
+line-height: 21px;
+
+color: #000000;
 }
 
 .cursos {
@@ -396,7 +484,14 @@ text-align: left;
   line-height: 21px;
 
 }
-
+.reco{
+  display: inline-block;
+  width: 100%;
+}
+.ima img{
+  width:100%;
+  height: 150px;
+}
 .recomendaciones1 {
   width: 95%;
   background: #ffffff;
@@ -408,23 +503,25 @@ text-align: left;
 }
 
 .recomendaciones {
-  width: 95%;
+  width: 100;
   height: 191px;
-  margin: 5px 5px 0px 4px;
+  margin: 5px 5px 30px 4px;
   border: 1px solid #efefef;
   box-sizing: border-box;
   border-radius: 15px 15px 0px 0px;
+  
 }
 
 .recomendaciones2 {
-  width: 95%;
+  width: 100%;
   height: 58px;
-  margin-left: 4px;
-  margin-bottom: 17px;
+  margin-left: 0px;
+  margin-bottom: 50px;
   background: #ffffff;
   border: 1px solid #efefef;
   box-sizing: border-box;
   border-radius: 0px 0px 15px 15px;
+ 
+  
 }
 </style>
-
