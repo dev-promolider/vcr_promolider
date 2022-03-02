@@ -16,9 +16,11 @@ export default {
 .all-course {
   /* flex-grow: 1; */
   width: 100%;
-  padding: 10px 2px;
+  padding-right: 0px;
+  
   max-height: calc(100vh - 80px);
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 /* .all-course::-webkit-scrollbar {
   width: 7px;

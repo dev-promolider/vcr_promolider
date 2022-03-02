@@ -6,14 +6,17 @@
       <input type="text" placeholder="buscar el curso requerido" />
       <img src="@/assets/logo.png" alt="" />
     </div>
+  <div class="carros">
 
-    <!-- <PreferecesSection :movies="movies" v-if="guardar" /> -->
-    <LastCourses  v-if="guardar" />
+      <LastCourses  v-if="guardar" />
     <!-- :lastCourses="lastCourses" -->
 
     <MoviesSection :courses="courses" v-if="guardar" />
     <InteresCourses :interesCourses="interesCourses" v-if="guardar" />
     <RelatedCourses :relatedCourses="relatedCourses" v-if="guardar" />
+  </div>
+    <!-- <PreferecesSection :movies="movies" v-if="guardar" /> -->
+  
   </div>
 </template>
 
@@ -133,6 +136,15 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
   margin: 0px;
   width: 100%;
   max-height: 100%;
+  /* background: salmon; */
+ overflow: auto;
+
+}
+.carros{
+  /* background: #078812; */
+  width: 100%;
+  margin-right: 0px;
+  /* margin-left: auto; */
 }
 .spinner {
   border: 9px solid rgba(0, 0, 0, 0.3);

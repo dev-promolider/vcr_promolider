@@ -81,9 +81,10 @@ export default {
 <style scope>
 .content {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: relative;
   display: flex;
+  
 }
 
 .botoncito {
@@ -114,8 +115,10 @@ height: 100%;
 }
 .nav-v {
   width: 239px;
-  min-height: 100%;
+  height: 100%;
   background: #494949;
+  
+  
 }
 .content-user {
   display: flex;
