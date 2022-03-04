@@ -1,11 +1,12 @@
 <template>
+  
   <div class="corrector">
     <div class="title">
       <p>CURSOS RECIEN LANZADOS</p>
     </div>
 
     <div class="total">
-      <Carousel :per-page="2">
+      <Carousel :per-page="3">
         <Slide v-for="relatedCourse in relatedCourses" :key="relatedCourse.id">
           <div class="contenido">
             <!-- <div class="imag"> -->
@@ -80,7 +81,10 @@ export default {
 
 <style lang="scss" scoped>
 .corrector {
- width: 1150px;
+ width: 1110px;
+  margin-right: 2px;
+  overflow-x: hidden;
+  overflow-y:auto;
   margin-right: auto;
   margin-left: auto;
 }
@@ -92,15 +96,15 @@ export default {
   //    background-color: rgb(238, 236, 243);
   opacity: 0.8;
   margin-bottom: 20px;
-  width: 52%;
+  width: 98%;
 
   margin-right: auto;
-  margin-left: auto;
+  margin-left: 8px;
 }
 .contenido {
-  width: 100%;
-  margin-left: 35px;
-  margin-right: auto;
+  width: 25%;
+  margin-left: 15px;
+  margin-right: 10px;
   margin-top: 20px;
 }
 .contenido img {
@@ -117,41 +121,41 @@ export default {
 
 .title {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-  background: #d7ddf0;
-  width: 280px;
+ // background: #d7ddf0;
+  width: 500px;
   overflow: hidden;
   padding: 14px 2px 2px 2px;
   border-radius: 25px 25px 25px 25px;
   -moz-border-radius: 25px 25px 25px 25px;
   -webkit-border-radius: 25px 25px 25px 25px;
-  border: 2px solid #b9c6e9;
-  margin-left: auto;
+  // border: 2px solid #b9c6e9;
+  // margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .title p {
   margin-right: auto;
   margin-left: auto;
   color: #4b4747;
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
+font-size: 38px;
+  font-weight: 800;
+  text-align: left;
   display: block;
  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   white-space: nowrap;
-  width: 24ch;
+  // width: 24ch;
   // border-right: 4px solid;
-  animation: typing 2s steps(12), blink .5s infinite step-end alternate;
-  overflow: hidden;
+  // animation: typing 2s steps(12), blink .5s infinite step-end alternate;
+  // overflow: hidden;
 }
-@keyframes typing {
-  from { width :0}
-}
-@keyframes blink {
-  50% { border-color :transparent}
+// @keyframes typing {
+//   from { width :0}
+// }
+// @keyframes blink {
+//   50% { border-color :transparent}
   
-}
+// }
 
 .titulo {
   width: 250px;

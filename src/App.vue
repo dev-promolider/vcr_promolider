@@ -49,6 +49,7 @@ export default {
   width: 100vw;
   height: 100vh;
   background-color: #f5f3f3;
+  overflow: auto;
 }
 
 /* Boton verde */
