@@ -46,7 +46,8 @@ export default {
     return {
       loading: true,
       mostrar: false,
-      lastCourses:[]
+      lastCourses:[],
+      img:''
     };
   },
 
@@ -70,6 +71,8 @@ export default {
         this.lastCourses = datos.data.data;
         this.loading= false,
         this.mostrar= true,
+        this.img= this.lastCourses.image
+        console.log(this.img)
         console.log(this.lastCourses);
       });
 
@@ -91,16 +94,16 @@ export default {
 
 <style lang="scss" scoped>
 .corrector {
-  width: 1170px;
-  margin-right: auto;
-  margin-left: auto;
+  width: 100%;
+  margin-right: 2px;
+  // margin-left: auto;
    margin-top:20px;
 }
 .total {
   border: 2px solid rgb(221, 220, 220);
   opacity: 0.8;
   margin-bottom: 20px;
-  width: 90%;
+  width: 98%;
   margin-right: auto;
   margin-left: auto;
   padding-bottom: 20px;
@@ -111,7 +114,7 @@ export default {
 .contenido {
   width: 25%;
   margin-left: 25px;
-  margin-right: 0px;
+  margin-right: auto;
   margin-top: 20px;
 }
 .contenido img {
@@ -129,15 +132,15 @@ export default {
 
 .title {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-  background: #d7ddf0;
-  width: 180px;
+  // background: #d7ddf0;
+  width: 380px;
   overflow: hidden;
   padding: 14px 0px 0px 0px;
   border-radius: 25px 25px 25px 25px;
   -moz-border-radius: 25px 25px 25px 25px;
   -webkit-border-radius: 25px 25px 25px 25px;
-  border: 2px solid #b9c6e9;
-  margin-left: auto;
+  // border: 2px solid #b9c6e9;
+  // margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
   margin-top: 20px;
@@ -146,24 +149,24 @@ export default {
   margin-right: auto;
   margin-left: auto;
   color: #4b4747;
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
+  font-size: 38px;
+  font-weight: 800;
+  text-align: left;
   display: block;
  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   white-space: nowrap;
   width: 17ch;
   // border-right: 4px solid;
-  animation: typing 2s steps(12), blink .5s infinite step-end alternate;
-  overflow: hidden;
+  // animation: typing 2s steps(12), blink .5s infinite step-end alternate;
+  // overflow: hidden;
 }
-@keyframes typing {
-  from { width :0}
-}
-@keyframes blink {
-  50% { border-color :transparent}
+// @keyframes typing {
+//   from { width :0}
+// }
+// @keyframes blink {
+//   50% { border-color :transparent}
   
-}
+// }
 .titulo {
   width: 320px;
 }
