@@ -13,7 +13,7 @@ Vue.config.productionTip = false
 const token = localStorage.getItem('access_token');
 
 axios.defaults.baseURL = 'http://promolider.xyz/api/v1'
-// axios.defaults.baseURL = 'https://d446-177-91-253-9.ngrok.io/promolider/public/api/v1'
+//axios.defaults.baseURL = 'http://localhost:8000/api/v1'
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -25,6 +25,22 @@ Vue.use(BootstrapVue)
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// import Echo from 'laravel-echo'
+// window.Pusher = require('pusher-js')
+
+
+// window.Echo = new Echo({
+//   broadcaster: 'pusher',
+//   key: 'PROMOLIDER2021',
+//   wsHost:'localhost',
+//   wsPort: 6001,
+//   disableStats: true,
+//   enableTransports: ['ws','wss'],
+//   forceTLS: false,
+//   cluster:'mt1',
+//   encrypted:true
+// })
 
 new Vue({
   router,

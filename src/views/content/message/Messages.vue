@@ -1,14 +1,24 @@
 <template>
-        <Message/>
+        <newMessage/>
 </template>
 
 <script>
-import Message from "@/components/message/message.vue"
+import newMessage from "@/components/message/newMessage.vue"
+
+
+
 export default {
     name: "Messages",
     components: {
-        Message
+        newMessage
+    },
+    mounted(){
+        
+    },
+    created(){
+        
     }
+
 }
 </script>
 
