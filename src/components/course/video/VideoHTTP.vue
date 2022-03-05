@@ -39,7 +39,7 @@
           },
           flash: { hls: { withCredentials: false }},
           html5: { hls: { withCredentials: false }},
-          poster: "https://promart.vteximg.com.br/arquivos/ids/427515-1000-1000/73949.jpg?v=637232632709230000"
+          poster: "https://promolider.org/sistema/img/logo2-net-menu.png"
         }
       }
     },

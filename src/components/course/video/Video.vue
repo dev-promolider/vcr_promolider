@@ -53,7 +53,7 @@ import { mapGetters } from 'vuex'
           muted: true,
           language: 'es',
           playbackRates: [0.7, 1.0, 1.5, 2.0],
-          techOrder: ["youtube"],
+          //techOrder: ["youtube"],
           sources: [{
             type: "Video/mp4",
             // mp4

@@ -34,20 +34,20 @@ export const getResources = async (context, less)=>{
 
 // Video de la clase
 export const getVideo = async (context, classId) =>{
-    // await axios.get(`video/stream-video?class_id=${classId}`, {responseType: "blob"}).then(
-    //     (res)=>{
-    //       const URL = window.URL || window.webkitURL;
-    //       const url = URL.createObjectURL(new Blob([res.data], {type: "video/mp4"}));
-    //       context.commit('SET_VIDEO',url);
-    //     }
-    // );
-
-    await axios.get(`video/path-video3?class_id=${classId}`).then(
+    await axios.get(`video/stream-video?class_id=${classId}`, {responseType: "blob"}).then(
         (res)=>{
-            console.log(`Aca esta la url -> `+ res.data)
-            context.commit('SET_VIDEO',res.data);
+          const URL = window.URL || window.webkitURL;
+          const url = URL.createObjectURL(new Blob([res.data], {type: "video/mp4"}));
+          context.commit('SET_VIDEO',url);
         }
-    )
+    );
+
+    // await axios.get(`video/path-video3?class_id=${classId}`).then(
+    //     (res)=>{
+    //         console.log(`Aca esta la url -> `+ res.data)
+    //         context.commit('SET_VIDEO',res.data);
+    //     }
+    // )
 
 }
 

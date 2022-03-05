@@ -1,134 +1,158 @@
 <template>
-  <div>
-    <div class="contenedor">
-      <div class="contenido1">
-        <div class="titulo_red">Renderizado videos</div>
+  <div class="container-fluid">
 
-        <div class="texto">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Voluptatibus ab sit natus commodi hic modi quam nam maiores ea, sunt
-            exercitationem, unde accusantium? Tempora repellendus esse dolore
-            itaque similique repudiandae.
+    <!-- Primera sección -->
+    <div class="row my-5">
+
+      <!-- Detalles del curso -->
+      <div class="col-lg-4 col-md-12 pr-5 detailsCourse">
+        <h3 class="font-weight-bold">{{ titulo }}</h3>
+        <p class="my-5 text-justify">
+          {{ descripcion }}
+        </p>
+
+        <ul class="pl-3 mb-5 list-unstyled">
+          <li><i class="fas fa-chart-line mr-3"></i>Nivel: {{level}}</li>
+          <li><i class="fas fa-calendar-alt mr-3"></i>Fecha de lanzamiento: </li>
+          <li><i class="fas fa-bezier-curve mr-2"></i>Categoria del curso: </li>
+        </ul>
+
+        <button class="btn-custom">Comprarlo por S/.{{precio}} soles</button>
+      </div>
+
+      <!-- Imagen del curso -->
+      <div class="col-lg-8 pr-0 pl-4">
+        <img :src="img" class="img-course" />
+      </div>
+    </div>
+
+    <!-- Seccion inferior -->
+    <div class="row">
+      <div class="col-lg-9 col-md-12 mt-4">
+        <div class="border-box p-5">
+          <h5 class="font-weight-bold">Acerca de este curso</h5>
+          <p class=" text-justify my-4">
+            {{ curso_detalle}}
           </p>
+          <div class="row">
+            <div class="col-lg-4 col-md-12">
+              <h5 class="font-weight-bold">¿Qué prenderás?</h5>
+              <p class="text-justify mt-4 pr-5">
+                {{ aprendera}}
+              </p>
+            </div>
+            <div class="col-lg-4 col-md-12">
+              <h5 class="font-weight-bold">¿Qué conocimientos previos necesitas?</h5>
+              <p class="text-justify mt-2 pr-5">
+                {{ previos}}
+              </p>
+            </div>
+            <div class="col-lg-4 col-md-12">
+              <h5 class="font-weight-bold">¿A quién está dirigido este curso?</h5>
+              <p class="text-justify mt-3 pr-5">
+                {{ dirigido}}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div class="nivel">
-          
-          <p> Nivel : {{level}}</p>
-           <p> Fecha de Lanzamiento : {{level}}</p>
-            <p> Categoria del curso : {{level}}</p>
-          
-          </div>
-        <div class="el_button">
-          <button>comprado por S/ {{ precio }}</button>
+        <!-- Lista -->
+        <div>
+          <h4 class="font-weight-bold my-5">Temario del curso </h4>  
+          <ul class="list-group" >
+            <li class="list-group-item px-5 py-4" v-for="(model,index) in course.modules" :key="index">
+              <span v-b-toggle="model.name.replace(/ /g, '')"> <strong> {{index + 1 }}. {{model.name}}</strong> </span>
+              <b-collapse :visible="index===0" :id="model.name.replace(/ /g, '')">
+                <ul class="list-unstyled ml-3">
+                  <li v-for="(less,index) in course.modules[index].lessons" :key=index class="my-4">
+                      <div v-if="course.modules[0].lessons[0].id===less.id " @click="getVideo(less.id)" data-toggle="modal" data-target="#video">
+                        <i class="far fa-play-circle text-success mr-3"></i>{{less.name}}
+                      </div>
+                      <div v-else>
+                        <i class="fas fa-lock mr-3"></i>{{less.name}}
+                      </div>
+                    </li>
+                </ul>
+              </b-collapse>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div class="contenido2">
-        <img :src="img" alt="soy una imagen" />
+      <div class="col-lg-3 col-md-12 mt-4 pr-0">
+        <!-- Productor -->
+        <div class="border-box p-5">
+          <h5 class="font-weight-bold">Productor</h5>
+          <div class="row mt-3 productor">
+            <div class="col-xl-3 col-lg-12 col-md-3 col-sm-3 image">
+              <img class="rounded-circle img-productor" src="../../assets/logo-perfil.png"/>
+            </div>
+            <div class="col-xl-9 col-lg-12 col-md-9 col-sm-9 detalles">
+              <span class="font-weight-bold">{{ nameProductor }}</span>
+              <p class="text-justify"> {{ emailProductor }} </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recomendaciones -->
+        <div class="mt-4">
+          <h5 class="font-weight-bold my-5">Recomendaciones</h5>
+
+          <!-- card course -->
+          <div class="border-box mb-4" v-for="course in courses1" :key="course.id">
+            <img :src="course.image" class="img-card" />
+            <div class="row">
+              <div class="col-6 d-flex flex-row my-4 pl-4">
+                 <img class="rounded-circle img-productor-card" src="../../assets/logo-perfil.png"/>
+                 <p class="ml-1 mt-2">Jesus Galvez</p>
+              </div>
+              <div class="col-6 my-4">
+                <span>{{ course.title}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="temas">
-      <div class="temarios">
-        <div class="acerca_todo">
-          <div class="acerca">
-            <p class="acercacourse">Acerca de este curso</p>
-            <p class="curso_detalle">{{ curso_detalle }}</p>
+    <!-- Video-Modal -->
+    <div class="modal fade" id="video" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content bg-dark">
+          <div class="modal-header">
+            <h3 class="modal-title text-white text-center" id="staticBackdropLabel">{{ course.modules[0].lessons[0].name }}</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-
-          <div class="aprender">
-            <div>
-              <div class="pregunta">
-                <p>¿Que aprenderás?</p>
+          <div class="modal-body">
+            <div class="video">
+              <Video v-if="renderVideo"/>
+              <div v-else class="center-spinner">
+                <b-spinner style="width: 3rem; height: 3rem;" variant="secondary" label="Large Spinner"></b-spinner>
               </div>
-
-              <p class="respuesta">{{ aprendera }}</p>
-            </div>
-
-            <div>
-              <div class="pregunta">
-                <p>¿Que Conocimientos previos necesitas?</p>
-              </div>
-
-              <p class="respuesta">{{ previos }}</p>
-            </div>
-
-            <div>
-              <div class="pregunta">
-                <p>¿A quién va dirigido este curso?</p>
-              </div>
-
-              <p class="respuesta">{{ dirigido }}</p>
             </div>
           </div>
         </div>
-
-        <div class="titulo">
-          <p>Temario del curso</p>
-        </div>
-
-        <div class="cursos">
-          <p>1.{{edicion}}</p>
-        
-          <p class="leccion" v-for="leccion in lecciones3" :key="leccion.id">{{leccion.name}}</p>
-        </div>
-
-        <div class="cursos2">
-          <p>2.{{renderizado}}</p>
-          <p class="leccion" v-for="leccionn in lecciones4" :key="leccionn.id">{{leccionn.name}}</p>
-        </div>
-      </div>
-
-      <div class="productor">
-        <div class="recomendaciones1">
-          <img src="" alt="soy un video" />
-        </div>
-
-        <div class="titulo_recom">
-          <p>Recomendaciones</p>
-        </div>
-        
-        <div class="reco">
-           <div class="recomendaciones" v-for="course in courses1" :key="course.id">
-          <div class="ima">
-            <img :src="course.image" alt="soy un video"  />
-            <div class="recomendaciones2">
-          <p>asf}</p>
-        </div>
-          </div>
-          
-           
-        </div>
-        </div>
-       
-       
-
-        <!-- <div class="recomendaciones">
-          <img src="" alt="soy un video" />
-        </div>
-        <div class="recomendaciones2">
-          <p>asfasf</p>
-        </div>
-
-        <div class="recomendaciones">
-          <img src="" alt="soy un video" />
-        </div>
-        <div class="recomendaciones2">
-          <p>asfasf</p>
-        </div> -->
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
+
+  import Video from "@/components/course/video/Video.vue";
+
+  import { mapState, mapActions } from 'vuex';
+
 export default {
   name: "VirtualClassroomBuyCursos",
 
   data() {
     return {
+      nameProductor:'',
+      emailProductor:'',
       items: [],
       edicion:"",
       renderizado:"",
@@ -148,380 +172,175 @@ export default {
       lecciones4:[],
       description:"",
       limite : 4,
-    courses:[],
-    courses1:[]
+      courses:[],
+      courses1:[],
+
     };
+  },
+  components: {
+    Video
+  },
+  computed:{
+     ...mapState('course',['course','renderVideo'])
   },
 
   methods: {
+    ...mapActions('course',{
+        getCourse: 'getCourse',
+        getVideo: 'getVideo'
+      }),
+    // capitalize(text){
+    //   var texto = text[0].toUpperCase() + text.slice(1);
+    //   return texto;
+    // },
+    firtsLesson(){
+      this.firtsLesson=this.course;
+      console.log('Primera leccion ->'+this.course.modules[0].le)
+    },
+    playerReadied(player) {
+        var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
+        player.tech_.hls.xhr.beforeRequest = function(options) {
+          // console.log(options)
+          return options
+        }
+        console.log(hls)
+      },
     getAttributes() {
-      this.pao_id = this.$route.params.ide;
-      console.log(this.pao_id);
+        this.pao_id = this.$route.params.ide;
+        console.log(this.pao_id);
 
-      this.axios.get("course/details/" + this.pao_id).then((datos) => {
-        this.items = datos.data.data;
-        this.precio = this.items.price;
-        this.level = this.items.level;
-        this.img = this.items.image;
-        this.titulo = this.items.title;
-        this.descripcion = this.items.description;
-        this.curso_detalle = this.items.course_about;
-        this.aprendera = this.items.will_learn;
-        this.previos = this.items.prev_knowledge;
-        this.dirigido = this.items.course_for;
-        this.edicion = this.items.modules[0].name;
-        this.renderizado = this.items.modules[1].name;
-        this.lecciones = this.items.lessons
+        this.axios.get("course/details/" + this.pao_id).then((datos) => {
+          this.items = datos.data.data;
+          this.precio = this.items.price;
+          this.level = this.items.level;
+          this.img = this.items.image;
+          this.titulo = this.items.title;
+          this.descripcion = this.items.description;
+          this.curso_detalle = this.items.course_about;
+          this.aprendera = this.items.will_learn;
+          this.previos = this.items.prev_knowledge;
+          this.dirigido = this.items.course_for;
 
-          this.lecciones2= this.lecciones
-              
-          this.lecciones3 = this.lecciones2.slice(0,5)
-           this.lecciones4 = this.lecciones2.slice(6,7)
+          this.axios.get(`user/show?id=${this.items.id}`).then((res)=>{
+            this.nameProductor = res.data.fullName ;
+            this.emailProductor = res.data.email;
+          });
+            
           
+          // this.lecciones2=this.lecciones.map( datos => datos.name)
+          // for(let i=0 ;i<this.lecciones2.length; i++){
+          //     this.lecciones3= this.lecciones2.push[i]
+          //          console.log(this.lecciones3)
+          // }
         
         
-        // this.lecciones2=this.lecciones.map( datos => datos.name)
-        // for(let i=0 ;i<this.lecciones2.length; i++){
-        //     this.lecciones3= this.lecciones2.push[i]
-        //          console.log(this.lecciones3)
-        // }
-       
-      
-        console.log(this.items);
-      });
+          console.log('🎈🎈🎈'+this.items);
+        });
 
-      this.axios.get("course/related-courses").then((datos) => {
-        this.lord = false;
-        this.guardar = true;
-        this.loading = false;
-        this.mostrar = true;
-        // const array = datos.data.data;
-        this.courses = datos.data.data;
-        // this.informacion = array[0].courses_related;
-        // console.log(array[0].courses_related)
-        // console.log(array2[1].last_courses)
-        //  this.informacion.forEach(cursos =>{
+        this.axios.get("course/related-courses").then((datos) => {
+          this.lord = false;
+          this.guardar = true;
+          this.loading = false;
+          this.mostrar = true;
+          // const array = datos.data.data;
+          this.courses = datos.data.data;
+          // this.informacion = array[0].courses_related;
+          // console.log(array[0].courses_related)
+          // console.log(array2[1].last_courses)
+          //  this.informacion.forEach(cursos =>{
 
-        //  })
-    this.courses1 =this.courses.slice(0,3)
-        console.log(this.courses);
-      });
+          //  })
+          this.courses1 =this.courses.slice(0,3)
+          console.log(this.courses);
+        });
 
     },
   },
   created() {
     this.getAttributes();
+    this.getCourse(this.$route.params.ide);
+    this.firtsLesson();
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.contenedor {
-  // background: salmon;
-  margin-right: auto;
-  margin-left: auto;
-  width: 95%;
-  display: flex;
-  padding: 10px;
-  margin-top: 50px;
-  height: 460px;
-  overflow: hidden;
- 
+<style scoped>
+.container-fluid{
+  width: 90%;
+  margin-inline: auto;
 }
-.contenido1 {
-  // background: darkblue;
-  width: 45%;
-  height: 356px;
-  margin: 2px;
-}
-.titulo_red {
-  // background: rgb(99, 75, 72);
-  
-  font-weight: 800;
-  margin-right: 10px;
-  margin-left: 20px;
-  margin-top: 10px;
-  
-font-family: Roboto;
-font-style: normal;
-font-weight: 900;
-font-size: 24px;
-line-height: 28px;
-
-color: #494949;
-}
-.texto {
-  // background: wheat;
-  margin-top: 40px;
-  margin-right: 20px;
-  margin-left: 20px;
-}
-.texto p{
-  text-align: left;
-}
-.nivel {
-  // background: seagreen;
-  width: 60%;
-  margin-top: 20px;
-  margin-right: auto;
-  margin-left: 55px;
-}
-
-.nivel p{
-  text-align: left;
- font-family: Roboto;
-font-style: normal;
-font-weight: 700;
-font-size: 14px;
-line-height: 26px;
-/* or 186% */
-
-
-color: #494949;
-
-}
-.el_button button {
-  background: linear-gradient(180deg, #5cc151 -131.4%, #97f18d 100%);
-  
-  font-weight: 800;
-  font-size: 19px;
-  text-align: center;
-  margin-left: 20px;
-  padding: 9px;
-  border: 2px solid rgb(207, 204, 204);
-  border-radius: 20px;
-  position: relative;
-  margin-top: 25px;
-  width: 282px;
-height: 43px;
-padding-top: 5px;
-color: #FFFFFF;
-
-}
-
-.contenido2 {
-  // background: darkgoldenrod;
-  width: 55%;
-  height: 356px;
-  margin-top: 2px;
-  margin-left: 35px;
-}
-.contenido2 img {
-  width: 98%;
-  height: 416px;
-  border: 1px solid #efefef;
-  box-sizing: border-box;
-  border-radius: 15px;
-}
-
-.temas {
-  // background: sandybrown;
-  margin-right: auto;
-  margin-left: auto;
-  width: 95%;
-  height: 72%;
-  display: flex;
-  padding: 10px;
-  margin-top: 50px;
-  // height: 390px;
-  margin-bottom: 25px;
-  margin-top: 25px;
-  display: flex;
-}
-.leccion{
-  width: 10%;
-  margin-left: 55px;
-  margin-top: 40px;
-}
-
-.temarios {
-  width: 75%;
-  margin-right: 10px;
-  margin-left: 5px;
-}
-
-.acerca_todo {
-  padding: 10px;
-  
-background: #FFFFFF;
-border: 1px solid #EFEFEF;
-box-sizing: border-box;
-border-radius: 15px;
-height: 35%;
-  // background: wheat;
-}
-.acercacourse{
-  font-weight: 700;
-  font-size: 17px;
-    text-align: left;
-    font-style: normal;
-    font-family: Roboto;
-    color:black;
-    margin-left: 45px;
-      margin-top: 35px;
-  
-}
-.curso_detalle {
-  text-align: left;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  margin-top: 10px;
-margin-left: 45px;
-margin-right: 25px;
-  color: #000000;
-}
-
-.aprender {
-  display: flex;
-}
-.pregunta p {
-  text-align: left;
-  margin-left: 45px;
-  font-family: Roboto;
-font-style: normal;
-font-weight: 800;
-font-size: 15px;
-line-height: 14px;
-margin-right: 10px;
-margin-top: 28px;
-/* identical to box height */
-
-
-color: #000000;
-}
-
-.respuesta {
-  color: violet;
-  display: -webkit-box;
-  text-align: left;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
-  margin-left: 65px;
-  margin-right: 5px;
-  margin-top: 10px;
-}
-
-.titulo {
-  margin-top: 32px;
-  margin-bottom: 40px;
-  // background: blueviolet;
-  width: 30%;
-}
-.titulo p {
-  text-align: left;
-  color: black;
- font-family: Roboto;
-font-style: normal;
-font-weight: 900;
-font-size: 25px;
-line-height: 21px;
-
-color: #000000;
-}
-
-.cursos {
-  margin-top: 20px;
-  background: #ffffff;
-  padding: 10px;
-  border-radius: 15px 15px 0px 0px;
-  box-sizing: border-box;
-  border: 1px solid #efefef;
-}
-
-.cursos p {
-  text-align: left;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 14px;
-  /* identical to box height */
-  color: #000000;
-}
-
-.cursos2 {
-  margin-top: 0.5px;
-  background: #ffffff;
-  padding: 10px;
-  border-radius: 0px 0px 15px 15px;
-  box-sizing: border-box;
-  border: 1px solid #efefef;
-}
-
-.cursos2 p{
-text-align: left;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 14px;
-  /* identical to box height */
-  color: #000000;
-}
-
-.productor {
-  // background: teal;
-  width: 25%;
-  height: 100%;
-  padding-right: 1px;
-}
-
-.titulo_recom p {
-  color: black;
-  text-align: left;
-  margin-left: 8px;
-  margin-top: 33px;
-  margin-bottom: 40px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-
-}
-.reco{
-  display: inline-block;
+.img-course{
   width: 100%;
+  max-height: 427px;
+  border-radius: 25px;
 }
-.ima img{
-  width:100%;
-  height: 150px;
-}
-.recomendaciones1 {
-  width: 95%;
-  background: #ffffff;
-  margin: 5px 5px 5px 4px;
-  height: 174px;
-  border: 1px solid #efefef;
-  box-sizing: border-box;
-  border-radius: 15px;
-}
-
-.recomendaciones {
-  width: 100;
-  height: 191px;
-  margin: 5px 5px 30px 4px;
-  border: 1px solid #efefef;
-  box-sizing: border-box;
-  border-radius: 15px 15px 0px 0px;
+@media (max-width: 991px) {
+  .img-course{
+    display: none !important;
+  }
+  .detailsCourse{
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    text-align: center !important;
+    padding-right: 1rem !important;
+  }
+  .detailsCourse p{
+    text-align: center !important;
+  }
+  p{
+    padding-right:0 !important ;
+  }
   
 }
-
-.recomendaciones2 {
+.img-card{
   width: 100%;
-  height: 58px;
-  margin-left: 0px;
-  margin-bottom: 50px;
-  background: #ffffff;
-  border: 1px solid #efefef;
-  box-sizing: border-box;
-  border-radius: 0px 0px 15px 15px;
- 
-  
+  border-radius: 25px 25px 0px 0;
+}
+.img-productor{
+  width: 150%;
+}
+.img-productor-card{
+  width: 40px;
+  height: 40px;
+}
+.list-group{
+  border-radius: 25px;
+}
+.video{
+  width: 100%;
+  margin: auto;
+  height: 600px;
+}
+
+@media (max-width:1200px){
+  .img-productor{
+    width: 70% !important;
+    margin-left: 25%;
+  }
+}
+@media (max-width:991px){
+  .img-productor{
+    width: 70% !important;
+    margin-left: 25%;
+  }
+}
+@media (max-width:576px){
+  .img-productor{
+    width: 155% !important;
+    margin-left: 0 !important;
+  }
+  .productor{
+    display: flex;
+    flex-direction:row;
+  }
+
+  .productor .image{
+    width: 20% !important;
+  }
+
+  .productor .detalles{
+    width: 80% !important;
+  }
 }
 </style>
