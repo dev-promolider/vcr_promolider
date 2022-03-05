@@ -1,31 +1,39 @@
 <template>
-  <div class="mt-4 corrector">
+  
+  <div class="corrector">
     <div class="title">
-      <p>LISTA DE CURSOS</p>
+      <p>CURSOS RECIEN LANZADOS</p>
     </div>
 
-    <div class="marco">
-      <Carousel :per-page="4">
-        <Slide v-for="course in courses" :key="course.id">
+    <div class="total">
+      <Carousel :per-page="3">
+        <Slide v-for="relatedCourse in relatedCourses" :key="relatedCourse.id">
           <div class="contenido">
-            <img :src="course.image" alt="" width="250" height="150" v-on:click="editar(course.id)"/>
+            <!-- <div class="imag"> -->
+            <img :src="relatedCourse.image" alt="" width="250" height="150" v-on:click="editar(relatedCourse.id)" />
+            <!-- </div> -->
 
             <div class="titulo">
-              <p> {{ course.title }}</p>
+              <p>
+                {{ relatedCourse.title }} 
+                <!-- <br>
+                       nacimiento : {{relatedCourse.created_at}} -->
+              </p>
             </div>
 
             <div class="descripcion">
               <p>
-                {{ course.description }}
+                {{ relatedCourse.description }}
               </p>
             </div>
+
             <div class="precio">
               <div
                 class="spinner-border spinner-border-sm ml-auto mr-auto"
                 v-if="loading"
                 role="status"
               ></div>
-              <p v-if="mostrar">S/{{ course.price }}</p>
+              <p v-if="mostrar">S/{{ relatedCourse.price }}</p>
             </div>
           </div>
         </Slide>
@@ -37,59 +45,64 @@
 <script>
 import { Carousel, Slide } from "vue-carousel";
 export default {
-  name: "VirtualClassroomCarrousel",
+  name: "VirtualClassroomRelatedCourses",
+
   components: {
     Carousel,
     Slide,
   },
 
-  props: {
-    courses: {
-      type: Array,
-    },
-  },
   data() {
     return {
       loading: true,
       mostrar: false,
     };
   },
+  props: {
+    relatedCourses: {
+      type: Array,
+    },
+  },
 
   mounted() {
-    if (this.courses) {
-      (this.loading = false), (this.mostrar = true);
+    if (this.relatedCourses) {
+      this.mostrar = true;
+      this.loading = false;
     }
   },
+
   methods: {
-    // mostrar(id){
-    // this.$router.push("/buy-cursos/ " + id);
-      editar(id){
+     editar(id){
          this.$router.push('/buy-cursos/' + id)
        }
-    // }
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .corrector {
-  width: 100%;
+ width: 1110px;
   margin-right: 2px;
-  // margin-left: auto;
-}
-
-.marco {
-  border: 2px solid rgb(221, 220, 220);
-  //  background: rgb(99, 56, 56);
-  // margin-bottom: 20px;
-  opacity: 0.8;
-  width: 98%;
+  overflow-x: hidden;
+  overflow-y:auto;
   margin-right: auto;
   margin-left: auto;
-  padding-bottom: 20px;
+}
+
+.total {
+
+ background: rgb(253, 253, 253);
+ border: 2px solid rgb(221, 220, 220);
+  //    background-color: rgb(238, 236, 243);
+  opacity: 0.8;
+  margin-bottom: 20px;
+  width: 98%;
+
+  margin-right: auto;
+  margin-left: 8px;
 }
 .contenido {
-  width: 100%;
+  width: 25%;
   margin-left: 15px;
   margin-right: 10px;
   margin-top: 20px;
@@ -105,10 +118,11 @@ export default {
    opacity: 0.6;
   cursor: pointer;
 }
+
 .title {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-  // background: #d7ddf0;
-  width: 380px;
+ // background: #d7ddf0;
+  width: 500px;
   overflow: hidden;
   padding: 14px 2px 2px 2px;
   border-radius: 25px 25px 25px 25px;
@@ -124,13 +138,13 @@ export default {
   margin-right: auto;
   margin-left: auto;
   color: #4b4747;
-  font-size: 38px;
+font-size: 38px;
   font-weight: 800;
   text-align: left;
   display: block;
  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   white-space: nowrap;
-  width: 17ch;
+  // width: 24ch;
   // border-right: 4px solid;
   // animation: typing 2s steps(12), blink .5s infinite step-end alternate;
   // overflow: hidden;
@@ -147,7 +161,7 @@ export default {
   width: 250px;
 }
 .titulo p {
-  text-align: left;
+ text-align: left;
   margin-top: 10px;
   margin-bottom: 0px;
   color: black;
@@ -169,16 +183,14 @@ export default {
 .descripcion {
   width: 250px;
 }
-
 .descripcion p {
   display: -webkit-box;
-  margin-top: 1px;
   margin-bottom: 0px;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
- font-size: 15px;
+  font-size: 15px;
   text-align: left;
   color:rgb(190, 160, 26);
 }

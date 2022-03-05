@@ -1,22 +1,22 @@
 <template>
-  <div class="mt-4 corrector">
+  <div class="corrector">
     <div class="title">
-      <p>LISTA DE CURSOS</p>
+      <p>ULTIMOS CURSOS</p>
     </div>
 
-    <div class="marco">
-      <Carousel :per-page="4">
-        <Slide v-for="course in courses" :key="course.id">
+    <div class="total">
+      <Carousel :per-page="3">
+        <Slide v-for="lastCourse in lastCourses" :key="lastCourse.id" >
           <div class="contenido">
-            <img :src="course.image" alt="" width="250" height="150" v-on:click="editar(course.id)"/>
+            <img :src="lastCourse.image" alt="" width="300" height="150" v-on:click="editar(lastCourse.id)" />
 
             <div class="titulo">
-              <p> {{ course.title }}</p>
+              <p> {{ lastCourse.title }}</p>
             </div>
 
             <div class="descripcion">
               <p>
-                {{ course.description }}
+                {{ lastCourse.description }}
               </p>
             </div>
             <div class="precio">
@@ -25,7 +25,7 @@
                 v-if="loading"
                 role="status"
               ></div>
-              <p v-if="mostrar">S/{{ course.price }}</p>
+              <p v-if="mostrar">S/{{ lastCourse.price }}</p>
             </div>
           </div>
         </Slide>
@@ -37,37 +37,58 @@
 <script>
 import { Carousel, Slide } from "vue-carousel";
 export default {
-  name: "VirtualClassroomCarrousel",
+  name: "VirtualClassroomLastCourses",
   components: {
     Carousel,
     Slide,
-  },
-
-  props: {
-    courses: {
-      type: Array,
-    },
   },
   data() {
     return {
       loading: true,
       mostrar: false,
+      lastCourses:[],
+      img:''
     };
   },
 
+  // props: {
+  //   lastCourses: {
+  //     type: Array,
+  //   },
+  // },
+
   mounted() {
-    if (this.courses) {
-      (this.loading = false), (this.mostrar = true);
-    }
-  },
-  methods: {
-    // mostrar(id){
-    // this.$router.push("/buy-cursos/ " + id);
-      editar(id){
-         this.$router.push('/buy-cursos/' + id)
-       }
+    // if (this.lastCourses) {
+    //   this.mostrar = true;
+    //   this.loading = false;
     // }
   },
+
+  methods: {
+    
+             getAttributes() {
+         this.axios.get("course/last-courses-rep").then((datos) => {
+        this.lastCourses = datos.data.data;
+        this.loading= false,
+        this.mostrar= true,
+        this.img= this.lastCourses.image
+        console.log(this.img)
+        console.log(this.lastCourses);
+      });
+
+      
+       },
+
+          editar(id){
+         this.$router.push('/buy-cursos/' + id)
+       }
+      
+  },
+    created() {
+      this.getAttributes();
+    
+    },
+  
 };
 </script>
 
@@ -76,22 +97,24 @@ export default {
   width: 100%;
   margin-right: 2px;
   // margin-left: auto;
+   margin-top:20px;
 }
-
-.marco {
+.total {
   border: 2px solid rgb(221, 220, 220);
-  //  background: rgb(99, 56, 56);
-  // margin-bottom: 20px;
   opacity: 0.8;
+  margin-bottom: 20px;
   width: 98%;
   margin-right: auto;
   margin-left: auto;
   padding-bottom: 20px;
+  
+ background: rgb(253, 253, 253);
+ 
 }
 .contenido {
-  width: 100%;
-  margin-left: 15px;
-  margin-right: 10px;
+  width: 25%;
+  margin-left: 25px;
+  margin-right: auto;
   margin-top: 20px;
 }
 .contenido img {
@@ -105,12 +128,14 @@ export default {
    opacity: 0.6;
   cursor: pointer;
 }
+
+
 .title {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   // background: #d7ddf0;
   width: 380px;
   overflow: hidden;
-  padding: 14px 2px 2px 2px;
+  padding: 14px 0px 0px 0px;
   border-radius: 25px 25px 25px 25px;
   -moz-border-radius: 25px 25px 25px 25px;
   -webkit-border-radius: 25px 25px 25px 25px;
@@ -118,7 +143,7 @@ export default {
   // margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 .title p {
   margin-right: auto;
@@ -142,9 +167,8 @@ export default {
 //   50% { border-color :transparent}
   
 // }
-
 .titulo {
-  width: 250px;
+  width: 320px;
 }
 .titulo p {
   text-align: left;
@@ -159,12 +183,12 @@ export default {
   width: 250px;
 }
 .precio p {
-    margin-top:5px;
-   text-align: left;
+  text-align: left;
   margin-bottom: 0px;
   color: rgb(129, 11, 11);
   font-weight: 900;
   font-size: 20px;
+  margin-top:5px;
 }
 .descripcion {
   width: 250px;
@@ -172,13 +196,12 @@ export default {
 
 .descripcion p {
   display: -webkit-box;
-  margin-top: 1px;
   margin-bottom: 0px;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
- font-size: 15px;
+   font-size: 15px;
   text-align: left;
   color:rgb(190, 160, 26);
 }

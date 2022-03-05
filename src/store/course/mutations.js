@@ -10,7 +10,13 @@ export const SET_COURSE= (state, course) =>{
 }
 
 export const SET_LESSON = (state, lesson) =>{
-    state.lesson = lesson
+    state.renderVideo = false;
+    state.lesson = lesson;
+    // setTimeout(
+    //     ()=>{
+    //       state.renderVideo = true;
+    //     },200
+    // )
 }
 
 export const SET_RESOURCES = (state, resources) => {
@@ -21,4 +27,21 @@ export const SET_RESOURCES = (state, resources) => {
       }else{
         state.isResources=false;
       }
+}
+
+export const SET_COMPLETED_LESSONS = (state, lessons) =>{
+    for(const index in lessons.data){
+        if(lessons.status[index]==="SEEN"){
+            state.completedLessons.push(lessons.data[index])
+        }
+    }
+}
+
+export const SET_VIDEO = (state, url)=>{
+    state.urlVideo=url;
+    state.renderVideo = true;
+}
+
+export const UPDATE_TIME = (state, time) =>{
+    state.timeReady = time
 }

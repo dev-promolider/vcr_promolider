@@ -81,13 +81,12 @@ export default {
       return this.$route.path.includes(path);
     },
     sendTitle(payload) {
-      console.log("ACA ESTOY");
       this.$store.commit("course/setTitle", payload);
     },
     ...mapActions("course", ["getTitle"]),
   },
   mounted() {
-    console.log(this.$route);
+
   },
 };
 </script>

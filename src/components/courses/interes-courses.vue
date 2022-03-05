@@ -1,31 +1,31 @@
 <template>
-  <div class="mt-4 corrector">
+  <div class="corrector">
     <div class="title">
-      <p>LISTA DE CURSOS</p>
+      <p>CURSOS DE INTERES</p>
     </div>
 
-    <div class="marco">
+    <div class="total">
       <Carousel :per-page="4">
-        <Slide v-for="course in courses" :key="course.id">
+        <Slide v-for="interesCourse in interesCourses" :key="interesCourse.id">
           <div class="contenido">
-            <img :src="course.image" alt="" width="250" height="150" v-on:click="editar(course.id)"/>
+            <img :src="interesCourse.image" alt="" width="250" height="150" v-on:click="editar(interesCourse.id)"/>
 
             <div class="titulo">
-              <p> {{ course.title }}</p>
+              <p>
+                 {{ interesCourse.title }}
+                <br />
+                {{ interesCourse.created_at }}
+              </p>
             </div>
 
             <div class="descripcion">
               <p>
-                {{ course.description }}
+                {{ interesCourse.description }}
               </p>
             </div>
             <div class="precio">
-              <div
-                class="spinner-border spinner-border-sm ml-auto mr-auto"
-                v-if="loading"
-                role="status"
-              ></div>
-              <p v-if="mostrar">S/{{ course.price }}</p>
+              <div class="spinner" v-if="loading"></div>
+              <p v-if="mostrar">S/{{ interesCourse.price }}</p>
             </div>
           </div>
         </Slide>
@@ -37,16 +37,10 @@
 <script>
 import { Carousel, Slide } from "vue-carousel";
 export default {
-  name: "VirtualClassroomCarrousel",
+  name: "VirtualClassroomInteresCourses",
   components: {
     Carousel,
     Slide,
-  },
-
-  props: {
-    courses: {
-      type: Array,
-    },
   },
   data() {
     return {
@@ -55,58 +49,63 @@ export default {
     };
   },
 
-  mounted() {
-    if (this.courses) {
-      (this.loading = false), (this.mostrar = true);
-    }
+  props: {
+    interesCourses: {
+      type: Array,
+    },
   },
-  methods: {
-    // mostrar(id){
-    // this.$router.push("/buy-cursos/ " + id);
-      editar(id){
+  methods:{
+     editar(id){
          this.$router.push('/buy-cursos/' + id)
        }
-    // }
   },
+  mounted() {
+    if (this.interesCourses) {
+      this.mostrar = true;
+      this.loading = false;
+    }
+  },
+
+
 };
 </script>
 
 <style lang="scss" scoped>
 .corrector {
-  width: 100%;
+   width: 100%;
   margin-right: 2px;
   // margin-left: auto;
 }
+// .spinner {
+//   border: 4px solid rgba(0, 0, 0, 0.1);
+//   width: 36px;
+//   height: 36px;
+//   border-radius: 50%;
+//   border-left-color: #09f;
+//   animation: spin 1s ease infinite;
+//   transition-duration: 0.8s;
+// }
 
-.marco {
+// @keyframes spin {
+//   0% {
+//     transform: rotate(0deg);
+//   }
+
+//   100% {
+//     transform: rotate(360deg);
+//   }
+// }
+.total {
   border: 2px solid rgb(221, 220, 220);
-  //  background: rgb(99, 56, 56);
-  // margin-bottom: 20px;
   opacity: 0.8;
+  background: rgb(253, 253, 253);
+  margin-bottom: 20px;
   width: 98%;
   margin-right: auto;
   margin-left: auto;
   padding-bottom: 20px;
 }
-.contenido {
-  width: 100%;
-  margin-left: 15px;
-  margin-right: 10px;
-  margin-top: 20px;
-}
-.contenido img {
-
-  transition: all 300ms;
-  position:relative;
-}
-.contenido img:hover{
-  transform: scale(1.10);
-   background: #b9c6e9;
-   opacity: 0.6;
-  cursor: pointer;
-}
 .title {
-  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   // background: #d7ddf0;
   width: 380px;
   overflow: hidden;
@@ -122,13 +121,13 @@ export default {
 }
 .title p {
   margin-right: auto;
-  margin-left: auto;
+  // margin-left: auto;
   color: #4b4747;
   font-size: 38px;
   font-weight: 800;
   text-align: left;
   display: block;
- font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   white-space: nowrap;
   width: 17ch;
   // border-right: 4px solid;
@@ -142,12 +141,28 @@ export default {
 //   50% { border-color :transparent}
   
 // }
+.contenido {
+  width: 100%;
+  margin-left: 45px;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+.contenido img {
 
+  transition: all 300ms;
+  position:relative;
+}
+.contenido img:hover{
+  transform: scale(1.10);
+   background: #b9c6e9;
+   opacity: 0.6;
+  cursor: pointer;
+}
 .titulo {
   width: 250px;
 }
 .titulo p {
-  text-align: left;
+   text-align: left;
   margin-top: 10px;
   margin-bottom: 0px;
   color: black;
@@ -159,7 +174,7 @@ export default {
   width: 250px;
 }
 .precio p {
-    margin-top:5px;
+ margin-top:5px;
    text-align: left;
   margin-bottom: 0px;
   color: rgb(129, 11, 11);
@@ -169,16 +184,14 @@ export default {
 .descripcion {
   width: 250px;
 }
-
 .descripcion p {
   display: -webkit-box;
-  margin-top: 1px;
   margin-bottom: 0px;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
- font-size: 15px;
+  font-size: 15px;
   text-align: left;
   color:rgb(190, 160, 26);
 }

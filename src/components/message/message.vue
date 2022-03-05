@@ -73,7 +73,8 @@
           </button>
         </div>
         <div class="body-chat">
-          <div v-if="message_add.isLoadingMessage" class="loading d-flex justify-content-center flex-column">
+
+          <div v-if="message_add.isLoadingMessage" class="center-spinner">
             <b-spinner class="b-spinner" label="Loading..." variant="success"/>
             <p class="text-success">Cargando mensajes ...</p>
           </div>
@@ -139,13 +140,13 @@ export default {
   methods: {
     sendMessage(){
       this.axios.post("messages/add", this.message_add)
-      .then((r) => {
-          console.log("Mensaje enviado" + r);
+      .then(() => {
+          //console.log("Mensaje enviado" + r);
           this.message_add.message = '';
           this.listarMensajes(this.email);
       })
       .catch(() =>{
-           console.log("Error en enviar");
+           //console.log("Error en enviar");
       })
       
     },
@@ -156,7 +157,7 @@ export default {
       this.axios.get("messages/listAll").then((r) => {
         const res = r.data.data;
         this.chats = res;
-        console.log(this.chats);
+        //console.log(this.chats);
       });
     },
     listarMensajes(email) {
@@ -165,7 +166,7 @@ export default {
       this.axios.get("messages/with/"+email).then((r) => {
         const res = r.data.data;
         this.general = res;
-        console.log(this.general);
+        //console.log(this.general);
         //console.log('res :>> ', res);
         this.message_add.isLoadingMessage=false;
       });
@@ -473,12 +474,6 @@ export default {
 .user-data p {
   text-align: start;
   margin: 0;
-}
-
-.loading{
-  width: 100%;
-  height: 100%;
-  align-items: center;
 }
 
 .b-spinner{
