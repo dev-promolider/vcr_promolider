@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" >
 
     <!-- Primera sección -->
     <div class="row my-5">
@@ -97,20 +97,22 @@
         <!-- Recomendaciones -->
         <div class="mt-4">
           <h5 class="font-weight-bold my-5">Recomendaciones</h5>
-
-          <!-- card course -->
-          <div class="border-box mb-4" v-for="course in courses1" :key="course.id">
-            <img :src="course.image" class="img-card" />
-            <div class="row">
-              <div class="col-6 d-flex flex-row my-4 pl-4">
-                 <img class="rounded-circle img-productor-card" src="../../assets/logo-perfil.png"/>
-                 <p class="ml-1 mt-2">Jesus Galvez</p>
-              </div>
-              <div class="col-6 my-4">
-                <span>{{ course.title}}</span>
+          <div class="card-container">
+            <!-- card course -->
+            <div class="border-box mb-4 cardCursos" v-for="course in courses1" :key="course.id" @click="goToBuy(course.id)">
+              <img :src="course.image" class="img-card" />
+              <div class="row">
+                <div class="col-6 d-flex flex-row my-4 pl-4">
+                  <img class="rounded-circle img-productor-card" src="../../assets/logo-perfil.png"/>
+                  <p class="ml-1 mt-2">Jesus Galvez</p>
+                </div>
+                <div class="col-6 my-4">
+                  <span>{{ course.title}}</span>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -120,7 +122,7 @@
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content bg-dark">
           <div class="modal-header">
-            <h3 class="modal-title text-white text-center" id="staticBackdropLabel">{{ course.modules[0].lessons[0].name }}</h3>
+            <h3 class="modal-title text-white text-center" id="staticBackdropLabel">{{ titulo }}</h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -154,8 +156,6 @@ export default {
       nameProductor:'',
       emailProductor:'',
       items: [],
-      edicion:"",
-      renderizado:"",
       pao_id: null,
       precio: "",
       descripcion: "",
@@ -193,21 +193,12 @@ export default {
     //   var texto = text[0].toUpperCase() + text.slice(1);
     //   return texto;
     // },
-    firtsLesson(){
-      this.firtsLesson=this.course;
-      console.log('Primera leccion ->'+this.course.modules[0].le)
+    goToBuy(id){
+      this.$router.push('/buy-cursos/' + id);
+      window.location.reload(true);
     },
-    playerReadied(player) {
-        var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
-        player.tech_.hls.xhr.beforeRequest = function(options) {
-          // console.log(options)
-          return options
-        }
-        console.log(hls)
-      },
     getAttributes() {
         this.pao_id = this.$route.params.ide;
-        console.log(this.pao_id);
 
         this.axios.get("course/details/" + this.pao_id).then((datos) => {
           this.items = datos.data.data;
@@ -225,16 +216,6 @@ export default {
             this.nameProductor = res.data.fullName ;
             this.emailProductor = res.data.email;
           });
-            
-          
-          // this.lecciones2=this.lecciones.map( datos => datos.name)
-          // for(let i=0 ;i<this.lecciones2.length; i++){
-          //     this.lecciones3= this.lecciones2.push[i]
-          //          console.log(this.lecciones3)
-          // }
-        
-        
-          console.log('🎈🎈🎈'+this.items);
         });
 
         this.axios.get("course/related-courses").then((datos) => {
@@ -251,7 +232,6 @@ export default {
 
           //  })
           this.courses1 =this.courses.slice(0,3)
-          console.log(this.courses);
         });
 
     },
@@ -259,7 +239,6 @@ export default {
   created() {
     this.getAttributes();
     this.getCourse(this.$route.params.ide);
-    this.firtsLesson();
   },
 };
 </script>
@@ -273,25 +252,6 @@ export default {
   width: 100%;
   max-height: 427px;
   border-radius: 25px;
-}
-@media (max-width: 991px) {
-  .img-course{
-    display: none !important;
-  }
-  .detailsCourse{
-    display: flex;
-    flex-direction: column;
-    justify-content: center !important;
-    text-align: center !important;
-    padding-right: 1rem !important;
-  }
-  .detailsCourse p{
-    text-align: center !important;
-  }
-  p{
-    padding-right:0 !important ;
-  }
-  
 }
 .img-card{
   width: 100%;
@@ -318,13 +278,33 @@ export default {
     width: 70% !important;
     margin-left: 25%;
   }
+  
 }
-@media (max-width:991px){
-  .img-productor{
-    width: 70% !important;
-    margin-left: 25%;
+
+@media (max-width: 991px) {
+  .img-course{
+    display: none !important;
+  }
+  .detailsCourse{
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    text-align: center !important;
+    padding-right: 1rem !important;
+  }
+  .detailsCourse p{
+    text-align: center !important;
+  }
+  p{
+    padding-right:0 !important ;
+  }
+  
+  .cardCursos{
+    width: 40% !important;
+    flex: none !important;
   }
 }
+
 @media (max-width:576px){
   .img-productor{
     width: 155% !important;
@@ -342,5 +322,11 @@ export default {
   .productor .detalles{
     width: 80% !important;
   }
+
+  .cardCursos{
+    width: 100% !important;
+    flex: none !important;
+  }
+
 }
 </style>
