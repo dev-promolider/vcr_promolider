@@ -102,16 +102,17 @@
             <div class="border-box mb-4 cardCursos" v-for="course in courses1" :key="course.id" @click="goToBuy(course.id)">
               <img :src="course.image" class="img-card" />
               <div class="row">
-                <div class="col-6 d-flex flex-row my-4 pl-4">
-                  <img class="rounded-circle img-productor-card" src="../../assets/logo-perfil.png"/>
-                  <p class="ml-1 mt-2">Jesus Galvez</p>
+                <div class="col-8 d-flex flex-row my-4 pl-4">
+                  <p class="ml-1 ">{{ course.title}}</p>
                 </div>
-                <div class="col-6 my-4">
-                  <span>{{ course.title}}</span>
+                <div class="col-4 mt-4 ">
+                  <span class="text-success" >S/. {{ course.price}}</span>
                 </div>
+
+                <p class="text-justify px-5">{{ course.description.slice(0,60) }} ....</p>
               </div>
-            </div>
           </div>
+        </div>
 
         </div>
       </div>
@@ -247,6 +248,7 @@ export default {
 .container-fluid{
   width: 90%;
   margin-inline: auto;
+  padding-bottom: 50px;
 }
 .img-course{
   width: 100%;
@@ -303,6 +305,12 @@ export default {
     width: 40% !important;
     flex: none !important;
   }
+  .card-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 }
 
 @media (max-width:576px){
@@ -327,6 +335,5 @@ export default {
     width: 100% !important;
     flex: none !important;
   }
-
 }
 </style>
