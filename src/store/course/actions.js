@@ -42,6 +42,13 @@ export const getVideo = async (context, classId) =>{
         }
     );
 
+    // await axios.get(`video/path-video3?class_id=${classId}`).then(
+    //     (res)=>{
+    //         console.log(`Aca esta la url -> `+ res.data)
+    //         context.commit('SET_VIDEO',res.data);
+    //     }
+    // )
+
 }
 
 // Enviar estado de reproduccion

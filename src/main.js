@@ -26,6 +26,22 @@ Vue.use(BootstrapVue)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+// import Echo from 'laravel-echo'
+// window.Pusher = require('pusher-js')
+
+
+// window.Echo = new Echo({
+//   broadcaster: 'pusher',
+//   key: 'PROMOLIDER2021',
+//   wsHost:'localhost',
+//   wsPort: 6001,
+//   disableStats: true,
+//   enableTransports: ['ws','wss'],
+//   forceTLS: false,
+//   cluster:'mt1',
+//   encrypted:true
+// })
+
 new Vue({
   router,
   store,
