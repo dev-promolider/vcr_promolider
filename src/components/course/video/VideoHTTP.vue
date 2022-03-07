@@ -1,0 +1,57 @@
+<template>
+  <div>
+    <video-player class="vjs-custom-skin vjs-big-play-centered" 
+                        :options="playerOptions" 
+                        @ready="playerReadied">
+          </video-player>
+  </div>
+</template>
+
+<script>
+  // custom skin css
+
+  // videojs
+  import { videoPlayer } from 'vue-video-player'
+  import videojs from 'video.js'
+  import 'video.js/dist/video-js.css'
+  window.videojs = videojs
+  // hls plugin for videojs6
+  require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
+  // export
+  export default {
+    name:"VideoHTTP",
+    components: {
+     videoPlayer
+    },
+    data() {
+      return {
+        playerOptions: {
+          // videojs and plugin options
+          height: '360',
+          sources: [{
+            withCredentials: false,
+            type: "application/x-mpegURL",
+            src: "http://cdn2.ujjina.com:1935/iptvbhtv/livebhtvtv/playlist.m3u8"
+          }],
+          controlBar: {
+            timeDivider: false,
+            durationDisplay: false
+          },
+          flash: { hls: { withCredentials: false }},
+          html5: { hls: { withCredentials: false }},
+          poster: "https://promolider.org/sistema/img/logo2-net-menu.png"
+        }
+      }
+    },
+    methods: {
+      playerReadied(player) {
+        var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
+        player.tech_.hls.xhr.beforeRequest = function(options) {
+          // console.log(options)
+          return options
+        }
+        console.log(hls)
+      }
+    }
+  }
+</script>
