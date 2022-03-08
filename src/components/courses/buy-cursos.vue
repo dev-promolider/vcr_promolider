@@ -235,6 +235,10 @@ export default {
           this.courses1 =this.courses.slice(0,3)
         });
 
+      this.axios.get("/user/show/2").then((r) => {
+       console.log(r)
+});
+
     },
   },
   created() {

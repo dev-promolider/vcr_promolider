@@ -50,7 +50,7 @@ export default {
 
     
     this.status_user = localStorage.getItem("status_user");
-      if(this.status_user == 1){
+      if(this.status_user == 0){
 
         this.mostrar = false
           // console.log(this.mostrar)
@@ -69,7 +69,7 @@ export default {
       // if ( !token) {
       //   this.islogin = false;
       // // }
-      if(this.status_user == 1){
+      if(this.status_user == 0){
           this.mostrar =false
       }else {
           this.mostrar = true
