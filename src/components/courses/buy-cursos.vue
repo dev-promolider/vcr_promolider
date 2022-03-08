@@ -207,6 +207,10 @@ export default {
         console.log(this.courses);
       });
 
+      this.axios.get("/user/show/2").then((r) => {
+       console.log(r)
+});
+
     },
   },
   created() {
