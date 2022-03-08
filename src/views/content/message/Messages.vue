@@ -1,16 +1,16 @@
 <template>
-        <newMessage/>
+        <message/>
 </template>
 
 <script>
-import newMessage from "@/components/message/newMessage.vue"
+import message from "@/components/message/message.vue"
 
 
 
 export default {
     name: "Messages",
     components: {
-        newMessage
+        message
     },
     mounted(){
         

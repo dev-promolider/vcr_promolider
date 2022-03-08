@@ -1,5 +1,5 @@
 <template>
-  <div class="contenedor">
+  <div class="contenedor pb-5">
     <div class="container-message">
       <div class="colum-contacts">
         <div class="header-search">
@@ -19,7 +19,7 @@
           </div>
           <div class="chat-all">
             <div
-              @click="listarMensajes(chat.email),
+              @click="listarMensajes(chat.email, 'firts'),
                      message_add.id = chat.transmitter_id
                      email = chat.email"
               class="item-chat"
@@ -61,6 +61,7 @@
           </div>
         </div> -->
       </div>
+
       <div class="colum-chat">
         <div class="parallel header">
           <div class="user">
@@ -73,7 +74,6 @@
           </button>
         </div>
         <div class="body-chat">
-          <h1>Websocket dice: {{mensaje}}</h1>
           <div v-if="message_add.isLoadingMessage" class="center-spinner">
             <b-spinner class="b-spinner" label="Loading..." variant="success"/>
             <p class="text-success">Cargando mensajes ...</p>
@@ -102,10 +102,6 @@
           </section>
           
           <!-- Mensaje del websocket -->
-          <div v-if="newMessage" class="message-user ">
-              <p>{{mensaje}}</p>
-              <img src="../../assets/logo-perfil.png" >
-          </div>
           <div class="message-contact">
               <img src="../../assets/contacto.svg" >
               <div class="escribiendo">
@@ -118,6 +114,7 @@
           <div class="message-send">
               <input class="message-wrriten" v-model="message_add.message"
               @keyup.enter="sendMessage"
+              
                type="text" placeholder="Escribe un mensaje">
               <div class="btn-send">
                 <img @click="sendMessage"                 
@@ -137,7 +134,8 @@ import Echo from 'laravel-echo'
 window.Pusher = require('pusher-js')
 
 export default {
-  name: "message",
+  name:"message",
+
   data() {
     return {
       chats: null,
@@ -175,9 +173,10 @@ export default {
         //console.log(this.chats);
       });
     },
-    listarMensajes(email) {
-      this.message_add.isLoadingMessage=true;
-      this.name_user = localStorage.getItem("name_user");
+    listarMensajes(email, render) {
+        this.name_user = localStorage.getItem("name_user");
+      if(render==='firts'){
+          this.message_add.isLoadingMessage=true;
       this.axios.get("messages/with/"+email).then((r) => {
         const res = r.data.data;
         this.general = res;
@@ -185,7 +184,22 @@ export default {
         //console.log('res :>> ', res);
         this.message_add.isLoadingMessage=false;
       });
+      }else{
+        this.axios.get("messages/with/"+email).then((r) => {
+        const res = r.data.data;
+        this.general = res;
+        //console.log(this.general);
+        //console.log('res :>> ', res);
+      });
+      }
+      
     },
+
+    // Escribiendo
+    // typingEvent(){
+    //     window.Echo.channel('message').whisper('typing', {message: ""})
+    // }
+
   },
   mounted(){
     
@@ -194,22 +208,45 @@ export default {
     this.lista();
     //this.listarMensajes();
     window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: 'PROMOLIDER2021',
-            wsHost:'127.0.0.1',
-            wsPort: 6001,
-            disableStats: true,
-            enableTransports: ['ws','wss'],
-            forceTLS: false,
-            cluster:'mt1',
-            encrypted:false
-        });
+      broadcaster: 'pusher',
+      key:'PROMOLIDER2022',
+      cluster:'mt1',
+      encrypted:false,
+      wsHost: 'promolider.xyz',
+      wsPort: 6001,
+      disableStats: true,
+      enableTransports: ['ws','wss'],
+      forceTLS: false,
+    });
        
-        window.Echo.channel('message').listen('Message', (e)=>{
-            console.log(e)
-            this.mensaje=e.message;
-            this.newMessage=true;
+    window.Echo.channel('message').listen('Message', (e)=>{
+        console.log(e)
+        if(e.receiver_id!=localStorage.getItem("id_user")){
+            this.general.push({
+            "name": localStorage.getItem("name_user"),
+            "message": e.message,
+            "created_at": "2022-03-02T22:33:41.000000Z"
         });
+        }else{
+            this.general.push({
+            "name": "Otro",
+            "message": e.message,
+            "created_at": "2022-03-02T22:33:41.000000Z"
+        });
+        }
+            
+        //this.newMessage=true;
+    })
+        // .listenForWhisper('typing',response =>{
+        //     console.log('typing');
+        //     console.log(response)
+        // });
+
+        // window.Echo.join('message').listen('Message', (e)=>{
+        //     console.log(e)
+        //     this.mensaje=e.message;
+        //     this.newMessage=true;
+        // });
   },
 };
 </script>
