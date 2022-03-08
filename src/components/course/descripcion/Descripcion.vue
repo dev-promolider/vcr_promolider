@@ -217,13 +217,13 @@
   -webkit-border-radius: 10px;
   -moz-border-radius:    10px;
   border-radius:         10px;
-  background: #E5E5E5;
+  background: var(--bg-content);
   
   /* Circles over squares */
   z-index: 2;
 }
 .nav-tabs .active a:after, .nav-tabs .active a:before {
-  background: #E5E5E5;
+  background: var(--bg-content);
   z-index: 3;
 }
 /* First and last tabs have different
@@ -235,4 +235,5 @@
 .nav-tabs li a:after {
   right: -20px;
 }
+
 </style>

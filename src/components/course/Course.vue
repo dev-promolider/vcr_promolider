@@ -7,6 +7,7 @@
     <div class="navtap-video">
       <div class="video">
         <div class="seccion_video">
+          <!-- <VideoHTTP/> -->
           <Video v-if="renderVideo" />
           <div v-else class="center-spinner">
             <b-spinner style="width: 3rem; height: 3rem;" variant="secondary" label="Large Spinner"></b-spinner>
@@ -37,6 +38,7 @@ import Temario from "@/components/course/temario/Temario.vue";
 import Descripcion from "@/components/course/descripcion/Descripcion.vue";
 import Comentarios from "@/components/course/comentarios/Comentarios.vue";
 import Video from "@/components/course/video/Video.vue";
+//import VideoHTTP from "@/components/course/video/VideoHTTP.vue";
 import SeccionInferior from "@/components/course/video/SeccionInferior.vue";
 export default {
   name: "Course",
@@ -50,7 +52,8 @@ export default {
     Descripcion,
     Comentarios,
     Video,
-    SeccionInferior
+    SeccionInferior,
+    //VideoHTTP
   },
   computed:{
     ...mapState('course',['lesson','renderVideo']),
@@ -123,9 +126,7 @@ export default {
 .seccion_video{
   width: 100%;
   height: 78%;
-  background: rgb(2, 2, 2);
-  /* background: rgb(66,66,66);
-  background: radial-gradient(circle, rgba(66,66,66,0.9192051820728291) 0%, rgba(0,0,0,1) 100%); */
+  /* background: rgb(2, 2, 2); */
 }
 .seccion_inferior_video{
   width: 100%;

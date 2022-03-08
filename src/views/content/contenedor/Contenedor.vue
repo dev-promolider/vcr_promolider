@@ -13,7 +13,7 @@
     </div>
     <div class="content-user"  >
       <NavBar />
-      <router-view />
+      <router-view class="view" />
     </div>
   </div>
 </template>
@@ -79,6 +79,14 @@ export default {
 };
 </script>
 <style scope>
+.view{
+  overflow-y: scroll ;
+}
+
+.view::-webkit-scrollbar{
+    display: none;
+    }
+
 .content {
   width: 100%;
   height: 100vh;
@@ -125,5 +133,14 @@ height: 100%;
   width: 100%;
   max-height: 100%;
   flex-direction: column;
+}
+@media (max-width:991px) {
+  .nav-v{
+    max-height: 66px !important;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+  }
 }
 </style>

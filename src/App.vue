@@ -39,6 +39,7 @@ export default {
  --fifth-color-green: #324230;
  --sixth-color-green: #494949;
  --bg-btn: linear-gradient(180deg, #5CC151 -166.98%, #97F18D 143.4%);
+ --bg-content: #f5f3f3;
 }
 
 *{
@@ -48,7 +49,7 @@ export default {
 #app{
   width: 100vw;
   height: 100vh;
-  background-color: #f5f3f3;
+  background-color: var(--bg-content);
   overflow: auto;
 }
 

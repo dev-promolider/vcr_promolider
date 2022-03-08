@@ -14,8 +14,8 @@
                 </div>
 
                 <ul class="ml-5 mt-2" v-for="(model,index) in course.modules" :key=index v-else>
-                    <li class="nav-temario" > <span v-b-toggle="model.name"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
-                        <b-collapse visible :id="model.name">
+                    <li class="nav-temario" > <span v-b-toggle="model.name.replace(/ /g, '')"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
+                        <b-collapse visible :id="model.name.replace(/ /g, '')">
                         <ul >
                             <li v-for="(less,index) in course.modules[index].lessons" :key=index >
                                 <input type="checkbox" v-model="completedLessons" :value=less.id @click="checkClass(less.id)">
