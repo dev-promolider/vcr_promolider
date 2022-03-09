@@ -100,4 +100,8 @@ export default {
   color:var(--second-color-gray);
 }
 
+.cursor-pointer{
+  cursor: pointer;
+}
+
 </style>

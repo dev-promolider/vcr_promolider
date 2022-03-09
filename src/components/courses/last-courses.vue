@@ -72,8 +72,8 @@ export default {
         this.loading= false,
         this.mostrar= true,
         this.img= this.lastCourses.image
-        console.log(this.img)
-        console.log(this.lastCourses);
+     
+        // console.log(this.lastCourses);
       });
 
       

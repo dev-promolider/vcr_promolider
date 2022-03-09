@@ -149,7 +149,8 @@ export default {
       description:"",
       limite : 4,
     courses:[],
-    courses1:[]
+    courses1:[],
+    user:[],
     };
   },
 
@@ -206,7 +207,7 @@ export default {
     this.courses1 =this.courses.slice(0,3)
         console.log(this.courses);
       });
-
+ 
     },
   },
   created() {
