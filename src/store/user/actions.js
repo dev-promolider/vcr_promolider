@@ -14,7 +14,7 @@ export const actionUser = async (context, body) => {
     let id_country = res.data.data.user.id_country
     let name = res.data.data.user.name
     let biography = res.data.data.user.biography
-    let statususer = res.data.data.user.status_user
+    let status_preference = res.data.data.user.status_preference
     let city = res.data.data.user.city
     let id_user = res.data.data.user.id
 
@@ -24,7 +24,7 @@ export const actionUser = async (context, body) => {
 
     localStorage.setItem("id_user", id_user);
     localStorage.setItem("access_token", authToken);
-    localStorage.setItem("status_user", statususer);
+    localStorage.setItem("status_preference", status_preference);
     //localStorage.setItem("fullName_user", fullName);
     localStorage.setItem("name_user", name);
     localStorage.setItem("last_name_user", last_name);

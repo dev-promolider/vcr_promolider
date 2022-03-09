@@ -1,5 +1,5 @@
 export default () => ({
-    name: null,
+    state_preferences: '',
     // fullname: null,
     // lastname: null,
     // datebirth: null,

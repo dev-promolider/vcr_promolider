@@ -62,6 +62,7 @@
           Roles y Permisos
         </a>
       </li>
+      <button @click="getTitle" :disabled="isLoading">ver</button>
     </ul>
   </div>
 </template>
@@ -133,45 +134,5 @@ export default {
   width: 24px;
   height: 24px;
   margin-right: 20px;
-}
-@media (max-width:991px) {
-  .title-aula {
-    display: none;
-  }
-
-  .nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  }
-
-  .nav-item a{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .nav-item > a > img{
-    margin: auto;
-  } 
-
-  .is-active {
-    border-bottom: var(--active-link);
-    filter: var(--opcion-link);
-    border-left: none;
-  }
-}
-
-@media (max-width:555px){
-  .link-v{
-    font-size: 6px;
-  }
-}
-@media (max-width:360px){
-  .link-v{
-    font-size: 5px;
-  }
-  .link-v img{
-    height: 20px !important;
-  }
 }
 </style>

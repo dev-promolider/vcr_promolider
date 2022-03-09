@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <div class="pref" v-if="mostrar">
-      <Preferencias />
-      <button class="botoncito" v-on:click="cambiar">Siguiente</button>
+      <Preferencias/>
+      <!-- <button class="botoncito" v-on:click="cambiar">Siguiente</button> -->
     </div>
     <div class="nav-v">
       <NavBarV />
@@ -34,29 +34,21 @@ export default {
 
   // computedd:{
   //   ...mapGetters('user',{
-  //     statususer: 'getStatusUser'})
+  //     statususer: 'getStatusU+ser'})
   //},
   methods: {
-    cambiar() {
-      this.axios.post('/preferences/add')
-      if (this.status_user == 1) {
-        this.mostrar = !this.mostrar;
-      } else {
-        // this.mostrar = false
-        window.location.reload(true);
-      }
-    },
+    
   },
 
   created() {
-    this.status_user = localStorage.getItem("status_user");
-    if (this.status_user == 1) {
+    this.status_user = localStorage.getItem("status_preference");
+    if (this.status_user == 0) {
       this.mostrar = !this.mostrar;
     }
   },
 };
 </script>
-<style scope>
+<style scoped>
 .view{
   overflow-y: scroll ;
 }
@@ -72,18 +64,7 @@ export default {
   display: flex;
 }
 
-.botoncito {
-  width: 250px;
-  height: 45px;
-  color: darkblue;
-  border-radius: 20px 20px 20px 20px;
-  margin-left: 882px;
-  border: 2px solid rgb(173, 166, 166);
-  /* margin-bottom: 1000px; */
-  margin-top: 40px;
-  font-weight: 700;
-  font-size: 20px;
-}
+
 .pref {
   background: #e9f6fc;
   border: 1px solid rgb(150, 150, 150);

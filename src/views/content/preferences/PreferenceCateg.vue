@@ -5,13 +5,13 @@
     </div>
 
     <div class="cajitas" v-for="items in item" :key="items.id">
-      <button @click="escoger(items.id)" class="caja">{{ items.name }}</button>
+      <input type="checkbox" @click="escoger(items.id)" class="caja">{{ items.name }}/>
     </div>
 
     <div class="escoger">
       <p class="seleccionar">Seleccione 1 a 3 categorias de su preferencia</p>
     </div>
-
+    <button class="botoncito" v-on:click="cambiar">Siguiente</button>
   </div>
 </template>
 
@@ -20,23 +20,44 @@ export default {
   data() {
     return {
       item: null,
-      preferencias:{
-        category : ''
-      }
+      preferences: []
     };
   },
  
   methods: {
+    cambiar() {
+      if (this.preferences.length == 3) {        
+        this.axios.post('/preferences/add', this.preferences).then((r) => {
+          console.log(r.data);
+          const status_user = localStorage.getItem('status_preference');
+          if (status_user == 0) {
+            this.mostrar = !this.mostrar;
+            localStorage.removeItem('status_user');
+          }
+        }).catch(e => {
+          console.log(e);
+        })
+      }else{
+        console.log("Selecciona 3 categorias de su gusto!")
+      }
+
+      
+    },
     escoger(id){
-      console.log(id);
-      this.preferencias.category = id
-      console.log("It is category: " + this.preferencias.category);
+      if (!this.preferences.includes(id)) {
+        this.preferences.push(id)
+        console.log(this.preferences)
+      }else{
+        const catg = this.preferences.indexOf(id);        
+        this.preferences.splice(catg,1);
+        console.log(this.preferences)
+      }
 
     },
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {
         this.item = respuesta.data.data;
-        // console.log(this.item);
+        console.log(this.item);
       });
     },
 
@@ -45,11 +66,12 @@ export default {
 
   created() {
     this.getAttributes();
+
   },
 };
 </script>
 
-<style>
+<style scoped>
 .tomalo {
   margin-top: 5%;
   margin-left: auto;
@@ -104,6 +126,16 @@ export default {
   font-weight: 700;
   margin-top: 50px;
 }
-
+.botoncito {
+  width: 250px;
+  height: 45px;
+  color: darkblue;
+  border-radius: 20px 20px 20px 20px;
+  border: 2px solid rgb(173, 166, 166);
+  /* margin-bottom: 1000px; */
+  margin-top: 40px;
+  font-weight: 700;
+  font-size: 20px;
+}
 
 </style>

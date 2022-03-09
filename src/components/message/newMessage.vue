@@ -208,14 +208,14 @@ export default {
     //this.listarMensajes();
     window.Echo = new Echo({
             broadcaster: 'pusher',
-            key: 'PROMOLIDER2021',
-            wsHost:'127.0.0.1',
+            key:'PROMOLIDER2022',
+            cluster:'mt1',
+            encrypted:false,
+            wsHost: 'promolider.xyz',
             wsPort: 6001,
             disableStats: true,
             enableTransports: ['ws','wss'],
             forceTLS: false,
-            cluster:'mt1',
-            encrypted:false
         });
        
         window.Echo.channel('message').listen('Message', (e)=>{
