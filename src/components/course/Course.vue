@@ -7,9 +7,10 @@
     <div class="navtap-video">
       <div class="video">
         <div class="seccion_video">
-          <VideoHTTP/>
-          <!-- <Video v-if="renderVideo" />
-          <div v-else class="center-spinner">
+          <!-- <VideoHTTP/> -->
+          <Video />
+          <!-- <Video v-if="renderVideo" /> -->
+          <!-- <div v-else class="center-spinner">
             <b-spinner style="width: 3rem; height: 3rem;" variant="secondary" label="Large Spinner"></b-spinner>
           </div> -->
         </div>
@@ -37,8 +38,8 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 import Temario from "@/components/course/temario/Temario.vue";
 import Descripcion from "@/components/course/descripcion/Descripcion.vue";
 import Comentarios from "@/components/course/comentarios/Comentarios.vue";
-//import Video from "@/components/course/video/Video.vue";
-import VideoHTTP from "@/components/course/video/VideoHTTP.vue";
+import Video from "@/components/course/video/Video.vue";
+//import VideoHTTP from "@/components/course/video/VideoHTTP.vue";
 import SeccionInferior from "@/components/course/video/SeccionInferior.vue";
 export default {
   name: "Course",
@@ -51,9 +52,9 @@ export default {
     Temario,
     Descripcion,
     Comentarios,
-    //Video,
+    Video,
     SeccionInferior,
-    VideoHTTP
+    //VideoHTTP
   },
   computed:{
     ...mapState('course',['lesson','renderVideo']),

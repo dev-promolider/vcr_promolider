@@ -1,9 +1,11 @@
 <template>
   <div class="content">
-    <div class="pref" v-if="mostrar">
-      <Preferencias/>
-      <!-- <button class="botoncito" v-on:click="cambiar">Siguiente</button> -->
-    </div>
+      <div class="pref"  v-if="mostrar">
+        <div class="container">
+          <Preferencias />     
+        </div>
+      </div>
+      
     <div class="nav-v">
       <NavBarV />
     </div>
@@ -59,23 +61,17 @@ export default {
 
 .content {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: relative;
   display: flex;
 }
 
-
-.pref {
-  background: #e9f6fc;
-  border: 1px solid rgb(150, 150, 150);
-  border-radius: 0px 0px 0px 0px;
-  position: absolute;
-  padding: 0px;
-  margin-left: 0px;
-  z-index: 100;
-  margin-top: 0px;
+.pref{
+  height: 100vh;
   width: 100%;
-  height: 100%;
+  position: absolute;
+  z-index: 100;
+  background: var(--bg-content);
 }
 .nav-v {
   width: 239px;

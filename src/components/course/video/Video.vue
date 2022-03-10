@@ -57,7 +57,7 @@ import { mapGetters } from 'vuex'
           sources: [{
             type: "Video/mp4",
             // mp4
-            src: this.urlVideo,
+            src: "https://crm-storage-user.s3.eu-west-1.amazonaws.com/video.mp4",
             // webm
             // src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
           }],

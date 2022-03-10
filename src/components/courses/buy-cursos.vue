@@ -12,9 +12,9 @@
         </p>
 
         <ul class="pl-3 mb-5 list-unstyled">
-          <li class="font-weight-bold my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-chart-line mr-3"></i> Nivel: {{level}}</li>
-          <li class="font-weight-bold my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-calendar-alt mr-3"></i>Fecha de lanzamiento: </li>
-          <li class="font-weight-bold my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-bezier-curve mr-2"></i>Categoria del curso: </li>
+          <li class="font-weight-bold my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-chart-line mr-3"></i>Nivel: {{level}}</li>
+          <li class="font-weight-bold my-1" :class="{loader: !fecha_creacion, 'loader-text-small': !fecha_creacion}" ><i class="fas fa-calendar-alt mr-3"></i>Fecha de lanzamiento: {{fecha_creacion}} </li>
+          <li class="font-weight-bold my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-bezier-curve mr-2"></i>Categoria del curso: {{ categoria }}</li>
         </ul>
 
         <button class="btn-custom" :class="{loader: !titulo }">Comprarlo por S/.{{precio}} soles</button>
@@ -180,6 +180,8 @@ export default {
       courses:[],
       courses1:[],
       loadingRelated:true,
+      fecha_creacion:null,
+      categoria:null,
       imgProductor: 'data:image/png;base64,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'
     };
   },
@@ -217,6 +219,18 @@ export default {
           this.aprendera = this.items.will_learn;
           this.previos = this.items.prev_knowledge;
           this.dirigido = this.items.course_for;
+          const fecha= new Date(this.items.created_at);
+          let options = { year: 'numeric', month: 'long', day: 'numeric' };
+          this.fecha_creacion=fecha.toLocaleDateString("es-ES", options)
+
+          this.axios.get('category/list').then((res)=>{
+            for(const index in res.data.data){
+              if(res.data.data[index].id==this.items.id_categories){
+              this.categoria=res.data.data[index].name;
+              console.log('🎈🎈🎈'+this.categoria)
+            }
+            }
+          })
 
           this.axios.get(`user/show?id=${this.items.user_id}`).then((res)=>{
             this.nameProductor = res.data.fullName ;
@@ -354,27 +368,6 @@ export default {
 
 
   /* Animaciones de carga para cada elemento */
-
-  @keyframes loading {
-    0%{
-      background: #ccc;
-    }
-
-    50%{
-      background: #eee;
-    }
-
-    100%{
-      background: #ccc;
-    }
-  }
-
-  .loader{
-    height: 50px;
-    animation: loading 2s linear infinite alternate;
-    border-radius:30px;
-    color: transparent;
-  }
 
   .loader-titles{
     height: 40px;

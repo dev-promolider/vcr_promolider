@@ -1,17 +1,32 @@
 <template>
-  <div class="tomalo">
-    <div class="preferencias">
-      <p class="letra">Preferencias:</p>
+  <div class="my-5">
+    <h2 class="text-center font-weight-bold ">Seleccione las categorias de su preferencia</h2>
+
+    <p class="text-justify my-5">
+        Selecciona al menos 3 categorias de cursos que sean de su agrado, 
+        esto le ayudara a obtener recomendaciones personalizadas. Las 
+        categorías seleccionas no se mostrarán públicamente.
+    </p>
+
+    <div class="container-fluid">
+      <div class="row d-flex justify-content-center my-5">
+        <div v-if="isLoadingItems" class="row d-flex justify-content-center">
+          <div v-for="itemNumber in loadingItems" :key="itemNumber.id" class="category mb-4">
+            <label class="loader loader-logo"></label>
+            <label class="loader loader-name"></label>
+          </div>
+        </div>
+        <div class="category mb-4" v-for="items in item" :key="items.id">
+            <input type="checkbox" :name=items.name :id=items.name>
+            <label :for=items.name class="category-logo text-center cursor-pointer" @click="escoger(items.id)"><i class="fas fa-book"></i></label>
+            <label :for=items.name class="category-name text-center cursor-pointer" @click="escoger(items.id)">{{ items.name }}</label>
+        </div>
+      </div>
     </div>
 
-    <div class="cajitas" v-for="items in item" :key="items.id">
-      <input type="checkbox" @click="escoger(items.id)" class="caja">{{ items.name }}/>
-    </div>
-
-    <div class="escoger">
-      <p class="seleccionar">Seleccione 1 a 3 categorias de su preferencia</p>
-    </div>
-    <button class="botoncito" v-on:click="cambiar">Siguiente</button>
+    <div class="row d-flex justify-content-end">
+      <button class="btn-custom" v-on:click="cambiar" >Continuar <i class="fas fa-angle-double-right"></i></button> 
+    </div>  
   </div>
 </template>
 
@@ -20,15 +35,17 @@ export default {
   data() {
     return {
       item: null,
+      isLoadingItems: true,
       preferences: {
         categorys: []
-      }
+      },
+      loadingItems:[1,2,3,4,5,6,7,8,9,10]
     };
   },
  
   methods: {
     cambiar() {
-      if (this.preferences.categorys.length == 3) {        
+      if (this.preferences.categorys.length == 3) {      
         this.axios.post('/preferences/add', this.preferences).then((r) => {
           console.log(r.data);
           const status_user = localStorage.getItem('status_preference');
@@ -40,7 +57,7 @@ export default {
           console.log(e);
         })
       }else{
-        console.log("Selecciona 3 categorias de su gusto!")
+        alert("Selecciona 3 categorias de su gusto!")
       }
 
       
@@ -59,6 +76,7 @@ export default {
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {
         this.item = respuesta.data.data;
+        this.isLoadingItems=false;
       });
     },
 
@@ -73,70 +91,83 @@ export default {
 </script>
 
 <style scoped>
-.tomalo {
-  margin-top: 5%;
-  margin-left: auto;
-  margin-right: auto;
-  width: 900px;
-  background: rgb(189, 189, 233);
-  padding:20px 20px 50px 20px;
-  border-radius:20px 20px 20px 20px;
+
+.loader-logo{
+  height: 80px;
+  width: 40%;
+  margin-inline: auto;
 }
 
-.letra {
-  text-align: left;
-  color: rgb(27, 10, 66);
-  font-size: 38px;
-  font-weight: 800;
-}
-.cajitas {
-  display: inline-block;
-  margin-top: 25px;
-  
-  
-}
-.caja {
-  background-color: rgb(240, 200, 200);
-  box-shadow: 0px 4px 6px rgba(104, 104, 104, 0.1);
-  font-size: 18px;
-  font-weight: 700;
-  color: rgb(86, 86, 202);
-  width: 250px;
-  height: 50px;
-  text-align: center;
-  margin-left: 15px;
-  border-radius: 10px 10px 10px 10px;
-  border: 1px solid rgb(179, 179, 179);
-}
-.caja:focus {
-  outline: none;
-}
-.curso {
-  padding-top: 8px;
+.loader-name{
+  margin-top: 1rem;
+  height: 25px;
+  width: 70%;
+  margin-inline: auto;
 }
 
-.escoger {
-  margin-top: 50px;
-  margin-left: 20px;
-  margin-right: 20px;
+.container-fluid{
+  min-height: 50vh !important;
+}
+input[type="checkbox"]{
+  display: none;
+}
+.category-logo{
+  font-size: 60px;
+  color: var(--first-color-green);
+  transition: 1s;
+}
+.category-name{
+  font-size: 25px;
+  font-weight: bolder;
+  color: var(--first-color-green);
+  transition: 1s;
 }
 
-.seleccionar {
-  text-align: left;
-  color: rgb(22, 22, 51);
-  font-weight: 700;
-  margin-top: 50px;
+.category{
+  width: 12rem !important;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
 }
-.botoncito {
-  width: 250px;
-  height: 45px;
-  color: darkblue;
-  border-radius: 20px 20px 20px 20px;
-  border: 2px solid rgb(173, 166, 166);
-  /* margin-bottom: 1000px; */
-  margin-top: 40px;
-  font-weight: 700;
-  font-size: 20px;
+
+
+input[type="checkbox"]:checked + label, 
+input[type="checkbox"]:checked + label  + label{
+    color: rgb(1, 97, 1) !important;
 }
+
+input[type="checkbox"]:hover + label, 
+input[type="checkbox"]:hover + label  + label{
+  text-shadow: 1px 1px 5px rgb(26, 26, 26);
+  transform: translateY(-10px) !important;
+}
+
+input[type="checkbox"]:hover + label{
+  animation: temblar 1s infinite alternate;
+}
+
+@media (max-width:480px){
+  .category{
+    flex-direction: row ;
+    align-items: center;
+    width: 80% !important;
+  }
+  .category-name{
+    margin-left: 10px;
+  }
+}
+
+@keyframes temblar {
+  0%{
+    transform: rotate(15deg);
+  }
+  50%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(-15deg);
+  }
+}
+
 
 </style>
