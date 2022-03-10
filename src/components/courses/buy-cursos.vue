@@ -313,6 +313,9 @@ export default {
 
 
 @media (max-width: 991px) {
+  .loader-img-course{
+    display: none !important;
+  }
   .img-course{
     display: none !important;
   }
