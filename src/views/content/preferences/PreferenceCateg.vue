@@ -148,12 +148,19 @@ input[type="checkbox"]:hover + label{
 
 @media (max-width:480px){
   .category{
-    flex-direction: row ;
-    align-items: center;
     width: 80% !important;
   }
-  .category-name{
-    margin-left: 10px;
+  .loader-logo{
+    height: 80px;
+    width: 60%;
+    margin-inline: auto;
+  }
+
+  .loader-name{
+    margin-top: 1rem;
+    height: 25px;
+    width: 90%;
+    margin-inline: auto;
   }
 }
 

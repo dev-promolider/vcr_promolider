@@ -88,7 +88,7 @@ export default {
   .nav-v{
     max-height: 66px !important;
     width: 100%;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     z-index: 1;
   }
