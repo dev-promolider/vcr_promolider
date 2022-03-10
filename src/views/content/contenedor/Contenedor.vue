@@ -1,13 +1,14 @@
 <template>
   <div class="content">
       <div class="pref"  v-if="mostrar">
-        <Preferencias />
-          
-          <button class="botoncito" v-on:click="cambiar" >Siguiente</button>
-      
-          
-    
+        <div class="container">
+          <Preferencias />    
+          <div class="row d-flex justify-content-end">
+            <button class="btn-custom" v-on:click="cambiar" >Continuar <i class="fas fa-angle-double-right"></i></button> 
+          </div>   
+        </div>
       </div>
+      
     <div class="nav-v" >
       <NavBarV  />
     </div>
@@ -95,38 +96,17 @@ export default {
   
 }
 
-.botoncito {
-  width: 250px;
-  height: 45px;
-  color: darkblue;
-  border-radius: 20px 20px 20px 20px;
-  margin-left: 882px;
-  border: 2px solid rgb(173, 166, 166);
-  /* margin-bottom: 1000px; */
-  margin-top:40px;
-  font-weight: 700;
-  font-size:20px;
- 
-}
 .pref{
-background: #e9f6fc;
-border: 1px solid rgb(150, 150, 150);
-border-radius:0px 0px 0px 0px;
-position: absolute;
-padding:0px;
-margin-left : 0px;
-z-index: 100;
-margin-top: 0px;
-width: 100%;
-height: 100%;
-
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+  background: var(--bg-content);
 }
 .nav-v {
   width: 239px;
   height: 100%;
   background: #494949;
-  
-  
 }
 .content-user {
   display: flex;
