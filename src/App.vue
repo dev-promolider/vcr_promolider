@@ -104,4 +104,27 @@ export default {
   cursor: pointer;
 }
 
+/* Animacion esqueloto de pre-carga */
+@keyframes loading {
+    0%{
+      background: #ccc;
+    }
+
+    50%{
+      background: #eee;
+    }
+
+    100%{
+      background: #ccc;
+    }
+  }
+
+  .loader{
+    height: 50px;
+    animation: loading 2s linear infinite alternate;
+    border-radius:30px;
+    color: transparent;
+    
+  }
+
 </style>

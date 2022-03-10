@@ -2,16 +2,10 @@
   <div class="content">
       <div class="pref"  v-if="mostrar">
         <div class="container">
-          <Preferencias />    
-          <div class="row d-flex justify-content-end">
-            <button class="btn-custom" v-on:click="cambiar" >Continuar <i class="fas fa-angle-double-right"></i></button> 
-          </div>   
+          <Preferencias />     
         </div>
       </div>
       
-    <div class="nav-v" >
-      <NavBarV  />
-    </div>
     <div class="nav-v">
       <NavBarV />
     </div>
@@ -67,7 +61,7 @@ export default {
 
 .content {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: relative;
   display: flex;
 }
