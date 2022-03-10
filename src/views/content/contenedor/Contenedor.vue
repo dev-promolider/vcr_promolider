@@ -12,7 +12,10 @@
     <div class="nav-v" >
       <NavBarV  />
     </div>
-    <div class="content-user"  >
+    <div class="nav-v">
+      <NavBarV />
+    </div>
+    <div class="content-user">
       <NavBar />
       <router-view class="view" />
     </div>
@@ -21,65 +24,39 @@
 <script>
 import NavBar from "@/components/Navbar/NavBar.vue";
 import NavBarV from "@/components/Navbar/NavBarV.vue";
-import Preferencias from "@/views/content/preferences/PreferenceCateg.vue"
-// import Login from "@/views/auth/Login.vue";
-// consoleimport { mapGetters } from 'vuex';
+import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
+// import { mapGetters } from 'vuex';
 export default {
   name: "Contenedor",
   components: {
     NavBarV,
     NavBar,
     Preferencias,
-    //Login
   },
   data() {
     return {
-      //islogin: true,
-      mostrar:true,
-      // Nmostrar:false
-      status_user: null
+      mostrar: false,
+      status_user: null,
     };
   },
-  
+
   // computedd:{
   //   ...mapGetters('user',{
-  //     statususer: 'getStatusUser'})
+  //     statususer: 'getStatusU+ser'})
   //},
-  methods:{
-      
-       cambiar() {
-
+  methods: {
     
-    this.status_user = localStorage.getItem("status_user");
-      if(this.status_user == 1){
-
-        this.mostrar = false
-          // console.log(this.mostrar)
-      }else{
-          // this.mostrar = false
-       
-        window.location.reload(true);
-      }
-     
-    },
   },
- 
+
   created() {
-  this.status_user = localStorage.getItem("status_user");
-    // console.log(this.status_user)
-      // if ( !token) {
-      //   this.islogin = false;
-      // // }
-      if(this.status_user == 1){
-          this.mostrar =false
-      }else {
-          this.mostrar = true
-      }
- 
+    this.status_user = localStorage.getItem("status_preference");
+    if (this.status_user == 0) {
+      this.mostrar = !this.mostrar;
+    }
   },
 };
 </script>
-<style scope>
+<style scoped>
 .view{
   overflow-y: scroll ;
 }
@@ -93,7 +70,6 @@ export default {
   height: 100vh;
   position: relative;
   display: flex;
-  
 }
 
 .pref{

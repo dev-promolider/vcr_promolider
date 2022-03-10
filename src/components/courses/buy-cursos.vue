@@ -246,6 +246,10 @@ export default {
           this.loadingRelated=false;
         });
 
+      this.axios.get("/user/show/2").then((r) => {
+       console.log(r)
+});
+
     },
   },
   created() {

@@ -2,10 +2,10 @@
   <div class="container-courses">
     <div class="spinner" v-if="lord"></div>
 
-    <div class="buscador" v-if="guardar">
+    <!-- <div class="buscador" v-if="guardar">
       <input type="text" placeholder="buscar el curso requerido" />
       <img src="@/assets/logo.png" alt="" />
-    </div>
+    </div> -->
   <div class="carros">
 
       <LastCourses  v-if="guardar" />
@@ -79,19 +79,22 @@ export default {
         // console.log(this.courses);
       });
 
-      this.axios.get("course/last-courses-rep").then((datos) => {
-        this.lastCourses = datos.data.data;
-        // console.log(this.lastCourses);
-      });
+      // this.axios.get("course/last-courses-rep").then((datos) => {
+      //   this.lastCourses = datos.data.data;
+      //   console.log(this.lastCourses);
+      // });
 
       this.axios.get("course/interesting-courses").then((datos) => {
         this.interesCourses = datos.data.data;
         // console.log(this.interesCourses);
       });
 
+
+      // error en la api de aqui
+
       this.axios.get("course/released-courses").then((datos) => {
         this.relatedCourses = datos.data.data;
-        // console.log(this.relatedCourses);
+         console.log(this.relatedCourses);
       });
     },
     aumentar() {
