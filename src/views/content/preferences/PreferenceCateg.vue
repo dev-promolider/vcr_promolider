@@ -20,13 +20,15 @@ export default {
   data() {
     return {
       item: null,
-      preferences: []
+      preferences: {
+        categorys: []
+      }
     };
   },
  
   methods: {
     cambiar() {
-      if (this.preferences.length == 3) {        
+      if (this.preferences.categorys.length == 3) {        
         this.axios.post('/preferences/add', this.preferences).then((r) => {
           console.log(r.data);
           const status_user = localStorage.getItem('status_preference');
@@ -44,12 +46,12 @@ export default {
       
     },
     escoger(id){
-      if (!this.preferences.includes(id)) {
-        this.preferences.push(id)
+      if (!this.preferences.categorys.includes(id)) {
+        this.preferences.categorys.push(id)
         console.log(this.preferences)
       }else{
-        const catg = this.preferences.indexOf(id);        
-        this.preferences.splice(catg,1);
+        const catg = this.preferences.categorys.indexOf(id);        
+        this.preferences.categorys.splice(catg,1);
         console.log(this.preferences)
       }
 
@@ -57,7 +59,6 @@ export default {
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {
         this.item = respuesta.data.data;
-        console.log(this.item);
       });
     },
 
