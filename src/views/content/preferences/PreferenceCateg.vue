@@ -33,8 +33,8 @@ export default {
           console.log(r.data);
           const status_user = localStorage.getItem('status_preference');
           if (status_user == 0) {
-            this.mostrar = !this.mostrar;
-            localStorage.removeItem('status_user');
+            localStorage.removeItem('status_preference');
+            window.location.reload(true);
           }
         }).catch(e => {
           console.log(e);
