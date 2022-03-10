@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="player bg-dark">
     <video-player class="vjs-custom-skin vjs-big-play-centered" 
                         :options="playerOptions" 
                         @ready="playerReadied">
@@ -31,7 +31,7 @@
           sources: [{
             withCredentials: false,
             type: "application/x-mpegURL",
-            src: "http://cdn2.ujjina.com:1935/iptvbhtv/livebhtvtv/playlist.m3u8"
+            src: "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8"
           }],
           controlBar: {
             timeDivider: false,
@@ -55,3 +55,20 @@
     }
   }
 </script>
+<style scoped>
+.player{
+    height: 100%;
+    width: 100%;
+}
+
+.vjs-tech, .vjs-custom-skin{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.video-js {
+  width: 100% ;
+  height: 100% ;
+  border-radius: 20px;
+}
+</style>
