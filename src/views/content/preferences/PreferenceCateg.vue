@@ -41,20 +41,10 @@
             <label class="loader loader-name"></label>
           </div>
         </div>
-        <div class="category mb-4" v-for="items in item" :key="items.id">
-          <input type="checkbox" :name="items.name" :id="items.name" />
-          <label
-            :for="items.name"
-            class="category-logo text-center cursor-pointer"
-            @click="escoger(items.id)"
-            ><i class="fas fa-book"></i
-          ></label>
-          <label
-            :for="items.name"
-            class="category-name text-center cursor-pointer"
-            @click="escoger(items.id)"
-            >{{ items.name }}</label
-          >
+        <div class="category mb-4" v-for="items in item" :key="items.id" :class="{select:preferences.categorys.includes(items.id)}">
+            <input type="checkbox" :name=items.name :id=items.name>
+            <label :for=items.name class="category-logo text-center cursor-pointer" @click="escoger(items.id)"><i class="fas fa-book"></i></label>
+            <label :for=items.name class="category-name text-center cursor-pointer" @click="escoger(items.id)">{{ items.name }}</label>
         </div>
       </div>
     </div>
@@ -175,25 +165,41 @@ input[type="checkbox"] {
   margin: 5px;
   display: flex;
   flex-direction: column;
+  transition: 1s;
 }
 
-input[type="checkbox"]:checked + label,
-input[type="checkbox"]:checked + label + label {
-  color: rgb(1, 97, 1) !important;
+
+/* input[type="checkbox"]:checked + label, 
+input[type="checkbox"]:checked + label  + label{
+    color: rgb(1, 97, 1) !important;
 }
 
 input[type="checkbox"]:hover + label,
 input[type="checkbox"]:hover + label + label {
   text-shadow: 1px 1px 5px rgb(26, 26, 26);
   transform: translateY(-10px) !important;
+} */
+
+input[type="checkbox"]:hover + label{
+  animation: temblar 1s 2.5 alternate;
+} 
+
+
+.category:hover , .select{
+  border-radius: 10px;
+  background: rgba(0, 128, 0, 0.459);
+  box-shadow: 0 2px 32px 0 rgba(5, 65, 32, 0.274);
+  backdrop-filter: blur(2px);
 }
 
-input[type="checkbox"]:hover + label {
-  animation: temblar 1s infinite alternate;
+
+.category:hover label, .select label{
+    color: white !important;
 }
 
-@media (max-width: 480px) {
-  .category {
+
+@media (max-width:480px){
+  .category{
     width: 80% !important;
   }
   .loader-logo {
@@ -211,21 +217,35 @@ input[type="checkbox"]:hover + label {
 }
 
 @keyframes temblar {
-  0% {
-    transform: rotate(15deg);
+  0%{
+    transform: rotate(-15deg);
   }
   50% {
     transform: rotate(0deg);
   }
-  100% {
-    transform: rotate(-15deg);
+  100%{
+    transform: rotate(15deg);
   }
 }
 
-.alerta {
-  position: fixed;
+
+/* Animacion para mover iconos */
+@keyframes temblare {
+  from{
+      transform: translateX(0);
+  }
+  to{
+    
+    transform: translateY(1vh);
+
+  }
+}
+
+/* Configuración de la alerta */
+.alerta{
+  position:fixed;
   border-radius: 15px 15px 15px 15px;
-  width: 500px;
+  width: 540px;
   height: 350px;
   left: 0;
   right: 0;
@@ -236,14 +256,6 @@ input[type="checkbox"]:hover + label {
   color: white;
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
   animation: temblare 1s infinite alternate;
-}
-@keyframes temblare {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateY(1vh);
-  }
 }
 
 .header {
