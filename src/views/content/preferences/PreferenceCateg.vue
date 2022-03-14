@@ -1,6 +1,6 @@
 <template>
   <div class="contenido my-5">
-    <div class="alerta" v-if="alertita">
+    <!-- <div class="alerta" v-if="alertita">
       <div class="header">
         <p>SELECCIONA 3 CATEGORIAS!</p>
         <button class="cerrar" @click="closeAlert">X</button>
@@ -8,16 +8,38 @@
       <div class="exis">
         <div class="ima"></div>
         <div class="la_ima">
-          <p>X</p>
+          <p>!</p>
         </div>
         <p class="letra">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt
-          temporibus soluta corporis facilis iste assumenda dicta maxime
+          
+          Tienes que añadir 3 categorias como minimo !!!
+
         </p>
         <div class="line"></div>
-        <!-- <button class="close" @click="closeAlert">Close</button> -->
+        <button class="close" @click="closeAlert">Close</button>
       </div>
-    </div>
+    </div> -->
+
+          <div class="alerta" v-if="alertita">
+
+              <div class="costado">
+
+              </div>
+
+              <div class="lateral">
+
+                <i class="fas fa-exclamation-triangle d-flex"> <p>Accion Fallida!!</p> </i>
+
+                        <div class="requisito">
+                           <p > Debe seleccionar 3 categorias !!!</p>
+                        </div>
+               
+                 <button class="close" @click="closeAlert">Cerrar</button>
+              </div>
+              
+              
+ 
+          </div>
 
     <h2 class="text-center font-weight-bold">
       Seleccione las categorias de su preferencia
@@ -52,6 +74,7 @@
     <div class="row d-flex justify-content-end" v-if="muestra">
       <button class="btn-custom" v-on:click="cambiar">
         Continuar <i class="fas fa-angle-double-right"></i>
+       
       </button>
     </div>
   </div>
@@ -241,8 +264,102 @@ input[type="checkbox"]:hover + label{
   }
 }
 
-/* Configuración de la alerta */
+
 .alerta{
+  width: 35%;
+  height: 35%;
+  position:fixed;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  background: none;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  border-radius:15px 15px 15px 15px;
+    animation: temblare 1s infinite alternate;
+}
+
+.costado{
+  background:#f8cd56;
+  width: 2%;
+  height: 100%;
+  border-radius:15px 0px 0px 15px;
+ 
+}
+.lateral{
+background: rgb(255, 255, 255);
+width: 98%;
+height: 100%;
+border-radius:0px 15px 15px 0px;
+/* display: flex; */
+ 
+}
+.lateral i{
+  color:#f8cd56;
+  position:relative;
+  font-size: 30px;
+  margin-top:10%;
+  margin-left:10%;
+  height: 15%;
+   width: 70%; 
+   
+}
+.lateral p{
+  width: 50%;
+  color:black;
+  
+  font-size:23px;
+  height: 100%;
+  font-weight: 700;
+  text-align: left;
+  margin-left:5%;
+  padding-top:5px;
+  padding-bottom:5px;
+ 
+}
+
+.requisito{
+ 
+  width: 90%;
+  
+  margin-left:auto;
+  margin-right: auto;
+  margin-top: 7%;
+}
+.requisito p{
+   font-size:16px;
+   font-weight: 600;
+  text-align: justify;
+  width: 90%;
+}
+.close {
+  position: absolute;
+  right: 45px;
+  bottom: 25px;
+  border: 2px solid #b88703;
+  border-radius: 3px;
+  color: #b88703;
+  padding: 8px 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 300ms;
+  left:15%;
+  width: 30%;
+}
+
+.close:hover {
+  transform: scale(1.15);
+  color: rgb(20, 20, 20);
+  font-weight: 700;
+  background: #f8cd56;
+  opacity: 0.7;
+  transition: 0.5s;
+  
+}
+/* Configuración de la alerta */
+/* .alerta{
   position:fixed;
   border-radius: 15px 15px 15px 15px;
   width: 540px;
@@ -302,7 +419,7 @@ input[type="checkbox"]:hover + label{
   box-sizing: border-box;
   padding-top:0px; */
 
-  border: 7px solid rgba(0, 0, 0, 0.3);
+  /* border: 7px solid rgba(0, 0, 0, 0.3);
   width: 106px;
   height: 106px;
   border-radius: 50%;
@@ -311,8 +428,8 @@ input[type="checkbox"]:hover + label{
   margin-left: auto;
   margin-top: 5%;
   animation: spin 2s ease infinite;
-  position: relative;
-  overflow: hidden;
+  position: relative; */
+  /* overflow: hidden;
 }
 
 @keyframes spin {
@@ -339,7 +456,7 @@ input[type="checkbox"]:hover + label{
   top: 26%;
 }
 .la_ima p {
-  font-size: 55px;
+  font-size: 50px;
   color: #e24f4f;
   font-weight: 700;
   text-align: center;
@@ -356,7 +473,7 @@ input[type="checkbox"]:hover + label{
 .line {
   bottom: 60px;
   width: 85%;
-  margin: 35px auto auto auto;
+  margin: 15px auto auto auto;
   height: 1px;
   background: silver;
 }
@@ -380,5 +497,5 @@ input[type="checkbox"]:hover + label{
   background: #e24f4f;
   opacity: 0.7;
   transition: 0.5s;
-}
+}  */
 </style>
