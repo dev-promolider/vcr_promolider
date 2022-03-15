@@ -24,7 +24,7 @@ const routes = [
     children: [
       
       { path: '/home', component: Home, name: 'home' },
-   
+      { path: '/', component: Home, name: 'home' },
       { path: '/courses', component: Cursos, name: 'cursos' },
       { path: '/course-user', query:{course:'',class:''}, component: CursoUser, name: 'curso' },
       { path: '/messages', component: Messages, name: 'Messages' },
@@ -62,6 +62,7 @@ router.beforeEach((to, from, next) => {
   //   next('/preferences');
    else if ((!autenticado && token)) {
     next('/home');
+   
   }
    else{
     

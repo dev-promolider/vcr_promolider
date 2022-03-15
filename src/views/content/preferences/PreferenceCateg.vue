@@ -1,45 +1,6 @@
 <template>
   <div class="contenido my-5">
-    <!-- <div class="alerta" v-if="alertita">
-      <div class="header">
-        <p>SELECCIONA 3 CATEGORIAS!</p>
-        <button class="cerrar" @click="closeAlert">X</button>
-      </div>
-      <div class="exis">
-        <div class="ima"></div>
-        <div class="la_ima">
-          <p>!</p>
-        </div>
-        <p class="letra">
-          
-          Tienes que añadir 3 categorias como minimo !!!
 
-        </p>
-        <div class="line"></div>
-        <button class="close" @click="closeAlert">Close</button>
-      </div>
-    </div> -->
-
-          <div class="alerta" v-if="alertita">
-
-              <div class="costado">
-
-              </div>
-
-              <div class="lateral">
-
-                <i class="fas fa-exclamation-triangle d-flex"> <p>Accion Fallida!!</p> </i>
-
-                        <div class="requisito">
-                           <p > Debe seleccionar 3 categorias !!!</p>
-                        </div>
-               
-                 <button class="close" @click="closeAlert">Cerrar</button>
-              </div>
-              
-              
- 
-          </div>
 
     <h2 class="text-center font-weight-bold">
       Seleccione las categorias de su preferencia
@@ -50,6 +11,15 @@
       ayudara a obtener recomendaciones personalizadas. Las categorías
       seleccionas no se mostrarán públicamente.
     </p>
+
+    <div class="w-50 container alert alert-danger alert-dismissible fade show" role="alert" v-if="alertita">
+
+      <div class="mx-auto  w-100"> <strong class="container">Debes Seleccionar  3 categorias como minimo!!!</strong></div>
+ 
+  <button type="button" class="close" @click="closeAlert" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
     <div class="container-fluid" v-if="muestra">
       <div class="row d-flex justify-content-center my-5">
@@ -116,7 +86,7 @@ export default {
         this.preferences.categorys.length > 3
       ) {
         this.alertita = true;
-        this.muestra = false;
+        this.muestra = true;
       }
     },
     closeAlert() {
@@ -265,7 +235,7 @@ input[type="checkbox"]:hover + label{
 }
 
 
-.alerta{
+/* .alerta{
   width: 35%;
   height: 35%;
   position:fixed;
@@ -292,11 +262,11 @@ input[type="checkbox"]:hover + label{
 background: rgb(255, 255, 255);
 width: 98%;
 height: 100%;
-border-radius:0px 15px 15px 0px;
+border-radius:0px 15px 15px 0px; */
 /* display: flex; */
  
-}
-.lateral i{
+/* } */
+/* .lateral i{
   color:#f8cd56;
   position:relative;
   font-size: 30px;
@@ -357,145 +327,6 @@ border-radius:0px 15px 15px 0px;
   opacity: 0.7;
   transition: 0.5s;
   
-}
-/* Configuración de la alerta */
-/* .alerta{
-  position:fixed;
-  border-radius: 15px 15px 15px 15px;
-  width: 540px;
-  height: 350px;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  background: rgb(236, 236, 236);
-  color: white;
-  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
-  animation: temblare 1s infinite alternate;
-}
+} */
 
-.header {
-  border-radius: 15px 15px 0px 0px;
-  background: #44b33eb6;
-  height: 15%;
-  opacity: 0.85;
-  display: flex;
-}
-.header p {
-  margin: auto 0px auto 5%;
-  color: rgb(255, 255, 255);
-  text-align: center;
-
-  font-weight: 900;
-  font-size: 1.7rem;
-}
-.cerrar {
-  margin: 2px 8px 2px auto;
-  background: none;
-  color: white;
-  border: none;
-  width: 8%;
-  height: 90%;
-  font-size: 1.9rem;
-  font-weight: 900;
-  cursor: pointer;
-}
-.exis {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.ima {
-  /* text-align: center;
-  margin:30px auto 0px auto;
-  font-size: 55px;
-  color:#e24f4f;
-  font-weight: 700;
-  height: 80px;
-  width: 80px;
-  border: 3px solid #e24f4f;
-  border-radius: 50%;
-  box-sizing: border-box;
-  padding-top:0px; */
-
-  /* border: 7px solid rgba(0, 0, 0, 0.3);
-  width: 106px;
-  height: 106px;
-  border-radius: 50%;
-  border-color: #a35308d0;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 5%;
-  animation: spin 2s ease infinite;
-  position: relative; */
-  /* overflow: hidden;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(50deg);
-    border-color: #b1aaaa;
-    width: 108px;
-    height: 108px;
-  }
-
-  100% {
-    transform: rotate(350deg);
-    border-color: #e01616;
-    width: 108px;
-    height: 108px;
-  }
-}
-
-.la_ima {
-  width: 100%;
-  height: 15%;
-  position: absolute;
-  box-sizing: border-box;
-  top: 26%;
-}
-.la_ima p {
-  font-size: 50px;
-  color: #e24f4f;
-  font-weight: 700;
-  text-align: center;
-}
-
-.letra {
-  text-align: center;
-  font-size: 19px;
-  margin-top: 20px;
-  padding-top: 10px;
-  padding-right: 30px;
-  padding-left: 30px;
-}
-.line {
-  bottom: 60px;
-  width: 85%;
-  margin: 15px auto auto auto;
-  height: 1px;
-  background: silver;
-}
-.close {
-  position: absolute;
-  right: 45px;
-  bottom: 25px;
-  border: 2px solid #e24f4f;
-  border-radius: 3px;
-  color: #e24f4f;
-  padding: 8px 10px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 300ms;
-}
-
-.close:hover {
-  transform: scale(1.15);
-  color: white;
-  font-weight: 300;
-  background: #e24f4f;
-  opacity: 0.7;
-  transition: 0.5s;
-}  */
 </style>
