@@ -50,24 +50,21 @@ export default {
       img:''
     };
   },
-
   // props: {
   //   lastCourses: {
   //     type: Array,
   //   },
   // },
-
   mounted() {
     // if (this.lastCourses) {
     //   this.mostrar = true;
     //   this.loading = false;
     // }
   },
-
   methods: {
     
-             getAttributes() {
-         this.axios.get("course/last-courses-rep").then((datos) => {
+        getAttributes() {
+        this.axios.get("course/last-courses-rep").then((datos) => {
         this.lastCourses = datos.data.data;
         this.loading= false,
         this.mostrar= true,
@@ -75,10 +72,8 @@ export default {
      
         // console.log(this.lastCourses);
       });
-
       
        },
-
           editar(id){
          this.$router.push('/buy-cursos/' + id)
        }
@@ -118,7 +113,6 @@ export default {
   margin-top: 20px;
 }
 .contenido img {
-
   transition: all 300ms;
   position:relative;
 }
@@ -128,8 +122,6 @@ export default {
    opacity: 0.6;
   cursor: pointer;
 }
-
-
 .title {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   // background: #d7ddf0;
@@ -178,7 +170,6 @@ export default {
   font-weight: 900;
   font-size: 20px;
 }
-
 .precio {
   width: 250px;
 }
@@ -193,7 +184,6 @@ export default {
 .descripcion {
   width: 250px;
 }
-
 .descripcion p {
   display: -webkit-box;
   margin-bottom: 0px;

@@ -227,7 +227,6 @@ export default {
             for(const index in res.data.data){
               if(res.data.data[index].id==this.items.id_categories){
               this.categoria=res.data.data[index].name;
-              console.log('🎈🎈🎈'+this.categoria)
             }
             }
           })

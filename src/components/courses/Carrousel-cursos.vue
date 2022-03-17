@@ -42,7 +42,6 @@ export default {
     Carousel,
     Slide,
   },
-
   props: {
     courses: {
       type: Array,
@@ -54,7 +53,6 @@ export default {
       mostrar: false,
     };
   },
-
   mounted() {
     if (this.courses) {
       (this.loading = false), (this.mostrar = true);
@@ -77,7 +75,6 @@ export default {
   margin-right: 2px;
   // margin-left: auto;
 }
-
 .marco {
   border: 2px solid rgb(221, 220, 220);
   //  background: rgb(99, 56, 56);
@@ -95,7 +92,6 @@ export default {
   margin-top: 20px;
 }
 .contenido img {
-
   transition: all 300ms;
   position:relative;
 }
@@ -142,7 +138,6 @@ export default {
 //   50% { border-color :transparent}
   
 // }
-
 .titulo {
   width: 250px;
 }
@@ -154,7 +149,6 @@ export default {
   font-weight: 900;
   font-size: 20px;
 }
-
 .precio {
   width: 250px;
 }
@@ -169,7 +163,6 @@ export default {
 .descripcion {
   width: 250px;
 }
-
 .descripcion p {
   display: -webkit-box;
   margin-top: 1px;
