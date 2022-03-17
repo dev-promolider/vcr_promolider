@@ -2,44 +2,33 @@
   <div class="contenido my-5">
 
 
-      <div class="alerta " v-if="alertita">
-          <div class="header">
-            <p>ACCION  NO  REQUERIDA!!</p>
-             <button class="cerrar" @click="closeAlert">X</button>
-          </div>
+    <h2 class="text-center font-weight-bold">
+      Seleccione las categorias de su preferencia
+    </h2>
 
-          <div class="exis">
-
-              <div class="ima">
-  
-              </div>
-              <div class="la_ima">
-                <p>X</p>
-              </div>
-            <p class="letra">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt temporibus soluta corporis facilis iste assumenda dicta maxime </p>
-
-            <div class="line">
-
-            </div>
-
-            <button class="close" @click="closeAlert">Close</button>
-          </div>
-
-    </div>
-    
-    
-    <h2 class="text-center font-weight-bold ">Seleccione las categorias de su preferencia</h2>
-
-    <p class="text-justify my-5" >
-        Selecciona al menos 3 categorías de cursos que sean de su agrado, 
-        esto le ayudara a obtener recomendaciones personalizadas.
-        Las categorías seleccionas no se mostrarán públicamente
+    <p class="text-justify my-5">
+      Selecciona al menos 3 categorias de cursos que sean de su agrado, esto le
+      ayudara a obtener recomendaciones personalizadas. Las categorías
+      seleccionas no se mostrarán públicamente.
     </p>
+
+    <div class="w-50 container alert alert-danger alert-dismissible fade show" role="alert" v-if="alertita">
+
+      <div class="mx-auto  w-100"> <strong class="container">Debes Seleccionar  3 categorias como minimo!!!</strong></div>
+ 
+  <button type="button" class="close" @click="closeAlert" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
     <div class="container-fluid" v-if="muestra">
       <div class="row d-flex justify-content-center my-5">
         <div v-if="isLoadingItems" class="row d-flex justify-content-center">
-          <div v-for="itemNumber in loadingItems" :key="itemNumber.id" class="category mb-4">
+          <div
+            v-for="itemNumber in loadingItems"
+            :key="itemNumber.id"
+            class="category mb-4"
+          >
             <label class="loader loader-logo"></label>
             <label class="loader loader-name"></label>
           </div>
@@ -52,12 +41,12 @@
       </div>
     </div>
 
-    <div class="row d-flex justify-content-end" v-if="muestra" >
-      <button class="btn-custom" v-on:click="cambiar" >Continuar <i class="fas fa-angle-double-right"></i></button> 
+    <div class="row d-flex justify-content-end" v-if="muestra">
+      <button class="btn-custom" v-on:click="cambiar">
+        Continuar <i class="fas fa-angle-double-right"></i>
+       
+      </button>
     </div>
-
-    
-
   </div>
 </template>
 
@@ -66,108 +55,105 @@ export default {
   data() {
     return {
       item: null,
-      alertita:false,
-      muestra:true,
+      alertita: false,
+      muestra: true,
       isLoadingItems: true,
       preferences: {
-        categorys: []
+        categorys: [],
       },
-      loadingItems:[1,2,3,4,5,6,7,8,9,10]
+      loadingItems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     };
   },
- 
+
   methods: {
     cambiar() {
-      if (this.preferences.categorys.length == 3) {      
-        this.axios.post('/preferences/add', this.preferences).then((r) => {
-          console.log(r.data);
-          const status_user = localStorage.getItem('status_preference');
-          if (status_user == 0) {
-            localStorage.removeItem('status_preference');
-            window.location.reload(true);
-          }
-        }).catch(e => {
-          console.log(e);
-        })
-      }else if(this.preferences.categorys.length < 3){
-        
-           this.alertita =true;
-           this.muestra=false;
-
+      if (this.preferences.categorys.length == 3) {
+        this.axios
+          .post("/preferences/add", this.preferences)
+          .then((r) => {
+            console.log(r.data);
+            const status_user = localStorage.getItem("status_preference");
+            if (status_user == 0) {
+              localStorage.removeItem("status_preference");
+              window.location.reload(true);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (
+        this.preferences.categorys.length < 3 ||
+        this.preferences.categorys.length > 3
+      ) {
+        this.alertita = true;
+        this.muestra = true;
       }
-      
     },
-    closeAlert(){
-             this.alertita=false;
-             this.muestra =true;
-           },
-    escoger(id){
+    closeAlert() {
+      this.alertita = false;
+      this.muestra = true;
+    },
+    escoger(id) {
       if (!this.preferences.categorys.includes(id)) {
-        this.preferences.categorys.push(id)
-        console.log(this.preferences)
-      }else{
-        const catg = this.preferences.categorys.indexOf(id);        
-        this.preferences.categorys.splice(catg,1);
-        console.log(this.preferences)
+        this.preferences.categorys.push(id);
+        console.log(this.preferences);
+      } else {
+        const catg = this.preferences.categorys.indexOf(id);
+        this.preferences.categorys.splice(catg, 1);
+        console.log(this.preferences);
       }
-
     },
     getAttributes() {
       this.axios.get("category/list").then((respuesta) => {
         this.item = respuesta.data.data;
-        this.isLoadingItems=false;
+        this.isLoadingItems = false;
       });
     },
-
-    
   },
 
   created() {
     this.getAttributes();
-    
-
   },
 };
 </script>
 
 <style scoped>
-
-.contenido{
-  position:relative;
+.contenido {
+  position: relative;
 }
 
-.loader-logo{
+.loader-logo {
   height: 80px;
   width: 40%;
   margin-inline: auto;
 }
 
-.loader-name{
+.loader-name {
   margin-top: 1rem;
   height: 25px;
   width: 70%;
   margin-inline: auto;
 }
 
-.container-fluid{
+.container-fluid {
   min-height: 50vh !important;
 }
-input[type="checkbox"]{
+input[type="checkbox"] {
   display: none;
 }
-.category-logo{
+.category-logo {
   font-size: 60px;
   color: var(--first-color-green);
   transition: 1s;
 }
-.category-name{
+.category-name {
   font-size: 25px;
   font-weight: bolder;
   color: var(--first-color-green);
   transition: 1s;
 }
 
-.category{
+.category {
   width: 12rem !important;
   margin: 5px;
   display: flex;
@@ -181,8 +167,8 @@ input[type="checkbox"]:checked + label  + label{
     color: rgb(1, 97, 1) !important;
 }
 
-input[type="checkbox"]:hover + label, 
-input[type="checkbox"]:hover + label  + label{
+input[type="checkbox"]:hover + label,
+input[type="checkbox"]:hover + label + label {
   text-shadow: 1px 1px 5px rgb(26, 26, 26);
   transform: translateY(-10px) !important;
 } */
@@ -209,13 +195,13 @@ input[type="checkbox"]:hover + label{
   .category{
     width: 80% !important;
   }
-  .loader-logo{
+  .loader-logo {
     height: 80px;
     width: 60%;
     margin-inline: auto;
   }
 
-  .loader-name{
+  .loader-name {
     margin-top: 1rem;
     height: 25px;
     width: 90%;
@@ -227,7 +213,7 @@ input[type="checkbox"]:hover + label{
   0%{
     transform: rotate(-15deg);
   }
-  50%{
+  50% {
     transform: rotate(0deg);
   }
   100%{
@@ -248,157 +234,99 @@ input[type="checkbox"]:hover + label{
   }
 }
 
-/* Configuración de la alerta */
-.alerta{
+
+/* .alerta{
+  width: 35%;
+  height: 35%;
   position:fixed;
-  border-radius: 15px 15px 15px 15px;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 10%;
-  left: 25%;
-  width: 50%;
-  height: 58%;
-  background: rgb(236, 236, 236);
-  color:white;
-  box-shadow: 0 2px 3px 0 rgba(0,0,0,.4);
-  animation: temblare 1s infinite alternate;
-
-}
-
-.header{
-  border-radius: 15px 15px 0px 0px;
-  background: #e24f4f;
-  height: 15%;
-  opacity: 0.85;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   display: flex;
-}
-.header p{
-  margin: auto 0px auto 5%;
-  color: rgb(255, 255, 255);
-  text-align: center;
-  
-  font-weight: 900;
-  font-size: 1.7rem;
-}
-.cerrar{
-  margin: 2px 8px 2px auto;
   background: none;
-  color: white;
-  border: none;
-  width: 8%;
-  height: 90%;
-  font-size: 1.9rem;
-  font-weight: 900;
-  cursor: pointer;
-  
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  border-radius:15px 15px 15px 15px;
+    animation: temblare 1s infinite alternate;
 }
-.exis{
-  margin-left: auto;
-  margin-right: auto;
+
+.costado{
+  background:#f8cd56;
+  width: 2%;
+  height: 100%;
+  border-radius:15px 0px 0px 15px;
  
-  
-  
 }
-
-.ima{
-  /* text-align: center;
-  margin:30px auto 0px auto;
-  font-size: 55px;
-  color:#e24f4f;
-  font-weight: 700;
-  height: 80px;
-  width: 80px;
-  border: 3px solid #e24f4f;
-  border-radius: 50%;
-  box-sizing: border-box;
-  padding-top:0px; */
-
-  border: 7px solid rgba(0, 0, 0, 0.3);
-  width: 106px;
-  height: 106px;
-  border-radius: 50%;
-  border-color: #e01616;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 5%;
-  animation: spin 2s ease infinite;
-  position: relative;
-  overflow: hidden;
-  
-  
-  
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(50deg);
-    border-color: #b1aaaa;
-    width: 108px;
-    height: 108px;
-  
-  }
-  
-  100% {
-    transform: rotate(350deg);
-    border-color: #e01616;
-    width: 108px;
-    height: 108px;
-  
-  }
-}
-
-.la_ima{
+.lateral{
+background: rgb(255, 255, 255);
+width: 98%;
+height: 100%;
+border-radius:0px 15px 15px 0px; */
+/* display: flex; */
  
- width: 100%;
-  height:15%;
-  position:absolute;
-  box-sizing: border-box;
-  top:26%;
-  
+/* } */
+/* .lateral i{
+  color:#f8cd56;
+  position:relative;
+  font-size: 30px;
+  margin-top:10%;
+  margin-left:10%;
+  height: 15%;
+   width: 70%; 
+   
 }
-.la_ima p{
-font-size: 55px;
-  color:#e24f4f;
-  font-weight: 700;
-   text-align: center;
+.lateral p{
+  width: 50%;
+  color:black;
   
+  font-size:23px;
+  height: 100%;
+  font-weight: 700;
+  text-align: left;
+  margin-left:5%;
+  padding-top:5px;
+  padding-bottom:5px;
+ 
 }
 
-.letra{
-  text-align: center;
-  font-size: 19px;
-  margin-top:20px;
-  padding-top:10px;
-  padding-right: 30px;
-  padding-left: 30px;
+.requisito{
+ 
+  width: 90%;
+  
+  margin-left:auto;
+  margin-right: auto;
+  margin-top: 7%;
 }
-.line{
-  bottom: 60px;
-  width: 85%;
-  margin: 35px auto auto auto;
-  height: 1px;
-  background: silver;
+.requisito p{
+   font-size:16px;
+   font-weight: 600;
+  text-align: justify;
+  width: 90%;
 }
-.close{
-  position:absolute;
+.close {
+  position: absolute;
   right: 45px;
   bottom: 25px;
-  border:2px solid #e24f4f; 
+  border: 2px solid #b88703;
   border-radius: 3px;
-  color:#e24f4f;
+  color: #b88703;
   padding: 8px 10px;
   font-size: 18px;
-  cursor:pointer; 
+  cursor: pointer;
   transition: all 300ms;
- 
+  left:15%;
+  width: 30%;
 }
 
-.close:hover{
-   transform: scale(1.15);
-    color:white;
-    font-weight: 300;
-    background:#e24f4f ;
-   opacity: 0.7;
-   transition: .5s;
-}
+.close:hover {
+  transform: scale(1.15);
+  color: rgb(20, 20, 20);
+  font-weight: 700;
+  background: #f8cd56;
+  opacity: 0.7;
+  transition: 0.5s;
+  
+} */
+
 </style>
