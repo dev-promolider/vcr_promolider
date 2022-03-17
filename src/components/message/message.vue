@@ -74,6 +74,8 @@
           </button>
         </div>
         <div class="body-chat">
+
+          <!-- Efecto de escribiendo -->
           <div v-if="message_add.isLoadingMessage" class="center-spinner">
             <b-spinner class="b-spinner" label="Loading..." variant="success"/>
             <p class="text-success">Cargando mensajes ...</p>
@@ -209,7 +211,7 @@ export default {
     //this.listarMensajes();
     window.Echo = new Echo({
       broadcaster: 'pusher',
-      key:'PROMOLIDER2022',
+      key:'AKIA5E257FA53XJYOW7O',
       cluster:'mt1',
       encrypted:false,
       wsHost: 'promolider.xyz',

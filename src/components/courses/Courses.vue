@@ -127,6 +127,24 @@ export default {
         },
       });
     },
+
+    // datos() {
+    //   this.movies.forEach((datos) => {
+    //     this.preferens.push(datos);
+    //   });
+    //   // console.log(this.preferens);
+    //   const categorias = this.preferens.map((p) => {
+    //     for (const i in p) {
+    //       return p[i];
+    //     }
+    //   });
+    //   categorias.forEach((cat) => {
+    //     for (const i in cat) {
+    //       this.cursos.push(cat[i]);
+    //     }
+    //   });
+    //   // console.log(this.cursos);
+    // },
   },
   created() {
     this.getAttributes();

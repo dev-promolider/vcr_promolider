@@ -91,7 +91,6 @@ export default {
     position: fixed;
     bottom: 0px !important;
     z-index: 1;
-    
   }
 }
 </style>

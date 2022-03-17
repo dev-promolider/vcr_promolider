@@ -2,7 +2,7 @@
   <vue-horizontal responsive class="carrousel this">.
     <section v-for="course in courses" :key="course.id">
         <div class="card" @click="editar(course.id)">
-            <img :src="'http://promolider.xyz/storage/'+course.url_portada" class="card-img-top" alt="">
+            <img :src="baseURL+course.url_portada" class="card-img-top" alt="">
             <div class="card-body ">
                 <h5 class="card-title font-weight-bolder text-justify">{{ course.title }}</h5>
                 <p class="card-text text-justify">{{ course.description.slice(0,50) }} ... </p>
@@ -23,6 +23,7 @@ export default {
     return {
       peeked: false,
       timeout: null,
+      baseURL:'http://promolider.xyz/storage/'
     }
   },
   props: {
