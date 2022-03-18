@@ -6,12 +6,22 @@
 
     <div class="total">
       <Carousel :per-page="3">
-        <Slide v-for="lastCourse in lastCourses" :key="lastCourse.id" >
+        <Slide v-for="lastCourse in lastCourses" :key="lastCourse.id">
           <div class="contenido">
-            <img :src="lastCourse.image" alt="" width="300" height="150" v-on:click="editar(lastCourse.id)" />
+            <router-link
+              :to="{
+                name: 'curso',
+                query: {
+                  course: lastCourse.id,
+                  class: 'clase' + lastCourse.last_class_reprod,
+                },
+              }"
+            >
+              <img :src="lastCourse.image" alt="" width="300" height="150" />
+            </router-link>
 
             <div class="titulo">
-              <p> {{ lastCourse.title }}</p>
+              <p>{{ lastCourse.title }}</p>
             </div>
 
             <div class="descripcion">
@@ -46,8 +56,8 @@ export default {
     return {
       loading: true,
       mostrar: false,
-      lastCourses:[],
-      img:''
+      lastCourses: [],
+      img: "",
     };
   },
 
@@ -57,38 +67,30 @@ export default {
   //   },
   // },
 
-  mounted() {
-    // if (this.lastCourses) {
-    //   this.mostrar = true;
-    //   this.loading = false;
-    // }
-  },
+  mounted() {},
 
   methods: {
-    
-             getAttributes() {
-         this.axios.get("course/last-courses-rep").then((datos) => {
+    getAttributes() {
+      this.axios.get("course/last-courses-rep").then((datos) => {
         this.lastCourses = datos.data.data;
-        this.loading= false,
-        this.mostrar= true,
-        this.img= this.lastCourses.image
-     
+        console.log(this.lastCourses);
+        (this.loading = false),
+          (this.mostrar = true),
+          (this.img = this.lastCourses.image);
+
         // console.log(this.lastCourses);
       });
-
-      
-       },
-
-          editar(id){
-         this.$router.push('/buy-cursos/' + id)
-       }
-      
-  },
-    created() {
-      this.getAttributes();
-    
     },
-  
+    // classvideo(idCourse, idClass){
+    //   this.router.push('/course-user/course=1&class=clase1')
+    // }
+    editar(id) {
+      this.$router.push("/buy-cursos/" + id);
+    },
+  },
+  created() {
+    this.getAttributes();
+  },
 };
 </script>
 
@@ -97,7 +99,7 @@ export default {
   width: 100%;
   margin-right: 2px;
   // margin-left: auto;
-   margin-top:20px;
+  margin-top: 20px;
 }
 .total {
   border: 2px solid rgb(221, 220, 220);
@@ -107,9 +109,8 @@ export default {
   margin-right: auto;
   margin-left: auto;
   padding-bottom: 20px;
-  
- background: rgb(253, 253, 253);
- 
+
+  background: rgb(253, 253, 253);
 }
 .contenido {
   width: 25%;
@@ -118,17 +119,15 @@ export default {
   margin-top: 20px;
 }
 .contenido img {
-
   transition: all 300ms;
-  position:relative;
+  position: relative;
 }
-.contenido img:hover{
-  transform: scale(1.10);
-   background: #b9c6e9;
-   opacity: 0.6;
+.contenido img:hover {
+  transform: scale(1.1);
+  background: #b9c6e9;
+  opacity: 0.6;
   cursor: pointer;
 }
-
 
 .title {
   font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
@@ -153,7 +152,7 @@ export default {
   font-weight: 800;
   text-align: left;
   display: block;
- font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
   white-space: nowrap;
   width: 17ch;
   // border-right: 4px solid;
@@ -165,7 +164,7 @@ export default {
 // }
 // @keyframes blink {
 //   50% { border-color :transparent}
-  
+
 // }
 .titulo {
   width: 320px;
@@ -188,7 +187,7 @@ export default {
   color: rgb(129, 11, 11);
   font-weight: 900;
   font-size: 20px;
-  margin-top:5px;
+  margin-top: 5px;
 }
 .descripcion {
   width: 250px;
@@ -201,8 +200,8 @@ export default {
   -webkit-line-clamp: 2;
   line-clamp: 2;
   overflow: hidden;
-   font-size: 15px;
+  font-size: 15px;
   text-align: left;
-  color:rgb(190, 160, 26);
+  color: rgb(190, 160, 26);
 }
 </style>
