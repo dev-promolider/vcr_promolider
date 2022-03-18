@@ -2,7 +2,7 @@
   <vue-horizontal responsive class="carrousel this"
     >.
     <section v-for="course in courses" :key="course.id">
-      <div class="card" @click="editar(course.id)">
+      <div class="card" @click="classvideo(course.id, course.last_class_reprod)">
         <img :src="baseURL + course.url_portada" class="card-img-top" alt="" />
         <div class="card-body">
           <h5 class="card-title font-weight-bolder text-justify">
@@ -24,7 +24,7 @@
 // For convenience sake, I import a collection of images from unsplash.
 
 export default {
-  name: "CarrouselCourse",
+  name: "CarrouselCourseViewed",
   data() {
     return {
       peeked: false,
@@ -38,9 +38,14 @@ export default {
     },
   },
   methods: {
-    editar(id){
-      this.$router.push('/buy-cursos/' + id)
-    }
+    classvideo(idCourse, idClass) {
+      this.router.push("/course-user", {
+        query: {
+          course: idCourse,
+          class: "clase" + idClass,
+        },
+      });
+    },
   },
 };
 </script>

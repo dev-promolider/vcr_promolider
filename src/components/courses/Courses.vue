@@ -1,14 +1,14 @@
 <template>
-
   <div class="container-fluid mt-4">
     <div v-if="loading">
       <loadingCourses/>
     </div>
     <div v-else>
-      <!-- Últimos cursos -->
+        <!-- Últimos cursos -->
+        <!-- Continuar aprendiendo -->
         <div class="row mb-4" v-if="lastCourses.length >0">
-            <h3 class="font-weight-bold">Últimos cursos</h3>
-            <CarrouselCourse :courses="lastCourses"/>
+            <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
+            <CarrouselCourseViewed :courses="lastCourses"/>
         </div>
 
         <!-- Todos los cursos -->
@@ -29,7 +29,6 @@
             <CarrouselCourse :courses="relatedCourses"/>
         </div>
 
-        <!-- Continuar aprendiendo -->
         <!-- <div class="row mb-4" v-if="relatedCourses.length >0">
             <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
             <CarrouselCourse :courses="relatedCourses"/>  
@@ -42,13 +41,15 @@
 
 
 import CarrouselCourse from '@/components/courses/CarrouselCourse';
+import CarrouselCourseViewed from '@/components/courses/CarrouselCourse';
 import loadingCourses from '@/components/courses/loadingCourses'
 export default {
     
   name: "Courses",
   components: {
-     CarrouselCourse,
-     loadingCourses
+    CarrouselCourseViewed,
+    CarrouselCourse,
+    loadingCourses
   },
   data() {
     return {
@@ -80,6 +81,7 @@ export default {
     async getAttributes() {
       await this.axios.get("course/last-courses-rep").then((datos) => {
         this.lastCourses = datos.data.data;
+        console.log(this.lastCourses);
         this.mostrar= true,
         this.img= this.lastCourses.image
       });
