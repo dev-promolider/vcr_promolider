@@ -78,7 +78,6 @@
               <img src="../../assets/logo-perfil.png" />
             </div>
           </section>
-
           <!-- Mensaje del websocket -->
           <div class="message-contact">
             <img src="../../assets/contacto.svg" />
@@ -109,17 +108,16 @@
 </template>
 
 <script>
-import '@/components/message/style.css';
+import "@/components/message/style.css";
 import Echo from "laravel-echo";
 window.Pusher = require("pusher-js");
 
 export default {
   name: "message",
-
   data() {
     return {
       chats: null,
-      general: null,
+      general: [],
       name_user: null,
       email: null,
       message_add: {
@@ -136,9 +134,7 @@ export default {
       this.axios
         .post("messages/add", this.message_add)
         .then(() => {
-          //console.log("Mensaje enviado" + r);
           this.message_add.message = "";
-          //this.listarMensajes(this.email);
         })
         .catch(() => {
           //console.log("Error en enviar");
@@ -174,7 +170,6 @@ export default {
     //     window.Echo.channel('message').whisper('typing', {message: ""})
     // }
   },
-  mounted() {},
   created() {
     this.lista();
     //this.listarMensajes();
