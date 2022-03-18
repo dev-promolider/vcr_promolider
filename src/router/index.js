@@ -12,9 +12,6 @@ import CursoUser from '../views/content/course/Course.vue'
 import Login from '../views/auth/Login.vue'
 import Perfil from'../views/content/perfil/Perfil.vue'
 import buycursos from '../components/courses/buy-cursos.vue'
-import buylistCourse from '../components/courses/buy-listCourse.vue'
-import buycursosInteres from '../components/courses/buy-cursosInteres.vue'
-import buycursosrelated from '../components/courses/buy-cursosrelated.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -31,12 +28,7 @@ const routes = [
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
       { path: '/perfil', name: 'perfil', component: Perfil },
-      { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos },
-      { path: '/buy-listCourse/:ides', name: 'buy-listCourse', component: buylistCourse },
-      { path: '/buy-cursosInteres/:idese', name: 'buy-cursosInteres', component: buycursosInteres },
-      { path: '/buy-cursosrelated/:ideses', name: 'buy-cursosrelated', component: buycursosrelated },
-      
-      
+      { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos }
     ]
   },
   { path: '/login', name: 'Login', component: Login },

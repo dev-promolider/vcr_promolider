@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions} from "vuex";
 import Temario from "@/components/course/temario/Temario.vue";
 import Descripcion from "@/components/course/descripcion/Descripcion.vue";
 import Comentarios from "@/components/course/comentarios/Comentarios.vue";

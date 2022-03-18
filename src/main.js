@@ -2,6 +2,9 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap'
+import VueHorizontal from 'vue-horizontal';
+
 
 import App from './App.vue'
 import router from './router'
@@ -13,7 +16,7 @@ Vue.config.productionTip = false
 const token = localStorage.getItem('access_token');
 
 axios.defaults.baseURL = 'http://promolider.xyz/api/v1'
-// axios.defaults.baseURL = 'https://8b77-177-91-253-9.ngrok.io/promolider/public/api/v1'
+//axios.defaults.baseURL = 'http://9db5-177-91-253-9.ngrok.io/promolider/public/api/v1'
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -21,6 +24,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 // Vue Use Nodes
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
+Vue.use(VueHorizontal)
+
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
