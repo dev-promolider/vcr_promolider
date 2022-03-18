@@ -15,7 +15,10 @@
         @keyup.enter="sendComment"
       />
     </div>
-    <section class="comments d-flex" v-for="comment in allComments" :key="comment">
+    <div v-if="allComments.data='No hay comentarios'" class="no-result center-element">
+      <span>Esta clase aún no tiene comentarios</span>
+    </div>
+    <section v-else class="comments d-flex" v-for="comment in allComments" :key="comment">
       <img class="img-users" src="@/assets/logo-comment.svg" alt="" />
       <div class="users-comment">
         <p class="name">{{comment.username}}</p>
@@ -100,5 +103,16 @@ margin-bottom: 4px;
 .comments {  width: 100%; height: 90px; gap: 12.26px;
 }
 .img-users{ width: 37.5px; height: 37.5px; border-radius: 50%;    
+}
+.center-element{
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.no-result::before{
+  content: '\f086';
 }
 </style>

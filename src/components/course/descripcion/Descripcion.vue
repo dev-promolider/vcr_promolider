@@ -39,7 +39,7 @@
               aria-labelledby="home-tab"
             >
             <div class="mx-4 mt-4">
-              <p>
+              <p class="text-justify">
                 {{ lesson.description }}
               </p>
             </div>
@@ -57,12 +57,11 @@
                 </div>
 
                 <div v-else> 
-    
                   <ul class="list-group list-group-flush" >
                     <li class="list-group-item" v-for="(resource,index) in resources" :key="index">
                       Recurso {{index+1}}.
                       <a class="ml-3 text-decoration-none text-success" @click="downloadResource(resource)"> 
-                        <i class="fas fa-download mr-1"></i> {{ resource.resource_file }}            
+                        <i class="fas fa-download mr-1"></i> {{ getNameResource(resource.resource_file) }}            
                       </a>
                     </li>                              
                   </ul>
@@ -110,8 +109,13 @@
             document.body.appendChild(docUrl);
             docUrl.click();
         })
-      }
+      },
 
+      //Extraer nombre del recurso
+      getNameResource(filepath){
+        let filenameWithExtension = filepath.replace(/^.*[\\/]/, '');
+        return filenameWithExtension;
+      } 
     },
     created(){
       this.getResources(this.$route.query.class)
