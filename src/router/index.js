@@ -5,7 +5,7 @@ import Home from '../views/content/dashboard/Dashboard.vue'
 import AttributeVenta from '../components/AttributeVenta/AttributeVenta.vue'
 import AttributeUser from '../components/AttributeUser/AttributeUser.vue'
 import AttributeCourse from '../components/AttributeCourse/AttributeCourse.vue'
-import Cursos from '../views/content/courses/Courses.vue'
+import Courses from '../views/content/courses/Courses.vue'
 import Messages from '../views/content/message/Messages.vue'
 import CursoUser from '../views/content/course/Course.vue'
 // import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
@@ -22,7 +22,7 @@ const routes = [
       
       { path: '/home', component: Home, name: 'home' },
       { path: '/', component: Home, name: 'home' },
-      { path: '/courses', component: Cursos, name: 'cursos' },
+      { path: '/courses', component: Courses, name: 'courses' },
       { path: '/course-user', query:{course:'',class:''}, component: CursoUser, name: 'curso' },
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },

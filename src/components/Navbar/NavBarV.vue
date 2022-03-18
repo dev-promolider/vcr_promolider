@@ -7,33 +7,26 @@
       <li
         @click="sendTitle('Inicio')"
         class="nav-item"
-        :class="{ 'is-active': isActive('/home') }">
-        <router-link
-          to="/home"
-          class="nav-link link-v"
-        >
+        :class="{ 'is-active': isActive('home') }"
+      >
+        <router-link to="/home" class="nav-link link-v">
           <img src="./../../assets/home.svg" alt="" />
           Inicio
         </router-link>
       </li>
 
-      <li
-        @click="sendTitle('Cursos')"
-        class="nav-item"
-        :class="{ 'is-active': isActive('cursos') }">
+      <li @click="sendTitle('Cursos')" class="nav-item">
         <router-link
           to="/courses"
           class="nav-link link-v"
+          :class="{ 'is-active': isActive('courses') }"
         >
           <img src="./../../assets/courses.svg" alt="" />
           Cursos
         </router-link>
       </li>
 
-      <li
-        @click="sendTitle('Mensajes')"
-        class="nav-item"
-      >
+      <li @click="sendTitle('Mensajes')" class="nav-item">
         <router-link
           to="/messages"
           class="nav-link link-v"
@@ -84,9 +77,7 @@ export default {
     },
     ...mapActions("course", ["getTitle"]),
   },
-  mounted() {
-
-  },
+  mounted() {},
 };
 </script>
 <style scope>
@@ -134,39 +125,39 @@ export default {
   height: 24px;
   margin-right: 20px;
 }
-@media (max-width:991px) {
+@media (max-width: 991px) {
   .title-aula {
     display: none;
   }
   .nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
-  .nav-item a{
+  .nav-item a {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
-  .nav-item > a > img{
+  .nav-item > a > img {
     margin: auto;
-  } 
+  }
   .is-active {
     border-bottom: var(--active-link);
     filter: var(--opcion-link);
     border-left: none;
   }
 }
-@media (max-width:555px){
-  .link-v{
+@media (max-width: 555px) {
+  .link-v {
     font-size: 6px;
   }
 }
-@media (max-width:360px){
-  .link-v{
+@media (max-width: 360px) {
+  .link-v {
     font-size: 5px;
   }
-  .link-v img{
+  .link-v img {
     height: 20px !important;
   }
 }

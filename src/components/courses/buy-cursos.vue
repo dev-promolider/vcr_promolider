@@ -22,7 +22,7 @@
 
       <!-- Imagen del curso -->
       <div class="col-lg-8 pr-0 pl-4" :class="{loader: !img, 'loader-img-course': !img}">
-        <img :src="img" class="img-course"  />
+        <img :src="baseURL+img" class="img-course"  />
       </div>
     </div>
     
@@ -158,6 +158,7 @@ export default {
 
   data() {
     return {
+      baseURL: "http://promolider.xyz/storage/",
       nameProductor:'',
       emailProductor:'',
       items: [],
@@ -212,7 +213,7 @@ export default {
           this.items = datos.data.data;
           this.precio = this.items.price;
           this.level = this.items.level;
-          this.img = this.items.image;
+          this.img = this.items.url_portada;
           this.titulo = this.items.title;
           this.descripcion = this.items.description;
           this.curso_detalle = this.items.course_about;
