@@ -74,9 +74,12 @@
 </template>
 
 <script>
+
+
   import { mapState, mapActions } from 'vuex';
 
   export default {
+    name: "Descripcion",
     data(){
       return{
         resumen: true,
@@ -125,23 +128,18 @@
 </script>
 
 <style scoped>
-
 .tab-pane{
   width: 100%;
   height: 215px;
   overflow-y: auto ;
 }
-
 .tab-pane::-webkit-scrollbar{
   display: none;
 }
-
 .nav-item{
   margin-left:25px  !important;
   margin-bottom: 0px !important;
 }
-
-
 .nav-link{
   border: none !important;
   border-top-left-radius: 15px !important;
@@ -150,7 +148,6 @@
   height: 37px;
   border-bottom: solid #E5E5E5  0.2px !important;
 }
-
 .nav-tabs li { 
   /* Makes a horizontal row */
   float: left; 
@@ -169,7 +166,7 @@
   /* Default colors */ 
   color: white;
   background: #C4C4C4; 
-  
+  font-size: 18px;
 }
 .nav-tabs .active {
   /* Highest, active tab is on top */
@@ -233,12 +230,10 @@
 }
 /* First and last tabs have different
    outside color needs */
-
 .nav-tabs li a:before {
   left: -20px;
 }
 .nav-tabs li a:after {
   right: -20px;
 }
-
 </style>

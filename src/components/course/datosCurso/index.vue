@@ -25,20 +25,10 @@
 
 <script>
 export default {
-    name:"SeccionInferior"
+    name:"DatosCurso"
 }
 </script>
 
 <style scoped>
-.btn-next{
-    background: var(--second-color-gray);
-    color: white;
-    border: none;
-}
-
-.btn-back{
-    background: white;
-    color: var(--second-color-gray);
-    border: none;
-}
+@import './style.css';
 </style>

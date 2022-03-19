@@ -1,7 +1,7 @@
 <template>
   <vue-horizontal responsive class="carrousel this"
     >.
-    <section v-for="course in courses" :key="course.id">
+    <section class="pb-1" v-for="course in courses" :key="course.id">
       <div class="card" @click="editar(course.id)">
         <img :src="baseURL + course.url_portada" class="card-img-top" alt="" />
         <div class="card-body">
@@ -11,9 +11,10 @@
           <p class="card-text text-justify">
             {{ course.description.slice(0, 50) }} ...
           </p>
-          <label class="font-weight-bolder text-success price"
-            >S/{{ course.price }}</label
-          >
+          <div class="fixed-bottom mb-1">
+            <hr class="line">
+            <h5 class="font-weight-bolder text-success text-right pr-4">S/{{ course.price }}</h5>
+          </div>
         </div>
       </div>
     </section>
@@ -60,13 +61,6 @@ export default {
   border-top-right-radius: 15px;
 }
 
-.price {
-  position: absolute;
-  bottom: 5px;
-  right: 25px;
-  font-size: 20px;
-}
-
 .carrousel {
   width: 97.3%;
   margin: auto;
@@ -79,6 +73,9 @@ export default {
   width: 100% !important;
   transition: 1s;
   border-radius: 15px;
+  background: rgba(197, 197, 197, 0.102);
+  backdrop-filter: blur(2px);
+  box-shadow: 2px 2px 10px rgba(47, 47, 47, 0.144) ;
 }
 
 .card:hover {
