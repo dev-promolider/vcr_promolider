@@ -1,44 +1,59 @@
 <template>
-  <div class="container-courses">
-    <div class="spinner" v-if="lord"></div>
+  <div class="container-fluid mt-4">
+    <div v-if="loading">
+      <loadingCourses/>
+    </div>
+    <div v-else>
+        <!-- Últimos cursos -->
+        <!-- Continuar aprendiendo -->
+        <div class="row mb-4" v-if="lastCourses.length >0">
+            <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
+            <CarrouselCourseViewed :courses="lastCourses"/>
+        </div>
 
-    <!-- <div class="buscador" v-if="guardar">
-      <input type="text" placeholder="buscar el curso requerido" />
-      <img src="@/assets/logo.png" alt="" />
-    </div> -->
-  <div class="carros">
+        <!-- Todos los cursos -->
+        <div class="row mb-4" v-if="courses.length >0">
+            <h3 class="font-weight-bold">Todos los cursos</h3>
+            <CarrouselCourse :courses="courses"/>
+        </div>
 
-      <LastCourses  v-if="guardar" />
-    <!-- :lastCourses="lastCourses" -->
+        <!-- Cursos de interes -->
+        <div class="row mb-4" v-if="interesCourses.length >0">
+            <h3 class="font-weight-bold">Cursos de interés</h3>
+            <CarrouselCourse :courses="interesCourses"/>
+        </div>
 
-    <MoviesSection :courses="courses" v-if="guardar" />
-    <InteresCourses :interesCourses="interesCourses" v-if="guardar" />
-    <RelatedCourses :relatedCourses="relatedCourses" v-if="guardar" />
-  </div>
-    <!-- <PreferecesSection :movies="movies" v-if="guardar" /> -->
-  
+        <!-- Cursos recien lanzados -->
+        <div class="row mb-4" v-if="relatedCourses.length >0">
+            <h3 class="font-weight-bold">Cursos recién lanzados</h3>
+            <CarrouselCourse :courses="relatedCourses"/>
+        </div>
+
+        <!-- <div class="row mb-4" v-if="relatedCourses.length >0">
+            <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
+            <CarrouselCourse :courses="relatedCourses"/>  
+        </div> -->
+    </div>
   </div>
 </template>
 
 <script>
-// import Spinner from '@/components/auth/Spinner.vue'
-import LastCourses from "@/components/courses/last-courses.vue";
-// import PreferecesSection from '@/components/courses/Carrousel-preferences.vue'
-import MoviesSection from "@/components/courses/Carrousel-cursos.vue";
-import InteresCourses from "@/components/courses/interes-courses.vue";
-import RelatedCourses from "@/components/courses/related-courses.vue";
+
+
+import CarrouselCourse from '@/components/courses/CarrouselCourse';
+import CarrouselCourseViewed from '@/components/courses/CarrouselCourse';
+import loadingCourses from '@/components/courses/loadingCourses'
 export default {
+    
   name: "Courses",
   components: {
-    // Spinner
-    MoviesSection,
-    // PreferecesSection,
-    LastCourses,
-    InteresCourses,
-    RelatedCourses,
+    CarrouselCourseViewed,
+    CarrouselCourse,
+    loadingCourses
   },
   data() {
     return {
+      nameUser: localStorage.getItem("name_user"),
       informacion: [],
       lord: true,
       limite: 5,
@@ -49,7 +64,6 @@ export default {
       noexis: false,
       loading: true,
       mostrar: false,
-
       title: "1231",
       age: 123,
       courses: [],
@@ -60,42 +74,36 @@ export default {
       prueba: [],
     };
   },
+
+
+
   methods: {
-    getAttributes() {
-      this.axios.get("course/related-courses").then((datos) => {
+    async getAttributes() {
+      await this.axios.get("course/last-courses-rep").then((datos) => {
+        this.lastCourses = datos.data.data;
+        console.log(this.lastCourses);
+        this.mostrar= true,
+        this.img= this.lastCourses.image
+      });
+        
+      await this.axios.get("course/related-courses").then((datos) => {
         this.lord = false;
         this.guardar = true;
         this.loading = false;
         this.mostrar = true;
-        // const array = datos.data.data;
         this.courses = datos.data.data;
-        // this.informacion = array[0].courses_related;
-        // console.log(array[0].courses_related)
-        // console.log(array2[1].last_courses)
-        //  this.informacion.forEach(cursos =>{
-
-        //  })
-
-        // console.log(this.courses);
       });
 
-      // this.axios.get("course/last-courses-rep").then((datos) => {
-      //   this.lastCourses = datos.data.data;
-      //   console.log(this.lastCourses);
-      // });
-
-      this.axios.get("course/interesting-courses").then((datos) => {
+      await this.axios.get("course/interesting-courses").then((datos) => {
         this.interesCourses = datos.data.data;
-        // console.log(this.interesCourses);
       });
 
-
-      // error en la api de aqui
-
-      this.axios.get("course/released-courses").then((datos) => {
+      await this.axios.get("course/released-courses").then((datos) => {
         this.relatedCourses = datos.data.data;
          console.log(this.relatedCourses);
       });
+
+      this.loading=false;
     },
     aumentar() {
       this.limite += 5;
@@ -109,6 +117,7 @@ export default {
       //   this.age =cursos.id + 1
       //   console.log(this.age)
       // })
+
     },
 
     goToClass(courseId) {
@@ -120,6 +129,24 @@ export default {
         },
       });
     },
+
+    // datos() {
+    //   this.movies.forEach((datos) => {
+    //     this.preferens.push(datos);
+    //   });
+    //   // console.log(this.preferens);
+    //   const categorias = this.preferens.map((p) => {
+    //     for (const i in p) {
+    //       return p[i];
+    //     }
+    //   });
+    //   categorias.forEach((cat) => {
+    //     for (const i in cat) {
+    //       this.cursos.push(cat[i]);
+    //     }
+    //   });
+    //   // console.log(this.cursos);
+    // },
   },
   created() {
     this.getAttributes();
@@ -133,107 +160,24 @@ https://www.tiktok.com/@rubentuestaok/video/7057606896286502149
 https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 */
 
-.container-courses {
-  display: flex;
-  flex-direction: column;
-  margin: 0px;
-  width: 100%;
-  max-height: 100%;
-  /* background: salmon; */
- overflow: auto;
-
-}
-.carros{
-  /* background: #078812; */
-  width: 100%;
-  margin-right: 0px;
-  /* margin-left: auto; */
-}
-.spinner {
-  border: 9px solid rgba(0, 0, 0, 0.3);
-  width: 106px;
-  height: 106px;
-  border-radius: 50%;
-  border-left-color: #078812;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 280px;
-  animation: spin 1s ease infinite;
-  position: relative;
-  overflow: hidden;
-  
+.container-fluid{
+    width: 90%;
+    height: 100%;
+    margin: auto;
+    overflow-y: scroll ;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+.container-fluid::-webkit-scrollbar{
+  display: none;
 }
 
-.buscador {
-  background: rgb(255, 255, 255);
-  width: 480px;
-  height: 98px;
-  margin-right: 150px;
-  margin-left: auto;
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  border: 1px solid #c4c4c4;
-  border-radius: 15px;
-  padding:5px;
-  box-sizing: border-box;
+
+h3{
+    color: #707070;
+    font-size: 25px;
+    margin-bottom: 15px;
 }
-.buscador input {
-  width: 358px;
-  height: 45px;
-  border: none;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 15px;
-  line-height: 14px;
-  margin-left: 30px;
-}
-.buscador input:focus {
-  /* para quitar el color de marco de 
-    input */
-  margin: 0;
-  outline: none;
-}
-.buscador img {
-  width: 42px;
-  height: 35px;
-}
-/* contenedores de imagenes nuevo!*/
-.caja {
-  width: 100%;
-  max-width: 100%;
-  overflow: auto;
-  margin-right: auto;
-  margin-left: auto;
-  height: 70%;
-  display: flex;
-  gap: 15px;
-  position: relative;
-}
-.cajita {
-  width: 600px;
-  height: 158px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.boton1 {
-  position: absolute;
-  margin-top: 50px;
-  left: 0;
-}
-.boton2 {
-  position: relative;
-  right: 0;
-  margin-top: 40px;
-}
+
+
+
 </style>

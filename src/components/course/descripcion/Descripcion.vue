@@ -134,6 +134,7 @@
 
 .nav-item{
   margin-left:25px  !important;
+  margin-bottom: 0px !important;
 }
 
 

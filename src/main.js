@@ -2,6 +2,9 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap'
+import VueHorizontal from 'vue-horizontal';
+
 
 import App from './App.vue'
 import router from './router'
@@ -21,6 +24,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 // Vue Use Nodes
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
+Vue.use(VueHorizontal)
+
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'

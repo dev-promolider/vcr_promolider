@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import message from "@/components/message/message.vue"
+import message from "@/components/message"
 
 
 

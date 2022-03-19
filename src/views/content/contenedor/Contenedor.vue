@@ -6,7 +6,7 @@
         </div>
       </div>
       
-    <div class="nav-v">
+    <div class="nav-v" v-if="!mostrar">
       <NavBarV />
     </div>
     <div class="content-user">
@@ -88,8 +88,8 @@ export default {
   .nav-v{
     max-height: 66px !important;
     width: 100%;
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    bottom: 0px !important;
     z-index: 1;
   }
 }
