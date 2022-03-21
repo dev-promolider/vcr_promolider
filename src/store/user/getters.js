@@ -1,6 +1,8 @@
 
 export const getName = (state) => state.name
 
+export const getStatusRequest = (state) => state.status_request_login
+
 // export const getFullname = (state) => state.fullname
 
 // export const getLastName = (state) => state.lastname
