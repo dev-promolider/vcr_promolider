@@ -79,4 +79,8 @@ export default {
 
 @import './style.css';
 
+.no-result::before {
+  content: "\f086";
+}
+
 </style>
