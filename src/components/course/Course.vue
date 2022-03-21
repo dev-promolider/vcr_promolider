@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="seccion_inferior_video">
-            <SeccionInferior />
+            <DatosCurso />
           </div>
         </div>
         <Descripcion />
@@ -37,12 +37,12 @@
 
 <script>
 import { mapState, mapActions} from "vuex";
-import Temario from "@/components/course/temario/Temario.vue";
-import Descripcion from "@/components/course/descripcion/Descripcion.vue";
-import Comentarios from "@/components/course/comentarios/Comentarios.vue";
-import Video from "@/components/course/video/Video.vue";
+import Temario from "@/components/course/temario";
+import Descripcion from "@/components/course/descripcion";
+import Comentarios from "@/components/course/comentarios";
+import Video from "@/components/course/video";
 //import VideoHTTP from "@/components/course/video/VideoHTTP.vue";
-import SeccionInferior from "@/components/course/video/SeccionInferior.vue";
+import DatosCurso from "@/components/course/datosCurso";
 export default {
   name: "Course",
   data() {
@@ -55,7 +55,7 @@ export default {
     Descripcion,
     Comentarios,
     Video,
-    SeccionInferior,
+    DatosCurso,
     //VideoHTTP
   },
   computed: {

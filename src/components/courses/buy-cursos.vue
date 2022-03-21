@@ -107,7 +107,7 @@
           <div class="card-container">
             <!-- card course -->
             <div class="border-box mb-4 cardCursos cursor-pointer" v-for="course in courses1" :key="course.id" @click="goToBuy(course.id)">
-              <img :src="course.image" class="img-card" />
+              <img :src="baseURL + course.url_portada" class="img-card" />
               <div class="row">
                 <div class="col-8 d-flex flex-row my-4 pl-4">
                   <p class="ml-1 ">{{ course.title}}</p>
@@ -149,7 +149,7 @@
 
 <script>
 
-  import Video from "@/components/course/video/Video.vue";
+  import Video from "@/components/course/video";
 
   import { mapState, mapActions } from 'vuex';
 

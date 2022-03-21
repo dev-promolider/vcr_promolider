@@ -92,6 +92,11 @@ export default {
   align-items: center;
 }
 
+.center-element{
+  color: var(--second-color-gray);
+  font-size: 14px;
+}
+
 /* Icono triste para "resultados no encontrados" */
 .no-result::before{
   font-family: "Font Awesome 5 Free";
