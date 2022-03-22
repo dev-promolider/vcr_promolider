@@ -73,7 +73,7 @@ export default {
 }
 
 .carrousel {
-  width: 97.3%;
+  width: 100%; /*97.3*/
   margin: auto;
 }
 

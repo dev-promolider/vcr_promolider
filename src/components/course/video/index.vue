@@ -106,22 +106,6 @@ export default {
 };
 </script>
 
-<style >
-.player {
-  height: 100%;
-  width: 100%;
-}
-
-.vjs-tech,
-.vjs-custom-skin {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.video-js {
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-}
+<style scoped>
+@import './style.css';
 </style>
-

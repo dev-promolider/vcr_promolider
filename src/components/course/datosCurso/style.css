@@ -1,0 +1,11 @@
+.btn-next{
+    background: var(--second-color-gray) !important;
+    color: white !important;
+    border: none !important;
+}
+
+.btn-back{
+    background: white !important;
+    color: var(--second-color-gray) !important;
+    border: none !important;
+}
