@@ -21,3 +21,7 @@ export const SET_NAME = (state, name) =>{
 // export const SET_STATUSUSER = (state,statususer) =>{
 //     state.statususer = statususer;
 // }
+
+export const SET_STATUS_REQUEST_LOGIN = (state,status) =>{
+    state.status_request_login = status;
+} 
