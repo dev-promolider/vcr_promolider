@@ -1,6 +1,11 @@
 <template>
   <div class="container-fluid" >
 
+    <!-- Curso inactivo -->
+    <div v-if="inactive" class="no-result center-element d-flex ">
+      <span>Lo sentimos, no encontramos el curso que busca, se le redireccionará a la vista de cursos.</span>
+    </div>
+
     <!-- Primera sección -->
     <div class="row my-5">
 
@@ -107,7 +112,7 @@
           <div class="card-container">
             <!-- card course -->
             <div class="border-box mb-4 cardCursos cursor-pointer" v-for="course in courses1" :key="course.id" @click="goToBuy(course.id)">
-              <img :src="course.image" class="img-card" />
+              <img :src="baseURL + course.url_portada" class="img-card" />
               <div class="row">
                 <div class="col-8 d-flex flex-row my-4 pl-4">
                   <p class="ml-1 ">{{ course.title}}</p>
@@ -149,7 +154,7 @@
 
 <script>
 
-  import Video from "@/components/course/video/Video.vue";
+  import Video from "@/components/course/video";
 
   import { mapState, mapActions } from 'vuex';
 
@@ -158,6 +163,7 @@ export default {
 
   data() {
     return {
+      inactive:false,
       baseURL: "http://promolider.xyz/storage/",
       nameProductor:'',
       emailProductor:'',
@@ -211,6 +217,17 @@ export default {
 
         this.axios.get("course/details/" + this.pao_id).then((datos) => {
           this.items = datos.data.data;
+
+          // Verificar si el curso esta activo o no
+          if(this.items.status!=1){
+            console.log('Curso incativo') ;
+            this.inactive=true;
+            this.$router.push('/courses');
+            
+          }else{
+            console.log('Curso activo')
+          }
+
           this.precio = this.items.price;
           this.level = this.items.level;
           this.img = this.items.url_portada;
@@ -220,6 +237,8 @@ export default {
           this.aprendera = this.items.will_learn;
           this.previos = this.items.prev_knowledge;
           this.dirigido = this.items.course_for;
+
+          // Formateando fecha
           const fecha= new Date(this.items.created_at);
           let options = { year: 'numeric', month: 'long', day: 'numeric' };
           this.fecha_creacion=fecha.toLocaleDateString("es-ES", options)
@@ -237,7 +256,9 @@ export default {
             this.emailProductor = res.data.email;
             this.imgProductor= '/img/logo-perfil.beab7730.png'
           });
-        });
+        })
+        
+        
 
         this.axios.get("course/related-courses").then((datos) => {
           this.lord = false;
@@ -256,15 +277,16 @@ export default {
           this.loadingRelated=false;
         });
 
-      this.axios.get("/user/show/2").then((r) => {
-       console.log(r)
-});
+      // this.axios.get("/user/show/2").then((r) => {
+      //  console.log(r)
+      // });
 
     },
   },
   created() {
     this.getAttributes();
     this.getCourse(this.$route.params.ide);
+
   },
 };
 </script>

@@ -39,7 +39,7 @@
               aria-labelledby="home-tab"
             >
             <div class="mx-4 mt-4">
-              <p>
+              <p class="text-justify">
                 {{ lesson.description }}
               </p>
             </div>
@@ -57,12 +57,11 @@
                 </div>
 
                 <div v-else> 
-    
                   <ul class="list-group list-group-flush" >
                     <li class="list-group-item" v-for="(resource,index) in resources" :key="index">
                       Recurso {{index+1}}.
                       <a class="ml-3 text-decoration-none text-success" @click="downloadResource(resource)"> 
-                        <i class="fas fa-download mr-1"></i> {{ resource.resource_file }}            
+                        <i class="fas fa-download mr-1"></i> {{ getNameResource(resource.resource_file) }}            
                       </a>
                     </li>                              
                   </ul>
@@ -75,9 +74,12 @@
 </template>
 
 <script>
+
+
   import { mapState, mapActions } from 'vuex';
 
   export default {
+    name: "Descripcion",
     data(){
       return{
         resumen: true,
@@ -110,8 +112,13 @@
             document.body.appendChild(docUrl);
             docUrl.click();
         })
-      }
+      },
 
+      //Extraer nombre del recurso
+      getNameResource(filepath){
+        let filenameWithExtension = filepath.replace(/^.*[\\/]/, '');
+        return filenameWithExtension;
+      } 
     },
     created(){
       this.getResources(this.$route.query.class)
@@ -121,23 +128,18 @@
 </script>
 
 <style scoped>
-
 .tab-pane{
   width: 100%;
   height: 215px;
   overflow-y: auto ;
 }
-
 .tab-pane::-webkit-scrollbar{
   display: none;
 }
-
 .nav-item{
   margin-left:25px  !important;
   margin-bottom: 0px !important;
 }
-
-
 .nav-link{
   border: none !important;
   border-top-left-radius: 15px !important;
@@ -146,7 +148,6 @@
   height: 37px;
   border-bottom: solid #E5E5E5  0.2px !important;
 }
-
 .nav-tabs li { 
   /* Makes a horizontal row */
   float: left; 
@@ -165,7 +166,7 @@
   /* Default colors */ 
   color: white;
   background: #C4C4C4; 
-  
+  font-size: 18px;
 }
 .nav-tabs .active {
   /* Highest, active tab is on top */
@@ -229,12 +230,10 @@
 }
 /* First and last tabs have different
    outside color needs */
-
 .nav-tabs li a:before {
   left: -20px;
 }
 .nav-tabs li a:after {
   right: -20px;
 }
-
 </style>

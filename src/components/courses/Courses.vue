@@ -1,9 +1,12 @@
 <template>
-  <div class="container-fluid mt-4">
+  <div class="container-fluid ">
+    <div v-if="notCourses" class="no-result center-element d-flex ">
+      <span>Lo sentimos, aún no hay cursos disponibles.</span>
+    </div>
     <div v-if="loading">
       <loadingCourses/>
     </div>
-    <div v-else>
+    <div v-else class="mt-4">
         <!-- Últimos cursos -->
         <!-- Continuar aprendiendo -->
         <div class="row mb-4" v-if="lastCourses.length >0">
@@ -72,6 +75,7 @@ export default {
       interesCourses: [],
       relatedCourses: [],
       prueba: [],
+      notCourses:false
     };
   },
 
@@ -80,30 +84,39 @@ export default {
   methods: {
     async getAttributes() {
       await this.axios.get("course/last-courses-rep").then((datos) => {
-        this.lastCourses = datos.data.data;
-        console.log(this.lastCourses);
-        this.mostrar= true,
-        this.img= this.lastCourses.image
+        this.lastCourses = this.filterCourseInactive(datos.data.data);
       });
         
       await this.axios.get("course/related-courses").then((datos) => {
-        this.lord = false;
-        this.guardar = true;
-        this.loading = false;
-        this.mostrar = true;
-        this.courses = datos.data.data;
+        this.courses = this.filterCourseInactive(datos.data.data);
+
       });
 
       await this.axios.get("course/interesting-courses").then((datos) => {
-        this.interesCourses = datos.data.data;
+        this.interesCourses = this.filterCourseInactive(datos.data.data);
       });
 
       await this.axios.get("course/released-courses").then((datos) => {
-        this.relatedCourses = datos.data.data;
-         console.log(this.relatedCourses);
+        this.relatedCourses = this.filterCourseInactive(datos.data.data);
       });
 
       this.loading=false;
+
+      if(this.lastCourses.length===0 && 
+         this.courses.length===0 &&
+         this.interesCourses.length===0 && 
+         this.relatedCourses.length===0 
+        ){
+        this.notCourses=true;
+      }
+
+    },
+    filterCourseInactive(data){
+      var courseFilter = data.filter((course)=>{
+          return course.status!=0; 
+      });
+
+      return courseFilter;
     },
     aumentar() {
       this.limite += 5;
@@ -162,7 +175,7 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 
 .container-fluid{
     width: 90%;
-    height: 100%;
+    height: 100vh;
     margin: auto;
     overflow-y: scroll ;
 }
