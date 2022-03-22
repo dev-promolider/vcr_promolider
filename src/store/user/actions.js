@@ -3,8 +3,10 @@ import axios from "axios";
 
 export const actionUser = async (context, body) => {
 
-    const res = await axios.post("auth/login", body)
-
+    const res = await axios.post("auth/login", body).catch( (error) => {
+        context.commit("SET_STATUS_REQUEST_LOGIN",error.response.status)
+      });
+    
     console.log(res.data);
     //let fullName = res.data.data.user.fullName
     let last_name = res.data.data.user.last_name
@@ -42,6 +44,7 @@ export const actionUser = async (context, body) => {
     //     window.location.reload(true);
     // this.$router.push('/home')
     // }
+    
     window.location.reload(true);
 
 }
