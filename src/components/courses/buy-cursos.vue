@@ -1,14 +1,8 @@
 <template>
   <div class="container-fluid" >
 
-    <!-- Curso inactivo -->
-    <div v-if="inactive" class="no-result center-element d-flex ">
-      <span>Lo sentimos, no encontramos el curso que busca, se le redireccionará a la vista de cursos.</span>
-    </div>
-
     <!-- Primera sección -->
     <div class="row my-5">
-
       <!-- Detalles del curso -->
       <div class="col-lg-4 col-md-12 pr-5 detailsCourse">
         <h3 class="font-weight-bold" :class="{loader: !titulo , 'loader-titles': !titulo}">{{ titulo }}</h3>
@@ -216,17 +210,17 @@ export default {
         this.pao_id = this.$route.params.ide;
 
         this.axios.get("course/details/" + this.pao_id).then((datos) => {
-          this.items = datos.data.data;
+          this.items = datos.data.data[0];
 
           // Verificar si el curso esta activo o no
-          // if(this.items.status!=1){
-          //   console.log('Curso incativo') ;
-          //   this.inactive=true;
-          //   this.$router.push('/courses');
+          if(this.items.status!=1){
+            console.log('Curso incativo') ;
+            this.inactive=true;
+            this.$router.push('/courses');
             
-          // }else{
-          //   console.log('Curso activo')
-          // }
+          }else{
+            console.log('Curso activo')
+          }
 
           this.precio = this.items.price;
           this.level = this.items.level;
