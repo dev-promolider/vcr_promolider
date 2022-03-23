@@ -27,7 +27,7 @@
 
       <!-- Imagen del curso -->
       <div class="col-lg-8 pr-0 pl-4" :class="{loader: !img, 'loader-img-course': !img}">
-        <img :src="baseURL+img" class="img-course"  />
+        <img :src="img" class="img-course"  />
       </div>
     </div>
     
@@ -112,7 +112,7 @@
           <div class="card-container">
             <!-- card course -->
             <div class="border-box mb-4 cardCursos cursor-pointer" v-for="course in courses1" :key="course.id" @click="goToBuy(course.id)">
-              <img :src="baseURL + course.url_portada" class="img-card" />
+              <img :src="course.url_portada" class="img-card" />
               <div class="row">
                 <div class="col-8 d-flex flex-row my-4 pl-4">
                   <p class="ml-1 ">{{ course.title}}</p>
@@ -231,6 +231,7 @@ export default {
           this.precio = this.items.price;
           this.level = this.items.level;
           this.img = this.items.url_portada;
+          console.log(this.img);
           this.titulo = this.items.title;
           this.descripcion = this.items.description;
           this.curso_detalle = this.items.course_about;
@@ -274,6 +275,7 @@ export default {
 
           //  })
           this.courses1 =this.courses.slice(0,3)
+          console.log(this.courses1);
           this.loadingRelated=false;
         });
 
