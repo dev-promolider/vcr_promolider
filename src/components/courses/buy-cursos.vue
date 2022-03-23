@@ -219,14 +219,14 @@ export default {
           this.items = datos.data.data;
 
           // Verificar si el curso esta activo o no
-          if(this.items.status!=1){
-            console.log('Curso incativo') ;
-            this.inactive=true;
-            this.$router.push('/courses');
+          // if(this.items.status!=1){
+          //   console.log('Curso incativo') ;
+          //   this.inactive=true;
+          //   this.$router.push('/courses');
             
-          }else{
-            console.log('Curso activo')
-          }
+          // }else{
+          //   console.log('Curso activo')
+          // }
 
           this.precio = this.items.price;
           this.level = this.items.level;
