@@ -12,6 +12,7 @@ import CursoUser from '../views/content/course/Course.vue'
 import Login from '../views/auth/Login.vue'
 import Perfil from'../views/content/perfil/Perfil.vue'
 import buycursos from '../components/courses/buy-cursos.vue'
+import Suscription from '../components/suscription/suscription.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,9 +29,13 @@ const routes = [
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
       { path: '/perfil', name: 'perfil', component: Perfil },
-      { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos }
+      { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos },
+      { path: '/suscription-user', name: 'suscription-user', component: Suscription },
+     
     ]
   },
+ 
+  
   { path: '/login', name: 'Login', component: Login },
   { path: '/attribute', name: 'attribute', component: AttributeVenta },
   // { path: '/preferences', name: 'Preferences', component: PreferencesCateg, meta: { autenticado: true } },
