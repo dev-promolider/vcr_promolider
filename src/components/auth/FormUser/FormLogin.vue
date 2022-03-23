@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div class="alert alert-danger" role="alert" v-if="getStatusRequest===401">
+      Usuario y/o contraseña incorrecta, vuelva a intentarlo 
+    </div>
+    <div class="alert alert-danger" role="alert" v-if="getStatusRequest===422">
+      Asegurese de llenar todos los campos con el formato requerido
+    </div>
+    <div class="alert alert-success" role="alert" v-if="getStatusRequest===200">
+      Sesión inciada exitosamente
+    </div>
     <b-form @submit.prevent="singin">
       <b-form-group class="my-2  subtitle" label="Email*">
         <b-form-input
@@ -7,6 +16,7 @@
           type="text"
           v-model="form.username"
           placeholder="Example@gmail.com"
+          required
         ></b-form-input>
       </b-form-group>
 
@@ -16,6 +26,7 @@
           type="password"
           v-model="form.password"
           placeholder="Min. 8 caracteres"
+          required
         ></b-form-input>
       </b-form-group>
 
@@ -67,14 +78,14 @@
 </template>
 
 <script>
-import { mapActions, } from 'vuex';
+import { mapActions,mapGetters } from 'vuex';
 export default {
   name: "FormLogin",
   data() {
     return {
       form: {
-        username: "",
-        password: "",
+        username: null,
+        password: null,
       
       },
     };
@@ -87,7 +98,7 @@ export default {
       actionUser: 'actionUser'}),
     
     singin() {
-      this.actionUser(this.form)    
+      this.actionUser(this.form)   
       
     //   this.axios.post("/auth/login", this.form).then((r) => {
     //     const d = r.data;
@@ -96,8 +107,11 @@ export default {
     //     localStorage.setItem("access_token", authToken);
     //     window.location.reload(true);
     //   });
-    }  
-
+    },
+  },
+  computed:{
+    ...mapGetters("user", ["getStatusRequest"])
+     
   }
 };
 </script>
