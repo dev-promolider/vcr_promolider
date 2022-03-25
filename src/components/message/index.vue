@@ -121,7 +121,7 @@ export default {
       name_user: null,
       email: null,
       message_add: {
-        id: 1,
+        id: null,
         message: "Probando envio de mensaje 4 :D",
         isLoadingMessage: null,
       },

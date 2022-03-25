@@ -3,7 +3,7 @@
     >.
     <section class="pb-1" v-for="course in courses" :key="course.id">
       <div class="card" @click="editar(course.id)">
-        <img :src="baseURL + course.url_portada" class="card-img-top" alt="" />
+        <img :src="course.url_portada" class="card-img-top" alt="" />
         <div class="card-body">
           <h5 class="card-title font-weight-bolder text-justify">
             {{ course.title }}
