@@ -13,6 +13,8 @@ import Login from '../views/auth/Login.vue'
 import Perfil from'../views/content/perfil/Perfil.vue'
 import buycursos from '../components/courses/buy-cursos.vue'
 import Suscription from '../components/suscription/suscription.vue'
+import Certificado from '../components/Certificado/certificado.vue'
+import detalleCertificado from '../components/Certificado/detalleCertificado.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -31,6 +33,9 @@ const routes = [
       { path: '/perfil', name: 'perfil', component: Perfil },
       { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos },
       { path: '/suscription-user', name: 'suscription-user', component: Suscription },
+      { path: '/certificado-user', name: 'certificado-user', component: Certificado },
+      { path: '/detalle-certificado', name: 'detalle-certificado', component: detalleCertificado }
+
      
     ]
   },
