@@ -15,8 +15,8 @@ Vue.config.productionTip = false
 //get token localstorage
 const token = localStorage.getItem('access_token');
 
-// axios.defaults.baseURL = 'http://promolider.xyz/api/v1'
-axios.defaults.baseURL = 'https://bb68-177-91-253-9.ngrok.io/promolider/public/api/v1'
+axios.defaults.baseURL = 'http://promolider.xyz/api/v1'
+// axios.defaults.baseURL = 'http://eef6-177-91-253-9.ngrok.io/promolider/public/api/v1'
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
