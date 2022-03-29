@@ -18,7 +18,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                           
                         </div>
                      
                 </div>
@@ -39,7 +39,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                           
                         </div>
                      
                 </div>
@@ -60,7 +60,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                       
                         </div>
                      
                 </div>
@@ -81,7 +81,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                           
                         </div>
                      
                 </div>
@@ -103,7 +103,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                          
                         </div>
                      
                 </div>
@@ -124,7 +124,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                          
                         </div>
                      
                 </div>
@@ -145,7 +145,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                            
                         </div>
                      
                 </div>
@@ -167,7 +167,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                          
                         </div>
                      
                 </div>
@@ -188,7 +188,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                      
                         </div>
                      
                 </div>
@@ -209,7 +209,7 @@
                         <div class="d-flex">
                             <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
                             <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                            <p class="my-auto ml-5 text-dark  font-weight-bold">S/ 129</p>
+                            
                         </div>
                      
                 </div>
