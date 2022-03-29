@@ -104,12 +104,31 @@ export default {
     // Eliminar,
   },
   data() {
-    return {};
+    return { 
+      infomacion:[]
+    };
   },
 
   mounted() {},
 
-  methods: {},
+  methods: {
+ getAttributes() {
+     this.axios.get("course/purchased-courses").then((datos) => {
+       
+         this.infomacion =datos.data.data;
+         console.log(this.infomacion)
+        });
+  },
+
+
+
+
+  },
+
+created() {
+  this.getAttributes();
+},
+
 };
 </script>
 
