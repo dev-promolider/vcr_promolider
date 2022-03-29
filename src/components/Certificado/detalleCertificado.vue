@@ -1,10 +1,26 @@
 <template>
-    <div>
-        <div class="container">
-             <b-card bg-variant="success" text-variant="white" header="Certificado" class="text-center mt-5">
-        <b-card-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic vero, quam impedit repudiandae ratione perferendis nisi animi, omnis quibusdam natus rerum nemo amet, sint voluptas a tempora veniam fugiat error.</b-card-text>
+    <div> 
+        <div class="container ">
+           
+           <div class="">
+
+            
+                <p class="text-dark display-4 font-weight-bold">Certificado de finalización</p>
+                <div class="ml-5 mr-5 mt-5 px-3">
+                     
+                <p class="text-dark text-center px-5 ">Este documento certifica que <strong>Diego Gonzales</strong> a completado con exito 20 total hours del curso en línea <strong>Sistema de Compra y Facturación con Python usando Django</strong> el 10 de diciembre de 2022</p>
+                </div>
+               
+               <div class="container ">
+                   <hr class="w-50 mb-0 mt-5">
+                   <p >David Ernesto Bojorge Sequera, Instructor</p>
+               </div>
+            
+
+           </div>
         
-      </b-card>
+
+
         </div>
      
     </div>
@@ -31,5 +47,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  
 </style>

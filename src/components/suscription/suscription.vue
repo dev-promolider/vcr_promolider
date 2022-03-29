@@ -6,7 +6,7 @@
     <div class="row mr-5 ml-5 mover">  
       
             <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -26,8 +26,8 @@
                 
             </div>
             
-             <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+             <div class="col col-md-6 col-lg-4 card-group  ">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -48,7 +48,7 @@
             </div>
 
             <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -69,7 +69,7 @@
             </div>
 
             <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -91,7 +91,7 @@
 
 
              <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -112,7 +112,7 @@
             </div>
 
              <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -133,7 +133,7 @@
             </div>
 
              <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -155,7 +155,7 @@
 
 
              <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -176,7 +176,7 @@
             </div>
 
             <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
@@ -197,7 +197,7 @@
             </div>
 
            <div class="col col-md-6 col-lg-4 card-group ">
-                <div class="card mb-3 mt-3 bordea">
+                <div class="card mb-3 mt-3 bordea cursor-pointer">
                    <img src="@/assets/cursos.jpg" width="100%" height="200" class="bordeas">
                     <div class="card-body bg-white text-dark ">
                         
