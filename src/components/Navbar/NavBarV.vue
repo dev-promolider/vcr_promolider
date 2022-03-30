@@ -26,6 +26,28 @@
         </router-link>
       </li>
 
+      <li @click="sendTitle('Mis-Cursos')" class="nav-item">
+        <router-link
+          to="/suscription-user"
+          class="nav-link link-v"
+          :class="{ 'is-active': isActive('suscription-user') }"
+        >
+          <img src="./../../assets/courses.svg" alt="" />
+          Aprendizaje
+        </router-link>
+      </li>
+
+        <li @click="sendTitle('Mis-Certificaciones')" class="nav-item">
+        <router-link
+          to="/certificado-user"
+          class="nav-link link-v"
+          :class="{ 'is-active': isActive('certificado-user') }"
+        >
+          <img src="./../../assets/courses.svg" alt="" />
+          Certificaciones
+        </router-link>
+      </li>
+
       <li @click="sendTitle('Mensajes')" class="nav-item">
         <router-link
           to="/messages"
