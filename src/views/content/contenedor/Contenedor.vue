@@ -44,7 +44,7 @@ export default {
 
   created() {
     this.status_user = localStorage.getItem("status_preference");
-    if (this.status_user == 0) {
+    if (this.status_user == 1) {
       this.mostrar = !this.mostrar;
     }
   },
@@ -57,7 +57,7 @@ export default {
 
 .view::-webkit-scrollbar{
     display: none;
-    }
+}
 
 .content {
   width: 100%;
