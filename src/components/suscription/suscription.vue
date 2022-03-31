@@ -243,6 +243,7 @@ export default {
        
          this.informacion =datos.data.data;
          console.log(this.informacion)
+        //  console.log(this.informacion)
         });
   },
 
