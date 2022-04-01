@@ -2,7 +2,7 @@
   <div>
     <div class="contenedor mt-4">
       <ul class="d-flex">
-        <li class="one">
+        <li class="one ">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -10,8 +10,11 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar" class="font-weight-bold text-white font-size-2-5">{{courses}}</p>
-          <p class="text-white">Cursos</p>
+          <div class="fixed-bottom">
+
+          <p v-if="mostrar" class="font-weight-bold text-white font-number my-1">{{courses}}</p>
+          <p class="text-white mar-top">Cursos</p>
+          </div>
         </li>
 
         <li>
@@ -22,8 +25,10 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p class="font-weight-bold mt-2 font-size-1-4" v-if="mostrar">S/.{{ payment }}</p>
-          <p>Ventas</p>
+          <div class="fixed-bottom">
+          <p class="font-weight-bold font-number my-1" v-if="mostrar">S/.{{ payment }}</p>
+          <p class="mar-top">Ventas</p>
+          </div>
         </li>
 
         <li>
@@ -34,9 +39,11 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p>Plan</p>
-          <p class="font-weight-bold font-size-1-4"  v-if="mostrar"> {{ typePlans.toUpperCase() }}</p>
-          <p> <i class="fas fa-infinity mr-2"></i> días restantes</p>
+          
+          <p class=" my-1">Plan</p>
+          <p class="font-weight-bold font-role my-1"  v-if="mostrar"> {{ typePlans.toUpperCase() }}</p>
+          <p class=" "> <i class="fas fa-infinity mr-2"></i> días restantes</p>
+          
         </li>
 
         <li class="four">
@@ -47,8 +54,10 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <p v-if="mostrar" class="font-weight-bold font-size-2-5" >{{ affilates }}</p>
-          <p>Afiliado</p>
+          <div class="fixed-bottom">
+          <p v-if="mostrar" class="font-weight-bold font-number my-1" >{{ affilates }}</p>
+          <p class="mar-top">Afiliado</p>
+          </div>
         </li>
       </ul>
     </div>
@@ -95,10 +104,11 @@ export default {
 .contenedor {
   width: 100%;
   justify-content: center;
+  background: transparent;
 }
 ul {
   width: 100%;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 0px;
 }
 li {
@@ -106,14 +116,18 @@ li {
   flex-wrap: wrap;
   flex-direction: column;
   background: rgb(253, 253, 253);
-  text-align: center;
+  position: relative;
   color: black;
-  width: 50%;
+  /* width: 50%; */
   list-style: none;
-  padding: 1%;
+  /* padding: 1%; */
   flex-grow: 1;
-
+  
   border: 0.5px solid rgb(236, 236, 236);
+}
+
+li > .fixed-bottom{
+  position: absolute;
 }
 .one {
   border-radius: 25px 0px 0px 25px;
@@ -122,10 +136,17 @@ li {
 .four {
   border-radius: 0px 25px 25px 0px;
 }
-.font-size-2-5{
+/* .font-size-2-5{
   font-size: 2.5rem;
 }
 .font-size-1-4{
   font-size: 1.4rem;
+} */
+.font-number{
+  font-size: 2rem;
 }
+.font-role{
+  font-size: 1.5rem;
+}
+
 </style>
