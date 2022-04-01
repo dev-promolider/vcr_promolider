@@ -44,7 +44,7 @@ export default {
 
   created() {
     this.status_user = localStorage.getItem("status_preference");
-    if (this.status_user == 1) {
+    if (this.status_user == 0) {
       this.mostrar = !this.mostrar;
     }
   },
@@ -70,7 +70,7 @@ export default {
   height: 100vh;
   width: 100%;
   position: absolute;
-  z-index: 100;
+  z-index: 9999;
   background: var(--bg-content);
 }
 .nav-v {
