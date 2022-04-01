@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import DashboardProducer from "@/components/dashboard/";
+import DashboardProducer from "@/components/dashboard";
 import DashboardStudent from "@/components/Student/dashboard";
 export default {
   name: "Dashboard",
@@ -22,11 +22,11 @@ export default {
 </script>
 
 <style scoped>
-.container-fluid {
-  /* overflow: auto !important; */
-}
+/* .container-fluid {
+   overflow: auto !important; 
+} */
 
-.container-fluid::-webkit-scrollbar {
-  /* display: none; */
-}
+/* .container-fluid::-webkit-scrollbar {
+  display: none; 
+} */
 </style>
