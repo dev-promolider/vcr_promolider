@@ -57,11 +57,12 @@ export default {
       // this.$router.push('/detalle-certificado')
       this.muestro = false;
       this.spin = true;
+
       setTimeout(() => {
         this.spin = false;
         this.mostrar = true;
         this.muestro = false;
-      }, 2000);
+      }, 500);
     },
 
     cerrar() {
