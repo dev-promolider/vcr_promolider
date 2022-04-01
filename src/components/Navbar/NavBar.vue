@@ -22,11 +22,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
-            <img @click="sendTitle()" class="img-help" src="../../assets/help.png" />
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
             <img class="img-help" src="../../assets/notification.png" />
           </a>
         </li>
@@ -37,7 +32,7 @@
             <img class="img-classroom" src="../../assets/logo-aula3.png" />
           </span>
         </li>
-        <li class="nav-item profile">
+        <!-- <li class="nav-item profile">
           <span class="submenu">
             <img class="img-photo" src="../../assets/logo-perfil.png" />
             <a class="viewmenu"  v-on:click="desplegar()">
@@ -59,7 +54,28 @@
           >
           <div class="dropdown-divider"></div>
           <a class="dropdown-item"  @click="closeSesion()">Sign out </a>
-        </div>
+        </div> -->
+
+        <li class="nav-item profile">
+          <span class="submenu">
+            <img class="img-photo" src="../../assets/logo-perfil.png" />
+            <a class="viewmenu dropdown-toggle " data-toggle="dropdown" aria-expanded="false" >
+              <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
+            </a>
+            <div class="dropdown-menu viewmenu-list">
+              <router-link class="dropdown-item" to="/perfil">
+                <img class="img-menuitem" src="../../assets/perfil.png" />
+                Perfil</router-link>
+              <a class="dropdown-item " href="#">
+                <img class="img-menuitem" src="../../assets/subcription.png" />
+                Subcripción</a
+              >
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item"  @click="closeSesion()">Sign out </a>
+            </div>
+          </span>
+        </li>
+
       </ul>
     </div>
   </div>
@@ -175,15 +191,19 @@ export default {
 .viewmenu-list {
   position: absolute;
   background: #ffffff;
-  box-shadow: 0px 4px 22px #e5e5e5;
+  box-shadow: 0px 4px 22px #e5e5e5 !important;
   border-radius: 15px;
   width: 226px;
   height: 207px;
-  top: 72px;
-  right: 4px;
+  top: 20px !important;
+  right: 4px !important;
   border-radius: 10px;
   z-index: 100;
-  transition: all 1s;
+  border: none;
+  /* transition: all 1s; */
+}
+.dropdown-toggle{
+  color: transparent;
 }
 .img-viewmenu {
   width: 32px;

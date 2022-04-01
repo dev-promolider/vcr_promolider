@@ -26,6 +26,28 @@
         </router-link>
       </li>
 
+      <li @click="sendTitle('Mis-Cursos')" class="nav-item">
+        <router-link
+          to="/suscription-user"
+          class="nav-link link-v"
+          :class="{ 'is-active': isActive('suscription-user') }"
+        >
+          <img src="./../../assets/courses.svg" alt="" />
+          Aprendizaje
+        </router-link>
+      </li>
+
+        <li @click="sendTitle('Mis-Certificaciones')" class="nav-item">
+        <router-link
+          to="/certificado-user"
+          class="nav-link link-v"
+          :class="{ 'is-active': isActive('certificado-user') }"
+        >
+          <img src="./../../assets/courses.svg" alt="" />
+          Certificaciones
+        </router-link>
+      </li>
+
       <li @click="sendTitle('Mensajes')" class="nav-item">
         <router-link
           to="/messages"
@@ -35,25 +57,6 @@
           <img src="./../../assets/messange.svg" alt="" />
           Mensajes
         </router-link>
-      </li>
-
-      <li @click="sendTitle('Ventas')" class="nav-item">
-        <a class="nav-link link-v" href="#">
-          <img src="./../../assets/sales.svg" alt="" />
-          Ventas
-        </a>
-      </li>
-      <li @click="sendTitle('Estadisticas')" class="nav-item">
-        <a class="nav-link link-v" href="#">
-          <img src="./../../assets/estadisticas.svg" alt="" />
-          Estadisitcas
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link link-v" href="#">
-          <img src="./../../assets/roles-permisos.svg" alt="" />
-          Roles y Permisos
-        </a>
       </li>
     </ul>
   </div>
