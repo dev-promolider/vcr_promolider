@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="container mt-5 position-relative" v-if="muestro">
-      <div class="col col-md-6 col-lg-9 mx-auto">
+      <div class="col col-md-6 col-lg-9 mx-auto" >
         <div
-          class="category-logo container d-flex row text-center cursor-pointer"
+          class="category-logo container d-flex row text-center cursor-pointer" 
         >
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
+          <!-- <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
+          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div> -->
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="container position-relative moveras shadow p-3 mb-5 bg-white " v-if="mostrar">
+    <div class="container  " v-if="mostrar">
       <Detalles />
 
 <button type="button" class="btn btn-outline-success mb-2 mt-5" @click="cerrar()">Escoger otro certificado</button>
@@ -47,12 +47,21 @@ export default {
       mostrar: false,
       muestro: true,
       spin: false,
+      informacion:[]
     };
   },
 
   mounted() {},
 
   methods: {
+     getAttributes() {
+     this.axios.get("/purchased/certificate-data").then((datos) => {
+       
+         this.informacion =datos.data.data;
+         console.log(this.informacion)
+        //  console.log(this.informacion)
+        });
+     },
     escoger() {
       // this.$router.push('/detalle-certificado')
       this.muestro = false;
@@ -71,6 +80,9 @@ export default {
       this.spin = false;
     },
   },
+   created() {
+  this.getAttributes();
+},
 };
 </script>
 
@@ -89,15 +101,5 @@ export default {
 .slip {
   margin-top: 15%;
 }
-.moveras{
-    margin-right:auto;
-    margin-left:auto;
-    margin-top:4%;
-    width: 70%;
-    height: 85%;
-    background: rgb(241, 241, 241);
-    padding-top:5%;
-    border-radius: 20px 20px 10px 20px;
-    border: 2px solid rgb(197, 197, 197);
-}
+
 </style>
