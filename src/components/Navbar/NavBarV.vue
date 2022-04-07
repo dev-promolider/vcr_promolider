@@ -58,25 +58,6 @@
           Mensajes
         </router-link>
       </li>
-
-      <li @click="sendTitle('Ventas')" class="nav-item">
-        <a class="nav-link link-v" href="#">
-          <img src="./../../assets/sales.svg" alt="" />
-          Ventas
-        </a>
-      </li>
-      <li @click="sendTitle('Estadisticas')" class="nav-item">
-        <a class="nav-link link-v" href="#">
-          <img src="./../../assets/estadisticas.svg" alt="" />
-          Estadisitcas
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link link-v" href="#">
-          <img src="./../../assets/roles-permisos.svg" alt="" />
-          Roles y Permisos
-        </a>
-      </li>
     </ul>
   </div>
 </template>

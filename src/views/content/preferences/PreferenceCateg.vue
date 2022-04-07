@@ -96,11 +96,11 @@ export default {
     escoger(id) {
       if (!this.preferences.categorys.includes(id)) {
         this.preferences.categorys.push(id);
-        console.log(this.preferences);
+        // console.log(this.preferences);
       } else {
         const catg = this.preferences.categorys.indexOf(id);
         this.preferences.categorys.splice(catg, 1);
-        console.log(this.preferences);
+        // console.log(this.preferences);
       }
     },
     getAttributes() {
