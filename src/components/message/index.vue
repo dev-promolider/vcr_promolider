@@ -168,12 +168,14 @@ export default {
       }
     },
     usersID() {
-      var ids = "";
+      var ids;
       if (this.idOne > this.idTwo) {
         ids = this.idTwo + "" + this.idOne;
+        console.log(ids);
         return ids;
       } else {
         ids = this.idOne + "" + this.idTwo;
+        console.log(ids);
         return ids;
       }
     },
@@ -197,9 +199,10 @@ export default {
       forceTLS: false,
     });
 
-    window.Echo.channel("message-" + this.usersID()).listen("Message", (e) => {
+    window.Echo.channel("chat-"+this.usersID()).listen("MessageSentEvent", (e) => {
       console.log(e);
       if (e.receiver_id != localStorage.getItem("id_user")) {
+        console.log(e.message);
         this.general.push({
           name: localStorage.getItem("name_user"),
           message: e.message,

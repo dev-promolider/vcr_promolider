@@ -1,11 +1,11 @@
 <template>
   <div>
-    <DashboardProducer v-if="student"/>
-    <DashboardStudent />
+    <DashboardProducer v-if="producer"/>
+    <DashboardStudent v-if="student"/>
   </div>
 </template>
 <script>
-import DashboardProducer from "@/components/dashboard/";
+import DashboardProducer from "@/components/dashboard";
 import DashboardStudent from "@/components/Student/dashboard";
 export default {
   name: "Dashboard",
@@ -15,18 +15,26 @@ export default {
   },
   data() {
     return {
+      producer: false,
       student: false
     };
   },
+  created() {
+    if (localStorage.getItem("rol_user") == 1) {
+      this.producer = !this.producer;
+    }else if(localStorage.getItem("rol_user") == 3){
+      this.student = !this.student;
+    }
+  }
 };
 </script>
 
 <style scoped>
-.container-fluid {
-  /* overflow: auto !important; */
-}
+/* .container-fluid {
+   overflow: auto !important; 
+} */
 
-.container-fluid::-webkit-scrollbar {
-  /* display: none; */
-}
+/* .container-fluid::-webkit-scrollbar {
+  display: none; 
+} */
 </style>
