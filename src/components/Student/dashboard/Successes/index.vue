@@ -82,5 +82,4 @@ export default {
 .line-progres-1 {
   background: #5cc151;
 }
-
 </style>

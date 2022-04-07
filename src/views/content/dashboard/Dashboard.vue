@@ -1,7 +1,7 @@
 <template>
   <div>
-    <DashboardProducer v-if="student"/>
-    <DashboardStudent />
+    <DashboardProducer v-if="producer"/>
+    <DashboardStudent v-if="student"/>
   </div>
 </template>
 <script>
@@ -15,9 +15,17 @@ export default {
   },
   data() {
     return {
+      producer: false,
       student: false
     };
   },
+  created() {
+    if (localStorage.getItem("rol_user") == 1) {
+      this.producer = !this.producer;
+    }else{
+      this.student = !this.student;
+    }
+  }
 };
 </script>
 

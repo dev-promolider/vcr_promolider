@@ -19,11 +19,13 @@ export const actionUser = async (context, body) => {
     let status_preference = res.data.data.user.status_preference
     let city = res.data.data.user.city
     let id_user = res.data.data.user.id
+    let rol = res.data.data.user.roles[0].id
 
     //context.commit("SET_NAME",fullName)
 
     let authToken = res.data.data.access_token;
-
+    
+    localStorage.setItem("rol_user", rol)
     localStorage.setItem("id_user", id_user);
     localStorage.setItem("access_token", authToken);
     localStorage.setItem("status_preference", status_preference);
