@@ -1,24 +1,18 @@
 <template>
-        <message/>
+        <Message/>
 </template>
 
 <script>
-import message from "@/components/message"
-
-
-
+import Message from "@/components/message"
 export default {
     name: "Messages",
     components: {
-        message
+        Message
     },
-    mounted(){
-        
+    mounted(){        
     },
-    created(){
-        
+    created(){        
     }
-
 }
 </script>
 

@@ -1,0 +1,35 @@
+.item-logros p {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000;
+    margin: 0;
+    padding: 5px 0 0 0;
+}
+.header-logro{
+    display: flex;
+    align-items: center;
+    gap: 27px;
+}
+.header-logro p{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0;
+    color: #000;
+}
+.details-logros{
+    display: grid;
+    place-content: center;
+}
+.details-logros p{
+    width: 120px;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    color: #448F3C;
+    margin: 0;
+}

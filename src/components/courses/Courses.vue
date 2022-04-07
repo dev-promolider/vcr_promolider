@@ -9,10 +9,11 @@
     <div v-else class="mt-4">
         <!-- Últimos cursos -->
         <!-- Continuar aprendiendo -->
-        <div class="row mb-4" v-if="lastCourses.length >0">
+        <CarrouselCourseViewed/>
+        <!-- <div class="row mb-4" v-if="lastCourses.length >0">
             <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
             <CarrouselCourseViewed :courses="lastCourses"/>
-        </div>
+        </div> -->
 
         <!-- Todos los cursos -->
         <div class="row mb-4" v-if="courses.length >0">
@@ -42,7 +43,6 @@
 
 <script>
 
-
 import CarrouselCourse from '@/components/courses/CarrouselCourse';
 import CarrouselCourseViewed from '@/components/courses/CarrouselCourse';
 import loadingCourses from '@/components/courses/loadingCourses'
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      nameUser: localStorage.getItem("name_user"),
+      //nameUser: localStorage.getItem("name_user"),
       informacion: [],
       lord: true,
       limite: 5,
@@ -71,7 +71,7 @@ export default {
       age: 123,
       courses: [],
       movies: [],
-      lastCourses: [],
+      //lastCourses: [],
       interesCourses: [],
       relatedCourses: [],
       prueba: [],
@@ -83,9 +83,9 @@ export default {
 
   methods: {
     async getAttributes() {
-      await this.axios.get("course/last-courses-rep").then((datos) => {
-        this.lastCourses = this.filterCourseInactive(datos.data.data);
-      });
+      // await this.axios.get("course/last-courses-rep").then((datos) => {
+      //   this.lastCourses = this.filterCourseInactive(datos.data.data);
+      // });
         
       await this.axios.get("course/related-courses").then((datos) => {
         this.courses = this.filterCourseInactive(datos.data.data);
@@ -102,8 +102,7 @@ export default {
 
       this.loading=false;
 
-      if(this.lastCourses.length===0 && 
-         this.courses.length===0 &&
+      if(this.courses.length===0 &&
          this.interesCourses.length===0 && 
          this.relatedCourses.length===0 
         ){
@@ -142,24 +141,6 @@ export default {
         },
       });
     },
-
-    // datos() {
-    //   this.movies.forEach((datos) => {
-    //     this.preferens.push(datos);
-    //   });
-    //   // console.log(this.preferens);
-    //   const categorias = this.preferens.map((p) => {
-    //     for (const i in p) {
-    //       return p[i];
-    //     }
-    //   });
-    //   categorias.forEach((cat) => {
-    //     for (const i in cat) {
-    //       this.cursos.push(cat[i]);
-    //     }
-    //   });
-    //   // console.log(this.cursos);
-    // },
   },
   created() {
     this.getAttributes();

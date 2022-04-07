@@ -1,5 +1,5 @@
 <template>
-  <div class="contenedor pb-5">
+  <div class="contenedor">
     <div class="container-message">
       <div class="colum-contacts">
         <div class="header-search">
@@ -23,6 +23,7 @@
                 listarMensajes(chat.email, 'firts'),
                   (message_add.id = chat.transmitter_id);
                 email = chat.email;
+                idTwo = chat.transmitter_id;
               "
               class="item-chat"
               v-for="chat in chats"
@@ -108,9 +109,8 @@
 </template>
 
 <script>
-import "@/components/message/style.css";
 import Echo from "laravel-echo";
-window.Pusher = require("pusher-js");
+window.Pusher = require("pusher-js");  
 
 export default {
   name: "message",
@@ -120,6 +120,8 @@ export default {
       general: [],
       name_user: null,
       email: null,
+      idOne: localStorage.getItem("id_user"),
+      idTwo: null,
       message_add: {
         id: null,
         message: "Probando envio de mensaje 4 :D",
@@ -165,6 +167,18 @@ export default {
         });
       }
     },
+    usersID() {
+      var ids;
+      if (this.idOne > this.idTwo) {
+        ids = this.idTwo + "" + this.idOne;
+        console.log(ids);
+        return ids;
+      } else {
+        ids = this.idOne + "" + this.idTwo;
+        console.log(ids);
+        return ids;
+      }
+    },
     // Escribiendo
     // typingEvent(){
     //     window.Echo.channel('message').whisper('typing', {message: ""})
@@ -185,9 +199,10 @@ export default {
       forceTLS: false,
     });
 
-    window.Echo.channel("message").listen("Message", (e) => {
+    window.Echo.channel("chat-"+this.usersID()).listen("MessageSentEvent", (e) => {
       console.log(e);
       if (e.receiver_id != localStorage.getItem("id_user")) {
+        console.log(e.message);
         this.general.push({
           name: localStorage.getItem("name_user"),
           message: e.message,
@@ -205,5 +220,13 @@ export default {
   },
 };
 </script>
+
 <style scoped>
+@import './style.css';
+.contenedor{
+  width: 100%;
+  height: calc(100vh - 80px);
+  padding: 25px 75px;
+  background-color: #e5e5e5;
+}
 </style>
