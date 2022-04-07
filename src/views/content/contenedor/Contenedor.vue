@@ -57,7 +57,7 @@ export default {
 
 .view::-webkit-scrollbar{
     display: none;
-    }
+}
 
 .content {
   width: 100%;

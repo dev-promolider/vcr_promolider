@@ -1,53 +1,40 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xl-8 col-lg-12">
-      <!-- obtener los datos totales de cursos, ventas, tipo de plan, afiliacion -->
-        <DataPrimaryUser />
-
-        <!-- //importe atributos para verificar datos del api -->
-        <Attribute />
-
-        <!--pruba del cliente--->
-
-        <!-- Coleccion de mensajes para el productor -->
-        <MessengerColletion />
-      </div>
-
-      <div class="col-xl-4 col-lg-12 ">
-        <ClienteVenta />
-      </div>
-    </div>
-    
+  <div>
+    <DashboardProducer v-if="producer"/>
+    <DashboardStudent v-if="student"/>
   </div>
-  
 </template>
 <script>
-import Attribute from "@/components/dashboard/Attribute/Attribute.vue";
-import DataPrimaryUser from "@/components/dashboard/DataPrimaryUser.vue";
-import MessengerColletion from "@/components/dashboard/Message/MessengerColletion.vue";
-import ClienteVenta from "@/components/dashboard/SalesHistory/ClienteVenta.vue";
-
+import DashboardProducer from "@/components/dashboard";
+import DashboardStudent from "@/components/Student/dashboard";
 export default {
   name: "Dashboard",
   components: {
-    DataPrimaryUser,
-    MessengerColletion,
-    Attribute,
-    ClienteVenta,
+    DashboardProducer,
+    DashboardStudent
   },
   data() {
-    return {};
+    return {
+      producer: false,
+      student: false
+    };
   },
+  created() {
+    if (localStorage.getItem("rol_user") == 1) {
+      this.producer = !this.producer;
+    }else if(localStorage.getItem("rol_user") == 3){
+      this.student = !this.student;
+    }
+  }
 };
 </script>
 
 <style scoped>
-  .container-fluid{
-    overflow: auto !important;
-  }
+/* .container-fluid {
+   overflow: auto !important; 
+} */
 
-  .container-fluid::-webkit-scrollbar {
-    display: none;
-  }
+/* .container-fluid::-webkit-scrollbar {
+  display: none; 
+} */
 </style>

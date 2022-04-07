@@ -1,23 +1,26 @@
 <template>
-  <vue-horizontal responsive class="carrousel this"
-    >.
-    <section v-for="course in courses" :key="course.id">
-      <div class="card" @click="classvideo(course.id, course.last_class_reprod)">
-        <img :src="course.url_portada" class="card-img-top" alt="" />
-        <div class="card-body">
-          <h5 class="card-title font-weight-bolder text-justify">
-            {{ course.title }}
-          </h5>
-          <p class="card-text text-justify">
-            {{ course.description.slice(0, 50) }} ...
-          </p>
-          <label class="font-weight-bolder text-success price"
-            >S/{{ course.price }}</label
-          >
+  <div class="row mb-4" v-if="lastCourses.length >0">
+    <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
+    <vue-horizontal responsive class="carrousel this"
+      >.
+      <section v-for="course in courses" :key="course.id">
+        <div class="card" @click="classvideo(course.id, course.last_class_reprod)">
+          <img :src="course.url_portada" class="card-img-top" alt="" />
+          <div class="card-body">
+            <h5 class="card-title font-weight-bolder text-justify">
+              {{ course.title }}
+            </h5>
+            <p class="card-text text-justify">
+              {{ course.description.slice(0, 50) }} ...
+            </p>
+            <label class="font-weight-bolder text-success price"
+              >S/{{ course.price }}</label
+            >
+          </div>
         </div>
-      </div>
-    </section>
-  </vue-horizontal>
+      </section>
+    </vue-horizontal>
+  </div>
 </template>
 
 <script>
@@ -27,17 +30,32 @@ export default {
   name: "CarrouselCourseViewed",
   data() {
     return {
+      nameUser: localStorage.getItem("name_user"),
+      lastCourses: [],
       peeked: false,
       timeout: null,
       baseURL: "http://promolider.xyz/storage/",
     };
   },
-  props: {
-    courses: {
-      type: Array,
-    },
-  },
+  // props: {
+  //   courses: {
+  //     type: Array,
+  //   },
+  // },
   methods: {
+    getAttributes() {
+      this.axios.get("course/last-courses-rep")
+      .then((datos) => {
+        this.lastCourses = this.filterCourseInactive(datos.data.data);
+      });
+    },
+    filterCourseInactive(data){
+      var courseFilter = data.filter((course)=>{
+          return course.status!=0; 
+      });
+
+      return courseFilter;
+    },
     classvideo(idCourse, idClass) {
       this.router.push("/course-user", {
         query: {
