@@ -22,7 +22,7 @@ export default {
   created() {
     if (localStorage.getItem("rol_user") == 1) {
       this.producer = !this.producer;
-    }else{
+    }else if(localStorage.getItem("rol_user") == 3){
       this.student = !this.student;
     }
   }
