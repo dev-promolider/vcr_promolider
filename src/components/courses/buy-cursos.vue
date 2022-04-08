@@ -224,13 +224,13 @@ export default {
 
           this.precio = this.items.price;
           switch(this.items.course_level_id){
-            case 0:
+            case 1:
               this.level = 'Básico';
               break;
-            case 1:
+            case 2:
               this.level = 'Intermedio';
               break;
-            case 2:
+            case 3:
               this.level = 'Avanzado';
               break;
           }
