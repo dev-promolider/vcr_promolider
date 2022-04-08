@@ -109,15 +109,15 @@ export default {
     },
     
     filterCourseInactive(data) {
-
+      var courseFilter
       if (this.cuenta == 5) {                   /* hice esto */
-        var courseFilter = data.filter((course) => {
+        courseFilter = data.filter((course) => {
           return course.status != 0 && course.course_level_id == 1;
         });
         
 
       } else {
-        var courseFilter = data.filter((course) => {
+        courseFilter = data.filter((course) => {
           return course.status != 0;
         });
         
