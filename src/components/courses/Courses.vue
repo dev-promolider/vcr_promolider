@@ -1,39 +1,39 @@
 <template>
-  <div class="container-fluid ">
-    <div v-if="notCourses" class="no-result center-element d-flex ">
+  <div class="container-fluid">
+    <div v-if="notCourses" class="no-result center-element d-flex">
       <span>Lo sentimos, aún no hay cursos disponibles.</span>
     </div>
     <div v-if="loading">
-      <loadingCourses/>
+      <loadingCourses />
     </div>
     <div v-else class="mt-4">
-        <!-- Últimos cursos -->
-        <!-- Continuar aprendiendo -->
-        <CarrouselCourseViewed/>
-        <!-- <div class="row mb-4" v-if="lastCourses.length >0">
+      <!-- Últimos cursos -->
+      <!-- Continuar aprendiendo -->
+      <CarrouselCourseViewed />
+      <!-- <div class="row mb-4" v-if="lastCourses.length >0">
             <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
             <CarrouselCourseViewed :courses="lastCourses"/>
         </div> -->
 
-        <!-- Todos los cursos -->
-        <div class="row mb-4" v-if="courses.length >0">
-            <h3 class="font-weight-bold">Todos los cursos</h3>
-            <CarrouselCourse :courses="courses"/>
-        </div>
+      <!-- Todos los cursos -->
+      <div class="row mb-4" v-if="courses.length > 0">
+        <h3 class="font-weight-bold">Todos los cursos</h3>
+        <CarrouselCourse :courses="courses" />
+      </div>
 
-        <!-- Cursos de interes -->
-        <div class="row mb-4" v-if="interesCourses.length >0">
-            <h3 class="font-weight-bold">Cursos de interés</h3>
-            <CarrouselCourse :courses="interesCourses"/>
-        </div>
+      <!-- Cursos de interes -->
+      <div class="row mb-4" v-if="interesCourses.length > 0">
+        <h3 class="font-weight-bold">Cursos de interés</h3>
+        <CarrouselCourse :courses="interesCourses" />
+      </div>
 
-        <!-- Cursos recien lanzados -->
-        <div class="row mb-4" v-if="relatedCourses.length >0">
-            <h3 class="font-weight-bold">Cursos recién lanzados</h3>
-            <CarrouselCourse :courses="relatedCourses"/>
-        </div>
+      <!-- Cursos recien lanzados -->
+      <div class="row mb-4" v-if="relatedCourses.length > 0">
+        <h3 class="font-weight-bold">Cursos recién lanzados</h3>
+        <CarrouselCourse :courses="relatedCourses" />
+      </div>
 
-        <!-- <div class="row mb-4" v-if="relatedCourses.length >0">
+      <!-- <div class="row mb-4" v-if="relatedCourses.length >0">
             <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
             <CarrouselCourse :courses="relatedCourses"/>  
         </div> -->
@@ -42,21 +42,21 @@
 </template>
 
 <script>
-
-import CarrouselCourse from '@/components/courses/CarrouselCourse';
-import CarrouselCourseViewed from '@/components/courses/CarrouselCourse';
-import loadingCourses from '@/components/courses/loadingCourses'
+import CarrouselCourse from "@/components/courses/CarrouselCourse";
+import CarrouselCourseViewed from "@/components/courses/CarrouselCourse";
+import loadingCourses from "@/components/courses/loadingCourses";
 export default {
-    
   name: "Courses",
   components: {
     CarrouselCourseViewed,
     CarrouselCourse,
-    loadingCourses
+    loadingCourses,
   },
   data() {
     return {
       //nameUser: localStorage.getItem("name_user"),
+
+      cuenta: localStorage.getItem("id_account_type"),  /* hice esto */
       informacion: [],
       lord: true,
       limite: 5,
@@ -75,21 +75,18 @@ export default {
       interesCourses: [],
       relatedCourses: [],
       prueba: [],
-      notCourses:false
+      notCourses: false,
     };
   },
-
-
 
   methods: {
     async getAttributes() {
       // await this.axios.get("course/last-courses-rep").then((datos) => {
       //   this.lastCourses = this.filterCourseInactive(datos.data.data);
       // });
-        
+
       await this.axios.get("course/related-courses").then((datos) => {
         this.courses = this.filterCourseInactive(datos.data.data);
-
       });
 
       await this.axios.get("course/interesting-courses").then((datos) => {
@@ -100,23 +97,36 @@ export default {
         this.relatedCourses = this.filterCourseInactive(datos.data.data);
       });
 
-      this.loading=false;
+      this.loading = false;
 
-      if(this.courses.length===0 &&
-         this.interesCourses.length===0 && 
-         this.relatedCourses.length===0 
-        ){
-        this.notCourses=true;
+      if (
+        this.courses.length === 0 &&
+        this.interesCourses.length === 0 &&
+        this.relatedCourses.length === 0
+      ) {
+        this.notCourses = true;
+      }
+    },
+    
+    filterCourseInactive(data) {
+
+      if (this.cuenta == 5) {                   /* hice esto */
+        var courseFilter = data.filter((course) => {
+          return course.status != 0 && course.course_level_id == 1;
+        });
+        
+
+      } else {
+        var courseFilter = data.filter((course) => {
+          return course.status != 0;
+        });
+        
       }
 
+      return courseFilter;  
     },
-    filterCourseInactive(data){
-      var courseFilter = data.filter((course)=>{
-          return course.status!=0; 
-      });
 
-      return courseFilter;
-    },
+
     aumentar() {
       this.limite += 5;
       this.lorde = true;
@@ -129,7 +139,6 @@ export default {
       //   this.age =cursos.id + 1
       //   console.log(this.age)
       // })
-
     },
 
     goToClass(courseId) {
@@ -154,24 +163,20 @@ https://www.tiktok.com/@rubentuestaok/video/7057606896286502149
 https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 */
 
-.container-fluid{
-    width: 90%;
-    height: 100vh;
-    margin: auto;
-    overflow-y: scroll ;
+.container-fluid {
+  width: 90%;
+  height: 100vh;
+  margin: auto;
+  overflow-y: scroll;
 }
 
-.container-fluid::-webkit-scrollbar{
+.container-fluid::-webkit-scrollbar {
   display: none;
 }
 
-
-h3{
-    color: #707070;
-    font-size: 25px;
-    margin-bottom: 15px;
+h3 {
+  color: #707070;
+  font-size: 25px;
+  margin-bottom: 15px;
 }
-
-
-
 </style>

@@ -21,6 +21,8 @@ export const actionUser = async (context, body) => {
     let id_user = res.data.data.user.id
     let rol = res.data.data.user.roles[0].id
 
+    let id_account_type = res.data.data.user.id_account_type    /* hice esto */
+
     //context.commit("SET_NAME",fullName)
 
     let authToken = res.data.data.access_token;
@@ -38,6 +40,10 @@ export const actionUser = async (context, body) => {
     localStorage.setItem("country_user", id_country);
     localStorage.setItem("biography_user", biography);
     localStorage.setItem("city", city);
+
+
+    localStorage.setItem("id_account_type",id_account_type);  /* hice esto */
+
 
     // if (statususer == 1) {
     //     this.$router.push('/preferences')
