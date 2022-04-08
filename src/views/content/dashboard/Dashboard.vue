@@ -20,9 +20,9 @@ export default {
     };
   },
   created() {
-    if (localStorage.getItem("rol_user") != 3) {
+    if (localStorage.getItem("rol_user") != 2) {
       this.producer = !this.producer;
-    }else if(localStorage.getItem("rol_user") == 3){
+    }else if(localStorage.getItem("rol_user") == 2){
       this.student = !this.student;
     }
   }
