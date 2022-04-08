@@ -13,7 +13,7 @@
         <ul class="pl-3 mb-5 list-unstyled">
           <li class="font-weight-bold my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-chart-line mr-3"></i>Nivel: {{level}}</li>
           <li class="font-weight-bold my-1" :class="{loader: !fecha_creacion, 'loader-text-small': !fecha_creacion}" ><i class="fas fa-calendar-alt mr-3"></i>Fecha de lanzamiento: {{fecha_creacion}} </li>
-          <li class="font-weight-bold my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-bezier-curve mr-2"></i>Categoria del curso: {{ categoria }}</li>
+          <li class="font-weight-bold my-1" :class="{loader: !categoria, 'loader-text-small': !categoria}" ><i class="fas fa-bezier-curve mr-2"></i>Categoria del curso: {{ categoria }}</li>
         </ul>
 
         <button class="btn-custom" :class="{loader: !titulo }">Comprarlo por S/.{{precio}} soles</button>
@@ -213,17 +213,27 @@ export default {
           this.items = datos.data.data[0];
 
           // Verificar si el curso esta activo o no
-          if(this.items.status!=1){
-            console.log('Curso incativo') ;
-            this.inactive=true;
-            this.$router.push('/courses');
+          // if(this.items.status!=1){
+          //   console.log('Curso incativo') ;
+          //   this.inactive=true;
+          //   this.$router.push('/courses');
             
-          }else{
-            console.log('Curso activo')
-          }
+          // }else{
+          //   console.log('Curso activo')
+          // }
 
           this.precio = this.items.price;
-          this.level = this.items.level;
+          switch(this.items.course_level_id){
+            case 0:
+              this.level = 'Básico';
+              break;
+            case 1:
+              this.level = 'Intermedio';
+              break;
+            case 2:
+              this.level = 'Avanzado';
+              break;
+          }
           this.img = this.items.url_portada;
           console.log(this.img);
           this.titulo = this.items.title;
