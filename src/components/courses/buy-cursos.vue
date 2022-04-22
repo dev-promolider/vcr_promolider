@@ -341,6 +341,13 @@ export default {
   font-size: 1.04rem;
 }
 
+.detalles p{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
 @media (max-width:1500px){
   .detalles {
     font-size: 10px;
