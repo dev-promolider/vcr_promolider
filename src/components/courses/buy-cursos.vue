@@ -5,15 +5,12 @@
     <div class="row my-5">
       <!-- Detalles del curso -->
       <div class="col-lg-4 col-md-12 pr-5 detailsCourse">
-        <h3 class="font-weight-bold" :class="{loader: !titulo , 'loader-titles': !titulo}">{{ titulo }}</h3>
-        <p class="my-5 text-justify" :class="{loader: !descripcion, 'loader-descriptions': !descripcion}">
-          {{ descripcion }}
-        </p>
+        <h3 class="font-weight-bold title-course" :class="{loader: !titulo , 'loader-titles': !titulo}">{{ titulo }}</h3>
 
         <ul class="pl-3 mb-5 list-unstyled">
-          <li class="font-weight-bold my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-chart-line mr-3"></i>Nivel: {{level}}</li>
-          <li class="font-weight-bold my-1" :class="{loader: !fecha_creacion, 'loader-text-small': !fecha_creacion}" ><i class="fas fa-calendar-alt mr-3"></i>Fecha de lanzamiento: {{fecha_creacion}} </li>
-          <li class="font-weight-bold my-1" :class="{loader: !categoria, 'loader-text-small': !categoria}" ><i class="fas fa-bezier-curve mr-2"></i>Categoria del curso: {{ categoria }}</li>
+          <li class="my-1" :class="{loader: !level, 'loader-text-small': !level}" ><i class="fas fa-chart-line mr-3"></i><strong>Nivel:</strong> {{level}}</li>
+          <li class="my-1" :class="{loader: !fecha_creacion, 'loader-text-small': !fecha_creacion}" ><i class="fas fa-calendar-alt mr-3"></i><strong>Fecha de lanzamiento:</strong> {{fecha_creacion}} </li>
+          <li class="my-1" :class="{loader: !categoria, 'loader-text-small': !categoria}" ><i class="fas fa-bezier-curve mr-2"></i><strong>Categoria del curso:</strong> {{ categoria }}</li>
         </ul>
 
         <button class="btn-custom" :class="{loader: !titulo }">Comprarlo por S/.{{precio}} soles</button>
@@ -30,30 +27,31 @@
     <div class="row">
       <div class="col-lg-9 col-md-12 mt-4">
         <div class="border-box p-5">
+          <h5 class="font-weight-bold" :class="{loader: !descripcion, 'loader-text-small': !descripcion}">Descripción del curso</h5>
+          <p class=" text-justify my-4" :class="{loader: !descripcion, 'loader-descriptions': !descripcion}">
+            {{ descripcion}}
+          </p>
+
           <h5 class="font-weight-bold" :class="{loader: !curso_detalle, 'loader-text-small': !curso_detalle}">Acerca de este curso</h5>
           <p class=" text-justify my-4" :class="{loader: !curso_detalle, 'loader-descriptions': !curso_detalle}">
             {{ curso_detalle}}
           </p>
-          <div class="row">
-            <div class="col-lg-4 col-md-12">
-              <h5 class="font-weight-bold" :class="{loader: !aprendera, 'loader-text-small': !aprendera}">¿Qué prenderás?</h5>
-              <p class="text-justify mt-4 pr-5" :class="{loader: !aprendera, 'loader-descriptions': !aprendera}">
-                {{ aprendera}}
-              </p>
-            </div>
-            <div class="col-lg-4 col-md-12">
-              <h5 class="font-weight-bold" :class="{loader: !previos, 'loader-text-small': !previos}">¿Qué conocimientos previos necesitas?</h5>
-              <p class="text-justify mt-2 pr-5" :class="{loader: !previos, 'loader-descriptions': !previos}">
-                {{ previos}}
-              </p>
-            </div>
-            <div class="col-lg-4 col-md-12">
-              <h5 class="font-weight-bold" :class="{loader: !dirigido, 'loader-text-small': !dirigido}">¿A quién está dirigido?</h5>
-              <p class="text-justify mt-3 pr-5" :class="{loader: !dirigido, 'loader-descriptions': !dirigido}">
-                {{ dirigido}}
-              </p>
-            </div>
-          </div>
+
+          <h5 class="font-weight-bold" :class="{loader: !aprendera, 'loader-text-small': !aprendera}">¿Qué prenderás?</h5>
+          <p class=" text-justify my-4" :class="{loader: !aprendera, 'loader-descriptions': !aprendera}">
+            {{ aprendera}}
+          </p>
+
+          <h5 class="font-weight-bold" :class="{loader: !previos, 'loader-text-small': !previos}">¿Qué conocimientos previos necesitas?</h5>
+          <p class=" text-justify my-4" :class="{loader: !previos, 'loader-descriptions': !previos}">
+            {{ previos}}
+          </p>
+
+          <h5 class="font-weight-bold" :class="{loader: !dirigido, 'loader-text-small': !dirigido}">¿A quién está dirigido?</h5>
+          <p class=" text-justify my-4" :class="{loader: !dirigido, 'loader-descriptions': !dirigido}">
+            {{ dirigido}}
+          </p>
+
         </div>
 
         <!-- Lista -->
@@ -85,10 +83,10 @@
         <div class="border-box p-5">
           <h5 class="font-weight-bold" :class="{loader: !nameProductor, 'loader-text-small': !nameProductor}">Productor</h5>
           <div class="row mt-3 productor">
-            <div class="col-xl-3 col-lg-12 col-md-3 col-sm-3 image" >
+            <div class="col-xl-4 col-lg-12 col-md-3 col-sm-3 image" >
               <img class="rounded-circle img-productor loader loader-img-productor"  :src=imgProductor />
             </div>
-            <div class="col-xl-9 col-lg-12 col-md-9 col-sm-9 detalles">
+            <div class="col-xl-8 col-lg-12 col-md-9 col-sm-9 detalles">
               <span class="font-weight-bold" >{{ nameProductor }}</span>
               <p class="text-justify" :class="{loader: !nameProductor, 'loader-text-small': !nameProductor}"> {{ emailProductor }} </p>
             </div>
@@ -107,15 +105,24 @@
             <!-- card course -->
             <div class="border-box mb-4 cardCursos cursor-pointer" v-for="course in courses1" :key="course.id" @click="goToBuy(course.id)">
               <img :src="course.url_portada" class="img-card" />
-              <div class="row">
-                <div class="col-8 d-flex flex-row my-4 pl-4">
-                  <p class="ml-1 ">{{ course.title}}</p>
+              <div class="row ml-2 my-2">
+                <div class="col-12 ">
+                  <h5 class="font-weight-bold" >{{ course.title}}</h5>
                 </div>
-                <div class="col-4 mt-4 ">
-                  <span class="text-success" >S/. {{ course.price}}</span>
+                <div class="col-12 ">
+                  <p class="text-left">{{course.name}} {{ course.last_name}}</p>
                 </div>
-
-                <p class="text-justify px-5">{{ course.description.slice(0,60) }} ....</p>
+                <div class="col-12 d-flex mb-1">
+                  <h5 class="font-weight-bold text-warning puntuacion mr-2" >4,5</h5>
+                  <i class="fas fa-star text-warning"></i>
+                  <i class="fas fa-star text-warning"></i>
+                  <i class="fas fa-star text-warning"></i>
+                  <i class="fas fa-star-half-alt text-warning"></i>
+                  <i class="far fa-star text-warning"></i>
+                </div>
+                <div class="col-12 ">
+                  <h5 class="font-weight-bold" >S/. {{ course.price}}</h5>
+                </div>
               </div>
             </div>
         </div>
@@ -303,6 +310,9 @@ export default {
   margin-inline: auto;
   padding-bottom: 50px;
 }
+.title-course{
+  text-transform: uppercase;
+}
 .img-course{
   width: 100%;
   max-height: 427px;
@@ -313,14 +323,11 @@ export default {
   border-radius: 25px 25px 0px 0;
 }
 .img-productor{
-  width: 60px !important;
-  height: 60px !important;
-  margin-left: -10px;
+  width: 50px !important;
+  height: 50px !important;
+  
 }
-.img-productor-card{
-  width: 40px;
-  height: 40px;
-}
+
 .list-group{
   border-radius: 25px;
 }
@@ -330,15 +337,25 @@ export default {
   height: 600px;
 }
 
+.puntuacion{
+  font-size: 1.04rem;
+}
+
+@media (max-width:1500px){
+  .detalles {
+    font-size: 10px;
+  }
+  
+}
 @media (max-width:1200px){
   .img-productor{
     width: 70% !important;
     height: 80% !important;
-    margin-left: 25%;
+    margin-left: 25% !important;
   }
+
   
 }
-
 
 @media (max-width: 991px) {
   .loader-img-course{
@@ -371,6 +388,9 @@ export default {
     flex-wrap: wrap;
     justify-content: space-between;
   }
+  .detalles {
+    font-size: 20px;
+  }
 }
 
 @media (max-width:576px){
@@ -379,8 +399,8 @@ export default {
     margin-left: 0 !important;
   }
   .productor{
-    display: flex;
-    flex-direction:row;
+    display: flex !important;
+    flex-direction:row !important;
   }
 
   .productor .image{
