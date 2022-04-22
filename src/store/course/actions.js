@@ -43,10 +43,10 @@ export const getVideo = async (context, classId) => {
     //     }
     // );
 
-    await axios.get(`video/stream-video?class_id=${classId}`, { responseType: "blob" }).then(
+    await axios.get(`video/stream-video?class_id=${classId}`).then(
         (res) => {
             const data = res.data;
-            context.commit('SET_VIDEO', data.URLvideo);
+            context.commit('SET_VIDEO', data);
         }
     );
 
