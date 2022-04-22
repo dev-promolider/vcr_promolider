@@ -3,33 +3,46 @@
     <div class="w-100 backgro px-4 py-3">
       <p class="titulo mt-auto mb-auto ml-5">Mi aprendizaje</p>
     </div>
-    
-    <div class="row mr-5 ml-5 mover">  
-      
-            <div class="col col-md-6 col-lg-4 card-group " v-for="(item, index) in informacion" :key="index">
-                <div class="card mb-3 mt-3 bordea cursor-pointer">
-                   <img :src="item.url_portada" width="100%" height="200" class="bordeas">
-                    <div class="card-body bg-white text-dark ">
-                        
-                       <h4 class="card-text text-dark text-capitalize ml-3 font-weight-bold mb-3">{{item.title}}</h4>
-                        <!-- <p class="card-text text-left ml-3"> {{item.description}}</p> -->
-                    
-                    </div>
-                    <hr class="w-100 mb-0 ">
-                        <div class="d-flex">
-                            <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
-                            <p class="my-auto ml-3 mr-3"> {{item.name + ' ' + item.last_name}} </p>
-                           
-                        </div>
-                     
-                </div>
 
-                
-            </div>
-        
-           
-  </div>
+    <div class="row mr-5 ml-5 mover">
+      <div
+        class="col col-md-6 col-lg-4 card-group"
+        v-for="(item, index) in informacion"
+        :key="index"
+      >
+        <div class="card mb-3 mt-3 bordea cursor-pointer">
+          <div class="">
+            <img
+              :src="item.url_portada"
+              width="100%"
+              height="200"
+              class="bordeas"
+            />
+          </div>
 
+          <div class="card-body bg-white text-dark">
+            <h4
+              class="
+                text-center text-capitalize
+                font-weight-bold
+              "
+            >
+              {{ item.title }}
+            </h4>
+          </div>
+          <div class="d-flex">
+            <b-avatar
+              class="mb-3 ml-2"
+              variant="info"
+              src="https://placekitten.com/200/200"
+            ></b-avatar>
+            <p class="m-1 ml-2 ">
+              {{ item.name + " " + item.last_name }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
