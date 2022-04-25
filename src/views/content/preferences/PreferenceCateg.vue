@@ -67,7 +67,7 @@ export default {
 
   methods: {
     cambiar() {
-      if (this.preferences.categorys.length == 3) {
+      if (this.preferences.categorys.length >= 3) {
         this.axios
           .post("/preferences/add", this.preferences)
           .then((r) => {
@@ -82,8 +82,7 @@ export default {
             console.log(e);
           });
       } else if (
-        this.preferences.categorys.length < 3 ||
-        this.preferences.categorys.length > 3
+        this.preferences.categorys.length < 3 
       ) {
         this.alertita = true;
         this.muestra = true;
