@@ -10,7 +10,7 @@
         v-for="(item, index) in informacion"
         :key="index"
       >
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
+        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,'Que es Laravel')">
           <div class="">
             <img
               :src="item.url_portada"
@@ -68,6 +68,10 @@ export default {
         console.log(this.informacion);
       });
     },
+
+    getCourse(id,clase){
+      this.$router.push(`course-user?course=${id}&class=${clase}`)
+    }
   },
 
   created() {
