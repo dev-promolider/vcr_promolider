@@ -35,7 +35,7 @@
         </div>
         <div class="category mb-4" v-for="items in item" :key="items.id" :class="{select:preferences.categorys.includes(items.id)}">
             <input type="checkbox" :name=items.name :id=items.name>
-            <label :for=items.name class="category-logo text-center cursor-pointer" @click="escoger(items.id)"><i class="fas fa-book"></i></label>
+            <label :for=items.name class="category-logo text-center cursor-pointer" @click="escoger(items.id)"><i :class='items.icon'></i></label>
             <label :for=items.name class="category-name text-center cursor-pointer" @click="escoger(items.id)">{{ items.name }}</label>
         </div>
       </div>
