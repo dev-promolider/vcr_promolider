@@ -51,7 +51,7 @@ export default {
 .card-message{
   background-color: #fff;
   border-radius: 15px;
-  width: 80%;
+  width: 100%;
   margin: auto;
 }
 .message{

@@ -1,22 +1,26 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-xl-8 col-lg-12">
         <!-- obtener los datos totales de cursos, ventas, tipo de plan, afiliacion -->
+      <div class="container mt-5">
         <DataPrimaryUser />
+      </div >
         <!-- //importe atributos para verificar datos del api -->
-        <Attribute />
+        <!-- <Attribute /> -->
         <!-- Coleccion de mensajes para el productor -->
-        <MessengerColletion />
+      <div class="container mt-5">
+        <div class="row row-end ">
+          <div class="col-12 col-md-6">
+            <MessengerColletion />
+          </div>
+          <div class="col-12 col-md-6">
+            <ClienteVenta />
+          </div>
+        </div>
       </div>
-      <div class="col-xl-4 col-lg-12">
-        <ClienteVenta />
-      </div>
-    </div>
   </div>
 </template>
 <script>
-import Attribute from "@/components/dashboard/Attribute/Attribute.vue";
+//import Attribute from "@/components/dashboard/Attribute/Attribute.vue";
 import DataPrimaryUser from "@/components/dashboard/DataPrimary/DataPrimaryUser.vue";
 import MessengerColletion from "@/components/dashboard/Message/MessengerColletion.vue";
 import ClienteVenta from "@/components/dashboard/SalesHistory/ClienteVenta.vue";
@@ -26,7 +30,7 @@ export default {
   components: {
     DataPrimaryUser,
     MessengerColletion,
-    Attribute,
+    //Attribute,
     ClienteVenta,
   },
   data() {
@@ -36,6 +40,14 @@ export default {
 </script>
 
 <style scoped>
+.row-end{
+    margin-bottom: 60px;
+}
+@media screen and (max-width:769px) {
+  .row-end{
+    gap: 20px
+  }
+}
 .container-fluid {
   /* overflow: auto !important; */
 }

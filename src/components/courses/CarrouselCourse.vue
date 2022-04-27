@@ -11,8 +11,9 @@
           <p class="card-text text-justify">
             {{ course.description.slice(0, 50) }} ...
           </p>
-          <div class="fixed-bottom mb-1">
             <hr class="line">
+          <div class="fixed-bottom mb-1">
+            <p class="my-auto ml-3 mr-3">{{course}}</p>
             <h5 class="font-weight-bolder text-success text-right pr-4">S/{{ course.price }}</h5>
           </div>
         </div>

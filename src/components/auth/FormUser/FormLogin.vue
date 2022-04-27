@@ -32,7 +32,10 @@
 
       <b-form-group>
         <b-form-checkbox-group>
-          <b-form-checkbox class="subtitle" value="me">Recuerdame</b-form-checkbox>
+          <b-form-checkbox class="subtitle success " 
+          value="me"
+          name="checkbox-validation"
+          >Recuerdame</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
 

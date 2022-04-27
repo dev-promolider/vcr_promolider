@@ -1,51 +1,46 @@
 <template>
-  <div class="content-courses-recommend">
-    <p class="title-recommend">Curso Recomendados</p>
-    <vue-horizontal class="carrousel this">     
-        <div v-for="course in relatedCourses" :key="course.id" class="item-course">
-          <img :src="course.url_portada" alt="imagen-curso" />
-          <div class="card-body">
-            <h6>{{course.title}}</h6>
-            <p>{{course.description}}</p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-3 mb-2 mt-2"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-            <label class="font-weight-bolder price">
-              S/{{ course.price }}</label>
-          </div>
-        </div>
-        <!-- <div class="item-course">
-          <img src="@/assets/cursos.jpg" alt="" />
-          <div class="card-body">
-            <h6>Curso de Ilustración</h6>
-            <p>Lorem ipsum dolor s</p>
-          </div>        
-        </div>
-        <div class="item-course">
-          <img src="@/assets/cursos.jpg" alt="" />
-          <div class="card-body">
-            <h6>Curso de Ilustración</h6>
-            <p>Lorem ipsum dolor</p>
-          </div> 
-        </div> -->
+  <main>
+    <div class="header">
+      <h3>Top Stories</h3>
+      <p>Responsive sizing, relative to the viewport. Fixed once the viewport width gets too small.</p>
+    </div>
 
+    <vue-horizontal class="horizontal">
+      <div class="item" v-for="item in relatedCourses" :key="item.id">
+        <div class="card">
+          <div class="image" :style="{background: `url(${item.url_portada})`}"></div>
+          <div class="content">
+            <div>
+              <div class="brand">
+                <svg class="icon" viewBox="0 0 24 24">
+                  <!-- <path
+                    d="M19,5v14H5V5H19 M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3L19,3z"/>
+                  <path d="M14,17H7v-2h7V17z M17,13H7v-2h10V13z M17,9H7V7h10V9z"/> -->
+                </svg>
+                <div class="name">{{ item.title }}</div>
+              </div>
+
+              <div class="title">{{ item.description }}</div>
+            </div>
+
+            <div class="date">
+              1 week ago
+            </div>
+          </div>
+        </div>
+      </div>
     </vue-horizontal>
-  </div>
+  </main>
 </template>
 
 <script>
+// For convenience sake, I import a collection of images from unsplash.
+//import {singapore} from '../../../../assets/img'
+
 export default {
-  name: "RecommendedCourse",
   data() {
-    return{
-      cuenta: localStorage.getItem("id_account_type"), 
-      relatedCourses: [],
+    return {
+      relatedCourses: []
     }
   },
   methods: {
@@ -74,72 +69,182 @@ export default {
   created() {
     this.getAttributes();
   },
-};
+}
 </script>
 
+<!-- Content Design -->
 <style scoped>
-.content-courses-recommend {
-    display: flex;
-    flex-direction: column;
-    padding: 40px 150px 0px 150px;
-    gap: 35px;
-}
-.title-recommend{
-    margin: 0;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 16px;
-    color: #000;
-}
-.item-course {
+.card {
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
   height: 100%;
-  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  /* padding: 16px 24px; */
-  background: #ffffff;
-  margin-right: 20px;
 }
-.item-course img{
-    width: 295px;
-    height: 190px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+
+.image {
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  padding-top: 50%;
 }
-.this >>> .v-hl-btn {
-  filter: invert(1);
-}
-.this >>> .v-hl-btn-next {
-  transform: translateX(0);
-}
-.this >>> .v-hl-btn-prev {
-  top: 0;
-}
-.card-body{
-  width: 295px;
-}
-.card-body p{
-  display: inline-block;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-}
-.price{
+
+.content {
+  padding: 12px 16px;
   flex-grow: 1;
   display: flex;
-  justify-content: flex-end;
-  align-items:center;
-  margin: 0 12px 0 0;
+  flex-direction: column;
+  justify-content: space-between;
 }
-/* .this >>> .v-hl-btn-prev svg {
-  margin: 0;
-  padding: 4px;
-  height: 30px;
-  width: 30px;
-} */
-@media (max-width:576px){
-    .content-courses-recommend{
-        padding-left: 22px;
-        padding-right: 22px;
-    }
+
+.brand {
+  display: flex;
+  align-items: center;
+  color: #333333;
+}
+
+.brand .icon {
+  flex-shrink: 0;
+  height: 20px;
+  width: 20px;
+  fill: currentColor;
+}
+
+.brand .name {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.title {
+  font-weight: 700;
+  line-height: 1.6;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  font-size: 10px;
+}
+
+.date {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+</style>
+
+<!-- Parent CSS (Container) -->
+<style scoped>
+.header {
+  margin-bottom: 16px;
+}
+
+main {
+  padding: 24px;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 48px 5px;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+  }
+}
+</style>
+
+<!-- Responsive Breakpoints -->
+<style scoped>
+.horizontal {
+  --fixed: 220px;
+  --count: 1;
+  --gap: 12px;
+  --margin: 24px;
+}
+
+@media (min-width: 768px) {
+  .horizontal {
+    --count: 3;
+    --margin: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .horizontal {
+    --count: 4;
+  }
+}
+
+@media (min-width: 1280px) {
+  .horizontal {
+    --gap: 24px;
+    --count: 5;
+  }
+}
+
+@media (min-width: 1536px) {
+  .horizontal {
+    --count: 6;
+  }
+}
+</style>
+
+<!--
+## Responsive Logic
+The margin removes the padding from the parent container and add it into vue-horizontal.
+If the gap is less than margin, this causes overflow to show and peeks into the next content for better UX.
+You can replace this section entirely for basic responsive CSS logic if you don't want this "peeking" experience
+for the mobile web.
+Note that this responsive logic is hyper sensitive to your design choices, it's not a one size fit all solution.
+var() has only 95% cross browser compatibility, you should convert it to fixed values.
+
+There are 2 set of logic:
+0-768 for peeking optimized for touch scrolling.
+>768 for navigation via buttons for desktop/laptop users.
+-->
+<style scoped>
+@media (max-width: 767.98px) {
+  .item {
+    width: var(--fixed);
+    padding: 0 calc(var(--gap) / 2);
+  }
+
+  .item:first-child {
+    width: calc(var(--fixed) + var(--margin) - (var(--gap) / 2));
+    padding-left: var(--margin);
+  }
+
+  .item:last-child {
+    width: calc(var(--fixed) + var(--margin) - (var(--gap) / 2));
+    padding-right: var(--margin);
+  }
+
+  .item:only-child {
+    width: calc(var(--fixed) + var(--margin) * 2 - var(--gap));
+  }
+
+  .horizontal {
+    margin: 0 calc(var(--margin) * -1);
+  }
+
+  .horizontal >>> .v-hl-container {
+    scroll-padding: 0 calc(var(--margin) - (var(--gap) / 2));
+  }
+
+  .horizontal >>> .v-hl-btn {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .item {
+    width: calc((100% - ((var(--count) - 1) * var(--gap))) / var(--count));
+    margin-right: var(--gap);
+  }
 }
 </style>

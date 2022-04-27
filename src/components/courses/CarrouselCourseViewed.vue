@@ -1,9 +1,9 @@
 <template>
   <div class="row mb-4" v-if="lastCourses.length >0">
     <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
-    <vue-horizontal responsive class="carrousel this"
+    <vue-horizontal responsive class="carrousel this horizontal"
       >.
-      <section v-for="course in courses" :key="course.id">
+      <section v-for="course in lastCourses" :key="course.id">
         <div class="card" @click="classvideo(course.id, course.last_class_reprod)">
           <img :src="course.url_portada" class="card-img-top" alt="" />
           <div class="card-body">
@@ -47,6 +47,7 @@ export default {
       this.axios.get("course/last-courses-rep")
       .then((datos) => {
         this.lastCourses = this.filterCourseInactive(datos.data.data);
+        console.log(this.lastCourses);
       });
     },
     filterCourseInactive(data){
@@ -65,6 +66,9 @@ export default {
       });
     },
   },
+  created() {
+    this.getAttributes();
+  }
 };
 </script>
 

@@ -37,6 +37,14 @@ export default {
 :root {
   --color-refere: #747474;
 }
+.title{
+  font-family: 'Baloo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 57px;
+  color:#494949;
+}
 .content {
   width: 100%;
   height: 100%;
@@ -50,7 +58,7 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-
+  background-color: #FFF;
 }
 .sect-formulario >p{
     display: block;
