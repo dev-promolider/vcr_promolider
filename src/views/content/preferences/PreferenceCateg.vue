@@ -35,7 +35,7 @@
         </div>
         <div class="category mb-4" v-for="items in item" :key="items.id" :class="{select:preferences.categorys.includes(items.id)}">
             <input type="checkbox" :name=items.name :id=items.name>
-            <label :for=items.name class="category-logo text-center cursor-pointer" @click="escoger(items.id)"><i class="fas fa-book"></i></label>
+            <label :for=items.name class="category-logo text-center cursor-pointer" @click="escoger(items.id)"><i :class='items.icon'></i></label>
             <label :for=items.name class="category-name text-center cursor-pointer" @click="escoger(items.id)">{{ items.name }}</label>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default {
 
   methods: {
     cambiar() {
-      if (this.preferences.categorys.length == 3) {
+      if (this.preferences.categorys.length >= 3) {
         this.axios
           .post("/preferences/add", this.preferences)
           .then((r) => {
@@ -82,8 +82,7 @@ export default {
             console.log(e);
           });
       } else if (
-        this.preferences.categorys.length < 3 ||
-        this.preferences.categorys.length > 3
+        this.preferences.categorys.length < 3 
       ) {
         this.alertita = true;
         this.muestra = true;

@@ -3,348 +3,103 @@
     <div class="w-100 backgro px-4 py-3">
       <p class="titulo mt-auto mb-auto ml-5">Mi aprendizaje</p>
     </div>
+
     <div class="row mr-5 ml-5 mover">
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
+      <div v-if="loading">
+      <loadingCourses />
+    </div>
 
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
+    <div v-if="caritas" class="center-element no-result">
+      <span>Sin resultados</span>
+    </div>
 
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
+      <div
+        class="col col-md-6 col-lg-4 card-group"
+        
+        v-for="(item, index) in informacion"
+        :key="index"
+        
+      >
+        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,'Que es Laravel')" v-if="carita">
+          <div class="">
+            <img
+              :src="item.url_portada"
+              width="100%"
+              height="200"
+              class="bordeas"
+            />
           </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
 
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
           <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
+            <h4
+              class="
+                text-center text-capitalize
+                font-weight-bold
+              "
+            >
+              {{ item.title }}
             </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
           </div>
-          <hr class="w-100 mb-0" />
           <div class="d-flex">
             <b-avatar
-              class="ml-4 mb-3 mt-3"
+              class="mb-3 ml-2"
               variant="info"
               src="https://placekitten.com/200/200"
             ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
+            <p class="m-1 ml-2 ">
+              {{ item.name + " " + item.last_name }}
             </p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-md-6 col-lg-4 card-group">
-        <div class="card mb-3 mt-3 bordea cursor-pointer">
-          <img
-            src="@/assets/cursos.jpg"
-            width="100%"
-            height="200"
-            class="bordeas"
-          />
-          <div class="card-body bg-white text-dark">
-            <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">
-              Como tocar guitarra
-            </h4>
-            <p class="card-text text-left ml-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem modi
-              sint in
-            </p>
-          </div>
-          <hr class="w-100 mb-0" />
-          <div class="d-flex">
-            <b-avatar
-              class="ml-4 mb-3 mt-3"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="my-auto ml-3 mr-3">Aquino ondrad</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="row mr-5 ml-5 mover">  
-      
-            <div class="col col-md-6 col-lg-4 card-group " v-for="(item, index) in informacion" :key="index">
-                <div class="card mb-3 mt-3 bordea cursor-pointer">
-                   <img :src="item.portada" width="100%" height="200" class="bordeas">
-                    <div class="card-body bg-white text-dark ">
-                        
-                       <h4 class="card-text text-dark ml-3 font-weight-bold mb-3">{{item.title}}</h4>
-                        <p class="card-text text-left ml-3"> {{item.description}}</p>
-                    
-                    </div>
-                    <hr class="w-100 mb-0 ">
-                        <div class="d-flex">
-                            <b-avatar class="ml-4 mb-3 mt-3" variant="info" src="https://placekitten.com/200/200"></b-avatar>
-                            <p class="my-auto ml-3 mr-3"> Aquino ondrad </p>
-                           
-                        </div>
-                     
-                </div>
-
-                
-            </div>
-        
-           
-  </div>
-
   </div>
 </template>
 
 <script>
+import loadingCourses from "@/components/courses/loadingCourses";
+import {mapGetters} from 'vuex' 
 // import Eliminar from "@/views/content/contenedor/Contenedor.vue"
 export default {
   name: "VirtualClassroomSuscription",
   components: {
     // Eliminar,
+    loadingCourses,
   },
   data() {
     return {
       informacion: [],
+      loading: true,
+      carita: true,
+      caritas: false,
     };
   },
 
   mounted() {},
 
+  computed:{
+    ...mapGetters('lastMessage',["getLastMessages"]),
+  },
   methods: {
     getAttributes() {
       this.axios.get("course/purchased-courses").then((datos) => {
+        this.loading = false;//gaaaa
         this.informacion = datos.data.data;
+
+      if(this.informacion.length==0){
+      this.carita = false;
+      this.caritas = true;
+      }
+
         console.log(this.informacion);
       });
     },
+
+    getCourse(id,clase){
+      this.$router.push(`course-user?course=${id}&class=${clase}`)
+    }
+
+
   },
 
   created() {
