@@ -46,7 +46,7 @@ export default {
 }
 .btn-course{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 .btn-course button {
   font-style: normal;
