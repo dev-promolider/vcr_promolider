@@ -5,12 +5,22 @@
     </div>
 
     <div class="row mr-5 ml-5 mover">
+      <div v-if="loading">
+      <loadingCourses />
+    </div>
+
+    <div v-if="caritas" class="center-element no-result">
+      <span>Sin resultados</span>
+    </div>
+
       <div
         class="col col-md-6 col-lg-4 card-group"
+        
         v-for="(item, index) in informacion"
         :key="index"
+        
       >
-        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,'Que es Laravel')">
+        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,'Que es Laravel')" v-if="carita">
           <div class="">
             <img
               :src="item.url_portada"
@@ -47,24 +57,40 @@
 </template>
 
 <script>
+import loadingCourses from "@/components/courses/loadingCourses";
+import {mapGetters} from 'vuex' 
 // import Eliminar from "@/views/content/contenedor/Contenedor.vue"
 export default {
   name: "VirtualClassroomSuscription",
   components: {
     // Eliminar,
+    loadingCourses,
   },
   data() {
     return {
       informacion: [],
+      loading: true,
+      carita: true,
+      caritas: false,
     };
   },
 
   mounted() {},
 
+  computed:{
+    ...mapGetters('lastMessage',["getLastMessages"]),
+  },
   methods: {
     getAttributes() {
       this.axios.get("course/purchased-courses").then((datos) => {
+        this.loading = false;//gaaaa
         this.informacion = datos.data.data;
+
+      if(this.informacion.length==0){
+      this.carita = false;
+      this.caritas = true;
+      }
+
         console.log(this.informacion);
       });
     },
@@ -72,6 +98,8 @@ export default {
     getCourse(id,clase){
       this.$router.push(`course-user?course=${id}&class=${clase}`)
     }
+
+
   },
 
   created() {
