@@ -86,7 +86,7 @@ export default {
 <style scope>
 :root {
   --text-size: 14px;
-  --active-link: 4px solid #5cc151;
+  --active-link: 4px solid #2c3d2b;
   --opcion-link: invert(0.5) sepia(5%) saturate(5162%) hue-rotate(64deg)
     brightness(96%) contrast(92%);
 }
@@ -105,8 +105,10 @@ export default {
   height: 37px;
 }
 .nav {
-  display: flex;
-  flex-direction: column;
+  display: flex;/* 
+  align-items: center;
+  text-align: center;
+  line-height: 100px; */
 }
 .nav-item {
   margin-bottom: 13px;
@@ -128,19 +130,20 @@ export default {
   height: 24px;
   margin-right: 20px;
 }
-@media (max-width: 991px) {
+/* @media (max-width: 991px) {
   .title-aula {
-    display: none;
   }
   .nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  line-height: 100px;
   }
   .nav-item a {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
   }
   .nav-item > a > img {
     margin: auto;
@@ -150,6 +153,10 @@ export default {
     filter: var(--opcion-link);
     border-left: none;
   }
+  .nav-link > img {
+  width: 60px;
+}
+
 }
 @media (max-width: 555px) {
   .link-v {
@@ -163,5 +170,6 @@ export default {
   .link-v img {
     height: 20px !important;
   }
-}
+} */
+
 </style>
