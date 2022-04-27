@@ -1,15 +1,26 @@
 <template>
   <div class="content">
+
       <div class="pref"  v-if="mostrar">
         <div class="container">
           <Preferencias />     
         </div>
       </div>
       
-    <div class="nav-v" v-if="!mostrar">
-      <NavBarV />
+    <div class="barraNavegacion" v-if="!mostrar">
+      
+      <div class="nav-v" v-if="barraMenu">
+        
+          <NavBarV />
+      </div> 
     </div>
+    
+      
+    
     <div class="content-user">
+      
+        <img src="@/assets/barra-menu.svg" alt="" class="barrita position-absolute top-0 start-0 mt-4 ml-4" @click="barmenu">
+     
       <NavBar />
       <router-view class="view" />
     </div>
@@ -31,6 +42,8 @@ export default {
     return {
       mostrar: false,
       status_user: null,
+      barraMenu: true,
+
     };
   },
 
@@ -39,9 +52,11 @@ export default {
   //     statususer: 'getStatusU+ser'})
   //},
   methods: {
-    
+     barmenu(){
+       this.barraMenu = !this.barraMenu
+       /* this.mostrar = !this.mostrar */
+     },
   },
-
   created() {
     this.status_user = localStorage.getItem("status_preference");
     if (this.status_user == 0) {
@@ -50,7 +65,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .view{
   overflow-y: scroll ;
 }
@@ -74,9 +89,9 @@ export default {
   background: var(--bg-content);
 }
 .nav-v {
-  width: 239px;
+  width: 200px;
   height: 100%;
-  background: #494949;
+  background: rgb(90, 90, 90);
 }
 .content-user {
   display: flex;
@@ -84,13 +99,50 @@ export default {
   max-height: 100%;
   flex-direction: column;
 }
-@media (max-width:991px) {
-  .nav-v{
-    max-height: 66px !important;
-    width: 100%;
-    position: fixed;
-    bottom: 0px !important;
-    z-index: 1;
+
+.barrita{
+  width: 25px;
+  transition: transform 1.5s;
+}
+
+.barrita:hover{
+transform:  scale(1.5) ;
+/* animation: roll 2.5s ; */
+
+}
+
+/* @keyframes roll  {
+  
+0% {
+    transform: scale(1.5) rotate(0) ;
   }
+  100% {
+    transform: scale(1.5) rotate(360deg) ;
+  }
+  } */
+  
+
+
+
+@media (max-width:991px) {
+ 
+  /* .nav-v{
+    position: inline-block;
+    width: 100%;
+    height: 100%; 
+    background: rgb(90, 90, 90);
+
+  } */
+  
+  /* .barrita{
+  background-color: transparent;
+  display: block;
+  position: absolute;
+  width: 2rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  z-index: 10000 ; 
+  } */
+
 }
 </style>
