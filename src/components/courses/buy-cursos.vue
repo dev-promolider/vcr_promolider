@@ -218,6 +218,11 @@ export default {
     BuyCourse(){
       /* this.$router.push("/courses") */
       this.$router.push(`/course-user?course=${5}&class=${'Que es Laravel'}`)
+
+      /* console.log("este es el id " + this.pao_id); */
+      this.axios.post('/purchased/store', {
+          "course_id": this.pao_id
+      })
     },
 
     getAttributes() {
