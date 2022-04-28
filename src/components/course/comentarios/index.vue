@@ -15,7 +15,7 @@
         @keyup.enter="sendComment"
       />
     </div>
-    <div v-if="allComments.data='No hay comentarios'" class="no-result center-element">
+    <div v-if="allComments.data" class="no-result center-element">
       <span>Esta clase aún no tiene comentarios</span>
     </div>
     <section v-else class="comments d-flex" v-for="comment in allComments" :key="comment">
@@ -49,13 +49,15 @@ export default {
           class_id: 1,
           comments: ""
       },
-      allComments: null
+      allComments: null,
+      /* chats:[] */
     }
   },
   created() {
     this.axios.get("comments/show-comments?class_id=1")
     .then((res) =>{
       this.allComments = res.data;
+      /* this.chats = this.allComments */
       //console.log(this.allComments);
     })
   },
