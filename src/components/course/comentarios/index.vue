@@ -16,7 +16,7 @@
       />
     </div>
     <div v-if="allComments.data" class="no-result center-element">
-      <span>Esta clase aún no tiene comentarios</span>
+      <span>Aún no hay comentarios</span>
     </div>
     <section v-else class="comments d-flex" v-for="comment in allComments" :key="comment">
       <img class="img-users" src="@/assets/logo-comment.svg" alt="" />
