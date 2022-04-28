@@ -1,5 +1,5 @@
 <template>
-  <div class="player bg-dark">
+  <div class="player ">
     <video-player
       class="video vjs-custom-skin vjs-big-play-centered"
       ref="videoPlayer"

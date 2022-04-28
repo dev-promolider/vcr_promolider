@@ -22,6 +22,7 @@
     /* Lista de reproduccion */
 .nav-temario {
   transform: translateY(0%);
+  transform: translateX(-9%);
   list-style: none;
 }
 /* Linea vertical */
@@ -36,6 +37,11 @@
   z-index: -1;
   margin-top: 29px;
 }
+.nav-temario{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .nav-temario ul li{
         padding: 12px 0;
     }
@@ -48,6 +54,10 @@
   font-weight: 500;
   top: 2px;
   cursor: pointer;
+  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* Pintando el checkbox */
 input[type="checkbox"] {
@@ -84,4 +94,16 @@ input[type="checkbox"]:checked {
     }
     .progressBar {
   font-size: 12px;
+}
+
+@media (max-width:1250px){
+  .nav-temario {
+    transform: translateX(0%);
+  }
+}
+
+@media (max-width:500px){
+  .nav-temario {
+    transform: translateX(-20%) ;
+  }
 }
