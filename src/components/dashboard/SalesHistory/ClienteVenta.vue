@@ -122,11 +122,9 @@ export default {
 
 .marco {
   border: 1px solid #efefef;
-  margin-top: 39px;
-  border-radius: 4%;
-  padding-bottom: 28px;
+  border-radius: 15px;
   background: white;
-  width: 75%;
+  width: 100%;
 }
 .titulos {
   display: flex;

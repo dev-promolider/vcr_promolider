@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div class="contenedor mt-4">
-      <ul class="d-flex">
-        <li class="one ">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="one col-6">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -10,14 +10,18 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <div class="fixed-bottom">
-
-          <p v-if="mostrar" class="font-weight-bold text-white font-number my-1">{{courses}}</p>
-          <p class="text-white mar-top">Cursos</p>
+          <div class="">
+            <p
+              v-if="mostrar"
+              class="font-weight-bold text-white font-number my-1"
+            >
+              {{ courses }}
+            </p>
+            <p class="text-white mar-top">Cursos</p>
           </div>
-        </li>
-
-        <li>
+        </div>
+        
+        <div class="col-6">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -25,13 +29,19 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <div class="fixed-bottom">
-          <p class="font-weight-bold font-number my-1" v-if="mostrar">S/.{{ payment }}</p>
-          <p class="mar-top">Ventas</p>
+          <div class="">
+            <p class="font-weight-bold font-number my-1" v-if="mostrar">
+              S/.{{ payment }}
+            </p>
+            <p class="mar-top">Ventas</p>
           </div>
-        </li>
+        </div>
+      </div>
+    </div>
 
-        <li>
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col-6">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -39,14 +49,15 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          
-          <p class=" my-1">Plan</p>
-          <p class="font-weight-bold font-role my-1"  v-if="mostrar"> {{ typePlans.toUpperCase() }}</p>
-          <p class=" "> <i class="fas fa-infinity mr-2"></i> días restantes</p>
-          
-        </li>
-
-        <li class="four">
+        
+          <p class="my-1">Plan</p>
+          <p class="font-weight-bold font-role my-1" v-if="mostrar">
+            {{ typePlans.toUpperCase() }}
+          </p>
+          <p class=""><i class="fas fa-infinity mr-2"></i> días restantes</p>
+        </div>
+        
+        <div class="four col-6">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -54,12 +65,14 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <div class="fixed-bottom">
-          <p v-if="mostrar" class="font-weight-bold font-number my-1" >{{ affilates }}</p>
-          <p class="mar-top">Afiliado</p>
+          <div class="">
+            <p v-if="mostrar" class="font-weight-bold font-number my-1">
+              {{ affilates }}
+            </p>
+            <p class="mar-top">Afiliado</p>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -77,7 +90,7 @@ export default {
       mostrar: false,
       loading: true,
     };
-  }, 
+  },
   methods: {
     getAttributes() {
       this.axios.get("dashboard/getattributes").then((r) => {
@@ -103,15 +116,17 @@ export default {
   */
 .contenedor {
   width: 100%;
+  padding: 0;
   justify-content: center;
   background: transparent;
 }
-ul {
+.attributes {
   width: 100%;
+  gap: 2em;
   /* justify-content: space-between; */
   padding: 0px;
 }
-li {
+.item-attribute {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -122,16 +137,12 @@ li {
   list-style: none;
   /* padding: 1%; */
   flex-grow: 1;
-  
+
   border: 0.5px solid rgb(236, 236, 236);
 }
-
-li > .fixed-bottom{
-  position: absolute;
-}
 .one {
-  border-radius: 25px 0px 0px 25px;
-  background: #99CC93;
+  border-radius: 25px 25px;
+  background: #99cc93;
 }
 .four {
   border-radius: 0px 25px 25px 0px;
@@ -142,11 +153,10 @@ li > .fixed-bottom{
 .font-size-1-4{
   font-size: 1.4rem;
 } */
-.font-number{
+.font-number {
   font-size: 2rem;
 }
-.font-role{
+.font-role {
   font-size: 1.5rem;
 }
-
 </style>

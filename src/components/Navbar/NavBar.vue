@@ -1,7 +1,7 @@
 <template>
   <div class="nav-general d-flex">
-    <ul class="nav seccion justify-content-star align-self-center">
-      <li class="nav-item logo-king">
+    <ul class="nav seccion justify-content-center align-self-center">
+      <li class="nav-item logo-king ">
         <span class="d-flex flex-grap nav-link" href="#">
           <img class="img-king" src="../../assets/logo-king.png" />
           <span class="ml-1">
@@ -13,7 +13,7 @@
       </li>
     </ul>
     <div class="nav-horizontal flex-grow-2">
-      <ul class="nav nav-sub-h1 justify-content-end align-items-center">
+      <ul class="nav nav-sub-h1 justify-content-center align-items-center">
         <li class="nav-item">
           <span class="nav-link text-dark">
             <img class="img-puntos" src="../../assets/logo-puntos.png" />
@@ -26,12 +26,12 @@
           </a>
         </li>
       </ul>
-      <ul class="nav nav-sub-h2 justify-content-between align-items-center">
-        <li class="nav-item logo-classroom">
+      <ul class="nav nav-sub-h2 justify-content-center align-items-center ">
+        <!-- <li class="nav-item logo-classroom">
           <span class="nav-link pl-2 pr-1" >
             <img class="img-classroom" src="../../assets/logo-aula3.png" />
           </span>
-        </li>
+        </li> -->
         <!-- <li class="nav-item profile">
           <span class="submenu">
             <img class="img-photo" src="../../assets/logo-perfil.png" />
@@ -62,16 +62,16 @@
             <a class="viewmenu dropdown-toggle " data-toggle="dropdown" aria-expanded="false" >
               <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
             </a>
-            <div class="dropdown-menu viewmenu-list">
-              <router-link class="dropdown-item" to="/perfil">
+            <div class="dropdown-menu viewmenu-list mr-2">
+              <router-link class="dropdown-item my-3" to="/perfil">
                 <img class="img-menuitem" src="../../assets/perfil.png" />
                 Perfil</router-link>
-              <a class="dropdown-item " href="#">
+              <a class="dropdown-item mb-3" href="#">
                 <img class="img-menuitem" src="../../assets/subcription.png" />
                 Subcripción</a
               >
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item"  @click="closeSesion()">Sign out </a>
+              <div class="dropdown-divider "></div>
+              <a class="dropdown-item my-3"  @click="closeSesion()">Sign out </a>
             </div>
           </span>
         </li>
@@ -144,10 +144,10 @@ export default {
 }
 .profile {
   position: relative;
-  background: #ecf0f3;
-  border-radius: 60px;
+  background: #9bdf8f;
+  border-radius: 50px;
   border: none;
-  width: 108px;
+  width: 110px;
   height: 50px;
 }
 .submenu {
@@ -163,9 +163,8 @@ export default {
   bottom: 0;
 }
 .img-puntos {
-  width: 25px;
-  height: 29.03px;
-  margin-right: 8px;
+  width: 20px;
+  
 }
 .img-help {
   width: 32px;
@@ -182,7 +181,8 @@ export default {
 .img-photo {
   width: 37.74px;
   height: 37.5px;
-  border-radius: 160px;
+  border-radius: 50px;
+  margin: 1rem;
 }
 .viewmenu {
   border-style: none;
@@ -191,10 +191,10 @@ export default {
 .viewmenu-list {
   position: absolute;
   background: #ffffff;
-  box-shadow: 0px 4px 22px #e5e5e5 !important;
+  box-shadow: -1px 1px 3px 2px #7cc96e !important;
   border-radius: 15px;
-  width: 226px;
-  height: 207px;
+  width: auto;
+  height: auto;
   top: 20px !important;
   right: 4px !important;
   border-radius: 10px;
@@ -229,38 +229,19 @@ export default {
   flex-direction: row;
 }
 
-@media only screen and (max-width: 671px) {
-  .nav-general {
-    height: 130px;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .nav-horizontal {
-    width: 100%;
-    justify-content: space-between;
-    padding-right: 0px;
-    background-color: rgb(255, 255, 255);
-    flex-direction: column-reverse;
-  }
-  .nav-sub-h2 {
-    padding-bottom: 10px;
-  }
-  .viewmenu-list {
-    top: 70px;
-    right: 10px;
-  }
-  .logo-classroom {
-    display: inline-block;
-  }
-  .seccion {
-    width: 0%;
-    visibility: hidden;
-  }
-  .logo-king {
-    display: none;
-  }
-  .profile {
-    margin-right: 8px;
-  }
+@media only screen and (max-width: 850px) {
+ .nav-horizontal{
+   display: grid;
+   grid-template-rows: 1fr 1fr;
+   text-align-last: center;
+ }
+ .nav-sub-h1 {
+  grid-row: 1 span;
+  
+}
+.nav-sub-h2 {
+  grid-row: 2 span;
+  margin-bottom: 1rem;
+}
 }
 </style>

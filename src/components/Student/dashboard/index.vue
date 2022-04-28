@@ -1,36 +1,47 @@
 <template>
-  <div>
+  <div class="content-student">
       <div class="section-main">
           <KeepLearning/>
           <Successes/>
       </div>
-      <Carrousel-course-viewed/>
-      <RecommendedCourse/>      
+      <!-- <CarrouselCourseViewed/> -->
+      <div class="courses">
+        <RecommendedCourse/>  
+      </div>    
   </div>
 </template>
 
 <script>
-import CarrouselCourseViewed from '../../courses/CarrouselCourseViewed.vue';
-import RecommendedCourse from "./RecommendedCourse";
+//import CarrouselCourseViewed from '@/components/courses/CarrouselCourseViewed.vue';
+import RecommendedCourse from "@/components/Student/dashboard/RecommendedCourse";
 import KeepLearning from './KeepLearning';
 import Successes from './Successes';
 export default {
   name: "DashboardStudent",
   components: { 
-    CarrouselCourseViewed,RecommendedCourse, 
+    // CarrouselCourseViewed,
+    RecommendedCourse, 
     KeepLearning, Successes 
     }
 }
 </script>
-<style>
+<style scoped>
+.content-student{
+  display: flex;
+  flex-direction: column;
+}
+.courses{
+  display: flex;
+  width: 80%;
+}
 .section-main{
   display: grid;
   grid-template-rows: 300px;
   /* grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: 1fr 0.7fr;
   grid-column: span 2;
   gap: 70px;
-  padding: 30px 70px 0px 100px;
+  padding: 39px 70px 0px 100px;
 }
 @media (max-width:860px){
   .section-main{
