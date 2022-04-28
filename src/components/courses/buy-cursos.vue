@@ -13,7 +13,8 @@
           <li class="my-1" :class="{loader: !categoria, 'loader-text-small': !categoria}" ><i class="fas fa-bezier-curve mr-2"></i><strong>Categoria del curso:</strong> {{ categoria }}</li>
         </ul>
 
-        <button class="btn-custom" :class="{loader: !titulo }">Comprarlo por S/.{{precio}} soles</button>
+        <button class="btn-custom" @click="BuyCourse()" 
+        :class="{loader: !titulo }">Comprarlo por S/.{{precio}} soles</button>
       </div>
 
       <!-- Imagen del curso -->
@@ -213,6 +214,12 @@ export default {
       this.$router.push('/buy-cursos/' + id);
       window.location.reload(true);
     },
+
+    BuyCourse(){
+      /* this.$router.push("/courses") */
+      this.$router.push(`/course-user?course=${5}&class=${'Que es Laravel'}`)
+    },
+
     getAttributes() {
         this.pao_id = this.$route.params.ide;
 
