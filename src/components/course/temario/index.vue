@@ -14,12 +14,12 @@
                 </div>
 
                 <ul class="ml-5 mt-2" v-for="(model,index) in course.modules" :key=index v-else>
-                    <li class="nav-temario" > <span v-b-toggle="model.name.replace(/ /g, '')"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
+                    <li class="nav-temario" :title="model.name" > <span v-b-toggle="model.name.replace(/ /g, '')"> <strong> {{index + 1 }}. {{model.name}} </strong> </span>
                         <b-collapse visible :id="model.name.replace(/ /g, '')">
                         <ul >
                             <li v-for="(less,index) in course.modules[index].lessons" :key=index >
                                 <input type="checkbox" v-model="completedLessons" :value=less.id @click="checkClass(less.id)">
-                                <a @click="changeClass(less)" :class="{'activo':less.name===clase}"  >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
+                                <a @click="changeClass(less)" :class="{'activo':less.name===clase}"  :title="less.name" >{{less.name}}  </a> <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
                             </li>  
                         </ul>
                         </b-collapse>
@@ -30,11 +30,11 @@
 
             <!-- Barra de progreso -->
             <div class="row py-3 ">
-                <div class="col-md-2 col-sm-12 pl-5" >
+                <div class="col-2  pl-5" >
                     <span>{{progress}}%</span>
-                            </div>
-                <div class="col-9 mt-1">
-                        <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress>                       
+                </div>
+                <div class="col-9  mt-1">
+                    <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress>                       
                 </div>
             </div>            
     </div>                   

@@ -3,9 +3,9 @@
     <div v-if="error" class="no-result center-element">
       <span>Lo sentimos se produjo un error</span>
     </div>
-    <div v-else class="content-course d-flex">
-      <div class="navtap-video">
-        <div class="video">
+    <div v-else class="content-course">
+      <div class="navtap-video ">
+        <div class="video ">
           <div class="seccion_video">
             <Video v-if="renderVideo" />
             <div v-else class="center-spinner">
@@ -20,7 +20,7 @@
             <DatosCurso />
           </div>
         </div>
-        <Descripcion />
+        <Descripcion class="descrip"/>
       </div>
       <div class="temario-comments">
         <div class="description">
@@ -32,6 +32,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -41,7 +42,6 @@ import Temario from "@/components/course/temario";
 import Descripcion from "@/components/course/descripcion";
 import Comentarios from "@/components/course/comentarios";
 import Video from "@/components/course/video";
-//import VideoHTTP from "@/components/course/video/VideoHTTP.vue";
 import DatosCurso from "@/components/course/datosCurso";
 export default {
   name: "Course",
@@ -109,9 +109,16 @@ export default {
 </script>
 
 <style scoped>
+
 .cont {
   height: 100%;
   width: 100%;
+  overflow-y: scroll ;
+}
+
+
+.cont::-webkit-scrollbar{
+    display: none;
 }
 .content-course {
   display: flex;
@@ -153,5 +160,45 @@ export default {
   width: 100%;
   height: 50%;
 }
+
+@media (max-width:1400px){
+  .video{
+    min-height: 600px ;
+  }
+}
+
+@media (max-width:1250px){
+  .navtap-video, .temario-comments{
+    width: 100% !important;
+  }
+  .content-course{
+    flex-direction: column;
+    width: 100vw !important;
+  } 
+  .description{
+    min-height: 500px;
+    
+  } 
+}
+
+@media (max-width:1000px){
+  .descrip{
+    margin-top: 4rem !important;
+  }
+  .content-course{
+    padding: 2rem 0.5rem ;
+  }
+  .navtap-video{
+    min-height: 900px ;
+  }
+  .description{
+    margin-top: 0.5rem !important;
+  } 
+
+}
+
+
+
+
 /*  */
 </style>

@@ -13,7 +13,7 @@
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-12 d-flex align-items-start flex-row justify-content-end">
+          <div class="col-lg-4 col-md-12 d-flex align-items-start flex-row justify-content-end mt-2 ">
             <b-button-group size="sm" class="btn-group">
                 <b-button class="btn-back px-4"><i class="fas fa-backward"></i></b-button>
                 <b-button class="btn-next px-4">Siguiente Clase <i class="fas fa-forward ml-1"></i></b-button>
