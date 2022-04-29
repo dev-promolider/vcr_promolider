@@ -4,22 +4,22 @@
           <KeepLearning/>
           <Successes/>
       </div>
-      <!-- <CarrouselCourseViewed/> -->
       <div class="courses">
+        <CarrouselCourseViewed/>
         <RecommendedCourse/>  
       </div>    
   </div>
 </template>
 
 <script>
-//import CarrouselCourseViewed from '@/components/courses/CarrouselCourseViewed.vue';
+import CarrouselCourseViewed from '@/components/courses/CarrouselCourseViewed.vue';
 import RecommendedCourse from "@/components/Student/dashboard/RecommendedCourse";
 import KeepLearning from './KeepLearning';
 import Successes from './Successes';
 export default {
   name: "DashboardStudent",
   components: { 
-    // CarrouselCourseViewed,
+    CarrouselCourseViewed,
     RecommendedCourse, 
     KeepLearning, Successes 
     }
@@ -31,8 +31,9 @@ export default {
   flex-direction: column;
 }
 .courses{
+  flex-direction: column;
   display: flex;
-  width: 80%;
+  width: 100%;
 }
 .section-main{
   display: grid;

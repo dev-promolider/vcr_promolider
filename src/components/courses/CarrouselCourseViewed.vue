@@ -1,26 +1,32 @@
 <template>
-  <div class="row mb-4" v-if="lastCourses.length >0">
-    <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
-    <vue-horizontal responsive class="carrousel this horizontal"
+  <main class="mb-4" v-if="lastCourses.length > 0">
+    <h5 class="col font-weight-bold mb-4">
+      {{ nameUser }}, continua aprendiendo
+    </h5>
+    <vue-horizontal class="horizontal"
       >.
-      <section v-for="course in lastCourses" :key="course.id">
-        <div class="card" @click="classvideo(course.id, course.last_class_reprod)">
-          <img :src="course.url_portada" class="card-img-top" alt="" />
-          <div class="card-body">
-            <h5 class="card-title font-weight-bolder text-justify">
+      <section class="item" v-for="course in lastCourses" :key="course.id">
+        <div
+          class="card"
+        >
+          <div class="content">
+            <p class="m-0 card-title font-weight-bolder text-justify">
               {{ course.title }}
-            </h5>
-            <p class="card-text text-justify">
-              {{ course.description.slice(0, 50) }} ...
             </p>
-            <label class="font-weight-bolder text-success price"
-              >S/{{ course.price }}</label
-            >
+            <ul class="modules">
+              <li>
+                <img src="@/assets/list-disc.svg" alt="" /> Moódulo 2 - Clase 4
+              </li>
+            </ul>
+          </div>
+         <div class="btn-course">
+            <button @click="classvideo()"
+            >Continua el curso</button>
           </div>
         </div>
       </section>
     </vue-horizontal>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -44,96 +50,203 @@ export default {
   // },
   methods: {
     getAttributes() {
-      this.axios.get("course/last-courses-rep")
-      .then((datos) => {
+      this.axios.get("course/last-courses-rep").then((datos) => {
         this.lastCourses = this.filterCourseInactive(datos.data.data);
         console.log(this.lastCourses);
       });
     },
-    filterCourseInactive(data){
-      var courseFilter = data.filter((course)=>{
-          return course.status!=0; 
+    filterCourseInactive(data) {
+      var courseFilter = data.filter((course) => {
+        return course.status != 0;
       });
 
       return courseFilter;
     },
-    classvideo(idCourse, idClass) {
-      this.router.push("/course-user", {
-        query: {
-          course: idCourse,
-          class: "clase" + idClass,
-        },
-      });
+    classvideo() {
+      this.$router.push(`/course-user?course=${5}&class=${'Que es Laravel'}`) 
     },
   },
   created() {
     this.getAttributes();
-  }
+  },
 };
 </script>
 
+<!-- Content Design -->
 <style scoped>
-.card-body {
-  position: relative;
-  margin-top: -20px;
+/*---------------------------*/
+.card {
+  cursor: none;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid #efefef;
+  min-height: 148px;
+  display: flex;
+  flex-direction: column;
 }
 
-.card-body p {
-  margin-top: -8px;
+.content {
+  padding: 12px 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #fff;
+  transition: 1s;
+}
+.content:hover {
+  cursor: pointer;
+  background: #fff;
+  transition: 0.8s;
+}
+.content p {
+  text-align: start;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #000;
+}
+.modules li {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  list-style: none;
+}
+.btn-course{
+  display: flex;
+  justify-content: flex-end;
+  height: 30px;
+  margin: 0  10px 0 0;
+}
+.btn-course button {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 9px;
+  line-height: 11px;
+  border: none;
+  color: #fff;
+  display: grid;
+  place-content: center;
+  width: 90.81px;
+  height: 18.56px;
+  background: linear-gradient(181.51deg, #5cc151 -146.2%, #97f18d 98.72%);
+  border-radius: 15px;
+}
+</style>
+
+<!-- Parent CSS (Container) -->
+<style scoped>
+.header {
+  margin-bottom: 16px;
 }
 
-.card img {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
-
-.price {
-  position: absolute;
-  bottom: 5px;
-  right: 25px;
-  font-size: 20px;
-}
-
-.carrousel {
-  width: 100%; /*97.3*/
+main {
+  padding: 24px;
+  width: 85%;
   margin: auto;
 }
 
-.card {
-  border: none !important;
-  background: transparent;
-  height: 100% !important;
-  width: 100% !important;
-  transition: 1s;
-  border-radius: 15px;
+@media (min-width: 768px) {
+  main {
+    padding: 48px 5px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media screen and (min-width: 320px) and (max-width: 620px) {
+  main {
+    width: 90%;
+  }
+}
+</style>
+
+<!-- Responsive Breakpoints -->
+<style scoped>
+.horizontal {
+  --fixed: 260px;
+  --count: 1;
+  --gap: 12px;
+  --margin: 24px;
 }
 
-.card:hover {
-  cursor: pointer;
-  background: white;
-  transition: 1s;
+@media (min-width: 768px) {
+  .horizontal {
+    --count: 3;
+    --margin: 0;
+  }
 }
 
-.card-img-top {
-  height: 50%;
+@media (min-width: 1024px) {
+  .horizontal {
+    --count: 3;
+  }
 }
 
-.this >>> .v-hl-btn {
-  filter: invert(1);
+@media (min-width: 1280px) {
+  .horizontal {
+    --gap: 24px;
+    --count: 4;
+  }
 }
 
-.this >>> .v-hl-btn-next {
-  transform: translateX(0);
+@media (min-width: 1536px) {
+  .horizontal {
+    --count: 5;
+  }
+}
+</style>
+
+<!--
+## Responsive Logic
+The margin removes the padding from the parent container and add it into vue-horizontal.
+If the gap is less than margin, this causes overflow to show and peeks into the next content for better UX.
+You can replace this section entirely for basic responsive CSS logic if you don't want this "peeking" experience
+for the mobile web.
+Note that this responsive logic is hyper sensitive to your design choices, it's not a one size fit all solution.
+var() has only 95% cross browser compatibility, you should convert it to fixed values.
+
+There are 2 set of logic:
+0-768 for peeking optimized for touch scrolling.
+>768 for navigation via buttons for desktop/laptop users.
+-->
+<style scoped>
+@media (max-width: 767.98px) {
+  .item {
+    width: var(--fixed);
+    padding: 0 calc(var(--gap) / 2);
+  }
+
+  .item:first-child {
+    width: calc(var(--fixed) + var(--margin) - (var(--gap) / 2));
+    padding-left: var(--margin);
+  }
+
+  .item:last-child {
+    width: calc(var(--fixed) + var(--margin) - (var(--gap) / 2));
+    padding-right: var(--margin);
+  }
+
+  .item:only-child {
+    width: calc(var(--fixed) + var(--margin) * 2 - var(--gap));
+  }
+
+  .horizontal {
+    margin: 0 calc(var(--margin) * -1);
+  }
+
+  .horizontal >>> .v-hl-container {
+    scroll-padding: 0 calc(var(--margin) - (var(--gap) / 2));
+  }
+
+  .horizontal >>> .v-hl-btn {
+    display: none;
+  }
 }
 
-.this >>> .v-hl-btn-prev {
-  top: 0;
-}
-
-.this >>> .v-hl-btn-prev svg {
-  margin: 0;
-  padding: 4px;
-  height: 30px;
-  width: 30px;
+@media (min-width: 768px) {
+  .item {
+    width: calc((100% - ((var(--count) - 1) * var(--gap))) / var(--count));
+    margin-right: var(--gap);
+  }
 }
 </style>
