@@ -1,26 +1,25 @@
 <template>
   <div class="content">
-
-      <div class="pref"  v-if="mostrar">
-        <div class="container">
-          <Preferencias />     
-        </div>
+    <div class="pref" v-if="mostrar">
+      <div class="container">
+        <Preferencias />
       </div>
-      
-    <div class="barraNavegacion" v-if="!mostrar">
-      
-      <div class="nav-v" v-if="barraMenu">
-        
-          <NavBarV />
-      </div> 
     </div>
-    
-      
-    
+
+    <div class="barraNavegacion" v-if="!mostrar">
+      <div class="nav-v" v-if="barraMenu">
+        <NavBarV />
+      </div>
+    </div>
+
     <div class="content-user">
-      
-        <img src="@/assets/barra-menu.svg" alt="" class="barrita position-absolute top-0 start-0 mt-4 ml-4" @click="barmenu">
-     
+      <img
+        src="@/assets/barra-menu.svg"
+        alt=""
+        class="barrita position-absolute top-0 start-0 mt-4 ml-4"
+        @click="barmenu"
+      />
+
       <NavBar />
       <router-view class="view" />
     </div>
@@ -43,7 +42,6 @@ export default {
       mostrar: false,
       status_user: null,
       barraMenu: true,
-
     };
   },
 
@@ -52,10 +50,10 @@ export default {
   //     statususer: 'getStatusU+ser'})
   //},
   methods: {
-     barmenu(){
-       this.barraMenu = !this.barraMenu
-       /* this.mostrar = !this.mostrar */
-     },
+    barmenu() {
+      this.barraMenu = !this.barraMenu;
+      /* this.mostrar = !this.mostrar */
+    },
   },
   created() {
     this.status_user = localStorage.getItem("status_preference");
@@ -65,13 +63,13 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.view{
-  overflow-y: scroll ;
+<style scoped>
+.view {
+  overflow-y: scroll;
 }
 
-.view::-webkit-scrollbar{
-    display: none;
+.view::-webkit-scrollbar {
+  display: none;
 }
 
 .content {
@@ -81,7 +79,7 @@ export default {
   display: flex;
 }
 
-.pref{
+.pref {
   height: 100vh;
   width: 100%;
   position: absolute;
@@ -100,15 +98,14 @@ export default {
   flex-direction: column;
 }
 
-.barrita{
+.barrita {
   width: 25px;
   transition: transform 1.5s;
 }
 
-.barrita:hover{
-transform:  scale(1.5) ;
-/* animation: roll 2.5s ; */
-
+.barrita:hover {
+  transform: scale(1);
+  /* animation: roll 2.5s ; */
 }
 
 /* @keyframes roll  {
@@ -120,12 +117,8 @@ transform:  scale(1.5) ;
     transform: scale(1.5) rotate(360deg) ;
   }
   } */
-  
 
-
-
-@media (max-width:991px) {
- 
+@media (max-width: 991px) {
   /* .nav-v{
     position: inline-block;
     width: 100%;
@@ -133,7 +126,7 @@ transform:  scale(1.5) ;
     background: rgb(90, 90, 90);
 
   } */
-  
+
   /* .barrita{
   background-color: transparent;
   display: block;
@@ -143,6 +136,5 @@ transform:  scale(1.5) ;
   margin-top: 1rem;
   z-index: 10000 ; 
   } */
-
 }
 </style>

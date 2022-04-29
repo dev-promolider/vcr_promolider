@@ -1,34 +1,27 @@
 <template>
   <main>
-    <div class="header">
-      <h3>Top Stories</h3>
-      <p>Responsive sizing, relative to the viewport. Fixed once the viewport width gets too small.</p>
-    </div>
-
-    <vue-horizontal class="horizontal">
-      <div class="item" v-for="item in relatedCourses" :key="item.id">
-        <div class="card">
-          <div class="image" :style="{background: `url(${item.url_portada})`}"></div>
+    <vue-horizontal class="horizontal"
+      >.
+      <section class="item" v-for="course in relatedCourses" :key="course.id">
+        <div class="card" @click="editar(course.id)">
+          <div
+            class="image"
+            :style="{ background: `url(${course.url_portada})` }"
+          ></div>
           <div class="content">
             <div>
               <div class="brand">
-                <svg class="icon" viewBox="0 0 24 24">
-                  <!-- <path
-                    d="M19,5v14H5V5H19 M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3L19,3z"/>
-                  <path d="M14,17H7v-2h7V17z M17,13H7v-2h10V13z M17,9H7V7h10V9z"/> -->
-                </svg>
-                <div class="name">{{ item.title }}</div>
+                <p class="name text-justify">{{ course.title }}</p>
               </div>
-
-              <div class="title">{{ item.description }}</div>
+              <div class="title">{{ course.description }}</div>
             </div>
-
             <div class="date">
-              1 week ago
+              <hr class="line">
+              <p class="m-0 font-weight-bolder text-success text-right">S/{{ course.price }}</p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </vue-horizontal>
   </main>
 </template>
@@ -40,8 +33,8 @@
 export default {
   data() {
     return {
-      relatedCourses: []
-    }
+      relatedCourses: [],
+    };
   },
   methods: {
     async getAttributes() {
@@ -51,43 +44,49 @@ export default {
     },
 
     filterCourseInactive(data) {
-      var courseFilter 
-      if (this.cuenta == 5) {                   /* hice esto */
+      var courseFilter;
+      if (this.cuenta == 5) {
+        /* hice esto */
         courseFilter = data.filter((course) => {
           return course.status != 0 && course.course_level_id == 1;
         });
       } else {
         courseFilter = data.filter((course) => {
           return course.status != 0;
-        });        
+        });
       }
 
-      return courseFilter;  
+      return courseFilter;
     },
+    editar(id){
+      this.$router.push('/buy-cursos/' + id)
+    }
   },
 
   created() {
     this.getAttributes();
   },
-}
+};
 </script>
 
 <!-- Content Design -->
 <style scoped>
+/*---------------------------*/
 .card {
-  border-radius: 6px;
+  border-radius: 15px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
   height: 100%;
   display: flex;
   flex-direction: column;
+  box-shadow: 2px 2px 10px rgba(47, 47, 47, 0.144);
 }
 
 .image {
+  min-height: 180px;
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
-  padding-top: 50%;
 }
 
 .content {
@@ -96,6 +95,13 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background: rgba(175, 175, 175, 0.256);
+  transition: 1s;
+}
+.content:hover {
+  cursor: pointer;
+  background: #fff;
+  transition: 0.8s;
 }
 
 .brand {
@@ -146,6 +152,8 @@ export default {
 
 main {
   padding: 24px;
+  width: 76%;
+  margin: auto;
 }
 
 @media (min-width: 768px) {
@@ -153,7 +161,11 @@ main {
     padding: 48px 5px;
     display: flex;
     flex-direction: column;
-    width: 70%;
+  }
+}
+@media screen and (min-width: 320px) and (max-width: 620px) {
+  main {
+    width: 90%;
   }
 }
 </style>
@@ -161,7 +173,7 @@ main {
 <!-- Responsive Breakpoints -->
 <style scoped>
 .horizontal {
-  --fixed: 220px;
+  --fixed: 260px;
   --count: 1;
   --gap: 12px;
   --margin: 24px;
@@ -169,27 +181,27 @@ main {
 
 @media (min-width: 768px) {
   .horizontal {
-    --count: 3;
+    --count: 2;
     --margin: 0;
   }
 }
 
 @media (min-width: 1024px) {
   .horizontal {
-    --count: 4;
+    --count: 3;
   }
 }
 
 @media (min-width: 1280px) {
   .horizontal {
     --gap: 24px;
-    --count: 5;
+    --count: 4;
   }
 }
 
 @media (min-width: 1536px) {
   .horizontal {
-    --count: 6;
+    --count: 5;
   }
 }
 </style>
