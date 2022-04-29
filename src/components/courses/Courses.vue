@@ -6,16 +6,10 @@
     <div v-if="loading">
       <loadingCourses />
     </div>
-    <div v-else class="mt-4">
+    <div v-else class="mt-4 mb-5">
       <!-- Últimos cursos -->
       <!-- Continuar aprendiendo -->
-      <CarrouselCourseViewed />
-      <!-- <div class="row mb-4" v-if="lastCourses.length >0">
-            <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
-            <CarrouselCourseViewed :courses="lastCourses"/>
-        </div> -->
-
-      <!-- Todos los cursos -->
+        <CarrouselCourseViewed/>
       <div class="row mb-4" v-if="courses.length > 0">
         <h3 class="font-weight-bold">Todos los cursos</h3>
         <CarrouselCourse :courses="courses" />
@@ -28,7 +22,7 @@
       </div>
 
       <!-- Cursos recien lanzados -->
-      <div class="row mb-4" v-if="relatedCourses.length > 0">
+      <div class="row " v-if="relatedCourses.length > 0">
         <h3 class="font-weight-bold">Cursos recién lanzados</h3>
         <CarrouselCourse :courses="relatedCourses" />
       </div>

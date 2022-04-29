@@ -20,7 +20,7 @@ export default {
   
   max-height: calc(100vh - 80px);
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: scroll;
 }
 /* .all-course::-webkit-scrollbar {
   width: 7px;

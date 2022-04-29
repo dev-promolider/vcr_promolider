@@ -1,5 +1,5 @@
 <template>
-  <main class="mb-4" v-if="lastCourses.length > 0">
+  <main class="mb-4" :class="lastCourses.length > 0 ? 'main-content':'main-none'">
     <h5 class="col font-weight-bold mb-4">
       {{ nameUser }}, continua aprendiendo
     </h5>
@@ -74,6 +74,9 @@ export default {
 
 <!-- Content Design -->
 <style scoped>
+.main-none{
+  display: none;
+}
 /*---------------------------*/
 .card {
   cursor: none;
@@ -140,21 +143,21 @@ export default {
   margin-bottom: 16px;
 }
 
-main {
+.main-content {
   padding: 24px;
   width: 85%;
   margin: auto;
 }
 
 @media (min-width: 768px) {
-  main {
+  .main-content{
     padding: 48px 5px;
     display: flex;
     flex-direction: column;
   }
 }
 @media screen and (min-width: 320px) and (max-width: 620px) {
-  main {
+  .main-content {
     width: 90%;
   }
 }

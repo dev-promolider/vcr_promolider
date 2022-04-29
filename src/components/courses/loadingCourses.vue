@@ -23,7 +23,7 @@ export default {
 
 .loader-card{
     height: 220px;
-    width: 253px;
+    width: 240px;
 }
 
 </style>
