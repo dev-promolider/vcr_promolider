@@ -152,7 +152,7 @@ export default {
 
 main {
   padding: 24px;
-  width: 76%;
+  width: 85%;
   margin: auto;
 }
 
@@ -181,14 +181,22 @@ main {
 
 @media (min-width: 768px) {
   .horizontal {
-    --count: 2;
+    --count: 2.2;
     --margin: 0;
+    max-width: 80vw;
   }
 }
 
 @media (min-width: 1024px) {
   .horizontal {
     --count: 3;
+    max-width: 78vw;
+  }
+}
+@media (min-width: 1122px) {
+  .horizontal {
+    --count: 3;
+    max-width: 80vw;
   }
 }
 
@@ -196,6 +204,7 @@ main {
   .horizontal {
     --gap: 24px;
     --count: 4;
+    max-width: 84vw;
   }
 }
 

@@ -5,14 +5,15 @@
         <Preferencias />
       </div>
     </div>
-
-    <div class="barraNavegacion" v-if="!mostrar">
-      <div class="nav-v" v-if="barraMenu">
-        <NavBarV />
-      </div>
+    <div
+      class="nav-v"
+      :class="barraMenu ? 'sidebar-mobile' : 'sidebar-none'"
+      v-if="!mostrar"
+    >
+      <NavBarV @closeMenu="closeMenu"/>
     </div>
 
-    <div class="content-user">
+    <div class="content-user" v-if="!mostrar">
       <img
         src="@/assets/barra-menu.svg"
         alt=""
@@ -50,6 +51,9 @@ export default {
   //     statususer: 'getStatusU+ser'})
   //},
   methods: {
+    closeMenu(){
+      this.barraMenu = false;
+    },
     barmenu() {
       this.barraMenu = !this.barraMenu;
       /* this.mostrar = !this.mostrar */
@@ -63,7 +67,8 @@ export default {
   },
 };
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
 .view {
   overflow-y: scroll;
 }
@@ -87,9 +92,38 @@ export default {
   background: var(--bg-content);
 }
 .nav-v {
+  display: flex;
   width: 200px;
   height: 100%;
   background: rgb(90, 90, 90);
+  transition: all 0.4s;
+  transform: translateX(0);
+}
+.sidebar-mobile {
+  @media screen and (max-width: 1023px) {
+    display: inline-block;
+    position: fixed;
+    background: rgb(90, 90, 90);
+    left: 0;
+    top: 80px;
+    width: 180px;
+    height: calc(100% - 80px);
+    transition: all 1;
+    z-index: 10;
+    opacity: 0.989;
+  }
+}
+.sidebar-none {
+  width: 0;
+  transition: all 0.5s;
+  transform: translateX(-250px);
+  @media screen and (max-width: 1023px) {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    transition: all 1.5s ease 0s;
+    z-index: 10;
+  }
 }
 .content-user {
   display: flex;
@@ -97,44 +131,13 @@ export default {
   max-height: 100%;
   flex-direction: column;
 }
-
 .barrita {
   width: 25px;
   transition: transform 1.5s;
 }
 
 .barrita:hover {
-  transform: scale(1);
-  /* animation: roll 2.5s ; */
-}
-
-/* @keyframes roll  {
-  
-0% {
-    transform: scale(1.5) rotate(0) ;
-  }
-  100% {
-    transform: scale(1.5) rotate(360deg) ;
-  }
-  } */
-
-@media (max-width: 991px) {
-  /* .nav-v{
-    position: inline-block;
-    width: 100%;
-    height: 100%; 
-    background: rgb(90, 90, 90);
-
-  } */
-
-  /* .barrita{
-  background-color: transparent;
-  display: block;
-  position: absolute;
-  width: 2rem;
-  margin-left: 1rem;
-  margin-top: 1rem;
-  z-index: 10000 ; 
-  } */
+  transform: scale(1.17);
+  cursor: pointer;
 }
 </style>
