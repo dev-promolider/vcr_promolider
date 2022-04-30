@@ -3,7 +3,7 @@
     <div class="title-aula">
       <img src="../../assets/logo-aula.png" />
     </div>
-    <ul class="nav">
+    <ul class="sidebar nav flex-column">
       <li
         @click="sendTitle('Inicio')"
         class="nav-item"
@@ -77,13 +77,14 @@ export default {
     },
     sendTitle(payload) {
       this.$store.commit("course/setTitle", payload);
+      this.$emit("closeMenu")
     },
     ...mapActions("course", ["getTitle"]),
   },
   mounted() {},
 };
 </script>
-<style scope>
+<style lang="scss" scope>
 :root {
   --text-size: 14px;
   --active-link: 4px solid #2c3d2b;
@@ -104,11 +105,8 @@ export default {
   width: 151px;
   height: 37px;
 }
-.nav {
-  display: flex;/* 
-  align-items: center;
-  text-align: center;
-  line-height: 100px; */
+.sidebar{
+  min-width: 184px;
 }
 .nav-item {
   margin-bottom: 13px;
@@ -116,7 +114,6 @@ export default {
 .link-v {
   font-size: var(--text-size);
   color: #fff;
-  padding: 0;
 }
 .is-active {
   border-left: var(--active-link);
@@ -128,48 +125,6 @@ export default {
 .nav-link > img {
   width: 24px;
   height: 24px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
-/* @media (max-width: 991px) {
-  .title-aula {
-  }
-  .nav {
-
-  display: flex;
-  align-items: center;
-  text-align: center;
-  line-height: 100px;
-  }
-  .nav-item a {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-  }
-  .nav-item > a > img {
-    margin: auto;
-  }
-  .is-active {
-    border-bottom: var(--active-link);
-    filter: var(--opcion-link);
-    border-left: none;
-  }
-  .nav-link > img {
-  width: 60px;
-}
-
-}
-@media (max-width: 555px) {
-  .link-v {
-    font-size: 6px;
-  }
-}
-@media (max-width: 360px) {
-  .link-v {
-    font-size: 5px;
-  }
-  .link-v img {
-    height: 20px !important;
-  }
-} */
-
 </style>
