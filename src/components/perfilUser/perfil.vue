@@ -13,11 +13,13 @@
           <p class="text-dark">{{ userUp.email }}</p>
         </div>
       </div>
-
-      <div class="perfil text-center">
+      <div class="perfil">
+        <p class="text-dark "><strong> Rol de usuario:</strong> {{ userUp.rol }}</p>
+        <p class="text-dark "><strong>Plan actual:</strong> {{ userUp.plan }}</p>
         <div class="pais">
-          <img class="icoban" src="../../assets/logo-bandera.svg" />
-          <p class="text-dark">Lima,Peru</p>
+          <p class="text-dark text-center">Lima,Peru
+            <img class="icoban" src="../../assets/logo-bandera.svg" />
+          </p>
         </div>
       </div>
 
@@ -180,12 +182,15 @@ export default {
         country: localStorage.getItem("country_user"),
         biography: localStorage.getItem("biography_user"),
         city: localStorage.getItem("city"),
+        rol: "",
+        plan: ""
       },
 
       cuaDetalles: "",
 
       pais: [],
       namePais: [],
+      
     };
   },
   created() {
@@ -200,6 +205,8 @@ export default {
 
     //this.userUp.country = localStorage.getItem("country_user");
     this.obtenePaises();
+    this.userAccountType()
+  
   },
   computed: {
     ...mapState("user", ["id_user"]),
@@ -239,6 +246,15 @@ export default {
         //console.log(pais.name.common == 'Peru'? pais.name.common : '');
       });
     },
+
+
+    userAccountType(){
+      this.axios.get("dashboard/getattributes").then((r) => {
+        const rs = r.data.data;
+        this.userUp.plan = rs.accountType;
+        this.userUp.rol = rs.role;
+      })
+    }
   },
   mounted() {},
 };
@@ -285,6 +301,7 @@ export default {
 
 .perfil {
   grid-row: 2/3;
+  padding-left: 5% ;
 }
 
 .imagen1{
@@ -312,6 +329,7 @@ export default {
   grid-row: 2/3;
   display: flex;
 }
+
 
 .cuadro2-1{
 display: grid;
