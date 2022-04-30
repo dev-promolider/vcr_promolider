@@ -298,7 +298,6 @@ export default {
 
           //  })
           this.courses1 =this.courses.slice(0,3)
-          console.log(this.courses1);
           this.loadingRelated=false;
         });
 
@@ -333,6 +332,12 @@ export default {
 .img-card{
   width: 100%;
   border-radius: 25px 25px 0px 0;
+  height: 50%;
+}
+@media (max-width:700px) and (min-width:577px) {
+  .img-card{
+    height: 40%;
+  }
 }
 .img-productor{
   width: 50px !important;
