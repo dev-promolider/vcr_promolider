@@ -14,7 +14,6 @@ export default {
 </script>
 <style scoped>
 .all-course {
-  /* flex-grow: 1; */
   width: 100%;
   padding-right: 0px;
   

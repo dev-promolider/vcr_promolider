@@ -10,27 +10,11 @@
       <!-- Últimos cursos -->
       <!-- Continuar aprendiendo -->
         <CarrouselCourseViewed/>
-      <div class="row mb-4" v-if="courses.length > 0">
-        <h3 class="font-weight-bold">Todos los cursos</h3>
-        <CarrouselCourse :courses="courses" />
-      </div>
 
-      <!-- Cursos de interes -->
-      <div class="row mb-4" v-if="interesCourses.length > 0">
-        <h3 class="font-weight-bold">Cursos de interés</h3>
-        <CarrouselCourse :courses="interesCourses" />
-      </div>
-
-      <!-- Cursos recien lanzados -->
-      <div class="row " v-if="relatedCourses.length > 0">
         <h3 class="font-weight-bold">Cursos recién lanzados</h3>
         <CarrouselCourse :courses="relatedCourses" />
-      </div>
+      
 
-      <!-- <div class="row mb-4" v-if="relatedCourses.length >0">
-            <h3 class="font-weight-bold">{{ nameUser }}, continuemos nuestro aprendizaje</h3>
-            <CarrouselCourse :courses="relatedCourses"/>  
-        </div> -->
     </div>
   </div>
 </template>
@@ -158,8 +142,8 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 */
 
 .container-fluid {
-  width: 90%;
-  height: 100vh;
+  width: 95%;
+  height: 100%;
   margin: auto;
   overflow-y: scroll;
 }

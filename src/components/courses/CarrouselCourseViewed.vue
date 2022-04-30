@@ -145,7 +145,7 @@ export default {
 
 .main-content {
   padding: 24px;
-  width: 85%;
+  width: 95%;
   margin: auto;
 }
 

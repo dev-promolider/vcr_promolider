@@ -1,7 +1,7 @@
 <template>
   <div class="nav-general d-flex">
-    <ul class="nav seccion justify-content-center align-self-center">
-      <li class="nav-item logo-king ">
+    <ul class="nav seccion align-self-center">
+      <li class="nav-item logo-king m-0">
         <span class="d-flex flex-grap nav-link" href="#">
           <img class="img-king" src="../../assets/logo-king.png" />
           <span class="ml-1">
@@ -12,7 +12,7 @@
         </span>
       </li>
     </ul>
-    <div class="nav-horizontal flex-grow-2">
+    <div class="nav-horizontal flex-grow-1 d-flex">
       <ul class="nav nav-sub-h1 justify-content-center align-items-center">
         <li class="nav-item">
           <span class="nav-link text-dark">
@@ -27,35 +27,6 @@
         </li>
       </ul>
       <ul class="nav nav-sub-h2 justify-content-center align-items-center ">
-        <!-- <li class="nav-item logo-classroom">
-          <span class="nav-link pl-2 pr-1" >
-            <img class="img-classroom" src="../../assets/logo-aula3.png" />
-          </span>
-        </li> -->
-        <!-- <li class="nav-item profile">
-          <span class="submenu">
-            <img class="img-photo" src="../../assets/logo-perfil.png" />
-            <a class="viewmenu"  v-on:click="desplegar()">
-              <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
-            </a>
-          </span>
-        </li>
-        <div
-          class="viewmenu-list"
-          v-show="vermenu"
-          aria-labelledby="navbarDropdown"
-        >
-          <router-link class="dropdown-item" to="/perfil">
-            <img class="img-menuitem" src="../../assets/perfil.png" />
-            Perfil</router-link>
-          <a class="dropdown-item" href="#">
-            <img class="img-menuitem" src="../../assets/subcription.png" />
-            Subcripción</a
-          >
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item"  @click="closeSesion()">Sign out </a>
-        </div> -->
-
         <li class="nav-item profile">
           <span class="submenu">
             <img class="img-photo" src="../../assets/logo-perfil.png" />
@@ -126,7 +97,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .nav-general {
   width: 100%;
   min-height: 80px;
@@ -134,6 +105,7 @@ export default {
 }
 .seccion {
   width: 40.1%;
+  padding-left: 55px;
 }
 .nav-horizontal {
   position: relative;
@@ -144,7 +116,7 @@ export default {
 }
 .profile {
   position: relative;
-  background: #9bdf8f;
+  background: #ECF0F3;
   border-radius: 50px;
   border: none;
   width: 110px;
@@ -191,7 +163,7 @@ export default {
 .viewmenu-list {
   position: absolute;
   background: #ffffff;
-  box-shadow: -1px 1px 3px 2px #7cc96e !important;
+  box-shadow: -1px 1px 3px 2px #c2c2c2 !important;
   border-radius: 15px;
   width: auto;
   height: auto;
@@ -200,7 +172,7 @@ export default {
   border-radius: 10px;
   z-index: 100;
   border: none;
-  /* transition: all 1s; */
+  transition: all 0.7s;
 }
 .dropdown-toggle{
   color: transparent;
@@ -223,25 +195,20 @@ export default {
 }
 .nav-sub-h1 {
   flex-direction: row;
+  @media screen and (max-width: 840px){
+    display: none;
+  }
 }
 .nav-sub-h2 {
   position: relative;
-  flex-direction: row;
+  flex-direction: row;  
 }
 
-@media only screen and (max-width: 850px) {
- .nav-horizontal{
+@media only screen and (max-width: 960px) {
+  .nav-horizontal{
    display: grid;
    grid-template-rows: 1fr 1fr;
    text-align-last: center;
- }
- .nav-sub-h1 {
-  grid-row: 1 span;
-  
-}
-.nav-sub-h2 {
-  grid-row: 2 span;
-  margin-bottom: 1rem;
-}
+  }
 }
 </style>
