@@ -63,7 +63,7 @@ export default {
       return courseFilter;
     },
     classvideo() {
-      this.$router.push(`/course-user?course=${5}&class=${'Que es Laravel'}`) 
+      this.$router.push(`/course-user?course=${5}&class=${'Documentacion'}`) 
     },
   },
   created() {

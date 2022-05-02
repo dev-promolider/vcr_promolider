@@ -11,7 +11,7 @@
       >
         <router-link to="/home" class="nav-link link-v">
           <img src="./../../assets/home.svg" alt="" />
-          Inicio
+         Inicio
         </router-link>
       </li>
 
@@ -26,7 +26,7 @@
         </router-link>
       </li>
 
-      <li @click="sendTitle('Mis-Cursos')" class="nav-item">
+      <li @click="sendTitle('Mis Cursos')" class="nav-item">
         <router-link
           to="/suscription-user"
           class="nav-link link-v"
@@ -37,7 +37,7 @@
         </router-link>
       </li>
 
-        <li @click="sendTitle('Mis-Certificaciones')" class="nav-item">
+        <li @click="sendTitle('Mis Certificaciones')" class="nav-item">
         <router-link
           to="/certificado-user"
           class="nav-link link-v"
@@ -62,11 +62,11 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "NavBarV",
   computed: {
-    ...mapState("course", ["isLoading"]),
+    ...mapState("sections", ["topSection"]),
   },
   methods: {
     isActive(path) {
@@ -76,10 +76,10 @@ export default {
       return this.$route.path.includes(path);
     },
     sendTitle(payload) {
-      this.$store.commit("course/setTitle", payload);
+      this.$store.commit("sections/setTopSection", payload);
       this.$emit("closeMenu")
     },
-    ...mapActions("course", ["getTitle"]),
+    //...mapActions("course", ["getTitle"]),
   },
   mounted() {},
 };

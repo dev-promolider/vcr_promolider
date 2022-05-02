@@ -109,8 +109,11 @@ export default {
     width: 180px;
     height: calc(100% - 80px);
     transition: all 1;
-    z-index: 10;
+    z-index: 50;
     opacity: 0.989;
+    -webkit-box-shadow: 4px 0px 6px 0px rgba(91,90,90,0.51);
+    -moz-box-shadow: 4px 0px 6px 0px rgba(91,90,90,0.51);
+    box-shadow: 4px 0px 6px 0px rgba(91,90,90,0.51);
   }
 }
 .sidebar-none {
