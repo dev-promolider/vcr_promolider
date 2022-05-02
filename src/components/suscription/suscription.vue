@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="w-100 backgro px-4 py-3">
-      <p class="titulo mt-auto mb-auto ml-5">Mi aprendizaje</p>
+    <div class="w-100 mt-3 backgro px-4 py-3">
+      <p class="titulo m-0 ml-3">Mi aprendizaje</p>
     </div>
 
     <div class="row mr-5 ml-5 mover">
@@ -121,17 +121,20 @@ export default {
   z-index: 10;
 }
 .mover {
-  margin-top: 96px;
+  margin-top: 110px;
 }
 .titulo {
   color: white;
-  font-size: 2.56rem;
+  font-size: 2.2rem;
   font-weight: 700;
   text-align: left;
 }
 
 .bordeas {
   border-radius: 20px 20px 0px 0px;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
 }
 .bordea {
   border-radius: 20px 20px 20px 20px;

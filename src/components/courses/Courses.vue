@@ -3,25 +3,36 @@
     <div v-if="notCourses" class="no-result center-element d-flex">
       <span>Lo sentimos, aún no hay cursos disponibles.</span>
     </div>
-    <div v-if="loading">
+    <div class=" mt-5" v-if="loading">
       <loadingCourses />
     </div>
-    <div v-else class="mt-4 mb-5">
       <!-- Últimos cursos -->
       <!-- Continuar aprendiendo -->
-        <CarrouselCourseViewed/>
-
-        <h3 class="font-weight-bold">Cursos recién lanzados</h3>
-        <CarrouselCourse :courses="relatedCourses" />
+      <CarrouselCourseViewed v-if="!loading"/>
       
+      <!-- Todos los cursos -->
+      <div class=" mb-4" v-if="courses.length > 0">
+        <h3 class="m-0 font-weight-bold">Todos los cursos</h3>
+        <CarrouselCourse :courses="courses" />
+      </div>
 
-    </div>
+      <!-- Cursos de interes -->
+      <div class="mb-4" v-if="interesCourses.length > 0">
+        <h3 class="m-0 font-weight-bold">Cursos de interés</h3>
+        <CarrouselCourse :courses="interesCourses" />
+      </div>
+
+      <!-- Cursos recien lanzados -->
+      <div class="mb-4" v-if="relatedCourses.length > 0">
+        <h3 class="m-0 font-weight-bold">Más recientes</h3>
+        <CarrouselCourse :courses="relatedCourses" />
+      </div>
   </div>
 </template>
 
 <script>
 import CarrouselCourse from "@/components/courses/CarrouselCourse";
-import CarrouselCourseViewed from "@/components/courses/CarrouselCourse";
+import CarrouselCourseViewed from "@/components/courses/CarrouselCourseViewed";
 import loadingCourses from "@/components/courses/loadingCourses";
 export default {
   name: "Courses",
@@ -34,7 +45,7 @@ export default {
     return {
       //nameUser: localStorage.getItem("name_user"),
 
-      cuenta: localStorage.getItem("id_account_type"),  /* hice esto */
+      cuenta: localStorage.getItem("id_account_type") /* hice esto */,
       informacion: [],
       lord: true,
       limite: 5,
@@ -85,25 +96,22 @@ export default {
         this.notCourses = true;
       }
     },
-    
+
     filterCourseInactive(data) {
-      var courseFilter
-      if (this.cuenta == 5) {                   /* hice esto */
+      var courseFilter;
+      if (this.cuenta == 5) {
+        /* hice esto */
         courseFilter = data.filter((course) => {
           return course.status != 0 && course.course_level_id == 1;
         });
-        
-
       } else {
         courseFilter = data.filter((course) => {
           return course.status != 0;
         });
-        
       }
 
-      return courseFilter;  
+      return courseFilter;
     },
-
 
     aumentar() {
       this.limite += 5;
