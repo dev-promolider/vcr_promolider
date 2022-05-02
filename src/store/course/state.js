@@ -13,5 +13,7 @@ export default () => ({
     completedLessons: [],
     renderVideo:false,
     urlVideo: null,
-    timeReady: 0
+    timeReady: 0,
+    productor: null,
+
 })
