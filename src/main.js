@@ -5,6 +5,8 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap'
 import VueHorizontal from 'vue-horizontal';
 
+import Vuetify from 'vuetify'
+
 
 import App from './App.vue'
 import router from './router'
@@ -25,12 +27,12 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(VueHorizontal)
-
+Vue.use(Vuetify)
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import 'vuetify/dist/vuetify.min.css'
 // import Echo from 'laravel-echo'
 // window.Pusher = require('pusher-js')
 

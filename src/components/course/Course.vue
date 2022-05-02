@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapActions} from "vuex";
+import { mapState, mapActions, mapMutations} from "vuex";
 import Temario from "@/components/course/temario";
 import Descripcion from "@/components/course/descripcion";
 import Comentarios from "@/components/course/comentarios";
@@ -66,6 +66,8 @@ export default {
       getLesson: "getLesson",
       getVideo: "getVideo",
     }),
+  
+    ...mapMutations("course", ["GET_PROGRESS","DESTROY_PROGRESS"]),
 
     // Leccion activa al momento de renderizar el componente
     activeLesson() {
@@ -79,6 +81,7 @@ export default {
   },
   created() {
     this.activeLesson();
+    this.GET_PROGRESS();
   },
   beforeMount() {
     if (!this.$route.query.class && !this.$route.query.course) {
@@ -104,7 +107,9 @@ export default {
     //    });
     // }
   },
-  updated() {},
+  destroyed(){
+    this.DESTROY_PROGRESS()
+  }
 };
 </script>
 
