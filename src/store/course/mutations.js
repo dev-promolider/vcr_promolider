@@ -45,3 +45,7 @@ export const SET_VIDEO = (state, url)=>{
 export const UPDATE_TIME = (state, time) =>{
     state.timeReady = time
 }
+
+export const SET_PRODUCTOR = (state, productor) =>{
+    state.productor = productor
+}

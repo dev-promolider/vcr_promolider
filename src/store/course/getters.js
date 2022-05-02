@@ -7,3 +7,4 @@ export const isResources = (state) => state.isResources;
 export const completedLessons = (state) => state.completedLessons;
 export const urlVideo = (state) => state.urlVideo; 
 export const timeReady = (state) => state.timeReady;
+export const getProductor = (state) => state.productor;

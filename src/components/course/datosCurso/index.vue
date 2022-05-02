@@ -1,3 +1,4 @@
+import { mapState } from 'vuex';
 <template>
     <!-- Seccion inferior del video -->
   <div class="container-fluid mt-3">
@@ -7,8 +8,9 @@
             <div class="d-flex mt-2">
               <img src="../../../assets/logo-perfil.png" class="rounded-circle" style="height: 46px">
                 <div class="d-flex flex-column ml-4">
-                  <span class="font-weight-bold">Curso de Edición</span>
-                  <span>Rafael Gonzales</span>
+                  <span class="font-weight-bold">{{Titulo}}</span>
+                  <span>{{Productor}}</span>
+                  
                 </div>
             </div>
           </div>
@@ -24,11 +26,30 @@
 </template>
 
 <script>
+
+import { mapState, mapGetters} from 'vuex';
+
 export default {
-    name:"DatosCurso"
+    name:"DatosCurso",
+
+    components: {
+    
+  },
+  computed: {
+    ...mapState( {
+      //titulo: state => state.title
+      Productor: state => state.course.productor[0],
+      Titulo: state => state.course.productor[1]
+    }),
+
+    ...mapGetters( 'course', {
+      elProductor:'getProductor',
+      
+    }),
+  }
 }
 </script>
 
 <style scoped>
-@import './style.css';
+
 </style>

@@ -20,7 +20,7 @@
         :key="index"
         
       >
-        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,'Que es Laravel')" v-if="carita">
+        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,'Que es Laravel',item.name, item.last_name, item.title)" v-if="carita">
           <div class="">
             <img
               :src="item.url_portada"
@@ -58,7 +58,8 @@
 
 <script>
 import loadingCourses from "@/components/courses/loadingCourses";
-import {mapGetters} from 'vuex' 
+import {mapGetters, mapMutations} from 'vuex';
+ 
 // import Eliminar from "@/views/content/contenedor/Contenedor.vue"
 export default {
   name: "VirtualClassroomSuscription",
@@ -79,6 +80,7 @@ export default {
 
   computed:{
     ...mapGetters('lastMessage',["getLastMessages"]),
+    ...mapMutations('course',['SET_PRODUCTOR']),
   },
   methods: {
     getAttributes() {
@@ -95,8 +97,11 @@ export default {
       });
     },
 
-    getCourse(id,clase){
+    getCourse(id,clase,className,last_name, titulo){
       this.$router.push(`course-user?course=${id}&class=${clase}`)
+    console.log(className);
+    this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
+
     }
 
 
