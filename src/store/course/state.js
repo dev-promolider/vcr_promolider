@@ -14,5 +14,6 @@ export default () => ({
     urlVideo: null,
     timeReady: 0,
     productor: null,
-
+    progressCourseSelect: 0,
+    courseSelect: false
 })

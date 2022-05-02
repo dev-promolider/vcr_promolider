@@ -49,3 +49,19 @@ export const UPDATE_TIME = (state, time) =>{
 export const SET_PRODUCTOR = (state, productor) =>{
     state.productor = productor
 }
+
+export const UPDATE_PROGRESS_COURSE = (state, progressCourseSelect ) =>{
+    state.progressCourseSelect = progressCourseSelect
+}
+
+export const DESTROY_PROGRESS_COURSE = (state ) =>{
+    state.progressCourseSelect = 0;
+}
+
+export const GET_PROGRESS = (state) => {
+    state.courseSelect = true;
+}
+
+export const DESTROY_PROGRESS = (state) => {
+    state.courseSelect = false;
+}

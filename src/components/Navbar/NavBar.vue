@@ -13,6 +13,21 @@
       </li>
     </ul>
     <div class="nav-horizontal flex-grow-1 d-flex">
+  
+    <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
+        <li class="nav-item">
+          <v-progress-circular
+            :rotate="-90"
+            :size="40"
+            :width="5"
+            :value="progressCourseSelect"
+            color="teal"
+          >
+            <i class="fas fa-trophy"></i>
+          </v-progress-circular>
+        </li>
+      </ul>
+
       <ul class="nav nav-sub-h1 justify-content-center align-items-center">
         <li class="nav-item">
           <span class="nav-link text-dark">
@@ -61,7 +76,9 @@ export default {
     return {
       vermenu: true,
       link: "",
-      name: ""
+      name: "",
+      interval: {},
+      value: 0,
     };
   },
   computed: {
@@ -70,6 +87,9 @@ export default {
       //titulo: state => state.title
       titulo: state => state.topSection
     }),
+
+    ...mapState('course',['progressCourseSelect','courseSelect','msjCompletedClass']),
+
     ...mapGetters('course',{
       vuexTitle: "title",
     }),
@@ -213,5 +233,6 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
    grid-template-rows: 1fr 1fr;
    text-align-last: center;
   }
+  
 }
 </style>
