@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import courseStore from './course'
 import attribute  from "./attribute";
 import lastmessage  from "./lastmessage";
+import sections from "./sections";
 import user from "./user";
 
 Vue.use(Vuex)
@@ -46,7 +47,9 @@ export default new Vuex.Store({
 
     user: user,
 
-    attribute: attribute
+    attribute: attribute,
+
+    sections
 
   }
 

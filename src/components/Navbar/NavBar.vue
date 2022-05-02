@@ -36,13 +36,13 @@
             <div class="dropdown-menu viewmenu-list mr-2">
               <router-link class="dropdown-item my-3" to="/perfil">
                 <img class="img-menuitem" src="../../assets/perfil.png" />
-                Perfil</router-link>
+                Mi Perfil</router-link>
               <a class="dropdown-item mb-3" href="#">
                 <img class="img-menuitem" src="../../assets/subcription.png" />
                 Subcripción</a
               >
               <div class="dropdown-divider "></div>
-              <a class="dropdown-item my-3"  @click="closeSesion()">Sign out </a>
+              <a class="dropdown-item my-3" href="#" @click="closeSesion()">Cerrar sesión </a>
             </div>
           </span>
         </li>
@@ -66,9 +66,9 @@ export default {
   },
   computed: {
     // ...mapState(['title','count']),
-    ...mapState( {
+    ...mapState('sections', {
       //titulo: state => state.title
-      titulo: state => state.course.title
+      titulo: state => state.topSection
     }),
     ...mapGetters('course',{
       vuexTitle: "title",
@@ -102,6 +102,9 @@ export default {
   width: 100%;
   min-height: 80px;
   background-color: #fff;
+  -webkit-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
+-moz-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
+box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 }
 .seccion {
   width: 40.1%;
