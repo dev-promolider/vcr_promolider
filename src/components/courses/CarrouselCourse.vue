@@ -1,7 +1,7 @@
 <template>
   <main>
     <vue-horizontal class="horizontal"
-      >.
+      >
       <section class="item" v-for="course in courses" :key="course.id">
         <div class="card" @click="editar(course.id)">
           <div
@@ -132,7 +132,7 @@ main {
 
 @media (min-width: 768px) {
   main {
-    padding: 48px 0px;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
   }
