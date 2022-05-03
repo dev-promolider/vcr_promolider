@@ -56,7 +56,6 @@ export default {
     },
     barmenu() {
       this.barraMenu = !this.barraMenu;
-      /* this.mostrar = !this.mostrar */
     },
   },
   created() {
@@ -140,7 +139,14 @@ export default {
 }
 
 .barrita:hover {
+<<<<<<< HEAD
+  transform: scale(1);
+  
+=======
   transform: scale(1.17);
   cursor: pointer;
+>>>>>>> f052931f34e72df15cbcdaa107e07eece86a99d9
 }
+
+
 </style>

@@ -99,7 +99,7 @@ export default {
 
     getCourse(id,clase,className,last_name, titulo){
       this.$router.push(`course-user?course=${id}&class=${clase}`)
-    console.log(className);
+    console.log('este es' +className);
     this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
 
     }

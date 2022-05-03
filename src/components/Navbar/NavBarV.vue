@@ -127,4 +127,9 @@ export default {
   height: 24px;
   margin-right: 10px;
 }
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> f052931f34e72df15cbcdaa107e07eece86a99d9
 </style>
