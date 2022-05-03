@@ -1,14 +1,8 @@
 <template>
-    <div class="contenedor-temario col border-box" > 
-            <!-- Cabecera temario -->
-            <div class="row " >
-                <div class="container">
-                <h5 class="ml-5 mt-4"><i class="fas fa-clone mr-2"></i>Temario</h5>
-                </div>
-            </div>            
+    <div class="contenedor-temario border-box" > 
 
             <!-- Cuerpo temario -->
-            <div class="col temario ">
+            <div class="temario my-4 ">
                 <div class="center-spinner" v-if="isLoading">
                        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
                 </div>
@@ -28,21 +22,12 @@
                 </ul>                    
             </div>
 
-            <!-- Barra de progreso -->
-            <div class="row py-3 ">
-                <div class="col-2  pl-5" >
-                    <span>{{progress}}%</span>
-                </div>
-                <div class="col-9  mt-1">
-                    <b-progress animated :value="progress" variant="secondary" class="mr-2" ></b-progress>                       
-                </div>
-            </div>            
     </div>                   
 </template>
 
 <script>
 
-    import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions, mapMutations } from 'vuex';
 
     export default{
         name:"Temario",
@@ -64,6 +49,8 @@
                 getResources: 'getResources',
                 getVideo: 'getVideo'
             }),
+
+            ...mapMutations("course", ["UPDATE_PROGRESS_COURSE","DESTROY_PROGRESS_COURSE"]),
             
             // Funcion para calcular el progreso del curso
             getProgress(){
@@ -71,8 +58,10 @@
                 const progress = Math.round((completed/this.allLessons)*100);
                 if(isNaN(progress)){
                     this.progress=0;
+                    this.UPDATE_PROGRESS_COURSE(0)
                 }else{
                     this.progress = progress;
+                    this.UPDATE_PROGRESS_COURSE(progress)
                 }
             },    
             
@@ -133,6 +122,9 @@
                 }
             },
         },
+        destroyed(){
+            this.DESTROY_PROGRESS_COURSE()
+        }
     }
 </script>
 

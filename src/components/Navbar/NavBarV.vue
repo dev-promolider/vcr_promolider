@@ -3,7 +3,7 @@
     <div class="title-aula">
       <img src="../../assets/logo-aula.png" />
     </div>
-    <ul class="nav">
+    <ul class="sidebar nav flex-column">
       <li
         @click="sendTitle('Inicio')"
         class="nav-item"
@@ -11,7 +11,7 @@
       >
         <router-link to="/home" class="nav-link link-v">
           <img src="./../../assets/home.svg" alt="" />
-          Inicio
+         Inicio
         </router-link>
       </li>
 
@@ -26,7 +26,7 @@
         </router-link>
       </li>
 
-      <li @click="sendTitle('Mis-Cursos')" class="nav-item">
+      <li @click="sendTitle('Mis Cursos')" class="nav-item">
         <router-link
           to="/suscription-user"
           class="nav-link link-v"
@@ -37,7 +37,7 @@
         </router-link>
       </li>
 
-        <li @click="sendTitle('Mis-Certificaciones')" class="nav-item">
+        <li @click="sendTitle('Mis Certificaciones')" class="nav-item">
         <router-link
           to="/certificado-user"
           class="nav-link link-v"
@@ -62,11 +62,11 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "NavBarV",
   computed: {
-    ...mapState("course", ["isLoading"]),
+    ...mapState("sections", ["topSection"]),
   },
   methods: {
     isActive(path) {
@@ -76,14 +76,15 @@ export default {
       return this.$route.path.includes(path);
     },
     sendTitle(payload) {
-      this.$store.commit("course/setTitle", payload);
+      this.$store.commit("sections/setTopSection", payload);
+      this.$emit("closeMenu")
     },
-    ...mapActions("course", ["getTitle"]),
+    //...mapActions("course", ["getTitle"]),
   },
   mounted() {},
 };
 </script>
-<style scope>
+<style lang="scss" scope>
 :root {
   --text-size: 14px;
   --active-link: 4px solid #2c3d2b;
@@ -104,11 +105,8 @@ export default {
   width: 151px;
   height: 37px;
 }
-.nav {
-  display: flex;/* 
-  align-items: center;
-  text-align: center;
-  line-height: 100px; */
+.sidebar{
+  min-width: 184px;
 }
 .nav-item {
   margin-bottom: 13px;
@@ -116,7 +114,6 @@ export default {
 .link-v {
   font-size: var(--text-size);
   color: #fff;
-  padding: 0;
 }
 .is-active {
   border-left: var(--active-link);
@@ -128,8 +125,11 @@ export default {
 .nav-link > img {
   width: 24px;
   height: 24px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> f052931f34e72df15cbcdaa107e07eece86a99d9
 </style>

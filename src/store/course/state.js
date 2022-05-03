@@ -1,7 +1,6 @@
 
 
 export default () => ({
-    title: 'Curso',
     course: [],
     count: 1,
     isLoading: true,
@@ -15,5 +14,6 @@ export default () => ({
     urlVideo: null,
     timeReady: 0,
     productor: null,
-
+    progressCourseSelect: 0,
+    courseSelect: false
 })

@@ -1,6 +1,6 @@
 <template>
     <div class="welcome">
-        <p>Bienvenido a <b>Promolider</b></p>
+        <p class="m-0">Bienvenido a <b>Promolider</b></p>
         <div class="img-one"> 
             <img src="@/assets/welcome1.jpg" >
         </div>
@@ -17,7 +17,7 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
     .welcome{
         background-color:#494949D1;
         position: relative;

@@ -1,7 +1,7 @@
 <template>
   <main>
     <vue-horizontal class="horizontal"
-      >.
+      >
       <section class="item" v-for="course in courses" :key="course.id">
         <div class="card" @click="editar(course.id)">
           <div
@@ -125,14 +125,14 @@ export default {
 }
 
 main {
-  padding: 24px;
-  width: 94%;
+  padding: 12px;
+  width: 100%;
   margin: auto;
 }
 
 @media (min-width: 768px) {
   main {
-    padding: 48px 5px;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
   }
@@ -160,14 +160,22 @@ main {
 }
 @media (min-width: 768px) {
   .horizontal {
-    --count: 2.6;
+    --count: 2.3;
     --margin: 0;
+    max-width: 100vw;
   }
 }
 
 @media (min-width: 1024px) {
   .horizontal {
     --count: 3;
+    max-width: 78vw;
+  }
+}
+@media (min-width: 1122px) {
+  .horizontal {
+    --count: 3;
+    max-width: 80vw;
   }
 }
 
@@ -175,6 +183,7 @@ main {
   .horizontal {
     --gap: 24px;
     --count: 4;
+    max-width: 84vw;
   }
 }
 
