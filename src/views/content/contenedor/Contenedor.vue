@@ -56,7 +56,6 @@ export default {
     },
     barmenu() {
       this.barraMenu = !this.barraMenu;
-      /* this.mostrar = !this.mostrar */
     },
   },
   created() {
@@ -143,4 +142,6 @@ export default {
   transform: scale(1.17);
   cursor: pointer;
 }
+
+
 </style>
