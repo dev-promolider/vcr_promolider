@@ -20,7 +20,7 @@
         :key="index"
         
       >
-        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,'Que es Laravel',item.name, item.last_name, item.title)" v-if="carita">
+        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="goToCourse(item.id,item.name, item.last_name, item.title)" v-if="carita">
           <div class="">
             <img
               :src="item.url_portada"
@@ -58,7 +58,7 @@
 
 <script>
 import loadingCourses from "@/components/courses/loadingCourses";
-import {mapGetters, mapMutations} from 'vuex';
+import {mapGetters, mapMutations, mapActions, mapState} from 'vuex';
  
 // import Eliminar from "@/views/content/contenedor/Contenedor.vue"
 export default {
@@ -81,8 +81,15 @@ export default {
   computed:{
     ...mapGetters('lastMessage',["getLastMessages"]),
     ...mapMutations('course',['SET_PRODUCTOR']),
+    ...mapState('course',['course'])
   },
   methods: {
+
+    ...mapActions('course',{
+      getCourse: 'getCourse',
+    }),
+
+
     getAttributes() {
       this.axios.get("course/purchased-courses").then((datos) => {
         this.loading = false;//gaaaa
@@ -97,11 +104,21 @@ export default {
       });
     },
 
-    getCourse(id,clase,className,last_name, titulo){
-      this.$router.push(`course-user?course=${id}&class=${clase}`)
-    console.log('este es' +className);
-    this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
-
+    async goToCourse(id,className,last_name, titulo){
+      let dataRequest;
+      await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
+        console.log("ID de la ultima clase "+ res.data.data.last_class_reprod)
+        dataRequest = res.data.data;
+      });
+      if(dataRequest == "no existe"){
+        this.getCourse(id);
+        let fistClass = this.course.modules[0].lessons[0].name;
+        this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+      }else{
+        this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
+        console.log(className);
+      }
+      this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
     }
 
 

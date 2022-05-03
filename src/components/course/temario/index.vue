@@ -27,7 +27,7 @@
 
 <script>
 
-    import { mapState, mapActions, mapMutations } from 'vuex';
+    import { mapState, mapActions, mapMutations ,mapGetters } from 'vuex';
 
     export default{
         name:"Temario",
@@ -39,15 +39,17 @@
             }
         },
         computed:{
-            ...mapState('course',['course','allLessons','lesson','isLoading'])
+            ...mapGetters("course", ["course"]),
+            ...mapState('course',['allLessons','lesson','isLoading'])
         },
         methods:{
-            
+
             ...mapActions('course',{
                 getCourse: 'getCourse',
                 getLesson: 'getLesson',
                 getResources: 'getResources',
-                getVideo: 'getVideo'
+                getVideo: 'getVideo',
+                lastSeenLesson: 'lastSeenLesson'
             }),
 
             ...mapMutations("course", ["UPDATE_PROGRESS_COURSE","DESTROY_PROGRESS_COURSE"]),
@@ -67,6 +69,7 @@
             
             // Cambiar de clase
             changeClass(less){
+
                 // Enviando informacion de la nueva clase
                 this.getLesson(less);
 
@@ -75,6 +78,14 @@
 
                 // Cambiando video de la clase
                 this.getVideo(less.id)
+
+                // Enviando la ultima clase que esta visualizando
+                let sendData = {
+                    course_id: this.$route.query.course,
+                    class_id: less.id
+                }
+
+                this.lastSeenLesson(sendData)
 
                 // Cambiando de ruta
                 if(less.name!=this.$route.query.class){
@@ -107,8 +118,14 @@
         created(){
             // Enviando inforamcion del curso para obtener temario
             this.getCourse(this.$route.query.course);
+            if(this.course.length == 0){
+                console.log("no temas")
+            }else{
+                console.log("si temas");
+            }
             // Recibiendo las clases completadas del curso
             this.getCompletedLessons(this.$route.query.course);
+            
         },
         updated(){
             // Actualizando la barra de progreso
