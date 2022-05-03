@@ -27,7 +27,7 @@
 
 <script>
 
-    import { mapState, mapActions, mapMutations } from 'vuex';
+    import { mapState, mapActions, mapMutations ,mapGetters } from 'vuex';
 
     export default{
         name:"Temario",
@@ -39,10 +39,11 @@
             }
         },
         computed:{
-            ...mapState('course',['course','allLessons','lesson','isLoading'])
+            ...mapGetters("course", ["course"]),
+            ...mapState('course',['allLessons','lesson','isLoading'])
         },
         methods:{
-            
+
             ...mapActions('course',{
                 getCourse: 'getCourse',
                 getLesson: 'getLesson',
@@ -117,8 +118,14 @@
         created(){
             // Enviando inforamcion del curso para obtener temario
             this.getCourse(this.$route.query.course);
+            if(this.course.length == 0){
+                console.log("no temas")
+            }else{
+                console.log("si temas");
+            }
             // Recibiendo las clases completadas del curso
             this.getCompletedLessons(this.$route.query.course);
+            
         },
         updated(){
             // Actualizando la barra de progreso

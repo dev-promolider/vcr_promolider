@@ -67,20 +67,7 @@ export const DESTROY_PROGRESS = (state) => {
 }
 
 // Limpiar todos los estados
-export const CLEAR_ALL_DATA = (state) => {
-    state.course =  [],
-    state.count =  1,
-    state.isLoading =  true,
-    state.ultimo =  '',
-    state.lesson = [],
-    state.allLessons =  0,
-    state.resources =  null,
-    state.isResources =  false,
-    state.completedLessons =  [],
+export const CLEAR_VIDEO = (state) => {
     state.renderVideo = false,
-    state.urlVideo =  null,
-    state.timeReady =  0,
-    state.productor =  null,
-    state.progressCourseSelect =  0,
-    state.courseSelect =  false
+    state.urlVideo =  null
 }

@@ -73,7 +73,7 @@ export default {
   },
   methods: {
 
-    ...mapMutations("course", ["CLEAR_ALL_DATA"]),
+    ...mapMutations("course", ["CLEAR_VIDEO"]),
 
     // listen event
     onPlayerPlay() {},
@@ -103,7 +103,7 @@ export default {
     );
   },
   destroyed(){
-    this.CLEAR_ALL_DATA();
+    this.CLEAR_VIDEO();
   }
   // events:{
   //   'window.onbeforeunload': onbeforeunload_handler(){

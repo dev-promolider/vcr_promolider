@@ -67,8 +67,7 @@ export default {
       getVideo: "getVideo",
       lastSeenLesson: "lastSeenLesson"
     }),
-    
-  
+
     ...mapMutations("course", ["GET_PROGRESS","DESTROY_PROGRESS","CLEAR_ALL_DATA"]),
 
     // Leccion activa al momento de renderizar el componente
@@ -112,8 +111,7 @@ export default {
     // }
   },
   destroyed(){
-    this.DESTROY_PROGRESS(),
-    this.CLEAR_ALL_DATA()
+    this.DESTROY_PROGRESS()
 
     // Enviando la ultima clase que esta visualizando
     let sendData = {
