@@ -130,46 +130,6 @@ export default {
   height: 24px;
   margin-right: 20px;
 }
-/* @media (max-width: 991px) {
-  .title-aula {
-  }
-  .nav {
 
-  display: flex;
-  align-items: center;
-  text-align: center;
-  line-height: 100px;
-  }
-  .nav-item a {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-  }
-  .nav-item > a > img {
-    margin: auto;
-  }
-  .is-active {
-    border-bottom: var(--active-link);
-    filter: var(--opcion-link);
-    border-left: none;
-  }
-  .nav-link > img {
-  width: 60px;
-}
-
-}
-@media (max-width: 555px) {
-  .link-v {
-    font-size: 6px;
-  }
-}
-@media (max-width: 360px) {
-  .link-v {
-    font-size: 5px;
-  }
-  .link-v img {
-    height: 20px !important;
-  }
-} */
 
 </style>

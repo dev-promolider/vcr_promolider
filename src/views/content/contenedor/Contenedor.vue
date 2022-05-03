@@ -52,7 +52,6 @@ export default {
   methods: {
     barmenu() {
       this.barraMenu = !this.barraMenu;
-      /* this.mostrar = !this.mostrar */
     },
   },
   created() {
@@ -105,36 +104,8 @@ export default {
 
 .barrita:hover {
   transform: scale(1);
-  /* animation: roll 2.5s ; */
-}
-
-/* @keyframes roll  {
   
-0% {
-    transform: scale(1.5) rotate(0) ;
-  }
-  100% {
-    transform: scale(1.5) rotate(360deg) ;
-  }
-  } */
-
-@media (max-width: 991px) {
-  /* .nav-v{
-    position: inline-block;
-    width: 100%;
-    height: 100%; 
-    background: rgb(90, 90, 90);
-
-  } */
-
-  /* .barrita{
-  background-color: transparent;
-  display: block;
-  position: absolute;
-  width: 2rem;
-  margin-left: 1rem;
-  margin-top: 1rem;
-  z-index: 10000 ; 
-  } */
 }
+
+
 </style>

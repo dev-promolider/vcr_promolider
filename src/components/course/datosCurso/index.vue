@@ -4,7 +4,7 @@ import { mapState } from 'vuex';
   <div class="container-fluid mt-3">
       <div class="row" style="width: 100%">
           <div class="col-lg-8 col-md-12">
-            <h4 class="font-weight-bold"> Sesión 1. Renderizado de Videos </h4>
+            <h4 class="font-weight-bold"> {{$route.query.class}} </h4>
             <div class="d-flex mt-2">
               <img src="../../../assets/logo-perfil.png" class="rounded-circle" style="height: 46px">
                 <div class="d-flex flex-column ml-4">
@@ -46,7 +46,16 @@ export default {
       elProductor:'getProductor',
       
     }),
-  }
+  },
+  /* watch:{
+            "$route.query.class":{
+                immediate: true,
+                handler(titleClass){
+                    this.clase=titleClass;
+                    console.log("este es"+this.clase);
+                }
+            },
+        }, */
 }
 </script>
 

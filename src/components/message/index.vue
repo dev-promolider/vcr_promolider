@@ -1,7 +1,9 @@
 <template>
-  <div class="contenedor">
-    <div class="container-message">
-      <div class="colum-contacts">
+  <div class="contenedor text aling-center ">
+    <div class="container-message ">
+
+    
+      <div class="colum-contacts " v-if="mostrar">
         <div class="header-search">
           <div class="user">
             <img src="../../assets/logo-perfil.png" />
@@ -46,6 +48,8 @@
           </div>
         </div>
       </div>
+      
+      
 
       <div class="colum-chat">
         <div class="parallel header">
@@ -104,6 +108,7 @@
           <div></div>
         </div>
       </div>
+      
     </div>
   </div>
 </template>
@@ -129,6 +134,8 @@ export default {
       },
       mensaje: "",
       newMessage: false,
+
+      mostrar: true,
     };
   },
   methods: {
@@ -183,6 +190,12 @@ export default {
     // typingEvent(){
     //     window.Echo.channel('message').whisper('typing', {message: ""})
     // }
+
+    mostrara(){
+      
+       this.mostrar=!this.mostrar
+    }
+
   },
   created() {
     this.lista();
@@ -224,6 +237,7 @@ export default {
 <style scoped>
 @import './style.css';
 .contenedor{
+  display: block;
   width: 100%;
   height: calc(100vh - 80px);
   padding: 25px 75px;

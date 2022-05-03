@@ -49,3 +49,4 @@ export const UPDATE_TIME = (state, time) =>{
 export const SET_PRODUCTOR = (state, productor) =>{
     state.productor = productor
 }
+
