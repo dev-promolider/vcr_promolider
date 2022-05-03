@@ -47,7 +47,8 @@
                 getCourse: 'getCourse',
                 getLesson: 'getLesson',
                 getResources: 'getResources',
-                getVideo: 'getVideo'
+                getVideo: 'getVideo',
+                lastSeenLesson: 'lastSeenLesson'
             }),
 
             ...mapMutations("course", ["UPDATE_PROGRESS_COURSE","DESTROY_PROGRESS_COURSE"]),
@@ -67,6 +68,7 @@
             
             // Cambiar de clase
             changeClass(less){
+
                 // Enviando informacion de la nueva clase
                 this.getLesson(less);
 
@@ -75,6 +77,14 @@
 
                 // Cambiando video de la clase
                 this.getVideo(less.id)
+
+                // Enviando la ultima clase que esta visualizando
+                let sendData = {
+                    course_id: this.$route.query.course,
+                    class_id: less.id
+                }
+
+                this.lastSeenLesson(sendData)
 
                 // Cambiando de ruta
                 if(less.name!=this.$route.query.class){

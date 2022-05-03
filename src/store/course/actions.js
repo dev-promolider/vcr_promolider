@@ -14,6 +14,13 @@ export const getLesson = (context, less) => {
     context.commit("SET_LESSON", less)
 }
 
+// Indicar que clase se esta viendo por ultima vez
+export const lastSeenLesson = async (context,data)=>{
+    await axios.patch(`purchased/save-class-seen?course_id=${data.course_id}&class_id=${data.class_id}`).then((res)=>{
+        console.log('Respuesta del guardado -> '+res.data.data)
+    })
+}
+
 // Clases completadas
 export const getCompletedLessons = async (context, id) => {
     await axios.get(`purchased/show?course_id=${id}`).then(

@@ -20,7 +20,7 @@
         :key="index"
         
       >
-        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,'Que es Laravel',item.name, item.last_name, item.title)" v-if="carita">
+        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="getCourse(item.id,item.name, item.last_name, item.title)" v-if="carita">
           <div class="">
             <img
               :src="item.url_portada"
@@ -97,8 +97,13 @@ export default {
       });
     },
 
-    getCourse(id,clase,className,last_name, titulo){
-      this.$router.push(`course-user?course=${id}&class=${clase}`)
+    async getCourse(id,className,last_name, titulo){
+      let nameClass;
+      await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
+        console.log("ID de la ultima clase "+ res.data.data.last_class_reprod)
+        nameClass = res.data.data.name;
+      });
+      this.$router.push(`course-user?course=${id}&class=${nameClass}`)
     console.log(className);
     this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
 

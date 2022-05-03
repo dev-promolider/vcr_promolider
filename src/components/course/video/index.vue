@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapMutations} from "vuex";
 import { videoPlayer } from "vue-video-player";
 import "video.js/dist/video-js.css";
 import { mapGetters } from "vuex";
@@ -71,6 +72,9 @@ export default {
     ...mapGetters("course", ["urlVideo", "timeReady"]),
   },
   methods: {
+
+    ...mapMutations("course", ["CLEAR_ALL_DATA"]),
+
     // listen event
     onPlayerPlay() {},
     onPlayerPause(player) {
@@ -98,6 +102,9 @@ export default {
       "componente destriudo y se quedo en ->" + this.player.currentTime()
     );
   },
+  destroyed(){
+    this.CLEAR_ALL_DATA();
+  }
   // events:{
   //   'window.onbeforeunload': onbeforeunload_handler(){
 

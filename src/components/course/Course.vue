@@ -6,7 +6,7 @@
     <div v-else class="content-course">
       <div class="navtap-video ">
         <div class="video ">
-          <div class="seccion_video">
+          <div class="seccion_video ">
             <Video v-if="renderVideo" />
             <div v-else class="center-spinner">
               <b-spinner
@@ -65,9 +65,11 @@ export default {
     ...mapActions("course", {
       getLesson: "getLesson",
       getVideo: "getVideo",
+      lastSeenLesson: "lastSeenLesson"
     }),
+    
   
-    ...mapMutations("course", ["GET_PROGRESS","DESTROY_PROGRESS"]),
+    ...mapMutations("course", ["GET_PROGRESS","DESTROY_PROGRESS","CLEAR_ALL_DATA"]),
 
     // Leccion activa al momento de renderizar el componente
     activeLesson() {
@@ -78,6 +80,8 @@ export default {
           this.getVideo(res.data[0].id);
         });
     },
+
+    
   },
   created() {
     this.activeLesson();
@@ -108,7 +112,16 @@ export default {
     // }
   },
   destroyed(){
-    this.DESTROY_PROGRESS()
+    this.DESTROY_PROGRESS(),
+    this.CLEAR_ALL_DATA()
+
+    // Enviando la ultima clase que esta visualizando
+    let sendData = {
+      course_id: this.$route.query.course,
+      class_id: this.lesson.id
+    }
+
+    this.lastSeenLesson(sendData)
   }
 };
 </script>
@@ -144,7 +157,8 @@ export default {
 .seccion_video {
   width: 100%;
   height: 78%;
-  /* background: rgb(2, 2, 2); */
+  border-radius: 20px;
+  background: rgb(2, 2, 2);
 }
 .seccion_inferior_video {
   width: 100%;
