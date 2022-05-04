@@ -41,7 +41,7 @@ export default {
     this.playerOptions = {
       height: 100,
       preload: "auto",
-      autoplay: true,
+      autoplay: false,
       muted: true,
       language: "es",
       playbackRates: [0.7, 1.0, 1.5, 2.0],

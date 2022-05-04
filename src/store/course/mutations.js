@@ -1,4 +1,5 @@
 export const SET_COURSE= (state, course) =>{
+
     state.course = course;
 
     // Calculando las lecciones totales
@@ -7,6 +8,19 @@ export const SET_COURSE= (state, course) =>{
     }
 
     state.isLoading=false;
+}
+
+export const listId_NameClass = (state, course) => {
+    for(let i=0; i<course.modules.length; i++){
+        for(let j=0; j<course.modules[i].lessons.length; j++){
+            // let {id,name} =course.modules[i].lessons[j]
+            // let datos = {
+            //     id,
+            //     name
+            // }
+            state.allLessonsId.push(course.modules[i].lessons[j]);
+        }
+    }
 }
 
 export const SET_LESSON = (state, lesson) =>{
@@ -32,7 +46,7 @@ export const SET_RESOURCES = (state, resources) => {
 export const SET_COMPLETED_LESSONS = (state, lessons) =>{
     for(const index in lessons.data){
         if(lessons.status[index]==="SEEN"){
-            state.completedLessons.push(lessons.data[index])
+            state.completedLessons = state.completedLessons.push(lessons.data[index])
         }
     }
 }
@@ -64,6 +78,7 @@ export const GET_PROGRESS = (state) => {
 
 export const DESTROY_PROGRESS = (state) => {
     state.courseSelect = false;
+    state.allLessonsId = []
 }
 
 // Limpiar todos los estados
