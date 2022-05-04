@@ -5,6 +5,7 @@ export const getCourse = async (context, id) => {
     await axios.get('course/temary/get-all-class/' + id).then(
         (res) => {
             context.commit("SET_COURSE", res.data.data)
+            context.commit("listId_NameClass", res.data.data)
         }
     )
 }
