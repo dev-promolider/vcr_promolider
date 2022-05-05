@@ -135,7 +135,9 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
   display: flex;
   width: 59.9%;
   justify-content: flex-end;
-  padding-right: 20px;
+  margin-right: 35px;
+
+  
 }
 .profile {
   position: relative;
@@ -186,7 +188,7 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 .viewmenu-list {
   position: absolute;
   background: #ffffff;
-  box-shadow: -1px 1px 3px 2px #c2c2c2 !important;
+  box-shadow: -1px 1px 3px 2px #35424a !important;
   border-radius: 15px;
   width: auto;
   height: auto;

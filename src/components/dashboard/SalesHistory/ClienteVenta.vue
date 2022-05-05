@@ -90,7 +90,7 @@ export default {
 
 .decorar{
   background: rgb(235, 235, 235);
-  color:rgb(14, 13, 13);
+  color:#131b1e;
   width: 90%;
   margin:auto;
   height: 60px;
@@ -110,14 +110,14 @@ export default {
   margin-right: 33px;
 }
 .cliente .color {
-  background: #9fbdf8;
+  background: #1ae800;
   margin-bottom: 13px;
   height: 64px;
   cursor: pointer;
 }
 
 .cliente .color:hover {
-  background: #7e9bd4;
+  background: #35424a;
 }
 
 .marco {
@@ -148,7 +148,7 @@ export default {
   margin-right: 34px;
   font-size: 0.7rem;
   margin-left: 92px;
-  color: #448f3c;
+  color: #1ae800;
   height: 14px;
   text-align: center;
 }

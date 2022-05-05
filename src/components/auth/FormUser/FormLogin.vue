@@ -120,7 +120,7 @@ export default {
 </script>
 <style>
 :root {
-  --color-prin: #5cc151;
+  --color-prin: #1ae800;
 }
 .submit-iniciar {
   background: var(--color-prin);
@@ -130,7 +130,7 @@ export default {
   font-size: 14px;
 }
 .holder-form {
-  border: 1px solid #c4c4c4;
+  border: 1px solid #35424a;
   border-radius: 30px;
   font-size: 12px;
   padding: 8px 10px;

@@ -14,10 +14,12 @@
             <p
               v-if="mostrar"
               class="font-weight-bold text-white font-number my-1"
-            >
+              style="color: black !important"
+            ><strong>
               {{ courses }}
+              </strong>
             </p>
-            <p class="text-white mar-top">Cursos</p>
+            <p class="text-white mar-top" style="color: black !important"><strong>Cursos</strong></p>
           </div>
         </div>
         
@@ -132,7 +134,7 @@ export default {
   flex-direction: column;
   background: rgb(253, 253, 253);
   position: relative;
-  color: black;
+  color: rgb(0, 0, 0);
   /* width: 50%; */
   list-style: none;
   /* padding: 1%; */
@@ -142,7 +144,7 @@ export default {
 }
 .one {
   border-radius: 25px 25px;
-  background: #99cc93;
+  background: transparent;
 }
 .four {
   border-radius: 0px 25px 25px 0px;

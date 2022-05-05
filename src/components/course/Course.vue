@@ -156,7 +156,7 @@ export default {
   width: 100%;
   height: 78%;
   border-radius: 20px;
-  background: rgb(2, 2, 2);
+  background: #131b1e;
 }
 .seccion_inferior_video {
   width: 100%;

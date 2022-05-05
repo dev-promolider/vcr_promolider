@@ -45,7 +45,7 @@ export default {
 </script>
 <style scoped>
 .header >a{
-  color:  #448F3C;
+  color:  #1ae800;
   font-size: 12px;
 }
 .card-message{
@@ -55,7 +55,7 @@ export default {
   margin: auto;
 }
 .message{
-  background-color: #99CC93;
+  background-color: #1ae800;
   border-radius: 15px;
   align-items: center;
   padding: 6px 12px;
@@ -69,7 +69,7 @@ export default {
   font-size: 10px;
 }
 .card-text{
-  color: #fff;
+  color: rgb(0, 0, 0);
 }
 
 </style>

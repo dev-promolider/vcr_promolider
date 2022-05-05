@@ -76,6 +76,6 @@ export default {
     background: rgb(241, 241, 241);
     padding-top:5%;
     border-radius: 20px 20px 10px 20px;
-    border: 2px solid rgb(197, 197, 197);
+    border: 2px solid #35424a;
 }
 </style>
