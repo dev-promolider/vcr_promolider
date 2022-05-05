@@ -35,7 +35,7 @@ export default {
 </script>
 <style scope>
 :root {
-  --color-refere: #747474;
+  --color-refere: #000000;
 }
 .title{
   font-family: 'Baloo';
