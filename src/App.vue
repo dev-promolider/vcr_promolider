@@ -28,17 +28,17 @@ export default {
 /* Paleta de colores */
 :root{
  --bg-color: #F8F8F8;
- --color-white: #FFFFFF;
+ --color-white: #464040;
  --first-color-gray: #ECF0F3;
  --second-color-gray: #9D9D9D;
  --purple-color: #9FBDF8;
- --first-color-green: #99CC93;
- --second-color-green: #5CC151;
+ --first-color-green: #1ae800;
+ --second-color-green: #1ae800;
  --third-color-green:  #448F3C;
  --fourth-color-green: #20421C;
  --fifth-color-green: #324230;
- --sixth-color-green: #494949;
- --bg-btn: linear-gradient(180deg, #5CC151 -166.98%, #97F18D 143.4%);
+ --sixth-color-green: #35424a;
+ --bg-btn: linear-gradient(180deg, #1eff00 -166.98%, #54af47 143.4%);
  --bg-content: #f5f3f3;
 }
 
@@ -77,7 +77,7 @@ export default {
 /* Bordes verdes redondeados para los contenedores */
 .border-box-green{
  background:var(--color-white); 
- border: 1px solid #97F18D;
+ border: 1px solid #1ae800;
  box-sizing: border-box;
  border-radius: 20px;
 }

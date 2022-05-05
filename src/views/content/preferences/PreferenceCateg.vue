@@ -179,8 +179,8 @@ input[type="checkbox"]:hover + label{
 
 .category:hover , .select{
   border-radius: 10px;
-  background: rgba(0, 128, 0, 0.459);
-  box-shadow: 0 2px 32px 0 rgba(5, 65, 32, 0.274);
+  background: #1ae800, 0.459;
+  box-shadow: 0 2px 32px 0 #131b1e, 0.274;
   backdrop-filter: blur(2px);
 }
 

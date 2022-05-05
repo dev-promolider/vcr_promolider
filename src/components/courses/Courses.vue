@@ -161,7 +161,7 @@ https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 }
 
 h3 {
-  color: #707070;
+  color: #35424a;
   font-size: 25px;
   margin-bottom: 15px;
 }

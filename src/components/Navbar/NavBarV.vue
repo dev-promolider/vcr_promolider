@@ -87,7 +87,7 @@ export default {
 <style lang="scss" scope>
 :root {
   --text-size: 14px;
-  --active-link: 4px solid #2c3d2b;
+  --active-link: 4px solid #1ae800;
   --opcion-link: invert(0.5) sepia(5%) saturate(5162%) hue-rotate(64deg)
     brightness(96%) contrast(92%);
 }

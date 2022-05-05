@@ -94,7 +94,7 @@ export default {
   display: flex;
   width: 200px;
   height: 100%;
-  background: rgb(90, 90, 90);
+  background: #35424a;
   transition: all 0.4s;
   transform: translateX(0);
 }
@@ -102,7 +102,7 @@ export default {
   @media screen and (max-width: 1023px) {
     display: inline-block;
     position: fixed;
-    background: rgb(90, 90, 90);
+    background: #35424a;
     left: 0;
     top: 80px;
     width: 180px;

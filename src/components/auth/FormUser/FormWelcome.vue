@@ -19,7 +19,7 @@ export default {
 </script>
 <style lang="scss" scoped>
     .welcome{
-        background-color:#494949D1;
+        background-color:#35424a;
         position: relative;
         width: 100%;
         height: 100%;

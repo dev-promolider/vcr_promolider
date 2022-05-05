@@ -66,20 +66,20 @@ export default {
 }
 .cp {
   top: 0;
-  background: #c4c4c4;
+  background: #35424a;
   border-radius: 50%;
   width: 11px;
   height: 11px;
 }
 .circle-progres-1 {
-  background: #5cc151;
+  background: #1ae800;
 }
 .lp {
   width: 1px;
   height: 50px;
-  background: #c4c4c4;
+  background: #35424a;
 }
 .line-progres-1 {
-  background: #5cc151;
+  background: #1ae800;
 }
 </style>

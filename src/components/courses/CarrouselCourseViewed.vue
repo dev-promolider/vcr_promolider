@@ -107,7 +107,7 @@ export default {
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
-  color: #000;
+  color: #131b1e;
 }
 .modules li {
   font-weight: 300;
@@ -132,7 +132,7 @@ export default {
   place-content: center;
   width: 90.81px;
   height: 18.56px;
-  background: linear-gradient(181.51deg, #5cc151 -146.2%, #97f18d 98.72%);
+  background: linear-gradient(181.51deg, #1ae800 -146.2%, #97f18d 98.72%);
   border-radius: 15px;
 }
 </style>
