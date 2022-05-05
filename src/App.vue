@@ -22,8 +22,9 @@ export default {
 
 <!-- Definiendo estilos globales -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&display=swap');
+
+/* @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
 
 /* Paleta de colores */
 :root{
@@ -43,7 +44,8 @@ export default {
 }
 
 *{
-  font-family: 'Roboto', sans-serif;  
+
+font-family: 'Oswald', sans-serif;
 }
 
 #app{
