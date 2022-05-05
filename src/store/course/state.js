@@ -7,6 +7,7 @@ export default () => ({
     ultimo: '',
     lesson:[],
     allLessons: 0,
+    allLessonsId: [],
     resources: null,
     isResources: false,
     completedLessons: [],

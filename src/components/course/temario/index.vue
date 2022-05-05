@@ -121,11 +121,7 @@
         created(){
             // Enviando inforamcion del curso para obtener temario
             this.getCourse(this.$route.query.course);
-            if(this.course.length == 0){
-                console.log("no temas")
-            }else{
-                console.log("si temas");
-            }
+            
             // Recibiendo las clases completadas del curso
             this.getCompletedLessons(this.$route.query.course);
             
