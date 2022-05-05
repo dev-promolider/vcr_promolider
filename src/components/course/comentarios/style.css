@@ -38,6 +38,7 @@
 }
 .users-comment p {
   text-align: left;
+  margin-top: 0px;
 }
 .name {
   font-size: 11px;

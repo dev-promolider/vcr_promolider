@@ -78,6 +78,8 @@ export const GET_PROGRESS = (state) => {
 
 export const DESTROY_PROGRESS = (state) => {
     state.courseSelect = false;
+    state.allComments = [],
+    state.lesson = []
     state.allLessonsId = []
 }
 
@@ -85,4 +87,8 @@ export const DESTROY_PROGRESS = (state) => {
 export const CLEAR_VIDEO = (state) => {
     state.renderVideo = false,
     state.urlVideo =  null
+}
+
+export const GET_COMMENTS = (state, allComments) => {
+    state.allComments = allComments
 }
