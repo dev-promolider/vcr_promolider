@@ -72,7 +72,7 @@ font-family: 'Oswald', sans-serif;
 /* Bordes redondeados basicos para los contenedores */
 .border-box{
  border-radius: 20px;
- background:var(--color-white); 
+ background: #ffffff;
  border: 1px solid #EFEFEF;
 }
 
