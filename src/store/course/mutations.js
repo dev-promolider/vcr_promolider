@@ -64,10 +64,16 @@ export const GET_PROGRESS = (state) => {
 
 export const DESTROY_PROGRESS = (state) => {
     state.courseSelect = false;
+    state.allComments = [],
+    state.lesson = []
 }
 
 // Limpiar todos los estados
 export const CLEAR_VIDEO = (state) => {
     state.renderVideo = false,
     state.urlVideo =  null
+}
+
+export const GET_COMMENTS = (state, allComments) => {
+    state.allComments = allComments
 }

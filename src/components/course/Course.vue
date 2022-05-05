@@ -65,7 +65,8 @@ export default {
     ...mapActions("course", {
       getLesson: "getLesson",
       getVideo: "getVideo",
-      lastSeenLesson: "lastSeenLesson"
+      lastSeenLesson: "lastSeenLesson",
+      getComments: "getComments"
     }),
 
     ...mapMutations("course", ["GET_PROGRESS","DESTROY_PROGRESS","CLEAR_ALL_DATA"]),
@@ -77,6 +78,7 @@ export default {
         .then((res) => {
           this.getLesson(res.data[0]);
           this.getVideo(res.data[0].id);
+          this.getComments(res.data[0].id)
         });
     },
 

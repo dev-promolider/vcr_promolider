@@ -49,7 +49,8 @@
                 getLesson: 'getLesson',
                 getResources: 'getResources',
                 getVideo: 'getVideo',
-                lastSeenLesson: 'lastSeenLesson'
+                lastSeenLesson: 'lastSeenLesson',
+                getComments: 'getComments'
             }),
 
             ...mapMutations("course", ["UPDATE_PROGRESS_COURSE","DESTROY_PROGRESS_COURSE"]),
@@ -78,6 +79,8 @@
 
                 // Cambiando video de la clase
                 this.getVideo(less.id)
+
+                this.getComments(less.id)
 
                 // Enviando la ultima clase que esta visualizando
                 let sendData = {

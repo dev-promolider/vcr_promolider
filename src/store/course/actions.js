@@ -71,3 +71,10 @@ export const getTimeReproduction = (context, time) => {
     context.commit('UPDATE_TIME', time);
 }
 
+export const getComments = async (context, id) => {
+    await axios.get(`comments/show-comments?class_id=${id}`)
+    .then((res) =>{
+      context.commit('GET_COMMENTS', res.data);
+    })
+}
+
