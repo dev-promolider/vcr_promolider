@@ -1,20 +1,49 @@
 <template>
   <div class="learning">
     <div>
-        <p>Diseño de Interiores</p>
+        <p>{{ lastCourse.title }}</p>
         <ul class="modules">
           <li><img src="@/assets/list-disc.svg" alt="" /> Moódulo 2 - Clase 4</li>
         </ul>
     </div>
     <div class="btn-course">
-      <button>continua el curso</button>
+      <button @click="classvideo()">continua el curso</button>
     </div>
   </div>
 </template>
 
 <script>
+// import { mapState } from 'vuex'
 export default {
   name: "KeepLearning",
+  data(){
+    return {
+      lastCourse: ''
+    }
+  },
+  computed:{
+    
+  },
+  methods:{
+    getAttributes() {
+      this.axios.get("course/last-courses-rep").then((datos) => {
+        this.lastCourse = this.filterCourseInactive(datos.data.data);
+      });
+    },
+    filterCourseInactive(data) {
+        
+        const lastCourse = data.filter( c => c.status != 0 ).splice( -1)[0]
+        return  lastCourse
+    },
+    classvideo() {
+      this.$router.push(`/course-user?course=${5}&class=${'Documentacion'}`) 
+    },
+  },
+  created() {
+    this.getAttributes();
+  },
+
+  
 };
 </script>
 

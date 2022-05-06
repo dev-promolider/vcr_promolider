@@ -26,7 +26,7 @@
         </router-link>
       </li>
 
-      <li @click="sendTitle('Mis Cursos')" class="nav-item">
+      <li @click="sendTitle('Mi aprendizaje')" class="nav-item">
         <router-link
           to="/suscription-user"
           class="nav-link link-v"

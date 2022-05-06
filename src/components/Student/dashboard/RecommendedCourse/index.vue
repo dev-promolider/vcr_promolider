@@ -1,7 +1,8 @@
 <template>
   <main>
     <vue-horizontal class="horizontal"
-      >.
+    
+      >. 
       <section class="item" v-for="course in relatedCourses" :key="course.id">
         <div class="card" @click="editar(course.id)">
           <div
@@ -103,7 +104,12 @@ export default {
   background: #fff;
   transition: 0.8s;
 }
-
+/*name section */
+h3 {
+  color: #707070;
+  font-size: 25px;
+  margin-bottom: 15px;
+}
 .brand {
   display: flex;
   align-items: center;
@@ -152,7 +158,7 @@ export default {
 
 main {
   padding: 24px;
-  width: 85%;
+  width: 95%;
   margin: auto;
 }
 
