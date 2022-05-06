@@ -246,25 +246,7 @@ export default {
       this.$router.push("/suscription-user")
     },
 
-/* ----------------------------- */
-    /* validar() {
-      this.axios.get("course/purchased-courses")
-      .then((datos) => {
-        this.informacion = datos.data.data;
 
-        const id_curso = this.$route.params.ide
-        const existe = this.informacion.some((info)=> info.id === id_curso);
-        
-
-
-      if(existe == false){
-      this.mostrar = false;
-      this.mostrara = true;
-      }
-
-      });
-    }, */
-/* ----------------------------- */
 
     getAttributes() {
         this.pao_id = this.$route.params.ide;
