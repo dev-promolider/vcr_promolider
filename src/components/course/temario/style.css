@@ -33,7 +33,7 @@
   height: calc(100% - 70px);
   left: 20px;
   top: 19px;
-  background: black;
+  background: #131b1e;
   z-index: -1;
   margin-top: 29px;
 }
@@ -48,7 +48,7 @@
     .nav-temario ul li a {
   text-decoration: none;
   position: relative;
-  color: black;
+  color: #131b1e;
   font-size: 16px;
   line-height: 1rem;
   font-weight: 500;
@@ -74,7 +74,7 @@ input[type="checkbox"] {
 input[type="checkbox"]:after {
   font-family: "Font Awesome 5 Free";
   content: "\f058";
-  color: black;
+  color: #131b1e;
   font-size: 24px;
   background: white;
 }
@@ -82,13 +82,13 @@ input[type="checkbox"]:checked {
   font-family: "Font Awesome 5 Free";
   content: "\f058";
   font-weight: 900;
-  color: black;
+  color: #131b1e;
   font-size: 24px;
   pointer-events:none;
 }
     
     .activo{
-        color: rgb(87, 167, 8) !important;
+        color: #1ae800 !important;
         font-weight: bold !important;
         pointer-events:none;
     }

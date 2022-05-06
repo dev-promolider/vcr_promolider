@@ -1,56 +1,38 @@
 <template>
-  <div id="ClienteVenta">
-    <div class="marco" >
+  <div id="ClienteVenta" class="">
+    <div class="marco">
       <div class="titulos">
         <p class="titulo_dentro">Última Ventas</p>
         <router-link to="/attribute"
-          ><p class="titulo_esquina text-success">ver progreso completo</p></router-link
+          ><p class="titulo_esquina text-success">
+            ver progreso completo
+          </p></router-link
         >
       </div>
 
-      <div class="mover ml-2 mt-2" v-if="loading">
-          
-        <div class="decorar ">
-
-          <p>Cargando....</p>
-
-        </div>
-
-        <div class="decorar mt-3">
-
-          <p>Cargando....</p>
-
-        </div>
-
-        <div class="decorar mt-3">
-
-          <p>Cargando....</p>
-
-        </div>
-
-      </div>
-
+      <div class="mover ml-2 mt-2 text-center" >
+      <span v-if="loading" > Sin resultados </span>
       <div
         class="cliente"
         v-for="(item, index) in info"
         :key="index"
-        style="max-width: 336px"
         v-on:click="mostrar(item.payment_id)"
       >
-        <b-list-group-item class="d-flex align-items-center color" >
+        <b-list-group-item class="d-flex align-items-center color">
           <b-avatar
             variant="info"
             size="1.9rem"
             src="https://placekitten.com/300/300"
             class="ml-2"
           ></b-avatar>
-          <span class="mr-auto  cliente_user"
+          <span class="mr-auto  cliente_user" style="font-size:15px"
             >{{ item.client }} {{ item.client_last_name }}</span
           >
-          <span class=" cursos ">{{ item.course }}</span>
+          <span class="cursos mx-3" style="font-size:15px">{{ item.title }}</span>
+          <span class="cursos mx-3" style="font-size:15px"> $ {{ item.price }}</span>
         </b-list-group-item>
       </div>
-      
+      </div>
     </div>
   </div>
 </template>
@@ -58,28 +40,35 @@
 <script>
 export default {
   name: "ClienteVenta",
-  components: {},
+  components: {
+    
+  },
   data() {
     return {
       info: [],
       loading: true,
-      desabilitado:0
+      desabilitado: 0,
+      
     };
   },
   methods: {
     getAttributes() {
-      this.axios.get("dashboard/saleshistory").then((respuesta) => {
-        this.loading = false;
-        this.info = respuesta.data.data;
-        // console.log(this.info);
       
+      this.axios.get("/reports/last-sells?n_sells=3")
+      .then((respuesta) => { 
+        this.info = respuesta.data.data;
+        
+
+        if (this.info.length >= 1){
+            this.loading = false;
+        }
       });
     },
-    
 
     mostrar(id) {
       this.$router.push("/attribute-user/ " + id);
     },
+
   },
   created() {
     this.getAttributes();
@@ -88,36 +77,23 @@ export default {
 </script>
 <style scoped>
 
-.decorar{
-  background: rgb(235, 235, 235);
-  color:rgb(14, 13, 13);
-  width: 90%;
-  margin:auto;
-  height: 60px;
-   border-radius: 0.9rem;
-
-}
-.decorar p{
-  padding-top: 15px;
-  font-weight: 700;
-}
 .mover {
   margin-left: 30%;
 }
 .cliente {
   border-radius: 0.9rem;
-  margin-left: 32px;
-  margin-right: 33px;
+  max-width: 95%;
+  margin: auto;
 }
 .cliente .color {
-  background: #9fbdf8;
+  background: #35424a;
   margin-bottom: 13px;
   height: 64px;
   cursor: pointer;
 }
 
 .cliente .color:hover {
-  background: #7e9bd4;
+  background: #131b1e;
 }
 
 .marco {
@@ -148,16 +124,15 @@ export default {
   margin-right: 34px;
   font-size: 0.7rem;
   margin-left: 92px;
-  color: #448f3c;
+  color: #1ae800;
   height: 14px;
   text-align: center;
 }
 
 .cliente_user {
-  font-size: 10px;
+  font-size: 30px;
   color: white;
   font-weight: 300px;
-  flex: right;
   margin-left: 20px;
 }
 .cursos {
@@ -166,4 +141,5 @@ export default {
   font-weight: 700;
   margin-right: 15px;
 }
+
 </style>

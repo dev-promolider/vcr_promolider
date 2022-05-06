@@ -15,10 +15,10 @@
         @keyup.enter="sendComment"
       />
     </div>
-    <div v-if="allComments.data" class="no-result center-element">
+    <div v-if="allComments.data == 'No hay comentarios' " class="no-result center-element">
       <span>Aún no hay comentarios</span>
     </div>
-    <section v-else class="comments d-flex" v-for="comment in allComments" :key="comment">
+    <section v-else  class="comments d-flex" v-for="comment in allComments" :key="comment">
       <img class="img-users" src="@/assets/logo-comment.svg" alt="" />
       <div class="users-comment">
         <p class="name">{{comment.username}}</p>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: "Comentarios",
   data() {
@@ -48,18 +49,12 @@ export default {
           receiving_user_id: "2",
           class_id: 1,
           comments: ""
-      },
-      allComments: null,
+      }
       /* chats:[] */
     }
   },
-  created() {
-    this.axios.get("comments/show-comments?class_id=1")
-    .then((res) =>{
-      this.allComments = res.data;
-      /* this.chats = this.allComments */
-      //console.log(this.allComments);
-    })
+  computed:{
+    ...mapState("course", ["allComments","lesson"]),
   },
   methods: {
     sendComment(){
@@ -70,9 +65,6 @@ export default {
       this.newComment.comments ='';
        //console.log("TECLA ENTER!!!!!");
     }
-  },
-  mounted(){
-
   }
 };
 </script>

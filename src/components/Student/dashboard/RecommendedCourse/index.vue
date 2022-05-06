@@ -80,7 +80,7 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 2px 10px rgba(47, 47, 47, 0.144);
+  box-shadow: 2px 2px 10px #131b1e, 0.144;
 }
 
 .image {
@@ -96,7 +96,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: rgba(175, 175, 175, 0.256);
+  background: #35424a, 0.256;
   transition: 1s;
 }
 .content:hover {
@@ -113,7 +113,7 @@ h3 {
 .brand {
   display: flex;
   align-items: center;
-  color: #333333;
+  color: #35424a;
 }
 
 .brand .icon {

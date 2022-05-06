@@ -70,7 +70,8 @@ export default {
       getLesson: 'getLesson',
       getResources: 'getResources',
       getVideo: 'getVideo',
-      lastSeenLesson: 'lastSeenLesson'
+      lastSeenLesson: 'lastSeenLesson',
+      getComments: 'getComments'
     }),
 
     classActive(){
@@ -98,6 +99,7 @@ export default {
         this.cambiarClase(this.Lecciones[this.index-1])
       }
     },
+
     cambiarClase(lesson){
       this.$router.push({
           query: {
@@ -114,6 +116,8 @@ export default {
 
       // Cambiando video de la clase
       this.getVideo(lesson.id )
+
+      this.getComments(lesson.id)
 
       // Enviando la ultima clase que esta visualizando
       let sendData = {

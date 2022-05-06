@@ -3,7 +3,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
-    color: #000;
+    color: #131b1e;
     margin: 0;
     padding: 5px 0 0 0;
 }
@@ -18,7 +18,7 @@
     font-size: 14px;
     line-height: 16px;
     margin: 0;
-    color: #000;
+    color: #131b1e;
 }
 .details-logros{
     display: grid;
@@ -30,6 +30,6 @@
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;
-    color: #448F3C;
+    color: #1ae800;
     margin: 0;
 }

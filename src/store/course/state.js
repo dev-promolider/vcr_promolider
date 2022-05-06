@@ -16,5 +16,6 @@ export default () => ({
     timeReady: 0,
     productor: null,
     progressCourseSelect: 0,
-    courseSelect: false
+    courseSelect: false,
+    allComments: []
 })

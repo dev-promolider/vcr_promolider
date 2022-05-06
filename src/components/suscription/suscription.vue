@@ -132,7 +132,7 @@ export default {
 
 <style lang="scss" scoped>
 .backgro {
-  background: rgb(12, 12, 12);
+  background: #131b1e;
   opacity: 0.9;
   position: fixed;
   z-index: 10;
