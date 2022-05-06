@@ -67,7 +67,7 @@ export default {
           return courseFilter;
   
         }
-
+     
     },
     classvideo() {
       this.$router.push(`/course-user?course=${5}&class=${'Documentacion'}`) 
@@ -142,10 +142,10 @@ export default {
   background: linear-gradient(181.51deg, #1ae800 -146.2%, #97f18d 98.72%);
   border-radius: 15px;
 }
-h3 {
-  color: #707070;
+h5{
+  color: #35424a;
   font-size: 25px;
-  margin-bottom: 15px;
+  padding-left: 2px;
 }
 </style>
 
@@ -156,8 +156,8 @@ h3 {
 }
 
 .main-content {
-  padding: 24px 0px;
-  width: 97%;
+  padding: 24px 8px;
+  width: 98.5%;
   margin: auto;
 }
 
@@ -170,7 +170,7 @@ h3 {
 }
 @media screen and (min-width: 320px) and (max-width: 620px) {
   .main-content {
-    width: 90%;
+    width: 96.5%;
   }
 }
 </style>

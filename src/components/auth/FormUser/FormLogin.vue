@@ -10,12 +10,12 @@
       Sesión inciada exitosamente
     </div>
     <b-form @submit.prevent="singin">
-      <b-form-group class="my-2  subtitle" label="Email*">
+      <b-form-group class="my-2  subtitle" label="Usuario *">
         <b-form-input
           class="rounded-pill"
           type="text"
           v-model="form.username"
-          placeholder="Example@gmail.com"
+          placeholder="Nombre de Usuario"
           required
         ></b-form-input>
       </b-form-group>

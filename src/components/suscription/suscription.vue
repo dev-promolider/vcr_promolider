@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-100  backgro px-4 py-3">
+    <div class="w-100 backgro px-4 py-3">
       <p class="titulo m-0 ml-3">Mi aprendizaje</p>
     </div>
 

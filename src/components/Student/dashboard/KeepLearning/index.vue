@@ -1,7 +1,7 @@
 <template>
   <div class="learning">
     <div>
-        <p>{{ lastCourse.title }}</p>
+        <p>{{lastCourses.title}}</p>
         <ul class="modules">
           <li><img src="@/assets/list-disc.svg" alt="" /> Moódulo 2 - Clase 4</li>
         </ul>
@@ -18,22 +18,23 @@ export default {
   name: "KeepLearning",
   data(){
     return {
-      lastCourse: ''
+        lastCourses: ''
     }
   },
-  computed:{
-    
-  },
-  methods:{
+  methods: {
     getAttributes() {
       this.axios.get("course/last-courses-rep").then((datos) => {
-        this.lastCourse = this.filterCourseInactive(datos.data.data);
+        this.lastCourses = this.filterCourseInactive(datos.data.data);
       });
     },
     filterCourseInactive(data) {
-        
-        const lastCourse = data.filter( c => c.status != 0 ).splice( -1)[0]
-        return  lastCourse
+      var courseFilter = data.filter((course) => {
+        return course.status != 0;
+      });
+      
+
+       return courseFilter.splice(  -1 )[0] ;
+  
     },
     classvideo() {
       this.$router.push(`/course-user?course=${5}&class=${'Documentacion'}`) 
@@ -42,8 +43,6 @@ export default {
   created() {
     this.getAttributes();
   },
-
-  
 };
 </script>
 
