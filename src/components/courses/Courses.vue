@@ -11,20 +11,20 @@
       <CarrouselCourseViewed v-if="!loading"/>
       
       <!-- Todos los cursos -->
-      <div class=" mb-4" v-if="courses.length > 0">
-        <h3 class="m-0 font-weight-bold">Todos los cursos</h3>
+      <div class="mb-4" v-if="courses.length > 0">
+        <h3 class="pl-10 m-0 font-weight-bold">Todos los cursos</h3>
         <CarrouselCourse :courses="courses" />
       </div>
 
       <!-- Cursos de interes -->
       <div class="mb-4" v-if="interesCourses.length > 0">
-        <h3 class="m-0 font-weight-bold">Cursos de interés</h3>
+        <h3 class="pl-10m-0 font-weight-bold">Cursos de interés</h3>
         <CarrouselCourse :courses="interesCourses" />
       </div>
 
       <!-- Cursos recien lanzados -->
       <div class="mb-4" v-if="relatedCourses.length > 0">
-        <h3 class="m-0 font-weight-bold">Más recientes</h3>
+        <h3 class="pl-10 m-0 font-weight-bold">Más recientes</h3>
         <CarrouselCourse :courses="relatedCourses" />
       </div>
   </div>
@@ -148,7 +148,9 @@ export default {
 https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
 https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 */
-
+.all-course{
+  padding-left: 20px;
+}
 .container-fluid {
   width: 95%;
   height: 100%;
@@ -164,5 +166,8 @@ h3 {
   color: #35424a;
   font-size: 25px;
   margin-bottom: 15px;
+}
+.pl-10{
+  padding-left: 20px;
 }
 </style>

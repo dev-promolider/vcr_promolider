@@ -1,11 +1,13 @@
 <template>
   <main class="mb-4" :class="lastCourses.length > 0 ? 'main-content':'main-none'">
-    <h5 class="col font-weight-bold mb-4">
+    <h3 class="font-weight-bold mb-4">
       {{ nameUser }}, continua aprendiendo
-    </h5>
+    </h3>
     <vue-horizontal class="horizontal"
       >.
       <section class="item" v-for="course in lastCourses" :key="course.id">
+     
+       
         <div
           class="card"
         >
@@ -59,8 +61,13 @@ export default {
       var courseFilter = data.filter((course) => {
         return course.status != 0;
       });
-
-      return courseFilter;
+        if( this.$router.currentRoute.name === 'home') {
+          return courseFilter.splice( 0 , courseFilter.length - 1);
+        }else{
+          return courseFilter;
+  
+        }
+     
     },
     classvideo() {
       this.$router.push(`/course-user?course=${5}&class=${'Documentacion'}`) 
@@ -135,6 +142,11 @@ export default {
   background: linear-gradient(181.51deg, #1ae800 -146.2%, #97f18d 98.72%);
   border-radius: 15px;
 }
+h5{
+  color: #35424a;
+  font-size: 25px;
+  padding-left: 2px;
+}
 </style>
 
 <!-- Parent CSS (Container) -->
@@ -144,21 +156,21 @@ export default {
 }
 
 .main-content {
-  padding: 24px;
-  width: 95%;
+  padding: 24px 8px;
+  width: 98.5%;
   margin: auto;
 }
 
 @media (min-width: 768px) {
   .main-content{
-    padding: 48px 5px;
+    padding: 48px 0px;
     display: flex;
     flex-direction: column;
   }
 }
 @media screen and (min-width: 320px) and (max-width: 620px) {
   .main-content {
-    width: 90%;
+    width: 96.5%;
   }
 }
 </style>

@@ -111,27 +111,8 @@
           </div>
           <div class="card-container">
             <!-- card course -->
-            <div class="border-box mb-4 cardCursos cursor-pointer" v-for="course in courses1" :key="course.id" @click="goToBuy(course.id)">
-              <img :src="course.url_portada" class="img-card" />
-              <div class="row ml-2 my-2">
-                <div class="col-12 ">
-                  <h5 class="font-weight-bold" >{{ course.title}}</h5>
-                </div>
-                <div class="col-12 ">
-                  <p class="text-left">{{course.name}} {{ course.last_name}}</p>
-                </div>
-                <div class="col-12 d-flex mb-1">
-                  <h5 class="font-weight-bold text-warning puntuacion mr-2" >4,5</h5>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star-half-alt text-warning"></i>
-                  <i class="far fa-star text-warning"></i>
-                </div>
-                <div class="col-12 ">
-                  <h5 class="font-weight-bold" >S/. {{ course.price}}</h5>
-                </div>
-              </div>
+            <div class="border-box mb-4 cardCursos cursor-pointer" v-for="course in courses1" :key="course.id" >
+              <Card :course="course" :cardType="1"/>
             </div>
         </div>
 
@@ -164,6 +145,7 @@
 <script>
 
   import Video from "@/components/course/video";
+  import Card from "@/components/courses/cards";
 
   import { mapState, mapActions } from 'vuex';
 
@@ -204,7 +186,8 @@ export default {
     };
   },
   components: {
-    Video
+    Video,
+    Card
   },
   computed:{
      ...mapState('course',['course','renderVideo','isLoading'])
@@ -215,14 +198,7 @@ export default {
         getCourse: 'getCourse',
         getVideo: 'getVideo'
       }),
-    // capitalize(text){
-    //   var texto = text[0].toUpperCase() + text.slice(1);
-    //   return texto;
-    // },
-    goToBuy(id){
-      this.$router.push('/buy-cursos/' + id);
-      window.location.reload(true);
-    },
+
 
     BuyCourse(){
       this.$router.push("/suscription-user")
@@ -233,7 +209,6 @@ export default {
       }
       )
       .then((resp) => {
-
         if (resp.data.status == 200) {
           this.ocultar = true;
           this.mostrara = false;
@@ -277,7 +252,6 @@ export default {
               break;
           }
           this.img = this.items.url_portada;
-          console.log(this.img);
           this.titulo = this.items.title;
           this.descripcion = this.items.description;
           this.curso_detalle = this.items.course_about;
