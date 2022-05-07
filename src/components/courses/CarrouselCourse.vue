@@ -60,7 +60,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  box-shadow: 2px 2px 10px #131b1e, 0.144);
+  box-shadow: 2px 2px 10px #131b1e, 0.144;
   transition: 1s;  
 }
 .card:hover{

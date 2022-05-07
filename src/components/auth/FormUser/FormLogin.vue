@@ -40,10 +40,9 @@
       </b-form-group>
 
       <b-button 
-        class="submit-iniciar rounded-pill bg-success"
+        class="submit-iniciar rounded-pill"
         type="submit"
         block
-        variant="primary"
         >Sign In</b-button
       >
     </b-form>
@@ -123,7 +122,12 @@ export default {
   --color-prin: #1ae800;
 }
 .submit-iniciar {
-  background: var(--color-prin);
+  background: var(--seventh-color-green) !important;
+  border: none !important;
+  color: white !important;
+}
+.submit-iniciar:hover{
+  background: var(--eighth-color-green) !important;
 }
 .subtitle {
   font-weight: bold;
