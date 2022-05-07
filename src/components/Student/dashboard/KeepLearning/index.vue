@@ -7,12 +7,13 @@
         </ul>
     </div>
     <div class="btn-course">
-      <button>continua el curso</button>
+      <button @click="classvideo()">continua el curso</button>
     </div>
   </div>
 </template>
 
 <script>
+// import { mapState } from 'vuex'
 export default {
   name: "KeepLearning",
   data(){

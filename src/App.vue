@@ -39,6 +39,8 @@ export default {
  --fourth-color-green: #20421C;
  --fifth-color-green: #324230;
  --sixth-color-green: #35424a;
+ --seventh-color-green: #1d2528;
+ --eighth-color-green: #29343a;
  --bg-btn: linear-gradient(180deg, #1eff00 -166.98%, #54af47 143.4%);
  --bg-content: #f5f3f3;
 }
