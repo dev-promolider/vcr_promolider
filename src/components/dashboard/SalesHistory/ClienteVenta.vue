@@ -1,3 +1,4 @@
+import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
 <template>
   <div id="ClienteVenta" class="">
     <div class="marco">
@@ -28,8 +29,9 @@
           <span class="mr-auto  cliente_user" style="font-size:15px"
             >{{ item.client }} {{ item.client_last_name }}</span
           >
-          <span class="cursos mx-3" style="font-size:15px">{{ item.title }}</span>
-          <span class="cursos mx-3" style="font-size:15px"> $ {{ item.price }}</span>
+          <span class="cursos mx-3" style="font-size:12px">{{ item.title }}</span>
+          <span class="cursos mx-3" style="font-size:12px"> $ {{ item.price }}</span>
+          <span class="cursos mx-3" style="font-size:12px">{{ item.created_at.slice(0,10)}} a las {{ item.created_at.slice(11,16)}}</span>
         </b-list-group-item>
       </div>
       </div>
@@ -49,6 +51,7 @@ export default {
       loading: true,
       desabilitado: 0,
       
+      
     };
   },
   methods: {
@@ -57,7 +60,6 @@ export default {
       this.axios.get("/reports/last-sells?n_sells=3")
       .then((respuesta) => { 
         this.info = respuesta.data.data;
-        
 
         if (this.info.length >= 1){
             this.loading = false;
@@ -99,7 +101,7 @@ export default {
 .marco {
   border: 1px solid #efefef;
   border-radius: 15px;
-  background: white;
+  background: rgb(255, 255, 255);
   width: 100%;
 }
 .titulos {

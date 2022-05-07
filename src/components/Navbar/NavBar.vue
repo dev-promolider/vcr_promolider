@@ -41,14 +41,14 @@
           </a>
         </li>
       </ul>
-      <ul class="nav nav-sub-h2 justify-content-center align-items-center ">
+      <ul class="nav nav-sub-h2 justify-content-center align-items-center mr-3 ">
         <li class="nav-item profile">
           <span class="submenu">
             <img class="img-photo" src="../../assets/logo-perfil.png" />
             <a class="viewmenu dropdown-toggle " data-toggle="dropdown" aria-expanded="false" >
               <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
             </a>
-            <div class="dropdown-menu viewmenu-list mr-2">
+            <div class="dropdown-menu viewmenu-list mr-5">
               <router-link class="dropdown-item my-3" to="/perfil">
                 <img class="img-menuitem" src="../../assets/perfil.png" />
                 Mi Perfil</router-link>
@@ -141,11 +141,15 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 }
 .profile {
   position: relative;
-  background: #ECF0F3;
+  background: transparent;
   border-radius: 50px;
-  border: none;
+  border: solid 3px #14a201;
   width: 110px;
   height: 50px;
+  
+}
+.profile:hover{
+  background-color: #14a201;
 }
 .submenu {
   display: flex;
@@ -188,16 +192,16 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 .viewmenu-list {
   position: absolute;
   background: #ffffff;
-  box-shadow: -1px 1px 3px 2px #35424a !important;
-  border-radius: 15px;
-  width: auto;
+  box-shadow: 0px 1px 2px 3px #35424a !important;
+  border-radius: 5px;
+  width: 25vh;
   height: auto;
   top: 20px !important;
   right: 4px !important;
   border-radius: 10px;
   z-index: 100;
   border: none;
-  transition: all 0.7s;
+  transition: all 0.6s;
 }
 .dropdown-toggle{
   color: transparent;

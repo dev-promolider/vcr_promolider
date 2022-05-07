@@ -89,7 +89,7 @@ export default {
 <style lang="scss" scoped>
 .category-logo {
   font-size: 150px;
-  color: #1ae800;
+  color: #57ba4a;
   transition: 1s;
 }
 
