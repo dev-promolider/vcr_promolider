@@ -92,7 +92,7 @@ export default {
     brightness(96%) contrast(92%);
 }
 .content-navbarv {
-  width: 100%;
+  width: 220px;
   height: 100%;
 }
 .title-aula {
@@ -106,7 +106,7 @@ export default {
   height: 37px;
 }
 .sidebar{
-  min-width: 184px;
+  min-width: 220px;
 }
 .nav-item {
   margin-bottom: 13px;

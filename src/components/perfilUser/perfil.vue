@@ -1,8 +1,8 @@
 <template>
   <div class="contenedor text-capitalize">
-    <div class="cuadro1 bg-white shadow p-3 bg-body rounded " >
+    <div class="cuadro1 bg-white shadow bg-body rounded " >
      
-      <div class="parrafos">
+      <div class="parrafos ">
         <div class="img1 ">
           <img src="../../assets/logo-perfil.png" alt=""  class="imagen1 "/>
         </div>
@@ -297,16 +297,20 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
+  
+  
 }
 
 .perfil {
   grid-row: 2/3;
   padding-left: 5% ;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .imagen1{
   border-radius: 50%;
-  width: 50%;
+  width: 40%;
 }
 .img1{
   grid-column: 1/2;
@@ -322,7 +326,7 @@ export default {
   grid-row: 1/2;
   display: flex;
   justify-content: flex-start;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .p2{
   grid-column: 2/4;

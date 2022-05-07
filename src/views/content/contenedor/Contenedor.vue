@@ -94,7 +94,8 @@ export default {
   display: flex;
   width: 200px;
   height: 100%;
-  background: #35424a;
+  background: rgb(19,27,30);
+  background: linear-gradient(180deg, rgba(19,27,30,1) 0%, rgba(53,66,74,1) 62%, rgba(15,130,0,1) 100%);
   transition: all 0.4s;
   transform: translateX(0);
 }
@@ -102,10 +103,11 @@ export default {
   @media screen and (max-width: 1023px) {
     display: inline-block;
     position: fixed;
-    background: #35424a;
+    background: rgb(19,27,30);
+    background: linear-gradient(180deg, rgba(19,27,30,1) 0%, rgba(53,66,74,1) 62%, rgba(15,130,0,1) 100%);
     left: 0;
     top: 80px;
-    width: 180px;
+    width: 200px;
     height: calc(100% - 80px);
     transition: all 1;
     z-index: 50;

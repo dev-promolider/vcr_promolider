@@ -23,9 +23,7 @@ export default {
 <!-- Definiendo estilos globales -->
 <style>
 
-/* @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@300&display=swap');
 /* Paleta de colores */
 :root{
  --bg-color: #F8F8F8;
@@ -34,11 +32,12 @@ export default {
  --second-color-gray: #9D9D9D;
  --purple-color: #9FBDF8;
  --first-color-green: #1ae800;
- --second-color-green: #1ae800;
+ --second-color-green: #59a350;
  --third-color-green:  #448F3C;
  --fourth-color-green: #20421C;
  --fifth-color-green: #324230;
  --sixth-color-green: #35424a;
+ --bg-btn: linear-gradient(180deg, #69ea58 -166.98%, #31bd1f 143.4%);
  --seventh-color-green: #1d2528;
  --eighth-color-green: #29343a;
  --bg-btn: linear-gradient(180deg, #1eff00 -166.98%, #54af47 143.4%);
@@ -47,7 +46,8 @@ export default {
 
 *{
 
-font-family: 'Oswald', sans-serif;
+font-family: 'Lexend Exa', sans-serif;
+
 }
 
 #app{
