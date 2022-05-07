@@ -3,23 +3,7 @@
     <vue-horizontal class="horizontal"
       >
       <section class="item" v-for="course in courses" :key="course.id">
-        <div class="card" @click="editar(course.id)">
-          <div
-              class="image"
-              :style="{ background: `url(${course.url_portada})` }"
-            ></div>
-          <div class="content">
-            <p class="m-0 name text-left">
-              {{ course.title }}
-            </p>
-            <p class="m-0 title text-left">
-              {{ course.name }}
-            </p>
-            <div class="date">
-              <p class="m-0 money text-left">{{ course.price }} S/</p>
-            </div>
-          </div>
-        </div>
+        <Card :course="course" :cardType="cardType" />
       </section>
     </vue-horizontal>
   </main>
@@ -27,14 +11,19 @@
 
 <script>
 // For convenience sake, I import a collection of images from unsplash.
+import Card from "@/components/courses/cards";
 
 export default {
   name: "CarrouselCourse",
+  components: {
+    Card
+  },
   data() {
     return {
       peeked: false,
       timeout: null,
       baseURL: "http://promolider.xyz/storage/",
+      cardType: 1
     };
   },
   props: {
@@ -43,80 +32,10 @@ export default {
     },
   },
   methods: {
-    editar(id){
-      this.$router.push('/buy-cursos/' + id)
-    }
+
   },
 };
 </script>
-
-<!-- Content Design -->
-<style scoped>
-/*---------------------------*/
-.card {
-  overflow: hidden;
-  border: 1px solid #e2e8f0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  box-shadow: 2px 2px 10px #131b1e, 0.144);
-  transition: 1s;  
-}
-.card:hover{
-  transform: scale(1.04);
-}
-.image {
-  min-height: 150px;
-  background-position: center !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-}
-
-.content {
-  padding: 12px 16px 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  /* background: rgba(175, 175, 175, 0.256); */
-  transition: 1s;
-}
-.content:hover {
-  cursor: pointer;
-  background: #fff;
-  transition: 0.8s;
-}
-
-.name {
-  margin-left: 4px;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 15px;
-}
-
-.title {
-  font-style: normal;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 15px;
-  margin-bottom: 8px;
-  color: #C4C4C4;
-  line-clamp: 2;
-  overflow: hidden;
-}
-
-.date {
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.5;
-}
-.money{
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.5;
-  color: #131b1e
-}
-</style>
 
 <!-- Parent CSS (Container) -->
 <style scoped>

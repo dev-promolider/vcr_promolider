@@ -14,49 +14,20 @@
     </div>
 
       <div
-        class="col col-md-6 col-lg-4 card-group"
+        class="col-md-4 col-lg-3 col-sm-12 card-group"
         
         v-for="(item, index) in informacion"
         :key="index"
         
       >
-        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="goToCourse(item.id,item.name, item.last_name, item.title)" v-if="carita">
-          <div class="">
-            <img
-              :src="item.url_portada"
-              width="100%"
-              height="200"
-              class="bordeas"
-            />
-          </div>
-
-          <div class="card-body bg-white text-dark">
-            <h4
-              class="
-                text-center text-capitalize
-                font-weight-bold
-              "
-            >
-              {{ item.title }}
-            </h4>
-          </div>
-          <div class="d-flex">
-            <b-avatar
-              class="mb-3 ml-2"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="m-1 ml-2 ">
-              {{ item.name + " " + item.last_name }}
-            </p>
-          </div>
-        </div>
+        <Card :course="item" :cardType="cardType" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Card from "@/components/courses/cards";
 import loadingCourses from "@/components/courses/loadingCourses";
 import {mapGetters, mapMutations, mapActions, mapState} from 'vuex';
  
@@ -66,6 +37,7 @@ export default {
   components: {
     // Eliminar,
     loadingCourses,
+    Card
   },
   data() {
     return {
@@ -73,6 +45,7 @@ export default {
       loading: true,
       carita: true,
       caritas: false,
+      cardType: 2
     };
   },
 
@@ -92,7 +65,7 @@ export default {
 
     getAttributes() {
       this.axios.get("course/purchased-courses").then((datos) => {
-        this.loading = false;//gaaaa
+        this.loading = false;
         this.informacion = datos.data.data;
 
       if(this.informacion.length==0){
@@ -100,26 +73,8 @@ export default {
       this.caritas = true;
       }
 
-        console.log(this.informacion);
       });
     },
-
-    async goToCourse(id,className,last_name, titulo){
-      let dataRequest;
-      await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
-        console.log("ID de la ultima clase "+ res.data.data.last_class_reprod)
-        dataRequest = res.data.data;
-      });
-      if(dataRequest == "no existe"){
-        this.getCourse(id);
-        let fistClass = this.course.modules[0].lessons[0].name;
-        this.$router.push(`course-user?course=${id}&class=${fistClass}`)
-      }else{
-        this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
-        console.log(className);
-      }
-      this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
-    }
 
 
   },
