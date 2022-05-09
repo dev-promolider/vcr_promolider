@@ -6,7 +6,7 @@
             <div class="welcome-text mx-5" v-if="show" >
                 Bienvenido a <span>Promolíder</span>
                 <transition name="fade" >
-                    <div class="paragraph-welcome" v-if="showName">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas adipisci pariatur delectus natus culpa debitis.</div>
+                    <div class="paragraph-welcome" v-if="showName">Por favor inicie sesión en su cuenta y comience la aventura.</div>
                 </transition>
             </div>
         </transition>
@@ -44,8 +44,6 @@ export default {
     .welcome img{
         object-fit: cover;
         width: 100%;
-        height: 100vh;
-        object-fit: cover;
     }
    
     .welcome-text{

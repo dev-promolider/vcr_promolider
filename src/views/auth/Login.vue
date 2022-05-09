@@ -4,8 +4,7 @@
       <div class="formulario ">
         
         <div class="form-logueo">
-          <h2 class="title">LOGIN</h2>
-          <p>Por favor inicie sesión en su cuenta y comience la aventura</p>
+          <h2 class="title">INICIAR SESIÓN<Nav></Nav></h2>
         </div>
         <!-- CERRAR SESION -->
         <FormLogin  />
@@ -35,7 +34,7 @@
           <img src="./icons/youtube-icon.png" target="_blank">
         </a>
       </div>
-        <p class="pt-5 pb-2">Copyright &copy; 2021. Todos los derechos reservados para Promolíder</p>
+        <p class="my-5">Copyright &copy; 2021. Todos los derechos reservados para Promolíder</p>
 
     </section>
     <section class="bienvenido">
@@ -97,8 +96,8 @@ export default {
 .formulario {
   align-self: center;
   width: 68%;
-  height: 580px;
-  padding: 110px 30px 30px; 
+  height: 480px;
+  padding: 100px 30px 30px; 
   margin-bottom: 10px;
 }
 
@@ -146,5 +145,8 @@ p {
     
   } 
        
+}
+::-webkit-scrollbar {
+    display: none;
 }
 </style>
