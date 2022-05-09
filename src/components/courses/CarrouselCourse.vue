@@ -37,7 +37,6 @@ export default {
 };
 </script>
 
-<<<<<<< HEAD
 <!-- Content Design -->
 <style scoped>
 /*---------------------------*/
@@ -106,8 +105,6 @@ export default {
 }
 </style>
 
-=======
->>>>>>> 76e13e812262004621e4ed19c8d75f6af39a3284
 <!-- Parent CSS (Container) -->
 <style scoped>
 .header {
