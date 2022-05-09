@@ -92,22 +92,19 @@ export default {
 
     getAttributes() {
       this.axios.get("course/purchased-courses").then((datos) => {
-        this.loading = false;//gaaaa
+        this.loading = false;
         this.informacion = datos.data.data;
 
-      if(this.informacion.length==0){
-      this.carita = false;
-      this.caritas = true;
-      }
-
-        console.log(this.informacion);
+        if(this.informacion.length==0){
+          this.carita = false;
+          this.caritas = true;
+        }
       });
     },
 
     async goToCourse(id,className,last_name, titulo){
       let dataRequest;
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
-        console.log("ID de la ultima clase "+ res.data.data.last_class_reprod)
         dataRequest = res.data.data;
       });
       if(dataRequest == "no existe"){
@@ -116,7 +113,6 @@ export default {
         this.$router.push(`course-user?course=${id}&class=${fistClass}`)
       }else{
         this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
-        console.log(className);
       }
       this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
     }
