@@ -17,12 +17,12 @@
             </p>
             <ul class="modules">
               <li>
-                <img src="@/assets/list-disc.svg" alt="" /> Moódulo 2 - Clase 4
+                <img src="@/assets/list-disc.svg" class="mr-1" />Continuar con {{ course.last_class_reprod }}
               </li>
             </ul>
           </div>
          <div class="btn-course">
-            <button @click="classvideo()"
+            <button @click="classvideo(course.id)"
             >Continua el curso</button>
           </div>
         </div>
@@ -42,19 +42,18 @@ export default {
       lastCourses: [],
       peeked: false,
       timeout: null,
-      baseURL: "http://promolider.xyz/storage/",
+      baseURL: "http://promolider.xyz/storage/"
     };
   },
-  // props: {
-  //   courses: {
-  //     type: Array,
-  //   },
-  // },
   methods: {
-    getAttributes() {
-      this.axios.get("course/last-courses-rep").then((datos) => {
+    async getAttributes() {
+      await this.axios.get("course/last-courses-rep").then((datos) => {
         this.lastCourses = this.filterCourseInactive(datos.data.data);
-        console.log(this.lastCourses);
+        for(let i=0; i<this.lastCourses.length; i++){
+          this.axios.get(`purchased/show-class-seen?course_id=${this.lastCourses[i].id}`).then((res)=>{
+            this.lastCourses[i].last_class_reprod = res.data.data.name
+          });
+        }
       });
     },
     filterCourseInactive(data) {
@@ -65,12 +64,19 @@ export default {
           return courseFilter.splice( 0 , courseFilter.length - 1);
         }else{
           return courseFilter;
-  
         }
-     
     },
-    classvideo() {
-      this.$router.push(`/course-user?course=${5}&class=${'Documentacion'}`) 
+    async classvideo(id) {
+      let dataRequest;
+      await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
+        dataRequest = res.data.data;
+      });
+      if(dataRequest == "no existe"){
+        let fistClass = this.course.modules[0].lessons[0].name;
+        this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+      }else{
+        this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
+      }
     },
   },
   created() {
