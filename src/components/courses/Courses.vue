@@ -148,7 +148,9 @@ export default {
 https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
 https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
 */
-
+.all-course{
+  padding-left: 20px;
+}
 .container-fluid {
   width: 95%;
   height: 100%;

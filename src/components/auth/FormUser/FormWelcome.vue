@@ -1,53 +1,79 @@
 <template>
     <div class="welcome">
-        <p class="m-0">Bienvenido a <b>Promolider</b></p>
-        <div class="img-one"> 
-            <img src="@/assets/welcome1.jpg" >
-        </div>
-        <div class="img-two">
-            <img src="@/assets/welcome2.jpg" >
-        </div>
+        <img src="https://promolider.org/sistema/images/5.jpg" height="852px" width="870px">
+       
+        <transition name="fade" >
+            <div class="welcome-text mx-5" v-if="show" >
+                Bienvenido a <span>Promolíder</span>
+                <transition name="fade" >
+                    <div class="paragraph-welcome" v-if="showName">Por favor inicie sesión en su cuenta y comience la aventura.</div>
+                </transition>
+            </div>
+        </transition>
     </div>
 </template>
 <script>
 export default {
     name: 'FormWelcome',
-    setup() {
-        
+    data() {
+        return{
+            show: false,
+            showName: false
+        }
+    },
+    methods:{
+        fadeMe() {
+           setTimeout(() => {
+               this.show = !this.show
+               setTimeout(()=> {
+                   this.showName = !this.showName
+               }, 500)
+           }, 450);
+        },
+    },
+    created(){
+        this.fadeMe()
     },
 }
 </script>
 <style lang="scss" scoped>
     .welcome{
-        background-color:#35424a;
-        position: relative;
+      position: relative;
+      display: block;
+    }
+    .welcome img{
+        object-fit: cover;
         width: 100%;
-        height: 100%;
     }
-    .welcome p{
-        color: #fff;
-        text-align: center;
-        font-size: 36px;
-    }
-    .img-one, .img-two{
+   
+    .welcome-text{
+        font-size: 65px;
         position: absolute;
-        width: 409px;
-        height: 223px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 300px auto;    
+        text-align: center;
+        color: white;
     }
-    .img-one{
-        left: 15%;
-        top: 30%;
+    .fade-enter-active,
+    .fade-leave-active {
+    transition: opacity 1.5s
     }
-    .img-two{
-        right: 15%;
-        bottom: 30%;
+
+    .fade-enter,
+    .fade-leave-to
+    {
+    opacity: 0
     }
-    .img-one img{
-        width: 409px;
-        height: 223px;
+    .paragraph-welcome{
+        font-size: 20px;
     }
-    .img-two img{
-        width: 409px;
-        height: 223px;
+    @media (max-width: 783px) {
+        .welcome-text{
+                font-size: 56px;
+        }
     }
+   
 </style>

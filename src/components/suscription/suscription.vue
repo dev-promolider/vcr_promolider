@@ -14,49 +14,20 @@
     </div>
 
       <div
-        class="col col-md-6 col-lg-4 card-group"
+        class="col-md-4 col-lg-3 col-sm-12 card-group"
         
         v-for="(item, index) in informacion"
         :key="index"
         
       >
-        <div class="card mb-3 mt-3 bordea cursor-pointer" @click="goToCourse(item.id,item.name, item.last_name, item.title)" v-if="carita">
-          <div class="">
-            <img
-              :src="item.url_portada"
-              width="100%"
-              height="200"
-              class="bordeas"
-            />
-          </div>
-
-          <div class="card-body bg-white text-dark">
-            <h4
-              class="
-                text-center text-capitalize
-                font-weight-bold
-              "
-            >
-              {{ item.title }}
-            </h4>
-          </div>
-          <div class="d-flex">
-            <b-avatar
-              class="mb-3 ml-2"
-              variant="info"
-              src="https://placekitten.com/200/200"
-            ></b-avatar>
-            <p class="m-1 ml-2 ">
-              {{ item.name + " " + item.last_name }}
-            </p>
-          </div>
-        </div>
+        <Card :course="item" :cardType="cardType" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Card from "@/components/courses/cards";
 import loadingCourses from "@/components/courses/loadingCourses";
 import {mapGetters, mapMutations, mapActions, mapState} from 'vuex';
  
@@ -66,6 +37,7 @@ export default {
   components: {
     // Eliminar,
     loadingCourses,
+    Card
   },
   data() {
     return {
@@ -73,6 +45,7 @@ export default {
       loading: true,
       carita: true,
       caritas: false,
+      cardType: 2
     };
   },
 

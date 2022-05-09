@@ -3,23 +3,7 @@
     <vue-horizontal class="horizontal"
       >
       <section class="item" v-for="course in courses" :key="course.id">
-        <div class="card" @click="editar(course.id)">
-          <div
-              class="image"
-              :style="{ background: `url(${course.url_portada})` }"
-            ></div>
-          <div class="content">
-            <p class="m-0 name text-left">
-              {{ course.title }}
-            </p>
-            <p class="m-0 title text-left">
-              {{ course.name }}
-            </p>
-            <div class="date">
-              <p class="m-0 money text-left">{{ course.price }} S/</p>
-            </div>
-          </div>
-        </div>
+        <Card :course="course" :cardType="cardType" />
       </section>
     </vue-horizontal>
   </main>
@@ -27,14 +11,19 @@
 
 <script>
 // For convenience sake, I import a collection of images from unsplash.
+import Card from "@/components/courses/cards";
 
 export default {
   name: "CarrouselCourse",
+  components: {
+    Card
+  },
   data() {
     return {
       peeked: false,
       timeout: null,
       baseURL: "http://promolider.xyz/storage/",
+      cardType: 1
     };
   },
   props: {
@@ -43,13 +32,12 @@ export default {
     },
   },
   methods: {
-    editar(id){
-      this.$router.push('/buy-cursos/' + id)
-    }
+
   },
 };
 </script>
 
+<<<<<<< HEAD
 <!-- Content Design -->
 <style scoped>
 /*---------------------------*/
@@ -118,6 +106,8 @@ export default {
 }
 </style>
 
+=======
+>>>>>>> 76e13e812262004621e4ed19c8d75f6af39a3284
 <!-- Parent CSS (Container) -->
 <style scoped>
 .header {

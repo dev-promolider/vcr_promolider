@@ -1,11 +1,13 @@
 <template>
   <main class="mb-4" :class="lastCourses.length > 0 ? 'main-content':'main-none'">
-    <h5 class="col font-weight-bold mb-4">
+    <h3 class="font-weight-bold mb-4">
       {{ nameUser }}, continua aprendiendo
-    </h5>
+    </h3>
     <vue-horizontal class="horizontal"
       >.
       <section class="item" v-for="course in lastCourses" :key="course.id">
+     
+       
         <div
           class="card"
         >
@@ -167,7 +169,7 @@ h5{
 
 @media (min-width: 768px) {
   .main-content{
-    padding: 48px 5px;
+    padding: 48px 0px;
     display: flex;
     flex-direction: column;
   }
