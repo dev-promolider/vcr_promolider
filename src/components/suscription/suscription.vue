@@ -75,20 +75,6 @@ export default {
       });
     },
 
-    async goToCourse(id,className,last_name, titulo){
-      let dataRequest;
-      await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
-        dataRequest = res.data.data;
-      });
-      if(dataRequest == "no existe"){
-        this.getCourse(id);
-        let fistClass = this.course.modules[0].lessons[0].name;
-        this.$router.push(`course-user?course=${id}&class=${fistClass}`)
-      }else{
-        this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
-      }
-      this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
-    }
 
 
   },

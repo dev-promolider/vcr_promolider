@@ -22,10 +22,9 @@
 </template>
 
 <script>
-import { mapMutations} from "vuex";
+import { mapMutations, mapGetters, mapState} from "vuex";
 import { videoPlayer } from "vue-video-player";
 import "video.js/dist/video-js.css";
-import { mapGetters } from "vuex";
 
 export default {
   name: "Video",
@@ -35,6 +34,7 @@ export default {
   data() {
     return {
       playerOptions: {},
+      idCourse: this.$route.query.course
     };
   },
   mounted() {
@@ -61,7 +61,6 @@ export default {
       },
     };
     setTimeout(() => {
-      console.log("dynamic change options", this.player);
       this.player.muted(false);
     }, 1000);
   },
@@ -70,6 +69,9 @@ export default {
       return this.$refs.videoPlayer.player;
     },
     ...mapGetters("course", ["urlVideo", "timeReady"]),
+ 
+    ...mapState("course", ["lesson"]),
+ 
   },
   methods: {
 
@@ -78,7 +80,7 @@ export default {
     // listen event
     onPlayerPlay() {},
     onPlayerPause(player) {
-      console.log("Tiempo en pause ->" + player.currentTime());
+      this.actualizarTiempo(player.currentTime())
     },
     onPlayerEnded() {},
     onPlayerLoadeddata() {},
@@ -96,11 +98,13 @@ export default {
       player.currentTime(this.timeReady);
       // console.log('example 01: the player is readied', player)
     },
+    actualizarTiempo(time){
+      this.axios.patch(`purchased/save-class-seen?course_id=${this.$route.query.course}&display_time=${time}&class_id=${this.lesson.id}`)
+    }
   },
   beforeDestroy() {
-    console.log(
-      "componente destriudo y se quedo en ->" + this.player.currentTime()
-    );
+    this.axios.patch(`purchased/save-class-seen?course_id=${this.idCourse}&display_time=${this.player.currentTime()}&class_id=${this.lesson.id}`)
+    this.$store.commit("course/UPDATE_TIME", 0);
   },
   destroyed(){
     this.CLEAR_VIDEO();

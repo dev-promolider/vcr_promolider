@@ -42,29 +42,12 @@ export const getResources = async (context, less) => {
 
 // Video de la clase
 export const getVideo = async (context, classId) => {
-
-    // await axios.get(`https://crm-storage-user.s3.eu-west-1.amazonaws.com/video.mp4`).then(
-    //     (res)=>{
-    //       const url = URL.createObjectURL(new Blob([res.data], {type: "video/mp4"}));
-    //       console.log('->'+url)
-    //       console.log(classId)
-    //     }
-    // );
-
     await axios.get(`video/stream-video?class_id=${classId}`).then(
         (res) => {
             const data = res.data;
             context.commit('SET_VIDEO', data);
         }
     );
-
-    // await axios.get(`video/path-video3?class_id=${classId}`).then(
-    //     (res)=>{
-    //         console.log(`Aca esta la url -> `+ res.data)
-    //         context.commit('SET_VIDEO',res.data);
-    //     }
-    // )
-
 }
 
 // Enviar estado de reproduccion
