@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 col-md-6">
       <div class="row">
-        <div class="one col-6">
+        <div class="one col-6 my-3">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -23,7 +23,7 @@
           </div>
         </div>
         
-        <div class="col-6">
+        <div class="col-6 my-3">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -144,7 +144,6 @@ export default {
 }
 .one {
   border-radius: 25px 25px;
-  background: transparent;
 }
 .four {
   border-radius: 0px 25px 25px 0px;

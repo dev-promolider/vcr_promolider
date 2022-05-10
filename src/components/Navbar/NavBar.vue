@@ -121,7 +121,7 @@ export default {
 .nav-general {
   width: 100%;
   min-height: 80px;
-  background-color: #fff;
+  background: #78ff66;
   -webkit-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 -moz-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
@@ -143,13 +143,13 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
   position: relative;
   background: transparent;
   border-radius: 50px;
-  border: solid 3px #14a201;
+  border: solid 3px #35424a;
   width: 110px;
   height: 50px;
   
 }
 .profile:hover{
-  background-color: #14a201;
+  background-color: #35424a  ;
 }
 .submenu {
   display: flex;
