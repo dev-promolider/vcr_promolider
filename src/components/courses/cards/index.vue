@@ -62,6 +62,7 @@ export default {
       let dataRequest;
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
         dataRequest = res.data.data;
+        this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
       });
       if(dataRequest == "no existe"){
         this.getCourse(id);
