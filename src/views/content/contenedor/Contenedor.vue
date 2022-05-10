@@ -94,8 +94,8 @@ export default {
   display: flex;
   width: 200px;
   height: 100%;
-  background: rgb(19,27,30);
-  background: linear-gradient(180deg, rgba(19,27,30,1) 0%, rgba(53,66,74,1) 62%, rgba(15,130,0,1) 100%);
+  background: rgb(53,66,74);
+background: radial-gradient(circle, rgb(38, 46, 52) 0%, rgba(19,27,30,1) 45%);
   transition: all 0.4s;
   transform: translateX(0);
 }
@@ -103,8 +103,8 @@ export default {
   @media screen and (max-width: 1023px) {
     display: inline-block;
     position: fixed;
-    background: rgb(19,27,30);
-    background: linear-gradient(180deg, rgba(19,27,30,1) 0%, rgba(53,66,74,1) 62%, rgba(15,130,0,1) 100%);
+    background: rgb(53,66,74);
+background: radial-gradient(circle, rgb(38, 46, 52) 0%, rgba(19,27,30,1) 45%);
     left: 0;
     top: 80px;
     width: 200px;

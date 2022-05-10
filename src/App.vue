@@ -23,7 +23,7 @@ export default {
 <!-- Definiendo estilos globales -->
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@300&display=swap');
+
 /* Paleta de colores */
 :root{
  --bg-color: #F8F8F8;
@@ -46,7 +46,7 @@ export default {
 
 *{
 
-font-family: 'Lexend Exa', sans-serif;
+font-family: Arial;
 
 }
 
