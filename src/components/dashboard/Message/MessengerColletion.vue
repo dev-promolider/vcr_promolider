@@ -1,7 +1,7 @@
 <template>
   <div class="card-message p-4 d-flex flex-column">
     <div class="header d-flex justify-content-between mb-2">
-      <p>Mensajes</p>
+      <p style="font-size: 15px">Mensajes</p>
       <router-link to="/messages" class="text-decoration-none text-success">Todos los Mensajes</router-link>
     </div>
 
@@ -46,7 +46,7 @@ export default {
 <style scoped>
 .header >a{
   color:  #1ae800;
-  font-size: 12px;
+  font-size: 15px;
 }
 .card-message{
   background-color: #fff;
@@ -55,10 +55,9 @@ export default {
   margin: auto;
 }
 .message{
-  background-color: #1ae800;
+  background-color: #131b1e;
   border-radius: 15px;
   align-items: center;
-  padding: 6px 12px;
 }
 .text-message p {
   display: -webkit-box;
@@ -66,7 +65,7 @@ export default {
   -webkit-line-clamp: 2;
   line-clamp: 2;
   overflow: hidden;
-  font-size: 10px;
+  font-size: 15px;
 }
 .card-text{
   color: rgb(0, 0, 0);
