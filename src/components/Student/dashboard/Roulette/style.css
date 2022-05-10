@@ -114,13 +114,18 @@
 }
 .vue-winwheel .wheel-wrapper .btn.btn-play {
 	padding: 0 58px !important;
-	background: #2f771d;
+	background: #35424A;
 	height: 40px;
 	line-height: 40px;
 	color: white;
 	font-weight: bold;
 	text-decoration: none;
-	border-radius: 2px;
+	border-radius: 25px;
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	letter-spacing: 2px;
+}
+
+canvas{
+    background: rgba(255, 255, 255, 0.794);
+    border-radius: 50%;
 }

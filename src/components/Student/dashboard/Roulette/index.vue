@@ -38,32 +38,32 @@ export default {
 				return [
 					{
 						textFillStyle: '#fff',
-						fillStyle: '#12364f',
+						fillStyle: '#35424A',
 						text:'Premio 1'
 					},
 					{
 						textFillStyle: '#000',
-						fillStyle: '#71c700',
+						fillStyle: '#78ff66',
 						text:'Premio 2'
 					},
 					{
 						textFillStyle: '#fff',
-						fillStyle: '#12364f',
+						fillStyle: '#35424A',
 						text:'Premio 3'
 					},
 					{
 						textFillStyle: '#000',
-						fillStyle: '#71c700',
+						fillStyle: '#78ff66',
 						text:'Premio 4'
 					},
 					{
 						textFillStyle: '#fff',
-						fillStyle: '#12364f',
+						fillStyle: '#35424A',
 						text:'Premio 5'
 					},
 					{
 						textFillStyle: '#000',
-						fillStyle: '#71c700',
+						fillStyle: '#78ff66',
 						text:'Premio 6'
 					}
 				]
