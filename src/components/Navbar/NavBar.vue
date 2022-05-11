@@ -32,7 +32,7 @@
         <li class="nav-item">
           <span class="nav-link text-dark">
             <img class="img-puntos" src="../../assets/logo-puntos.png" />
-            <b>173</b> Puntos
+            <b>173</b> Pts.
           </span>
         </li>
         <li class="nav-item">
