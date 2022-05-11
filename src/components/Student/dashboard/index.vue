@@ -3,6 +3,7 @@
       <div class="section-main">
           <KeepLearning/>
           <Successes/>
+          <VueWinWheel/>
       </div>
       <div class="courses">
         <CarrouselCourseViewed/>
@@ -16,12 +17,14 @@ import CarrouselCourseViewed from '@/components/courses/CarrouselCourseViewed.vu
 import RecommendedCourse from "@/components/Student/dashboard/RecommendedCourse";
 import KeepLearning from './KeepLearning';
 import Successes from './Successes';
+import VueWinWheel from './Roulette'
 export default {
   name: "DashboardStudent",
   components: { 
     CarrouselCourseViewed,
     RecommendedCourse, 
-    KeepLearning, Successes 
+    KeepLearning, Successes ,
+    VueWinWheel
     }
 }
 </script>

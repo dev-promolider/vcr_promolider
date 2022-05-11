@@ -121,7 +121,7 @@ export default {
 .nav-general {
   width: 100%;
   min-height: 80px;
-  background: #78ff66;
+  background: #60d950;
   -webkit-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 -moz-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
