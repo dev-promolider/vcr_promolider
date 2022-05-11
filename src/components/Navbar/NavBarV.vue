@@ -58,6 +58,17 @@
           Mensajes
         </router-link>
       </li>
+
+      <li @click="sendTitle('Mis Logros')" class="nav-item">
+        <router-link
+          to="/logros"
+          class="nav-link link-v"
+          :class="{ 'is-active': isActive('logros') }"
+        >
+          <img src="./../../assets/logros.svg" alt="" />
+          Logros
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
