@@ -15,6 +15,7 @@ import buycursos from '../components/courses/buy-cursos.vue'
 import Suscription from '../components/suscription/suscription.vue'
 import Certificado from '../components/Certificado/certificado.vue'
 import detalleCertificado from '../components/Certificado/detalleCertificado.vue'
+import pruebasCourse  from '../components/course/descripcion/pruebas/pruebasCourse.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,7 +27,8 @@ const routes = [
       { path: '/home', component: Home, name: 'home' },
       { path: '/', component: Home, name: 'home' },
       { path: '/courses', component: Courses, name: 'courses' },
-      { path: '/course-user', query:{course:'',class:''}, component: CursoUser, name: 'curso' },
+      { path: '/course-user', component: CursoUser, name: 'curso' ,},
+      { path: '/test' , component: pruebasCourse, name: 'test'},
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
