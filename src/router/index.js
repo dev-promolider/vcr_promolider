@@ -15,6 +15,7 @@ import buycursos from '../components/courses/buy-cursos.vue'
 import Suscription from '../components/suscription/suscription.vue'
 import Certificado from '../components/Certificado/certificado.vue'
 import detalleCertificado from '../components/Certificado/detalleCertificado.vue'
+import logrosUser from '../components/LogrosUser/Logros.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -34,7 +35,8 @@ const routes = [
       { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos },
       { path: '/suscription-user', name: 'suscription-user', component: Suscription },
       { path: '/certificado-user', name: 'certificado-user', component: Certificado },
-      { path: '/detalle-certificado', name: 'detalle-certificado', component: detalleCertificado }
+      { path: '/detalle-certificado', name: 'detalle-certificado', component: detalleCertificado },
+      { path: '/logros', name: 'logros-user', component: logrosUser },
 
      
     ]
