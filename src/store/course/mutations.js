@@ -10,6 +10,10 @@ export const SET_COURSE= (state, course) =>{
     state.isLoading=false;
 }
 
+export const SET_COURSE_ACTIVE = (state, course) => {
+    state.course_active = course;
+}
+
 export const listId_NameClass = (state, course) => {
     for(let i=0; i<course.modules.length; i++){
         for(let j=0; j<course.modules[i].lessons.length; j++){
