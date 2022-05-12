@@ -8,8 +8,9 @@ import { mapState } from 'vuex';
             <div class="d-flex mt-2">
               <img src="../../../assets/logo-perfil.png" class="rounded-circle" style="height: 46px">
                 <div class="d-flex flex-column ml-4">
-                  <span class="font-weight-bold">{{Titulo}}</span>
-                  <span>{{Productor}}</span>
+                  <span class="font-weight-bold">{{courseActive[0].title}}</span>
+                  {{ getNameProductor(courseActive[0].user_id) }}
+                  <span>{{  nombre }}</span>
                   
                 </div>
             </div>
@@ -41,21 +42,20 @@ export default {
       index: null,
       endClass: false,
       firstClass: false,
-      cuenta: localStorage.getItem("id_account_type")
+      cuenta: localStorage.getItem("id_account_type"),
+      nombre: ''
     };
   },
   computed: {
     ...mapState( {
       //titulo: state => state.title
-      Productor: state => state.course.productor[0],
-      Titulo: state => state.course.productor[1],
       Lecciones: state =>state.course.allLessonsId,
-      leccionActiva: state => state.course.lesson
+      leccionActiva: state => state.course.lesson,
     }),
 
     ...mapGetters( 'course', {
       elProductor:'getProductor',
-      
+      courseActive:'getCourseActive'
     }),
   },
   created(){
@@ -73,6 +73,13 @@ export default {
       lastSeenLesson: 'lastSeenLesson',
       getComments: 'getComments'
     }),
+
+    getNameProductor(id){
+      this.axios.get(`user/show?id=${id}`).then((res)=>{
+        this.nombre = `${res.data.name} ${res.data.last_name}`;
+        // return `${res.data.name}`;
+      })
+    },
 
     classActive(){
       this.index = this.Lecciones.findIndex(elemento => {
