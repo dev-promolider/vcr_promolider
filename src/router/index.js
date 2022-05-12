@@ -29,7 +29,7 @@ const routes = [
       { path: '/', component: Home, name: 'home' },
       { path: '/courses', component: Courses, name: 'courses' },
       { path: '/course-user', component: CursoUser, name: 'curso' ,},
-      { path: '/test' , component: pruebasCourse, name: 'test'},
+      { path: '/test/:id' , component: pruebasCourse, name: 'test'},
       { path: '/messages', component: Messages, name: 'Messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },

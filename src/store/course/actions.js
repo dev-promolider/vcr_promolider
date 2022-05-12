@@ -61,4 +61,12 @@ export const getComments = async (context, id) => {
       context.commit('GET_COMMENTS', res.data);
     })
 }
+export const getTest = async (_, data) => {
+    const respuesta =  await axios.post(`course/exam/active`, {course_id : data})
+    return respuesta
+}
 
+export const getExam= async (_, data) => {
+    const respuesta =  await axios.post(`course/exam`, {exam_id : data})
+    return respuesta
+}

@@ -6,37 +6,25 @@
                 <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
             </div>
 
-            <div class="stepper-item" :class="{ 'current': step == item, 'success': step > item }" v-for="item in 3" :key="item">
+            <div class="stepper-item" :class="{ 'current': step == question.id, 'success': step > question.id }" v-for="question in questions" :key="question.id">
                 <div class="stepper-item-counter">
                     <img class="icon-success" src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png" alt="">
                     <span class="number">
-                        {{ item }}
+                        {{ question.id }}
                     </span>
                 </div>
                 <span class="stepper-item-title">
-                    Paso {{ item }}
+                    Paso {{ question.id }}
                 </span>
             </div>
         </div>
 
-        <div class="stepper-content" >
-            <div class="stepper-pane" v-if="step == 1">
-                <div class="title-question">¿Qué es el desarrollo Web?</div>
-                <div class="mt-5 mx-3 d-flex justify-content-around">
-                    <div class="option">a) Lorem ipsum dolor sit amet, consectetur.</div>
-                    <div class="option">b) Lorem ipsum dolor sit amet, consectetur.</div>
-                </div>
-                  <div class="mt-5 mx-3 d-flex justify-content-around">
-                    <div class="option">c) Lorem ipsum dolor sit amet, consectetur.</div>
-                    <div class="option">d) Lorem ipsum dolor sit amet, consectetur.</div>
-
-                  </div>
-            </div>
-            <div class="stepper-pane" v-if="step == 2">
-                asd
-            </div>
-            <div class="stepper-pane" v-if="step == 3">
-                asd
+        <div class="stepper-content" v-for="question in questions" :key="question.id">
+            <div class="stepper-pane" v-if="step == question.id">
+                <div class="title-question">{{question.title}}</div>
+                <div class="title-question">{{question.options[0]}}</div>
+                <div class="title-question">{{question.options[1]}}</div>
+                
             </div>
         </div>
 
@@ -44,7 +32,7 @@
             <button class="btn" @click="step--" :disabled="step == 1">
                 Anterior
             </button>
-            <button class="btn btn--green-1" @click="step++" :disabled="step == 3">
+            <button class="btn btn--green-1" @click="step++" :disabled="step == Object.keys(questions).length">
                 Siguiente
             </button>
         </div>
@@ -54,16 +42,41 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
     data(){
         return {
-            step: 1
+            step: 1,
+            questions: [],
+            options: []
         }
     },
     computed:{
         stepperProgress() {
-            return ( 100 / 3 ) * ( this.step - 1 ) + '%'
+            return ( 100 / Object.keys(this.questions).length ) * ( this.step - 1 ) + '%'
         }
+    },
+    methods:{
+        ...mapActions('course',{
+            getExam: 'getExam'
+        }),
+
+        async setExam(){
+            const resp_exam = await this.getExam(this.$route.params.id)
+            const {  questions } = resp_exam.data.data
+            this.splitQuestions( questions )
+        },
+        splitQuestions( questions ){
+            let newArr = [...questions]
+            newArr.map( el => {
+            
+                console.log(el.options[0].replace('['));
+            })
+        }
+    },
+    created(){
+        this.setExam()
+        //Validación si tiene comprado el curso
     }
 
 }
