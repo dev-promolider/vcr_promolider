@@ -5,15 +5,28 @@ import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
       <div class="titulos">
         <p class="titulo_dentro">Última Ventas</p>
         <router-link to="/attribute"
-          ><p class="titulo_esquina  text-success">
-            ver progreso completo
+          ><p class="titulo_esquina  text-success ">
+            Todas las ventas
           </p></router-link
         >
       </div>
 
       <div class="mover ml-2 mt-2 text-center" >
-      <span v-if="loading" > Sin resultados </span>
+
+      <span v-if="info == null" > 
+      
+        <div class="cajita d-flex align-items-center justify-content-center"> cargando datos... </div>
+        <div class="cajita d-flex align-items-center justify-content-center"> cargando datos... </div>
+        <div class="cajita d-flex align-items-center justify-content-center"> cargando datos... </div>
+
+      </span>
+
+    <div v-if="info ==  0" class="center-element no-result mt-3">
+      <span>Sin resultados</span>
+    </div>
+
       <div
+      v-else
         class="cliente"
         v-for="(item, index) in info"
         :key="index"
@@ -47,8 +60,7 @@ export default {
   },
   data() {
     return {
-      info: [],
-      loading: true,
+      info: null,
       desabilitado: 0,
       
       
@@ -61,9 +73,6 @@ export default {
       .then((respuesta) => { 
         this.info = respuesta.data.data;
 
-        if (this.info.length >= 1){
-            this.loading = false;
-        }
       });
     },
 
@@ -103,6 +112,7 @@ export default {
   border-radius: 15px;
   background: rgb(255, 255, 255);
   width: 100%;
+  height: 350px;
 }
 .titulos {
   display: flex;
@@ -124,8 +134,8 @@ export default {
   
   width: 150px;
   float: right;
-  margin-top: 18px;
-  font-size: 15px;
+  margin-top: 28px;
+  font-size: 16px;
   margin-right: 15px;
   color: #1ae800;
   height: 14px;
@@ -143,6 +153,28 @@ export default {
   color: white;
   font-weight: 700;
   margin-right: 15px;
+}
+
+.cajita{
+
+    width: 100%;
+    height: 70px;
+    border-radius: 0.9rem;
+    max-width: 95%;
+    margin: 10px;
+    animation: pulsos 1s infinite;
+}
+
+@keyframes pulsos{
+    0% {
+        background: #eee;
+    }
+    50% {
+        background: #bfbfbf;
+    }
+    100% {
+        background: #eee;
+    }
 }
 
 </style>

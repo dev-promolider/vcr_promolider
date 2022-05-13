@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row text-center">
     <div class="col-12 col-md-6">
       <div class="row">
         <div class="one col-6 my-3">
@@ -45,7 +45,7 @@
       <div class="row">
         <div class="col-6">
           <div
-            class="spinner-border spinner-border-sm ml-auto mr-auto"
+            class="spinner-border spinner-border-sm ml-auto mr-auto mt-3"
             v-if="loading"
             role="status"
           >
@@ -59,7 +59,7 @@
           <p class=""><i class="fas fa-infinity mr-2"></i> días restantes</p>
         </div>
         
-        <div class="four col-6">
+        <div class="four col-6 mt-2">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
