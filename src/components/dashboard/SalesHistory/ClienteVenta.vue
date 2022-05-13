@@ -5,8 +5,8 @@ import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
       <div class="titulos">
         <p class="titulo_dentro">Última Ventas</p>
         <router-link to="/attribute"
-          ><p class="titulo_esquina  text-success">
-            ver progreso completo
+          ><p class="titulo_esquina  text-success ">
+            Todas las ventas
           </p></router-link
         >
       </div>
@@ -134,8 +134,8 @@ export default {
   
   width: 150px;
   float: right;
-  margin-top: 18px;
-  font-size: 15px;
+  margin-top: 28px;
+  font-size: 16px;
   margin-right: 15px;
   color: #1ae800;
   height: 14px;

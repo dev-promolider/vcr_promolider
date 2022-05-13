@@ -2,7 +2,7 @@
   <div class="card-message p-2 d-flex flex-column">
     <div class="header d-flex justify-content-between mb-2">
       <p style="font-size: 15px">Mensajes</p>
-      <router-link to="/messages" class="text-decoration-none text-success">Todos los Mensajes</router-link>
+      <router-link to="/messages" class="text-decoration-none text-success mt-2">Todos los Mensajes</router-link>
     </div>
 
     <div>
@@ -12,7 +12,7 @@
         <div class="cajita d-flex align-items-center justify-content-center"> cargando datos... </div>
       </span>
 
-    <div v-if="getLastMessages==0" class="center-element no-result mt-3">
+    <div v-if="getLastMessages==0" class="center-element no-result mt-5">
       <span>Sin resultados</span>
     </div>
 
