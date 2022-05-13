@@ -4,11 +4,11 @@ import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
     <div class="marco">
       <div class="titulos">
         <p class="titulo_dentro">Última Ventas</p>
-        <router-link to="/attribute"
-          ><p class="titulo_esquina  text-success ">
+        <router-link to="/attribute">
+          <p class="titulo_esquina  text-success ">
             Todas las ventas
-          </p></router-link
-        >
+          </p>
+          </router-link>
       </div>
 
       <div class="mover ml-2 mt-2 text-center" >
@@ -122,7 +122,7 @@ export default {
 .titulos .titulo_dentro {
   
   margin-left: 32px;
-  margin-top: 34px;
+  margin-top: 42px;
   font-weight: 300;
   font-size: 15px;
   text-align: center;
@@ -132,10 +132,10 @@ export default {
 }
 .titulos .titulo_esquina {
   
-  width: 150px;
+  width: 180px;
   float: right;
-  margin-top: 28px;
-  font-size: 16px;
+  margin-top: 37px;
+  font-size: 15px;
   margin-right: 15px;
   color: #1ae800;
   height: 14px;
