@@ -22,9 +22,14 @@
         <div class="stepper-content" v-for="question in questions" :key="question.id">
             <div class="stepper-pane" v-if="step == question.id">
                 <div class="title-question">{{question.title}}</div>
-                <div class="title-question">{{question.options[0]}}</div>
-                <div class="title-question">{{question.options[1]}}</div>
+               
+                     <div id='example-3' v-for="(q , i) in question.options" :key="i">
+                            <input type="radio" id="uno" :value="q" v-model="picked.q">
+                            <label for="uno"> {{q}} </label>
+                           
+                    </div>
                 
+                    {{picked}}
             </div>
         </div>
 
@@ -48,7 +53,8 @@ export default {
         return {
             step: 1,
             questions: [],
-            options: []
+            options: [],
+            picked: []
         }
     },
     computed:{
@@ -68,10 +74,9 @@ export default {
         },
         splitQuestions( questions ){
             let newArr = [...questions]
-            newArr.map( el => {
-            
-                console.log(el.options[0].replace('['));
-            })
+            newArr.map( el => { return el.options = el.options.replace(/[\[\]]+/g,'').replace(/['"]+/g,'-').split('-')})
+            this.questions = newArr
+            console.log(this.questions)
         }
     },
     created(){
