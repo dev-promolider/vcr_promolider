@@ -1,5 +1,14 @@
 import axios from "axios";
 
+// Curso Activo
+export const getCourseActive = async (context, id) => {
+    await axios.get('course/details/' + id).then(
+        (res) => {
+            context.commit("SET_COURSE_ACTIVE", res.data.data)
+        }
+    ) 
+}
+
 // Temario del curso
 export const getCourse = async (context, id) => {
     await axios.get('course/temary/get-all-class/' + id).then(

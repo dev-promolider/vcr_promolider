@@ -1,8 +1,8 @@
 <template>
   <main class="mb-4" :class="lastCourses.length > 0 ? 'main-content':'main-none'">
-    <h3 class="font-weight-bold mb-4">
+    <h4 class="font-weight-bold mb-4">
       {{ nameUser }}, continua aprendiendo
-    </h3>
+    </h4>
     <vue-horizontal class="horizontal"
       >.
       <section class="item" v-for="course in lastCourses" :key="course.id">
@@ -70,8 +70,10 @@ export default {
       let dataRequest;
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
         dataRequest = res.data.data;
+        this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
       });
       if(dataRequest == "no existe"){
+        this.getCourse(id);
         let fistClass = this.course.modules[0].lessons[0].name;
         this.$router.push(`course-user?course=${id}&class=${fistClass}`)
       }else{

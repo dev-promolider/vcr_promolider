@@ -4,6 +4,11 @@
       <p class="titulo m-0 ml-3">Mi aprendizaje</p>
     </div>
 
+<div class="row mt-5">
+  <!-- <div class="mt-5 col-md-3 d-flex align-items-center justify-content-center">
+<img class="img-curso" src="@/assets/aprendizaje.png" alt="" >
+  </div> -->
+  <div class="col-md-9">
     <div class="row mr-5 ml-5 mover">
       <div v-if="loading">
       <loadingCourses />
@@ -24,6 +29,12 @@
       </div>
     </div>
   </div>
+
+  </div>
+  
+</div>
+
+
 </template>
 
 <script>
@@ -116,4 +127,21 @@ export default {
 .bordea:hover {
   transform: scale(1.05);
 }
+
+/* .img-curso{
+ 
+  width: 100%;
+}
+@media screen and (min-width: 1200px){
+  .img-curso{
+ 
+  width: 80%;
+}
+}
+@media screen and (max-width: 768px){
+  .img-curso{
+ 
+  width: 60%;
+}
+} */
 </style>

@@ -2,6 +2,7 @@
 
 export default () => ({
     course: [],
+    course_active: [],
     count: 1,
     isLoading: true,
     ultimo: '',
