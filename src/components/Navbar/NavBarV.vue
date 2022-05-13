@@ -22,7 +22,7 @@
           :class="{ 'is-active': isActive('courses') }"
         >
           <img src="./../../assets/courses.svg" alt="" />
-          Mis Cursos
+          Cursos
         </router-link>
       </li>
 
@@ -33,7 +33,7 @@
           :class="{ 'is-active': isActive('suscription-user') }"
         >
           <img src="./../../assets/courses.svg" alt="" />
-          Mi Aprendizaje
+          Aprendizaje
         </router-link>
       </li>
 
@@ -44,7 +44,7 @@
           :class="{ 'is-active': isActive('certificado-user') }"
         >
           <img src="./../../assets/courses.svg" alt="" />
-          Mis Certificaciones
+          Certificaciones
         </router-link>
       </li>
 
