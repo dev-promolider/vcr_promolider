@@ -71,7 +71,7 @@
             <p v-if="mostrar" class="font-weight-bold font-number my-1">
               {{ affilates }}
             </p>
-            <p class="mar-top">Mis Invitados</p>
+            <p class="mar-top">Mis Afiliados</p>
           </div>
         </div>
       </div>
