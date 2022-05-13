@@ -17,7 +17,7 @@ export default {
   width: 100%;
   padding-right: 0px;
   
-  max-height: calc(100vh - 80px);
+  height: 100vh;
   overflow-x: hidden;
   overflow-y: scroll;
 }
