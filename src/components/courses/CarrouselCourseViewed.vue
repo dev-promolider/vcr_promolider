@@ -1,8 +1,8 @@
 <template>
   <main class="mb-4" :class="lastCourses.length > 0 ? 'main-content':'main-none'">
-    <h3 class="font-weight-bold mb-4">
+    <h4 class="font-weight-bold mb-4">
       {{ nameUser }}, continua aprendiendo
-    </h3>
+    </h4>
     <vue-horizontal class="horizontal"
       >.
       <section class="item" v-for="course in lastCourses" :key="course.id">

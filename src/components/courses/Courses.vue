@@ -1,33 +1,41 @@
 <template>
-  <div class="container-fluid">
-    <div v-if="notCourses" class="no-result center-element d-flex">
-      <span>Lo sentimos, aún no hay cursos disponibles.</span>
+<div class="row">
+  <div class="col-md-8">
+    <div class="container-fluid">
+      <div v-if="notCourses" class="no-result center-element d-flex">
+        <span>Lo sentimos, aún no hay cursos disponibles.</span>
+      </div>
+      <div class=" mt-5" v-if="loading">
+        <loadingCourses />
+      </div>
+        <!-- Últimos cursos -->
+        <!-- Continuar aprendiendo -->
+        <CarrouselCourseViewed v-if="!loading"/>
+        
+        <!-- Todos los cursos -->
+        <div class="mb-4" v-if="courses.length > 0">
+          <h3 class="pl-10 m-0 font-weight-bold">Todos los cursos</h3>
+          <CarrouselCourse :courses="courses" />
+        </div>
+  
+        <!-- Cursos de interes -->
+        <div class="mb-4" v-if="interesCourses.length > 0">
+          <h3 class="pl-10m-0 font-weight-bold">Cursos de interés</h3>
+          <CarrouselCourse :courses="interesCourses" />
+        </div>
+  
+        <!-- Cursos recien lanzados -->
+        <div class="mb-4" v-if="relatedCourses.length > 0">
+          <h3 class="pl-10 m-0 font-weight-bold">Más recientes</h3>
+          <CarrouselCourse :courses="relatedCourses" />
+        </div>
     </div>
-    <div class=" mt-5" v-if="loading">
-      <loadingCourses />
-    </div>
-      <!-- Últimos cursos -->
-      <!-- Continuar aprendiendo -->
-      <CarrouselCourseViewed v-if="!loading"/>
-      
-      <!-- Todos los cursos -->
-      <div class="mb-4" v-if="courses.length > 0">
-        <h3 class="pl-10 m-0 font-weight-bold">Todos los cursos</h3>
-        <CarrouselCourse :courses="courses" />
-      </div>
-
-      <!-- Cursos de interes -->
-      <div class="mb-4" v-if="interesCourses.length > 0">
-        <h3 class="pl-10m-0 font-weight-bold">Cursos de interés</h3>
-        <CarrouselCourse :courses="interesCourses" />
-      </div>
-
-      <!-- Cursos recien lanzados -->
-      <div class="mb-4" v-if="relatedCourses.length > 0">
-        <h3 class="pl-10 m-0 font-weight-bold">Más recientes</h3>
-        <CarrouselCourse :courses="relatedCourses" />
-      </div>
+    
   </div>
+  <div class="col-md-4 d-flex align-items-center justify-content-center">
+<img class="img-curso" src="@/assets/curso-p.png" alt="" >
+  </div>
+</div>
 </template>
 
 <script>
@@ -169,5 +177,21 @@ h3 {
 }
 .pl-10{
   padding-left: 20px;
+}
+.img-curso{
+ 
+  width: 100%;
+}
+@media screen and (min-width: 1200px){
+  .img-curso{
+ 
+  width: 80%;
+}
+}
+@media screen and (max-width: 768px){
+  .img-curso{
+ 
+  width: 80%;
+}
 }
 </style>
