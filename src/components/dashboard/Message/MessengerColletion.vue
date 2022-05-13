@@ -2,7 +2,7 @@
   <div class="card-message p-4 d-flex flex-column">
     <div class="header d-flex justify-content-between mb-2">
       <p style="font-size: 15px">Mensajes</p>
-      <router-link to="/messages" class="text-decoration-none text-success">Todos los Mensajes</router-link>
+      <router-link to="/messages" class="text-decoration-none text-success mt-1">Todos los Mensajes</router-link>
     </div>
 
     <div v-if="getLastMessages==0" class="center-element no-result">

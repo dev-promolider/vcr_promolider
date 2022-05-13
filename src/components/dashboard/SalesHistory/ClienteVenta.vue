@@ -6,7 +6,7 @@ import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
         <p class="titulo_dentro">Última Ventas</p>
         <router-link to="/attribute"
           ><p class="titulo_esquina  text-success">
-            ver progreso completo
+            Ver progreso completo
           </p></router-link
         >
       </div>
@@ -112,7 +112,7 @@ export default {
 .titulos .titulo_dentro {
   
   margin-left: 32px;
-  margin-top: 34px;
+  margin-top: 42px;
   font-weight: 300;
   font-size: 15px;
   text-align: center;
@@ -122,9 +122,9 @@ export default {
 }
 .titulos .titulo_esquina {
   
-  width: 150px;
+  width: 180px;
   float: right;
-  margin-top: 18px;
+  margin-top: 37px;
   font-size: 15px;
   margin-right: 15px;
   color: #1ae800;
