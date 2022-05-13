@@ -66,7 +66,8 @@ export default {
       getLesson: "getLesson",
       getVideo: "getVideo",
       lastSeenLesson: "lastSeenLesson",
-      getComments: "getComments"
+      getComments: "getComments",
+      getCourseActive:"getCourseActive"
     }),
 
     ...mapMutations("course", ["GET_PROGRESS","DESTROY_PROGRESS","CLEAR_ALL_DATA"]),
@@ -87,6 +88,7 @@ export default {
   created() {
     this.activeLesson();
     this.GET_PROGRESS();
+    this.getCourseActive(this.$route.query.course);
   },
   beforeMount() {
     if (!this.$route.query.class && !this.$route.query.course) {

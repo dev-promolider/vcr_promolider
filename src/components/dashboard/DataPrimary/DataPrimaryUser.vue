@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row text-center">
     <div class="col-12 col-md-6">
       <div class="row">
         <div class="one col-6 my-3">
@@ -19,7 +19,7 @@
               {{ courses }}
               </strong>
             </p>
-            <p class="text-white mar-top" style="color: black !important"><strong>Cursos</strong></p>
+            <p class="text-white mar-top" style="color: black !important"><strong>Mis Cursos</strong></p>
           </div>
         </div>
         
@@ -35,7 +35,7 @@
             <p class="font-weight-bold font-number my-1" v-if="mostrar">
               S/.{{ payment }}
             </p>
-            <p class="mar-top">Ventas</p>
+            <p class="mar-top">Mis Ventas</p>
           </div>
         </div>
       </div>
@@ -45,21 +45,21 @@
       <div class="row">
         <div class="col-6">
           <div
-            class="spinner-border spinner-border-sm ml-auto mr-auto"
+            class="spinner-border spinner-border-sm ml-auto mr-auto mt-3"
             v-if="loading"
             role="status"
           >
             <span class="sr-only">Loading...</span>
           </div>
         
-          <p class="my-1">Plan</p>
+          <p class="my-1">Mi Membresía</p>
           <p class="font-weight-bold font-role my-1" v-if="mostrar">
             {{ typePlans.toUpperCase() }}
           </p>
           <p class=""><i class="fas fa-infinity mr-2"></i> días restantes</p>
         </div>
         
-        <div class="four col-6">
+        <div class="four col-6 mt-2">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -71,7 +71,7 @@
             <p v-if="mostrar" class="font-weight-bold font-number my-1">
               {{ affilates }}
             </p>
-            <p class="mar-top">Afiliado</p>
+            <p class="mar-top">Mis Afiliados</p>
           </div>
         </div>
       </div>

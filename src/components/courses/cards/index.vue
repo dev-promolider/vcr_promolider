@@ -1,5 +1,5 @@
 <template>
-    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id,course.name, course.last_name, course.title)">
+    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)">
         <div
               class="image"
               :style="{ background: `url(${course.url_portada})` }"
@@ -58,7 +58,7 @@ export default {
       window.location.reload(true);
     },
 
-    async goToCourse(id,className,last_name, titulo){
+    async goToCourse(id){
       let dataRequest;
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
         dataRequest = res.data.data;
@@ -71,7 +71,6 @@ export default {
       }else{
         this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
       }
-      this.$store.commit("course/SET_PRODUCTOR", [(className +" "+ last_name), titulo]);
     }
   },
 

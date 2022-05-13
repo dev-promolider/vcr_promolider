@@ -2,7 +2,7 @@
   <div class="mytabs">
     <ul class="nav nav-tabs d-flex flex-row" id="myTab" role="tablist" >
          
-            <li class="nav-item" role="presentation" @click="changeTab()" :class="{active:resumen}">
+            <li class="nav-item" role="presentation" @click="changeTab(1)" :class="{active: isActive == 1}">
               <a
                 class="nav-link text-center"
                 id="home-tab"
@@ -11,12 +11,11 @@
                 role="tab"
                 aria-controls="home"
                 aria-selected="true"
-                style="width: 112px;"
                 >Resumen</a
               >
             </li>
 
-            <li class="nav-item " role="presentation" @click="changeTab()" :class="{active:recursos}">
+            <li class="nav-item " role="presentation" @click="changeTab(2)" :class="{active:isActive == 2}">
               <a
                 class="nav-link text-center"
                 id="home-tab"
@@ -26,6 +25,19 @@
                 aria-controls="home"
                 aria-selected="true"
                 >Recursos</a
+              >
+            </li>
+
+             <li class="nav-item " role="presentation" @click="changeTab(3)" :class="{active: isActive == 3}">
+              <a
+                class="nav-link text-center"
+                id="home-tab"
+                data-toggle="tab"
+                href="#pruebas"
+                role="tab"
+                aria-controls="home"
+                aria-selected="true"
+                >Pruebas</a
               >
             </li>
             
@@ -69,6 +81,20 @@
 
               </div>
             </div>
+            <div
+              class="tab-pane fade  border-box"
+              id="pruebas"
+              role="tabpanel"
+              aria-labelledby="home-tab"
+            >
+            <div class="mx-4 mt-4">
+              <p class="text-justify">
+                  <router-link :to="{name: 'test'}" class="test">Realizar prueba</router-link>
+              </p>
+            </div>
+
+            </div>
+
           </div>
   </div>
 </template>
@@ -82,8 +108,7 @@
     name: "Descripcion",
     data(){
       return{
-        resumen: true,
-        recursos: false,
+        isActive: 1
       }
     },
     computed:{
@@ -95,9 +120,9 @@
         getResources: 'getResources'
       }),
 
-      changeTab(){
-        this.resumen = !this.resumen;
-        this.recursos = !this.recursos;
+      changeTab( el ){
+        this.isActive = el
+
       },
 
       //Se necesita una funcion para recojer los recursos descargables
@@ -235,5 +260,13 @@
 }
 .nav-tabs li a:after {
   right: -20px;
+}
+.test {
+  color: rgb(255, 255, 255);
+  background-color: #28a745 ;
+  padding: 5px 15px;
+  margin: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
 }
 </style>

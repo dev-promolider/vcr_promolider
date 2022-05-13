@@ -13,8 +13,14 @@
       </li>
     </ul>
     <div class="nav-horizontal flex-grow-1 d-flex">
-  
-    <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
+      
+      <ul class="nav nav-sub-h1 justify-content-center align-items-center">
+        <li class="nav-item" data-toggle="modal" data-target="#video">
+          <i class="fas fa-question mr-2 mt-2"></i>
+        </li>
+      </ul>
+
+      <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
         <li class="nav-item">
           <v-progress-circular
             :rotate="-90"
@@ -32,7 +38,7 @@
         <li class="nav-item">
           <span class="nav-link text-dark">
             <img class="img-puntos" src="../../assets/logo-puntos.png" />
-            <b>173</b> Puntos
+            <b>173</b> Pts.
           </span>
         </li>
         <li class="nav-item">
@@ -41,6 +47,7 @@
           </a>
         </li>
       </ul>
+
       <ul class="nav nav-sub-h2 justify-content-center align-items-center mr-3 ">
         <li class="nav-item profile">
           <span class="submenu">
@@ -64,12 +71,25 @@
 
       </ul>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="video"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+          <div class="modal-body">
+            <QuestionDaily />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import QuestionDaily from "../Student/questions/daily/index";
+
 export default {
   name: "NavBar",
   data() {
@@ -80,6 +100,9 @@ export default {
       interval: {},
       value: 0,
     };
+  },
+  components:{
+    QuestionDaily
   },
   computed: {
     // ...mapState(['title','count']),
@@ -232,6 +255,10 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
   position: relative;
   flex-direction: row;  
 }
+.fa-question{
+  font-size: 1.5rem;
+  cursor: pointer;
+}
 
 @media only screen and (max-width: 960px) {
   .nav-horizontal{
@@ -241,4 +268,5 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
   }
   
 }
+
 </style>
