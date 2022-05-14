@@ -15,7 +15,7 @@
     <div class="nav-horizontal flex-grow-1 d-flex">
       
       <ul class="nav nav-sub-h1 justify-content-center align-items-center">
-        <li class="nav-item" data-toggle="modal" data-target="#video">
+        <li class="nav-item" data-toggle="modal" data-target="#question">
           <i class="fas fa-question mr-2 mt-2"></i>
         </li>
       </ul>
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="video"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="question"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
           <div class="modal-body">

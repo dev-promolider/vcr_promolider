@@ -15,14 +15,16 @@
         </router-link>
       </li>
 
-      <li @click="sendTitle('Cursos')" class="nav-item">
+      <li @click="sendTitle('Marketplace')" class="nav-item">
         <router-link
           to="/courses"
           class="nav-link link-v"
           :class="{ 'is-active': isActive('courses') }"
         >
           <img src="./../../assets/courses.svg" alt="" />
-          Mis Cursos
+
+          Marketplace
+
         </router-link>
       </li>
 
@@ -33,7 +35,7 @@
           :class="{ 'is-active': isActive('suscription-user') }"
         >
           <img src="./../../assets/courses.svg" alt="" />
-          Mi Aprendizaje
+          Aprendizaje
         </router-link>
       </li>
 
@@ -44,7 +46,7 @@
           :class="{ 'is-active': isActive('certificado-user') }"
         >
           <img src="./../../assets/courses.svg" alt="" />
-          Mis Certificaciones
+          Certificaciones
         </router-link>
       </li>
 

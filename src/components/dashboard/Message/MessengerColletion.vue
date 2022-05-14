@@ -1,11 +1,18 @@
 <template>
-  <div class="card-message p-4 d-flex flex-column">
+  <div class="card-message p-2 d-flex flex-column">
     <div class="header d-flex justify-content-between mb-2">
       <p style="font-size: 15px">Mensajes</p>
-      <router-link to="/messages" class="text-decoration-none text-success">Todos los Mensajes</router-link>
+      <router-link to="/messages" class="text-decoration-none text-success mt-2">Todos los Mensajes</router-link>
     </div>
 
-    <div v-if="getLastMessages==0" class="center-element no-result">
+    <div>
+      <span v-if="getLastMessages==null" class="text-center">   
+        <div class="cajita d-flex align-items-center justify-content-center"> cargando datos... </div>
+        <div class="cajita d-flex align-items-center justify-content-center"> cargando datos... </div>
+        <div class="cajita d-flex align-items-center justify-content-center"> cargando datos... </div>
+      </span>
+
+    <div v-if="getLastMessages==0" class="center-element no-result mt-5">
       <span>Sin resultados</span>
     </div>
 
@@ -18,6 +25,8 @@
         </p>
       </div>
     </div>
+
+    </div>
   </div>
 </template>
 <script>
@@ -26,10 +35,13 @@ export default {
   name: "MessengerColletion",
   data() {
     return {
+     
     };
   },
   computed:{
+    
     ...mapGetters('lastMessage',["getLastMessages"]),
+    
     
   },
   methods: {
@@ -52,6 +64,7 @@ export default {
   background-color: #fff;
   border-radius: 15px;
   width: 100%;
+  height: 350px;
   margin: auto;
 }
 .message{
@@ -71,4 +84,25 @@ export default {
   color: rgb(0, 0, 0);
 }
 
+.cajita{
+
+    width: 100%;
+    height: 70px;
+    border-radius: 0.9rem;
+    max-width: 95%;
+    margin: 10px;
+    animation: pulsos 1s infinite;
+}
+
+@keyframes pulsos{
+    0% {
+        background: #eee;
+    }
+    50% {
+        background: #bfbfbf;
+    }
+    100% {
+        background: #eee;
+    }
+}
 </style>

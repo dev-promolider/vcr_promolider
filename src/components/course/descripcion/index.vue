@@ -82,7 +82,7 @@
               </div>
             </div>
             <div
-              class="tab-pane fade show active border-box"
+              class="tab-pane fade  border-box"
               id="pruebas"
               role="tabpanel"
               aria-labelledby="home-tab"
