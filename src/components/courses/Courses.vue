@@ -1,7 +1,7 @@
 <template>
-<div class="row">
-  <div class="col-md-8">
-    <div class="container-fluid">
+<div class="container-fluid ">
+<div class="row ">
+  <div class="col-md-8 col-sm-12 ">
       <div v-if="notCourses" class="no-result center-element d-flex">
         <span>Lo sentimos, aún no hay cursos disponibles.</span>
       </div>
@@ -10,7 +10,9 @@
       </div>
         <!-- Últimos cursos -->
         <!-- Continuar aprendiendo -->
-        <CarrouselCourseViewed v-if="!loading"/>
+        <div>
+          <CarrouselCourseViewed v-if="!loading"/>
+        </div>
         
         <!-- Todos los cursos -->
         <div class="mb-4" v-if="courses.length > 0">
@@ -29,12 +31,13 @@
           <h3 class="pl-10 m-0 font-weight-bold">Más recientes</h3>
           <CarrouselCourse :courses="relatedCourses" />
         </div>
-    </div>
+  
     
   </div>
-  <div class="col-md-4 d-flex align-items-center justify-content-center">
-<img class="img-curso" src="@/assets/curso-p.png" alt="" >
+  <div class="col-md-4 col-sm-12 d-flex align-items-center justify-content-center ">
+    <img class="img-curso" src="@/assets/curso-p.png" alt="" >
   </div>
+</div>
 </div>
 </template>
 
@@ -152,6 +155,9 @@ export default {
 </script>
 
 <style scoped>
+.row{
+  height: 100%;
+}
 /* links
 https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
 https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798

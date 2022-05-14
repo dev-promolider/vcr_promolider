@@ -114,7 +114,7 @@ font-family: Arial;
 }
 
 /* Animacion esqueloto de pre-carga */
-@keyframes loading {
+@keyframes load {
     0%{
       background: #ccc;
     }
@@ -130,7 +130,7 @@ font-family: Arial;
 
   .loader{
     height: 50px;
-    animation: loading 2s linear infinite alternate;
+    animation: load 2s linear infinite alternate;
     border-radius:30px;
     color: transparent;
     

@@ -7,8 +7,9 @@
       >.
       <section class="item" v-for="course in lastCourses" :key="course.id">
      
+        <Card :course="course" :cardType="3"  />
        
-        <div
+        <!-- <div
           class="card"
         >
           <div class="content">
@@ -25,7 +26,7 @@
             <button @click="classvideo(course.id)"
             >Continua el curso</button>
           </div>
-        </div>
+        </div> -->
       </section>
     </vue-horizontal>
   </main>
@@ -33,9 +34,13 @@
 
 <script>
 // For convenience sake, I import a collection of images from unsplash.
+import Card from "@/components/courses/cards"
 
 export default {
   name: "CarrouselCourseViewed",
+  components:{
+    Card
+  },
   data() {
     return {
       nameUser: localStorage.getItem("name_user"),
@@ -87,138 +92,6 @@ export default {
 };
 </script>
 
-<!-- Content Design -->
-<style scoped>
-.main-none{
-  display: none;
-}
-/*---------------------------*/
-.card {
-  cursor: none;
-  border-radius: 15px;
-  overflow: hidden;
-  border: 1px solid #efefef;
-  min-height: 148px;
-  display: flex;
-  flex-direction: column;
-}
-
-.content {
-  padding: 12px 16px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: #fff;
-  transition: 1s;
-}
-.content:hover {
-  cursor: pointer;
-  background: #fff;
-  transition: 0.8s;
-}
-.content p {
-  text-align: start;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  color: #131b1e;
-}
-.modules li {
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 16px;
-  list-style: none;
-}
-.btn-course{
-  display: flex;
-  justify-content: flex-end;
-  height: 30px;
-  margin: 0  10px 0 0;
-}
-.btn-course button {
-  font-style: normal;
-  font-weight: 300;
-  font-size: 9px;
-  line-height: 11px;
-  border: none;
-  color: #fff;
-  display: grid;
-  place-content: center;
-  width: 90.81px;
-  height: 18.56px;
-  background: linear-gradient(181.51deg, #1ae800 -146.2%, #97f18d 98.72%);
-  border-radius: 15px;
-}
-h5{
-  color: #35424a;
-  font-size: 25px;
-  padding-left: 2px;
-}
-</style>
-
-<!-- Parent CSS (Container) -->
-<style scoped>
-.header {
-  margin-bottom: 16px;
-}
-
-.main-content {
-  padding: 24px 8px;
-  width: 98.5%;
-  margin: auto;
-}
-
-@media (min-width: 768px) {
-  .main-content{
-    padding: 48px 0px;
-    display: flex;
-    flex-direction: column;
-  }
-}
-@media screen and (min-width: 320px) and (max-width: 620px) {
-  .main-content {
-    width: 96.5%;
-  }
-}
-</style>
-
-<!-- Responsive Breakpoints -->
-<style scoped>
-.horizontal {
-  --fixed: 260px;
-  --count: 1;
-  --gap: 12px;
-  --margin: 24px;
-}
-
-@media (min-width: 768px) {
-  .horizontal {
-    --count: 3;
-    --margin: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-  .horizontal {
-    --count: 3;
-  }
-}
-
-@media (min-width: 1280px) {
-  .horizontal {
-    --gap: 24px;
-    --count: 4;
-  }
-}
-
-@media (min-width: 1536px) {
-  .horizontal {
-    --count: 5;
-  }
-}
-</style>
-
 <!--
 ## Responsive Logic
 The margin removes the padding from the parent container and add it into vue-horizontal.
@@ -232,44 +105,3 @@ There are 2 set of logic:
 0-768 for peeking optimized for touch scrolling.
 >768 for navigation via buttons for desktop/laptop users.
 -->
-<style scoped>
-@media (max-width: 767.98px) {
-  .item {
-    width: var(--fixed);
-    padding: 0 calc(var(--gap) / 2);
-  }
-
-  .item:first-child {
-    width: calc(var(--fixed) + var(--margin) - (var(--gap) / 2));
-    padding-left: var(--margin);
-  }
-
-  .item:last-child {
-    width: calc(var(--fixed) + var(--margin) - (var(--gap) / 2));
-    padding-right: var(--margin);
-  }
-
-  .item:only-child {
-    width: calc(var(--fixed) + var(--margin) * 2 - var(--gap));
-  }
-
-  .horizontal {
-    margin: 0 calc(var(--margin) * -1);
-  }
-
-  .horizontal >>> .v-hl-container {
-    scroll-padding: 0 calc(var(--margin) - (var(--gap) / 2));
-  }
-
-  .horizontal >>> .v-hl-btn {
-    display: none;
-  }
-}
-
-@media (min-width: 768px) {
-  .item {
-    width: calc((100% - ((var(--count) - 1) * var(--gap))) / var(--count));
-    margin-right: var(--gap);
-  }
-}
-</style>
