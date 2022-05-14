@@ -1,69 +1,115 @@
 <template>
  
-     <div class="wrapper-stepper">
+     <div class="wrapper-stepper" >
         <div class="stepper">
             <div class="stepper-progress">
                 <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
             </div>
 
-            <div class="stepper-item" :class="{ 'current': step == item, 'success': step > item }" v-for="item in 3" :key="item">
+            <div class="stepper-item" :class="{ 'current': step == index, 'success': step > index }" v-for="(question , index ) in questions" :key="index">
                 <div class="stepper-item-counter">
                     <img class="icon-success" src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png" alt="">
                     <span class="number">
-                        {{ item }}
+                        {{ index + 1}}
                     </span>
                 </div>
                 <span class="stepper-item-title">
-                    Paso {{ item }}
+                     {{ index + 1}}
                 </span>
             </div>
         </div>
 
-        <div class="stepper-content" >
-            <div class="stepper-pane" v-if="step == 1">
-                <div class="title-question">¿Qué es el desarrollo Web?</div>
-                <div class="mt-5 mx-3 d-flex justify-content-around">
-                    <div class="option">a) Lorem ipsum dolor sit amet, consectetur.</div>
-                    <div class="option">b) Lorem ipsum dolor sit amet, consectetur.</div>
-                </div>
-                  <div class="mt-5 mx-3 d-flex justify-content-around">
-                    <div class="option">c) Lorem ipsum dolor sit amet, consectetur.</div>
-                    <div class="option">d) Lorem ipsum dolor sit amet, consectetur.</div>
-
-                  </div>
-            </div>
-            <div class="stepper-pane" v-if="step == 2">
-                asd
-            </div>
-            <div class="stepper-pane" v-if="step == 3">
-                asd
+        <div class="stepper-content" v-for="(question, index ) in questions" :key="index">
+            <div class="stepper-pane" v-if="step == index">
+                <div class="title-question mb-2">{{question.title}}</div>
+               
+                     <div class="options-questions" v-for="(q , i) in question.options" :key="i">
+                           <input type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i" v-model="form[index].option">
+                           <label class="opciones" > {{q}} </label>
+                    </div>
             </div>
         </div>
 
         <div class="controls">
-            <button class="btn" @click="step--" :disabled="step == 1">
+            <button class="btn" @click="sustractStep" :disabled="step == 0">
                 Anterior
             </button>
-            <button class="btn btn--green-1" @click="step++" :disabled="step == 3">
+            <button class="btn btn--green-1" @click="addStep" :disabled="isDisabled" v-if="step != Object.keys(questions).length - 1" >
                 Siguiente
             </button>
+            <button class="btn btn--green-1" @click="sendAnswers" v-else >
+                Enviar
+            </button>
         </div>
+
     </div>
         
   
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
     data(){
         return {
-            step: 1
+            step: 0,
+            questions: [],
+            options: [],
+            form:  [ ] ,
+            isDisabled: true,
+            checked: true
         }
     },
     computed:{
         stepperProgress() {
-            return ( 100 / 3 ) * ( this.step - 1 ) + '%'
+            return ( 100 / Object.keys(this.questions).length ) * ( this.step - 1 ) + '%'
         }
+    },
+    methods:{
+        ...mapActions('course',{
+            getExam: 'getExam'
+        }),
+
+        async setExam(){
+            const resp_exam = await this.getExam(this.$route.params.id)
+            const {  questions } = resp_exam.data.data
+            this.questions = questions 
+            this.splitQuestions( questions )
+        },
+        splitQuestions( questions ){
+            
+            questions.forEach(  e => {
+                this.form.push({ option : '' })
+                return e
+            });
+            
+        },
+        addStep(){
+            
+            if(this.form[this.step].option === '' ){
+                this.isDisabled = false
+            }else{
+                this.step++
+            }
+        },
+        sustractStep(){
+            this.checked ? this.isDisabled = false : this.isDisabled = true
+            this.step--
+        },
+        selectOption(){
+            this.isDisabled = false
+        },
+        sendAnswers(){
+            let resp = true
+            if( resp ){
+                console.log('send Answers', this.form);
+            }
+        }
+        
+    },
+    created(){
+        this.setExam()
+        //Validación si tiene comprado el curso
     }
 
 }
@@ -74,7 +120,20 @@ $default    :   #C5C5C5;
 $green-1    :   #75CC65;
 $transiton  :   all 500ms ease;
 
+.opciones{
+    text-align: left;
+    margin-left: 10px !important;
+}
 
+.options-questions{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+label{
+    margin: 0 !important;
+    padding: 0 !important;
+}
 .tx-green-1{
     color:  $green-1;
     font-weight: 600;
@@ -82,8 +141,7 @@ $transiton  :   all 500ms ease;
 
 .wrapper-stepper{
     background-color: #fff;
-    padding: 60px;
-    border-radius: 32px;
+    padding: 30px;
     box-shadow: rgba($color: #000000, $alpha: 0.09);
 }
 
@@ -191,7 +249,7 @@ $transiton  :   all 500ms ease;
 .stepper-pane{
     color: rgb(0, 0, 0);
     text-align: center;
-    padding: 80px 60px 120px;
+    padding: 20px 60px 50px;
     box-shadow: 0 8px 12px rgba($color: #000000, $alpha: 0.09);
     margin: 40px 0;
 }

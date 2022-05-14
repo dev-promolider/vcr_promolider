@@ -89,7 +89,9 @@
             >
             <div class="mx-4 mt-4">
               <p class="text-justify">
-                  <router-link :to="{name: 'test'}" class="test">Realizar prueba</router-link>
+
+                  <button @click="Testing"  class="test">Realizar prueba</button>
+
               </p>
             </div>
 
@@ -117,7 +119,8 @@
     methods:{
 
       ...mapActions('course',{
-        getResources: 'getResources'
+        getResources: 'getResources',
+        getTest: 'getTest'
       }),
 
       changeTab( el ){
@@ -138,12 +141,24 @@
             docUrl.click();
         })
       },
-
+      
+      async Testing(){
+        const res = await this.getTest( this.$route.query.course )
+        console.log(res);
+        if( res.status === 200){
+            this.$router.push({name: 'test' , params:{ id: res.data}})
+        }else{
+          console.log('Clase inactiva')
+        }
+        
+      },
       //Extraer nombre del recurso
       getNameResource(filepath){
         let filenameWithExtension = filepath.replace(/^.*[\\/]/, '');
         return filenameWithExtension;
-      } 
+      },
+       
+
     },
     created(){
       this.getResources(this.$route.query.class)
