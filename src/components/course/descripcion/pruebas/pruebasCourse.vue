@@ -13,25 +13,36 @@
                         {{ index + 1}}
                     </span>
                 </div>
-                <span class="stepper-item-title">
-                     {{ index + 1}}
-                </span>
             </div>
         </div>
 
         <div class="stepper-content" v-for="(question, index ) in questions" :key="index">
             <div class="stepper-pane" v-if="step == index">
-                <div class="title-question mb-2">{{question.title}}</div>
+                <div class="title-question mb-5">{{question.title}}</div>
                
-                     <div class="options-questions" v-for="(q , i) in question.options" :key="i">
-                           <input type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i" v-model="form[index].option">
-                           <label class="opciones" > {{q}} </label>
+                     <div v-for="(q , i) in question.options" :key="i" >
+                         <div class="options-questions"  v-if="question.type == 1 ">
+                           <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i" v-model="form[index].option">
+                           <label :for="q" class="opciones" > {{q}} </label>
+                         </div>
+                         <div class="options-questions"  v-else-if="question.type == 3 ">
+                           <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i === 0 ? true : false " v-model="form[index].option">
+                           <label :for="q" class="opciones" > {{q}} </label>
+                         </div>
+                         <div v-else-if="question.type == 4" class="d-flex">
+                           <label>Ingrese su Respuesta</label>   
+                           <input class="opciones" type="textarea" v-model.trim="form[index].option">    
+                         </div>
+                         <div class="options-questions" v-else>
+                                <input type="checkbox" :id="q"  :value="i" v-model="form[index].option">
+                                <label class="opciones" :for="q" >{{q}}</label>
+                         </div>
                     </div>
             </div>
         </div>
 
         <div class="controls">
-            <button class="btn" @click="sustractStep" :disabled="step == 0">
+            <button class="btn " @click="sustractStep" :disabled="step == 0">
                 Anterior
             </button>
             <button class="btn btn--green-1" @click="addStep" :disabled="isDisabled" v-if="step != Object.keys(questions).length - 1" >
@@ -41,13 +52,13 @@
                 Enviar
             </button>
         </div>
-
+     
     </div>
         
   
 </template>
 
-<script>
+<script >
 import { mapActions } from 'vuex'
 export default {
     data(){
@@ -57,7 +68,7 @@ export default {
             options: [],
             form:  [ ] ,
             isDisabled: true,
-            checked: true
+            checked: true,
         }
     },
     computed:{
@@ -73,22 +84,25 @@ export default {
         async setExam(){
             const resp_exam = await this.getExam(this.$route.params.id)
             const {  questions } = resp_exam.data.data
-            this.questions = questions 
+            this.questions = questions
+            console.log(this.questions); 
             this.splitQuestions( questions )
         },
         splitQuestions( questions ){
             
             questions.forEach(  e => {
-                this.form.push({ option : '' })
+                this.form.push({ option : [] })
                 return e
             });
             
         },
         addStep(){
             
-            if(this.form[this.step].option === '' ){
+            if( this.form[this.step].option.length <= 0 ){
                 this.isDisabled = false
+                return false
             }else{
+                console.log(this.form);
                 this.step++
             }
         },
@@ -100,10 +114,15 @@ export default {
             this.isDisabled = false
         },
         sendAnswers(){
-            let resp = true
-            if( resp ){
-                console.log('send Answers', this.form);
+              if( this.form[this.step].option.length <= 0 ){
+                return false
+            }else{
+                let resp = true
+                if( resp ){
+                    console.log('send Answers', this.form);
+                }
             }
+            
         }
         
     },
@@ -115,16 +134,19 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $default    :   #C5C5C5;
-$green-1    :   #75CC65;
+$green-1    :   #68b46e;
 $transiton  :   all 500ms ease;
 
 .opciones{
     text-align: left;
     margin-left: 10px !important;
 }
-
+.title-question{
+    font-weight: bold;
+    font-size: 18px;
+}
 .options-questions{
     display: flex;
     align-items: center;
@@ -132,7 +154,7 @@ $transiton  :   all 500ms ease;
 }
 label{
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 0 ;
 }
 .tx-green-1{
     color:  $green-1;
@@ -181,8 +203,8 @@ label{
     transition: $transiton;
 
     &-counter{
-        height: 68px;
-        width: 68px;
+        height: 30px;
+        width: 30px;
         display: grid;
         place-items: center;
         background-color: #fff;
@@ -194,12 +216,12 @@ label{
             position: absolute;
             opacity: 0;
             transform: scale(0);
-            width: 24px;
+            width: 14px;
             transition: $transiton;
         }
 
         .number{
-            font-size: 22px;
+            font-size: 15px;
             transition: $transiton;
         }
     }
@@ -249,9 +271,9 @@ label{
 .stepper-pane{
     color: rgb(0, 0, 0);
     text-align: center;
-    padding: 20px 60px 50px;
+    padding: 5px 60px 50px;
     box-shadow: 0 8px 12px rgba($color: #000000, $alpha: 0.09);
-    margin: 40px 0;
+    margin: 30px 0;
 }
 
 //Separación de los botones
@@ -276,8 +298,8 @@ label{
     width: fit-content;
     font-size: 0.75rem;
     color: #333;
-    background-color: #f0f0f0;
-    border-color: #f0f0f0;
+    background-color: #e2e2e2;
+    border-color: #bedcff;
 
     &:disabled{
         opacity: 0.5;
@@ -285,12 +307,69 @@ label{
     }
 
     &--green-1{
-        background-color: $green-1;
-        border-color: $green-1;
-        color: #fff;
         margin-left: auto;
     }
 }
    
+input[type="checkbox"] {
+     position: initial;
+     height: 40px;
+     
+}
+.options-questions input[type="radio"], input[type="checkbox"] {
+     display: none;
+     
+}
+.options-questions label{
+    color: #ffffff;
+    background: #75CC65;
+    padding: 5px 15px 5px 51px; 
+    display: inline-block;
+    position: relative;
+    font-size: 1em;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.options-questions label:hover{
+    background: #66bd57;
+}
+.options-questions label::before{
+    content: "";
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    background: none;
+    border: 3px solid white;
+    border-radius: 50%;
+    position: absolute;
+    left: 17px;
+    top: 8px;
+}
+.options-questions input[type=radio]:checked + label, 
+.options-questions input[type=checkbox]:checked  + label{
+        padding: 5px 15px ;
+        background: #3bc023;
+        border-radius: 2px;
+        color: #fff;
+}
+.options-questions input[type=radio]:checked + label:before, 
+.options-questions input[type=checkbox]:checked  + label:before{
+     display: none;
+}
+input[type="textarea"]{
+    color: #ffffff;
+    border-radius: 5px; /*up to date browsers support this, but you can add prefixes if you want*/
+    border: 1px solid rgb(99, 243, 63) !important;
+}
 
+
+@media (max-width: 780px){
+    .title-question{
+        font-size: 16px;
+        padding-bottom: 20px;
+    }
+    .stepper-pane{
+        padding: 20px 25px;
+    }
+}
 </style>
