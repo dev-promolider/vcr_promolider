@@ -50,7 +50,8 @@
                 getResources: 'getResources',
                 getVideo: 'getVideo',
                 lastSeenLesson: 'lastSeenLesson',
-                getComments: 'getComments'
+                getComments: 'getComments',
+                getTest: 'getTest'
             }),
 
             ...mapMutations("course", ["UPDATE_PROGRESS_COURSE","DESTROY_PROGRESS_COURSE"]),
@@ -81,6 +82,8 @@
                 this.getVideo(less.id)
 
                 this.getComments(less.id)
+
+                this.getTest(this.$route.query.course)
 
                 // Enviando la ultima clase que esta visualizando
                 let sendData = {

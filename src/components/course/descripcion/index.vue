@@ -87,11 +87,12 @@
               role="tabpanel"
               aria-labelledby="home-tab"
             >
-            <div class="mx-4 mt-4">
+            <div class="mt-4" v-if="dataEx===500">
+              <p> No existen pruebas... </p>
+            </div>
+            <div class="mx-4 mt-4" v-else>
               <p class="text-justify">
-
                   <button @click="Testing"  class="test">Realizar prueba</button>
-
               </p>
             </div>
 
@@ -114,7 +115,7 @@
       }
     },
     computed:{
-      ...mapState('course',['lesson','resources','isResources'])
+      ...mapState('course',['lesson','resources','isResources','dataEx'])
     },
     methods:{
 
@@ -142,16 +143,11 @@
         })
       },
       
-      async Testing(){
-        const res = await this.getTest( this.$route.query.course )
-        console.log(res);
-        if( res.status === 200){
-            this.$router.push({name: 'test' , params:{ id: res.data}})
-        }else{
-          console.log('Clase inactiva')
-        }
-        
+      Testing(){
+
+        this.$router.push({name: 'test' , params:{ id: this.examen.data}})
       },
+
       //Extraer nombre del recurso
       getNameResource(filepath){
         let filenameWithExtension = filepath.replace(/^.*[\\/]/, '');
@@ -162,6 +158,9 @@
     },
     created(){
       this.getResources(this.$route.query.class)
+      this.getTest(this.$route.query.course)
+    },
+    updated(){
     }
 
   }
