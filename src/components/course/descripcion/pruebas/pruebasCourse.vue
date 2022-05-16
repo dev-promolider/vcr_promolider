@@ -29,9 +29,9 @@
                            <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i === 0 ? true : false " v-model="form[index].option">
                            <label :for="q" class="opciones" > {{q}} </label>
                          </div>
-                         <div v-else-if="question.type == 4" class="d-flex">
-                           <label>Ingrese su Respuesta</label>   
-                           <input class="opciones" type="textarea" v-model.trim="form[index].option">    
+                         <div v-else-if="question.typer == 4"  class="textarea">
+                           <textarea placeholder="Responda aquí..." maxlength="200" cols="50" rows="10" class="opciones " v-model.trim="form[index].option">  </textarea>
+                          
                          </div>
                          <div class="options-questions" v-else>
                                 <input type="checkbox" :id="q"  :value="i" v-model="form[index].option">
@@ -85,7 +85,6 @@ export default {
             const resp_exam = await this.getExam(this.$route.params.id)
             const {  questions } = resp_exam.data.data
             this.questions = questions
-            console.log(this.questions); 
             this.splitQuestions( questions )
         },
         splitQuestions( questions ){
@@ -102,7 +101,6 @@ export default {
                 this.isDisabled = false
                 return false
             }else{
-                console.log(this.form);
                 this.step++
             }
         },
@@ -356,11 +354,14 @@ input[type="checkbox"] {
 .options-questions input[type=checkbox]:checked  + label:before{
      display: none;
 }
-input[type="textarea"]{
-    color: #ffffff;
-    border-radius: 5px; /*up to date browsers support this, but you can add prefixes if you want*/
-    border: 1px solid rgb(99, 243, 63) !important;
+textarea{
+    color: #000000;
+    border-radius: 5px; 
+    border: 1px solid rgb(63, 63, 63) !important;
+    height: 120px;
+    padding: 5px 10px;
 }
+
 
 
 @media (max-width: 780px){
