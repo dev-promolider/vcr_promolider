@@ -44,6 +44,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Card",
   data() {
@@ -58,6 +59,8 @@ export default {
     cardType:Number
   },
   methods: {
+
+    
     action(id){
       this.$router.push('/buy-cursos/' + id)
       window.location.reload(true);
@@ -69,10 +72,13 @@ export default {
         dataRequest = res.data.data;
         this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
       });
-      if(dataRequest == "no existe"){
-        this.getCourse(id);
-        let fistClass = this.course.modules[0].lessons[0].name;
-        this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+      if(!dataRequest.name){
+        await this.axios.get('course/temary/get-all-class/' + id).then(
+          (res) => {
+            let fistClass = res.data.data.modules[0].lessons[0].name;
+            this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+          }
+        )
       }else{
         this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
       }
