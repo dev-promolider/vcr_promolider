@@ -1,5 +1,5 @@
 <template>
-    <div :class="[{cardContinue:cardType == 3},'card']" @click="cardType == 1 ? action(course.id): goToCourse(course.id)">
+    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)">
         <div
               :class="[{'btn-play':cardType == 3},'image']"
               :style="{ background: `linear-gradient(to right, rgba(15, 32, 39, 0.659), rgba(32, 58, 67, 0.659), rgba(44, 83, 100, 0.659)), url(${course.url_portada})` }"
@@ -93,8 +93,6 @@ export default {
   padding: 10px;
   box-shadow: 2px 2px 10px #131b1e, 0.144;
   transition: 1s; 
-}
-.cardContinue{
   max-width: 350px;
   min-width: 300px;
 }
