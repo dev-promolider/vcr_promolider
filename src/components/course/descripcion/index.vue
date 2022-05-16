@@ -145,7 +145,7 @@
       
       Testing(){
 
-        this.$router.push({name: 'test' , params:{ id: this.examen.data}})
+        this.$router.push({name: 'test' , params:{ id: this.dataEx.data}})
       },
 
       //Extraer nombre del recurso
