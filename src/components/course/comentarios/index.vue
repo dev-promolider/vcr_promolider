@@ -12,7 +12,7 @@
         id=""
         placeholder="Escribe tu comentario o pregunta"
         v-model="newComment.comments"
-        @keyup.enter="sendComment"
+        @keyup.enter="verifyCourseId"
       />
     </div>
     <div v-if="allComments.data == 'No hay comentarios' " class="no-result center-element">
@@ -47,9 +47,9 @@ export default {
       newComment:{
           issuing_user_id: "2",
           receiving_user_id: "2",
-          class_id: 1,
+          class_id: "",
           comments: ""
-      }
+      },
       /* chats:[] */
     }
   },
@@ -57,13 +57,24 @@ export default {
     ...mapState("course", ["allComments","lesson"]),
   },
   methods: {
-    sendComment(){
+    sendComment( lesson_id ){
+      this.newComment.class_id = lesson_id
       this.axios.post("comments/send-comments",this.newComment)
       .then((res) => {
           console.log("comentario enviado con exíto" + res);
       })
       this.newComment.comments ='';
-       //console.log("TECLA ENTER!!!!!");
+      // console.log("TECLA ENTER!!!!!");
+    },
+    verifyCourseId(){
+      let lesson_id = this.$store.state.course.lesson?.id
+
+      if( lesson_id != undefined ) { 
+        this.sendComment( lesson_id )
+      }else{
+        return 
+      }
+
     }
   }
 };
