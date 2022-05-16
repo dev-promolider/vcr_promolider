@@ -4,13 +4,13 @@ import { mapState } from 'vuex';
   <div class="container-fluid mt-3">
       <div class="row" style="width: 100%">
           <div class="col-lg-8 col-md-12">
-            <h4 class="font-weight-bold"> {{$route.query.class}} </h4>
+            <h4 class="font-weight-bold text-capitalize"> {{$route.query.class}} </h4>
             <div class="d-flex mt-2">
               <img src="../../../assets/logo-perfil.png" class="rounded-circle" style="height: 46px">
                 <div class="d-flex flex-column ml-4">
-                  <span class="font-weight-bold">{{courseActive[0].title}}</span>
+                  <span class="font-weight-bold text-uppercase">{{courseActive[0].title}}</span>
                   {{ getNameProductor(courseActive[0].user_id) }}
-                  <span>{{  nombre }}</span>
+                  <span class="text-uppercase">{{  nombre }}</span>
                   
                 </div>
             </div>
@@ -71,7 +71,8 @@ export default {
       getResources: 'getResources',
       getVideo: 'getVideo',
       lastSeenLesson: 'lastSeenLesson',
-      getComments: 'getComments'
+      getComments: 'getComments',
+      getTest: 'getTest'
     }),
 
     getNameProductor(id){
@@ -125,6 +126,8 @@ export default {
       this.getVideo(lesson.id )
 
       this.getComments(lesson.id)
+
+      this.getTest(this.$route.query.course)
 
       // Enviando la ultima clase que esta visualizando
       let sendData = {
