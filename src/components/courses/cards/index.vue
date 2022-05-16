@@ -5,7 +5,7 @@
               :style="{ background: `linear-gradient(to right, rgba(15, 32, 39, 0.659), rgba(32, 58, 67, 0.659), rgba(44, 83, 100, 0.659)), url(${course.url_portada})` }"
         ></div>
         <div class="content">
-            <p class="m-0 name text-left">
+            <p class="m-0 name text-left text-capitalize">
               {{ course.title }}
             </p>
             <p class="m-0 title text-left" v-if="cardType == 1">
