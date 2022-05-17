@@ -1,5 +1,5 @@
 <template>
-    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)">
+    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)" @mouseover="mouseOver(course)" @mouseleave="mouseleave()">
         <div
               :class="[{'btn-play':cardType == 3},'image']"
               :style="{ background: `url(${course.url_portada})` }"
@@ -59,7 +59,13 @@ export default {
     cardType:Number
   },
   methods: {
+    mouseOver(course){
+      this.$store.commit("course/COURSE_HOVER", course);
+    },
 
+    mouseleave(){
+      this.$store.commit("course/COURSE_HOVER", []);
+    },
     
     action(id){
       this.$router.push('/buy-cursos/' + id)

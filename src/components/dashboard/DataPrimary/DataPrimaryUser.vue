@@ -45,7 +45,7 @@
       <div class="row">
         <div class="col-6">
           <div
-            class="spinner-border spinner-border-sm ml-auto mr-auto mt-3"
+            class="spinner-border spinner-border-sm ml-auto mr-auto mt-3 membresia"
             v-if="loading"
             role="status"
           >
@@ -53,11 +53,24 @@
           </div>
         
           <p class="my-1">Mi Membresía</p>
-          <p class="font-weight-bold font-role my-1" v-if="mostrar">
+          <div class="font-weight-bold font-role my-1 d-flex justify-content-center" v-if="mostrar">
             {{ typePlans.toUpperCase() }}
-          </p>
+            <div class="dropright">
+              <i class="fas fa-question-circle ml-2" data-toggle="dropdown" aria-expanded="false">
+              </i>
+              <div class="dropdown-menu info-membresia p-3">
+                <p class="text-light text-left">Los beneficios de tu menbresia son los siguientes: <br><br> 
+                - Acceso a todos los cursos disponibles<br>
+                - Publicacion de cursos propios<br>
+                - Gestionar tus ingresos
+                </p>
+              </div>
+            </div>
+          </div>
           <p class=""><i class="fas fa-infinity mr-2"></i> días restantes</p>
         </div>
+
+
         
         <div class="four col-6 mt-2">
           <div
@@ -116,6 +129,18 @@ export default {
   display: flex;
   margin: 2%;
   */
+
+.info-membresia{
+ background: #131b1e;
+ font-size: 12px;
+ max-width: 300px !important;
+ min-width: 200px !important;
+}
+
+.fa-question-circle{
+  font-size: 20px;
+  cursor: pointer;
+}
 .contenedor {
   width: 100%;
   padding: 0;
