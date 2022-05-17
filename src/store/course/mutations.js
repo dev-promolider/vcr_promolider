@@ -100,3 +100,7 @@ export const GET_COMMENTS = (state, allComments) => {
 export const DATA_EX = (state, dataEx) => {
     state.dataEx = dataEx
 }
+
+export const COURSE_HOVER = (state, courseHover) =>{
+    state.courseHover = courseHover
+}

@@ -1,5 +1,5 @@
 <template>
-    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)">
+    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)" @mouseover="mouseOver(course)" @mouseleave="mouseleave()">
         <div
               :class="[{'btn-play':cardType == 3},'image']"
               :style="{ background: `url(${course.url_portada})` }"
@@ -59,14 +59,22 @@ export default {
     cardType:Number
   },
   methods: {
+    mouseOver(course){
+      this.$store.commit("course/COURSE_HOVER", course);
+    },
 
+    mouseleave(){
+      this.$store.commit("course/COURSE_HOVER", []);
+    },
     
     action(id){
+      this.mouseleave()
       this.$router.push('/buy-cursos/' + id)
       window.location.reload(true);
     },
 
     async goToCourse(id){
+      this.mouseleave()
       let dataRequest;
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
         dataRequest = res.data.data;
@@ -84,6 +92,10 @@ export default {
       }
     }
   },
+
+  destroyed(){
+    this.mouseleave()
+  }
 
 }
 </script>
