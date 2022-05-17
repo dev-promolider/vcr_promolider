@@ -3,11 +3,7 @@
   <div>
       <div class="container-fluid p-5" v-if="question">
         <div class="row d-flex justify-content-center my-2" id="tooltip-target-1">
-           
-            <b-button id="tooltip-question" variant="white">
                  <h1>{{ data.question }}</h1>
-            </b-button>
-            
         </div>
         <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="!select">
             <strong>No selecciono una respuesta</strong>, por favor seleccione una alternativa.
@@ -19,10 +15,8 @@
         <div class="row d-flex justify-content-center my-2">
             <div class="col-md-6 col-sm-12  d-flex justify-content-center" v-for="(res,index) in data.answer" :key="index">
                 <input type="radio" :id=res :value=res v-model="picked" />
-                <label  :class="[{'active': picked === res}, 'text-center', 'answer']" :for=res ><b-button id="tooltip-res" variant="white">{{res}} </b-button></label>
-                <b-tooltip target="tooltip-res"   :show="isShowToll" >
-                        Click aqui!
-                </b-tooltip>
+                <label  :class="[{'active': picked === res}, 'text-center', 'answer']" :for=res >{{res}}</label>
+          
             </div>   
         </div>
         <div class="row d-flex justify-content-center mt-4">
@@ -41,13 +35,6 @@
               <span class="mt-4" v-if="!isCorrect">La respuesta correcta es: {{ data.correctAnswer }}</span>
           </div>
       </div>
-        <div class="guide">
-        </div>
-        <b-tooltip target="tooltip-question"  placement="topright" :show="isShowToll" >
-                Responder preguntas te hará ganar puntos.
-            </b-tooltip>
-     
-        <!-- <h1 style="background: black; position: absolute; opacity: 100%; color: white" >Hola soy la guía</h1> -->
   </div>
 </template>
 
@@ -56,7 +43,6 @@ export default {
     name: "QuestionDaily",
     data() {
         return {
-            isShowToll: false,
             question: true,
             isCorrect: false,
             select: true,
@@ -91,23 +77,10 @@ export default {
                 this.question=false;
             }
         },
-        setToll(){
-
-            const item = localStorage.getItem('item') || 0
-
-            if( item == 0) {
-                localStorage.setItem('item', 1)
-                console.log('Mostrar una unica vez al ingresar');
-            }else{
-                return
-            }
-            
-        }
 
     },
     created(){
         this.getQuestion()
-        this.setToll() 
     },
 }
 </script>
