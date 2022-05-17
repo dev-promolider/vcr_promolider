@@ -96,3 +96,7 @@ export const CLEAR_VIDEO = (state) => {
 export const GET_COMMENTS = (state, allComments) => {
     state.allComments = allComments
 }
+
+export const DATA_EX = (state, dataEx) => {
+    state.dataEx = dataEx
+}

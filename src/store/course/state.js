@@ -18,5 +18,6 @@ export default () => ({
     productor: null,
     progressCourseSelect: 0,
     courseSelect: false,
-    allComments: []
+    allComments: [],
+    dataEx: null
 })

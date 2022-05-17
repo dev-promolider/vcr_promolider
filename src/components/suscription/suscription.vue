@@ -8,8 +8,8 @@
   <!-- <div class="mt-5 col-md-3 d-flex align-items-center justify-content-center">
 <img class="img-curso" src="@/assets/aprendizaje.png" alt="" >
   </div> -->
-  <div class="col-md-9">
-    <div class="row mr-5 ml-5 mover">
+  <div class="">
+    <div class="row mr-5 ml-5 mover d-flex">
       <div v-if="loading">
       <loadingCourses />
     </div>
@@ -19,7 +19,7 @@
     </div>
 
       <div
-        class="col-md-4 col-lg-3 col-sm-12 card-group"
+        class="card-group mx-3 my-2"
         
         v-for="(item, index) in informacion"
         :key="index"

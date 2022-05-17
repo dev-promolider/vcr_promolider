@@ -10,3 +10,4 @@ export const timeReady = (state) => state.timeReady;
 export const getProductor = (state) => state.productor;
 export const getComments = (state) => state.allComments;
 export const getCourseActive = (state) => state.course_active;
+export const getDataEx = (state) => state.dataEx;

@@ -5,28 +5,8 @@
     </h4>
     <vue-horizontal class="horizontal"
       >.
-      <section class="item" v-for="course in lastCourses" :key="course.id">
-     
+      <section class="item mr-3" v-for="course in lastCourses" :key="course.id">
         <Card :course="course" :cardType="3"  />
-       
-        <!-- <div
-          class="card"
-        >
-          <div class="content">
-            <p class="m-0 card-title font-weight-bolder text-justify">
-              {{ course.title }}
-            </p>
-            <ul class="modules">
-              <li>
-                <img src="@/assets/list-disc.svg" class="mr-1" />Continuar con {{ course.last_class_reprod }}
-              </li>
-            </ul>
-          </div>
-         <div class="btn-course">
-            <button @click="classvideo(course.id)"
-            >Continua el curso</button>
-          </div>
-        </div> -->
       </section>
     </vue-horizontal>
   </main>
@@ -51,12 +31,22 @@ export default {
     };
   },
   methods: {
+
+
     async getAttributes() {
       await this.axios.get("course/last-courses-rep").then((datos) => {
         this.lastCourses = this.filterCourseInactive(datos.data.data);
         for(let i=0; i<this.lastCourses.length; i++){
           this.axios.get(`purchased/show-class-seen?course_id=${this.lastCourses[i].id}`).then((res)=>{
-            this.lastCourses[i].last_class_reprod = res.data.data.name
+            if(!res.data.data.name){
+              this.axios.get('course/temary/get-all-class/' + this.lastCourses[i].id).then(
+                (res) => {
+                  this.lastCourses[i].last_class_reprod = res.data.data.modules[0].lessons[0].name
+                }
+              )
+            }else{
+              this.lastCourses[i].last_class_reprod = res.data.data.name
+            }
           });
         }
       });
