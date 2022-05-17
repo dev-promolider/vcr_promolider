@@ -9,7 +9,7 @@
 <img class="img-curso" src="@/assets/aprendizaje.png" alt="" >
   </div> -->
   <div class="">
-    <div class="row mr-5 ml-5 mover d-flex justify-content-center">
+    <div class="row mr-5 ml-5 mover d-flex">
       <div v-if="loading">
       <loadingCourses />
     </div>
