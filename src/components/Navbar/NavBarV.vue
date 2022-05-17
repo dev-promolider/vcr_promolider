@@ -10,7 +10,7 @@
         :class="{ 'is-active': isActive('home') }"
       >
         <router-link to="/home" class="nav-link link-v">
-          <img src="./../../assets/home.svg" alt="" />
+          <img src="./../../assets/casa.svg" alt="" />
          Inicio
         </router-link>
       </li>
@@ -21,7 +21,7 @@
           class="nav-link link-v"
           :class="{ 'is-active': isActive('courses') }"
         >
-          <img src="./../../assets/courses.svg" alt="" />
+          <img src="./../../assets/carrito-compra.svg" alt="" />
 
           Marketplace
 
@@ -45,7 +45,7 @@
           class="nav-link link-v"
           :class="{ 'is-active': isActive('certificado-user') }"
         >
-          <img src="./../../assets/courses.svg" alt="" />
+          <img src="./../../assets/certi.svg" alt="" />
           Certificaciones
         </router-link>
       </li>
@@ -56,7 +56,7 @@
           class="nav-link link-v"
           :class="{ 'is-active': isActive('messages') }"
         >
-          <img src="./../../assets/messange.svg" alt="" />
+          <img src="./../../assets/carta.svg" alt="" />
           Mensajes
         </router-link>
       </li>

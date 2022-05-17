@@ -2,7 +2,7 @@
     <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)">
         <div
               :class="[{'btn-play':cardType == 3},'image']"
-              :style="{ background: `linear-gradient(to right, rgba(15, 32, 39, 0.659), rgba(32, 58, 67, 0.659), rgba(44, 83, 100, 0.659)), url(${course.url_portada})` }"
+              :style="{ background: `url(${course.url_portada})` }"
         ></div>
         <div class="content">
             <p class="m-0 name text-left text-capitalize">
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Card",
   data() {
@@ -58,6 +59,8 @@ export default {
     cardType:Number
   },
   methods: {
+
+    
     action(id){
       this.$router.push('/buy-cursos/' + id)
       window.location.reload(true);
@@ -69,10 +72,13 @@ export default {
         dataRequest = res.data.data;
         this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
       });
-      if(dataRequest == "no existe"){
-        this.getCourse(id);
-        let fistClass = this.course.modules[0].lessons[0].name;
-        this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+      if(!dataRequest.name){
+        await this.axios.get('course/temary/get-all-class/' + id).then(
+          (res) => {
+            let fistClass = res.data.data.modules[0].lessons[0].name;
+            this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+          }
+        )
       }else{
         this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
       }
@@ -93,7 +99,7 @@ export default {
   padding: 10px;
   box-shadow: 2px 2px 10px #131b1e, 0.144;
   transition: 1s; 
-  max-width: 350px;
+  max-width: 300px;
   min-width: 300px;
 }
 .card:hover{
