@@ -151,6 +151,7 @@
 
 export default {
   name: "VirtualClassroomBuyCursos",
+  
 
   data() {
     return {
