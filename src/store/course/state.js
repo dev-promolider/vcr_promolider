@@ -19,5 +19,6 @@ export default () => ({
     progressCourseSelect: 0,
     courseSelect: false,
     allComments: [],
-    dataEx: null
+    dataEx: null,
+    courseHover: []
 })

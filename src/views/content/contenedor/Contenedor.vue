@@ -22,7 +22,9 @@
       />
 
       <NavBar />
-      <router-view class="view" />
+      <router-view class="view" 
+      :style="{ 'background-image': `url(${courseHover.url_portada}) !important` }"
+      />
     </div>
   </div>
 </template>
@@ -30,7 +32,7 @@
 import NavBar from "@/components/Navbar/NavBar.vue";
 import NavBarV from "@/components/Navbar/NavBarV.vue";
 import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
-// import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   name: "Contenedor",
   components: {
@@ -42,14 +44,13 @@ export default {
     return {
       mostrar: false,
       status_user: null,
-      barraMenu: true,
+      barraMenu: true
     };
   },
 
-  // computedd:{
-  //   ...mapGetters('user',{
-  //     statususer: 'getStatusU+ser'})
-  //},
+  computed:{
+    ...mapState('course',['courseHover'])
+  },
   methods: {
     closeMenu(){
       this.barraMenu = false;
@@ -70,6 +71,10 @@ export default {
 <style lang="scss" scoped>
 .view {
   overflow-y: scroll;
+  background-repeat: none;
+  background-size: 100% 100%;
+  backdrop-filter: blur(10px);
+  transition: 0.5s;
 }
 
 .view::-webkit-scrollbar {
