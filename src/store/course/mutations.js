@@ -104,3 +104,7 @@ export const DATA_EX = (state, dataEx) => {
 export const COURSE_HOVER = (state, courseHover) =>{
     state.courseHover = courseHover
 }
+
+export const NO_EXAM_DAILY = (state, examDaily) =>{
+    state.examDaily = examDaily
+}

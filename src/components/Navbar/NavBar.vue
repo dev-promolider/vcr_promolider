@@ -14,7 +14,7 @@
     </ul>
     <div class="nav-horizontal flex-grow-1 d-flex">
       
-      <ul class="nav nav-sub-h1 justify-content-center align-items-center">
+      <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="examDaily">
         <li class="nav-item " data-toggle="modal" data-target="#question" >
           <i class="fas fa-question " :class="[tooltip ? 'pulse ' : '']"></i>
         </li>
@@ -120,15 +120,12 @@ export default {
       titulo: state => state.topSection
     }),
 
-    ...mapState('course',['progressCourseSelect','courseSelect','msjCompletedClass']),
+    ...mapState('course',['progressCourseSelect','courseSelect','msjCompletedClass','examDaily']),
 
     ...mapGetters('course',{
       vuexTitle: "title",
     }),
 
-    // titulo(){
-    //   return this.$store.state.title
-    // }
   },
   mounted() {
     this.desplegar();
