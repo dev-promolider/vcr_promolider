@@ -51,7 +51,7 @@
       <ul class="nav nav-sub-h2 justify-content-center align-items-center mr-3 ">
         <li class="nav-item profile">
           <span class="submenu">
-            <img class="img-photo" src="../../assets/logo-perfil.png" />
+            <img class="img-photo" :src="photo" />
             <a class="viewmenu dropdown-toggle " data-toggle="dropdown" aria-expanded="false" >
               <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
             </a>
@@ -99,6 +99,7 @@ export default {
       name: "",
       interval: {},
       value: 0,
+      photo:localStorage.getItem("photo_user"),
     };
   },
   components:{
