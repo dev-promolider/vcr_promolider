@@ -106,7 +106,7 @@ export default {
       interval: {},
       value: 0,
       tooltip: false,
-      item: 0
+      item: 0,
       photo:localStorage.getItem("photo_user"),
     };
   },
