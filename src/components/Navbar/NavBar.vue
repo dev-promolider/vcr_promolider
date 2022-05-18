@@ -18,7 +18,7 @@
         <li class="nav-item " data-toggle="modal" data-target="#question" >
           <i class="fas fa-question " :class="[tooltip ? 'pulse ' : '']"></i>
         </li>
-        <div class="tooltip-box d-flex" :class="[tooltip ? 'fade-in-enlace' : 'fade-out-enlace']"  v-if="tooltip">Gana puntos contestando preguntas. 
+        <div class="tooltip-box d-flex"  v-if="tooltip">Gana puntos contestando preguntas. 
           <i style="cursor: pointer"  class="fas fa-times close-tool" @click="hideToolTip"></i>
         </div>
         <div class="circle"></div>
@@ -132,9 +132,8 @@ export default {
   },
   mounted() {
     this.desplegar();
-    setTimeout(() => {
-      this.showToolTip()
-    }, 1000);
+    this.showToolTip()
+  
   },
   methods: {
     desplegar() {
@@ -307,6 +306,7 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
   font-weight: 500;
   font-size: 15px;
   box-shadow: 2px 2px 2px 2px #000000;
+  opacity: 80%;
 }
 .tooltip-box:hover{
   opacity: 100%;
@@ -336,35 +336,5 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
 }
 
 
-@keyframes fadeInOpacity {
-      0% {
-       opacity: 0;
-      }
-      100% {
-       opacity: 1;
-      }
-}
-@keyframes fadeOutOpacity {
-     0% {
-        opacity: 1;
-    }
-    100% {
-       opacity: 0;
-              
-    }
-}
- .fade-in-enlace{
-          opacity: 80%;
-          animation-name: fadeInOpacity;
-          animation-iteration-count: 1;
-          animation-timing-function: ease-in;
-          animation-duration: 0.4s;
-}
-.fade-out-enlace{
-          opacity: 0;
-          animation-name: fadeOutOpacity;
-          animation-iteration-count: 1;
-          animation-timing-function: ease-in-out;
-          animation-duration: 0.4s;        
-}
+
 </style>
