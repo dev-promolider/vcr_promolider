@@ -27,11 +27,12 @@
                   class="lapiz open"
                   src="../../assets/logo-lapiz.svg"
                   alt=""
-                  @click="editarImg" /></label
+                  @click="editarImg" 
+                  style="cursor: pointer"/></label
             ></a>
 
             <div class="modal" id="modal">
-              <a href="#" class="modal-bg"></a>
+              <a href="#" class="modal-bg" ></a>
               <div class="modal-content">
                 <a href="#" class="modal-exit">x</a>
                 <div class="d-flex flex-column p-2 w-100">
@@ -192,7 +193,7 @@
           <div class="my-3">
             <div class="row row-cols-2">
               <label class="col-md-6"><strong>Ciudad</strong></label>
-              <label class="col-md-6"><strong>Pais</strong></label>
+              <label class="col-md-6"><strong>País</strong></label>
               <div class="col-md-6 bg-light border border-secundary rounded">
                 <input
               class=""
@@ -226,7 +227,7 @@
           <div class="my-3">
 
             <div class="row row-cols-2">
-              <label class="col-md-6"><strong>Genero</strong></label>
+              <label class="col-md-6"><strong>Género</strong></label>
               <label class="col-md-6"><strong>F. Naciemiento</strong></label>
               <div class="col-md-6 bg-light border border-secundary rounded ">
                 <input
@@ -253,7 +254,7 @@
 
           <div class="biografia my-3">
             <div>
-              <strong>Biografia</strong>
+              <strong>Biografía</strong>
             </div>
             <textarea
               class="bg-light border border-secundary rounded p-2"
@@ -495,11 +496,11 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   -webkit-transition: all 0.7s;
   transition: all 0.7s;
-  cursor: default;
 }
 /* Background modal overlaps to container*/
 .modal:target .modal-bg {
   z-index: 200;
+  
 }
 /* Modal content or body*/
 .modal-content {
@@ -531,5 +532,6 @@ export default {
   padding: 0 15px 0 15px;
   border-radius: 5px;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+
 }
 </style>
