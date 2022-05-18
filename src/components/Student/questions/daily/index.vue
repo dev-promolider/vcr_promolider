@@ -1,6 +1,6 @@
 <template>
  
-  <div>
+  <div v-if="examDaily">
       <div class="container-fluid p-5" v-if="question">
         <div class="row d-flex justify-content-center my-2" id="tooltip-target-1">
                  <h1>{{ data.question }}</h1>
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
     name: "QuestionDaily",
     data() {
@@ -51,17 +53,25 @@ export default {
                 answer:[],
                 correctAnswer: ""
             },
-            picked:""
+            picked:"",
+
         };
+    },
+    computed: {
+        ...mapState('course',['examDaily'])
     },
     methods: {
         getQuestion(){
             let array;
             this.axios.get(`course/exam/daily`).then((res)=>{
-                this.data.question=res.data[0].question
-                this.data.correctAnswer=res.data[0].correctAnswer
-                array = res.data[0].incorrectAnswers.concat(res.data[0].correctAnswer);
-                this.data.answer =array.sort(()=>{return Math.random()-0.5})
+                if(res.data.message){
+                    this.$store.commit("course/NO_EXAM_DAILY", false);
+                }else{
+                    this.data.question=res.data[0].question
+                    this.data.correctAnswer=res.data[0].correctAnswer
+                    array = res.data[0].incorrectAnswers.concat(res.data[0].correctAnswer);
+                    this.data.answer =array.sort(()=>{return Math.random()-0.5})
+                }
             });
         },
 
@@ -70,17 +80,23 @@ export default {
                 this.select = false
             }else{
                 if(this.picked===this.data.correctAnswer){
+                    this.sendResponse(1)
                     this.isCorrect = true;
                 }else{
+                    this.sendResponse(0)
                     this.isCorrect = false;
                 }
                 this.question=false;
             }
         },
 
+        sendResponse(response){
+            this.axios.post('course/exam/daily/points',{isCorrect:response})
+        }
+
     },
     created(){
-        this.getQuestion()
+       this.getQuestion() 
     },
 }
 </script>
