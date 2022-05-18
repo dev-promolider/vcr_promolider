@@ -15,10 +15,16 @@
     <div class="nav-horizontal flex-grow-1 d-flex">
       
       <ul class="nav nav-sub-h1 justify-content-center align-items-center">
-        <li class="nav-item" data-toggle="modal" data-target="#question">
-          <i class="fas fa-question mr-2 mt-2"></i>
+        <li class="nav-item " data-toggle="modal" data-target="#question" >
+          <i class="fas fa-question " :class="[tooltip ? 'pulse ' : '']"></i>
         </li>
+        <div class="tooltip-box d-flex" :class="[tooltip ? 'fade-in-enlace' : 'fade-out-enlace']"  v-if="tooltip">Gana puntos contestando preguntas. 
+          <i style="cursor: pointer"  class="fas fa-times close-tool" @click="hideToolTip"></i>
+        </div>
+        <div class="circle"></div>
+        
       </ul>
+    
 
       <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
         <li class="nav-item">
@@ -99,6 +105,8 @@ export default {
       name: "",
       interval: {},
       value: 0,
+      tooltip: false,
+      item: 0
     };
   },
   components:{
@@ -123,6 +131,9 @@ export default {
   },
   mounted() {
     this.desplegar();
+    setTimeout(() => {
+      this.showToolTip()
+    }, 1000);
   },
   methods: {
     desplegar() {
@@ -135,6 +146,19 @@ export default {
       //window.location.reload(true);
       this.$router.push('/login');
     },
+    hideToolTip(){
+        if( this.item == 0 ) {
+          this.tooltip = false
+          localStorage.setItem('item', 1)
+        }
+    },
+    showToolTip(){
+      this.item = localStorage.getItem('item')  || 0
+
+      if( this.item == 0) {
+        this.tooltip = true
+      }
+    }
   },
 };
 
@@ -269,4 +293,77 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
   
 }
 
+.tooltip-box{
+  position: absolute;
+  background: #000000;
+  color: #ffffff;
+  padding: 8px 15px;
+  font-size: 12px;
+  z-index: 2;
+  bottom: -40px;
+  width: 230px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  box-shadow: 2px 2px 2px 2px #000000;
+}
+.tooltip-box:hover{
+  opacity: 100%;
+  transition: 0.3s ease-in;
+}
+.tooltip-box::after{
+  content: "";
+  display: block;
+  border-bottom: 7px solid #131b1e;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  position: absolute;
+  top: -7px;
+  left: calc(50% - 7px);
+
+}
+.pulse{
+    animation: pulse 2s infinite;
+}
+@keyframes pulse{
+  0%{
+    color: #ddce00be;
+  }
+  100%{
+    color: #000000;
+  }
+}
+
+
+@keyframes fadeInOpacity {
+      0% {
+       opacity: 0;
+      }
+      100% {
+       opacity: 1;
+      }
+}
+@keyframes fadeOutOpacity {
+     0% {
+        opacity: 1;
+    }
+    100% {
+       opacity: 0;
+              
+    }
+}
+ .fade-in-enlace{
+          opacity: 80%;
+          animation-name: fadeInOpacity;
+          animation-iteration-count: 1;
+          animation-timing-function: ease-in;
+          animation-duration: 0.4s;
+}
+.fade-out-enlace{
+          opacity: 0;
+          animation-name: fadeOutOpacity;
+          animation-iteration-count: 1;
+          animation-timing-function: ease-in-out;
+          animation-duration: 0.4s;        
+}
 </style>
