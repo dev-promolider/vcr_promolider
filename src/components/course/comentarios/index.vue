@@ -1,9 +1,11 @@
 <template>
   <div class="content-comments">
+
     <div class="titulo d-flex">
       <img src="@/assets/comment.svg" alt="" />
       <p class="titulo-text">Comentarios</p>
     </div>
+
     <div class="input-comment d-flex">
       <img class="img-user" src="@/assets/logo-perfil.png" alt="" />
       <input
@@ -15,6 +17,7 @@
         @keyup.enter="verifyCourseId"
       />
     </div>
+    
     <div v-if="allComments.data == 'No hay comentarios' " class="no-result center-element">
       <span>Aún no hay comentarios</span>
     </div>

@@ -1,10 +1,14 @@
 <template>
   <div class="cont">
+
     <div v-if="error" class="no-result center-element">
       <span>Lo sentimos se produjo un error</span>
     </div>
+
     <div v-else class="content-course">
+
       <div class="navtap-video ">
+
         <div class="video ">
           <div class="seccion_video ">
             <Video v-if="renderVideo" />
@@ -16,20 +20,27 @@
               ></b-spinner>
             </div>
           </div>
+
           <div class="seccion_inferior_video">
             <DatosCurso />
           </div>
         </div>
+
         <Descripcion class="descrip"/>
+
       </div>
+
       <div class="temario-comments">
+
         <div class="description">
           <Temario @renderVideo="renderVideo = $event" />
         </div>
+
         <div class="comment">
           <Comentarios />
           <h1></h1>
         </div>
+
       </div>
     </div>
 
@@ -37,12 +48,15 @@
 </template>
 
 <script>
+
 import { mapState, mapActions, mapMutations} from "vuex";
 import Temario from "@/components/course/temario";
 import Descripcion from "@/components/course/descripcion";
 import Comentarios from "@/components/course/comentarios";
 import Video from "@/components/course/video";
 import DatosCurso from "@/components/course/datosCurso";
+
+
 export default {
   name: "Course",
   data() {
@@ -91,28 +105,14 @@ export default {
     this.getCourseActive(this.$route.query.course);
   },
   beforeMount() {
+
+    // Verificamos que en la URL venga el curso y clase, en caso contrario se le mostrara un error
     if (!this.$route.query.class && !this.$route.query.course) {
       this.error = true;
-      //this.$router.push('/home');
     } else if (!this.$route.query.class || !this.$route.query.course) {
       this.error = true;
-      //this.$router.push('/home');
     }
-    //else if(!this.$route.query.class){
-    //    this.$router.push({
-    //        query: {
-    //            course: this.$route.query.course,
-    //            class: 'clase1'
-    //        }
-    //    });
-    // }else if(this.$route.query.class && this.$route.query.course){
-    //   this.$router.push({
-    //        query: {
-    //            course: this.$route.query.course,
-    //            class: this.$route.query.course
-    //        }
-    //    });
-    // }
+
   },
   destroyed(){
     this.DESTROY_PROGRESS()
