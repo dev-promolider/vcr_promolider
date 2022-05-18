@@ -1,8 +1,9 @@
 <template>
+ 
   <div>
       <div class="container-fluid p-5" v-if="question">
-        <div class="row d-flex justify-content-center my-2">
-          <h1>{{ data.question }}</h1>
+        <div class="row d-flex justify-content-center my-2" id="tooltip-target-1">
+                 <h1>{{ data.question }}</h1>
         </div>
         <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="!select">
             <strong>No selecciono una respuesta</strong>, por favor seleccione una alternativa.
@@ -14,7 +15,8 @@
         <div class="row d-flex justify-content-center my-2">
             <div class="col-md-6 col-sm-12  d-flex justify-content-center" v-for="(res,index) in data.answer" :key="index">
                 <input type="radio" :id=res :value=res v-model="picked" />
-                <label  :class="[{'active': picked === res}, 'text-center', 'answer']" :for=res >{{ res }}</label>
+                <label  :class="[{'active': picked === res}, 'text-center', 'answer']" :for=res >{{res}}</label>
+          
             </div>   
         </div>
         <div class="row d-flex justify-content-center mt-4">
@@ -74,12 +76,12 @@ export default {
                 }
                 this.question=false;
             }
-        }
+        },
 
     },
     created(){
         this.getQuestion()
-    }
+    },
 }
 </script>
 
@@ -131,4 +133,22 @@ label:hover{
 .g{
     width: 100%;
 }
+.guide {
+  position: fixed;
+  background: rgb(189, 189, 189);
+  opacity: 10%;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1050;
+  overflow: auto;
+}
+
+@media(max-width: 780px) {
+    h1{
+        font-size: 20px;
+    }
+}
+
 </style>
