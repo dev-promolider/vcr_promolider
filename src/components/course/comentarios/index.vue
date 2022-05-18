@@ -12,13 +12,13 @@
         id=""
         placeholder="Escribe tu comentario o pregunta"
         v-model="newComment.comments"
-        @keyup.enter="sendComment"
+        @keyup.enter="verifyCourseId"
       />
     </div>
     <div v-if="allComments.data == 'No hay comentarios' " class="no-result center-element">
       <span>Aún no hay comentarios</span>
     </div>
-    <section v-else  class="comments d-flex" v-for="comment in allComments" :key="comment">
+    <section v-else  class="comments d-flex" v-for="(comment , idx) in allComments" :key="idx">
       <img class="img-users" src="@/assets/logo-comment.svg" alt="" />
       <div class="users-comment">
         <p class="name">{{comment.username}}</p>
@@ -45,25 +45,38 @@ export default {
     return {
       useId: "",
       newComment:{
-          issuing_user_id: "2",
-          receiving_user_id: "2",
-          class_id: 1,
+          issuing_user_id: "",
+          receiving_user_id: "",
+          class_id: "",
           comments: ""
-      }
+      },
       /* chats:[] */
     }
   },
   computed:{
-    ...mapState("course", ["allComments","lesson"]),
+     ...mapState("course", ["allComments","lesson", "course_active"]),
   },
   methods: {
-    sendComment(){
-      this.axios.post("comments/send-comments",this.newComment)
+    sendComment( comment  ){
+      this.axios.post("comments/send-comments", comment )
       .then((res) => {
           console.log("comentario enviado con exíto" + res);
       })
       this.newComment.comments ='';
-       //console.log("TECLA ENTER!!!!!");
+      // console.log("TECLA ENTER!!!!!");
+    },
+    verifyCourseId(){
+      this.newComment.issuing_user_id = localStorage.getItem('id_user');
+      this.newComment.receiving_user_id = this.course_active[0].user_id.toString();
+      this.newComment.class_id = this.lesson.id.toString();
+
+      if( this.newComment.class_id != undefined ) { 
+        this.sendComment( this.newComment )
+      }else{
+        console.log('Error al enviar el comentaro');
+        return 
+      }
+
     }
   }
 };
