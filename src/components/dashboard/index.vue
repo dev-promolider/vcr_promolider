@@ -14,7 +14,6 @@
           </div>
           <div class="col-12 col-md-6">
             <ClienteVenta />
-            <VueWinWheel />
           </div>
         </div>
       </div>
@@ -25,7 +24,6 @@
 import DataPrimaryUser from "@/components/dashboard/DataPrimary/DataPrimaryUser.vue";
 import MessengerColletion from "@/components/dashboard/Message/MessengerColletion.vue";
 import ClienteVenta from "@/components/dashboard/SalesHistory/ClienteVenta.vue";
-import VueWinWheel from './../Student/dashboard/Roulette'
 
 export default {
   name: "DashboardProducer",
@@ -33,8 +31,7 @@ export default {
     DataPrimaryUser,
     MessengerColletion,
     //Attribute,
-    ClienteVenta,
-    VueWinWheel
+    ClienteVenta
   },
   data() {
     return {};
