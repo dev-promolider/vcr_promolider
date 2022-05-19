@@ -42,7 +42,7 @@ import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
           <p class="text ">{{ item.client }} {{ item.client_last_name }}</p>
           </div>
           </div>
-          <span class="cursos col-5 text-capitalize d-flex justify-content-start ml-2" style="font-size:12px; margin-right: 0px;">{{ item.title }}</span>
+          <span class="cursos col-5 text-capitalize " style="font-size:12px; margin-right: 0px;text-overflow: ellipsis;">{{ item.title }}</span>
           <span class="cursos col-2" style="font-size:12px; margin-right: 0px;"> ${{ item.price }}</span>
           <span class="cursos col-3" style="font-size:12px; margin-right: 0px;">{{ item.created_at }}</span>  
           
