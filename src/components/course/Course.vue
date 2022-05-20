@@ -69,8 +69,7 @@ export default {
     Descripcion,
     Comentarios,
     Video,
-    DatosCurso,
-    //VideoHTTP
+    DatosCurso
   },
   computed: {
     ...mapState("course", ["lesson", "renderVideo"]),

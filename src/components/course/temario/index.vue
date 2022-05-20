@@ -24,7 +24,6 @@
 </template>
 
 <script>
-
     import { mapState, mapActions, mapMutations ,mapGetters } from 'vuex';
 
     export default{

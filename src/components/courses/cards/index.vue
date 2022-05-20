@@ -1,3 +1,9 @@
+<!-- 
+Este componente contiene las cards que son usadas en el aula virtual, para usarlos solo se necesita
+importar al componente donde se desea y enviar como props course (el curso que se desea renderizar) y 
+cardType(el tipo de card que se desea).
+-->
+
 <template>
     <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)" @mouseover="mouseOver(course)" @mouseleave="mouseleave()">
         <div
@@ -48,9 +54,7 @@
 export default {
   name: "Card",
   data() {
-    return {
-      
-    };
+    return {};
   },
   props: {
     course: {
@@ -59,27 +63,36 @@ export default {
     cardType:Number
   },
   methods: {
+
+    // Evento hover para cambiar el background del aula virtual
     mouseOver(course){
       this.$store.commit("course/COURSE_HOVER", course);
     },
 
+    // Evento cuando se quita el cursor de la card para quitar el background
     mouseleave(){
       this.$store.commit("course/COURSE_HOVER", []);
     },
     
+    // Accion para la card de tipo 1
     action(id){
       this.mouseleave()
       this.$router.push('/buy-cursos/' + id)
       window.location.reload(true);
     },
 
+    // Accion par el tipo de card 2 y 3 que redirecciona a ver el curso 
     async goToCourse(id){
       this.mouseleave()
       let dataRequest;
+
+      // Verificamos la ultima clase vista del curso y el tiempo de reproduccion de dicha clase
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
         dataRequest = res.data.data;
         this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
       });
+
+      // Verificamos si el usuario ya vio alguna clase, de otro modo le redireccionamos a la primera clase
       if(!dataRequest.name){
         await this.axios.get('course/temary/get-all-class/' + id).then(
           (res) => {
@@ -91,6 +104,8 @@ export default {
         this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
       }
     }
+
+    
   },
 
   destroyed(){

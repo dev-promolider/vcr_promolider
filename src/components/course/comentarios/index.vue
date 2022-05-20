@@ -27,14 +27,6 @@
         <p class="name">{{comment.username}}</p>
         <p class="date">Hace 1 dia</p>
         <p class="info">{{comment.comments}}</p>
-        <!-- <div class="comments d-flex">
-          <img class="img-users" src="@/assets/logo-comment.svg" alt="" />
-          <div class="users-comment">
-            <p class="name">Daniel Rodriguez</p>
-            <p class="date">Hace 2 dias</p>
-            <p class="info">Cuál es el archivo mencionado en la clase , ¿FTX.wav o FTQ.wav?</p>
-          </div>
-        </div> -->
       </div>
     </section>
   </div>
@@ -52,21 +44,18 @@ export default {
           receiving_user_id: "",
           class_id: "",
           comments: ""
-      },
-      /* chats:[] */
+      }
     }
   },
   computed:{
      ...mapState("course", ["allComments","lesson", "course_active"]),
   },
   methods: {
+
+    // Funcion para el envio de mensajes
     sendComment( comment  ){
       this.axios.post("comments/send-comments", comment )
-      .then((res) => {
-          console.log("comentario enviado con exíto" + res);
-      })
       this.newComment.comments ='';
-      // console.log("TECLA ENTER!!!!!");
     },
     verifyCourseId(){
       this.newComment.issuing_user_id = localStorage.getItem('id_user');
@@ -75,10 +64,11 @@ export default {
 
       if( this.newComment.class_id != undefined ) { 
         this.sendComment( this.newComment )
-      }else{
-        console.log('Error al enviar el comentaro');
-        return 
       }
+      // }else{
+      //   console.log('Error al enviar el comentaro');
+      //   return 
+      // }
 
     }
   }
