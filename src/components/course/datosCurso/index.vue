@@ -1,6 +1,5 @@
 import { mapState } from 'vuex';
 <template>
-    <!-- Seccion inferior del video -->
   <div class="container-fluid mt-3">
       <div class="row" style="width: 100%">
           <div class="col-lg-8 col-md-12">
@@ -11,7 +10,7 @@ import { mapState } from 'vuex';
                   <span class="font-weight-bold text-uppercase">{{courseActive[0].title}}</span>
                   {{ getNameProductor(courseActive[0].user_id) }}
                   <span class="text-uppercase">{{  nombre }}</span>
-                  
+                 
                 </div>
             </div>
           </div>
@@ -34,9 +33,6 @@ import { mapState, mapGetters, mapActions} from 'vuex';
 export default {
   name:"DatosCurso",
 
-  components: {
-    
-  },
   data() {
     return {
       index: null,
@@ -48,7 +44,6 @@ export default {
   },
   computed: {
     ...mapState( {
-      //titulo: state => state.title
       Lecciones: state =>state.course.allLessonsId,
       leccionActiva: state => state.course.lesson,
     }),
@@ -57,6 +52,7 @@ export default {
       elProductor:'getProductor',
       courseActive:'getCourseActive'
     }),
+
   },
   created(){
     this.classActive();
@@ -65,6 +61,8 @@ export default {
     this.endClass=false;
   },
   methods:{
+
+    // Definimos los metodos que vienen de Vuex
     ...mapActions('course',{
       getCourse: 'getCourse',
       getLesson: 'getLesson',
@@ -75,19 +73,21 @@ export default {
       getTest: 'getTest'
     }),
 
+    // Obtenemos el nombre del productor del curso actual
     getNameProductor(id){
       this.axios.get(`user/show?id=${id}`).then((res)=>{
         this.nombre = `${res.data.name} ${res.data.last_name}`;
-        // return `${res.data.name}`;
       })
     },
 
+    // Definimos la clase activa que esta siendo visualizada
     classActive(){
       this.index = this.Lecciones.findIndex(elemento => {
         return elemento.id === this.leccionActiva.id;
       })
     },
 
+    // Accion para el boton siguiente clase
     nextClass(){
       this.classActive()
       // saber si hay otra clase
@@ -100,6 +100,8 @@ export default {
       }
 
     },
+
+    // Accion para el boton anterior clase
     previusClass(){
       this.classActive()
       // saber si hay otra clase
@@ -108,7 +110,9 @@ export default {
       }
     },
 
+    // Acciones que se realizaran cuando se cambie de clase
     cambiarClase(lesson){
+      // Cambiar ruta de la url
       this.$router.push({
           query: {
           course: this.$route.query.course,
@@ -119,14 +123,16 @@ export default {
       // Enviando informacion de la nueva clase
       this.getLesson(lesson);
 
-      //Buscando el recurso de la clase
+      //Buscando el recurso de la nueva clase
       this.getResources(lesson.name )
 
-      // Cambiando video de la clase
+      // Cambiando video de la nueva clase
       this.getVideo(lesson.id )
 
+      // Obtenemos los comentarios de la nueva clase
       this.getComments(lesson.id)
 
+      
       this.getTest(this.$route.query.course)
 
       // Enviando la ultima clase que esta visualizando
@@ -134,8 +140,8 @@ export default {
         course_id: this.$route.query.course,
         class_id: lesson.id
       }
-
       this.lastSeenLesson(sendData)
+      
     },
   },
 

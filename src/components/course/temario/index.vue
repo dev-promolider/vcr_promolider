@@ -1,6 +1,5 @@
 <template>
     <div class="contenedor-temario border-box" > 
-
             <!-- Cuerpo temario -->
             <div class="temario my-4 ">
                 <div class="center-spinner" v-if="isLoading">
@@ -21,12 +20,10 @@
                                 
                 </ul>                    
             </div>
-
     </div>                   
 </template>
 
 <script>
-
     import { mapState, mapActions, mapMutations ,mapGetters } from 'vuex';
 
     export default{
@@ -81,8 +78,10 @@
                 // Cambiando video de la clase
                 this.getVideo(less.id)
 
+                // Solicitar los comentarios de la nueva clase 
                 this.getComments(less.id)
 
+                // Solicitar los nuevos examenes si es necesario
                 this.getTest(this.$route.query.course)
 
                 // Enviando la ultima clase que esta visualizando

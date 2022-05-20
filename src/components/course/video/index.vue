@@ -77,8 +77,9 @@ export default {
 
     ...mapMutations("course", ["CLEAR_VIDEO"]),
 
-    // listen event
+    // Eventos del reproductor que podemos usar
     onPlayerPlay() {},
+    // Caundo el usaruario ponga pause se actualizara el tiempo en que se esta quedando
     onPlayerPause(player) {
       this.actualizarTiempo(player.currentTime())
     },
@@ -89,31 +90,30 @@ export default {
     onPlayerTimeupdate() {},
     onPlayerCanplay() {},
     onPlayerCanplaythrough() {},
-    // or listen state event
     playerStateChanged() {},
-    // player is ready
+
+    // Función para inciar la reproducción
     playerReadied(player) {
-      // seek to 10s
-      //console.log('example player 1 readied', player)
+      //  Iniciamos la reproducción en el tiempo que el usuario se quedo
       player.currentTime(this.timeReady);
-      // console.log('example 01: the player is readied', player)
     },
+
+    // Función para actualizar el tiempo de reproduccion de la clase
     actualizarTiempo(time){
       this.axios.patch(`purchased/save-class-seen?course_id=${this.$route.query.course}&display_time=${time}&class_id=${this.lesson.id}`)
     }
   },
   beforeDestroy() {
+    // Cuando el componente se destruya o cierre por casualidad actualizaremos el tiempo en el que se esta quedando
     this.axios.patch(`purchased/save-class-seen?course_id=${this.idCourse}&display_time=${this.player.currentTime()}&class_id=${this.lesson.id}`)
+    
+    // Actualizaremos la variable global de vuex para no generar conflicto con otra clase
     this.$store.commit("course/UPDATE_TIME", 0);
   },
   destroyed(){
+    // Borramos datos del video al destruir el componente para no generar conflictos
     this.CLEAR_VIDEO();
   }
-  // events:{
-  //   'window.onbeforeunload': onbeforeunload_handler(){
-
-  //   };
-  // }
 };
 </script>
 

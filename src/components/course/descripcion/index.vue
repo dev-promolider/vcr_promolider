@@ -129,13 +129,14 @@
 
       },
 
-      //Se necesita una funcion para recojer los recursos descargables
+      // Funcion para descargar un recurso
       downloadResource(resource){
         this.axios.get(`class-resource/download-resource?id=${resource.id}`,{responseType: "blob"} ).then(
             (res) => {
+            // Creamos un objeto url a partir de la respuesta converitda en objeto Blob
             var FILE = window.URL.createObjectURL(new Blob([res.data]));
-
             var docUrl = document.createElement('a');
+            // Generamos un link de descarga
             docUrl.href = FILE;
             docUrl.setAttribute('download', `${resource.resource_file}`);
             document.body.appendChild(docUrl);
@@ -144,11 +145,10 @@
       },
       
       Testing(){
-
         this.$router.push({name: 'test' , params:{ id: this.dataEx.data}})
       },
 
-      //Extraer nombre del recurso
+      // Extraer solo nombre del recurso y no toda la ruta
       getNameResource(filepath){
         let filenameWithExtension = filepath.replace(/^.*[\\/]/, '');
         return filenameWithExtension;

@@ -200,7 +200,7 @@ export default {
         getVideo: 'getVideo'
       }),
 
-
+    // Redirección a la vista para comprar el curso
     BuyCourse(){
       this.$router.push("/suscription-user")
       
@@ -222,25 +222,16 @@ export default {
       this.$router.push("/suscription-user")
     },
 
-
-
+    // Obtenemos todos lo atributos necesarios para mostrar del curso
     getAttributes() {
         this.pao_id = this.$route.params.ide;
 
+        // API para obtener los detalles
         this.axios.get("course/details/" + this.pao_id).then((datos) => {
           this.items = datos.data.data[0];
-
-          // Verificar si el curso esta activo o no
-          // if(this.items.status!=1){
-          //   console.log('Curso incativo') ;
-          //   this.inactive=true;
-          //   this.$router.push('/courses');
-            
-          // }else{
-          //   console.log('Curso activo')
-          // }
-
           this.precio = this.items.price;
+
+          // Obtenemos el nivel del curso
           switch(this.items.course_level_id){
             case 1:
               this.level = 'Básico';
@@ -260,11 +251,12 @@ export default {
           this.previos = this.items.prev_knowledge;
           this.dirigido = this.items.course_for;
 
-          // Formateando fecha
+          // Convertimos la fecha en formato (12 de mayo del 2022)
           const fecha= new Date(this.items.created_at);
           let options = { year: 'numeric', month: 'long', day: 'numeric' };
           this.fecha_creacion=fecha.toLocaleDateString("es-ES", options)
 
+          // Obtenemos la categoria del curso que corresponde al id de la respuesta
           this.axios.get('category/list').then((res)=>{
             for(const index in res.data.data){
               if(res.data.data[index].id==this.items.id_categories){
@@ -273,6 +265,7 @@ export default {
             }
           })
 
+          // Obtenemos los datos del productor
           this.axios.get(`user/show?id=${this.items.user_id}`).then((res)=>{
             this.nameProductor = res.data.fullName ;
             this.emailProductor = res.data.email;
@@ -281,32 +274,22 @@ export default {
         })
         
         
-
+        // Obtenemos algunos cursos similares para recomendar
         this.axios.get("course/related-courses").then((datos) => {
           this.lord = false;
           this.guardar = true;
           this.loading = false;
           this.mostrar = true;
-          // const array = datos.data.data;
           this.courses = datos.data.data;
-          // this.informacion = array[0].courses_related;
-          // console.log(array[0].courses_related)
-          // console.log(array2[1].last_courses)
-          //  this.informacion.forEach(cursos =>{
-
-          //  })
           this.courses1 =this.courses.slice(0,3)
           this.loadingRelated=false;
         });
-
-      // this.axios.get("/user/show/2").then((r) => {
-      //  console.log(r)
-      // });
-
     },
   },
   created() {
+    // Llamamos a la funcion que trae los atributos
     this.getAttributes();
+    // Obtenemos el temario del curso
     this.getCourse(this.$route.params.ide);
 
   },

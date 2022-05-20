@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 // Curso Activo
 export const getCourseActive = async (context, id) => {
     await axios.get('course/details/' + id).then(
@@ -8,6 +9,7 @@ export const getCourseActive = async (context, id) => {
         }
     ) 
 }
+
 
 // Temario del curso
 export const getCourse = async (context, id) => {
@@ -19,19 +21,20 @@ export const getCourse = async (context, id) => {
     )
 }
 
+
 // Clase actual
 export const getLesson = (context, less) => {
     context.commit("SET_LESSON", less)
 }
 
+
 // Indicar que clase se esta viendo por ultima vez
 export const lastSeenLesson = async (context,data)=>{
-    await axios.patch(`purchased/save-class-seen?course_id=${data.course_id}&class_id=${data.class_id}`).then((res)=>{
-        console.log('Respuesta del guardado -> '+res.data.data)
-    })
+    await axios.patch(`purchased/save-class-seen?course_id=${data.course_id}&class_id=${data.class_id}`)
 }
 
-// Clases completadas
+
+// Recibimos las clases completadas de un determinado curso
 export const getCompletedLessons = async (context, id) => {
     await axios.get(`purchased/show?course_id=${id}`).then(
         (res) => {
@@ -40,7 +43,8 @@ export const getCompletedLessons = async (context, id) => {
     );
 }
 
-// Recursos de la clase
+
+// Obtenemos los recursos de una clase
 export const getResources = async (context, less) => {
     await axios.get(`class-resource/show-resources?name=${less}`).then(
         (res) => {
@@ -49,7 +53,8 @@ export const getResources = async (context, less) => {
     )
 }
 
-// Video de la clase
+
+// Obtenemos el video de la clase
 export const getVideo = async (context, classId) => {
     await axios.get(`video/stream-video?class_id=${classId}`).then(
         (res) => {
@@ -59,17 +64,23 @@ export const getVideo = async (context, classId) => {
     );
 }
 
-// Enviar estado de reproduccion
+
+// Enviar estado de reproduccion de video de la ultima clase vista
 export const getTimeReproduction = (context, time) => {
     context.commit('UPDATE_TIME', time);
 }
 
+
+// Obtenemos los comentarios de una clase
 export const getComments = async (context, id) => {
     await axios.get(`comments/show-comments?class_id=${id}`)
     .then((res) =>{
       context.commit('GET_COMMENTS', res.data);
     })
 }
+
+
+// Obtenemos el examen de una clase
 export const getTest = async (context, data) => {
     await axios.post(`course/exam/active`, {course_id : data}).then((res)=>{
         context.commit('DATA_EX', res)

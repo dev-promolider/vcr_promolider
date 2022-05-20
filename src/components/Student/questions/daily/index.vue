@@ -75,10 +75,14 @@ export default {
             });
         },
 
+        // Verificamos la respuesta del usuario
         check(){
+            // Si no selecciona una opcion le pedimos que lo haga
             if(this.picked===''){
                 this.select = false
-            }else{
+            }else{ // Si selecciona verificamos
+
+                // Si la respuesta es correcta o incorrecta enviamos la respuesta al back
                 if(this.picked===this.data.correctAnswer){
                     this.sendResponse(1)
                     this.isCorrect = true;
@@ -86,6 +90,7 @@ export default {
                     this.sendResponse(0)
                     this.isCorrect = false;
                 }
+                // Bloquemos la opcion para que no vuelva intentarlo
                 this.question=false;
             }
         },
