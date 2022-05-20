@@ -25,6 +25,21 @@
       <router-view class="view" 
       :style="{ 'background-image': `url(${courseHover.url_portada}) !important` }"
       />
+
+      <img src="@/assets/ruleta.png" class="btnflo" data-toggle="modal" data-target="#ruleta" alt="">
+
+
+      <!-- Modal -->
+    <div class="modal fade" id="ruleta"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+          <div class="modal-body">
+            <VueWinWheel />
+          </div>
+        </div>
+      </div>
+    </div>
+
     </div>
   </div>
 </template>
@@ -33,12 +48,15 @@ import NavBar from "@/components/Navbar/NavBar.vue";
 import NavBarV from "@/components/Navbar/NavBarV.vue";
 import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
 import { mapState } from 'vuex';
+import VueWinWheel from '@/components/Student/dashboard/Roulette'
+
 export default {
   name: "Contenedor",
   components: {
     NavBarV,
     NavBar,
     Preferencias,
+    VueWinWheel
   },
   data() {
     return {
@@ -69,6 +87,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btnflo{
+  height: 60px;
+  width: 60px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
 .view {
   overflow-y: scroll;
   background-repeat: none;

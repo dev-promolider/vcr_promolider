@@ -20,5 +20,6 @@ export default () => ({
     courseSelect: false,
     allComments: [],
     dataEx: null,
-    courseHover: []
+    courseHover: [],
+    examDaily: true
 })
