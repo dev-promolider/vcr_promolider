@@ -34,26 +34,7 @@ import _ from 'lodash'
 export default {
     data(){
         return {
-            cards: [
-                {
-                    name: 1,
-                },
-                {
-                    name: 2,
-                },
-                {
-                    name: 3,
-                },
-                {
-                    name: 4,
-                },
-                {
-                    name: 5,
-                },
-                {
-                    name: 6,
-                },
-            ],
+            cards: [],
             isActiveReady: false,
             gettingStart: false,
             memoryCards:[],
@@ -81,14 +62,28 @@ export default {
         }
     },
     created(){
+        this.createCards(  )
+        /*Settear en el arreglo cartas las variables voltear y igualdad de cartas en estado false*/
         this.cards.forEach((card) => {
             Vue.set(card,'isFlipped',false);
             Vue.set(card,'isMatched',false);
         });
+
+        /*Clonar y combinar cartas*/ 
        this.memoryCards = _.shuffle(this.memoryCards.concat(_.cloneDeep(this.cards), _.cloneDeep(this.cards)));
     },
 
     methods:{
+        /*Crear cartas*/
+        createCards(){
+
+            let numeroCartas = 5 
+            for (let i = 0; i < numeroCartas; i++) {
+                this.cards.push( { name : i + 1, id: i} )
+            }
+            console.log(this.cards);
+        },
+        /*Voltear Carta*/
         flipCard( card ){
 
                 if( this.gettingStart ){
@@ -111,6 +106,7 @@ export default {
                 }
 
         },
+         /*Verificar igualdad*/
         _match(  ){
                  this.turns++;
                  if(this.flippedCards[0].name === this.flippedCards[1].name){
@@ -136,12 +132,14 @@ export default {
                     }, 800);
                 }
         },
+        /*Empezar Juego*/
         _startGame(){
             this._tick();
             this.interval = setInterval(this._tick,1000);
             this.start = true;
             this.isActiveReady = true
         },
+        /*Calcular Tiempo*/ 
         _tick(){
             if(this.totalTime.seconds !== 59){
                 this.totalTime.seconds++;
@@ -151,10 +149,12 @@ export default {
             this.totalTime.minutes++;
             this.totalTime.seconds = 0;
         },
+        /*Boton empezar*/ 
         _gettingStart(){
             this.gettingStart = true
             this._startGame()
         },
+        /*Reiniciar el juego*/ 
         resetGame(){
             clearInterval(this.interval);
 

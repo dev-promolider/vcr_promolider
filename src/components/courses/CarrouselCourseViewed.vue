@@ -34,23 +34,30 @@ export default {
 
 
     async getAttributes() {
+      // Obtenemos los cursos ya reproducidos
       await this.axios.get("course/last-courses-rep").then((datos) => {
+        // Filtramos todos los cursos inactivos
         this.lastCourses = this.filterCourseInactive(datos.data.data);
+        // Recorremos los cursos con la finalidad de obtener la ultima clase vista
         for(let i=0; i<this.lastCourses.length; i++){
+          // Por cada curso obtenemos su ultima clase vista
           this.axios.get(`purchased/show-class-seen?course_id=${this.lastCourses[i].id}`).then((res)=>{
+            // Si no tiene clase vista enviamos a la primera clase del curso
             if(!res.data.data.name){
               this.axios.get('course/temary/get-all-class/' + this.lastCourses[i].id).then(
                 (res) => {
                   this.lastCourses[i].last_class_reprod = res.data.data.modules[0].lessons[0].name
                 }
               )
-            }else{
+            }else{ // Si tiene clase vista remplazamos el atributo "last_class_reprod" por el nombre de la clase
               this.lastCourses[i].last_class_reprod = res.data.data.name
             }
           });
         }
       });
     },
+
+    // Filtramos si los cursos tiene estado activo o inactivo 
     filterCourseInactive(data) {
       var courseFilter = data.filter((course) => {
         return course.status != 0;
@@ -61,6 +68,8 @@ export default {
           return courseFilter;
         }
     },
+
+    // Función para direccionar a la reproducción del curso 
     async classvideo(id) {
       let dataRequest;
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
@@ -74,6 +83,7 @@ export default {
       }else{
         this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
       }
+      
     },
   },
   created() {

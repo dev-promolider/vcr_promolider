@@ -71,7 +71,30 @@
           Logros
         </router-link>
       </li>
+
+      <li @click="sendTitle('LeaderBoard')" class="nav-item">
+        <router-link
+          to="/leaderBoard"
+          class="nav-link link-v"
+          :class="{ 'is-active': isActive('leaderBoard') }"
+        >
+          <img src="./../../assets/estrella.svg" alt="" />
+          LeaderBoard
+        </router-link>
+      </li>
     </ul>
+
+    <div @click="sendTitle('Preguntas Frecuentes')" class="preguntas">
+        <router-link
+          to="/preguntas-frecuentes"
+          class="nav-link link-v link-pregunta"
+          :class="{ 'is-active-pregunta': isActive('preguntas-frecuentes') }"
+        >
+          <i class="fas fa-question-circle"></i>
+          Preguntas frecuentes
+        </router-link>
+    </div>
+
   </div>
 </template>
 <script>
@@ -104,6 +127,13 @@ export default {
   --opcion-link: invert(0.5) sepia(5%) saturate(5162%) hue-rotate(64deg)
     brightness(96%) contrast(92%);
 }
+.preguntas{
+  bottom:10px;
+  position: absolute;
+}
+.link-pregunta{
+  font-size: 15px !important;
+}
 .content-navbarv {
   width: 220px;
   height: 100%;
@@ -130,6 +160,9 @@ export default {
 }
 .is-active {
   border-left: var(--active-link);
+  filter: var(--opcion-link);
+}
+.is-active-pregunta{
   filter: var(--opcion-link);
 }
 .link-v:hover {

@@ -1,6 +1,8 @@
 import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
 <template>
+
   <div id="ClienteVenta" class="">
+   
     <div class="marco">
       <div class="titulos">
         <p class="titulo_dentro">Última Ventas</p>
@@ -33,18 +35,17 @@ import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
         v-on:click="mostrar(item.payment_id)"
       >
         <b-list-group-item class="d-flex align-items-center color">
-          <b-avatar
-            variant="info"
-            size="1.9rem"
-            src="https://placekitten.com/300/300"
-            class="ml-2"
-          ></b-avatar>
-          <span class="mr-auto  cliente_user" style="font-size:15px"
-            >{{ item.client }} {{ item.client_last_name }}</span
-          >
-          <span class="cursos mx-3" style="font-size:12px">{{ item.title }}</span>
-          <span class="cursos mx-3" style="font-size:12px"> $ {{ item.price }}</span>
-          <span class="cursos mx-3" style="font-size:12px">{{ item.created_at.slice(0,10)}} a las {{ item.created_at.slice(11,16)}}</span>
+          
+          <div class="containerImg col-2">
+          <img src="@/assets/perfil-del-usuario.png" alt="Avatar" class="image" >
+          <div class="middle">
+          <p class="text ">{{ item.client }} {{ item.client_last_name }}</p>
+          </div>
+          </div>
+          <span class="cursos col-5 text-capitalize " style="font-size:12px; margin-right: 0px;text-overflow: ellipsis;">{{ item.title }}</span>
+          <span class="cursos col-2" style="font-size:12px; margin-right: 0px;"> ${{ item.price }}</span>
+          <span class="cursos col-3" style="font-size:12px; margin-right: 0px;">{{ item.created_at }}</span>  
+          
         </b-list-group-item>
       </div>
       </div>
@@ -56,26 +57,33 @@ import FormWelcome from '@/components/auth/FormUser/FormWelcome.vue';
 export default {
   name: "ClienteVenta",
   components: {
-    
+  
   },
   data() {
     return {
       info: null,
       desabilitado: 0,
-      
-      
+
     };
   },
   methods: {
     getAttributes() {
-      
       this.axios.get("/reports/last-sells?n_sells=3")
       .then((respuesta) => { 
-        this.info = respuesta.data.data;
+      this.info = respuesta.data.data;
 
+      for (let index = 0; index < this.info.length; index++) {
+        
+
+      const fecha= new Date(this.info[index].created_at);
+      let options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+      this.info[index].created_at= fecha.toLocaleDateString("es-ES", options)
+      }
+        
+        
       });
     },
-
+    
     mostrar(id) {
       this.$router.push("/attribute-user/ " + id);
     },
@@ -86,7 +94,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style  scoped>
 
 .mover {
   margin-left: 30%;
@@ -177,4 +185,82 @@ export default {
     }
 }
 
+
+
+.containerImg {
+  position: relative;
+}
+
+.image {
+  width: 50px;
+  height: 50px;
+  opacity: 1;
+  display: block;
+  height: auto;
+  transition: .5s ease;
+  transition: transform .2s;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  bottom: 50%;
+  right:  50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.containerImg:hover .image {
+  
+  transform: scale(1.5);
+  opacity: 0.3;
+}
+
+.containerImg:hover .middle {
+  transform: 1s escale(1.2);
+  opacity: 1;
+}
+
+.text {
+  width: 65px;
+  color: rgb(253, 253, 253);
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 25%;
+}
+
+
+/* .img-chiqui{
+  width: 35px;
+  height: 35px;
+  background: #f92672;
+  transition: width 1s, height 1s,;
+    
+
+  &:hover {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    z-index: 1;
+    .cliente_user{
+      position: absolute;
+      z-index: 2;
+      display: inline;
+    }
+  }
+  
+}
+
+
+
+.cliente_user{
+  display: none;
+  font-size:15px;
+  margin-left: 0px;
+} */
 </style>

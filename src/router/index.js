@@ -17,6 +17,9 @@ import Certificado from '../components/Certificado/certificado.vue'
 import detalleCertificado from '../components/Certificado/detalleCertificado.vue'
 import pruebasCourse  from '../components/course/descripcion/pruebas/pruebasCourse.vue'
 import logrosUser from '../components/LogrosUser/Logros.vue'
+import preguntasFrecuentes from '../components/preguntasFrecuentes'
+import leaderBoard from '../components/LeaderBoardUser/LeaderBoard.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -39,7 +42,8 @@ const routes = [
       { path: '/certificado-user', name: 'certificado-user', component: Certificado },
       { path: '/detalle-certificado', name: 'detalle-certificado', component: detalleCertificado },
       { path: '/logros', name: 'logros-user', component: logrosUser },
-
+      { path: '/preguntas-frecuentes', name: 'preguntas-frecuentes', component: preguntasFrecuentes},
+      { path: '/leaderBoard', name: 'leaderBoard-user', component: leaderBoard },
      
     ]
   },
