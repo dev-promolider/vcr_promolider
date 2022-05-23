@@ -71,6 +71,17 @@
           Logros
         </router-link>
       </li>
+
+      <li @click="sendTitle('LeaderBoard')" class="nav-item">
+        <router-link
+          to="/leaderBoard"
+          class="nav-link link-v"
+          :class="{ 'is-active': isActive('leaderBoard') }"
+        >
+          <img src="./../../assets/estrella.svg" alt="" />
+          LeaderBoard
+        </router-link>
+      </li>
     </ul>
 
     <div @click="sendTitle('Preguntas Frecuentes')" class="preguntas">
