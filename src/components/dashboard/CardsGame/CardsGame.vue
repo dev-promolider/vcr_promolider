@@ -5,8 +5,8 @@
           Juego de Cartas
       </div>
       <div class="d-flex flex-row justify-content-center py-1">
-        <div class="turns p-3"><span class="btn btn-success">Turnos : <span class="badge" :class="finish ? 'badge-success' : 'badge-light'">{{turns}}</span> </span></div>
-        <div class="totalTime p-3"><span class="btn btn-success">Tiempo Total : <span class="badge" :class="finish ? 'badge-success' : 'badge-light'">{{min}} : {{sec}}</span></span></div>
+        <div class="turns p-3"><span class="btn btn-cards">Turnos : <span class="badge" :class="finish ? 'badge-cards' : 'badge-light'">{{turns}}</span> </span></div>
+        <div class="totalTime p-3"><span class="btn btn-cards">Tiempo Total : <span class="badge" :class="finish ? 'badge-cards' : 'badge-light'">{{min}} : {{sec}}</span></span></div>
     </div>
      <div class="contenedor-cards">
         <div  :key="index" v-for="(card, index) in memoryCards" class=" flip-container" :class="{ 'flipped': card.isFlipped, 'matched' : card.isMatched }" @click="flipCard(card)">
@@ -17,10 +17,10 @@
         </div>
     </div>
   <div class="botton-start">
-            <button class="btn btn-success mx-2" @click="_gettingStart" :disabled="isActiveReady"  >
+            <button class="btn btn-cards mx-2" @click="_gettingStart" :disabled="isActiveReady"  >
                 Empezar
             </button>
-            <button class="btn btn-primary" @click="resetGame"   >
+            <button class="btn btn-dark" @click="resetGame"   >
                 Reiniciar
             </button>
     </div>
@@ -181,7 +181,19 @@ export default {
 </script>
 
 <style scoped>
-.botton-start{
+    .btn-cards{
+        background: var(--bg-btn);
+    }
+    .btn-cards:hover{
+        background: #4cac40;
+    }
+    .turns{
+        color: var(--sixth-color-green)
+    }
+    .totalTime{
+        color: var(--sixth-color-green);
+    }
+    .botton-start{
         display: flex;
         justify-content: center;
         padding-top: 2%;
@@ -192,7 +204,7 @@ export default {
     .title-cards{
         padding-top: 15px;
         font-size: 35px;
-        color: #000000;
+        color: var(--sixth-color-green);
         text-align: center;
     }
     .contenedor-cards{
