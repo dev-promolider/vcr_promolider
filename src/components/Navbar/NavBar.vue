@@ -44,7 +44,8 @@
         <li class="nav-item">
           <span class="nav-link text-dark">
             <img class="img-puntos" src="../../assets/logo-puntos.png" />
-            <b>173</b> Pts.
+            <b>{{this.points}} Pts.</b> 
+            
           </span>
         </li>
         <li class="nav-item">
@@ -92,6 +93,7 @@
 </template>
 
 <script>
+
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 import QuestionDaily from "../Student/questions/daily/index";
@@ -108,10 +110,13 @@ export default {
       tooltip: false,
       item: 0,
       photo:localStorage.getItem("photo_user"),
+
+      points:null,
     };
   },
   components:{
     QuestionDaily
+    
   },
   computed: {
     // ...mapState(['title','count']),
@@ -129,7 +134,8 @@ export default {
   },
   mounted() {
     this.desplegar();
-    this.showToolTip()
+    this.showToolTip();
+    this.getPoints()
   
   },
   methods: {
@@ -155,7 +161,17 @@ export default {
       if( this.item == 0) {
         this.tooltip = true
       }
-    }
+    },
+
+    
+  getPoints(){
+      this.axios.get('profile/points/1')
+      .then(data =>{
+        this.points = data.data[0].total
+          console.log(this.points);
+      })
+      .catch(()=>{})
+    },
   },
 };
 
