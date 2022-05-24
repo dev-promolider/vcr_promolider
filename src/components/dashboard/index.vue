@@ -11,6 +11,7 @@
         <div class="row row-end ">
           <div class="col-12 col-md-6">
             <MessengerColletion />
+            <CardsGame />
           </div>
           <div class="col-12 col-md-6">
             <ClienteVenta />
@@ -24,14 +25,15 @@
 import DataPrimaryUser from "@/components/dashboard/DataPrimary/DataPrimaryUser.vue";
 import MessengerColletion from "@/components/dashboard/Message/MessengerColletion.vue";
 import ClienteVenta from "@/components/dashboard/SalesHistory/ClienteVenta.vue";
-
+import CardsGame from '@/components/dashboard/CardsGame/CardsGame.vue';
 export default {
   name: "DashboardProducer",
   components: {
     DataPrimaryUser,
     MessengerColletion,
     //Attribute,
-    ClienteVenta
+    ClienteVenta,
+    CardsGame,
   },
   data() {
     return {};
