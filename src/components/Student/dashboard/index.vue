@@ -36,6 +36,7 @@ export default {
   flex-direction: column;
   display: flex;
   width: 100%;
+  padding: 3%;
 }
 .section-main{
   display: grid;
@@ -44,7 +45,7 @@ export default {
   grid-template-columns: 1fr 0.7fr;
   grid-column: span 2;
   gap: 70px;
-  padding: 39px 70px 0px 100px;
+  padding: 39px 70px 0px 40px;
 }
 @media (max-width:860px){
   .section-main{

@@ -58,7 +58,7 @@ export default {
   },
   props: {
     course: {
-      type: Array,
+      type: Object,
     },
     cardType:Number
   },

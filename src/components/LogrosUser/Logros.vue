@@ -154,6 +154,9 @@ export default {
 </script>
 
 <style scoped>
+.row{
+  margin: 0px;
+}
 .caja-principal {
   height: 100%;
 }

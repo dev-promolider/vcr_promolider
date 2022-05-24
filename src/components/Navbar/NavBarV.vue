@@ -136,7 +136,8 @@ export default {
 }
 .content-navbarv {
   width: 220px;
-  height: 100%;
+  height: 93%;
+  overflow: scroll;
 }
 .title-aula {
   display: flex;

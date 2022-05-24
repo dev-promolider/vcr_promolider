@@ -1,15 +1,7 @@
 <template>
-  <div class="learning">
     <div>
-        <p>{{lastCourses.title}}</p>
-        <ul class="modules">
-          <li><img src="@/assets/list-disc.svg" alt="" /> Moódulo 2 - Clase 4</li>
-        </ul>
-    </div>
-    <div class="btn-course">
-      <button @click="classvideo()">continua el curso</button>
-    </div>
-  </div>
+     <Card :course="lastCourses" :cardType="3" />
+   </div>
 </template>
 
 <script>
@@ -55,6 +47,7 @@ export default {
   flex-direction: column;
   justify-content:space-between;
   padding: 40px 30px 42px 50px;
+  height: 100%;
 }
 .learning p {
   text-align: start;
