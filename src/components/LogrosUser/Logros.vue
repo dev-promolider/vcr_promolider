@@ -154,6 +154,9 @@ export default {
 </script>
 
 <style scoped>
+.view{
+  backdrop-filter: blur(10px);
+}
 .row{
   margin: 0px;
 }
