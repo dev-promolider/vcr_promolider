@@ -1,16 +1,20 @@
 <template>
     <div>
-     <Card :course="lastCourses" :cardType="3" />
+     <Card :course="lastCourses" :cardType="3" :width="100" :height="250" />
    </div>
 </template>
 
 <script>
 // import { mapState } from 'vuex'
+import Card from '@/components/courses/cards';
 export default {
+  components:{
+     Card
+  },
   name: "KeepLearning",
   data(){
     return {
-        lastCourses: ''
+        lastCourses: {},
     }
   },
   methods: {
@@ -39,6 +43,7 @@ export default {
 </script>
 
 <style>
+
 .learning {
   background: #fff;
   border-radius: 15px;
