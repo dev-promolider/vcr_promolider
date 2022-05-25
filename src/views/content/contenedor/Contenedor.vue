@@ -101,7 +101,7 @@ export default {
   background-repeat: none;
   background-size: 100% 100%;
   transition: 0.5s;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
 }
 
 .view::-webkit-scrollbar {
