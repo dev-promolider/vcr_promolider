@@ -4,8 +4,13 @@
           <KeepLearning/>
           <Successes/>
       </div>
-      <div class="courses">
-        <CarrouselCourseViewed/>
+      <div class="courses m-5">
+          
+          <div v-if="this.coursView > 0">
+          <CarrouselCourseViewed />
+        </div>
+        
+        
         <RecommendedCourse/>  
       </div>    
   </div>
@@ -23,8 +28,31 @@ export default {
     CarrouselCourseViewed,
     RecommendedCourse, 
     KeepLearning, Successes ,
+    
 
-    }
+    },
+    data() {
+      return {
+        coursView:null,
+      }
+    },
+
+    mounted() {
+    },
+
+    methods: {
+      mostrarAprendiendo(){
+        let datos = null
+        this.axios.get('course/last-courses-rep')
+        .then((res) =>{
+          datos = res.data.data;
+          this.coursView = datos.length
+        })
+      },
+    },
+    created() {
+    this.mostrarAprendiendo();
+  },
 }
 </script>
 <style scoped>

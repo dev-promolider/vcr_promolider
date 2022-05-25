@@ -135,7 +135,7 @@ export default {
   mounted() {
     this.desplegar();
     this.showToolTip();
-    this.getPoints()
+    this.getPoints();
   
   },
   methods: {
@@ -165,10 +165,9 @@ export default {
 
     
   getPoints(){
-      this.axios.get('profile/points/1')
+      this.axios.get(`profile/points/${localStorage.getItem('id_user')}`)
       .then(data =>{
         this.points = data.data[0].total
-          console.log(this.points);
       })
       .catch(()=>{})
     },
