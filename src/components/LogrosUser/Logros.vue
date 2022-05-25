@@ -155,7 +155,7 @@ export default {
 
 <style scoped>
 .view{
-  backdrop-filter: blur(10px);
+  backdrop-filter: initial;
 }
 .row{
   margin: 0px;
