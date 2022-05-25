@@ -36,15 +36,15 @@ export default {
   flex-direction: column;
   display: flex;
   width: 100%;
+  padding: 40px;
 }
 .section-main{
   display: grid;
   grid-template-rows: 300px;
-  /* grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
-  grid-template-columns: 1fr 0.7fr;
+  grid-template-columns: repeat(3, 1fr);
   grid-column: span 2;
   gap: 70px;
-  padding: 39px 70px 0px 100px;
+  padding: 39px 70px 0px 40px;
 }
 @media (max-width:860px){
   .section-main{

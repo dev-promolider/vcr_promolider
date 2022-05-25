@@ -103,6 +103,9 @@ export default {
   position: fixed;
   z-index: 10;
 }
+.row{
+  margin: 0px;
+}
 .mover {
   margin-top: 110px;
 }

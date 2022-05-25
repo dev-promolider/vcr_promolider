@@ -54,7 +54,7 @@ font-family: Arial;
   width: 100vw;
   height: 100vh;
   background-color: var(--bg-content);
-  overflow: auto;
+  overflow: scroll;
 }
 
 /* Boton verde */

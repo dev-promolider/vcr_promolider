@@ -1,24 +1,20 @@
 <template>
-  <div class="learning">
     <div>
-        <p>{{lastCourses.title}}</p>
-        <ul class="modules">
-          <li><img src="@/assets/list-disc.svg" alt="" /> Moódulo 2 - Clase 4</li>
-        </ul>
-    </div>
-    <div class="btn-course">
-      <button @click="classvideo()">continua el curso</button>
-    </div>
-  </div>
+     <Card :course="lastCourses" :cardType="3" :width="100" :height="250" />
+   </div>
 </template>
 
 <script>
 // import { mapState } from 'vuex'
+import Card from '@/components/courses/cards';
 export default {
+  components:{
+     Card
+  },
   name: "KeepLearning",
   data(){
     return {
-        lastCourses: ''
+        lastCourses: {},
     }
   },
   methods: {
@@ -47,6 +43,7 @@ export default {
 </script>
 
 <style>
+
 .learning {
   background: #fff;
   border-radius: 15px;
@@ -55,6 +52,7 @@ export default {
   flex-direction: column;
   justify-content:space-between;
   padding: 40px 30px 42px 50px;
+  height: 100%;
 }
 .learning p {
   text-align: start;

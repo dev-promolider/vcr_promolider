@@ -100,8 +100,8 @@ export default {
   overflow-y: scroll;
   background-repeat: none;
   background-size: 100% 100%;
-  backdrop-filter: blur(10px);
   transition: 0.5s;
+  backdrop-filter: blur(10px);
 }
 
 .view::-webkit-scrollbar {

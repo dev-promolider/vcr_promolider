@@ -154,6 +154,12 @@ export default {
 </script>
 
 <style scoped>
+.view{
+  backdrop-filter: initial;
+}
+.row{
+  margin: 0px;
+}
 .caja-principal {
   height: 100%;
 }
