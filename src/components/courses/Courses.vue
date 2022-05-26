@@ -1,5 +1,5 @@
 <template>
-<div class="container-fluid ">
+<div class="container-fluid my-5">
 <div class="row ">
   <div class="col-md-8 col-sm-12 ">
       <div v-if="notCourses" class="no-result center-element d-flex">
@@ -10,7 +10,7 @@
       </div>
         <!-- Últimos cursos -->
         <!-- Continuar aprendiendo -->
-        <div>
+        <div v-if="this.coursView > 0">
           <CarrouselCourseViewed v-if="!loading"/>
         </div>
         
@@ -76,6 +76,8 @@ export default {
       relatedCourses: [],
       prueba: [],
       notCourses: false,
+
+      coursView:null,
     };
   },
 
@@ -147,9 +149,19 @@ export default {
         },
       });
     },
+
+    mostrarAprendiendo(){
+        let datos = null
+        this.axios.get('course/last-courses-rep')
+        .then((res) =>{
+          datos = res.data.data;
+          this.coursView = datos.length
+        })
+      },
   },
   created() {
     this.getAttributes();
+    this.mostrarAprendiendo();
   },
 };
 </script>
