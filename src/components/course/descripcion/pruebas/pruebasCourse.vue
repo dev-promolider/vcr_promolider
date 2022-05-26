@@ -1,5 +1,5 @@
 <template>
- 
+ <div>
      <div class="wrapper-stepper" >
         <div class="stepper">
             <div class="stepper-progress">
@@ -48,13 +48,26 @@
             <button class="btn btn--green-1" @click="addStep" :disabled="isDisabled" v-if="step != Object.keys(questions).length - 1" >
                 Siguiente
             </button>
-            <button class="btn btn--green-1" @click="sendAnswers" v-else >
+            <button  class="btn btn--green-1 open" @click="sendAnswers" v-else >
                 Enviar
             </button>
-        </div>
+        </div>     
      
     </div>
-        
+
+
+
+            <div v-if="this.mostrar">
+                <div class="caja-texto">
+                    <p class="texto" style="margin-bottom: 0px;">
+                    <strong>
+                    Usted ah {{this.respExam.message}} y logro obtener {{this.respExam.score}} Puntos
+                    </strong>
+                    </p>
+                </div>
+            </div>
+      </div> 
+
   
 </template>
 
@@ -69,6 +82,9 @@ export default {
             form:  [ ] ,
             isDisabled: true,
             checked: true,
+            exam_id:this.$route.params.id,
+            respExam:null,
+            mostrar:null,
         }
     },
     computed:{
@@ -118,9 +134,18 @@ export default {
                 let resp = true
                 if( resp ){
                     console.log('send Answers', this.form);
+                   
                 }
             }
-            
+           
+           this.axios.post('course/exam/answers',{
+            "id_exam": this.exam_id,
+            "answer":this.form})
+           .then( resp =>{
+               console.log(resp.data);
+               this.mostrar = true
+                this.respExam = resp.data
+           })
         }
         
     },
@@ -372,5 +397,15 @@ textarea{
     .stepper-pane{
         padding: 20px 25px;
     }
+}
+.caja-texto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 50px;
+    background: rgb(52, 149, 60);
+    margin: auto;
+    border-radius: 15px;
 }
 </style>
