@@ -55,12 +55,11 @@
      
     </div>
 
-
-
             <div v-if="this.mostrar">
                 <div class="caja-texto">
                     <p class="texto" style="margin-bottom: 0px;">
                     <strong>
+                    ¡Felicitaciones! <br>
                     Usted ah {{this.respExam.message}} y logro obtener {{this.respExam.score}} Puntos
                     </strong>
                     </p>
@@ -68,7 +67,6 @@
             </div>
       </div> 
 
-  
 </template>
 
 <script >
@@ -139,8 +137,8 @@ export default {
             }
            
            this.axios.post('course/exam/answers',{
-            "id_exam": this.exam_id,
-            "answers":this.form})
+             "id_exam": this.exam_id,
+             "answers":this.form})
            .then( resp =>{
                console.log(resp.data);
                this.mostrar = true
