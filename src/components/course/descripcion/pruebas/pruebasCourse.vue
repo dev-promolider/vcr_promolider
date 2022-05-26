@@ -140,7 +140,7 @@ export default {
            
            this.axios.post('course/exam/answers',{
             "id_exam": this.exam_id,
-            "answer":this.form})
+            "answers":this.form})
            .then( resp =>{
                console.log(resp.data);
                this.mostrar = true
