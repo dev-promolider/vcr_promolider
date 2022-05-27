@@ -10,41 +10,22 @@
     <tr >
       <th scope="col"> <p>#</p></th>
       <th scope="col">  </th>
-      <th scope="col">USUARIOS</th>
+      <th scope="col" class="">USUARIOS</th>
       <th scope="col">PUNTAJES</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr v-for="item in datos" :key="item.id">
       <th scope="row"><p>1</p></th>
       <td></td>
       <td class="td-img d-flex justify-content-around align-items-center">
       
-      <div><img src="@/assets/perfil-del-usuario.png" alt="" ></div>
-      <div>Mark Otto</div>
+      <div ><img src="@/assets/perfil-del-usuario.png" alt="" ></div>
+      <div >{{item.name}}</div>
       </td>
-      <td>3000 Pts</td>
+      <td>{{item.total}} Pts</td>
     </tr>
-    <tr>
-      <th scope="row"><p>2</p></th>
-      <td></td>
-      <td class="td-img d-flex justify-content-around align-items-center">
-      
-      <div><img src="@/assets/perfil-del-usuario.png" alt="" ></div>
-      <div>Mark Otto</div>
-      </td>
-      <td>2000 Pts</td>
-    </tr>
-    <tr>
-      <th scope="row"><p>3</p></th>
-      <td > </td>
-      <td class="td-img d-flex justify-content-around align-items-center">
-      
-      <div><img src="@/assets/perfil-del-usuario.png" alt="" ></div>
-      <div>Mark Otto</div>
-      </td>
-      <td>1000 Pts</td>
-    </tr>
+    
   </tbody>
 </table> 
           
@@ -59,12 +40,27 @@ export default {
   name: "LeaderBoard",
 
   data() {
-    return {};
+    return {
+      datos:null,
+    };
   },
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    getRanking(){
+      this.axios.get('classroom-points/ranking')
+      .then(res =>{
+        console.log(res.data);
+        this.datos = res.data
+      })
+    }
+    
+
+  },
+  created() {
+    this.getRanking();
+  }
 };
 </script>
 
@@ -112,6 +108,7 @@ img{
 }
 .td-img{
   padding:0px;
+  
 }
 
 
