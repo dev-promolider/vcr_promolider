@@ -44,7 +44,7 @@ export default {
 }
 
 .item{
-  width: 500px !important;
+  width: 335px !important;
 }
 
 main {
