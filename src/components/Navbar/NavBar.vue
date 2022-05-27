@@ -63,9 +63,15 @@
               <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
             </a>
             <div class="dropdown-menu viewmenu-list mr-5">
+
               <router-link class="dropdown-item my-3" to="/perfil">
                 <img class="img-menuitem" src="../../assets/perfil.png" />
                 Mi Perfil</router-link>
+
+                <router-link class="dropdown-item my-3" :to="{ name: 'option-preferences'}">
+                <img class="img-menuitem" src="../../assets/perfil.png" />
+                Mis Preferencias</router-link>
+
               <a class="dropdown-item mb-3" href="#">
                 <img class="img-menuitem" src="../../assets/subcription.png" />
                 Subcripción</a
