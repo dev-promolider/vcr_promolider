@@ -19,7 +19,7 @@ import pruebasCourse  from '../components/course/descripcion/pruebas/pruebasCour
 import logrosUser from '../components/LogrosUser/Logros.vue'
 import preguntasFrecuentes from '../components/preguntasFrecuentes'
 import leaderBoard from '../components/LeaderBoardUser/LeaderBoard.vue'
-
+import optionPreference from '../views/content/optionpreferences/OptionPreferences.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,6 +37,7 @@ const routes = [
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
       { path: '/perfil', name: 'perfil', component: Perfil },
+      { path: '/option-preferences', name: 'option-preferences', component: optionPreference },
       { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos },
       { path: '/suscription-user', name: 'suscription-user', component: Suscription },
       { path: '/certificado-user', name: 'certificado-user', component: Certificado },
