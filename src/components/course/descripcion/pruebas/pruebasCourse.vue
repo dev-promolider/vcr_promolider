@@ -402,7 +402,7 @@ input[type="checkbox"] {
 .options-questions label{
     color: #ffffff;
     background: $green-1;
-    padding: 5px 70px; 
+    padding: 5px 40px; 
     display: inline-block;
     position: relative;
     font-size: 1.1rem;
@@ -426,7 +426,7 @@ input[type="checkbox"] {
 }
 .options-questions input[type=radio]:checked + label, 
 .options-questions input[type=checkbox]:checked  + label{
-        padding: 5px 70px ;
+        padding: 5px 40px; 
         background: #3bc023;
         border-radius: 16px;
         color: #fff;
