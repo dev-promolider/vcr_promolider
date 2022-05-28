@@ -33,6 +33,7 @@
                 <div class="stepper-content" v-for="(question, index ) in questions" :key="index">
                     <div class="stepper-pane" v-if="step  == index ">
                             <div class="contenedor">
+                                <div></div>
                                 <div class="title-question">
                                     {{question.title}} 
                                 </div>
@@ -203,7 +204,8 @@ $font-anksans-regular : fon;
 }
 .contenedor{
     display: grid;
-    grid-template-columns: 80% 20%;
+    grid-template-columns: 20% 60% 20%;
+    align-items: center;
     margin-bottom: 2.5rem;
     margin-top: 50px;
 }
