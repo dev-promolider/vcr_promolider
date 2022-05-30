@@ -66,8 +66,8 @@
                             </div>
                     </div>
                 </div>
-                    <div v-if="step === Object.keys(this.questions).length" class="sendAnswers">
-                        Para calificar sus respuestas haga click en el botón enviar.
+                    <div v-if="step === Object.keys(this.questions).length" class="sendAnswers stepper-pane ">
+                        Has llegado al final del examén, si está seguro de sus respuestas seleccione enviar.
                     </div>
 
                 <div class="controls">
@@ -191,12 +191,12 @@ $transiton  :   all 500ms ease;
 $font-anksans-regular : fon;
     
 .sendAnswers{
+    padding: 35px 15% !important;
     font-weight: 600;
-    padding: 5% 0;
     text-align: center;
-    font-size: 18px;
+    font-size: 17px;
     color: $black-1;
-    height: 250px;
+    height: 200px;
 }
 .opciones{
     text-align: left;
