@@ -1,70 +1,93 @@
 <template>
- <div>
-     <div class="wrapper-stepper" >
-        <div class="stepper">
-            <div class="stepper-progress">
-                <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
-            </div>
-
-            <div class="stepper-item" :class="{ 'current': step == index, 'success': step > index }" v-for="(question , index ) in questions" :key="index">
-                <div class="stepper-item-counter">
-                    <img class="icon-success" src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png" alt="">
-                    <span class="number">
-                        {{ index + 1}}
-                    </span>
-                </div>
-            </div>
+ <div style="height: 100%; background: white;">
+        <div v-if="isLoadingQuestions" class="text-center" style="margin-top: 100px">
+            <b-spinner type="grow" label="Spinning"></b-spinner>
         </div>
-
-        <div class="stepper-content" v-for="(question, index ) in questions" :key="index">
-            <div class="stepper-pane" v-if="step == index">
-                <div class="title-question mb-5">{{question.title}}</div>
-               
-                     <div v-for="(q , i) in question.options" :key="i" >
-                         <div class="options-questions"  v-if="question.type == 1 ">
-                           <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i" v-model="form[index].option">
-                           <label :for="q" class="opciones" > {{q}} </label>
-                         </div>
-                         <div class="options-questions"  v-else-if="question.type == 3 ">
-                           <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i === 0 ? true : false " v-model="form[index].option">
-                           <label :for="q" class="opciones" > {{q}} </label>
-                         </div>
-                         <div v-else-if="question.typer == 4"  class="textarea">
-                           <textarea placeholder="Responda aquí..." maxlength="200" cols="50" rows="10" class="opciones " v-model.trim="form[index].option">  </textarea>
-                          
-                         </div>
-                         <div class="options-questions" v-else>
-                                <input type="checkbox" :id="q"  :value="i" v-model="form[index].option">
-                                <label class="opciones" :for="q" >{{q}}</label>
-                         </div>
-                    </div>
-            </div>
-        </div>
-
-        <div class="controls">
-            <button class="btn " @click="sustractStep" :disabled="step == 0">
-                Anterior
-            </button>
-            <button class="btn btn--green-1" @click="addStep" :disabled="isDisabled" v-if="step != Object.keys(questions).length - 1" >
-                Siguiente
-            </button>
-            <button  class="btn btn--green-1 open" @click="sendAnswers" v-else >
-                Enviar
-            </button>
-        </div>     
-     
-    </div>
-
-            <div v-if="this.mostrar">
-                <div class="caja-texto">
+        <div v-else>
+                <div v-if="mostrar">
+                <div class="caja-texto" :class="[ this.respExam.message.toLowerCase() === 'aprobado' ? 'success-texto' : 'danger-texto'] ">
                     <p class="texto" style="margin-bottom: 0px;">
                     <strong>
-                    ¡Felicitaciones! <br>
-                    Usted ah {{this.respExam.message}} y logro obtener {{this.respExam.score}} Puntos
+                    {{ this.respExam.message.toLowerCase() === 'aprobado' ? `¡Felicitaciones!`  : '' }} 
+                    Ústed ah {{this.respExam.message.toLowerCase()}} y logró obtener {{this.respExam.score}} puntos
                     </strong>
                     </p>
                 </div>
             </div>
+            <div class="wrapper-stepper" v-else>
+                <div class="stepper">
+                    <div class="stepper-progress">
+                        <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
+                    </div>
+
+                    <div class="stepper-item" :class="{ 'current': step == index , 'success': step > index  }" v-for="(question , index ) in questions" :key="index">
+                        <div class="stepper-item-counter">
+                            <img class="icon-success" src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png" alt="">
+                            <span class="number">
+                                {{ index + 1}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stepper-content" v-for="(question, index ) in questions" :key="index">
+                    <div class="stepper-pane" v-if="step  == index ">
+                            <div class="contenedor">
+                                <div></div>
+                                <div class="title-question">
+                                    {{question.title}} 
+                                </div>
+                                <div class="puntos">
+                                    5 Pts.
+                                </div>
+                            </div>
+                    
+                            <div v-for="(q , i) in question.options" :key="i" >
+                             
+
+                                <div class="options-questions"  v-if="question.question_type_id == 1 ">
+                                    <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i" v-model="form[index].option">
+                                    <label :for="q" class="opciones" > {{q}} </label>
+                                </div>
+
+                                <div class="options-questions"  v-else-if="question.question_type_id  == 3 ">
+                                    <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i === 0 ? true : false " v-model="form[index].option">
+                                    <label :for="q" class="opciones" > {{q}} </label>
+                                </div>
+
+                                <div v-else-if="question.question_type_id  == 4"  class="textarea">
+                                <textarea placeholder="Responda aquí..." maxlength="200" cols="50" rows="10" class="opciones " v-model.trim="form[index].option">  </textarea>
+                                
+                                </div>
+                                <div class="options-questions" v-else>
+                                        <input type="checkbox" :id="q"  :value="i" v-model="form[index].option">
+                                        <label class="opciones" :for="q" >{{q}}</label>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                    <div v-if="step === Object.keys(this.questions).length" class="sendAnswers stepper-pane ">
+                        Has llegado al final del examén, si está seguro de sus respuestas seleccione enviar.
+                    </div>
+
+                <div class="controls">
+                    <button class="btn " @click="sustractStep" :disabled="step == 0">
+                        Anterior
+                    </button>
+                    <button class="btn btn--green-1" @click="addStep" :disabled="isDisabled" v-if="step !== Object.keys(questions).length" >
+                        Siguiente
+                    </button>
+                    
+                    <button  class="btn btn--green-1 open" @click="sendAnswers" v-else >
+                        Enviar
+                    </button>
+
+                </div>     
+            
+            </div>
+
+        </div>   
+
       </div> 
 
 </template>
@@ -81,13 +104,14 @@ export default {
             isDisabled: true,
             checked: true,
             exam_id:this.$route.params.id,
-            respExam:null,
-            mostrar:null,
+            respExam: null,
+            mostrar: false,
+            isLoadingQuestions: true
         }
     },
     computed:{
         stepperProgress() {
-            return ( 100 / Object.keys(this.questions).length ) * ( this.step - 1 ) + '%'
+            return ( 100 / Object.keys(this.questions).length ) * ( (this.step + 1 ) - 1 ) + '%'
         }
     },
     methods:{
@@ -97,9 +121,13 @@ export default {
 
         async setExam(){
             const resp_exam = await this.getExam(this.$route.params.id)
-            const {  questions } = resp_exam.data.data
-            this.questions = questions
-            this.splitQuestions( questions )
+            if(resp_exam.status === 200){
+                const {  questions } = resp_exam.data.data
+                this.questions = questions
+                this.splitQuestions( questions )
+                this.isLoadingQuestions = false
+            }
+
         },
         splitQuestions( questions ){
             
@@ -126,24 +154,20 @@ export default {
             this.isDisabled = false
         },
         sendAnswers(){
-              if( this.form[this.step].option.length <= 0 ){
+            
+              if( this.form.length < this.options.length ){
                 return false
-            }else{
-                let resp = true
-                if( resp ){
-                    console.log('send Answers', this.form);
-                   
-                }
-            }
+             }else{
+                this.axios.post('course/exam/answers',{
+                    "id_exam": this.exam_id,
+                    "answers":this.form})
+                .then( resp =>{
+                    console.log(resp.data);
+                    this.mostrar = true
+                    this.respExam = resp.data
+                })
+             }
            
-           this.axios.post('course/exam/answers',{
-             "id_exam": this.exam_id,
-             "answers":this.form})
-           .then( resp =>{
-               console.log(resp.data);
-               this.mostrar = true
-                this.respExam = resp.data
-           })
         }
         
     },
@@ -157,20 +181,48 @@ export default {
 
 <style lang="scss" scoped>
 $default    :   #C5C5C5;
-$green-1    :   #68b46e;
+$green-1    :   #65DA3C;
+$green-2    :   #65DA3C;
+$green-3    :   #dfffe0 ;
+$black-2    :   #0a1012;
+$black-1    :    #000000;
+$red-1    :    #d35b52;
 $transiton  :   all 500ms ease;
-
+$font-anksans-regular : fon;
+    
+.sendAnswers{
+    padding: 35px 15% !important;
+    font-weight: 600;
+    text-align: center;
+    font-size: 17px;
+    color: $black-1;
+    height: 200px;
+}
 .opciones{
     text-align: left;
     margin-left: 10px !important;
 }
-.title-question{
+.contenedor{
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    margin-top: 50px;
+}
+
+.puntos{
     font-weight: bold;
+    font-size: 16px;
+}
+
+.title-question{
+    text-align: center;
+    font-weight: 600;
     font-size: 18px;
+    padding: 0 auto;
 }
 .options-questions{
-    display: flex;
-    align-items: center;
+    
     margin-bottom: 10px;
 }
 label{
@@ -184,7 +236,7 @@ label{
 
 .wrapper-stepper{
     background-color: #fff;
-    padding: 30px;
+    padding: 70px 10%;
     box-shadow: rgba($color: #000000, $alpha: 0.09);
 }
 
@@ -256,7 +308,7 @@ label{
 .stepper-item.success{
     .stepper-item-counter{
         border-color: $green-1;
-        background-color: #c8ebc1;
+        background-color: $green-3 ;
         color: #fff;
         font-weight: 600;
 
@@ -292,9 +344,10 @@ label{
 .stepper-pane{
     color: rgb(0, 0, 0);
     text-align: center;
-    padding: 5px 60px 50px;
+    
+    padding: 5px 15px 50px 14px;
     box-shadow: 0 8px 12px rgba($color: #000000, $alpha: 0.09);
-    margin: 30px 0;
+    margin: 100px 15%;
 }
 
 //Separación de los botones
@@ -308,7 +361,7 @@ label{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 6px 16px;
+    padding: 8px 15px;
     border: 1px solid;
     text-align: center;
     vertical-align: middle;
@@ -317,10 +370,15 @@ label{
     transition: all 150ms;
     border-radius: 4px;
     width: fit-content;
-    font-size: 0.75rem;
-    color: #333;
-    background-color: #e2e2e2;
-    border-color: #bedcff;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    background-color: $green-2;
+    border-color: $green-2;
+
+    &:hover{
+        color: #fff;
+    }
 
     &:disabled{
         opacity: 0.5;
@@ -343,16 +401,16 @@ input[type="checkbox"] {
 }
 .options-questions label{
     color: #ffffff;
-    background: #75CC65;
-    padding: 5px 15px 5px 51px; 
+    background: $green-1;
+    padding: 5px 40px; 
     display: inline-block;
     position: relative;
-    font-size: 1em;
-    border-radius: 3px;
+    font-size: 1.1rem;
+    border-radius: 16px;
     cursor: pointer;
 }
 .options-questions label:hover{
-    background: #66bd57;
+    background: $green-2;
 }
 .options-questions label::before{
     content: "";
@@ -368,14 +426,15 @@ input[type="checkbox"] {
 }
 .options-questions input[type=radio]:checked + label, 
 .options-questions input[type=checkbox]:checked  + label{
-        padding: 5px 15px ;
+        padding: 5px 40px; 
         background: #3bc023;
-        border-radius: 2px;
+        border-radius: 16px;
         color: #fff;
 }
 .options-questions input[type=radio]:checked + label:before, 
 .options-questions input[type=checkbox]:checked  + label:before{
      display: none;
+     border-radius: 16px;
 }
 textarea{
     color: #000000;
@@ -387,23 +446,35 @@ textarea{
 
 
 
-@media (max-width: 780px){
+@media (max-width: 1200px){
     .title-question{
-        font-size: 16px;
-        padding-bottom: 20px;
+        font-size: 17px;
+    }
+    .puntos{
+        font-size: 15px;
+    }
+    .wrapper-stepper{
+        padding: 10% 3%;
     }
     .stepper-pane{
-        padding: 20px 25px;
+        margin:  50px 15px 30px;
     }
 }
 .caja-texto{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 500px;
-    height: 50px;
-    background: rgb(52, 149, 60);
-    margin: auto;
+    width: 320px;
+    height: 100px;
+    padding: 0 5px;
+    margin: 50px auto;
     border-radius: 15px;
+}
+.success-texto{
+
+    background: $green-2;
+}
+.danger-texto{
+    background: $red-1;
 }
 </style>
