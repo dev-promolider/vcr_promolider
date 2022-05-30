@@ -1,7 +1,7 @@
 <template>
     <div class="contenedor-temario border-box" > 
             <!-- Cuerpo temario -->
-            <div class="temario my-4 ">
+            <div class="temario">
                 <div class="center-spinner" v-if="isLoading">
                        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
                 </div>

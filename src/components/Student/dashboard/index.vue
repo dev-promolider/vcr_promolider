@@ -4,15 +4,16 @@
           <KeepLearning/>
           <Successes/>
       </div>
-      <div class="courses m-5">
+      
           
-          <div v-if="this.coursView > 0">
+          <div v-if="this.coursView > 0" class="m-5">
           <CarrouselCourseViewed />
         </div>
         
-        
-        <RecommendedCourse/>  
-      </div>    
+          <div  class="m-5">
+          <h4><strong>Cursos recomendados:</strong></h4>
+          <RecommendedCourse/>  
+         </div>
   </div>
 </template>
 
@@ -60,19 +61,14 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.courses{
-  flex-direction: column;
-  display: flex;
-  width: 100%;
-  padding: 40px;
-}
+
 .section-main{
   display: grid;
   grid-template-rows: 300px;
   grid-template-columns: repeat(3, 1fr);
   grid-column: span 2;
   gap: 70px;
-  padding: 39px 70px 0px 40px;
+  padding: 30px 70px 0px 50px;
 }
 @media (max-width:860px){
   .section-main{

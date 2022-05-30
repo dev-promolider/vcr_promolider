@@ -5,8 +5,8 @@
         <img src="@/assets/cup.svg" alt="">
         <p>Logros</p>
       </div>
-      <div class="details-logros">
-        <p>Ver progreso completo</p>
+      <div class="details-logros" @click="goLogros()">
+        <p>Ver Logros</p>
       </div>
     </div>
     <ul class="logros-user">
@@ -38,7 +38,25 @@
 <script>
 export default {
   name: "Successes",
-};
+
+
+data() {
+      return {
+        coursView:null,
+      }
+    },
+methods: {
+  goLogros(){
+    this.$router.push("/logros")
+    .then()
+  },
+
+created() {
+    this.mostrarAprendiendo();
+  },
+
+},
+}
 </script>
 <style scoped>
 @import './style.css';
@@ -81,5 +99,8 @@ export default {
 }
 .line-progres-1 {
   background: #1ae800;
+}
+.details-logros{
+  cursor: pointer;
 }
 </style>
