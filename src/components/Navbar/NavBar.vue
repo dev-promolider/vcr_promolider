@@ -173,7 +173,7 @@ export default {
   getPoints(){
       this.axios.get(`profile/points/${localStorage.getItem('id_user')}`)
       .then(data =>{
-        this.points = data.data[0].total
+        this.points = data.data.total
       })
       .catch(()=>{})
     },
