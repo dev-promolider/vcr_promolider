@@ -28,7 +28,7 @@ cardType(el tipo de card que se desea).
             </div>
 
             <div class="date" v-if="cardType == 1">
-              <p class="m-0 money text-left">S/. {{ course.price }}</p>
+              <p class="m-0 money text-left">S/. {{ course.price == 0 ? course.price = 'GRATIS' : course.price }}</p>
             </div>
             <div class="d-flex mt-2" v-if="cardType == 2">
               <b-avatar
@@ -54,7 +54,8 @@ cardType(el tipo de card que se desea).
 export default {
   name: "Card",
   data() {
-    return {};
+    return {
+    };
   },
   props: {
     course: {

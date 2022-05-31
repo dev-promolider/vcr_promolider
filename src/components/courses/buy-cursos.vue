@@ -14,7 +14,7 @@
         </ul>
         <div >
           <button v-if="this.courseFilter == false" class="btn-custom"  @click="BuyCourse()" 
-        :class="{loader: !titulo }">Comprarlo por S/.{{precio}} soles</button>
+        :class="{loader: !titulo }">{{this.precio > 0 ? 'Comprelo por S/.'+ this.precio+' soles' : "GRATIS"}} </button>
         </div>
 
         <div v-if="this.courseFilter == true">
@@ -237,7 +237,10 @@ export default {
         // API para obtener los detalles
         this.axios.get("course/details/" + this.pao_id).then((datos) => {
           this.items = datos.data.data[0];
+          
           this.precio = this.items.price;
+          
+          
 
           // Obtenemos el nivel del curso
           switch(this.items.course_level_id){
