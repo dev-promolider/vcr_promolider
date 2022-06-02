@@ -15,9 +15,11 @@
           </div>
           <div class="col-12 col-md-6">
             <ClienteVenta />
+            <Ahorcado class=""></Ahorcado>
           </div>
         </div>
       </div>
+      
   </div>
 </template>
 <script>
@@ -26,6 +28,7 @@ import DataPrimaryUser from "@/components/dashboard/DataPrimary/DataPrimaryUser.
 import MessengerColletion from "@/components/dashboard/Message/MessengerColletion.vue";
 import ClienteVenta from "@/components/dashboard/SalesHistory/ClienteVenta.vue";
 import CardsGame from '@/components/dashboard/CardsGame/CardsGame.vue';
+import Ahorcado from "@/components/Ahorcado/Ahorcado.vue";
 export default {
   name: "DashboardProducer",
   components: {
@@ -34,6 +37,7 @@ export default {
     //Attribute,
     ClienteVenta,
     CardsGame,
+    Ahorcado,
   },
   data() {
     return {};

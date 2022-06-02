@@ -1,10 +1,13 @@
 <template>
   <div class="content">
+    
     <div class="pref" v-if="mostrar">
       <div class="container">
-        <Preferencias />
-      </div>
+        <Preferencias /> 
+      </div>  
+         
     </div>
+    
     <div
       class="nav-v"
       :class="barraMenu ? 'sidebar-mobile' : 'sidebar-none'"
@@ -25,9 +28,10 @@
       <router-view class="view" 
       :style="{ 'background-image': `url(${courseHover.url_portada}) !important` }"
       />
-
+               
+      
+      
       <img src="@/assets/ruleta.png" class="btnflo" data-toggle="modal" data-target="#ruleta" alt="">
-
 
       <!-- Modal -->
     <div class="modal fade" id="ruleta"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -38,9 +42,10 @@
           </div>
         </div>
       </div>
+   
     </div>
-
     </div>
+    
   </div>
 </template>
 <script>
@@ -50,14 +55,16 @@ import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
 import { mapState } from 'vuex';
 import VueWinWheel from '@/components/Student/dashboard/Roulette'
 
+
 export default {
   name: "Contenedor",
   components: {
     NavBarV,
     NavBar,
     Preferencias,
-    VueWinWheel
-  },
+    VueWinWheel,
+    
+},
   data() {
     return {
       mostrar: false,
