@@ -28,8 +28,10 @@ cardType(el tipo de card que se desea).
             </div>
 
             <div class="date" v-if="cardType == 1">
-              <p class="m-0 money text-left">S/. {{ course.price == 0 ? course.price = 'GRATIS' : course.price }}</p>
+              <p class="m-0 money text-left" v-if="course.price > 0"> S/. {{ course.price }}</p>
+              <p class="m-0 money text-left" v-if="course.price == 0"><img src="@/assets/free.png" alt="" width="25"> GRATIS </p>
             </div>
+           
             <div class="d-flex mt-2" v-if="cardType == 2">
               <b-avatar
                 class="mb-3 ml-2"
