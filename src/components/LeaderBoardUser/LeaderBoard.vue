@@ -68,6 +68,7 @@ export default {
 .caja{
   background: #9cdab6;
   border-radius: 15px;
+  backdrop-filter: blur(10px);
 }
 .tittle{
     background: 

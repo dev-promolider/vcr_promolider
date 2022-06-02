@@ -33,7 +33,7 @@ const routes = [
       { path: '/courses', component: Courses, name: 'courses' },
       { path: '/course-user', component: CursoUser, name: 'curso' ,},
       { path: '/test/:id' , component: pruebasCourse, name: 'test'},
-      { path: '/messages', component: Messages, name: 'Messages' },
+      { path: '/messages', component: Messages, name: 'messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
       { path: '/perfil', name: 'perfil', component: Perfil },
@@ -42,9 +42,9 @@ const routes = [
       { path: '/suscription-user', name: 'suscription-user', component: Suscription },
       { path: '/certificado-user', name: 'certificado-user', component: Certificado },
       { path: '/detalle-certificado', name: 'detalle-certificado', component: detalleCertificado },
-      { path: '/logros', name: 'logros-user', component: logrosUser },
+      { path: '/logros', name: 'logros', component: logrosUser },
       { path: '/preguntas-frecuentes', name: 'preguntas-frecuentes', component: preguntasFrecuentes},
-      { path: '/leaderBoard', name: 'leaderBoard-user', component: leaderBoard },
+      { path: '/leaderBoard', name: 'leaderBoard', component: leaderBoard },
      
     ]
   },
