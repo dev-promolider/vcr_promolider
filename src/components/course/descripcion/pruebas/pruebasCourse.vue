@@ -1,90 +1,99 @@
 <template>
- <div style="height: 100%; background: white;">
+    <div style="height: 100%; background: white;">
         <div v-if="isLoadingQuestions" class="text-center" style="margin-top: 100px">
             <b-spinner type="grow" label="Spinning"></b-spinner>
         </div>
+
         <div v-else>
-                <div v-if="mostrar">
-                <div class="caja-texto" :class="[ this.respExam.message.toLowerCase() === 'aprobado' ? 'success-texto' : 'danger-texto'] ">
-                    <p class="texto" style="margin-bottom: 0px;">
-                    <strong>
-                    {{ this.respExam.message.toLowerCase() === 'aprobado' ? `¡Felicitaciones!`  : '' }} 
-                    Ústed ah {{this.respExam.message.toLowerCase()}} y logró obtener {{this.respExam.score}} puntos
-                    </strong>
-                    </p>
-                </div>
-            </div>
-            <div class="wrapper-stepper" v-else>
-                <div class="stepper">
-                    <div class="stepper-progress">
-                        <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
-                    </div>
+  
+                    <Transition name="bounce">
+                        <div v-if="mostrar" class="caja-texto" :class="[ this.respExam.message.toLowerCase() === 'aprobado' ? 'success-texto' : 'danger-texto'] ">
+                            <p class="texto" style="margin-bottom: 0px;" >
+                                <strong  style="font-size: 18px" >
 
-                    <div class="stepper-item" :class="{ 'current': step == index , 'success': step > index  }" v-for="(question , index ) in questions" :key="index">
-                        <div class="stepper-item-counter">
-                            <img class="icon-success" src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png" alt="">
-                            <span class="number">
-                                {{ index + 1}}
-                            </span>
+                                    <div><i :class="[  this.respExam.message.toLowerCase() === 'aprobado' ? 'fas fa-smile': 'fas fa-frown']" style="font-size: 55px; padding-bottom: 1rem "></i></div>
+
+                                    {{ this.respExam.message.toLowerCase() === 'aprobado' ? `¡Felicitaciones!`  : '' }} 
+                                    <div> Ústed ah {{this.respExam.message.toLowerCase()}} y
+                                    ha conseguido {{this.respExam.score}} puntos.
+                                    </div>
+                                </strong>
+                            </p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="stepper-content" v-for="(question, index ) in questions" :key="index">
-                    <div class="stepper-pane" v-if="step  == index ">
-                            <div class="contenedor">
-                                <div></div>
-                                <div class="title-question">
-                                    {{question.title}} 
+                    </Transition>
+                        <div class="wrapper-stepper"  v-if="mostrar === false">
+                            <div class="stepper">
+                                <div class="stepper-progress">
+                                    <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
                                 </div>
-                                <div class="puntos">
-                                    5 Pts.
+
+                                <div class="stepper-item" :class="{ 'current': step == index , 'success': step > index  }" v-for="(question , index ) in questions" :key="index">
+                                    <div class="stepper-item-counter">
+                                        <img class="icon-success" src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png" alt="">
+                                        <span class="number">
+                                            {{ index + 1}}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                    
-                            <div v-for="(q , i) in question.options" :key="i" >
-                             
 
-                                <div class="options-questions"  v-if="question.question_type_id == 1 ">
-                                    <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i" v-model="form[index].option">
-                                    <label :for="q" class="opciones" > {{q}} </label>
-                                </div>
-
-                                <div class="options-questions"  v-else-if="question.question_type_id  == 3 ">
-                                    <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i === 0 ? true : false " v-model="form[index].option">
-                                    <label :for="q" class="opciones" > {{q}} </label>
-                                </div>
-
-                                <div v-else-if="question.question_type_id  == 4"  class="textarea">
-                                <textarea placeholder="Responda aquí..." maxlength="200" cols="50" rows="10" class="opciones " v-model.trim="form[index].option">  </textarea>
+                            <div class="stepper-content" v-for="(question, index ) in questions" :key="index">
+                                <div class="stepper-pane" v-if="step  == index ">
+                                        <div class="contenedor">
+                                            <div></div>
+                                            <div class="title-question">
+                                                {{question.title}} 
+                                            </div>
+                                            <div class="puntos">
+                                                5 Pts.
+                                            </div>
+                                        </div>
                                 
-                                </div>
-                                <div class="options-questions" v-else>
-                                        <input type="checkbox" :id="q"  :value="i" v-model="form[index].option">
-                                        <label class="opciones" :for="q" >{{q}}</label>
+                                        <div v-for="(q , i) in question.options" :key="i" >
+                                        
+
+                                            <div class="options-questions"  v-if="question.question_type_id == 1 ">
+                                                <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i" v-model="form[index].option">
+                                                <label :for="q" class="opciones" > {{q}} </label>
+                                            </div>
+
+                                            <div class="options-questions"  v-else-if="question.question_type_id  == 3 ">
+                                                <input :id="q" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i === 0 ? true : false " v-model="form[index].option">
+                                                <label :for="q" class="opciones" > {{q}} </label>
+                                            </div>
+
+                                            <div v-else-if="question.question_type_id  == 4"  class="textarea">
+                                            <textarea placeholder="Responda aquí..." maxlength="200" cols="50" rows="10" class="opciones " v-model.trim="form[index].option">  </textarea>
+                                            
+                                            </div>
+                                            <div class="options-questions" v-else>
+                                                    <input type="checkbox" :id="q"  :value="i" v-model="form[index].option">
+                                                    <label class="opciones" :for="q" >{{q}}</label>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
-                    </div>
-                </div>
-                    <div v-if="step === Object.keys(this.questions).length" class="sendAnswers stepper-pane ">
-                        Has llegado al final del examén, si está seguro de sus respuestas seleccione enviar.
-                    </div>
+                                <div v-if="step === Object.keys(this.questions).length" class="sendAnswers stepper-pane ">
+                                    Has llegado al final del examén, si está seguro de sus respuestas seleccione enviar.
+                                </div>
 
-                <div class="controls">
-                    <button class="btn " @click="sustractStep" :disabled="step == 0">
-                        Anterior
-                    </button>
-                    <button class="btn btn--green-1" @click="addStep" :disabled="isDisabled" v-if="step !== Object.keys(questions).length" >
-                        Siguiente
-                    </button>
-                    
-                    <button  class="btn btn--green-1 open" @click="sendAnswers" v-else >
-                        Enviar
-                    </button>
+                            <div class="controls">
+                                <button class="btn " @click="sustractStep" :disabled="step == 0">
+                                    Anterior
+                                </button>
+                                <button class="btn btn--green-1" @click="addStep" :disabled="isDisabled" v-if="step !== Object.keys(questions).length" >
+                                    Siguiente
+                                </button>
+                                
+                                <button  class="btn btn--green-1 open" @click="sendAnswers" v-else >
+                                    Enviar
+                                </button>
 
-                </div>     
+                            </div>     
+                        
+                        </div>
             
-            </div>
+            
 
         </div>   
 
@@ -186,7 +195,7 @@ $green-2    :   #65DA3C;
 $green-3    :   #dfffe0 ;
 $black-2    :   #0a1012;
 $black-1    :    #000000;
-$red-1    :    #d35b52;
+$red-1    :    #e7837c;
 $transiton  :   all 500ms ease;
 $font-anksans-regular : fon;
     
@@ -464,11 +473,12 @@ textarea{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 320px;
-    height: 100px;
+    width: 90%;
+    height: 200px;
     padding: 0 5px;
     margin: 50px auto;
-    border-radius: 15px;
+    min-width: 100px;
+    max-width: 440px;
 }
 .success-texto{
 
@@ -476,5 +486,24 @@ textarea{
 }
 .danger-texto{
     background: $red-1;
+}
+
+/*************** Animation message*/
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
