@@ -1,101 +1,69 @@
 <template>
-  <div class="nav-general d-flex">
-    <ul class="nav seccion align-self-center">
-      <li class="nav-item logo-king m-0">
-        <span class="d-flex flex-grap nav-link" href="#">
-          <img class="img-king" src="../../assets/logo-king.png" />
-          <span class="ml-1">
-          {{titulo}}
-          <!-- {{$store.getters['course/getCurso']}} -->
-          </span
-          >
-        </span>
-      </li>
-    </ul>
-    <div class="nav-horizontal flex-grow-1 d-flex">
-      
-      <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="examDaily">
-        <li class="nav-item " data-toggle="modal" data-target="#question" >
-          <i class="fas fa-question " :class="[tooltip ? 'pulse ' : '']"></i>
-        </li>
-        <div class="tooltip-box d-flex"  v-if="tooltip">Gana puntos contestando preguntas. 
-          <i style="cursor: pointer"  class="fas fa-times close-tool" @click="hideToolTip"></i>
-        </div>
-        <div class="circle"></div>
-        
-      </ul>
-    
+     <div class="nav-bar">
+        <ul class="nav-bar__list" >
+          
+                  <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="examDaily" >
 
-      <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
-        <li class="nav-item">
-          <v-progress-circular
-            :rotate="-90"
-            :size="40"
-            :width="5"
-            :value="progressCourseSelect"
-            color="teal"
-          >
-            <i class="fas fa-trophy"></i>
-          </v-progress-circular>
-        </li>
-      </ul>
+                    <li class="nav-item " data-toggle="modal" data-target="#question" >
+                      <i class="fas fa-question black" :class="[tooltip ? 'pulse ' : '']"></i>
+                    </li>
+                    <div class="tooltip-box d-flex"  v-if="tooltip">Gana puntos contestando preguntas. 
+                      <i style="cursor: pointer"  class="fas fa-times  close-tool" @click="hideToolTip"></i>
+                    </div>
+                    <div class="circle"></div>
+                    
+                  </ul>  
 
-      <ul class="nav nav-sub-h1 justify-content-center align-items-center">
-        <li class="nav-item">
-          <span class="nav-link text-dark">
-            <img class="img-puntos" src="../../assets/logo-puntos.png" />
-            <b>{{this.points}} Pts.</b> 
-            
-          </span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <img class="img-help" src="../../assets/notification.png" />
-          </a>
-        </li>
-      </ul>
+                <li class="nav-bar__listitem">
+                    <div >
+                      {{points}} Pts.
+                    </div>
+                </li>
+               
+                <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
+                  <li class="nav-item">
+                    <v-progress-circular
+                      :rotate="-90"
+                      :size="40"
+                      :width="5"
+                      :value="progressCourseSelect"
+                      color="teal"
+                    >
+                      <i class="fas fa-trophy"></i>
+                    </v-progress-circular>
+                  </li>
+                </ul>
+                <li class="nav-bar__listitem">
+                   <i class="fas fa-bell black"></i>
+                </li>
+                  <li class="nav-bar__listitem" @click="isDropNav = true" ><i class="fas fa-ellipsis-v black"  ></i>
+                    <ul class="nav-bar__listitemdrop" :class="[ isDropNav ?  'showDrop' : '']"  v-on:mouseleave="hideDrop()" >
+                      
+                        
 
-      <ul class="nav nav-sub-h2 justify-content-center align-items-center mr-3 ">
-        <li class="nav-item profile">
-          <span class="submenu">
-            <img class="img-photo" :src="photo" />
-            <a class="viewmenu dropdown-toggle " data-toggle="dropdown" aria-expanded="false" >
-              <img class="img-viewmenu" src="../../assets/flecha-abajo.png" />
-            </a>
-            <div class="dropdown-menu viewmenu-list mr-5">
+                                  <router-link v-for="(link, index) in links" :key="index" :to="{ name:  link.nameRouter }"  >
+                                          <li v-on:click="link.available ? `${link.funcion()}` : '' ">
+                                            {{link.nombre}}
+                                          </li>
+                                    </router-link>
 
-              <router-link class="dropdown-item my-3" to="/perfil">
-                <img class="img-menuitem" src="../../assets/perfil.png" />
-                Mi Perfil</router-link>
+                    
 
-                <router-link class="dropdown-item my-3" :to="{ name: 'option-preferences'}">
-                <img class="img-menuitem" src="../../assets/perfil.png" />
-                Mis Preferencias</router-link>
+                    </ul>
 
-              <a class="dropdown-item mb-3" href="#">
-                <img class="img-menuitem" src="../../assets/subcription.png" />
-                Subcripción</a
-              >
-              <div class="dropdown-divider "></div>
-              <a class="dropdown-item my-3" href="#" @click="closeSesion()">Cerrar sesión </a>
+                  </li>
+        </ul>
+        <!-- Modal -->
+          <div class="modal fade" id="question"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <QuestionDaily />
+                </div>
+              </div>
             </div>
-          </span>
-        </li>
-
-      </ul>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="question"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-          <div class="modal-body">
-            <QuestionDaily />
           </div>
-        </div>
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -108,6 +76,7 @@ export default {
   name: "NavBar",
   data() {
     return {
+      isDropNav: false,
       vermenu: true,
       link: "",
       name: "",
@@ -116,7 +85,11 @@ export default {
       tooltip: false,
       item: 0,
       photo:localStorage.getItem("photo_user"),
-
+      links: [
+        { nombre: 'Mis perfil', nameRouter: 'perfil' },
+        { nombre: 'Mis preferencias', nameRouter: 'option-preferences' },
+        { nombre: 'Cerrar Sesión', nameRouter: 'Login' , funcion : this.closeSesion , available: true },
+      ],
       points:null,
     };
   },
@@ -145,15 +118,16 @@ export default {
   
   },
   methods: {
+    showDrop( f ){
+        this.isDropNav = f 
+    },
     desplegar() {
       this.vermenu = !this.vermenu;
     },
     closeSesion() {
       localStorage.removeItem("access_token"); 
       localStorage.removeItem('status_user');
-      localStorage.removeItem('name_user');           
-      //window.location.reload(true);
-      this.$router.push('/login');
+      localStorage.removeItem('name_user');  
     },
     hideToolTip(){
         if( this.item == 0 ) {
@@ -168,7 +142,9 @@ export default {
         this.tooltip = true
       }
     },
-
+    hideDrop(){
+        this.isDropNav = false
+    },
     
   getPoints(){
       this.axios.get(`profile/points/${localStorage.getItem('id_user')}`)
@@ -183,132 +159,118 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nav-general {
-  width: 100%;
-  min-height: 80px;
-  background: #60d950;
-  -webkit-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
--moz-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
-}
-.seccion {
-  width: 40.1%;
-  padding-left: 55px;
-}
-.nav-horizontal {
-  position: relative;
-  display: flex;
-  width: 59.9%;
-  justify-content: flex-end;
-  margin-right: 35px;
+$clr-primary: #60d950;
+$clr-primary-hover: #fce4ec;
+$clr-primary-dark: #ec407a;
+$clr-gray150: #f4f6fb;
+$clr-gray200: #eef1f6;
+$clr-gray300: #e1e5ee;
+$clr-gray400: #767b91;
+$clr-gray500: #4f546c;
+$clr-gray600: #2a324b;
+$clr-gray700: #161d34;
 
-  
+/*   border radius */
+$radius: 0.2rem;
+
+.showDrop{
+  visibility: visible !important;
+  opacity: 1 !important;
 }
-.profile {
-  position: relative;
-  background: transparent;
-  border-radius: 50px;
-  border: solid 3px #35424a;
-  width: 110px;
-  height: 50px;
-  
+.nav-bar i{
+  color: white;
 }
-.profile:hover{
-  background-color: #35424a  ;
+.nav-bar a{
+  color: #161d34;
+  text-decoration: none;
 }
-.submenu {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: absolute;
-  width: 100%;
-  margin: auto;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.img-puntos {
-  width: 20px;
-  
-}
-.img-help {
-  width: 32px;
-  height: 32px;
-}
-.ml-1 {
-  align-self: center;
-  font-size: 14px;
-}
-.img-king {
-  width: 24px;
-  height: 24px;
-}
-.img-photo {
-  width: 37.74px;
-  height: 37.5px;
-  border-radius: 50px;
-  margin: 1rem;
-}
-.viewmenu {
-  border-style: none;
-  background: none;
-}
-.viewmenu-list {
-  position: absolute;
-  background: #ffffff;
-  box-shadow: 0px 1px 2px 3px #35424a !important;
-  border-radius: 5px;
-  width: 25vh;
-  height: auto;
-  top: 20px !important;
-  right: 4px !important;
-  border-radius: 10px;
-  z-index: 100;
-  border: none;
-  transition: all 0.6s;
-}
-.dropdown-toggle{
-  color: transparent;
-}
-.img-viewmenu {
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-}
-.img-classroom {
-  width: 151px;
-  height: 37px;
-}
-.logo-classroom {
-  display: none;
-}
-.img-menuitem {
-  width: 18px;
-  height: 14px;
-}
-.nav-sub-h1 {
-  flex-direction: row;
-  @media screen and (max-width: 840px){
-    display: none;
-  }
-}
-.nav-sub-h2 {
-  position: relative;
-  flex-direction: row;  
-}
-.fa-question{
-  font-size: 1.5rem;
-  cursor: pointer;
+.black{
+  color: #0b0e18 !important;
 }
 
-@media only screen and (max-width: 960px) {
-  .nav-horizontal{
-   display: grid;
-   grid-template-rows: 1fr 1fr;
-   text-align-last: center;
+@media screen and (max-width: 1023px) {
+  .nav-bar {
+    &__list{
+      &logo{
+        padding-left: 90px;
+      }
+    }
   }
+}
+// Navbar //
+.nav-bar {
+  z-index: 30;
+  background: $clr-primary;
   
+  &__list {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 1rem;
+    
+    &logo {
+      
+      list-style: none;
+      margin-right: auto;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 30px;
+      color: rgb(28, 35, 43) ;
+
+      svg {
+        width: 2.5rem;
+        transition: fill 250ms ease-in;
+
+        &:hover,
+        &:focus {
+          fill: $clr-primary;
+        }
+      }
+    }
+
+    &item {
+      list-style: none;
+      position: relative;
+      padding: 1.5rem 0.7rem;
+      cursor: pointer;
+
+    
+
+      &drop {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #ffffff;
+        border-radius: $radius;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 200ms ease-in-out;
+        font-size: 14px;
+        box-shadow: 0 0 2px 2px rgb(224, 224, 224);
+       
+        
+        li {
+          display: flex;
+          align-items: center;
+          list-style: none;
+          border-radius: $radius;
+          transition: background-color 200ms ease-in-out;
+          padding: 0 16px;
+          min-height: 48px;
+          white-space: nowrap;
+          &:hover,
+          &:focus {
+            background-color: $clr-gray150;
+          }
+        }
+      }
+    }
+  }
+
+   
 }
 
 .tooltip-box{
@@ -317,8 +279,8 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
   color: #ffffff;
   padding: 8px 15px;
   font-size: 12px;
-  z-index: 2;
-  bottom: -40px;
+  z-index: 20;
+  top: 60px;
   width: 230px;
   border-radius: 8px;
   font-weight: 500;
@@ -352,7 +314,4 @@ box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.1);
     color: #000000;
   }
 }
-
-
-
 </style>

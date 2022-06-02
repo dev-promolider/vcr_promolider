@@ -11,11 +11,13 @@ import Vuetify from 'vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import vuetify from '../src/plugins/vuetify'
 
 Vue.config.productionTip = false
 
 //get token localstorage
 const token = localStorage.getItem('access_token');
+
 
 axios.defaults.baseURL = 'http://promolider.xyz/api/v1'
 // axios.defaults.baseURL = 'http://415e-177-91-253-9.ngrok.io/promolider/public/api/v1'
@@ -52,5 +54,6 @@ import 'vuetify/dist/vuetify.min.css'
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
