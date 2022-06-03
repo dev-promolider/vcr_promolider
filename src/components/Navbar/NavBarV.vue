@@ -12,20 +12,20 @@
         :class="isShowDrawer ? 'isShowDrawer' : 'isHideDrawer' "
       >
         <v-list>
-          <v-list-item :to="{name: 'perfil'}" link class="px-2" >
+          <v-list-item  class="px-2" >
             <v-list-item-avatar >
               <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
             </v-list-item-avatar>
+            <v-list-item style="color:white"  class="px-2">
+              <v-list-item-content>
+                <v-list-item-title style="font-size: 15px">
+                  {{name}}
+                </v-list-item-title>
+                <v-list-item-subtitle style="color:white; font-size: 14px">{{email}}</v-list-item-subtitle>
+              </v-list-item-content>
+          </v-list-item>
           </v-list-item>
 
-          <v-list-item link style="color:white; font-size: 18px" :to="{name: 'perfil'}" class="px-2">
-            <v-list-item-content>
-              <v-list-item-title class="text-h6">
-                {{name}}
-              </v-list-item-title>
-              <v-list-item-subtitle style="color:white; font-size: 18px">{{email}}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
         </v-list>
 
 
@@ -51,12 +51,19 @@
         <template v-slot:append>
           <div >
             <v-list nav dense>
-                
+                <v-list-item class="mb-2">
+                  <v-list-item-icon >
+                    <img width="18px" src="@/assets/icon-promolider.png" alt="promolider">
+                  </v-list-item-icon>
+                  <v-list-item-title >
+                      <h3 style="color:white; letter-spacing: 3.5px; padding-top: 3px">Promolíder</h3>
+                  </v-list-item-title>
+                </v-list-item>
               <v-list-item link  :to="{ name: 'preguntas-frecuentes'}" style="color:white; font-size: 18px" class="text-decoration-none">
                   <v-list-item-icon>
-                    <i class="fas fa-question"></i>
+                    <i class="fas fa-question" style=" font-size: 13px; margin-top: 5px"></i>
                   </v-list-item-icon>
-                  <v-list-item-title style="color:white; font-size: 15px" >Preguntas Frecuentes</v-list-item-title>
+                  <v-list-item-title style="color:white; font-size: 14px; letter-spacing: 1.3px;" >Preguntas Frecuentes</v-list-item-title>
               </v-list-item>
             </v-list>
           </div>
