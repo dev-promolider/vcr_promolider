@@ -238,7 +238,7 @@ $radius: 0.2rem;
 
       &drop {
         position: absolute;
-        top: 0;
+        top: 1rem;
         right: 0;
         background-color: #ffffff;
         border-radius: $radius;
