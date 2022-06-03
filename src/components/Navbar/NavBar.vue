@@ -14,7 +14,7 @@
                     
                   </ul>  
 
-                <li class="nav-bar__listitem">
+                <li class="nav-bar__listitem" v-if="showPointsExam">
                     <div >
                       {{points}} Pts.
                     </div>
@@ -68,7 +68,7 @@
 
 <script>
 
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { mapState } from "vuex";
 import QuestionDaily from "../Student/questions/daily/index";
 
@@ -76,6 +76,7 @@ export default {
   name: "NavBar",
   data() {
     return {
+      showPointsExam: false,
       isDropNav: false,
       vermenu: true,
       link: "",
@@ -90,7 +91,6 @@ export default {
         { nombre: 'Mis preferencias', nameRouter: 'option-preferences' },
         { nombre: 'Cerrar Sesión', nameRouter: 'Login' , funcion : this.closeSesion , available: true },
       ],
-      points:null,
     };
   },
   components:{
@@ -104,7 +104,7 @@ export default {
       titulo: state => state.topSection
     }),
 
-    ...mapState('course',['progressCourseSelect','courseSelect','msjCompletedClass','examDaily']),
+    ...mapState('course',['progressCourseSelect','courseSelect','msjCompletedClass','examDaily', 'points']),
 
     ...mapGetters('course',{
       vuexTitle: "title",
@@ -114,10 +114,11 @@ export default {
   mounted() {
     this.desplegar();
     this.showToolTip();
-    this.getPoints();
-  
+    this.getpoints()
   },
   methods: {
+    ...mapActions('course', ['getPoints']),
+
     showDrop( f ){
         this.isDropNav = f 
     },
@@ -145,14 +146,11 @@ export default {
     hideDrop(){
         this.isDropNav = false
     },
+    async getpoints(){
+        await this.getPoints( localStorage.getItem('id_user') )
+        this.showPointsExam = true
+    }
     
-  getPoints(){
-      this.axios.get(`profile/points/${localStorage.getItem('id_user')}`)
-      .then(data =>{
-        this.points = data.data.total
-      })
-      .catch(()=>{})
-    },
   },
 };
 

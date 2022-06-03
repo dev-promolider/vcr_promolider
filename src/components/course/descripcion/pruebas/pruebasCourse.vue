@@ -102,7 +102,7 @@
 </template>
 
 <script >
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
     data(){
         return {
@@ -124,6 +124,7 @@ export default {
         }
     },
     methods:{
+        ...mapMutations('course', [ 'sumPoints' ]),
         ...mapActions('course',{
             getExam: 'getExam'
         }),
@@ -174,6 +175,7 @@ export default {
                     console.log(resp.data);
                     this.mostrar = true
                     this.respExam = resp.data
+                    this.sumPoints(resp.data.score);
                 })
              }
            
