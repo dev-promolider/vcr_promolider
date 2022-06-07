@@ -5,7 +5,7 @@ cardType(el tipo de card que se desea).
 -->
 
 <template>
-    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)" @mouseover="mouseOver(course)" @mouseleave="mouseleave()" :style="`max-width: ${width}%; height: ${height}px`">
+    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)" @mouseover=" isMouseOverActive ? '' :  mouseOver(course)  " @mouseleave="mouseleave()" :style="`max-width: ${width}%; height: ${height}px`">
         <div
               :class="[{'btn-play':cardType == 3},'image']"
               :style="{ background: `url(${course.url_portada})` }"
@@ -66,6 +66,10 @@ export default {
     cardType:Number,
     width:Number,
     height:Number,
+    isMouseOverActive: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
 

@@ -6,7 +6,7 @@
     <vue-horizontal class="horizontal"
       >.
       <section class="item mr-3" v-for="course in lastCourses" :key="course.id">
-        <Card :course="course" :cardType="3"  />
+        <Card :course="course" :cardType="3" />
       </section>
     </vue-horizontal>
   </main>
