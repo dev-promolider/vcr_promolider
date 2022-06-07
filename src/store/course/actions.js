@@ -95,3 +95,17 @@ export const getExam= async (_, data) => {
     const respuesta =  await axios.post(`course/exam`, {exam_id : data})
     return respuesta
 }
+
+
+export const getPoints = async ( {commit} , id) => {
+    try {
+        const data = await axios.get(`profile/points/${id}`)
+        
+        const {total} = data.data
+
+        commit( 'setPoints', total )
+
+    } catch (error) {
+        console.log(error);
+    }
+}

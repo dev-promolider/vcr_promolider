@@ -8,17 +8,15 @@
   
                     <Transition name="bounce">
                         <div v-if="mostrar" class="caja-texto" :class="[ this.respExam.message.toLowerCase() === 'aprobado' ? 'success-texto' : 'danger-texto'] ">
-                            <p class="texto" style="margin-bottom: 0px;" >
-                                <strong  style="font-size: 18px" >
-
-                                    <div><i :class="[  this.respExam.message.toLowerCase() === 'aprobado' ? 'fas fa-smile': 'fas fa-frown']" style="font-size: 55px; padding-bottom: 1rem "></i></div>
-
-                                    {{ this.respExam.message.toLowerCase() === 'aprobado' ? `¡Felicitaciones!`  : '' }} 
-                                    <div> Ústed ah {{this.respExam.message.toLowerCase()}} y
-                                    ha conseguido {{this.respExam.score}} puntos.
+                            <div class="d-flex flex-column justify-content-center align-items-center my-3" style="font-size: 20px; font-weight: bold">
+                                    <div >
+                                        <i :class="[  this.respExam.message.toLowerCase() === 'aprobado' ? 'fas fa-smile': 'fas fa-frown']" style="font-size: 55px; padding-bottom: 0.3rem "></i>
                                     </div>
-                                </strong>
-                            </p>
+                                    <div> {{ this.respExam.message.toLowerCase() === 'aprobado' ? `¡Felicitaciones!`  : '' }} </div>
+                                    <div> Ústed ah {{this.respExam.message.toLowerCase()}}</div> 
+                                    <div> Puntos obtenidos: {{this.respExam.points}}</div> 
+                                    <div>Score: {{this.respExam.score}}</div>
+                            </div>
                         </div>
                     </Transition>
                         <div class="wrapper-stepper"  v-if="mostrar === false">
@@ -102,7 +100,7 @@
 </template>
 
 <script >
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
     data(){
         return {
@@ -124,6 +122,7 @@ export default {
         }
     },
     methods:{
+        ...mapMutations('course', [ 'sumPoints' ]),
         ...mapActions('course',{
             getExam: 'getExam'
         }),
@@ -171,9 +170,9 @@ export default {
                     "id_exam": this.exam_id,
                     "answers":this.form})
                 .then( resp =>{
-                    console.log(resp.data);
                     this.mostrar = true
                     this.respExam = resp.data
+                    this.sumPoints( Number(resp.data.points))
                 })
              }
            
@@ -473,8 +472,6 @@ textarea{
     justify-content: center;
     align-items: center;
     width: 90%;
-    height: 200px;
-    padding: 0 5px;
     margin: 50px auto;
     min-width: 100px;
     max-width: 440px;

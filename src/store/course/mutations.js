@@ -130,3 +130,11 @@ export const COURSE_HOVER = (state, courseHover) =>{
 export const NO_EXAM_DAILY = (state, examDaily) =>{
     state.examDaily = examDaily
 }
+
+export const setPoints = ( state, points) => {
+    state.points = points
+}
+
+export const sumPoints = (state, points ) => {
+    state.points += points
+}

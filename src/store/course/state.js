@@ -21,5 +21,6 @@ export default () => ({
     allComments: [],
     dataEx: null,
     courseHover: [],
-    examDaily: true
+    examDaily: true,
+    points: 0
 })
