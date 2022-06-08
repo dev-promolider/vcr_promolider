@@ -12,11 +12,9 @@
 
     <div  v-if="!mostrar">
       <NavBarV />
-      <v-main app>
+      <v-main app   >
 
-        <router-view 
-        :style="{ 'background-image': `url(${courseHover.url_portada}) !important` }"
-        />
+        <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada}) !important`   }" />
       </v-main>
       <img src="@/assets/ruleta.png" class="btnflo" data-toggle="modal" data-target="#ruleta" alt="">
 
@@ -142,4 +140,12 @@ export default {
   visibility: hidden;
   cursor: pointer;
 }
+.background-router{
+  height: 100vh ;
+  width: 100vw ;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 </style>
