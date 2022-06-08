@@ -221,6 +221,7 @@ $font-anksans-regular : fon;
 .puntos{
     font-weight: bold;
     font-size: 16px;
+    text-align: center;
 }
 
 .title-question{
@@ -351,8 +352,6 @@ label{
 //Panel donde se muestra el contenido
 .stepper-pane{
     color: rgb(0, 0, 0);
-    text-align: center;
-    
     padding: 5px 15px 50px 14px;
     box-shadow: 0 8px 12px rgba($color: #000000, $alpha: 0.09);
     margin: 100px 15%;
@@ -414,7 +413,7 @@ input[type="checkbox"] {
     display: inline-block;
     position: relative;
     font-size: 1.1rem;
-    border-radius: 16px;
+    border-radius: 10px;
     cursor: pointer;
 }
 .options-questions label:hover{
@@ -436,13 +435,13 @@ input[type="checkbox"] {
 .options-questions input[type=checkbox]:checked  + label{
         padding: 5px 40px; 
         background: #3bc023;
-        border-radius: 16px;
+        border-radius: 10px;
         color: #fff;
 }
 .options-questions input[type=radio]:checked + label:before, 
 .options-questions input[type=checkbox]:checked  + label:before{
      display: none;
-     border-radius: 16px;
+     border-radius: 10px;
 }
 textarea{
     color: #000000;

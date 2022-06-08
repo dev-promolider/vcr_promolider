@@ -12,9 +12,9 @@
         :class="isShowDrawer ? 'isShowDrawer' : 'isHideDrawer' "
       >
         <v-list>
-          <v-list-item  class="px-2" >
-            <v-list-item-avatar >
-              <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
+          <v-list-item link class="px-2" :to="{name: 'perfil'}" >
+            <v-list-item-avatar  >
+              <v-img  src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
             </v-list-item-avatar>
             <v-list-item style="color:white"  class="px-2">
               <v-list-item-content>

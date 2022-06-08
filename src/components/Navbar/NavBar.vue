@@ -2,7 +2,7 @@
      <div class="nav-bar">
         <ul class="nav-bar__list" >
           
-                  <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="examDaily" >
+                  <ul class="nav-bar__listitem nav-sub-h1 justify-content-center align-items-center" v-if="examDaily" >
 
                     <li class="nav-item " data-toggle="modal" data-target="#question" >
                       <i class="fas fa-question black" :class="[tooltip ? 'pulse ' : '']"></i>
@@ -14,10 +14,10 @@
                     
                   </ul>  
 
-                <li class="nav-bar__listitem" v-if="showPointsExam">
-                    <div >
-                      {{points}} Pts.
-                    </div>
+                <li class="nav-bar__listitem d-flex align-items-center " style=" font-size: 18px" v-if="showPointsExam" >
+                      <i class="fas fa-medal black" style="font-size:15px; width: 12px"></i>
+                      <div class="mx-1">{{puntos}}</div>
+                      <div>Pts.</div>
                 </li>
                
                 <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
@@ -87,7 +87,7 @@ export default {
       item: 0,
       photo:localStorage.getItem("photo_user"),
       links: [
-        { nombre: 'Mis perfil', nameRouter: 'perfil' },
+        { nombre: 'Mi perfil', nameRouter: 'perfil' },
         { nombre: 'Mis preferencias', nameRouter: 'option-preferences' },
         { nombre: 'Cerrar Sesión', nameRouter: 'Login' , funcion : this.closeSesion , available: true },
       ],
