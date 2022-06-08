@@ -144,9 +144,9 @@ export default {
     }
     .contenedor{
         width: 100%;
-        max-width: 800px;
+        max-width: 1200px;
         text-align: center;
-        margin: 0 10px;
+        margin: 0 auto;
     }
     .contenedor-preferences{
         display: flex;

@@ -16,24 +16,15 @@
                     <div class="circle"></div>
               </div>  
 
-             </v-btn>
-              
-             <v-chip
-                color="#20282ed1"
-                text-color="white"
-                style="font-size: 15px"
-                v-if="points"
-              >
-               <v-icon left >
-                  mdi-trophy-award
-                </v-icon>
-                {{points}} Pts.
-              </v-chip>
-            <v-btn
-              icon
-              v-if="courseSelect"
-              >
-                   <v-progress-circular
+                <li class="nav-bar__listitem d-flex align-items-center " style=" font-size: 18px" v-if="showPointsExam" >
+                      <i class="fas fa-medal black" style="font-size:15px; width: 12px"></i>
+                      <div class="mx-1">{{puntos}}</div>
+                      <div>Pts.</div>
+                </li>
+               
+                <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
+                  <li class="nav-item">
+                    <v-progress-circular
                       :rotate="-90"
                       :size="40"
                       :width="5"
