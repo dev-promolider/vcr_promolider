@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div>
     
     <div class="pref" v-if="mostrar">
       <div class="container">
@@ -8,44 +8,34 @@
          
     </div>
     
-    <div
     
-      class="nav-v"
-      :class="barraMenu ? 'sidebar-mobile' : 'sidebar-none'"
-      v-if="!mostrar"
-    >
+
+    <div  v-if="!mostrar">
       <NavBarV />
-    </div>
+      <v-main app>
 
-    <div class="content-user" v-if="!mostrar">
-     
-
-      <NavBar />
-      <router-view class="view" 
-      :style="{ 'background-image': `url(${courseHover.url_portada}) !important` }"
-      />
-               
-      
-      
+        <router-view 
+        :style="{ 'background-image': `url(${courseHover.url_portada}) !important` }"
+        />
+      </v-main>
       <img src="@/assets/ruleta.png" class="btnflo" data-toggle="modal" data-target="#ruleta" alt="">
 
       <!-- Modal -->
-    <div class="modal fade" id="ruleta"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-          <div class="modal-body">
-            <VueWinWheel />
+      <div class="modal fade" id="ruleta"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+          <div class="modal-content">
+            <div class="modal-body">
+              <VueWinWheel />
+            </div>
           </div>
         </div>
+    
       </div>
-   
-    </div>
     </div>
     
   </div>
 </template>
 <script>
-import NavBar from "@/components/Navbar/NavBar.vue";
 import NavBarV from "@/components/Navbar/NavBarV.vue";
 import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
 import { mapState } from 'vuex';
@@ -56,7 +46,6 @@ export default {
   name: "Contenedor",
   components: {
     NavBarV,
-    NavBar,
     Preferencias,
     VueWinWheel,
     
