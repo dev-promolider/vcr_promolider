@@ -4,27 +4,36 @@
          <v-app-bar   app elevation="0" height="70px" color="#60d950" >
            <v-app-bar-nav-icon @click="changeDrawer" v-if="$vuetify.breakpoint.xs" ></v-app-bar-nav-icon>
            <v-spacer></v-spacer>
-             <v-btn icon  data-toggle="modal" data-target="#question" v-if="examDaily">
+             <v-btn icon v-if="examDaily">
 
               <div class="nav nav-sub-h1"  >
-                    <li class="nav-item " >
+                    <li class="nav-item " data-toggle="modal" data-target="#question" >
                       <i class="fas fa-question " style="font-size: 18px"  :class="[tooltip ?  'pulse' : '' ]"></i>
                     </li>
                     <div class="tooltip-box d-flex" v-if="tooltip">
-                      <div style="font-size: 10px; word-wrap: break-word; text-transform: none;" > Gana puntos contestando preguntas. <i class="fas fa-times"  @click="hideToolTip"></i> </div>
+                      <div style="font-size: 10px; word-wrap: break-word; text-transform: none;"> Gana puntos contestando preguntas.<i class="fas fa-times"   @click="hideToolTip"></i></div>
                     </div>
                     <div class="circle"></div>
               </div>  
 
-                <li class="nav-bar__listitem d-flex align-items-center " style=" font-size: 18px" v-if="showPointsExam" >
-                      <i class="fas fa-medal black" style="font-size:15px; width: 12px"></i>
-                      <div class="mx-1">{{puntos}}</div>
-                      <div>Pts.</div>
-                </li>
-               
-                <ul class="nav nav-sub-h1 justify-content-center align-items-center" v-if="courseSelect" :title="msjCompletedClass">
-                  <li class="nav-item">
-                    <v-progress-circular
+             </v-btn>
+              
+             <v-chip
+                color="#20282ed1"
+                text-color="white"
+                style="font-size: 15px"
+                v-if="points"
+              >
+               <v-icon left >
+                  mdi-trophy-award
+                </v-icon>
+                {{points}} Pts.
+              </v-chip>
+            <v-btn
+              icon
+              v-if="courseSelect"
+              >
+                   <v-progress-circular
                       :rotate="-90"
                       :size="40"
                       :width="5"
@@ -182,7 +191,7 @@ export default {
     padding: 8px 15px;
     z-index: 10;
     top: 35px;
-    left: -100px;
+    left: -94px;
     border-radius: 8px;
     font-weight: 500;
     font-size: 15px;
