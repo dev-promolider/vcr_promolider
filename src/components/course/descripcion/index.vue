@@ -83,28 +83,43 @@
           <div v-else>
             <ul class="list-group list-group-flush">
               <li
-                class="list-group-item"
+                class="list-group-item "
                 v-for="(resource, index) in resources"
                 :key="index"
               >
                 Recurso {{ index + 1 }}.
-                <a
-                  class="ml-3 text-decoration-none text-success"
-                  disabled
-                >
-                  <i class="fas fa-download mr-1"></i>
+                <a class=" text-decoration-none text-success" disabled>
+                  <i class="fas fa-download "></i>
                   {{ getNameResource(resource.resource_file) }}
                 </a>
 
                 <a href="#modal" class="open"
-                  ><button class="btn btn-success ml-5" @click="preView(resource)">
-                    Visualizar Archivo
-                  </button></a
-                >
-
-                
-
+                  ><button
+                    class="btn btn-success"
+                    @click="preView(resource)"
+                  >
+                    Ver Archivo
+                  </button></a>
               </li>
+              <div class="modal" id="modal">
+      <a href="#" class="modal-bg"></a>
+      <div class="modal-content">
+        <a href="#" class="modal-exit">x</a>
+        <div class="row m-5 justify-content-sm-center">
+          
+          <div>
+            
+            <iframe :src="picture" class="pdf"> </iframe>
+            
+              <button class="btn btn-success " id="button">DESCARGAR</button>
+            
+            <div v-if="this.carga" class="cargando">
+            <div class="spinner-border"></div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
             </ul>
           </div>
         </div>
@@ -126,25 +141,7 @@
       </div>
     </div>
 
-    <div class="modal" id="modal">
-                  <a href="#" class="modal-bg"></a>
-                  <div class="modal-content">
-                    <a href="#" class="modal-exit">x</a>
-                    <div class="row m-5 justify-content-sm-center">
-                      <div v-if="this.carga" class="cargando ">
-                         <div class="spinner-border mt-5"></div> 
-                      </div>
-                      <div >
-                        <iframe  :src="picture"  class="pdf">
-                          </iframe>
-                          <div >
-                        <button class="btn btn-success" id="button" >DESCARGAR</button>
-                      </div>
-                      </div>
-                    </div>
-                    
-                  </div>
-                </div>
+    
   </div>
 </template>
 
@@ -157,8 +154,8 @@ export default {
     return {
       isActive: 1,
       open: false,
-      picture:null,
-      carga:null,
+      picture: null,
+      carga: null,
     };
   },
   computed: {
@@ -174,27 +171,27 @@ export default {
       this.isActive = el;
     },
     /* ---------------------------------- */
-    preView(resource){
+    preView(resource) {
       this.mostrar = !this.mostrar;
       this.carga = true;
       this.axios
         .get(`class-resource/download-resource?id=${resource.id}`, {
           responseType: "blob",
         })
-        .then((res) => {  
+        .then((res) => {
           this.carga = false;
           let FILE = window.URL.createObjectURL(res.data);
-          this.picture=FILE
-          
-              document.getElementById('button').onclick = function() {
-            var docUrl = document.createElement('a');
+          this.picture = FILE;
+
+          document.getElementById("button").onclick = function () {
+            var docUrl = document.createElement("a");
             // Generamos un link de descarga
             docUrl.href = FILE;
-            docUrl.setAttribute('download', `${resource.resource_file}`);
+            docUrl.setAttribute("download", `${resource.resource_file}`);
             document.body.appendChild(docUrl);
-            docUrl.click();}
-	    });
-          
+            docUrl.click();
+          };
+        });
     },
     /* -------------------------  */
     // Funcion para descargar un recurso
@@ -211,19 +208,16 @@ export default {
             docUrl.click();
         })
       }, */
-    
+
     Testing() {
       this.$router.push({ name: "test", params: { id: this.dataEx.data } });
     },
-    
 
     // Extraer solo nombre del recurso y no toda la ruta
     getNameResource(filepath) {
       let filenameWithExtension = filepath.replace(/^.*[\\/]/, "");
       return filenameWithExtension;
     },
-
-    
   },
   created() {
     this.getResources(this.$route.query.class);
@@ -360,14 +354,7 @@ export default {
   border-radius: 20px;
   text-decoration: none;
 }
-.modal {
-  position: relative;
-  z-index: 99999999999;
-  top: 20%;
-  left: 50%;
-  width: 300px;
-  margin-left: -150px;
-}
+
 
 /* Modal container*/
 .modal {
@@ -376,8 +363,8 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   -webkit-transition: all 0.7s;
   transition: all 0.7s;
 }
@@ -418,11 +405,13 @@ export default {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   background-color: white;
-  width: 60%;
-  height: 80%;
+  width: 80vw;
+  height: 80vh;
   border-radius: 2rem;
   text-align: center;
   z-index: 300;
+  padding-bottom: 10px;
+  overflow: hidden;
 }
 
 /* Modal is closed at lose target*/
@@ -431,7 +420,7 @@ export default {
 .modal-exit:visited,
 .modal-exit:hover {
   position: absolute;
-  top: 3%;
+  top: 2%;
   right: 2%;
   font-size: 1.5rem;
   text-decoration: none;
@@ -442,19 +431,24 @@ export default {
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
-.pdf{
-  width: 50vw;
-  height: 50vh;
+.pdf {
+  width: 70vw;
+  height: 100%;
   border-radius: 15px;
 }
 
-.cargando{
+.cargando {
   position: absolute;
   z-index: 10000;
+  top: 0;
+  left: 0;
   color: white;
   background: #131b1e;
-  width: 90%;
-  height: 80%;
+  width: 100vw;
+  height: 100vh;
   border-radius: 15px;
+}
+.spinner-border{
+  margin: 20% 0 0 -20%;
 }
 </style>

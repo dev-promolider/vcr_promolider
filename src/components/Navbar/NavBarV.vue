@@ -12,7 +12,7 @@
               <v-list>
                 <v-list-item class="px-2" link :to="{name: 'perfil'}" >
                     <v-list-item-avatar class="mr-1" >
-                      <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
+                      <v-img :src="this.img"></v-img>
                     </v-list-item-avatar>
                     <v-list-item >
                     <v-list-item-content>
@@ -81,6 +81,7 @@ export default {
       isShowDrawer: null,
       email: localStorage.getItem("email_user"),
       name: localStorage.getItem("name_user"),
+      img:localStorage.getItem("photo_user"),
       listNavBar:[
         { nombre: 'Inicio', icon: 'home' , path: 'home'},
         { nombre: 'Marketplace', icon: 'store' , path: 'courses'},
