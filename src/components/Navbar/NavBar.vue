@@ -1,7 +1,7 @@
 <template>
   <div>
 
-         <v-app-bar   app elevation="0" height="70px" color="#60d950" >
+         <v-app-bar   app elevation="0" height="70px" color="#60d950"  >
            <v-app-bar-nav-icon @click="changeDrawer" v-if="$vuetify.breakpoint.xs" ></v-app-bar-nav-icon>
            <v-spacer></v-spacer>
              <v-btn icon v-if="examDaily">
@@ -44,7 +44,71 @@
                       </v-icon>
                     </v-progress-circular>
             </v-btn>
+
+            <!--Notificaciones -->
+            <v-menu
+                left
+                bottom
+            >
+                <template v-slot:activator="{ on, attrs }">
+                    
+                      <v-btn 
+                          icon  
+                          v-bind="attrs"
+                          v-on="on" 
+                      >
+                      <v-badge 
+                         overlap
+                         color="#d54338"
+                         :value="isBadgeActive"
+                         :content="numberItems"
+                        >
+                          <v-icon>
+                            mdi-bell
+                          </v-icon>
+                      
+                      </v-badge>
+                    </v-btn>
+                </template>
+
+              <v-list three-line width="450px"  class="scroll" v-if="items.length > 0" >
+                  <v-subheader
+                  style="font-size: 1.3rem; font-weight: 600"
+                    >Notificaciones</v-subheader>
+                    <v-divider class="my-1"></v-divider>
+                  <template v-for="(item, index) in items" >
+                    <v-list-item 
+                      :key="index"
+                    >
+                      <v-list-item-avatar height="50px" width="50px">
+                        <v-img  max-height="125"  :src="item.avatar" ></v-img>
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        <v-list-item-title v-html="item.title" style="color: grey" class="font-weight-bold" ></v-list-item-title>
+                        <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+                        <v-list-item-subtitle  ><timeago style="color: #327e00; font-weight: bold" :datetime="item.created_at" :auto-update="60"></timeago></v-list-item-subtitle>
+                      </v-list-item-content>
+                    </v-list-item>
+                     
+                  </template>
+                  <v-divider class="my-1"></v-divider>
+                   <v-card-text>
+                       <v-btn
+                        color="#60d950"
+                        deep
+                        large
+                        width="100%"
+                        class="text-white"
+                        height="35px"
+                       >Ver todo</v-btn>
+                        
+                      </v-card-text>
+                </v-list>
+            </v-menu>
+
             
+
+              <!--Opciones-->
             <v-menu
               left
               bottom
@@ -97,6 +161,7 @@ export default {
     },
     data(){
       return {
+        numberItems: 0,
         tooltip: false,
         isBadgeActive: false,
         drawer: false,
@@ -162,10 +227,26 @@ export default {
         this.tooltip = true
       }
     },
+    async getNotifications(){
+        const data = await this.axios.get( '/notifications/list' )
+           const noti = data.data.map( ( e ) => {
+               return { title: e.title , subtitle: e.body, avatar: e.photo , created_at: e.created_at }
+           })
+
+         if( Object.keys(noti).length > 0 ){
+           this.isBadgeActive = true
+           this.numberItems = Object.keys(noti).length
+         }
+         this.items = noti
+      },
     },
+    
     mounted(){
       this.showToolTip();
       this.getpoints()
+    },
+    created(){
+      this.getNotifications()
     }
 }
 </script>
@@ -175,7 +256,7 @@ export default {
 
   .scroll{
       height: 100%;
-      max-height: 310px;
+      max-height: 450px;
       overflow-y: scroll ;
       &::-webkit-scrollbar{
         display: none;

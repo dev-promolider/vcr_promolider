@@ -81,7 +81,6 @@ export default {
             for (let i = 0; i < numeroCartas; i++) {
                 this.cards.push( { name : i + 1, id: i} )
             }
-            console.log(this.cards);
         },
         /*Voltear Carta*/
         flipCard( card ){

@@ -31,11 +31,23 @@ Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(VueHorizontal)
 Vue.use(Vuetify)
+Vue.use(vueTimeago, {
+  name: 'Timeago', // Component name, `Timeago` by default
+  locale: 'es', // Default locale
+  // We use `date-fns` under the hood
+  // So you can use all locales from it
+  locales: {
+    'zh-CN': require('date-fns/locale/zh_cn'),
+    ja: require('date-fns/locale/ja'),
+    'es': require('date-fns/locale/es')
+  }
+})
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vuetify/dist/vuetify.min.css'
+import vueTimeago from 'vue-timeago'
 // import Echo from 'laravel-echo'
 // window.Pusher = require('pusher-js')
 
