@@ -20,6 +20,7 @@ import logrosUser from '../components/LogrosUser/Logros.vue'
 import preguntasFrecuentes from '../components/preguntasFrecuentes'
 import leaderBoard from '../components/LeaderBoardUser/LeaderBoard.vue'
 import optionPreference from '../views/content/optionpreferences/OptionPreferences.vue'
+import Buy from '../views/content/buy/buy.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -45,7 +46,8 @@ const routes = [
       { path: '/logros', name: 'logros', component: logrosUser },
       { path: '/preguntas-frecuentes', name: 'preguntas-frecuentes', component: preguntasFrecuentes},
       { path: '/leaderBoard', name: 'leaderBoard', component: leaderBoard },
-     
+      { path: '/buy/:ide', name: 'buy', component: Buy },
+
     ]
   },
  
