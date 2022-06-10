@@ -1,15 +1,15 @@
 <template>
   <div class="div-pagar">
-    <h3 class="mb-5"><strong>Pagar</strong></h3>
+    <h2 class="mb-5"><strong>Pagar</strong></h2>
 
     <div class="row">
       <div class="col-md-8 ">
         <div>
           <p class="subt my-5 text-start">
-            <strong>Direccion de facturacion</strong>
+            <strong>Dirección de facturación</strong>
           </p>
           <div class="d-flex">
-            <p class="text-start flex-grow-1">Pais</p>
+            <p class="text-start flex-grow-1">País</p>
             <p class="">Necesario</p>
           </div>
           <div class="col-5 py-2 px-3 m-0 border border-dark">
@@ -32,9 +32,9 @@
         <div class="my-5">
           <div class="d-flex">
             <p class="subt text-start flex-grow-1">
-              <strong>Metodo de pago</strong>
+              <strong>Método de pago</strong>
             </p>
-            <p class="">Coneccion Segura <img src="@/components/Buy/imagenes/candado.svg" width="25" alt=""></p>
+            <p class="">Conexión Segura <img src="@/components/Buy/imagenes/candado.svg" width="25" alt=""></p>
           </div>
           <div>
             <div>
@@ -53,7 +53,7 @@
                         width="25"
                         alt=""
                       />
-                      <strong>Tarjera de credito/debito</strong>
+                      <strong>Tarjera de crédito/débito</strong>
                     </div>
                   </div>
                 </b-form-radio>
@@ -98,8 +98,8 @@
           Al completar la compra, aceptas Condiciones de uso.
         </p>
         <p class="text-start ">
-          PROMOLIDER esta obligado por ley a recaudar los impuestos sobre las
-          transacciones de las compras realizadas en determinadas juridicciones
+          PROMOLIDER está obligado por ley a recaudar los impuestos sobre las
+          transacciones de las compras realizadas en determinadas jurisdicciones
           discales.
         </p>
       </div>
@@ -125,7 +125,7 @@ export default {
       pao_id: this.$route.params.ide,
       itemCouse:{},
       selectedPago: null,
-      selectedPais: 'Peru',
+      selectedPais: 'Perú',
       states: [
           'Alabama', 'Alaska', 'American Samoa', 'Arizona',
           'Arkansas', 'California', 'Colorado', 'Connecticut',
@@ -137,7 +137,7 @@ export default {
           'Missouri', 'Montana', 'Nebraska', 'Nevada',
           'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
           'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio',
-          'Oklahoma', 'Oregon', 'Palau', 'Peru', 'Pennsylvania', 'Puerto Rico',
+          'Oklahoma', 'Oregon', 'Palau', 'Perú', 'Pennsylvania', 'Puerto Rico',
           'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
           'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
           'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
