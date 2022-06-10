@@ -15,8 +15,8 @@
         <div >
           <button v-if="this.courseFilter == false" class="btn-custom"  @click="BuyCourse()" 
         style="font-size: 18px; color:black; font-weight: 600; line-height: 1.5rem"
-        :class="{loader: !titulo }"><img v-if="this.precio == '' " width="25" :src="require('@/assets/free.png')" alt="">
-         {{this.precio > 0 ? 'Comprelo por S/.'+ this.precio+' soles' : "GRATIS"}} 
+        :class="{loader: !titulo }"><!--<img v-if="this.precio == '' " width="25" :src="require('@/assets/free.png')" alt="">-->
+         {{this.precio > 0 ? 'Comprar ahora S/.'+ this.precio+'' : "Inscribete ahora"}} 
          </button>
         </div>
 
@@ -99,7 +99,7 @@
           <h4 class="font-weight-bold my-5" :class="{loader: isLoading, 'loader-text-small': isLoading}">Temario del curso </h4>
           <div v-if="isLoading" class="loader loader-temary"></div> 
           <ul class="list-group" >
-            <li class="list-group-item px-5 py-4" v-for="(model,index) in course.modules" :key="index">
+            <li class="list-group-item " style="padding: 40px" v-for="(model,index) in course.modules" :key="index">
               <span v-b-toggle="model.name.replace(/ /g, '')" class="cursor-pointer"> <strong> {{index + 1 }}. {{model.name}}</strong> </span>
               <b-collapse :visible="index===0" :id="model.name.replace(/ /g, '')">
                 <ul class="list-unstyled ml-3">
@@ -120,19 +120,28 @@
 
       <div class="col-lg-3 col-md-12 mt-4 pr-0">
         <!-- Productor -->
-        <div class="border-box py-3 px-4">
-          <h5 class="font-weight-bold" :class="{loader: !nameProductor, 'loader-text-small': !nameProductor}">Productor</h5>
-          <div class="row mt-3 productor">
-            <div class="col-xl-4 col-lg-12 col-md-3 col-sm-3 image" >
-              <img class="rounded-circle img-productor loader loader-img-productor"  :src=imgProductor />
-            </div>
-            <div class="col-xl-8 col-lg-12 col-md-9 col-sm-9 detalles">
-              <span class="font-weight-bold" >{{ nameProductor }}</span>
-              <p class="text-justify" :class="{loader: !nameProductor, 'loader-text-small': !nameProductor}"> {{ emailProductor }} </p>
-            </div>
-          </div>
-        </div>
-
+        <v-card  v-if="isDetailsLoading" elevation="1"  class="rounded-lg" :class="[this.$vuetify.breakpoint.sm ||  this.$vuetify.breakpoint.xs  ? '' : 'avatar-productor']" >
+          <v-list>
+            <v-list-item>
+              <v-list-item-avatar width="80px" height="80px"  >
+                <v-img  :src="imgProductor"> </v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                 <v-list-item-title>
+                        {{nameProductor}}
+                 </v-list-item-title>
+                <v-list-item-subtitle>
+                        {{emailProductor}}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-card>
+          <v-skeleton-loader
+          v-else
+          v-bind="attrs"
+          type="list-item-avatar-two-line"
+        ></v-skeleton-loader>
         <!-- Recomendaciones -->
         <div class="mt-4">
           <h5 class="font-weight-bold my-3" :class="{loader: loadingRelated, 'loader-text-small': loadingRelated}">Recomendaciones</h5>
@@ -215,7 +224,7 @@ export default {
       categoria:null,
       isDetailsLoading: false,
       courseFilter:null,
-      imgProductor: 'data:image/png;base64,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'
+      imgProductor: null
     };
   },
   components: {
@@ -336,14 +345,16 @@ export default {
     this.getCourse(this.$route.params.ide);
 
     this.FilterBtn();
-
   },
 };
 </script>
 
 <style scoped>
+.avatar-productor{
+  width: 300px;
+}
 .container-fluid{
-  width: 90%;
+  width: 97%;
   margin-inline: auto;
   padding-bottom: 50px;
 }
@@ -374,6 +385,7 @@ export default {
 }
 
 .list-group{
+  padding-left: 0;
   border-radius: 25px;
 }
 .video{
@@ -390,6 +402,13 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (min-width:1800px){
+  .container-fluid{
+    width: 76%;
+  }
+  
 }
 
 
@@ -409,6 +428,7 @@ export default {
 }
 
 @media (max-width: 991px) {
+
   .loader-img-course{
     display: none !important;
   }

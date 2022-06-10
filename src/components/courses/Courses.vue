@@ -9,9 +9,10 @@
         <loadingCourses />
       </div>
         <!-- Últimos cursos -->
-        <!-- Continuar aprendiendo -->
-        <div v-if="this.coursView > 0">
-          <CarrouselCourseViewed v-if="!loading"/>
+        <!-- Cursos recien lanzados -->
+        <div class="mb-4" v-if="relatedCourses.length > 0">
+          <h3 class="m-0 font-weight-bold">Más recientes</h3>
+          <CarrouselCourse :courses="relatedCourses" />
         </div>
         
         <!-- Todos los cursos -->
@@ -25,11 +26,10 @@
           <h3 class="m-0 font-weight-bold">Cursos de interés</h3>
           <CarrouselCourse :courses="interesCourses" />
         </div>
+        <!-- Continuar aprendiendo -->
   
-        <!-- Cursos recien lanzados -->
-        <div class="mb-4" v-if="relatedCourses.length > 0">
-          <h3 class="m-0 font-weight-bold">Más recientes</h3>
-          <CarrouselCourse :courses="relatedCourses" />
+        <div v-if="this.coursView > 0">
+          <CarrouselCourseViewed v-if="!loading"/>
         </div>
   
     
