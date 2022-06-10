@@ -109,3 +109,32 @@ export const getPoints = async ( {commit} , id) => {
         console.log(error);
     }
 }
+
+export const setComments = async ( { commit } , comment ) => {
+        try {
+            const { comments } = comment    
+    
+           const resp = await axios.post('comments/send-comments', comment)
+           
+           if( resp.data.status === 200){
+
+            const { user_photo, username, created_at } = resp.data.data[0]
+
+            const payload = {
+                comments,
+                user_photo,
+                username,
+                fecha: created_at
+            }
+        
+           
+            commit('setComments', payload )
+
+
+           }
+            
+        } catch (error) {
+            throw new Error(error)
+        }
+   
+}

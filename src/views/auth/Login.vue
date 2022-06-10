@@ -95,8 +95,8 @@ export default {
 }
 .formulario {
   align-self: center;
-  width: 68%;
-  height: 480px;
+  width: 100%;
+  max-width: 550px;
   padding: 100px 30px 30px; 
   margin-bottom: 10px;
 }
@@ -144,6 +144,12 @@ p {
     width: 100% ;
     
   } 
+       
+}
+@media (max-width: 1200px) {
+  .formulario{
+    width: 100%;
+  }
        
 }
 ::-webkit-scrollbar {

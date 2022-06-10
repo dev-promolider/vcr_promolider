@@ -112,7 +112,13 @@ export const CLEAR_VIDEO = (state) => {
 
 // Llenamos los comentarios de la clase activa
 export const GET_COMMENTS = (state, allComments) => {
-    state.allComments = allComments
+    if(allComments.data === 'No hay comentarios'){
+        state.isLoadingComments = false
+        state.allComments = []
+    }else{
+        state.allComments = allComments
+        state.isLoadingComments = false
+    }
 }
 
 
@@ -137,4 +143,8 @@ export const setPoints = ( state, points) => {
 
 export const sumPoints = (state, points ) => {
     state.points += points
+}
+
+export const setComments = (state, comments) => {
+    state.allComments = [ ...state.allComments, comments]
 }

@@ -32,7 +32,7 @@
 
       <b-form-group>
         <b-form-checkbox-group>
-          <b-form-checkbox class="subtitle success " 
+          <b-form-checkbox class="subtitle" 
           value="me"
           name="checkbox-validation"
           >Recuerdame</b-form-checkbox>
@@ -47,36 +47,6 @@
       >
     </b-form>
   </div>
-    <!-- <form @submit.prevent="singin">
-      <div class="form-values d-flex flex-column">
-        <label for="" class="subtitle">Email*</label>
-        <input
-          class="holder-form"
-          type="text"
-          placeholder="Example@gmail.com"
-          v-model="form.username"
-        />
-      </div>
-      <div class="form-values d-flex flex-column">
-        <label for="" class="subtitle">Password*</label>
-        <input
-          class="holder-form"
-          type="password"
-          placeholder="Min. 8 caracteres"
-          v-model="form.password"
-        />
-      </div>
-      <div class="form-check d-flex justify-content-between p-0">
-        <label class="remember d-flex" for="">
-          <input type="checkbox" name="" id="" />Recuérdame
-        </label>
-        <a class="change" href="">¿Has olvidado tu contraseña?</a>
-      </div>
-      <div>
-        <button class="loguear text-white" type="submit">iniciar Sesión</button>
-      </div>
-    </form>
-  </div> -->
 </template>
 
 <script>
@@ -100,15 +70,7 @@ export default {
       actionUser: 'actionUser'}),
     
     singin() {
-      this.actionUser(this.form)   
-      
-    //   this.axios.post("/auth/login", this.form).then((r) => {
-    //     const d = r.data;
-    //     // const de= d.data;
-    //     const authToken = d.data.access_token;
-    //     localStorage.setItem("access_token", authToken);
-    //     window.location.reload(true);
-    //   });
+      this.actionUser(this.form)  
     },
   },
   computed:{
