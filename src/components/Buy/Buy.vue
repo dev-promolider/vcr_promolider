@@ -1,26 +1,28 @@
 <template>
   <div class="div-pagar">
-    <h3 class="mb-5"><strong>Pagar</strong></h3>
+    <h2 class="mb-5"><strong>Pagar</strong></h2>
 
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-8 ">
         <div>
           <p class="subt my-5 text-start">
-            <strong>Direccion de facturacion</strong>
+            <strong>Dirección de facturación</strong>
           </p>
           <div class="d-flex">
-            <p class="text-start flex-grow-1">Pais</p>
+            <p class="text-start flex-grow-1">País</p>
             <p class="">Necesario</p>
           </div>
-          <div class="d-flex">
-            <img src="@/components/Buy/imagenes/mundo.svg" width="30" alt="" />
-            <b-form-select v-model="selectedPais" :options="options">
-              <template #first>
-                <b-form-select-option :value="null" disabled
-                  >-- Please select an option --</b-form-select-option
-                >
-              </template>
-            </b-form-select>
+          <div class="col-5 py-2 px-3 m-0 border border-dark">
+           <v-select
+          v-model="selectedPais"
+          :items="states"
+          menu-props="auto"
+          label="Select"
+          hide-details
+          prepend-icon="mdi-map"
+          single-line
+          class="m-0 p-0"
+        ></v-select>
           </div>
           <div>
             Selected: <strong>{{ selectedPais }}</strong>
@@ -30,9 +32,9 @@
         <div class="my-5">
           <div class="d-flex">
             <p class="subt text-start flex-grow-1">
-              <strong>Metodo de pago</strong>
+              <strong>Método de pago</strong>
             </p>
-            <p class="">Coneccion Segura</p>
+            <p class="">Conexión Segura <img src="@/components/Buy/imagenes/candado.svg" width="25" alt=""></p>
           </div>
           <div>
             <div>
@@ -45,13 +47,13 @@
                   class="border bg-white"
                 >
                   <div class="d-flex">
-                    <div class="m-0 subt">
+                    <div class="m-0">
                       <img
                         src="@/components/Buy/imagenes/tarjeta.svg"
                         width="25"
                         alt=""
                       />
-                      Tarjera de credito/debito
+                      <strong>Tarjera de crédito/débito</strong>
                     </div>
                   </div>
                 </b-form-radio>
@@ -68,7 +70,7 @@
                       width="25"
                       alt=""
                     />
-                    Paypal
+                    <strong>Paypal</strong>
                   </p>
                 </b-form-radio>
               </b-form-group>
@@ -84,20 +86,20 @@
         <p class="subt my-5 text-start"><strong>Resumen</strong></p>
         <div class="d-flex">
           <p class="text-start flex-grow-1">Precio original:</p>
-          <p class="">S/.Price</p>
+          <p class="">S/.{{itemCouse.price}}</p>
         </div>
         <hr />
         <div class="d-flex">
           <p class="text-start flex-grow-1"><strong>Total:</strong></p>
-          <p class=""><strong>S/.Price</strong></p>
+          <p class=""><strong>S/.{{itemCouse.price}}</strong></p>
         </div>
-        <button class="btn btn-success w-100 p-3 my-2">Completar pago</button>
+        <button class="btn btn-success w-100 p-3 my-2"><strong>Completar pago</strong></button>
         <p class="text-start mt-1">
           Al completar la compra, aceptas Condiciones de uso.
         </p>
-        <p class="text-start">
-          PROMOLIDER esta obligado por ley a recaudar los impuestos sobre las
-          transacciones de las compras realizadas en determinadas juridicciones
+        <p class="text-start ">
+          PROMOLIDER está obligado por ley a recaudar los impuestos sobre las
+          transacciones de las compras realizadas en determinadas jurisdicciones
           discales.
         </p>
       </div>
@@ -106,41 +108,69 @@
     <div class="col-md-8">
       <p class="subt text-start my-5"><strong>Resumen del pedido</strong></p>
       <div class="d-flex">
-        <p class="text-start flex-grow-1">Curso Name</p>
-        <p class="">S/.Price</p>
+        <p class="text-start flex-grow-1"><strong>{{itemCouse.title}}</strong></p>
+        <p class="">S/.{{itemCouse.price}}</p>
       </div>
     </div>
   </div>
 </template>
 <script>
+
+
 export default {
   name: "Buy",
-  data: function () {
+  
+  data() {
     return {
+      pao_id: this.$route.params.ide,
+      itemCouse:{},
       selectedPago: null,
-      selectedPais: null,
-      options: [
-        { value: "A", text: "Peru" },
-        { value: "B", text: "Venezuela" },
-      ],
+      selectedPais: 'Perú',
+      states: [
+          'Alabama', 'Alaska', 'American Samoa', 'Arizona',
+          'Arkansas', 'California', 'Colorado', 'Connecticut',
+          'Delaware', 'District of Columbia', 'Federated States of Micronesia',
+          'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho',
+          'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+          'Louisiana', 'Maine', 'Marshall Islands', 'Maryland',
+          'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
+          'Missouri', 'Montana', 'Nebraska', 'Nevada',
+          'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
+          'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio',
+          'Oklahoma', 'Oregon', 'Palau', 'Perú', 'Pennsylvania', 'Puerto Rico',
+          'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
+          'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
+          'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
+        ],
     };
+  },
+ 
+  methods: {
+    
+    getDatosCourse() {
+      this.axios.get("/course/details/" + this.pao_id)
+      .then((res) =>{
+        this.itemCouse=res.data.data[0]
+      })
+    }
+  },
+  created(){
+    this.getDatosCourse();
   },
 };
 </script>
 <style scoped>
 .div-pagar {
   padding: 3% 2% 10% 2%;
-  border: 1px solid #000;
   border-radius: 15px;
 }
 .subt {
-  font-size: 20px;
+  font-size: 1.5em;
 }
-.imgs {
-}
+
 @media screen and (max-width: 400px) {
   .subt {
-    font-size: 15px;
+    font-size: 1em;
   }
 }
 </style>
