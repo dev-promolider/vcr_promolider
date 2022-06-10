@@ -234,12 +234,11 @@ export default {
 
     // Redirección a la vista para comprar el curso
     BuyCourse(){
-      this.axios.post('/cart/buy-course', {
+      /* this.axios.post('/cart/buy-course', {
           "course_id": this.pao_id
       } )
-      this.$router.push("/suscription-user")
-      
-   
+      this.$router.push("/suscription-user") */
+      this.$router.push("/buy/"+this.pao_id) 
     },
 
     FilterBtn(){
