@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="alert alert-danger" role="alert" v-if="getStatusRequest===401">
+    <div class="alert alert-danger" role="alert" v-if="getStatusRequest=== 401">
       Usuario y/o contraseña incorrecta, vuelva a intentarlo 
     </div>
-    <div class="alert alert-danger" role="alert" v-if="getStatusRequest===422">
+    <div class="alert alert-danger" role="alert" v-if="getStatusRequest=== 422">
       Asegurese de llenar todos los campos con el formato requerido
     </div>
-    <div class="alert alert-success" role="alert" v-if="getStatusRequest===200">
+    <div class="alert alert-success" role="alert" v-if="getStatusRequest=== 200">
       Sesión inciada exitosamente
     </div>
     <b-form @submit.prevent="singin">
