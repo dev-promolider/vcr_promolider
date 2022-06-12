@@ -15,7 +15,8 @@ export default {
 </script>
 <style scoped>
     .buy{
-        width: 95%;
-        margin: 3%;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 </style>

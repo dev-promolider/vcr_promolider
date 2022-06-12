@@ -47,6 +47,7 @@
 
             <!--Notificaciones -->
             <v-menu
+                style="z-index: 201"
                 left
                 bottom
             >
