@@ -72,11 +72,14 @@
                     </v-btn>
                 </template>
 
-              <v-list three-line width="450px"  class="scroll" v-if="items.length > 0" >
+              <v-list three-line width="450px"  class="scroll">
                   <v-subheader
                   style="font-size: 1.3rem; font-weight: 600"
                     >Notificaciones</v-subheader>
                     <v-divider class="my-1"></v-divider>
+                    <v-card-title class="py-1" v-if="items.length === 0">
+                          <span class="text-center subtitle text--secondary">Usted no tiene notificaciones</span>
+                    </v-card-title>
                   <template v-for="(item, index) in items" >
                     <v-list-item 
                       :key="index"
@@ -93,7 +96,7 @@
                      
                   </template>
                   <v-divider class="my-1"></v-divider>
-                   <v-card-text>
+                   <v-card-text  v-if="items.length > 0" >
                        <v-btn
                         color="#60d950"
                         deep

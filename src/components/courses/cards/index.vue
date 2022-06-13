@@ -14,8 +14,8 @@ cardType(el tipo de card que se desea).
             <p class="m-0 name text-left text-capitalize">
               {{ course.title }}
             </p>
-            <p class="m-0 title text-left" v-if="cardType == 1">
-              {{ course.name }}
+            <p class="m-0  producer text-left" v-if="cardType == 1">
+              {{ course.name  }} 
             </p>
 
             <div class="d-flex stars" v-if="cardType == 1">
@@ -65,7 +65,10 @@ export default {
     },
     cardType:Number,
     width:Number,
-    height:Number,
+    height:{
+      type: String,
+      default: '100%'
+    },
     isMouseOverActive: {
       type: Boolean,
       default: false
@@ -165,18 +168,18 @@ export default {
 
 .name {
   margin-left: 4px;
-  font-size: 18px;
+  font-size: 1.2rem;
   font-weight: 700;
   line-height: 15px;
 }
 
-.title {
+.producer {
+  font-size: 1.1rem;
   font-style: normal;
   font-weight: 300;
-  font-size: 14px;
-  line-height: 15px;
+  line-height: 2rem;
   margin-bottom: 8px;
-  color: #C4C4C4;
+  color: #6b6b6b;
   line-clamp: 2;
   overflow: hidden;
 }
@@ -191,7 +194,7 @@ export default {
   font-size: 12px;
 }
 .money{
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: 700;
   line-height: 1.5;
   color: #131b1e
