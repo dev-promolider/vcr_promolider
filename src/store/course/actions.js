@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 
 
 // Curso Activo
@@ -120,11 +121,13 @@ export const setComments = async ( { commit } , comment ) => {
 
             const { user_photo, username, created_at } = resp.data.data[0]
 
+            const fecha = moment(created_at).format("DD-MM-YYYY")
+
             const payload = {
                 comments,
                 user_photo,
                 username,
-                fecha: created_at
+                fecha
             }
         
            
