@@ -1,16 +1,16 @@
 <template>
-  <div class="cont">
+  <div class="" style="width:98%">
 
     <div v-if="error" class="no-result center-element">
       <span>Lo sentimos se produjo un error</span>
     </div>
 
-    <div v-else class="content-course">
+    <!-- <div v-else class="content-course row row-cols-1 row-cols-md-2 g-4 m-0 p-0">
 
-      <div class="navtap-video ">
+      <div class="navtap-video col-7 m-0 p-0">
 
-        <div class="video ">
-          <div class="seccion_video ">
+        <div class="video w-100 h-75 my-5">
+          <div class="seccion_video w-100 h-75 row">
             <Video v-if="renderVideo" />
             <div v-else class="center-spinner">
               <b-spinner
@@ -20,30 +20,62 @@
               ></b-spinner>
             </div>
           </div>
-
-          <div class="seccion_inferior_video">
+        <div class="seccion_inferior_video w-100 row">
             <DatosCurso />
           </div>
-        </div>
 
-        <Descripcion class="descrip"/>
+        </div>
+        <div class=" w-100 h-50 my-5 row">
+
+          <Descripcion class="descrip"/>
+        </div>
 
       </div>
 
-      <div class="temario-comments">
+      <div class="temario-comments col-5 m-0 p-0">
 
-        <div class="description">
+        <div class="description w-75 h-50">
           <Temario @renderVideo="renderVideo = $event" />
         </div>
 
-        <div class="comment">
+        <div class="comment w-75 h-50">
           <Comentarios />
-          <h1></h1>
         </div>
 
       </div>
+    </div> -->
+     
+  <div class="row row-cols-1 row-cols-lg-2 g-4 p-5">
+  <div class="col" style="height: 500px;">
+    <div class="card h-100">
+      <Video v-if="renderVideo"></Video>
+      <div v-else class="center-spinner">
+              <b-spinner
+                style="width: 3rem; height: 3rem"
+                variant="secondary"
+                label="Large Spinner"
+              ></b-spinner>
+            </div>
+      <DatosCurso></DatosCurso>
     </div>
-
+  </div>
+  <div class="col">
+    <div class="card h-100 px-5">
+      <Temario></Temario>
+    </div>
+  </div>
+  <div class="col ">
+    <div class="card h-100">
+      <Descripcion></Descripcion>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100 ">
+      <Comentarios></Comentarios>
+    </div>
+  </div>
+</div>
+     
   </div>
 </template>
 
@@ -129,6 +161,7 @@ export default {
 
 <style scoped>
 
+/* 
 .cont {
   height: 100%;
   width: 100%;
@@ -147,10 +180,7 @@ export default {
   padding: 11px 102px 27px 69px;
   gap: 36px;
 }
-.navtap-video {
-  width: 65%;
-  height: 100%;
-}
+
 .video {
   width: 100%;
   height: 64%;
@@ -214,7 +244,7 @@ export default {
     margin-top: 0.5rem !important;
   } 
 
-}
+} */
 
 
 

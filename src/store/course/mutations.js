@@ -100,6 +100,7 @@ export const DESTROY_PROGRESS = (state) => {
     state.allComments = [],
     state.lesson = []
     state.allLessonsId = []
+    state.allLessons = 0
 }
 
 

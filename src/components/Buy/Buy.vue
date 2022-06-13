@@ -8,38 +8,40 @@
           <p class="subt my-5 text-start">
             <strong>Dirección de facturación</strong>
           </p>
-          <div class="d-flex">
-            <p class="text-start flex-grow-1">País</p>
-            <p class="">Necesario</p>
+          <div class="d-flex  m-0 pb-0 px-0" :class="[ !this.$vuetify.breakpoint.xs && 'col-5' ]">
+            <p class="text-start flex-grow-1 mb-3 font-weight-bold">País</p>
+            <p class="mb-3 text-secondary">Necesario</p>
           </div>
-          <div class="col-5 py-2 px-3 m-0 border border-dark">
+          <div class="col-5 py-2 px-3 m-0 border border-dark" 
+            :class="[ this.$vuetify.breakpoint.xs && 'w-full'  ]">
            <v-select
-          v-model="selectedPais"
-          :items="states"
-          menu-props="auto"
-          label="Select"
-          hide-details
-          prepend-icon="mdi-map"
-          single-line
-          class="m-0 p-0"
+              solo
+              flat
+              background-color="transparent"
+              v-model="selectedPais"
+              :items="states"
+              label="Select"
+              hide-details
+              prepend-icon="mdi-earth"
+              single-line
+              class="m-0 p-0"
+              outline
         ></v-select>
-          </div>
-          <div>
-            Selected: <strong>{{ selectedPais }}</strong>
           </div>
         </div>
 
         <div class="my-5">
           <div class="d-flex">
-            <p class="subt text-start flex-grow-1">
+            <p class="subt text-start flex-grow-1 mt-5">
               <strong>Método de pago</strong>
             </p>
-            <p class="">Conexión Segura <img src="@/components/Buy/imagenes/candado.svg" width="25" alt=""></p>
+            <p class="mt-5" style="font-size: 0.74rem">Conexión Segura <img src="@/components/Buy/imagenes/candado.svg" width="20" alt=""></p>
           </div>
-          <div>
-            <div>
-              <b-form-group v-slot="{ ariaDescribedby }">
+          <div >
+            <div >
+              <b-form-group v-slot="{ ariaDescribedby }" >
                 <b-form-radio
+                style="padding: 15px 50px"
                   v-model="selectedPago"
                   :aria-describedby="ariaDescribedby"
                   name="some-radios"
@@ -58,6 +60,7 @@
                   </div>
                 </b-form-radio>
                 <b-form-radio
+                 style="padding: 15px 50px"
                   v-model="selectedPago"
                   :aria-describedby="ariaDescribedby"
                   name="some-radios"
@@ -74,9 +77,6 @@
                   </p>
                 </b-form-radio>
               </b-form-group>
-              <div>
-                Selected: <strong>{{ selectedPago }}</strong>
-              </div>
             </div>
           </div>
         </div>
@@ -93,7 +93,10 @@
           <p class="text-start flex-grow-1"><strong>Total:</strong></p>
           <p class=""><strong>S/.{{itemCouse.price}}</strong></p>
         </div>
-        <button class="btn btn-success w-100 p-3 my-2"><strong>Completar pago</strong></button>
+          <div v-show="selectedPago === 'B'">
+                <div  ref="paypal"  ></div>
+          </div>
+          <button v-show="selectedPago === 'A' || selectedPago === null" class="btn btn-success w-100 p-3 my-2"><strong>Completar pago</strong></button>
         <p class="text-start mt-1">
           Al completar la compra, aceptas Condiciones de uso.
         </p>
@@ -107,7 +110,11 @@
 
     <div class="col-md-8">
       <p class="subt text-start my-5"><strong>Resumen del pedido</strong></p>
-      <div class="d-flex">
+      <div class="d-flex align-items-center">
+        <v-avatar rounded="0" class="mr-5">
+          <v-img :src="itemCouse.url_portada">
+          </v-img>
+        </v-avatar>
         <p class="text-start flex-grow-1"><strong>{{itemCouse.title}}</strong></p>
         <p class="">S/.{{itemCouse.price}}</p>
       </div>
@@ -142,6 +149,12 @@ export default {
           'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
           'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
         ],
+        loaded: false,
+        paidFor: false,
+        product: {
+          price: 777.77,
+          descripcion: 'Curso Prueba Paypal',
+        }
     };
   },
  
@@ -152,11 +165,43 @@ export default {
       .then((res) =>{
         this.itemCouse=res.data.data[0]
       })
-    }
+    },
+    setLoaded(){
+      this.loaded = true
+      window.paypal
+          .Buttons({
+              style: {
+              layout: 'horizontal',
+              color:  'gold',
+              shape:  'rect',
+              label:  'buynow'
+            },
+            createOrder: (data , actions ) => {
+                return actions.order.create({
+                      purchase_units:[
+                        {  
+                        description : this.product.descripcion,
+                        amount: {
+                          currency_code : "USD",
+                          value: this.product.price
+                        }
+                        }
+                      ]
+                })
+            }
+      })
+      .render(this.$refs.paypal)
+     }
   },
   created(){
     this.getDatosCourse();
   },
+  mounted(){
+      const script = document.createElement("script");
+      script.src ="https://www.paypal.com/sdk/js?client-id=AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz&components=buttons"
+      script.addEventListener("load", this.setLoaded)
+      document.body.appendChild( script )
+  }
 };
 </script>
 <style scoped>
@@ -172,5 +217,11 @@ export default {
   .subt {
     font-size: 1em;
   }
+}
+.w-full{
+  max-width: 100% !important;
+}
+.paypal-buttons > iframe {
+    z-index: 10!important;
 }
 </style>
