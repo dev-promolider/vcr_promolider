@@ -47,6 +47,9 @@
 }
 .nav-temario ul li{
         padding: 12px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .nav-temario ul li a {
   text-decoration: none;
