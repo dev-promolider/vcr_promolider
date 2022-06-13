@@ -1,7 +1,8 @@
 <template>
-<div >
-    <vue-horizontal class="horizontal">.<section class="mr-3" v-for="course in relatedCourses" :key="course.id">
-        <Card :course="course" :cardType="3"  />
+<div    :class="[ this.$vuetify.breakpoint.xs  ?  'mr-3' : 'mr-30']">
+    <vue-horizontal  class="horizontal">.
+      <section class="mr-5" v-for="course in relatedCourses" :key="course.id">
+        <Card  :course="course" :cardType="1"  />
       </section>
     </vue-horizontal>
 </div>
@@ -18,6 +19,7 @@ export default {
   },
   data() {
     return {
+      model:null,
       relatedCourses: [],
     };
   },
@@ -71,7 +73,9 @@ export default {
   background-size: cover !important;
   background-repeat: no-repeat !important;
 }
-
+.mr-30{
+  margin-right: 30px !important;
+}
 .content {
   padding: 12px 16px;
   flex-grow: 1;
