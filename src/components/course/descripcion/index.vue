@@ -193,21 +193,6 @@ export default {
           };
         });
     },
-    /* -------------------------  */
-    // Funcion para descargar un recurso
-    /* downloadResource(resource){
-        this.axios.get(`class-resource/download-resource?id=${resource.id}`,{responseType: "blob"} ).then(
-            (res) => {
-            // Creamos un objeto url a partir de la respuesta converitda en objeto Blob
-            let FILE = window.URL.createObjectURL(new Blob([res.data]));
-            var docUrl = document.createElement('a');
-            // Generamos un link de descarga
-            docUrl.href = FILE;
-            docUrl.setAttribute('download', `${resource.resource_file}`);
-            document.body.appendChild(docUrl);
-            docUrl.click();
-        })
-      }, */
 
     Testing() {
       this.$router.push({ name: "test", params: { id: this.dataEx.data } });
@@ -221,7 +206,6 @@ export default {
   },
   created() {
     this.getResources(this.$route.query.class);
-    this.getTest(this.$route.query.course);
   },
   updated() {},
 };

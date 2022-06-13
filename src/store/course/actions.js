@@ -82,7 +82,7 @@ export const getComments = async (context, id) => {
 
 // Obtenemos el examen de una clase
 export const getTest = async (context, data) => {
-    await axios.post(`course/exam/active`, {course_id : data}).then((res)=>{
+    await axios.post(`course/exam/active`, data).then((res)=>{
         context.commit('DATA_EX', res)
     })
     .catch((e)=>{
