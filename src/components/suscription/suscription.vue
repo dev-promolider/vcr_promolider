@@ -14,7 +14,7 @@
       <loadingCourses />
     </div>
 
-    <div v-if="caritas" class="center-element no-result">
+    <div v-if="caritas" class="center-element no-result carita">
       <span>Sin resultados</span>
     </div>
 
@@ -130,20 +130,9 @@ export default {
   transform: scale(1.05);
 }
 
-/* .img-curso{
- 
-  width: 100%;
+.carita{
+  position: absolute;
+  top: 0;
+  height: 50%;
 }
-@media screen and (min-width: 1200px){
-  .img-curso{
- 
-  width: 80%;
-}
-}
-@media screen and (max-width: 768px){
-  .img-curso{
- 
-  width: 60%;
-}
-} */
 </style>

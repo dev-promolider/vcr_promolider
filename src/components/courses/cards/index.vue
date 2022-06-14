@@ -8,7 +8,7 @@ cardType(el tipo de card que se desea).
     <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)" @mouseover=" isMouseOverActive ? '' :  mouseOver(course)  " @mouseleave="mouseleave()" :style="`max-width: ${width}%; height: ${height}px`">
         <div
               :class="[{'btn-play':cardType == 3},'image']"
-              :style="{ background: `url(${course.url_portada})` }"
+              :style="{ background: `url(${course.url_portada})`}"
         ></div>
         <div class="content">
             <p class="m-0 name text-left text-capitalize">
@@ -53,6 +53,7 @@ cardType(el tipo de card que se desea).
 
 <script>
 
+
 export default {
   name: "Card",
   data() {
@@ -78,12 +79,18 @@ export default {
 
     // Evento hover para cambiar el background del aula virtual
     mouseOver(course){
-      this.$store.commit("course/COURSE_HOVER", course);
+      setTimeout(() => {
+       this.$store.commit("course/COURSE_HOVER", course);
+      }, 500);
+      
+      
     },
 
     // Evento cuando se quita el cursor de la card para quitar el background
     mouseleave(){
+      setTimeout(() => {
       this.$store.commit("course/COURSE_HOVER", []);
+       }, 500);
     },
     
     // Accion para la card de tipo 1
@@ -128,6 +135,7 @@ export default {
 </script>
 
 <style scoped>
+
 .card {
   /* background: linear-gradient(to right, rgba(15, 32, 39, 0.609), rgba(32, 58, 67, 0.609), rgba(44, 83, 100, 0.609));  */
   overflow: hidden;
@@ -137,7 +145,7 @@ export default {
   flex-direction: column;
   padding: 10px;
   box-shadow: 2px 2px 10px #131b1e, 0.144;
-  transition: 1s; 
+  transition:  0.5s; 
   max-width: 300px;
   min-width: 300px;
 }

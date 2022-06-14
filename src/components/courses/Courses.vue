@@ -167,6 +167,7 @@ export default {
 </script>
 
 <style scoped>
+
 main{
   padding: 12px 0.5px !important;
 }

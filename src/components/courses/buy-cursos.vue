@@ -37,7 +37,7 @@
     <!-- Seccion inferior -->
     <div class="row">
       <div class="col-lg-9 col-md-12 mt-4">
-        <div class="border-box p-5">
+        <div class="border-box ">
             <v-expansion-panels accordion v-if="isDetailsLoading" >
                 <v-expansion-panel>
                   <v-expansion-panel-header style="font-weight: bold">
@@ -99,10 +99,10 @@
           <h4 class="font-weight-bold my-5" :class="{loader: isLoading, 'loader-text-small': isLoading}">Temario del curso </h4>
           <div v-if="isLoading" class="loader loader-temary"></div> 
           <ul class="list-group" >
-            <li class="list-group-item " style="padding: 40px" v-for="(model,index) in course.modules" :key="index">
+            <li class="list-group-item "  v-for="(model,index) in course.modules" :key="index">
               <span v-b-toggle="model.name.replace(/ /g, '')" class="cursor-pointer"> <strong> {{index + 1 }}. {{model.name}}</strong> </span>
               <b-collapse :visible="index===0" :id="model.name.replace(/ /g, '')">
-                <ul class="list-unstyled ml-3">
+                <ul class="list-unstyled">
                   <li v-for="(less,index) in course.modules[index].lessons" :key=index class="my-4">
                       <div class="cursor-pointer" v-if="course.modules[0].lessons[0].id===less.id " @click="getVideo(less.id)" data-toggle="modal" data-target="#video">
                         <i class="far fa-play-circle text-success mr-3"></i>{{less.name}}
