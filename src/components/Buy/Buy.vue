@@ -174,7 +174,8 @@ export default {
               layout: 'horizontal',
               color:  'gold',
               shape:  'rect',
-              label:  'buynow'
+              label: 'paypal',
+              tagline: 'false'
             },
             createOrder: (data , actions ) => {
                 return actions.order.create({
