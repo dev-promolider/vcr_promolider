@@ -106,7 +106,7 @@ export default {
   margin: 0px;
 }
 .mover {
-  margin-top: 110px;
+  margin-top: 15px;
 }
 .titulo {
   color: white;

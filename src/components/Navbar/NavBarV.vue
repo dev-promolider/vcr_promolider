@@ -40,7 +40,7 @@
                   <template v-slot:append>
                     <div >
                       <v-list nav dense>
-                          <v-list-item >
+                          <v-list-item href="https://promolider.org/sistema/index.html" target="_blank" >
                             <v-list-item-icon style="margin-right: 5px" class="px-1">
                               <img width="18px"  src="@/assets/icon-promolider.png" alt="promolider">
                             </v-list-item-icon>

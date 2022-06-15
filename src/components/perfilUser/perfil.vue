@@ -1,304 +1,299 @@
 <template>
-  <div class="contenedor container text-capitalize">
-    <div class="row text-center">
-      <div class="cuadro1 col-md-5 text-center">
-        <div class="row m-2 bg-white shadow bg-body rounded text-center w-100">
-          <div
-            class="
-              d-flex
-              flex-column
-              justify-content-center
-              align-items-center
-              parrafos
-              my-3
-              w-100
-            "
+  <div style="height: 100%" >
+<div  class="d-grid" :class="[this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm ? 'flex-column' : 'contenedor-profile']">
+      <div class="profile mx-1 "  >
+         <div class="h2 py-3 text-secondary  mx-1" >Ajustes de Perfil</div>
+
+          <v-card
+            elevation="2"
           >
-            <img
-              :src="this.picture"
-              alt=""
-              class="imagen img-fluid rounded-start mt-2"
-              style="width: 150px; height: 150px"
-            />
-            <a href="#modal" class="open"
-              ><label for=""
-                >Editar
-                <img
-                  class="lapiz open"
-                  src="../../assets/logo-lapiz.svg"
-                  alt=""
-                  @click="editarImg" 
-                  style="cursor: pointer"/></label
-            ></a>
-
-            <div class="modal" id="modal">
-              <a href="#" class="modal-bg" ></a>
-              <div class="modal-content">
-                <a href="#" class="modal-exit">x</a>
-                <div class="d-flex flex-column p-2 w-100">
-                  <div class="m-2 w-100">
-                    <img
-                      :src="this.picture"
-                      class="img-edit img-fluid rounded-start my-3"
-                      alt="..."
-                      style="width: 150px; height: 150px"
-                    />
-                  </div>
-                  <div class="m-2">
-                    <input
-                      type="file"
-                      @change="onFileSelected"
-                      class="bg-success col-10"
-                    />
-                  </div>
-                  <div class="m-2">
-                    <button
-                      @click="onUpload"
-                      class="col-5 mr-2 btn btn-success"
-                    >
-                      CARGAR
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="">
-              <p class="text-dark mt-3">{{ userUp.name }}</p>
-            </div>
-            <div class="text-lowercase">
-              <p class="text-dark">{{ userUp.email }}</p>
-            </div>
-
-            <div class="">
-              <p class="text-dark">
-                <strong> Rol de usuario:</strong> {{ userUp.rol }}
-              </p>
-            </div>
-            <div class="">
-              <p class="text-dark">
-                <strong>Plan actual:</strong> {{ userUp.plan }}
-              </p>
-            </div>
-            <div class="">
-              <p class="text-dark text-center">
-                Lima,Peru
-                <img class="icoban" src="../../assets/logo-bandera.svg" />
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="row m-2 bg-white shadow bg-body rounded text-center w-100">
-          <div
-            class="
-              row
-              d-flex
-              flex-column
-              justify-content-center
-              align-items-center
-              text-center
-              my-3
-            "
-            action=""
-          >
-            <p class="text-dark m-2">cambiar contraseña</p>
-            <div>
-              <input
-                class="
-                  contraseña
-                  col-12
-                  bg-light
-                  border border-secundary
-                  rounded
-                  m-2
-                "
-                type="text"
-                required
-                placeholder="Contraseña"
-              />
-            </div>
-
-            <div>
-              <input
-                class="
-                  contraseña
-                  col-12
-                  bg-light
-                  border border-secundary
-                  rounded
-                  m-2
-                "
-                type="text"
-                required
-                placeholder="Repetir Contraseña"
-              />
-            </div>
-            <div class="mt-2">
-              <input
-                class="btn-custom"
-                type="submit"
-                value="Guardar"
-                name=""
-                id=""
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cuadro2 col-md-7 text-center ">
-        <div
-          class="
-          container
-            bg-white
-            shadow
-            bg-body
-            rounded
-            w-100
-            d-flex
-            flex-column
-            justify-content-center
-            align-items-center
-            text-center
-            px-4
-            mt-2
-          "
-        >
-          <div class="mb-3 mt-5 ">
-            <div class="row row-cols-2">
-              <label class="col-md-6 te"><strong>Nombre</strong></label>
-              <label class="col-md-6"><strong>Apellido</strong></label>
-              <div class="col-md-6 bg-light border border-secundary rounded">
-                <input
-                  class=""
-                  v-model="userUp.name"
-                  type="text"
-                  required
-                  placeholder="Apellidos"
-                />
-              </div>
-              <div class="col-md-6 bg-light border border-secundary rounded">
-                <input
-                  class=""
-                  v-model="userUp.last_name"
-                  type="text"
-                  required
-                  placeholder="Apellidos"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="my-3">
-            <div class="row row-cols-2">
-              <label class="col-md-6"><strong>Ciudad</strong></label>
-              <label class="col-md-6"><strong>País</strong></label>
-              <div class="col-md-6 bg-light border border-secundary rounded">
-                <input
-              class=""
-              type="text"
-              required
-              placeholder="Ciudad"
-              v-model="userUp.city"
-            />
-              </div>
-              <div class="col-md-6 bg-light border border-secundary rounded">
-                <select
-              class="
-                paisApi
-                bg-light
-                border border-secundary
-                rounded
-              "
-              v-model="userUp.country"
-              style="width: 80%"
+            <v-card elevation="0" class="d-flex flex-column justify-center align-center pt-5"
             >
-              <option value="" selected></option>
-              <option v-for="pais in namePais" :key="pais.common">
-                {{ pais.common }}
-              </option>
-            </select>
-              </div>
-              </div>
+           
+              <v-badge  @click.native="modalImage = true"  bordered icon="mdi-camera"  overlap bottom offset-x="30" offset-y="30" style="cursor: pointer" >
+                <v-avatar size="140">
+                  <v-img
+                      :src="this.picture"
+                  >
+                  </v-img>
+                </v-avatar>
+              </v-badge>
+          
+              <v-card-title>
+                  {{this.userUp.name}}
+              </v-card-title>
+             <v-chip-group
+                >
+                  <v-chip disabled color="green" outlined>{{userUp.rol}}</v-chip>
+                  <v-chip disabled color="green" outlined>{{userUp.plan}}</v-chip>
+             </v-chip-group>
+            </v-card>
+
+        
+            <v-list class="flex-start justify-start">
          
-          </div>
+            <v-subheader class="h5">Detalles</v-subheader>
+               
+            <v-divider style="margin: 5px 15px"></v-divider>
+                <v-list-item style="min-height: 30px">
+                    <v-list-item-content>
+                      <v-list-item-title><span>Usuario:</span> {{userUp.name}} </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item  style="min-height: 30px">
+                    <v-list-item-content>
+                      <v-list-item-title><span>Correo:</span> {{userUp.email}} </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                 <v-list-item  style="min-height: 30px">
+                    <v-list-item-content>
+                      <v-list-item-title><span>País:</span> {{userUp.city}} </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+          </v-list> 
+          
+          </v-card>
 
-          <div class="my-3">
-
-            <div class="row row-cols-2">
-              <label class="col-md-6"><strong>Género</strong></label>
-              <label class="col-md-6"><strong>F. Naciemiento</strong></label>
-              <div class="col-md-6 bg-light border border-secundary rounded ">
-                <input
-              class=""
-              type="text"
-              required
-              placeholder="Genero"
-              disabled
-            />
-              </div>
-              <div class="col-md-6 bg-light border border-secundary rounded ">
-                <input
-              class=""
-              v-model="userUp.date_birth"
-              type="date"
-              required
-              placeholder="Fecha de nacimiento"
-              style="width: 90%"
-            />
-              </div>
-            </div>
-            
-          </div>
-
-          <div class="biografia my-3">
-            <div>
-              <strong>Biografía</strong>
-            </div>
-            <textarea
-              class="bg-light border border-secundary rounded p-2"
-              v-model="userUp.biography"
-              name=""
-              id=""
-              required
-              placeholder="Biografia"
-              style="width: 350px; height: 150px"
-            ></textarea>
-          </div>
-
-          <div class="botonguardar my-3">
-            <input
-              @click="userUpdate"
-              class="btn-custom"
-              type="submit"
-              value="Guardar"
-              name=""
-              id=""
-            />
-          </div>
-        </div>
       </div>
+
+      <div class="profile-tabs mx-2" style="width: 90%">
+          <v-card elevation="0" >
+         
+              <v-tabs
+                show-arrows
+                v-model="tab"
+                background-color="#000000"
+                dark
+              >
+                <v-tab
+                  v-for="(ltab, index) in listTabs"
+                  :key="(index)"
+                >
+                <v-icon left>
+                  mdi-{{ltab.icon}}
+                </v-icon >
+                  {{ltab.title}}
+                </v-tab>
+              </v-tabs>
+
+              <v-tabs-items v-model="tab">
+                <v-tab-item
+                  v-for="(item, index) in listTabs"
+                  :key="index"
+                >
+                  <v-card v-if="item.title === 'Cuenta'"  >
+                     <v-card-title class="pb-0">
+                        Editar Perfil
+                    </v-card-title>
+                    <v-form class="mx-5" @submit.prevent="userUpdate()" >
+                        <v-row>
+                          <v-col
+                            cols="12"
+                            sm="6"
+                          >
+                          <v-text-field
+                            class="mt-5"
+                            label="Usuario"
+                            outlined
+                            dense
+                            v-model="userUp.name"
+                          ></v-text-field>
+                            <v-text-field
+                            class="mt-5"
+                            label="Ciudad"
+                            outlined
+                            dense
+                            v-model="userUp.city"
+                          ></v-text-field>
+                          <v-text-field
+                            class="mt-5"
+                            label="Género"
+                            outlined
+                            dense
+                          ></v-text-field>
+                          <v-textarea
+                            outlined
+                            name="input-7-4"
+                            label="Biografia"
+                            v-model="userUp.biography"
+                          ></v-textarea>
+                          </v-col>
+                          <v-col
+                            cols="12"
+                            sm="6"
+                          >
+                          <v-text-field
+                            class="mt-5"
+                            label="Apellido"
+                            outlined
+                            dense
+                             v-model="userUp.last_name"
+                          ></v-text-field>
+                           <v-select
+                            :items="namePais"
+                            v-model="userUp.country"
+                            label="Pais"
+                            outlined
+                            dense
+                            class="mt-5"
+                            no-data-text="No hay datos"
+                          ></v-select>
+                    
+                          <v-menu
+                              v-model="menu"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              offset-y
+                              min-width="auto"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                  v-model="userUp.date_birth"
+                                  label="Cumpleaños"
+                                  prepend-icon="mdi-calendar"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on"
+                                  type="date"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker
+                                locale="es"
+                                v-model="userUp.date_birth"
+                                @input="menu = false"
+                              ></v-date-picker>
+                            </v-menu>
+                          </v-col>
+                           
+                        </v-row>
+                          
+                        <v-btn
+                         style="text-transform: capitalize; font-size: 1rem"
+                          color="success"
+                          class="my-4"
+                          type="submit"
+                        >
+                          Guardar Cambios
+                        </v-btn>
+                    </v-form>
+                  </v-card>
+                    <v-card v-if="item.title === 'Seguridad'"  >
+                        <v-card-title class="pb-0">
+                          Cambiar Contraseña
+                        </v-card-title>
+                        <v-form class="mx-5 " @submit.prevent="">
+                            
+                            <v-row>
+                               <v-col
+                                  cols="12"
+                                  sm="6"
+                                >
+                                  <v-text-field
+                                    class="mt-5"
+                                    label="Nueva Contraseña"
+                                    outlined
+                                    dense
+                                     name="password"
+                                    :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="() => (value = !value)"
+                                    :type="value ? 'password' : 'text'"
+                                  >
+                                  </v-text-field>
+                                  
+                                </v-col>
+                                <v-col
+                                  cols="12" 
+                                  sm="6">
+                                  
+                                  <v-text-field
+                                    class="mt-5"
+                                    label="Confirman Nueva Contraseña"
+                                    outlined
+                                    dense
+                                    name="password"
+                                    :append-icon="value2 ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="() => (value2 = !value2)"
+                                    :type="value2 ? 'password' : 'text'"
+                                  >
+                                  </v-text-field>
+
+                               
+                                </v-col>
+                            </v-row>
+                            <div >Mínimo 8 caracteres de largo, mayúsculas y símbolos</div>  
+                            <v-btn    
+                              style="text-transform: capitalize; font-size: 1rem"
+                              color="success"
+                              class="my-4"
+                              type="submit">
+                               Cambiar Contraseña
+                            </v-btn>
+                        </v-form>
+
+                    </v-card>
+
+                </v-tab-item>
+              </v-tabs-items>
+          </v-card>
+      </div>
+
     </div>
 
-    <div
-      v-if="subido"
-      class="
-        subiendo
-        d-flex
-        flex-column
-        justify-content-center
-        align-items-center
-      "
-    >
-      <div
-        class="spinner-grow"
-        style="width: 10rem; height: 10rem"
-        role="status"
-      >
-        <span class="visually-hidden"></span>
-      </div>
-    </div>
+    <!-- Modals -->
+      <v-dialog
+          @click:outside="onCancel"
+          v-model="modalImage"
+          max-width="490"
+        >
+          <v-card class="p-2" >
+              <div class="d-flex flex-column justify-center align-center pt-5">
+
+                <v-avatar  size="140">
+                  <v-img
+                       alt="..."
+                      :src="this.picture"
+                  >
+                  </v-img>
+                </v-avatar>
+              </div>
+              
+              <template >
+                <v-file-input
+                 label="Buscar Imagen"
+                 v-model="file"
+                 type="file"
+                 @change="onFileSelected"
+                 class="px-1"
+                 prepend-icon="mdi-camera"
+                 accept="image/*"
+                ></v-file-input>
+              </template>
+         
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                color="red darken-1"
+                outlined
+                @click="onCancel"
+              >
+                Cancelar
+              </v-btn>
+
+              <v-btn
+                :loading="loadingSaveImage"
+                color="success"
+                outlined
+                @click="onUpload"
+              >
+                Guardar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+    
+        
   </div>
 </template>
 
@@ -310,6 +305,17 @@ export default {
 
   data() {
     return {
+      loadingSaveImage: false,
+      file: null,
+      modalImage: false,
+      value: String,
+      value2: String,
+      menu: false,
+      tab: null,
+      listTabs: [
+        { icon: 'account' , title: 'Cuenta' },
+        { icon: 'lock-outline' , title: 'Seguridad' }
+      ],
       subido: null,
       mostrar: null,
       selectedFile: null,
@@ -380,7 +386,8 @@ export default {
       const listPaises = await res.json();
       this.paises = listPaises;
       this.paises.forEach((pais) => {
-        this.namePais.push(pais.name);
+
+        this.namePais.push(pais.name.common);
         // console.log(this.namePais);
 
         //console.log(pais.name.common == 'Peru'? pais.name.common : '');
@@ -399,21 +406,28 @@ export default {
       this.mostrar = !this.mostrar;
     },
 
-    onFileSelected(event) {
-      this.selectedFile = event.target.files[0];
+    onFileSelected() {
+      this.selectedFile = this.file;
     },
-
+    onCancel(){
+        this.modalImage = false
+        this.file = null
+    },
     onUpload() {
-      const fd = new FormData();
-      fd.append("user-photo", this.selectedFile, this.selectedFile.name);
+      if(this.selectedFile != null){
+        this.loadingSaveImage = true
 
-      this.subido = true;
-      this.axios
-        .post("/profile/upload-photo", fd)
-        .then(() => {
-          this.list();
+        const fd = new FormData();
+        fd.append("user-photo", this.selectedFile, this.selectedFile.name);
+
+       this.subido = true;
+       this.axios
+         .post("/profile/upload-photo", fd)
+         .then(() => {
+           this.list();
         })
         .catch(() => {});
+     }
     },
 
     list() {
@@ -421,7 +435,8 @@ export default {
         localStorage.setItem("photo_user", res.data.photo);
         console.log(res);
         this.subido = false;
-
+        this.file = null
+        this.loadingSaveImage = false
         location.reload();
       });
     },
@@ -432,6 +447,17 @@ export default {
 
 
 <style lang="scss" scoped>
+
+.contenedor-profile{
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 30% 70%;
+  padding: 15px 30px;
+}
+.profile-tabs{
+  margin-top: 68px;
+}
+
 .userico {
   width: 35px;
 }
