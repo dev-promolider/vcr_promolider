@@ -45,8 +45,8 @@
       </div>
     </div> -->
      
-  <div class="row row-cols-1 row-cols-lg-2 g-4 p-5">
-  <div class="col" style="height: 500px;">
+  <div class="caja-course p-5">
+  <div class="caja-video">
     <div class="card h-100">
       <Video v-if="renderVideo"></Video>
       <div v-else class="center-spinner">
@@ -59,17 +59,17 @@
       <DatosCurso></DatosCurso>
     </div>
   </div>
-  <div class="col">
-    <div class="card h-100 px-5">
+  <div class=" caja-temario">
+    <div class="card h-100">
       <Temario></Temario>
     </div>
   </div>
-  <div class="col ">
+  <div class="caja-descrption">
     <div class="card h-100">
       <Descripcion></Descripcion>
     </div>
   </div>
-  <div class="col">
+  <div class="caja-comentario">
     <div class="card h-100 ">
       <Comentarios></Comentarios>
     </div>
@@ -160,6 +160,61 @@ export default {
 </script>
 
 <style scoped>
+.caja-course{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(2,1fr);
+  gap: 20px;
+}
+.caja-video{
+  grid-column: 1/9;
+  grid-row: 1/2;
+  box-shadow: -4px 4px 5px rgb(108, 108, 108);
+}
+.caja-temario{
+  grid-column: 9/13;
+  grid-row: 1/2;
+  box-shadow: -4px 4px 5px rgb(108, 108, 108);
+}
+.caja-descrption{
+  grid-column: 1/9;
+  grid-row: 2/3;
+  box-shadow: -4px 4px 5px rgb(108, 108, 108);
+}
+.caja-comentario{
+  grid-column: 9/13;
+  grid-row: 2/3;
+  box-shadow: -4px 4px 5px rgb(108, 108, 108);
+}
+
+@media screen and (max-width:1000px){
+  .caja-course{
+  grid-template-rows: repeat(4,1fr);
+  padding: 20px !important;
+} 
+  .caja-video{
+  grid-column: 1/13;
+  grid-row: 1/2;
+}
+.caja-temario{
+  grid-column: 1/13;
+  grid-row: 2/3;
+  
+}
+.caja-descrption{
+  grid-column: 1/13;
+  grid-row: 3/4;
+}
+.caja-comentario{
+  grid-column: 1/13;
+  grid-row: 4/5;
+}
+}
+@media screen and (max-width:500px){
+  .caja-course{
+    padding: 10px !important;
+  }
+}
 
 /* 
 .cont {
