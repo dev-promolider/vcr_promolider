@@ -24,8 +24,8 @@
               </v-card-title>
              <v-chip-group
                 >
-                  <v-chip disabled color="green" outlined>{{userUp.rol}}</v-chip>
-                  <v-chip disabled color="green" outlined>{{userUp.plan}}</v-chip>
+                  <v-chip  color="green" outlined>{{userUp.rol}}</v-chip>
+                  <v-chip  color="green" outlined>{{userUp.plan}}</v-chip>
              </v-chip-group>
             </v-card>
 
@@ -47,7 +47,7 @@
                 </v-list-item>
                  <v-list-item  style="min-height: 30px">
                     <v-list-item-content>
-                      <v-list-item-title><span>País:</span> {{userUp.city}} </v-list-item-title>
+                      <v-list-item-title><span>País:</span> Lima, Perú </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
           </v-list> 
@@ -85,7 +85,7 @@
                      <v-card-title class="pb-0">
                         Editar Perfil
                     </v-card-title>
-                    <v-form class="mx-5" @submit.prevent="userUpdate()" >
+                    <v-form class="mx-5" @submit.prevent="userUpdate" >
                         <v-row>
                           <v-col
                             cols="12"
@@ -173,6 +173,7 @@
                           color="success"
                           class="my-4"
                           type="submit"
+                          :loading="isLoadingUpdateUser"
                         >
                           Guardar Cambios
                         </v-btn>
@@ -251,6 +252,13 @@
 
                 <v-avatar  size="140">
                   <v-img
+                      v-if="pictureModal"
+                       alt="..."
+                      :src="this.pictureModal"
+                  >
+                  </v-img>
+                  <v-img
+                       v-else
                        alt="..."
                       :src="this.picture"
                   >
@@ -292,7 +300,29 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-    
+
+        <v-snackbar
+            v-model="alertUpdateUser"
+            :color="isActiveAlertUser ? 'green' : 'red'"
+            :icon="isActiveAlertUser ? 'mdi-check-circle' : 'mdi-alert-octagram'"
+            timeout="2000"
+          >
+          <v-icon>
+              mdi-check-circle
+          </v-icon>
+            {{msgUpdateUser}}
+
+            <template v-slot:action="{ attrs }">
+              <v-btn
+                color="white"
+                text
+                v-bind="attrs"
+                @click="alertUpdateUser = false"
+              >
+                Close
+              </v-btn>
+            </template>
+          </v-snackbar>
         
   </div>
 </template>
@@ -305,6 +335,11 @@ export default {
 
   data() {
     return {
+      isActiveAlertUser: false,
+      msgUpdateUser: false,
+      alertUpdateUser: false,
+      pictureModal: null,
+      isLoadingUpdateUser: false,
       loadingSaveImage: false,
       file: null,
       modalImage: false,
@@ -347,6 +382,7 @@ export default {
     this.userUp.email = localStorage.getItem("email_user");
     //this.userUp.name = localStorage.getItem("name_user");
     this.cuaDetalles = localStorage.getItem("name_user");
+
     //this.userUp.biography= localStorage.getItem("biography_user");
     //this.userUp.city= localStorage.getItem("city");
 
@@ -359,17 +395,25 @@ export default {
   },
   methods: {
     userUpdate() {
+      this.isLoadingUpdateUser = true
       this.axios
         .post("/user/update", this.userUp)
-        .then(() => {
-          //console.log("este"+res.data);
+        .then(( res ) => {
+          if(res.data.status === 200){
+            this.isLoadingUpdateUser = false
+            this.alertUpdateUser = true
+            this.msgUpdateUser = res.data.message
+            this.isActiveAlertUser = true
+          }else{
+            this.msgUpdateUser = 'Error al actualizar'
+            this.isActiveAlertUser = false
+          }
         })
         .catch(() => {
           //console.log(error);
         });
 
-      this.axios
-        .get(`/user/show?id=${localStorage.getItem("id_user")}`)
+      this.axios.get(`/user/show?id=${localStorage.getItem("id_user")}`)
         .then((res) => {
           localStorage.setItem("name_user", res.data.name);
           localStorage.setItem("last_name_user", res.data.last_name);
@@ -377,7 +421,8 @@ export default {
           localStorage.setItem("country_user", res.data.country);
           localStorage.setItem("biography_user", res.data.biography);
           localStorage.setItem("city", res.data.city);
-        });
+      });
+     
     },
 
     async obtenePaises() {
@@ -406,10 +451,19 @@ export default {
       this.mostrar = !this.mostrar;
     },
 
-    onFileSelected() {
+    onFileSelected( ) {
       this.selectedFile = this.file;
+
+      if( !this.file ){
+        return
+      }
+      const fr = new FileReader()
+      fr.onload = () => this.pictureModal = fr.result
+      fr.readAsDataURL( this.selectedFile )
+
     },
     onCancel(){
+        this.pictureModal = null
         this.modalImage = false
         this.file = null
     },
@@ -433,7 +487,6 @@ export default {
     list() {
       this.axios.get(`/profile/info`).then((res) => {
         localStorage.setItem("photo_user", res.data.photo);
-        console.log(res);
         this.subido = false;
         this.file = null
         this.loadingSaveImage = false
