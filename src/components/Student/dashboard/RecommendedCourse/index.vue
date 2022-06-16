@@ -2,7 +2,7 @@
 <div    :class="[ this.$vuetify.breakpoint.xs  ?  'mr-3' : 'mr-30']">
     <vue-horizontal  class="horizontal">.
       <section class="mr-5" v-for="course in relatedCourses" :key="course.id">
-        <Card  :course="course" :cardType="1"  />
+        <Card  :course="course" :cardType="1" isMouseOverActive />
       </section>
     </vue-horizontal>
 </div>
