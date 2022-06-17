@@ -355,6 +355,7 @@ export default {
   width: 97%;
   margin-inline: auto;
   padding-bottom: 50px;
+  background-image: none !important ;
 }
 .title-course{
   text-transform: uppercase;

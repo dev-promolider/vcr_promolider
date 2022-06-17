@@ -14,7 +14,7 @@
       <NavBarV />
       <v-main app >
 
-        <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada}) !important`  }" />
+        <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada})`  }" />
       </v-main>
       <img src="@/assets/ruleta.png" class="btnflo" data-toggle="modal" data-target="#ruleta" alt="">
 
