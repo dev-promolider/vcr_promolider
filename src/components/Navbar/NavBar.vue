@@ -1,13 +1,52 @@
 <template>
-  <div>
+  <div>  
+   
 
          <v-app-bar   app elevation="0" height="70px" color="#60d950"  >
-           <v-app-bar-nav-icon @click="changeDrawer" v-if="$vuetify.breakpoint.xs" ></v-app-bar-nav-icon>
+           <v-app-bar-nav-icon @click="changeDrawer" v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" ></v-app-bar-nav-icon>
            <v-spacer></v-spacer>
-             <v-btn icon v-if="examDaily">
+            <div class="mx-2" style="min-width: 25%" v-if="!$vuetify.breakpoint.xs">
+
+              <v-autocomplete  
+                  style="border-radius: 12px"
+                  @keypress.enter="onSearchCourse"
+                  hide-no-data
+                  :search-input.sync="search"
+                  
+                  color="dark"
+                  solo
+                  dense
+                  append-icon=""
+                  prepend-inner-icon="mdi-magnify"  
+                  clearable
+                  hide-details
+                  hide-selected
+                  item-text="name"
+                  item-value="symbol"
+                  return-object
+                  label="Buscar un curso">.
+                      <template v-slot:no-data>
+                      <v-list-item>
+                        <v-list-item-title>
+                          Buscar curso favorito
+                          <strong>Bit coins</strong>
+                        </v-list-item-title>
+                      </v-list-item>
+                    </template>
+              </v-autocomplete>
+            </div>
+            <div v-else>
+              <v-btn icon @click="sheet = true">
+                  <v-icon>
+                     mdi-magnify
+                  </v-icon>
+              </v-btn>
+            </div>
+
+             <v-btn icon v-if="examDaily"  data-toggle="modal" data-target="#question">
 
               <div class="nav nav-sub-h1"  >
-                    <li class="nav-item " data-toggle="modal" data-target="#question" >
+                    <li class="nav-item " >
                       <i class="fas fa-question " style="font-size: 18px"  :class="[tooltip ?  'pulse' : '' ]"></i>
                     </li>
                     <div class="tooltip-box d-flex" v-if="tooltip">
@@ -151,6 +190,46 @@
               </div>
             </div>
           </div>
+        <v-bottom-sheet
+            fullscreen
+            v-model="sheet"
+            height="100vh"
+            width="100vw"
+        >
+          <v-sheet
+            height="100vh"
+          >
+          <div class="d-flex p-3">
+            <v-autocomplete  
+                  color="dark"
+                  @keypress.enter="onSearchCourse"
+                  hide-no-data
+                  :search-input.sync="search"
+                  dense
+                  append-icon=""
+                  prepend-inner-icon="mdi-magnify"  
+                  clearable
+                  hide-details
+                  hide-selected
+                  item-text="name"
+                  item-value="symbol"
+                  return-object
+                  label="Buscar un curso">.
+                      <template v-slot:no-data>
+                      <v-list-item>
+                        <v-list-item-title>
+                          Buscar curso favorito
+                          <strong>Bit coins</strong>
+                        </v-list-item-title>
+                      </v-list-item>
+                    </template>
+              </v-autocomplete>
+              <v-icon @click="sheet = false">
+                 mdi-close
+              </v-icon>
+          </div>
+          </v-sheet>
+        </v-bottom-sheet>
   </div>
   
 </template>
@@ -165,6 +244,8 @@ export default {
     },
     data(){
       return {
+        sheet: false,
+        search: null,
         numberItems: 0,
         tooltip: false,
         isBadgeActive: false,
@@ -214,6 +295,9 @@ export default {
 
         }
       },
+      onSearchCourse(){
+        this.$router.push({name: 'search' , query: { q : this.search}})
+      },
       changeDrawer(){
           this.$emit('click', !this.drawer)
       },
@@ -251,6 +335,11 @@ export default {
     },
     created(){
       this.getNotifications()
+    },
+    watch:{
+      search(  ){
+          //console.log(value);
+      }
     }
 }
 </script>

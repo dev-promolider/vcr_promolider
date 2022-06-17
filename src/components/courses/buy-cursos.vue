@@ -89,7 +89,6 @@
           
             <v-skeleton-loader
                 v-else
-                v-bind="attrs"
                 type="sentences@5"
               ></v-skeleton-loader>
         </div>
@@ -139,7 +138,6 @@
         </v-card>
           <v-skeleton-loader
           v-else
-          v-bind="attrs"
           type="list-item-avatar-two-line"
         ></v-skeleton-loader>
         <!-- Recomendaciones -->
