@@ -4,8 +4,8 @@
           <v-navigation-drawer
               v-model="drawer"
               app
-              :permanent="!$vuetify.breakpoint.xs"
-              :expand-on-hover="!$vuetify.breakpoint.xs"
+              :permanent="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
+              :expand-on-hover="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
               :mini-variant="mini"
               class="color-drawer rounded-0"
             >

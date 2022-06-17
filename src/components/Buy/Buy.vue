@@ -152,7 +152,7 @@ export default {
         loaded: false,
         paidFor: false,
         product: {
-          price: 777.77,
+          price: 1,
           descripcion: 'Curso Prueba Paypal',
         }
     };
