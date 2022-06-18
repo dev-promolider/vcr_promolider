@@ -70,17 +70,22 @@
               </v-chip>
             <v-btn
               icon
-              v-if="courseSelect"
+              v-if="courseSelect" class="ga"
               >
                    <v-progress-circular
                       :rotate="-90"
                       :size="40"
                       :width="5"
                       :value="progressCourseSelect"
+                      
                     >
-                     <v-icon>
+                     <v-icon >
                        mdi-trophy
                       </v-icon>
+                      <div class="box">
+                        <span>{{progressCourseSelect}} de {{allLessons}} completados</span><br>
+                        <span>Acaba el curso para <br>obtener tu certificado</span>
+                      </div>
                     </v-progress-circular>
             </v-btn>
 
@@ -274,7 +279,7 @@ export default {
           titulo: state => state.topSection
         }),
 
-        ...mapState('course',['progressCourseSelect','courseSelect','msjCompletedClass','examDaily', 'points']),
+        ...mapState('course',['progressCourseSelect','courseSelect','msjCompletedClass','examDaily', 'points','allLessons']),
 
         ...mapGetters('course',{
           vuexTitle: "title",
@@ -327,6 +332,7 @@ export default {
          }
          this.items = noti
       },
+
     },
     
     mounted(){
@@ -398,4 +404,28 @@ export default {
       color: #000000;
     }
   }
+
+.box{
+  
+  position: absolute;
+  transition: transform 1s ;
+  width: 0%;
+  height: 0%;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0);
+  font-size: 0.8em;
+  padding: 5px;
+}
+
+.ga:hover{
+  .box{
+    background-color: #fff;
+transform: translatey(50px);
+  height: 50px;
+  width: 230px;
+  color: rgb(0, 0, 0);
+  box-shadow: 2px 2px 2px #131b1e;
+  }
+  
+}
 </style>
