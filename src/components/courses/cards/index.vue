@@ -78,7 +78,7 @@ export default {
   methods: {
 
     // Evento hover para cambiar el background del aula virtual
-    mouseOver(course){
+    /* mouseOver(course){
       setTimeout(() => {
        this.$store.commit("course/COURSE_HOVER", course);
       }, 500);
@@ -91,7 +91,7 @@ export default {
       setTimeout(() => {
       this.$store.commit("course/COURSE_HOVER", []);
        }, 500);
-    },
+    }, */
     
     // Accion para la card de tipo 1
     action(id){
