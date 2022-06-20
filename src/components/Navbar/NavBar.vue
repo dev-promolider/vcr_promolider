@@ -301,7 +301,9 @@ export default {
         }
       },
       onSearchCourse(){
-        this.$router.push({name: 'search' , query: { q : this.search}})
+         if( !this.search)return
+           this.$router.push({name: 'search' , query: { q : this.search}}).catch(() => {})
+        
       },
       changeDrawer(){
           this.$emit('click', !this.drawer)
