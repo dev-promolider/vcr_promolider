@@ -130,8 +130,8 @@
         role="tabpanel"
         aria-labelledby="home-tab"
       >
-        <div class="mt-4" v-if="dataEx === 500">
-          <p>No existen pruebas...</p>
+        <div class="mt-4" v-if="dataEx.data === 'No existe el examen'">
+          <p>Esta lección no tiene ninguna prueba.</p><br><p>Continua la siguiente lección.</p>
         </div>
         <div class="mx-4 mt-4" v-else>
           <p class="text-justify">
@@ -203,9 +203,11 @@ export default {
       let filenameWithExtension = filepath.replace(/^.*[\\/]/, "");
       return filenameWithExtension;
     },
+
   },
   created() {
     this.getResources(this.$route.query.class);
+    
   },
   updated() {},
 };

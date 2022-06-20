@@ -1,125 +1,154 @@
 <template>
-  <div class="div-pagar">
-    <h2 class="mb-5"><strong>Pagar</strong></h2>
 
-    <div class="row">
-      <div class="col-md-8 ">
-        <div>
-          <p class="subt my-5 text-start">
-            <strong>Dirección de facturación</strong>
-          </p>
-          <div class="d-flex  m-0 pb-0 px-0" :class="[ !this.$vuetify.breakpoint.xs && 'col-5' ]">
-            <p class="text-start flex-grow-1 mb-3 font-weight-bold">País</p>
-            <p class="mb-3 text-secondary">Necesario</p>
-          </div>
-          <div class="col-5 py-2 px-3 m-0 border border-dark" 
-            :class="[ this.$vuetify.breakpoint.xs && 'w-full'  ]">
-           <v-select
-              solo
-              flat
-              background-color="transparent"
-              v-model="selectedPais"
-              :items="states"
-              label="Select"
-              hide-details
-              prepend-icon="mdi-earth"
-              single-line
-              class="m-0 p-0"
-              outline
-        ></v-select>
-          </div>
-        </div>
 
-        <div class="my-5">
-          <div class="d-flex">
-            <p class="subt text-start flex-grow-1 mt-5">
-              <strong>Método de pago</strong>
+  <div>
+      <div v-if="paidFor"> 
+          <div  style="padding: 150px 0"  >
+              <v-card class="elevation-0" color="transparent">
+                  <v-row justify="center" class="text-center">
+                      <v-icon color="green" size="200">
+                          mdi-check-circle-outline
+                      </v-icon>
+                      <v-card-text class="h1 text-success">
+                        Gracias!
+                      </v-card-text>
+                      <v-card-text class="h5">
+                        Tu compra ha sido realizada con exito.
+                      </v-card-text>
+                      <v-btn color="#000000" class="text-white" @click="$router.push({name: 'suscription-user'})">
+                        Ir a mi aprendizaje
+                      </v-btn>
+                  </v-row>
+              </v-card>
+          </div>
+
+      </div >
+      <div v-else class="div-pagar">
+
+
+      <h2 class="mb-5"><strong>Pagar</strong></h2>
+
+      <div class="row">
+        <div class="col-md-8 ">
+          <div>
+            <p class="subt my-5 text-start">
+              <strong>Dirección de facturación</strong>
             </p>
-            <p class="mt-5" style="font-size: 0.74rem">Conexión Segura <img src="@/components/Buy/imagenes/candado.svg" width="20" alt=""></p>
+            <div class="d-flex  m-0 pb-0 px-0" :class="[ !this.$vuetify.breakpoint.xs && 'col-5' ]">
+              <p class="text-start flex-grow-1 mb-3 font-weight-bold">País</p>
+              <p class="mb-3 text-secondary">Necesario</p>
+            </div>
+            <div class="col-5 py-2 px-3 m-0 border border-dark" 
+              :class="[ this.$vuetify.breakpoint.xs && 'w-full'  ]">
+            <v-select
+                solo
+                flat
+                background-color="transparent"
+                v-model="selectedPais"
+                :items="states"
+                label="Select"
+                hide-details
+                prepend-icon="mdi-earth"
+                single-line
+                class="m-0 p-0"
+                outline
+          ></v-select>
+            </div>
           </div>
-          <div >
+
+          <div class="my-5">
+            <div class="d-flex">
+              <p class="subt text-start flex-grow-1 mt-5">
+                <strong>Método de pago</strong>
+              </p>
+              <p class="mt-5" style="font-size: 0.74rem">Conexión Segura <img src="@/components/Buy/imagenes/candado.svg" width="20" alt=""></p>
+            </div>
             <div >
-              <b-form-group v-slot="{ ariaDescribedby }" >
-                <b-form-radio
-                style="padding: 15px 50px"
-                  v-model="selectedPago"
-                  :aria-describedby="ariaDescribedby"
-                  name="some-radios"
-                  value="A"
-                  class="border bg-white"
-                >
-                  <div class="d-flex">
-                    <div class="m-0">
+              <div >
+                <b-form-group v-slot="{ ariaDescribedby }" >
+                  <b-form-radio
+                  style="padding: 15px 50px"
+                    v-model="selectedPago"
+                    :aria-describedby="ariaDescribedby"
+                    name="some-radios"
+                    value="A"
+                    class="border bg-white"
+                  >
+                    <div class="d-flex">
+                      <div class="m-0">
+                        <img
+                          src="@/components/Buy/imagenes/tarjeta.svg"
+                          width="25"
+                          alt=""
+                        />
+                        <strong>Tarjera de crédito/débito</strong>
+                      </div>
+                    </div>
+                  </b-form-radio>
+                  <b-form-radio
+                  style="padding: 15px 50px"
+                    v-model="selectedPago"
+                    :aria-describedby="ariaDescribedby"
+                    name="some-radios"
+                    value="B"
+                    class="border bg-white"
+                  >
+                    <p class="m-0">
                       <img
-                        src="@/components/Buy/imagenes/tarjeta.svg"
+                        src="@/components/Buy/imagenes/paypal.svg"
                         width="25"
                         alt=""
                       />
-                      <strong>Tarjera de crédito/débito</strong>
-                    </div>
-                  </div>
-                </b-form-radio>
-                <b-form-radio
-                 style="padding: 15px 50px"
-                  v-model="selectedPago"
-                  :aria-describedby="ariaDescribedby"
-                  name="some-radios"
-                  value="B"
-                  class="border bg-white"
-                >
-                  <p class="m-0">
-                    <img
-                      src="@/components/Buy/imagenes/paypal.svg"
-                      width="25"
-                      alt=""
-                    />
-                    <strong>Paypal</strong>
-                  </p>
-                </b-form-radio>
-              </b-form-group>
+                      <strong>Paypal</strong>
+                    </p>
+                  </b-form-radio>
+                </b-form-group>
+              </div>
             </div>
           </div>
         </div>
+
+        <div class="col-md-4">
+          <p class="subt my-5 text-start"><strong>Resumen</strong></p>
+          <div class="d-flex">
+            <p class="text-start flex-grow-1">Precio original:</p>
+            <p class="">S/.{{itemCouse.price}}</p>
+          </div>
+          <hr />
+          <div class="d-flex">
+            <p class="text-start flex-grow-1"><strong>Total:</strong></p>
+            <p class=""><strong>S/.{{itemCouse.price}}</strong></p>
+          </div>
+            <div v-show="selectedPago === 'B'">
+                  <div  ref="paypal"  ></div>
+            </div>
+            <button  v-show="selectedPago === 'A' || selectedPago === null" class="btn btn-success w-100 p-3 my-2"  ><strong>Completar pago</strong></button>
+          
+          <p class="text-start mt-1">
+            Al completar la compra, aceptas Condiciones de uso.
+          </p>
+          <p class="text-start ">
+            PROMOLIDER está obligado por ley a recaudar los impuestos sobre las
+            transacciones de las compras realizadas en determinadas jurisdicciones
+            discales.
+          </p>
+        </div>
       </div>
 
-      <div class="col-md-4">
-        <p class="subt my-5 text-start"><strong>Resumen</strong></p>
-        <div class="d-flex">
-          <p class="text-start flex-grow-1">Precio original:</p>
+      <div class="col-md-8">
+        <p class="subt text-start my-5"><strong>Resumen del pedido</strong></p>
+        <div class="d-flex align-items-center">
+          <v-avatar rounded="0" class="mr-5">
+            <v-img :src="itemCouse.url_portada">
+            </v-img>
+          </v-avatar>
+          <p class="text-start flex-grow-1"><strong>{{itemCouse.title}}</strong></p>
           <p class="">S/.{{itemCouse.price}}</p>
         </div>
-        <hr />
-        <div class="d-flex">
-          <p class="text-start flex-grow-1"><strong>Total:</strong></p>
-          <p class=""><strong>S/.{{itemCouse.price}}</strong></p>
-        </div>
-          <div v-show="selectedPago === 'B'">
-                <div  ref="paypal"  ></div>
-          </div>
-          <button v-show="selectedPago === 'A' || selectedPago === null" class="btn btn-success w-100 p-3 my-2"><strong>Completar pago</strong></button>
-        <p class="text-start mt-1">
-          Al completar la compra, aceptas Condiciones de uso.
-        </p>
-        <p class="text-start ">
-          PROMOLIDER está obligado por ley a recaudar los impuestos sobre las
-          transacciones de las compras realizadas en determinadas jurisdicciones
-          discales.
-        </p>
-      </div>
-    </div>
-
-    <div class="col-md-8">
-      <p class="subt text-start my-5"><strong>Resumen del pedido</strong></p>
-      <div class="d-flex align-items-center">
-        <v-avatar rounded="0" class="mr-5">
-          <v-img :src="itemCouse.url_portada">
-          </v-img>
-        </v-avatar>
-        <p class="text-start flex-grow-1"><strong>{{itemCouse.title}}</strong></p>
-        <p class="">S/.{{itemCouse.price}}</p>
       </div>
     </div>
   </div>
+
 </template>
 <script>
 
@@ -129,7 +158,7 @@ export default {
   
   data() {
     return {
-      pao_id: this.$route.params.ide,
+      id_course: this.$route.params.ide,
       itemCouse:{},
       selectedPago: null,
       selectedPais: 'Perú',
@@ -151,23 +180,17 @@ export default {
         ],
         loaded: false,
         paidFor: false,
-        product: {
-          price: 1,
-          descripcion: 'Curso Prueba Paypal',
-        }
     };
   },
  
   methods: {
-    
     getDatosCourse() {
-      this.axios.get("/course/details/" + this.pao_id)
+      this.axios.get("/course/details/" + this.id_course)
       .then((res) =>{
         this.itemCouse=res.data.data[0]
       })
     },
     setLoaded(){
-      this.loaded = true
       window.paypal
           .Buttons({
               style: {
@@ -181,15 +204,31 @@ export default {
                 return actions.order.create({
                       purchase_units:[
                         {  
-                        description : this.product.descripcion,
+                        description : this.itemCouse.title,
                         amount: {
                           currency_code : "USD",
-                          value: this.product.price
+                          value: this.itemCouse.price
                         }
                         }
                       ]
                 })
-            }
+            }  , onApprove:  (data, actions) => {
+
+                  const id = this.id_course 
+                  const axios = this.axios 
+
+                  return actions.order.capture().then(function(orderData) {
+
+                  const transaction = orderData.purchase_units[0].payments.captures[0];
+                  
+                  this.paidFor = true
+
+                  if( transaction.status === 'COMPLETED'){
+                    return axios.post('/cart/buy-course',  { id_course: id } )
+                  }
+              });
+              
+            },
       })
       .render(this.$refs.paypal)
      }

@@ -96,8 +96,7 @@ export default {
     // Accion para la card de tipo 1
     action(id){
       this.mouseleave()
-      this.$router.push('/buy-cursos/' + id)
-      window.location.reload(true);
+      this.$router.push({name: "buy-cursos", params: { ide:id }})
     },
 
     // Accion par el tipo de card 2 y 3 que redirecciona a ver el curso 
