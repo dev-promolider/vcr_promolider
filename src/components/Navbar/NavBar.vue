@@ -83,7 +83,7 @@
                        mdi-trophy
                       </v-icon>
                       <div class="box">
-                        <span>{{progressCourseSelect}} de {{allLessons}} completados</span><br>
+                        <span>{{progressCourseSelect}}% de {{allLessons}} completados</span><br>
                         <span>Acaba el curso para <br>obtener tu certificado</span>
                       </div>
                     </v-progress-circular>
