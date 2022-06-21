@@ -97,7 +97,7 @@
         <div >
           <h4 class="font-weight-bold my-5" :class="{loader: isLoading, 'loader-text-small': isLoading}">Temario del curso </h4>
           <div v-if="isLoading" class="loader loader-temary"></div> 
-          <ul class="list-group" >
+          <ul class="list-group" v-if="course" >
             <li class="list-group-item "  v-for="(model,index) in course.modules" :key="index">
               <span v-b-toggle="model.name.replace(/ /g, '')" class="cursor-pointer"> <strong> {{index + 1 }}. {{model.name}}</strong> </span>
               <b-collapse :visible="index===0" :id="model.name.replace(/ /g, '')">

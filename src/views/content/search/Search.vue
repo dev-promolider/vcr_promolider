@@ -1,10 +1,13 @@
 <template>
-<div style="background: white; padding-top: 0 !important; height: 100%" >
+<div style="background: white; padding-top: 0 !important; height: 100%; min-height: 92vh" >
 
     <div style="max-width: 1300px; margin: 0 auto; width: 85%" v-if="isLoadingSearchCourse">
-            <h1 :class="[this.$vuetify.breakpoint.xs ? 'h6 font-weight-bold text-start pt-3 ml-3 pt-2' : 'h2 font-weight-bold pt-5']">{{6.762}} resultados para  "{{this.$route.query.q}}"</h1>
+            <h1 :class="[this.$vuetify.breakpoint.xs ? 'h6 font-weight-bold text-start pt-3 ml-3 pt-2' : 'h2 font-weight-bold py-5']">
+                {{message}}
+
+            </h1>
             
-           <v-row class="mt-3" no-gutters>
+           <v-row class="mt-3" no-gutters v-if="!stateCoursesSearch" >
                
                  <v-col  cols="auto" >
                      <v-btn color="dark" outlined height="49px" tile @click="showSlideFilter = !showSlideFilter">
@@ -32,7 +35,7 @@
                     ></v-select>
                 </v-col>
                  <v-col cols="auto" class="ml-auto pt-5" v-show="!this.$vuetify.breakpoint.xs && !this.$vuetify.breakpoint.sm" >
-                   <div class="subtitle">{{6.762}} resultados</div>
+                   <div class="subtitle"> {{courses.length}} resultados</div>
                 </v-col>
             </v-row>
             <v-row class="mt-0" >
@@ -64,24 +67,24 @@
                     </v-expansion-panels>
                 </v-col>
                 <v-col  sm="mr-auto" >
-                     <v-card class="mb-2" v-for="i in 10" :key="i" elevation="0">
+                     <v-card class="mb-2 text-decoration-none" v-for="( course , index ) in courses" :key="index" elevation="0" :to="{name: 'buy-cursos', params: {ide: course.id}   }">
                         <v-row no-gutters>
-                            <v-col sm="auto" cols="3">
-                                <v-img class="m-2" src="https://cdn.vuetifyjs.com/images/cards/cooking.png" max-width="260px" max-height="145px" >
+                            <v-col sm="auto" cols="3"  >
+                                <v-img class="m-2" :src="course.url_portada" max-width="260px" max-height="145px" >
                                 
                                 </v-img>
                             </v-col>
                             <v-col sm="mr-auto">
                                 <div class="m-1">
 
-                                    <div class="font-weight-bold" :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">Diseño Web Desde Cero a Avanzado 45h Curso COMPLETO</div>
+                                    <div  class="font-weight-bold text-capitalize" :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">{{ course.title  }}</div>
                                
-                                    <div class="caption" v-if="!$vuetify.breakpoint.xs">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos maiores est nostrum vero earum ducimus perferendis.</div>
+                                    <div class="caption  text-capitalize" v-if="!$vuetify.breakpoint.xs"> {{course.description}} </div>
                                
-                                    <div class="text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile': 'caption' ]" >Administrator</div>
+                                    <div class="text--secondary text-uppercase"   :class="[$vuetify.breakpoint.xs ? 'text-mobile': 'caption' ]" >{{ course.name || 'Administrador' }}</div>
 
                                     <div class="d-flex align-center">
-                                        <div class="font-weight-bold" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'subtitle-1']" style="color: #b4690e">4.7</div>
+                                        <div class="font-weight-bold" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'subtitle-1']" style="color: #b4690e">{{course.ranking_by_user}}</div>
                                         <v-rating
                                         readonly
                                         dense
@@ -89,21 +92,21 @@
                                         color="yellow darken-3"
                                         background-color="grey darken-1"
                                         half-increments
-                                        v-model="raiting"
+                                        v-model="course.ranking_by_user"
                                         ></v-rating>
                                     </div>
                                     <div class="d-flex">
                                         <div class="text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]" >79 horas totales - 800 clases - Principante </div>
                                     </div>
                                     <div class="text-start d-flex"  v-if="$vuetify.breakpoint.xs">
-                                        <div class="font-weight-bold mr-1 " :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">S/.47.00</div>
+                                        <div class="font-weight-bold mr-1 " :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">S/.{{course.price}}</div>
                                         <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div>
                                     </div>
                                 </div>
                             </v-col>
                             <v-col sm="mr-auto" cols="2" v-if="!$vuetify.breakpoint.xs">
                                 <div class="ma-2 text-end">
-                                    <div class="font-weight-bold" :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">S/.47.00</div>
+                                    <div class="font-weight-bold" :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">S/.{{course.price}}</div>
                                     <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div>
                                 </div>
                             </v-col>
@@ -119,8 +122,8 @@
                 >
                 <v-progress-circular color="green" indeterminate size="64"></v-progress-circular>
                 </v-overlay>
-            </v-row>
-            <div class="text-center py-5">
+        </v-row>
+            <div class="text-center py-5" v-if="!stateCoursesSearch">
                 <v-pagination
                 circle
                 v-model="page"
@@ -131,11 +134,15 @@
             </div>
            
     </div>
-    <div class="text-center pt-5" style="height: 90vh" v-else>
-        <v-progress-circular color="green" indeterminate size="80">
+   
+    <template >
+        <div  class="text-center pt-5" style="height: 90vh" v-if="!isLoadingSearchCourse" >
+            <v-progress-circular color="green" indeterminate size="80">
 
-        </v-progress-circular>
-    </div>
+            </v-progress-circular>
+        </div>
+    </template>
+    
     
 </div>
 
@@ -157,25 +164,53 @@ export default {
             page: 1,
             raiting: 3.5,
             overlay: false,
-            isLoadingSearchCourse: false
+            isLoadingSearchCourse: false,
+            courses: [
+
+            ],
+            stateCoursesSearch: true,
+            message: null
         }
     },
     mounted(){
-        this.redirectHome()
-        setTimeout(() => {
-            this.isLoadingSearchCourse = true
-        }, 2000)
+        this.isLoadingSearchCourse = true
+        this.getCoursesSearched()
+    },
+    computed:{
+        querySearch(){
+            return this.$route.query.q
+        },
     },
     methods:{
-        redirectHome(){
-            if( !this.$route.query.q ){
-                this.$router.push({name: 'home'})
+        async getCoursesSearched() {
+          
+            try {
+                this.isLoadingSearchCourse = false
+                const { data:courses } = await this.axios.get(`/course/search-courses/${this.querySearch}`)
+                if(courses.length === 0){
+                    this.message = `Lo sentimos, no hemos encontrado resultados para "${this.querySearch}"`
+                    this.isLoadingSearchCourse = true
+                    this.stateCoursesSearch = true
+                    this.courses = []
+                }else{
+                    console.log(courses);
+                    this.message = `${courses.length} resultados para “${ this.querySearch }”`
+                    this.courses = courses
+                    this.isLoadingSearchCourse = true
+                    this.stateCoursesSearch = false
+                }
+            } catch (error) {
+                throw new Error(error)
             }
+        }
+       
+    },
+    watch:{
+        async querySearch(){
+            
+            this.getCoursesSearched()
 
         }
-    },
-    destroyed(){
-        clearTimeout()
     }
     
 }
