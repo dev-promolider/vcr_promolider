@@ -5,7 +5,7 @@ cardType(el tipo de card que se desea).
 -->
 
 <template>
-    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)" @mouseover=" isMouseOverActive ? '' :  mouseOver(course)  " @mouseleave="mouseleave()" :style="`max-width: ${width}%; height: ${height}px`">
+    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)"   :style="`max-width: ${width}%; height: ${height}px`">
         <div
               :class="[{'btn-play':cardType == 3},'image']"
               :style="{ background: `url(${course.url_portada})`}"
@@ -70,28 +70,22 @@ export default {
       type: String,
       default: '100%'
     },
-    isMouseOverActive: {
+    /* isMouseOverActive: {
       type: Boolean,
       default: false
-    }
+    } */
   },
   methods: {
 
     // Evento hover para cambiar el background del aula virtual
     /* mouseOver(course){
-      setTimeout(() => {
        this.$store.commit("course/COURSE_HOVER", course);
-      }, 500);
-      
-      
-    },
+    }, */
 
     // Evento cuando se quita el cursor de la card para quitar el background
     mouseleave(){
-      setTimeout(() => {
       this.$store.commit("course/COURSE_HOVER", []);
-       }, 500);
-    }, */
+    },
     
     // Accion para la card de tipo 1
     action(id){
