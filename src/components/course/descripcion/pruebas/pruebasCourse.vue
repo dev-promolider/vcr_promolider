@@ -1,16 +1,17 @@
 <template>
-    <div style="height: 100%; background: white;">
+    <div style="height: 100% ; background: white; width: 99%;">
         <div v-if="isLoadingQuestions" class="text-center" style="margin-top: 100px">
             <b-spinner type="grow" label="Spinning"></b-spinner>
         </div>
-
+        
         <div v-else>
+            <h3 class="text-center p-3 pb-0">{{datos.title}}</h3>
   
                     <Transition name="bounce">
                         <div v-if="mostrar" class="caja-texto" :class="[ this.respExam.message.toLowerCase() === 'aprobado' ? 'success-texto' : 'danger-texto'] ">
                             <div class="d-flex flex-column justify-content-center align-items-center my-3" style="font-size: 20px; font-weight: bold">
                                     <div >
-                                        <i :class="[  this.respExam.message.toLowerCase() === 'aprobado' ? 'fas fa-smile': 'fas fa-frown']" style="font-size: 55px; padding-bottom: 0.3rem "></i>
+                                        <i :class="[  this.respExam.message.toLowerCase() === 'aprobado' ? 'fas fa-smile': 'fas fa-frown']" style="font-size: 55px;  "></i>
                                     </div>
                                     <div> {{ this.respExam.message.toLowerCase() === 'aprobado' ? `¡Felicitaciones!`  : '' }} </div>
                                     <div> Ústed ah {{this.respExam.message.toLowerCase()}}</div> 
@@ -19,7 +20,7 @@
                             </div>
                         </div>
                     </Transition>
-                        <div class="wrapper-stepper"  v-if="mostrar === false">
+                        <div class="wrapper-stepper mx-5"  v-if="mostrar === false">
                             <div class="stepper">
                                 <div class="stepper-progress">
                                     <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
@@ -37,13 +38,13 @@
 
                             <div class="stepper-content" v-for="(question, index ) in questions" :key="index">
                                 <div class="stepper-pane" v-if="step  == index ">
-                                        <div class="contenedor">
-                                            <div></div>
+                                        <div class="contenedor d-flex justify-content-around">
+                                            
                                             <div class="title-question">
                                                 {{question.title}} 
                                             </div>
                                             <div class="puntos">
-                                                5 Pts.
+                                                Obten entre {{datos.max_score}} y {{datos.min_passing_score}} puntos
                                             </div>
                                         </div>
                                 
@@ -113,7 +114,8 @@ export default {
             exam_id:this.$route.params.id,
             respExam: null,
             mostrar: false,
-            isLoadingQuestions: true
+            isLoadingQuestions: true,
+            datos:{},
         }
     },
     computed:{
@@ -130,6 +132,7 @@ export default {
         async setExam(){
             const resp_exam = await this.getExam(this.$route.params.id)
             if(resp_exam.status === 200){
+                this.datos=resp_exam.data.data.exam
                 const {  questions } = resp_exam.data.data
                 this.questions = questions
                 this.splitQuestions( questions )
@@ -215,7 +218,7 @@ $font-anksans-regular : fon;
     grid-template-columns: 20% 60% 20%;
     align-items: center;
     margin-bottom: 2.5rem;
-    margin-top: 50px;
+    margin-top: 1em;
 }
 
 .puntos{
@@ -245,8 +248,9 @@ label{
 
 .wrapper-stepper{
     background-color: #fff;
-    padding: 70px 10%;
+    padding: 2% 10%;
     box-shadow: rgba($color: #000000, $alpha: 0.09);
+    overflow:hidden;
 }
 
 .stepper{
@@ -354,7 +358,7 @@ label{
     color: rgb(0, 0, 0);
     padding: 5px 15px 50px 14px;
     box-shadow: 0 8px 12px rgba($color: #000000, $alpha: 0.09);
-    margin: 100px 15%;
+    margin: 1em 15%;
 }
 
 //Separación de los botones
@@ -461,7 +465,7 @@ textarea{
         font-size: 15px;
     }
     .wrapper-stepper{
-        padding: 10% 3%;
+        padding: 1em;
     }
     .stepper-pane{
         margin:  50px 15px 30px;
