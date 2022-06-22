@@ -16,6 +16,7 @@ import Suscription from '../components/suscription/suscription.vue'
 import Certificado from '../components/Certificado/certificado.vue'
 import detalleCertificado from '../components/Certificado/detalleCertificado.vue'
 import pruebasCourse  from '../components/course/descripcion/pruebas/pruebasCourse.vue'
+import DinamicClass  from '../components/course/descripcion/dinamics/view/DinamicClass.vue'
 import logrosUser from '../components/LogrosUser/Logros.vue'
 import preguntasFrecuentes from '../components/preguntasFrecuentes'
 import leaderBoard from '../components/LeaderBoardUser/LeaderBoard.vue'
@@ -35,6 +36,7 @@ const routes = [
       { path: '/courses', component: Courses, name: 'courses' },
       { path: '/course-user', component: CursoUser, name: 'curso' ,},
       { path: '/test/:id' , component: pruebasCourse, name: 'test'},
+      { path: '/course-user/dinamic/:id' , component: DinamicClass, name: 'dinamic'},
       { path: '/messages', component: Messages, name: 'messages' },
       { path: '/attribute-user/:id', name: 'attribute-user', component: AttributeUser },
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },

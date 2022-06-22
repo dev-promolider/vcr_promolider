@@ -6,7 +6,7 @@ import { mapState } from 'vuex';
             <h4 class="font-weight-bold text-capitalize"> {{$route.query.class}} </h4>
             <div class="d-flex">
               <img src="../../../assets/logo-perfil.png" class="rounded-circle" style="height: 46px">
-                <div class="d-flex flex-column ml-4">
+                <div class="d-flex flex-column ml-4" v-if="courseActive[0]">
                   <span class="font-weight-bold text-uppercase">{{courseActive[0].title}}</span>
                   {{ getNameProductor(courseActive[0].user_id) }}
                   <span class="text-uppercase">{{  nombre }}</span>

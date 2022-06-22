@@ -141,3 +141,41 @@ export const setComments = async ( { commit } , comment ) => {
         }
    
 }
+
+export const getActiveDinamicClass = async ( { commit } , { game_for, idClass }) => {
+    
+    try {
+        
+        const { data:dataClass } = await axios.get(`class/show-class?name=${idClass}`)
+        const {  data  } = await axios.post( '/course/game/active', { game_for, id_type: dataClass[0].id } )
+        if( !data ) return 
+        
+        commit('setDataDinamic', data)
+
+        return { ok: true , data}
+    } catch (error) {
+        
+        return { ok: false }
+        
+    }
+
+     
+
+
+
+}
+
+export const getDataDinamic = async ({commit}, id ) => {
+
+    try {
+        const { data } = await axios.post('/course/game', { game_id: id } )
+
+        commit('setGameData', data )
+        return {ok: true, data }
+
+
+    } catch (error) {
+        return {ok: false}
+    }
+
+}

@@ -141,7 +141,7 @@ export default {
   cursor: pointer;
 }
 .background-router{
-  height: 100vh ;
+  height: 90vh ;
   width: 100vw ;
   background-position: center;
   background-repeat: no-repeat;

@@ -197,7 +197,7 @@ export default {
                     this.message = `${courses.length} resultados para “${ this.querySearch }”`
                     this.courses = courses
                     this.isLoadingSearchCourse = true
-                    this.stateCoursesSearch = false
+                    this.stateCoursesSearch = true
                 }
             } catch (error) {
                 throw new Error(error)

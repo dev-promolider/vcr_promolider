@@ -207,7 +207,7 @@ export default {
                         description : this.itemCouse.title,
                         amount: {
                           currency_code : "USD",
-                          value: this.itemCouse.price
+                          value: 1
                         }
                         }
                       ]
@@ -216,12 +216,12 @@ export default {
 
                   const id = this.id_course 
                   const axios = this.axios 
+                  this.paidFor = true
 
                   return actions.order.capture().then(function(orderData) {
 
                   const transaction = orderData.purchase_units[0].payments.captures[0];
                   
-                  this.paidFor = true
 
                   if( transaction.status === 'COMPLETED'){
                     return axios.post('/cart/buy-course',  { id_course: id } )
