@@ -4,10 +4,16 @@
           <KeepLearning/>
           <Successes/>
       </div>
-      <div class="courses">
-        <CarrouselCourseViewed/>
-        <RecommendedCourse/>  
-      </div>    
+      
+          
+          <div v-if="this.coursView > 0" class="m-5">
+          <CarrouselCourseViewed />
+        </div>
+        
+          <div  :class="[ this.$vuetify.breakpoint.xs  ?  'm-1' : 'm-5']">
+          <h4 class="mx-1"><strong>Cursos recomendados:</strong></h4>
+          <RecommendedCourse/>  
+         </div>
   </div>
 </template>
 
@@ -23,8 +29,31 @@ export default {
     CarrouselCourseViewed,
     RecommendedCourse, 
     KeepLearning, Successes ,
+    
 
-    }
+    },
+    data() {
+      return {
+        coursView:null,
+      }
+    },
+
+    mounted() {
+    },
+
+    methods: {
+      mostrarAprendiendo(){
+        let datos = null
+        this.axios.get('course/last-courses-rep')
+        .then((res) =>{
+          datos = res.data.data;
+          this.coursView = datos.length
+        })
+      },
+    },
+    created() {
+    this.mostrarAprendiendo();
+  },
 }
 </script>
 <style scoped>
@@ -32,19 +61,14 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.courses{
-  flex-direction: column;
-  display: flex;
-  width: 100%;
-}
+
 .section-main{
   display: grid;
-  grid-template-rows: 300px;
-  /* grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
-  grid-template-columns: 1fr 0.7fr;
+  grid-template-rows: 400px;
+  grid-template-columns: repeat(2, 1fr);
   grid-column: span 2;
-  gap: 70px;
-  padding: 39px 70px 0px 100px;
+  gap: 10px;
+  padding: 30px 70px 10px 50px;
 }
 @media (max-width:860px){
   .section-main{

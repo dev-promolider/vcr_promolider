@@ -1,12 +1,12 @@
 <template>
   <main class="mb-4" :class="lastCourses.length > 0 ? 'main-content':'main-none'">
     <h4 class="font-weight-bold mb-4">
-      {{ nameUser }}, continua aprendiendo
+      {{ nameUser }}, continua aprendiendo:
     </h4>
     <vue-horizontal class="horizontal"
       >.
-      <section class="item mr-3" v-for="course in lastCourses" :key="course.id">
-        <Card :course="course" :cardType="3"  />
+      <section class="mr-3" v-for="course in lastCourses" :key="course.id">
+        <Card :course="course" :cardType="3" />
       </section>
     </vue-horizontal>
   </main>

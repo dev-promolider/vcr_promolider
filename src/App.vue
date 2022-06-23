@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <v-app >
     <router-view />
-  </div>
+  </v-app >
 </template>
 <script>
 //import Contenedor from '@/views/content/contenedor/Contenedor.vue';
@@ -54,7 +54,7 @@ font-family: Arial;
   width: 100vw;
   height: 100vh;
   background-color: var(--bg-content);
-  overflow: auto;
+  overflow: scroll;
 }
 
 /* Boton verde */

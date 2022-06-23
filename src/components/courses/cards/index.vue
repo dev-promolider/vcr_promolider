@@ -5,17 +5,17 @@ cardType(el tipo de card que se desea).
 -->
 
 <template>
-    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)" @mouseover="mouseOver(course)" @mouseleave="mouseleave()">
+    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)"   :style="`max-width: ${width}%; height: ${height}px`">
         <div
               :class="[{'btn-play':cardType == 3},'image']"
-              :style="{ background: `url(${course.url_portada})` }"
+              :style="{ background: `url(${course.url_portada})`}"
         ></div>
         <div class="content">
             <p class="m-0 name text-left text-capitalize">
               {{ course.title }}
             </p>
-            <p class="m-0 title text-left" v-if="cardType == 1">
-              {{ course.name }}
+            <p class="m-0  producer text-left" v-if="cardType == 1">
+              {{ course.name  }} 
             </p>
 
             <div class="d-flex stars" v-if="cardType == 1">
@@ -28,8 +28,10 @@ cardType(el tipo de card que se desea).
             </div>
 
             <div class="date" v-if="cardType == 1">
-              <p class="m-0 money text-left">S/. {{ course.price }}</p>
+              <p class="m-0 money text-left" v-if="course.price > 0"> S/. {{ course.price }}</p>
+              <p class="m-0 money text-left" v-if="course.price == 0"><img src="@/assets/free.png" alt="" width="25"> GRATIS </p>
             </div>
+           
             <div class="d-flex mt-2" v-if="cardType == 2">
               <b-avatar
                 class="mb-3 ml-2"
@@ -51,23 +53,34 @@ cardType(el tipo de card que se desea).
 
 <script>
 
+
 export default {
   name: "Card",
   data() {
-    return {};
+    return {
+    };
   },
   props: {
     course: {
-      type: Array,
+      type: Object,
     },
-    cardType:Number
+    cardType:Number,
+    width:Number,
+    height:{
+      type: String,
+      default: '100%'
+    },
+    /* isMouseOverActive: {
+      type: Boolean,
+      default: false
+    } */
   },
   methods: {
 
     // Evento hover para cambiar el background del aula virtual
-    mouseOver(course){
-      this.$store.commit("course/COURSE_HOVER", course);
-    },
+    /* mouseOver(course){
+       this.$store.commit("course/COURSE_HOVER", course);
+    }, */
 
     // Evento cuando se quita el cursor de la card para quitar el background
     mouseleave(){
@@ -77,8 +90,7 @@ export default {
     // Accion para la card de tipo 1
     action(id){
       this.mouseleave()
-      this.$router.push('/buy-cursos/' + id)
-      window.location.reload(true);
+      this.$router.push({name: "buy-cursos", params: { ide:id }})
     },
 
     // Accion par el tipo de card 2 y 3 que redirecciona a ver el curso 
@@ -116,6 +128,7 @@ export default {
 </script>
 
 <style scoped>
+
 .card {
   /* background: linear-gradient(to right, rgba(15, 32, 39, 0.609), rgba(32, 58, 67, 0.609), rgba(44, 83, 100, 0.609));  */
   overflow: hidden;
@@ -125,7 +138,7 @@ export default {
   flex-direction: column;
   padding: 10px;
   box-shadow: 2px 2px 10px #131b1e, 0.144;
-  transition: 1s; 
+  transition:  0.5s; 
   max-width: 300px;
   min-width: 300px;
 }
@@ -156,18 +169,18 @@ export default {
 
 .name {
   margin-left: 4px;
-  font-size: 18px;
+  font-size: 1.2rem;
   font-weight: 700;
   line-height: 15px;
 }
 
-.title {
+.producer {
+  font-size: 1.1rem;
   font-style: normal;
   font-weight: 300;
-  font-size: 14px;
-  line-height: 15px;
+  line-height: 2rem;
   margin-bottom: 8px;
-  color: #C4C4C4;
+  color: #6b6b6b;
   line-clamp: 2;
   overflow: hidden;
 }
@@ -182,7 +195,7 @@ export default {
   font-size: 12px;
 }
 .money{
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: 700;
   line-height: 1.5;
   color: #131b1e

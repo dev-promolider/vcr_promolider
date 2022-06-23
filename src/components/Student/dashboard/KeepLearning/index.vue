@@ -1,31 +1,69 @@
 <template>
-  <div class="learning">
-    <div>
-        <p>{{lastCourses.title}}</p>
-        <ul class="modules">
-          <li><img src="@/assets/list-disc.svg" alt="" /> Moódulo 2 - Clase 4</li>
-        </ul>
-    </div>
-    <div class="btn-course">
-      <button @click="classvideo()">continua el curso</button>
-    </div>
-  </div>
+    <div style="min-height: 100%; width:100%" >
+     <v-fade-transition>
+         <v-card v-if="isWelcomeActive" elevation="0"  color="transparent" style="margin: 100px auto" class="d-flex justify-center align-center flex-column" >
+            <v-card-title class="d-flex justify-center align-center ">
+                <v-icon
+                  large
+                  left
+                >
+                  mdi-home
+                </v-icon>
+                <span class="text-h5 font-weight-light ">Bienvenido {{user}}.</span>
+            </v-card-title>
+
+            <v-btn color="success" :to="{name: 'courses'}" style="text-decoration: none">
+              MarketPlace
+            </v-btn>
+            <v-card-title>
+              <span class="subtitle text--secondary text-center">En está sección podrás visualizar tus cursos y alcanzar tus logros.</span>
+            </v-card-title>
+         </v-card>
+     </v-fade-transition>
+ 
+      
+         <Card   :course="lastCourses" :cardType="3" :width="100"  /> 
+   
+
+       <v-skeleton-loader
+          v-if="isLoadingCourses && !isWelcomeActive"
+          type="image, image"
+        ></v-skeleton-loader>
+  
+   </div>
 </template>
 
 <script>
 // import { mapState } from 'vuex'
+import Card from '@/components/courses/cards';
 export default {
+  components:{
+     Card
+  },
   name: "KeepLearning",
   data(){
     return {
-        lastCourses: ''
+        isLoadingCourses: true,
+        isWelcomeActive: false,
+        lastCourses: null,
+        user: localStorage.getItem('name_user')
     }
   },
   methods: {
-    getAttributes() {
-      this.axios.get("course/last-courses-rep").then((datos) => {
-        this.lastCourses = this.filterCourseInactive(datos.data.data);
-      });
+    async getAttributes() {
+        const resp = await this.axios.get("course/last-courses-rep")
+
+         if( resp.data.status === 200){
+            this.isWelcomeActive = true
+           if(Object.keys(resp.data.data).length > 0){
+             this.isLoadingCourses = false 
+             this.isWelcomeActive = false
+             this.lastCourses = this.filterCourseInactive(resp.data.data);
+           }
+        }
+
+
+        
     },
     filterCourseInactive(data) {
       var courseFilter = data.filter((course) => {
@@ -47,6 +85,7 @@ export default {
 </script>
 
 <style>
+
 .learning {
   background: #fff;
   border-radius: 15px;
@@ -55,6 +94,7 @@ export default {
   flex-direction: column;
   justify-content:space-between;
   padding: 40px 30px 42px 50px;
+  height: 100%;
 }
 .learning p {
   text-align: start;

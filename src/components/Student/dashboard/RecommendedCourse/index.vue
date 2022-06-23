@@ -1,39 +1,25 @@
 <template>
-  <main>
-    <vue-horizontal class="horizontal"
-    
-      >. 
-      <section class="item" v-for="course in relatedCourses" :key="course.id">
-        <div class="card" @click="editar(course.id)">
-          <div
-            class="image"
-            :style="{ background: `url(${course.url_portada})` }"
-          ></div>
-          <div class="content">
-            <div>
-              <div class="brand">
-                <p class="name text-justify">{{ course.title }}</p>
-              </div>
-              <div class="title">{{ course.description }}</div>
-            </div>
-            <div class="date">
-              <hr class="line">
-              <p class="m-0 font-weight-bolder text-success text-right">S/{{ course.price }}</p>
-            </div>
-          </div>
-        </div>
+<div    :class="[ this.$vuetify.breakpoint.xs  ?  'mr-3' : 'mr-30']">
+    <vue-horizontal  class="horizontal">.
+      <section class="mr-5" v-for="course in relatedCourses" :key="course.id">
+        <Card  :course="course" :cardType="1" isMouseOverActive />
       </section>
     </vue-horizontal>
-  </main>
+</div>
 </template>
 
 <script>
 // For convenience sake, I import a collection of images from unsplash.
 //import {singapore} from '../../../../assets/img'
+import Card from '@/components/courses/cards';
 
 export default {
+  components:{
+    Card
+  },
   data() {
     return {
+      model:null,
       relatedCourses: [],
     };
   },
@@ -72,15 +58,13 @@ export default {
 
 <!-- Content Design -->
 <style scoped>
+.horizontal{
+  margin: 0 !important;
+  max-width: 100% !important;
+}
 /*---------------------------*/
 .card {
-  border-radius: 15px;
-  overflow: hidden;
-  border: 1px solid #e2e8f0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 2px 2px 10px #131b1e, 0.144;
+  width: 500px !important;
 }
 
 .image {
@@ -89,7 +73,9 @@ export default {
   background-size: cover !important;
   background-repeat: no-repeat !important;
 }
-
+.mr-30{
+  margin-right: 30px !important;
+}
 .content {
   padding: 12px 16px;
   flex-grow: 1;

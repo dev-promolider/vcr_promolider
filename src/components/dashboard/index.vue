@@ -17,6 +17,7 @@
           </div>
         </div>
       </div>
+      
   </div>
 </template>
 <script>
@@ -24,14 +25,13 @@
 import DataPrimaryUser from "@/components/dashboard/DataPrimary/DataPrimaryUser.vue";
 import MessengerColletion from "@/components/dashboard/Message/MessengerColletion.vue";
 import ClienteVenta from "@/components/dashboard/SalesHistory/ClienteVenta.vue";
-
 export default {
   name: "DashboardProducer",
   components: {
     DataPrimaryUser,
     MessengerColletion,
     //Attribute,
-    ClienteVenta
+    ClienteVenta,
   },
   data() {
     return {};

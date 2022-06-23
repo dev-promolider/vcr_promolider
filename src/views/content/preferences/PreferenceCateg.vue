@@ -1,5 +1,5 @@
 <template>
-  <div class="contenido my-5">
+  <div class="contenidos my-5">
 
 
     <h2 class="text-center font-weight-bold">
@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style scoped>
-.contenido {
+.contenidos {
   position: relative;
 }
 

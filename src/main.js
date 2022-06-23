@@ -11,11 +11,14 @@ import Vuetify from 'vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import vuetify from '../src/plugins/vuetify'
+import '@mdi/font/css/materialdesignicons.css'
 
 Vue.config.productionTip = false
 
 //get token localstorage
 const token = localStorage.getItem('access_token');
+
 
 axios.defaults.baseURL = 'http://promolider.xyz/api/v1'
 // axios.defaults.baseURL = 'http://415e-177-91-253-9.ngrok.io/promolider/public/api/v1'
@@ -28,11 +31,23 @@ Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(VueHorizontal)
 Vue.use(Vuetify)
+Vue.use(vueTimeago, {
+  name: 'Timeago', // Component name, `Timeago` by default
+  locale: 'es', // Default locale
+  // We use `date-fns` under the hood
+  // So you can use all locales from it
+  locales: {
+    'zh-CN': require('date-fns/locale/zh_cn'),
+    ja: require('date-fns/locale/ja'),
+    'es': require('date-fns/locale/es')
+  }
+})
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vuetify/dist/vuetify.min.css'
+import vueTimeago from 'vue-timeago'
 // import Echo from 'laravel-echo'
 // window.Pusher = require('pusher-js')
 
@@ -52,5 +67,6 @@ import 'vuetify/dist/vuetify.min.css'
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

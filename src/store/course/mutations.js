@@ -100,6 +100,7 @@ export const DESTROY_PROGRESS = (state) => {
     state.allComments = [],
     state.lesson = []
     state.allLessonsId = []
+    state.allLessons = 0
 }
 
 
@@ -112,7 +113,13 @@ export const CLEAR_VIDEO = (state) => {
 
 // Llenamos los comentarios de la clase activa
 export const GET_COMMENTS = (state, allComments) => {
-    state.allComments = allComments
+    if(allComments.data === 'No hay comentarios'){
+        state.isLoadingComments = false
+        state.allComments = []
+    }else{
+        state.allComments = allComments
+        state.isLoadingComments = false
+    }
 }
 
 
@@ -129,4 +136,25 @@ export const COURSE_HOVER = (state, courseHover) =>{
 
 export const NO_EXAM_DAILY = (state, examDaily) =>{
     state.examDaily = examDaily
+}
+
+export const setPoints = ( state, points) => {
+    state.points = points
+}
+
+export const sumPoints = (state, points ) => {
+    state.points += points
+}
+
+export const setComments = (state, comments) => {
+    state.allComments = [ ...state.allComments, comments]
+}
+
+
+export const setDataDinamic = ( state , data) => {
+    state.dinamicClass = data
+}
+
+export const setGameData = (state, data) => {
+    state.gameData = data
 }

@@ -1,210 +1,294 @@
 <template>
-  <div class="mytabs">
-    <ul class="nav nav-tabs d-flex flex-row" id="myTab" role="tablist" >
-         
-            <li class="nav-item" role="presentation" @click="changeTab(1)" :class="{active: isActive == 1}">
-              <a
-                class="nav-link text-center"
-                id="home-tab"
-                data-toggle="tab"
-                href="#resumen"
-                role="tab"
-                aria-controls="home"
-                aria-selected="true"
-                >Resumen</a
+      <div >
+     <template>
+          <v-card class="elevation-0">
+              <v-tabs
+                  v-model="tab"
+                  background-color="cyan"
+                  dark
+                  centered
+                  flat
               >
-            </li>
+                <v-tab
+                    v-for="item in items"
+                    :key="item.tab"
+                  >
+                    {{ item.tab }}
+                </v-tab>
+             </v-tabs>
 
-            <li class="nav-item " role="presentation" @click="changeTab(2)" :class="{active:isActive == 2}">
-              <a
-                class="nav-link text-center"
-                id="home-tab"
-                data-toggle="tab"
-                href="#recursos"
-                role="tab"
-                aria-controls="home"
-                aria-selected="true"
-                >Recursos</a
-              >
-            </li>
+             <v-tabs-items v-model="tab">
+                <v-tab-item
+                  v-for="item in items"
+                  :key="item.tab"
+                >
+                  <v-card flat v-if="item.tab === 'Resumen'">
+                          <v-card-text   class="h6 text-justify text--primary">
+                            {{ lesson.description }}
+                         </v-card-text>
+                  </v-card>
+                  <v-card flat v-if="item.tab === 'Recursos'">
+                       <template v-if="!isResources">
+                         <v-card-text class="h6 text-center text--primary">
+                            Esta clase no tiene recursos ...
+                         </v-card-text>
+                      </template>
+                      <div v-else>
+                            <ul class="list-group list-group-flush">
+                              <li
+                                class="list-group-item "
+                                v-for="(resource, index) in resources"
+                                :key="index"
+                              >
+                                Recurso {{ index + 1 }}.
+                                <a class=" text-decoration-none text-success" disabled>
+                                  <i class="fas fa-download "></i>
+                                  {{ getNameResource(resource.resource_file) }}
+                                </a>
 
-             <li class="nav-item " role="presentation" @click="changeTab(3)" :class="{active: isActive == 3}">
-              <a
-                class="nav-link text-center"
-                id="home-tab"
-                data-toggle="tab"
-                href="#pruebas"
-                role="tab"
-                aria-controls="home"
-                aria-selected="true"
-                >Pruebas</a
-              >
-            </li>
-            
-          </ul>
+                                <a href="#modal" class="open"
+                                        ><button
+                                          class="btn btn-success"
+                                          @click="preView(resource)"
+                                        >
+                                          Ver Archivo
+                                        </button></a>
+                                        </li>
+                                        <div class="modal" id="modal">
+                                          <a href="#" class="modal-bg"></a>
+                                          <div class="modal-content">
+                                            <a href="#" class="modal-exit">x</a>
+                                            <div class="row m-5 justify-content-sm-center">
+                                              <div>
+                                                <iframe :src="picture" class="pdf"> </iframe>
+                                                  <button class="btn btn-success " id="button">DESCARGAR</button>
+                                                <div v-if="carga" class="cargando">
+                                                <div class="spinner-border"></div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                   </div>
+                                </div>
+                            </ul>
+                      </div>
+                  </v-card>
+                    <!-- 
+                      <v-card flat v-if="item.tab === 'Exámen'">
+                      <div class="mt-4" v-if="dataEx.data === 'No existe el examen'">
+                        <p>Esta lección no tiene ninguna prueba.</p><br><p>Continua la siguiente lección.</p>
+                      </div>
+                      <div class="mx-4 mt-4" v-else>
+                        <p class="text-justify">
+                          <button @click="Testing" class="test">Realizar prueba</button>
+                        </p>
+                      </div>
+                    </v-card> 
+                    -->
+                  <v-card flat v-if="item.tab === 'Dinámicas'" class="p-3">
 
-          <div class="tab-content" id="myTabContent">
-            <div
-              class="tab-pane fade show active border-box"
-              id="resumen"
-              role="tabpanel"
-              aria-labelledby="home-tab"
-            >
-            <div class="mx-4 mt-4">
-              <p class="text-justify">
-                {{ lesson.description }}
-              </p>
-            </div>
+                     <template v-if="!isLoadingDinamic">
+                      <div class="text-center">
+                        <v-progress-circular indeterminate color="success" >
 
-            </div>
-            <div
-              class="tab-pane fade border-box"
-              id="recursos"
-              role="tabpanel"
-              aria-labelledby="profile-tab"
-            >
-              <div class="mx-4 mt-4">
-                <div v-if="!isResources">
-                  <p> Esta clase no tiene recursos ... </p>
-                </div>
+                        </v-progress-circular>
+                      </div>
+                     </template>
 
-                <div v-else> 
-                  <ul class="list-group list-group-flush" >
-                    <li class="list-group-item" v-for="(resource,index) in resources" :key="index">
-                      Recurso {{index+1}}.
-                      <a class="ml-3 text-decoration-none text-success" @click="downloadResource(resource)"> 
-                        <i class="fas fa-download mr-1"></i> {{ getNameResource(resource.resource_file) }}            
-                      </a>
-                    </li>                              
-                  </ul>
-                </div>
+                    <template v-if="isLoadingDinamic">
 
-              </div>
-            </div>
-            <div
-              class="tab-pane fade  border-box"
-              id="pruebas"
-              role="tabpanel"
-              aria-labelledby="home-tab"
-            >
-            <div class="mt-4" v-if="dataEx===500">
-              <p> No existen pruebas... </p>
-            </div>
-            <div class="mx-4 mt-4" v-else>
-              <p class="text-justify">
-                  <button @click="Testing"  class="test">Realizar prueba</button>
-              </p>
-            </div>
+                      <template v-if="stateDinamic">
+                    
 
-            </div>
+                              <v-btn class="mx-2" color="success" @click="goToDinamics( dinamic )" v-for="(dinamic  , index ) in idDinamicGame" :key="index">
+                                  <v-icon left >
+                                    mdi-gamepad-variant
+                                  </v-icon>
+                                  <div v-if="dinamic === 1">
+                                      Ahorcado
+                                  </div>
+                                  <div v-if="dinamic === 2">
+                                      Juego de Cartas
+                                  </div>
+                              </v-btn>
+                      
+                     
+                      </template>
+                    </template>
+                     <template v-if="!stateDinamic && isLoadingDinamic">
+                        <v-card-text class="text-center h6 text--primary" >
+                            No hay dinámicas por ahora.
+                        </v-card-text>
+                    </template>
+                   
+                  </v-card> 
+                </v-tab-item>
+             </v-tabs-items>
+        </v-card>
+    </template>
+  
 
-          </div>
+    
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 
+export default {
+  name: "Descripcion",
+  data() {
+    return {
+      isActive: 1,
+      open: false,
+      picture: null,
+      carga: null, 
+      model: 'tab-2',
+      text: 'Lorem ipsum dolor sit amet',
+      tab: null,
+      items: [
+        {tab: 'Resumen'},
+        {tab: 'Recursos'},
+        {tab: 'Exámen'},
+        {tab: 'Dinámicas'}
+      ],
+      stateDinamic: true,
+      idDinamicGame: [],
+      isLoadingDinamic: false,
+    };
+  },
+  computed: {
+    ...mapState("course", ["lesson", "resources", "isResources", "dataEx"]),
+    queryDinamic(){
+      return this.$route.query.class
+    }
+  },
+  methods: {
+    ...mapActions("course", {
+      getResources: "getResources",
+      getTest: "getTest",
+      getLesson: "getLesson",
+      getActiveDinamicClass: "getActiveDinamicClass"
+    }),
 
-  import { mapState, mapActions } from 'vuex';
-
-  export default {
-    name: "Descripcion",
-    data(){
-      return{
-        isActive: 1
-      }
+    changeTab(el) {
+      this.isActive = el;
     },
-    computed:{
-      ...mapState('course',['lesson','resources','isResources','dataEx'])
-    },
-    methods:{
+    /* ---------------------------------- */
+    preView(resource) {
+      this.mostrar = !this.mostrar;
+      this.carga = true;
+      this.axios
+        .get(`class-resource/download-resource?id=${resource.id}`, {
+          responseType: "blob",
+        })
+        .then((res) => {
+          this.carga = false;
+          let FILE = window.URL.createObjectURL(res.data);
+          this.picture = FILE;
 
-      ...mapActions('course',{
-        getResources: 'getResources',
-        getTest: 'getTest'
-      }),
-
-      changeTab( el ){
-        this.isActive = el
-
-      },
-
-      // Funcion para descargar un recurso
-      downloadResource(resource){
-        this.axios.get(`class-resource/download-resource?id=${resource.id}`,{responseType: "blob"} ).then(
-            (res) => {
-            // Creamos un objeto url a partir de la respuesta converitda en objeto Blob
-            var FILE = window.URL.createObjectURL(new Blob([res.data]));
-            var docUrl = document.createElement('a');
+          document.getElementById("button").onclick = function () {
+            var docUrl = document.createElement("a");
             // Generamos un link de descarga
             docUrl.href = FILE;
-            docUrl.setAttribute('download', `${resource.resource_file}`);
+            docUrl.setAttribute("download", `${resource.resource_file}`);
             document.body.appendChild(docUrl);
             docUrl.click();
-        })
-      },
-      
-      Testing(){
-        this.$router.push({name: 'test' , params:{ id: this.dataEx.data}})
-      },
-
-      // Extraer solo nombre del recurso y no toda la ruta
-      getNameResource(filepath){
-        let filenameWithExtension = filepath.replace(/^.*[\\/]/, '');
-        return filenameWithExtension;
-      },
-       
-
+          };
+        });
     },
-    created(){
-      this.getResources(this.$route.query.class)
-      this.getTest(this.$route.query.course)
+
+    Testing() {
+      this.$router.push({ name: "test", params: { id: this.dataEx.data } });
     },
-    updated(){
+
+    // Extraer solo nombre del recurso y no toda la ruta
+    getNameResource(filepath) {
+      let filenameWithExtension = filepath.replace(/^.*[\\/]/, "");
+      return filenameWithExtension;
+    },
+    async getActiveDinamics(){
+      try {
+
+        this.isLoadingDinamic = false 
+        const dataSend = {
+          idClass: this.$route.query.class,
+          game_for: 'class'
+        }
+  
+        let { data } = await this.getActiveDinamicClass( dataSend )
+        if(  data.length === 0 ) {
+            this.stateDinamic = false
+            this.isLoadingDinamic = true
+            this.idDinamicGame = []
+        }else {
+          this.idDinamicGame = data
+          this.isLoadingDinamic = true
+          this.stateDinamic = true
+        }
+        
+      } catch (error) {
+         throw new Error( error )
+      }
+    },
+    goToDinamics( id ){
+       this.$router.push({name: 'dinamic', params: {id}, query: {c: this.$route.query.class, t:'class' }})
     }
 
-  }
+  },
+  watch:{
+    async queryDinamic(){
+      this.getActiveDinamics()
+    }
+  },
+  created() {
+    this.getResources(this.$route.query.class);
+  },
+  mounted() {
+    this.isLoadingDinamic = true
+    this.getActiveDinamics()
+  },
+};
 </script>
 
 <style scoped>
-.tab-pane{
+.tab-pane {
   width: 100%;
   height: 215px;
-  overflow-y: auto ;
+  overflow-y: auto;
 }
-.tab-pane::-webkit-scrollbar{
+.tab-pane::-webkit-scrollbar {
   display: none;
 }
-.nav-item{
-  margin-left:25px  !important;
+.nav-item {
+  margin-left: 25px !important;
   margin-bottom: 0px !important;
 }
-.nav-link{
+.nav-link {
   border: none !important;
   border-top-left-radius: 15px !important;
   border-top-right-radius: 15px !important;
   width: 161px;
   height: 37px;
-  border-bottom: solid #E5E5E5  0.2px !important;
+  border-bottom: solid #e5e5e5 0.2px !important;
 }
-.nav-tabs li { 
+.nav-tabs li {
   /* Makes a horizontal row */
-  float: left; 
-	
+  float: left;
+
   /* So the psueudo elements can be
      abs. positioned inside */
-  position: relative; 
+  position: relative;
   cursor: pointer;
 }
-.nav-tabs a { 
+.nav-tabs a {
   /* Make them block level
      and only as wide as they need */
-  float: left; 
+  float: left;
   text-decoration: none;
-  
-  /* Default colors */ 
+
+  /* Default colors */
   color: white;
-  background: #C4C4C4; 
+  background: #c4c4c4;
   font-size: 18px;
 }
 .nav-tabs .active {
@@ -212,58 +296,68 @@
   z-index: 3;
   pointer-events: none;
 }
-.nav-tabs .active a { 
+.nav-tabs .active a {
   /* Colors when tab is active */
-  background: white; 
-  color: black; 
+  background: white;
+  color: black;
 }
-.nav-tabs .nav-item:before, .nav-tabs .nav-item:after, 
-.nav-tabs .nav-link:before, .nav-tabs .nav-link:after {
+.nav-tabs .nav-item:before,
+.nav-tabs .nav-item:after,
+.nav-tabs .nav-link:before,
+.nav-tabs .nav-link:after {
   /* All pseudo elements are 
      abs. positioned and on bottom */
   position: absolute;
-  bottom: 0 ;
+  bottom: 0;
 }
 /* Only the first, last, and active
    tabs need pseudo elements at all */
-.nav-tabs .nav-item:after,   .nav-tabs .nav-item a:after,
-.nav-tabs .nav-item:before, .nav-tabs .nav-item a:before,
-.nav-tabs .active:after,   .nav-tabs .active:before, 
-.nav-tabs .active a:after, .nav-tabs .active a:before {
+.nav-tabs .nav-item:after,
+.nav-tabs .nav-item a:after,
+.nav-tabs .nav-item:before,
+.nav-tabs .nav-item a:before,
+.nav-tabs .active:after,
+.nav-tabs .active:before,
+.nav-tabs .active a:after,
+.nav-tabs .active a:before {
   content: "";
 }
-.nav-tabs .active:before, .nav-tabs .active:after {
-  background: white; 
-  
+.nav-tabs .active:before,
+.nav-tabs .active:after {
+  background: white;
+
   /* Squares below circles */
   z-index: 1;
 }
 /* Squares */
-.nav-tabs li:before, .nav-tabs li:after {
-  background: #C4C4C4;;
+.nav-tabs li:before,
+.nav-tabs li:after {
+  background: #c4c4c4;
   width: 10px;
   height: 10px;
 }
 .nav-tabs li:before {
-  left: -10px;      
+  left: -10px;
 }
-.nav-tabs li:after { 
+.nav-tabs li:after {
   right: -10px;
 }
 /* Circles */
-.nav-tabs li a:after, .nav-tabs li a:before {
-  width: 20px; 
+.nav-tabs li a:after,
+.nav-tabs li a:before {
+  width: 20px;
   height: 20px;
   /* Circles are circular */
   -webkit-border-radius: 10px;
-  -moz-border-radius:    10px;
-  border-radius:         10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
   background: var(--bg-content);
-  
+
   /* Circles over squares */
   z-index: 2;
 }
-.nav-tabs .active a:after, .nav-tabs .active a:before {
+.nav-tabs .active a:after,
+.nav-tabs .active a:before {
   background: var(--bg-content);
   z-index: 3;
 }
@@ -277,10 +371,107 @@
 }
 .test {
   color: rgb(255, 255, 255);
-  background-color: #28a745 ;
+  background-color: #28a745;
   padding: 5px 15px;
   margin: 10px 20px;
   border-radius: 20px;
   text-decoration: none;
+}
+
+
+/* Modal container*/
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  -webkit-transition: all 0.7s;
+  transition: all 0.7s;
+}
+/* Modal container gets target and it is shown and background modal too*/
+.modal:target,
+.modal:target .modal-bg {
+  display: block;
+  z-index: 100;
+  opacity: 1;
+  visibility: visible;
+}
+/* Background modal*/
+.modal-bg:active,
+.modal-bg:hover,
+.modal-bg:visited,
+.modal-bg:link {
+  text-decoration: none;
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  -webkit-transition: all 0.7s;
+  transition: all 0.7s;
+}
+/* Background modal overlaps to container*/
+.modal:target .modal-bg {
+  z-index: 200;
+}
+/* Modal content or body*/
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: white;
+  width: 80vw;
+  height: 80vh;
+  border-radius: 2rem;
+  text-align: center;
+  z-index: 300;
+  padding-bottom: 10px;
+  overflow: hidden;
+}
+
+/* Modal is closed at lose target*/
+.modal-exit:link,
+.modal-exit:active,
+.modal-exit:visited,
+.modal-exit:hover {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #d20000;
+  background: #198754;
+  padding: 0 15px 0 15px;
+  border-radius: 5px;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.pdf {
+  width: 70vw;
+  height: 100%;
+  border-radius: 15px;
+}
+
+.cargando {
+  position: absolute;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  color: white;
+  background: #131b1e;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 15px;
+}
+.spinner-border{
+  margin: 20% 0 0 -20%;
 }
 </style>

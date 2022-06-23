@@ -1,5 +1,5 @@
 <template>
-<div class="container-fluid ">
+<div class="container-fluid my-5">
 <div class="row ">
   <div class="col-md-8 col-sm-12 ">
       <div v-if="notCourses" class="no-result center-element d-flex">
@@ -9,27 +9,27 @@
         <loadingCourses />
       </div>
         <!-- Últimos cursos -->
-        <!-- Continuar aprendiendo -->
-        <div>
-          <CarrouselCourseViewed v-if="!loading"/>
+        <!-- Cursos recien lanzados -->
+        <div class="mb-4" v-if="relatedCourses.length > 0">
+          <h3 class="m-0 font-weight-bold">Más recientes</h3>
+          <CarrouselCourse :courses="relatedCourses" />
         </div>
         
         <!-- Todos los cursos -->
         <div class="mb-4" v-if="courses.length > 0">
-          <h3 class="pl-10 m-0 font-weight-bold">Todos los cursos</h3>
+          <h3 class="m-0 font-weight-bold">Todos los cursos</h3>
           <CarrouselCourse :courses="courses" />
         </div>
   
         <!-- Cursos de interes -->
         <div class="mb-4" v-if="interesCourses.length > 0">
-          <h3 class="pl-10m-0 font-weight-bold">Cursos de interés</h3>
+          <h3 class="m-0 font-weight-bold">Cursos de interés</h3>
           <CarrouselCourse :courses="interesCourses" />
         </div>
+        <!-- Continuar aprendiendo -->
   
-        <!-- Cursos recien lanzados -->
-        <div class="mb-4" v-if="relatedCourses.length > 0">
-          <h3 class="pl-10 m-0 font-weight-bold">Más recientes</h3>
-          <CarrouselCourse :courses="relatedCourses" />
+        <div v-if="this.coursView > 0">
+          <CarrouselCourseViewed v-if="!loading"/>
         </div>
   
     
@@ -76,6 +76,8 @@ export default {
       relatedCourses: [],
       prueba: [],
       notCourses: false,
+
+      coursView:null,
     };
   },
 
@@ -147,14 +149,28 @@ export default {
         },
       });
     },
+
+    mostrarAprendiendo(){
+        let datos = null
+        this.axios.get('course/last-courses-rep')
+        .then((res) =>{
+          datos = res.data.data;
+          this.coursView = datos.length
+        })
+      },
   },
   created() {
     this.getAttributes();
+    this.mostrarAprendiendo();
   },
 };
 </script>
 
 <style scoped>
+
+main{
+  padding: 12px 0.5px !important;
+}
 .row{
   height: 100%;
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 
 
 // Curso Activo
@@ -82,7 +83,7 @@ export const getComments = async (context, id) => {
 
 // Obtenemos el examen de una clase
 export const getTest = async (context, data) => {
-    await axios.post(`course/exam/active`, {course_id : data}).then((res)=>{
+    await axios.post(`course/exam/active`, data).then((res)=>{
         context.commit('DATA_EX', res)
     })
     .catch((e)=>{
@@ -94,4 +95,87 @@ export const getTest = async (context, data) => {
 export const getExam= async (_, data) => {
     const respuesta =  await axios.post(`course/exam`, {exam_id : data})
     return respuesta
+}
+
+
+export const getPoints = async ( {commit} , id) => {
+    try {
+        const data = await axios.get(`profile/points/${id}`)
+        
+        const {total} = data.data
+
+        commit( 'setPoints', total )
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const setComments = async ( { commit } , comment ) => {
+        try {
+            const { comments } = comment    
+    
+           const resp = await axios.post('comments/send-comments', comment)
+           
+           if( resp.data.status === 200){
+
+            const { user_photo, username, created_at } = resp.data.data[0]
+
+            const fecha = moment(created_at).format("DD-MM-YYYY")
+
+            const payload = {
+                comments,
+                user_photo,
+                username,
+                fecha
+            }
+        
+           
+            commit('setComments', payload )
+
+
+           }
+            
+        } catch (error) {
+            throw new Error(error)
+        }
+   
+}
+
+export const getActiveDinamicClass = async ( { commit } , { game_for, idClass }) => {
+    
+    try {
+        
+        const { data:dataClass } = await axios.get(`class/show-class?name=${idClass}`)
+        const {  data  } = await axios.post( '/course/game/active', { game_for, id_type: dataClass[0].id } )
+        if( !data ) return 
+        
+        commit('setDataDinamic', data)
+
+        return { ok: true , data}
+    } catch (error) {
+        
+        return { ok: false }
+        
+    }
+
+     
+
+
+
+}
+
+export const getDataDinamic = async ({commit}, id ) => {
+
+    try {
+        const { data } = await axios.post('/course/game', { game_id: id } )
+
+        commit('setGameData', data )
+        return {ok: true, data }
+
+
+    } catch (error) {
+        return {ok: false}
+    }
+
 }

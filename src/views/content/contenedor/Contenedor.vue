@@ -1,63 +1,53 @@
 <template>
-  <div class="content">
+  <div>
+    
     <div class="pref" v-if="mostrar">
       <div class="container">
-        <Preferencias />
-      </div>
+        <Preferencias /> 
+      </div>  
+         
     </div>
-    <div
-      class="nav-v"
-      :class="barraMenu ? 'sidebar-mobile' : 'sidebar-none'"
-      v-if="!mostrar"
-    >
-      <NavBarV @closeMenu="closeMenu"/>
-    </div>
+    
+    
 
-    <div class="content-user" v-if="!mostrar">
-      <img
-        src="@/assets/barra-menu.svg"
-        alt=""
-        class="barrita position-absolute top-0 start-0 mt-4 ml-4"
-        @click="barmenu"
-      />
+    <div  v-if="!mostrar">
+      <NavBarV />
+      <v-main app >
 
-      <NavBar />
-      <router-view class="view" 
-      :style="{ 'background-image': `url(${courseHover.url_portada}) !important` }"
-      />
-
+        <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada})`  }" />
+      </v-main>
       <img src="@/assets/ruleta.png" class="btnflo" data-toggle="modal" data-target="#ruleta" alt="">
 
-
       <!-- Modal -->
-    <div class="modal fade" id="ruleta"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-          <div class="modal-body">
-            <VueWinWheel />
+      <div class="modal fade" id="ruleta"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+          <div class="modal-content">
+            <div class="modal-body">
+              <VueWinWheel />
+            </div>
           </div>
         </div>
+    
       </div>
     </div>
-
-    </div>
+    
   </div>
 </template>
 <script>
-import NavBar from "@/components/Navbar/NavBar.vue";
 import NavBarV from "@/components/Navbar/NavBarV.vue";
 import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
 import { mapState } from 'vuex';
 import VueWinWheel from '@/components/Student/dashboard/Roulette'
 
+
 export default {
   name: "Contenedor",
   components: {
     NavBarV,
-    NavBar,
     Preferencias,
-    VueWinWheel
-  },
+    VueWinWheel,
+    
+},
   data() {
     return {
       mostrar: false,
@@ -70,9 +60,7 @@ export default {
     ...mapState('course',['courseHover'])
   },
   methods: {
-    closeMenu(){
-      this.barraMenu = false;
-    },
+    
     barmenu() {
       this.barraMenu = !this.barraMenu;
     },
@@ -100,8 +88,9 @@ export default {
   overflow-y: scroll;
   background-repeat: none;
   background-size: 100% 100%;
-  backdrop-filter: blur(10px);
   transition: 0.5s;
+  backdrop-filter: blur(10px);
+  height: 100vh;
 }
 
 .view::-webkit-scrollbar {
@@ -122,60 +111,41 @@ export default {
   z-index: 9999;
   background: var(--bg-content);
 }
-.nav-v {
-  display: flex;
-  width: 200px;
-  height: 100%;
-  background: rgb(53,66,74);
-background: radial-gradient(circle, rgb(38, 46, 52) 0%, rgba(19,27,30,1) 45%);
-  transition: all 0.4s;
-  transform: translateX(0);
-}
-.sidebar-mobile {
-  @media screen and (max-width: 1023px) {
-    display: inline-block;
-    position: fixed;
-    background: rgb(53,66,74);
-background: radial-gradient(circle, rgb(38, 46, 52) 0%, rgba(19,27,30,1) 45%);
-    left: 0;
-    top: 80px;
-    width: 200px;
-    height: calc(100% - 80px);
-    transition: all 1;
-    z-index: 50;
-    opacity: 0.989;
-    -webkit-box-shadow: 4px 0px 6px 0px rgba(91,90,90,0.51);
-    -moz-box-shadow: 4px 0px 6px 0px rgba(91,90,90,0.51);
-    box-shadow: 4px 0px 6px 0px rgba(91,90,90,0.51);
-  }
-}
-.sidebar-none {
-  width: 0;
-  transition: all 0.5s;
-  transform: translateX(-250px);
-  @media screen and (max-width: 1023px) {
-    position: fixed;
-    top: 80px;
-    left: -100%;
-    transition: all 1.5s ease 0s;
-    z-index: 10;
-  }
-}
+
 .content-user {
   display: flex;
   width: 100%;
   max-height: 100%;
   flex-direction: column;
 }
-.barrita {
-  width: 25px;
-  transition: transform 1.5s;
+@media screen and(max-width: 1024px) {
+    .sidebar-mobile{
+        position: absolute;
+        z-index: 32;
+    }
+    .sidebar-none{
+        position: absolute;
+        z-index: 32;
+    }
+    .barrita{
+      visibility: visible !important;
+    }
 }
-
-.barrita:hover {
-  transform: scale(1.17);
+.barrita{
+  position: absolute;
+  top: 0;
+  margin: 1.3rem 1rem;
+  z-index: 31;
+  font-size: 25px;
+  visibility: hidden;
   cursor: pointer;
 }
-
+.background-router{
+  height: 90vh ;
+  width: 100vw ;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 </style>

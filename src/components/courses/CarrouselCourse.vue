@@ -44,7 +44,7 @@ export default {
 }
 
 .item{
-  width: 500px !important;
+  width: 335px !important;
 }
 
 main {
@@ -156,7 +156,6 @@ main {
   .item {
     width: calc((100% - ((var(--count) - 1) * var(--gap))) / var(--count));
     margin-right: var(--gap);
-    max-height: 275px;
   }
 }
 </style>

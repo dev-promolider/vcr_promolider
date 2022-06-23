@@ -19,7 +19,11 @@ export default () => ({
     progressCourseSelect: 0,
     courseSelect: false,
     allComments: [],
+    isLoadingComments: true,
     dataEx: null,
     courseHover: [],
-    examDaily: true
+    examDaily: true,
+    points: 0,
+    dinamicClass: [],
+    gameData: {}
 })
