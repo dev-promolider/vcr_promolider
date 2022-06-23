@@ -23,6 +23,7 @@
         >
           <img src="./../../assets/carrito-compra.svg" alt="" />
 
+
           Marketplace
 
         </router-link>
