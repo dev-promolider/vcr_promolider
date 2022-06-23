@@ -149,3 +149,12 @@ export const sumPoints = (state, points ) => {
 export const setComments = (state, comments) => {
     state.allComments = [ ...state.allComments, comments]
 }
+
+
+export const setDataDinamic = ( state , data) => {
+    state.dinamicClass = data
+}
+
+export const setGameData = (state, data) => {
+    state.gameData = data
+}

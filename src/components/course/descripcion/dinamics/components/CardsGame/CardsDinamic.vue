@@ -1,5 +1,6 @@
 <template>
   <div>
+      <template  v-if="!loadingCardGame">
 
       <div class="title-cards">
           Juego de Cartas
@@ -7,30 +8,45 @@
       <div class="d-flex flex-row justify-content-center py-1">
         <div class="turns p-3"><span class="btn btn-cards">Turnos : <span class="badge" :class="finish ? 'badge-cards' : 'badge-light'">{{turns}}</span> </span></div>
         <div class="totalTime p-3"><span class="btn btn-cards">Tiempo Total : <span class="badge" :class="finish ? 'badge-cards' : 'badge-light'">{{min}} : {{sec}}</span></span></div>
-    </div>
-     <div class="contenedor-cards">
-        <div  :key="index" v-for="(card, index) in memoryCards" class=" flip-container" :class="{ 'flipped': card.isFlipped, 'matched' : card.isMatched }" @click="flipCard(card)">
-                <div class="memorycard" style="position: relative">
-                            <div class="front border rounded shadow item"><i class="fas fa-question"></i></div>
-                            <div class="back rounded border item">{{card.name}}</div>
-                </div>
+      </div>
+      <div class="contenedor-cards">
+          <div  :key="index" v-for="(card, index) in memoryCards" class=" flip-container" :class="{ 'flipped': card.isFlipped, 'matched' : card.isMatched }" @click="flipCard(card)">
+                  <div class="memorycard" style="position: relative">
+                              <div class="front border rounded shadow item"><i class="fas fa-question"></i></div>
+                              <div class="back rounded border item">
+                                <img  height="100%" :src="card.img" :alt="card.alt" srcset="">
+                              </div>
+                  </div>
+          </div>
+      </div>
+      <div class="botton-start">
+                <button class="btn btn-cards mx-2" @click="_gettingStart" :disabled="isActiveReady"  >
+                    Empezar
+                </button>
+                <button class="btn btn-dark" @click="resetGame"   >
+                    Reiniciar
+                </button>
         </div>
-    </div>
-  <div class="botton-start">
-            <button class="btn btn-cards mx-2" @click="_gettingStart" :disabled="isActiveReady"  >
-                Empezar
-            </button>
-            <button class="btn btn-dark" @click="resetGame"   >
-                Reiniciar
-            </button>
-    </div>
+
+      </template>
+      <template v-else >
+                <div class="text-center mt-5" >
+                    <v-progress-circular indeterminate color="success" size="52">
+
+                    </v-progress-circular>
+                </div>
+      </template>
 
   </div>
+
+
+
 </template>
 
 <script>
 import Vue from 'vue';
 import _ from 'lodash'
+import { mapActions } from 'vuex';
 export default {
     data(){
         return {
@@ -45,6 +61,8 @@ export default {
                 minutes: 0,
                 seconds: 0,
             },
+            loadingCardGame: true,
+            data: {}
         }
     },
     computed:{
@@ -61,8 +79,8 @@ export default {
             return this.totalTime.minutes;
         }
     },
-    created(){
-        this.createCards(  )
+    async created(){
+        await this.createCards(  )
         /*Settear en el arreglo cartas las variables voltear y igualdad de cartas en estado false*/
         this.cards.forEach((card) => {
             Vue.set(card,'isFlipped',false);
@@ -74,13 +92,24 @@ export default {
     },
 
     methods:{
+        ...mapActions('course', ['getDataDinamic']),
         /*Crear cartas*/
-        createCards(){
+        async createCards(){
+          const {ok , data} = await this.getDataDinamic( +this.$route.params.id)
+          
+          if(!ok) return
 
-            let numeroCartas = 5 
+            this.data = data 
+
+            let numeroCartas = this.data.detail.length  
+              
+            let detailGame = this.data.detail
+
             for (let i = 0; i < numeroCartas; i++) {
-                this.cards.push( { name : i + 1, id: i} )
+              this.cards.push( { img: detailGame[i].img, alt: detailGame[i].name,id: i} )
             }
+
+            this.loadingCardGame = false
         },
         /*Voltear Carta*/
         flipCard( card ){
@@ -216,6 +245,7 @@ export default {
         background: rgb(22, 22, 22);
         color: white;
         cursor: pointer;
+        max-width: 150px;
         height: 150px;
     }
     @media (max-width: 1262px) {

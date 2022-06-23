@@ -1,5 +1,5 @@
 <template>
-  <div id="ga" class="text-center mt-4">
+  <div style="heigth: 90vh" id="ga" class="text-center mt-4">
 	  <div class="row justify-content-md-center m-2">
     <div v-if="win" class="bg-success p-2 mt-5" style="border-radius: 15px;">
       <p  style="font-size: 20px;"><strong> ¡ GANASTE ! </strong></p>
@@ -91,9 +91,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: "Ahorcado",
-
+  props:{
+  },
   data() {
     return {
       game: true,
@@ -106,24 +108,13 @@ export default {
       botones: [],
       color_botones: [],
       letras: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-      frutas: [
-        "manzana",
-        "pera",
-        "melon",
-        "cereza",
-        "ciruela",
-        "naranja",
-        "mandarina",
-        "fresa",
-        "sandia",
-        "durazno",
-      ],
+      frutas: [],
       contadorFlag: 0,
     };
   },
-
   methods: {
-    generarAleatorio: function () {
+    ...mapActions('course', ['getDataDinamic']),
+    async generarAleatorio() {
       this.game = true;
       this.win = false;
       this.lost = false;
@@ -132,6 +123,8 @@ export default {
       this.contador_errores = 0;
       this.botones = [];
       this.color_botones = [];
+      
+      await this.getGameData()
       this.aleatorio = Math.floor(Math.random() * this.frutas.length);
       //	Crea un array de la misma longitud de
       for (var i = 0; i < this.frutas[this.aleatorio].length; i++) {
@@ -174,16 +167,26 @@ export default {
           this.game = false;
         }
       } //	End If Game
-    }, //	End comparar
+    },
+    async getGameData(){
+      const { ok, data} = await this.getDataDinamic( +this.$route.params.id )
+      if(!ok) return
+      this.frutas[0] = data.detail.word.toLowerCase()
+    }
+   
   },
   computed: {
     palabra_generada: function () {
       return this.frutas[this.aleatorio];
-    }, //	End palabra_generada
+    }, //	End palab//	End comparar
   }, //	End computed
   created: function () {
     this.generarAleatorio();
   },
+  mounted(){
+    
+  }
+
 };
 </script>
 

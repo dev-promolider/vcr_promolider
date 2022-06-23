@@ -1,145 +1,131 @@
 <template>
-  <div class="mytabs">
-    <ul class="nav nav-tabs d-flex flex-row" id="myTab" role="tablist">
-      <li
-        class="nav-item"
-        role="presentation"
-        @click="changeTab(1)"
-        :class="{ active: isActive == 1 }"
-      >
-        <a
-          class="nav-link text-center"
-          id="home-tab"
-          data-toggle="tab"
-          href="#resumen"
-          role="tab"
-          aria-controls="home"
-          aria-selected="true"
-          >Resumen</a
-        >
-      </li>
-
-      <li
-        class="nav-item"
-        role="presentation"
-        @click="changeTab(2)"
-        :class="{ active: isActive == 2 }"
-      >
-        <a
-          class="nav-link text-center"
-          id="home-tab"
-          data-toggle="tab"
-          href="#recursos"
-          role="tab"
-          aria-controls="home"
-          aria-selected="true"
-          >Recursos</a
-        >
-      </li>
-
-      <li
-        class="nav-item"
-        role="presentation"
-        @click="changeTab(3)"
-        :class="{ active: isActive == 3 }"
-      >
-        <a
-          class="nav-link text-center"
-          id="home-tab"
-          data-toggle="tab"
-          href="#pruebas"
-          role="tab"
-          aria-controls="home"
-          aria-selected="true"
-          >Pruebas</a
-        >
-      </li>
-    </ul>
-
-    <div class="tab-content" id="myTabContent">
-      <div
-        class="tab-pane fade show active border-box"
-        id="resumen"
-        role="tabpanel"
-        aria-labelledby="home-tab"
-      >
-        <div class="mx-4 mt-4">
-          <p class="text-justify">
-            {{ lesson.description }}
-          </p>
-        </div>
-      </div>
-      <div
-        class="tab-pane fade border-box"
-        id="recursos"
-        role="tabpanel"
-        aria-labelledby="profile-tab"
-      >
-        <div class="mx-4 mt-4">
-          <div v-if="!isResources">
-            <p>Esta clase no tiene recursos ...</p>
-          </div>
-
-          <div v-else>
-            <ul class="list-group list-group-flush">
-              <li
-                class="list-group-item "
-                v-for="(resource, index) in resources"
-                :key="index"
+      <div >
+     <template>
+          <v-card class="elevation-0">
+              <v-tabs
+                  v-model="tab"
+                  background-color="cyan"
+                  dark
+                  centered
+                  flat
               >
-                Recurso {{ index + 1 }}.
-                <a class=" text-decoration-none text-success" disabled>
-                  <i class="fas fa-download "></i>
-                  {{ getNameResource(resource.resource_file) }}
-                </a>
-
-                <a href="#modal" class="open"
-                  ><button
-                    class="btn btn-success"
-                    @click="preView(resource)"
+                <v-tab
+                    v-for="item in items"
+                    :key="item.tab"
                   >
-                    Ver Archivo
-                  </button></a>
-              </li>
-              <div class="modal" id="modal">
-      <a href="#" class="modal-bg"></a>
-      <div class="modal-content">
-        <a href="#" class="modal-exit">x</a>
-        <div class="row m-5 justify-content-sm-center">
-          
-          <div>
-            
-            <iframe :src="picture" class="pdf"> </iframe>
-            
-              <button class="btn btn-success " id="button">DESCARGAR</button>
-            
-            <div v-if="this.carga" class="cargando">
-            <div class="spinner-border"></div>
-          </div>
-          </div>
-        </div>
-      </div>
-    </div>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tab-pane fade border-box"
-        id="pruebas"
-        role="tabpanel"
-        aria-labelledby="home-tab"
-      >
-        <div class="mt-4" v-if="dataEx.data === 'No existe el examen'">
-          <p>Esta lección no tiene ninguna prueba.</p><br><p>Continua la siguiente lección.</p>
-        </div>
-        <div class="mx-4 mt-4" v-else>
-          <p class="text-justify">
-            <button @click="Testing" class="test">Realizar prueba</button>
-          </p>
-        </div>
-      </div>
-    </div>
+                    {{ item.tab }}
+                </v-tab>
+             </v-tabs>
+
+             <v-tabs-items v-model="tab">
+                <v-tab-item
+                  v-for="item in items"
+                  :key="item.tab"
+                >
+                  <v-card flat v-if="item.tab === 'Resumen'">
+                          <v-card-text   class="h6 text-justify text--primary">
+                            {{ lesson.description }}
+                         </v-card-text>
+                  </v-card>
+                  <v-card flat v-if="item.tab === 'Recursos'">
+                       <template v-if="!isResources">
+                         <v-card-text class="h6 text-center text--primary">
+                            Esta clase no tiene recursos ...
+                         </v-card-text>
+                      </template>
+                      <div v-else>
+                            <ul class="list-group list-group-flush">
+                              <li
+                                class="list-group-item "
+                                v-for="(resource, index) in resources"
+                                :key="index"
+                              >
+                                Recurso {{ index + 1 }}.
+                                <a class=" text-decoration-none text-success" disabled>
+                                  <i class="fas fa-download "></i>
+                                  {{ getNameResource(resource.resource_file) }}
+                                </a>
+
+                                <a href="#modal" class="open"
+                                        ><button
+                                          class="btn btn-success"
+                                          @click="preView(resource)"
+                                        >
+                                          Ver Archivo
+                                        </button></a>
+                                        </li>
+                                        <div class="modal" id="modal">
+                                          <a href="#" class="modal-bg"></a>
+                                          <div class="modal-content">
+                                            <a href="#" class="modal-exit">x</a>
+                                            <div class="row m-5 justify-content-sm-center">
+                                              <div>
+                                                <iframe :src="picture" class="pdf"> </iframe>
+                                                  <button class="btn btn-success " id="button">DESCARGAR</button>
+                                                <div v-if="carga" class="cargando">
+                                                <div class="spinner-border"></div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                   </div>
+                                </div>
+                            </ul>
+                      </div>
+                  </v-card>
+                    <!-- 
+                      <v-card flat v-if="item.tab === 'Exámen'">
+                      <div class="mt-4" v-if="dataEx.data === 'No existe el examen'">
+                        <p>Esta lección no tiene ninguna prueba.</p><br><p>Continua la siguiente lección.</p>
+                      </div>
+                      <div class="mx-4 mt-4" v-else>
+                        <p class="text-justify">
+                          <button @click="Testing" class="test">Realizar prueba</button>
+                        </p>
+                      </div>
+                    </v-card> 
+                    -->
+                  <v-card flat v-if="item.tab === 'Dinámicas'" class="p-3">
+
+                     <template v-if="!isLoadingDinamic">
+                      <div class="text-center">
+                        <v-progress-circular indeterminate color="success" >
+
+                        </v-progress-circular>
+                      </div>
+                     </template>
+
+                    <template v-if="isLoadingDinamic">
+
+                      <template v-if="stateDinamic">
+                    
+
+                              <v-btn class="mx-2" color="success" @click="goToDinamics( dinamic )" v-for="(dinamic  , index ) in idDinamicGame" :key="index">
+                                  <v-icon left >
+                                    mdi-gamepad-variant
+                                  </v-icon>
+                                  <div v-if="dinamic === 1">
+                                      Ahorcado
+                                  </div>
+                                  <div v-if="dinamic === 2">
+                                      Juego de Cartas
+                                  </div>
+                              </v-btn>
+                      
+                     
+                      </template>
+                    </template>
+                     <template v-if="!stateDinamic && isLoadingDinamic">
+                        <v-card-text class="text-center h6 text--primary" >
+                            No hay dinámicas por ahora.
+                        </v-card-text>
+                    </template>
+                   
+                  </v-card> 
+                </v-tab-item>
+             </v-tabs-items>
+        </v-card>
+    </template>
+  
 
     
   </div>
@@ -155,16 +141,33 @@ export default {
       isActive: 1,
       open: false,
       picture: null,
-      carga: null,
+      carga: null, 
+      model: 'tab-2',
+      text: 'Lorem ipsum dolor sit amet',
+      tab: null,
+      items: [
+        {tab: 'Resumen'},
+        {tab: 'Recursos'},
+        {tab: 'Exámen'},
+        {tab: 'Dinámicas'}
+      ],
+      stateDinamic: true,
+      idDinamicGame: [],
+      isLoadingDinamic: false,
     };
   },
   computed: {
     ...mapState("course", ["lesson", "resources", "isResources", "dataEx"]),
+    queryDinamic(){
+      return this.$route.query.class
+    }
   },
   methods: {
     ...mapActions("course", {
       getResources: "getResources",
       getTest: "getTest",
+      getLesson: "getLesson",
+      getActiveDinamicClass: "getActiveDinamicClass"
     }),
 
     changeTab(el) {
@@ -203,13 +206,47 @@ export default {
       let filenameWithExtension = filepath.replace(/^.*[\\/]/, "");
       return filenameWithExtension;
     },
+    async getActiveDinamics(){
+      try {
 
+        this.isLoadingDinamic = false 
+        const dataSend = {
+          idClass: this.$route.query.class,
+          game_for: 'class'
+        }
+  
+        let { data } = await this.getActiveDinamicClass( dataSend )
+        if(  data.length === 0 ) {
+            this.stateDinamic = false
+            this.isLoadingDinamic = true
+            this.idDinamicGame = []
+        }else {
+          this.idDinamicGame = data
+          this.isLoadingDinamic = true
+          this.stateDinamic = true
+        }
+        
+      } catch (error) {
+         throw new Error( error )
+      }
+    },
+    goToDinamics( id ){
+       this.$router.push({name: 'dinamic', params: {id}, query: {c: this.$route.query.class, t:'class' }})
+    }
+
+  },
+  watch:{
+    async queryDinamic(){
+      this.getActiveDinamics()
+    }
   },
   created() {
     this.getResources(this.$route.query.class);
-    
   },
-  updated() {},
+  mounted() {
+    this.isLoadingDinamic = true
+    this.getActiveDinamics()
+  },
 };
 </script>
 
