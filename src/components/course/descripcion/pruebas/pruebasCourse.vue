@@ -119,7 +119,7 @@
                   class="input-opciones"
                   :checked="checked"
                   @click="selectOption"
-                  :value="i === 0 ? true : false"
+                  :value="i"
                   v-model="form[index].option"
                 />
                 <label :for="q" class="opciones"> {{ q }} </label>
