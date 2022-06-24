@@ -5,8 +5,9 @@ cardType(el tipo de card que se desea).
 -->
 
 <template>
-    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)"   :style="`max-width: ${width}%; height: ${height}px`">
-        <div
+    <div v-if="course" class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)"   :style="`max-width: ${width}%; height: ${height}px`">
+      
+        <div 
               :class="[{'btn-play':cardType == 3},'image']"
               :style="{ background: `url(${course.url_portada})`}"
         ></div>
@@ -151,6 +152,7 @@ export default {
   background-size: cover !important;
   background-repeat: no-repeat !important;
   cursor: pointer;
+  height: 100%;
 }
 
 .content {
