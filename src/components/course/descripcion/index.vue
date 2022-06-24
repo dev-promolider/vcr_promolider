@@ -72,18 +72,22 @@
                             </ul>
                       </div>
                   </v-card>
-                    <!-- 
+                    
                       <v-card flat v-if="item.tab === 'Exámen'">
-                      <div class="mt-4" v-if="dataEx.data === 'No existe el examen'">
-                        <p>Esta lección no tiene ninguna prueba.</p><br><p>Continua la siguiente lección.</p>
-                      </div>
-                      <div class="mx-4 mt-4" v-else>
-                        <p class="text-justify">
-                          <button @click="Testing" class="test">Realizar prueba</button>
-                        </p>
-                      </div>
+                   
+
+                            <div class="mt-4" v-if="dataEx.data === 'No existe el examen'">
+                              <p>Esta lección no tiene ninguna prueba.</p><br><p>Continua la siguiente lección.</p>
+                            </div>
+                            <div class="mx-4 mt-4" v-else>
+                              <p class="text-justify">
+                                <button @click="Testing" class="test">Realizar prueba</button>
+                              </p>
+                            </div>
+                     
+                      
                     </v-card> 
-                    -->
+                   
                   <v-card flat v-if="item.tab === 'Dinámicas'" class="p-3">
 
                      <template v-if="!isLoadingDinamic">
@@ -240,12 +244,13 @@ export default {
       this.getActiveDinamics()
     }
   },
-  created() {
+ created() {
+    this.getTest({exam_type: "class",id_type: this.lesson.id, })  
     this.getResources(this.$route.query.class);
   },
   mounted() {
     this.isLoadingDinamic = true
-    this.getActiveDinamics()
+    this.getActiveDinamics()  
   },
 };
 </script>
