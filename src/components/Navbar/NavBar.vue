@@ -58,10 +58,10 @@
              </v-btn>
               
              <v-chip
+                v-if="!$vuetify.breakpoint.xs && points"
                 color="#20282ed1"
                 text-color="white"
                 style="font-size: 15px"
-                v-if="points"
               >
                <v-icon left >
                   mdi-trophy-award
@@ -88,6 +88,51 @@
                       </div>
                     </v-progress-circular>
             </v-btn>
+
+
+          <!--Modal Certificate-->
+
+
+            <v-dialog
+              v-if="stateCertificate"
+              v-model="dialogCertificate"
+              max-width="290"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-school</v-icon>
+                  </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="text-h5">
+                  Reclamar Certificado
+                </v-card-title>
+                <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="dialogCertificate = false"
+                  >
+                    Cancelar
+                  </v-btn>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="dialogCertificate = false"
+                  >
+                    Aceptar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
+
 
             <!--Notificaciones -->
             <v-menu
@@ -172,6 +217,17 @@
               </template>
 
               <v-list>
+                <v-list-item class="mb-0 pl-2"  style="min-height: 35px" v-if="$vuetify.breakpoint.xs"  >
+                  <v-list-item-icon class="m-1 ml-0 pl-0">
+                    <v-icon>
+                      mdi-trophy-award
+                    </v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title >
+                    {{points}} Pts
+                  </v-list-item-title>
+                </v-list-item>
+                
                 <v-list-item
                   v-for="( link, index ) in links"
                   :key="index"
@@ -183,6 +239,11 @@
                 </v-list-item>
               </v-list>
             </v-menu>
+            
+      
+
+
+
         </v-app-bar>
 
         <!-- Modal -->
@@ -195,6 +256,8 @@
               </div>
             </div>
           </div>
+
+          <!--SearchCourse sheet-->
         <v-bottom-sheet
             fullscreen
             v-model="sheet"
@@ -235,6 +298,10 @@
           </div>
           </v-sheet>
         </v-bottom-sheet>
+
+        
+
+
   </div>
   
 </template>
@@ -255,6 +322,8 @@ export default {
         tooltip: false,
         isBadgeActive: false,
         drawer: false,
+        dialogCertificate: false,
+        stateCertificate: false,
          links: [
         { nombre: 'Mi perfil', nameRouter: 'perfil' },
         { nombre: 'Mis preferencias', nameRouter: 'option-preferences' },
@@ -266,7 +335,10 @@ export default {
       }
     },
     computed:{
-        mini: {
+       idCourse(){
+         return this.$route.query.course
+       },
+       mini: {
           get(){
             return !this.$vuetify.breakpoint.xs ? true : false
           },
@@ -302,6 +374,7 @@ export default {
       },
       onSearchCourse(){
          if( !this.search)return
+           this.sheet = !this.sheet
            this.$router.push({name: 'search' , query: { q : this.search}}).catch(() => {})
         
       },
@@ -334,20 +407,55 @@ export default {
          }
          this.items = noti
       },
+      async getCertificate( course ){
+        try {
+           if( !course && this.$route.name != 'curso'  ) {
+              this.stateCertificate = false
+              return
+           }
+           
+            const { data }  = await this.axios.get(`/course/certificate/check/${course}`)
+            if( data ){
+              this.stateCertificate = data
+            }else{
+              this.stateCertificate = false
+            }
+            
+          } catch (error) {
+            throw new Error( error )
+          }
+      },
+      // async printCertificate( course_id ){
+      //   try {
+          
+      //    await this.axios.get('/course/certificate/', { course_id })
+      //   } catch (error) {
+      //     throw new Error( error )
+      //   }
+      // }
 
     },
     
     mounted(){
       this.showToolTip();
-      this.getpoints()
+      this.getpoints();
     },
     created(){
+     // this.printCertificate( this.$route.query.course )
       this.getNotifications()
+      this.getCertificate( this.$route.query.course )
     },
     watch:{
       search(  ){
           //console.log(value);
+      },
+      idCourse(){
+        this.getCertificate( this.$route.query.course )
       }
+    },
+    beforRouteUpdate( to, from, next ){
+      this.getCertificate(to.query.course)
+      next()
     }
 }
 </script>
