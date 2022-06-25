@@ -212,28 +212,48 @@ export default {
                         }
                       ]
                 })
-            }  , onApprove:  (data, actions) => {
+            }, 
+            onApprove: (data, actions) => {
 
                   const id = this.id_course 
                   const axios = this.axios 
                   this.paidFor = true
 
-                  return actions.order.capture().then(function(orderData) {
+                   return  axios.post('/cart/buy-course',  { id_course: id } ).then( function (  ){
+                        
+                        
+                        return actions.order.capture().then(function() {
 
-                  const transaction = orderData.purchase_units[0].payments.captures[0];
-                  
+                        });
 
-                  if( transaction.status === 'COMPLETED'){
-                    return axios.post('/cart/buy-course',  { id_course: id } )
-                  }
-              });
+
+                  }).catch((err) => {
+                    console.log(err);
+                  })
+
+                
               
             },
+            onError: function ( err ) {
+                throw new Error( err )
+            }
       })
       .render(this.$refs.paypal)
+     },
+     async isCourseBougth( id_course ){
+       if(!id_course) return
+
+       const { data } = await this.axios("course/purchased-courses")
+       const isPurchased =  data.data.find(( e ) => e.id == id_course )
+
+          if(!isPurchased) return 
+            this.$router.push({name: 'home'})
+          
+
      }
   },
   created(){
+    this.isCourseBougth( this.$route.params.ide )
     this.getDatosCourse();
   },
   mounted(){
