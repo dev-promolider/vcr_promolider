@@ -1,5 +1,5 @@
 <template>
-  <main class="mb-4" :class="lastCourses.length > 0 ? 'main-content':'main-none'">
+  <main class="mb-4" v-if="lastCourses.length > 0" :class="lastCourses.length > 0 ? 'main-content':'main-none'">
     <h4 class="font-weight-bold mb-4">
       {{ nameUser }}, continua aprendiendo:
     </h4>

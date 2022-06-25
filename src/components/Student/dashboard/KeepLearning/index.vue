@@ -51,19 +51,31 @@ export default {
   },
   methods: {
     async getAttributes() {
-        const resp = await this.axios.get("course/last-courses-rep")
+      let lastCourse;
+      const resp = await this.axios.get("course/last-courses-rep")
 
          if( resp.data.status === 200){
-            this.isWelcomeActive = true
+           this.isWelcomeActive = true
            if(Object.keys(resp.data.data).length > 0){
-             this.isLoadingCourses = false 
-             this.isWelcomeActive = false
-             this.lastCourses = this.filterCourseInactive(resp.data.data);
+              this.isLoadingCourses = false 
+
+              this.isWelcomeActive = false
+
+              lastCourse = this.filterCourseInactive(resp.data.data);
+
+              const { data } = await this.axios.get(`purchased/show-class-seen?course_id=${lastCourse.id}`)
+
+              const { name } = data.data
+              if(!name) lastCourse.last_class_reprod = ''
+
+              lastCourse.last_class_reprod = name
+
+              this.lastCourses = lastCourse
            }
         }
 
 
-        
+
     },
     filterCourseInactive(data) {
       var courseFilter = data.filter((course) => {
