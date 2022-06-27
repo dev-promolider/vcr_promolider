@@ -46,6 +46,7 @@
                 background-color="transparent"
                 v-model="selectedPais"
                 :items="states"
+                item-text="state"
                 label="Select"
                 hide-details
                 prepend-icon="mdi-earth"
@@ -66,6 +67,7 @@
             <div >
               <div >
                 <b-form-group v-slot="{ ariaDescribedby }" >
+                 
                   <b-form-radio
                   style="padding: 15px 50px"
                     v-model="selectedPago"
@@ -73,25 +75,7 @@
                     name="some-radios"
                     value="A"
                     class="border bg-white"
-                  >
-                    <div class="d-flex">
-                      <div class="m-0">
-                        <img
-                          src="@/components/Buy/imagenes/tarjeta.svg"
-                          width="25"
-                          alt=""
-                        />
-                        <strong>Tarjera de crédito/débito</strong>
-                      </div>
-                    </div>
-                  </b-form-radio>
-                  <b-form-radio
-                  style="padding: 15px 50px"
-                    v-model="selectedPago"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="B"
-                    class="border bg-white"
+                    checked="true"
                   >
                     <p class="m-0">
                       <img
@@ -103,9 +87,23 @@
                     </p>
                   </b-form-radio>
                 </b-form-group>
+                 <div class="col-md-12">
+                    <p class="subt text-start my-5"><strong>Resumen del pedido</strong></p>
+                    <div class="d-flex align-items-center">
+                      <v-avatar rounded="0" class="mr-5">
+                        <v-img :src="itemCouse.url_portada">
+                        </v-img>
+                      </v-avatar>
+                      <p class="text-start flex-grow-1 text-capitalize"><strong>{{itemCouse.title}}</strong></p>
+                      <p class="">S/.{{itemCouse.price}}</p>
+                    </div>
+                  </div>
               </div>
+              
             </div>
+            
           </div>
+          
         </div>
 
         <div class="col-md-4">
@@ -119,15 +117,13 @@
             <p class="text-start flex-grow-1"><strong>Total:</strong></p>
             <p class=""><strong>S/.{{itemCouse.price}}</strong></p>
           </div>
-            <div v-show="selectedPago === 'B'">
+            <div>
                   <div  ref="paypal"  ></div>
             </div>
-            <button  v-show="selectedPago === 'A' || selectedPago === null" class="btn btn-success w-100 p-3 my-2"  ><strong>Completar pago</strong></button>
-          
-          <p class="text-start mt-1">
-            Al completar la compra, aceptas Condiciones de uso.
+          <p class="text-start mt-1 subtitle-2 text-secondary">
+            Al completar la compra, aceptas <span>Condiciones de uso.</span>
           </p>
-          <p class="text-start ">
+          <p class="text-start subtitle-2 text-secondary">
             PROMOLIDER está obligado por ley a recaudar los impuestos sobre las
             transacciones de las compras realizadas en determinadas jurisdicciones
             discales.
@@ -135,17 +131,7 @@
         </div>
       </div>
 
-      <div class="col-md-8">
-        <p class="subt text-start my-5"><strong>Resumen del pedido</strong></p>
-        <div class="d-flex align-items-center">
-          <v-avatar rounded="0" class="mr-5">
-            <v-img :src="itemCouse.url_portada">
-            </v-img>
-          </v-avatar>
-          <p class="text-start flex-grow-1"><strong>{{itemCouse.title}}</strong></p>
-          <p class="">S/.{{itemCouse.price}}</p>
-        </div>
-      </div>
+     
     </div>
   </div>
 
@@ -160,26 +146,11 @@ export default {
     return {
       id_course: this.$route.params.ide,
       itemCouse:{},
-      selectedPago: null,
+      selectedPago: 'A',
       selectedPais: 'Perú',
-      states: [
-          'Alabama', 'Alaska', 'American Samoa', 'Arizona',
-          'Arkansas', 'California', 'Colorado', 'Connecticut',
-          'Delaware', 'District of Columbia', 'Federated States of Micronesia',
-          'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho',
-          'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-          'Louisiana', 'Maine', 'Marshall Islands', 'Maryland',
-          'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-          'Missouri', 'Montana', 'Nebraska', 'Nevada',
-          'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
-          'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio',
-          'Oklahoma', 'Oregon', 'Palau', 'Perú', 'Pennsylvania', 'Puerto Rico',
-          'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
-          'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
-          'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
-        ],
-        loaded: false,
-        paidFor: false,
+      states: [],
+      loaded: false,
+      paidFor: false,
     };
   },
  
@@ -194,7 +165,7 @@ export default {
       window.paypal
           .Buttons({
               style: {
-              layout: 'horizontal',
+              layout: 'vertical',
               color:  'gold',
               shape:  'rect',
               label: 'paypal',
@@ -250,9 +221,16 @@ export default {
             this.$router.push({name: 'home'})
           
 
+     },
+     async getCountries(  ){
+        const { data } = await this.axios.get('/countries')
+        this.states = data.map(( e ) => {
+           return { state: e.name }
+        })
      }
   },
   created(){
+    this.getCountries()
     this.isCourseBougth( this.$route.params.ide )
     this.getDatosCourse();
   },
@@ -261,12 +239,13 @@ export default {
       script.src ="https://www.paypal.com/sdk/js?client-id=AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz&components=buttons"
       script.addEventListener("load", this.setLoaded)
       document.body.appendChild( script )
+      
   }
 };
 </script>
 <style scoped>
 .div-pagar {
-  padding: 3% 2% 10% 2%;
+  padding: 10px 2% 20px 2%;
   border-radius: 15px;
 }
 .subt {
@@ -284,4 +263,6 @@ export default {
 .paypal-buttons > iframe {
     z-index: 10!important;
 }
+
+
 </style>

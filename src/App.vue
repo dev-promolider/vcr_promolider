@@ -56,7 +56,9 @@ font-family: Arial;
   background-color: var(--bg-content);
   overflow: scroll;
 }
-
+.component-frame{
+  z-index: 0 !important;
+}
 /* Boton verde */
 .btn-custom{
  background: var(--bg-btn);
