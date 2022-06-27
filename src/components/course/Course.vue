@@ -4,46 +4,6 @@
     <div v-if="error" class="no-result center-element">
       <span>Lo sentimos se produjo un error</span>
     </div>
-
-    <!-- <div v-else class="content-course row row-cols-1 row-cols-md-2 g-4 m-0 p-0">
-
-      <div class="navtap-video col-7 m-0 p-0">
-
-        <div class="video w-100 h-75 my-5">
-          <div class="seccion_video w-100 h-75 row">
-            <Video v-if="renderVideo" />
-            <div v-else class="center-spinner">
-              <b-spinner
-                style="width: 3rem; height: 3rem"
-                variant="secondary"
-                label="Large Spinner"
-              ></b-spinner>
-            </div>
-          </div>
-        <div class="seccion_inferior_video w-100 row">
-            <DatosCurso />
-          </div>
-
-        </div>
-        <div class=" w-100 h-50 my-5 row">
-
-          <Descripcion class="descrip"/>
-        </div>
-
-      </div>
-
-      <div class="temario-comments col-5 m-0 p-0">
-
-        <div class="description w-75 h-50">
-          <Temario @renderVideo="renderVideo = $event" />
-        </div>
-
-        <div class="comment w-75 h-50">
-          <Comentarios />
-        </div>
-
-      </div>
-    </div> -->
      
   <div class="caja-course p-5">
   <div class="caja-video">
@@ -167,6 +127,7 @@ export default {
   gap: 20px;
 }
 .caja-video{
+  min-height: 500px;
   grid-column: 1/9;
   grid-row: 1/2;
   box-shadow: -4px 4px 5px rgb(108, 108, 108);
@@ -216,93 +177,5 @@ export default {
   }
 }
 
-/* 
-.cont {
-  height: 100%;
-  width: 100%;
-  overflow-y: scroll ;
-}
 
-
-.cont::-webkit-scrollbar{
-    display: none;
-}
-.content-course {
-  display: flex;
-  width: 100%;
-  height: calc(100vh - 80px);
-  max-height: calc(100vh - 80px);
-  padding: 11px 102px 27px 69px;
-  gap: 36px;
-}
-
-.video {
-  width: 100%;
-  height: 64%;
-}
-.seccion_video {
-  width: 100%;
-  height: 78%;
-  background: #131b1e;
-}
-.seccion_inferior_video {
-  width: 100%;
-  height: 22%;
-}
-.temario-comments {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  width: 35%;
-  height: 100%;
-}
-.description {
-  width: 100%;
-  height: 50%;
-}
-.comment {
-  width: 100%;
-  height: 50%;
-}
-
-@media (max-width:1400px){
-  .video{
-    min-height: 600px ;
-  }
-}
-
-@media (max-width:1250px){
-  .navtap-video, .temario-comments{
-    width: 100% !important;
-  }
-  .content-course{
-    flex-direction: column;
-    width: 100vw !important;
-  } 
-  .description{
-    min-height: 500px;
-    
-  } 
-}
-
-@media (max-width:1000px){
-  .descrip{
-    margin-top: 4rem !important;
-  }
-  .content-course{
-    padding: 2rem 0.5rem ;
-  }
-  .navtap-video{
-    min-height: 900px ;
-  }
-  .description{
-    margin-top: 0.5rem !important;
-  } 
-
-} */
-
-
-
-
-/*  */
 </style>
