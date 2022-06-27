@@ -37,7 +37,7 @@ cardType(el tipo de card que se desea).
               <b-avatar
                 class="mb-3 ml-2"
                 variant="info"
-                src="https://placekitten.com/200/200"
+                :src="course.portada"
               ></b-avatar>
               <p class="m-1 ml-2 ">
                 {{ course.name + " " + course.last_name }}
@@ -84,23 +84,24 @@ export default {
     }, */
 
     // Evento cuando se quita el cursor de la card para quitar el background
-    mouseleave(){
+   /*  mouseleave(){
       this.$store.commit("course/COURSE_HOVER", []);
-    },
+    }, */
     
     // Accion para la card de tipo 1
     action(id){
-      this.mouseleave()
+      /* this.mouseleave() */
       this.$router.push({name: "buy-cursos", params: { ide:id }})
     },
 
     // Accion par el tipo de card 2 y 3 que redirecciona a ver el curso 
     async goToCourse(id){
-      this.mouseleave()
+      /* this.mouseleave() */
       let dataRequest;
 
       // Verificamos la ultima clase vista del curso y el tiempo de reproduccion de dicha clase
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
+        
         dataRequest = res.data.data;
         this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
       });
@@ -110,20 +111,20 @@ export default {
         await this.axios.get('course/temary/get-all-class/' + id).then(
           (res) => {
             let fistClass = res.data.data.modules[0].lessons[0].name;
-            this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+          this.$router.push(`course-user?course=${id}&class=${fistClass}`)
           }
         )
       }else{
-        this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
+       this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
       }
     }
 
     
   },
 
-  destroyed(){
+  /* destroyed(){
     this.mouseleave()
-  }
+  } */
 
 }
 </script>

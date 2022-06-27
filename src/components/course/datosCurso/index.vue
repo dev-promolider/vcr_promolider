@@ -5,7 +5,7 @@ import { mapState } from 'vuex';
           <div class="col-8 ">
             <h4 class="font-weight-bold text-capitalize"> {{$route.query.class}} </h4>
             <div class="d-flex">
-              <img src="../../../assets/logo-perfil.png" class="rounded-circle" style="height: 46px">
+              <img :src="this.photo" class="rounded-circle" style="height: 46px">
                 <div class="d-flex flex-column ml-4" v-if="courseActive[0]">
                   <span class="font-weight-bold text-uppercase">{{courseActive[0].title}}</span>
                   {{ getNameProductor(courseActive[0].user_id) }}
@@ -39,7 +39,8 @@ export default {
       endClass: false,
       firstClass: false,
       cuenta: localStorage.getItem("id_account_type"),
-      nombre: ''
+      nombre: '',
+      photo:null,
     };
   },
   computed: {
@@ -77,6 +78,7 @@ export default {
     getNameProductor(id){
       this.axios.get(`user/show?id=${id}`).then((res)=>{
         this.nombre = `${res.data.name} ${res.data.last_name}`;
+        this.photo=res.data.photo
       })
     },
 
