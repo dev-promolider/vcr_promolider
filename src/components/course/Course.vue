@@ -72,7 +72,8 @@ export default {
       getVideo: "getVideo",
       lastSeenLesson: "lastSeenLesson",
       getComments: "getComments",
-      getCourseActive:"getCourseActive"
+      getCourseActive:"getCourseActive",
+      getTest: "getTest",
     }),
 
     ...mapMutations("course", ["GET_PROGRESS","DESTROY_PROGRESS","CLEAR_ALL_DATA"]),
@@ -85,6 +86,7 @@ export default {
           this.getLesson(res.data[0]);
           this.getVideo(res.data[0].id);
           this.getComments(res.data[0].id)
+          this.getTest({exam_type: "class",id_type: res.data[0].id, }) 
         });
     },
 
@@ -94,6 +96,7 @@ export default {
     this.activeLesson();
     this.GET_PROGRESS();
     this.getCourseActive(this.$route.query.course);
+    
   },
   beforeMount() {
 
