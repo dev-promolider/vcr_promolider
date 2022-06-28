@@ -125,6 +125,7 @@ export const GET_COMMENTS = (state, allComments) => {
 
 // Lenamos datos del examen de la clase activa
 export const DATA_EX = (state, dataEx) => {
+    if(!dataEx)return
     state.dataEx = dataEx
 }
 
