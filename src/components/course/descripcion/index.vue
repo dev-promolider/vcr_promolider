@@ -75,6 +75,7 @@
                     
                       <v-card flat v-if="item.tab === 'Exámen'">
                    
+                          <div v-if="dataEx">
 
                             <div class="mt-4" v-if="dataEx.data === 'No existe el examen'">
                               <p>Esta lección no tiene ninguna prueba.</p><br><p>Continua la siguiente lección.</p>
@@ -84,6 +85,7 @@
                                 <button @click="Testing" class="test">Realizar prueba</button>
                               </p>
                             </div>
+                          </div>
                      
                       
                     </v-card> 
