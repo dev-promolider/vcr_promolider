@@ -4,7 +4,7 @@
           <v-card class="elevation-0">
               <v-tabs
                   v-model="tab"
-                  background-color="cyan"
+                  background-color="success"
                   dark
                   centered
                   flat
