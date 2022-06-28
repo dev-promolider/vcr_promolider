@@ -169,7 +169,7 @@ export default {
   methods: {
     ...mapActions("course", {
       getResources: "getResources",
-      getTest: "getTest",
+      /* getTest: "getTest", */
       getLesson: "getLesson",
       getActiveDinamicClass: "getActiveDinamicClass"
     }),
@@ -245,7 +245,7 @@ export default {
     }
   },
  created() {
-    this.getTest({exam_type: "class",id_type: this.lesson.id, })  
+     
     this.getResources(this.$route.query.class);
   },
   mounted() {
