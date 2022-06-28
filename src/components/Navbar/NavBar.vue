@@ -258,7 +258,7 @@
           </div>
 
           <!--SearchCourse sheet-->
-        <v-bottom-sheet
+       <!--  <v-bottom-sheet
             fullscreen
             v-model="sheet"
             height="100vh"
@@ -297,10 +297,7 @@
               </v-icon>
           </div>
           </v-sheet>
-        </v-bottom-sheet>
-
-        
-
+        </v-bottom-sheet> -->
 
   </div>
   
