@@ -96,7 +96,7 @@
             <v-dialog
               v-if="stateCertificate"
               v-model="dialogCertificate"
-              max-width="290"
+              max-width="950"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -107,11 +107,9 @@
                     <v-icon>mdi-school</v-icon>
                   </v-btn>
               </template>
-              <v-card>
-                <v-card-title class="text-h5">
-                  Reclamar Certificado
-                </v-card-title>
-                <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+              <v-card class="pt-5">
+               
+                <v-card-text v-html="certificate"></v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn
@@ -326,9 +324,8 @@ export default {
         { nombre: 'Mis preferencias', nameRouter: 'option-preferences' },
         { nombre: 'Cerrar Sesión', nameRouter: 'Login' , action: 'closeSesion' },
        ],
-        items: [
-        
-        ],
+        items: [],
+        certificate: null
       }
     },
     computed:{
@@ -412,7 +409,12 @@ export default {
            }
            
             const { data }  = await this.axios.get(`/course/certificate/check/${course}`)
+           
             if( data ){
+              const { data }= await this.axios.get(`/course/certificate/${course}`)
+
+              const { certificate } = data[0]
+              this.certificate = certificate
               this.stateCertificate = data
             }else{
               this.stateCertificate = false
