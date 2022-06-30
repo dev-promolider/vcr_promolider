@@ -16,7 +16,7 @@
           v-if="mostrar"
           class="caja-texto"
           :class="[
-            this.respExam.message.toLowerCase() === 'aprobado'
+            this.respExam.message === 'aprobado'
               ? 'success-texto'
               : 'danger-texto',
           ]"
@@ -28,7 +28,7 @@
             <div>
               <i
                 :class="[
-                  this.respExam.message.toLowerCase() === 'aprobado'
+                  this.respExam.message === 'aprobado'
                     ? 'fas fa-smile'
                     : 'fas fa-frown',
                 ]"
@@ -37,12 +37,12 @@
             </div>
             <div>
               {{
-                this.respExam.message.toLowerCase() === "aprobado"
+                this.respExam.message === "aprobado"
                   ? `¡Felicitaciones!`
                   : ""
               }}
             </div>
-            <div>Ústed ah {{ this.respExam.message.toLowerCase() }}</div>
+            <div>Ústed ah {{ this.respExam.message }}</div>
             <div>Puntos obtenidos: {{ this.respExam.points }}</div>
             <div>Score: {{ this.respExam.score }}</div>
           </div>
@@ -111,6 +111,19 @@
 
               <div
                 class="options-questions"
+                v-if="question.question_type_id == 2"
+              >
+                <input
+                  type="checkbox"
+                  :id="q"
+                  :value="i"
+                  v-model="form[index].option"
+                />
+                <label :for="q" class="opciones"> {{ q }} </label>
+              </div>
+
+              <div
+                class="options-questions"
                 v-else-if="question.question_type_id == 3"
               >
                 <input
@@ -125,27 +138,22 @@
                 <label :for="q" class="opciones"> {{ q }} </label>
               </div>
 
-              <div v-else-if="question.question_type_id == 4" class="textarea">
+
+            </div>
+              <div v-if="question.question_type_id==4" class="textarea">
                 <textarea
                   placeholder="Responda aquí..."
                   maxlength="200"
                   cols="50"
                   rows="10"
                   class="opciones"
-                  v-model.trim="form[index].option"
+                  v-model="text"
                 >
                 </textarea>
+                <button class="btn btn--green-1 open" @click="sendAnswers" >
+            Enviar
+          </button>
               </div>
-              <div class="options-questions" v-else>
-                <input
-                  type="checkbox"
-                  :id="q"
-                  :value="i"
-                  v-model="form[index].option"
-                />
-                <label class="opciones" :for="q">{{ q }}</label>
-              </div>
-            </div>
           </div>
         </div>
         <div
@@ -164,8 +172,7 @@
             class="btn btn--green-1"
             @click="addStep"
             :disabled="isDisabled"
-            v-if="step !== Object.keys(questions).length"
-          >
+            v-if="step !== Object.keys(questions).length"          >
             Siguiente
           </button>
 
@@ -194,6 +201,7 @@ export default {
       mostrar: false,
       isLoadingQuestions: true,
       datos: {},
+      text:null,
     };
   },
   computed: {
@@ -213,6 +221,7 @@ export default {
     async setExam() {
       const resp_exam = await this.getExam(this.$route.params.id);
       if (resp_exam.status === 200) {
+        console.log(resp_exam.data.data.questions);
         this.datos = resp_exam.data.data.exam;
         const { questions } = resp_exam.data.data;
         this.questions = questions;
@@ -227,7 +236,7 @@ export default {
       });
     },
     addStep() {
-      if (this.form[this.step].option.length <= 0) {
+      if (this.form[this.step].option.length <= 0 ) {
         this.isDisabled = false;
         return false;
       } else {
@@ -235,13 +244,23 @@ export default {
       }
     },
     sustractStep() {
-      this.checked ? (this.isDisabled = false) : (this.isDisabled = true);
+      this.checked  ? (this.isDisabled = false) : (this.isDisabled = true);
       this.step--;
     },
     selectOption() {
+      
       this.isDisabled = false;
     },
+    enviarText(){if (this.text!= null) {
+      this.form.push({ option: [this.text] })
+    }},
+
     sendAnswers() {
+      this.enviarText()
+      console.log(this.exam_id)
+      console.log(this.form)
+      console.log(this.course_active[0].id)
+
       if (this.form.length < this.options.length) {
         return false;
       } else {
