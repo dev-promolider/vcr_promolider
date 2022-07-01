@@ -45,6 +45,8 @@ export default {
 
 .item{
   width: 335px !important;
+  
+  padding:15px
 }
 
 main {

@@ -5,7 +5,7 @@
     </h4>
     <vue-horizontal class="horizontal"
       >.
-      <section class="mr-3" v-for="course in lastCourses" :key="course.id">
+      <section class="m-3" v-for="course in lastCourses" :key="course.id">
         <Card :course="course" :cardType="3" />
       </section>
     </vue-horizontal>
