@@ -2,7 +2,7 @@
   <div>  
    
 
-         <v-app-bar   app elevation="0" height="70px" color="#60d950"  >
+         <v-app-bar   app elevation="7" height="50px" color="#1ae800"  >
            <v-app-bar-nav-icon @click="changeDrawer" v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" ></v-app-bar-nav-icon>
            <v-spacer></v-spacer>
             <div class="mx-2" style="min-width: 25%" v-if="!$vuetify.breakpoint.xs">

@@ -1,18 +1,18 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid pt-3">
         <!-- obtener los datos totales de cursos, ventas, tipo de plan, afiliacion -->
-      <div class="container mt-5">
+      <div class="container my-5" style="box-shadow: 1px 1px 8px #131b1e; border-radius: 15px;">
         <DataPrimaryUser />
       </div >
         <!-- //importe atributos para verificar datos del api -->
         <!-- <Attribute /> -->
         <!-- Coleccion de mensajes para el productor -->
-      <div class="container mt-5">
-        <div class="row row-end ">
-          <div class="col-12 col-md-6">
+      <div class="container pt-5">
+        <div class="row row-end d-flex align-items-center justify-content-between">
+          <div class="col-12 col-md-5" style="box-shadow: 1px 1px 8px #131b1e; border-radius: 15px;">
             <MessengerColletion />
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-5 " style="box-shadow: 1px 1px 8px #131b1e; border-radius: 15px;">
             <ClienteVenta />
           </div>
         </div>

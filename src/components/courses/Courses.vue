@@ -1,7 +1,7 @@
 <template>
-<div class="container-fluid my-5">
-<div class="row ">
-  <div class="col-md-8 col-sm-12 ">
+<div class="container-fluid my-5 ">
+<div class="row my-5">
+  <div class="col-md-9 col-sm-12 ">
       <div v-if="notCourses" class="no-result center-element d-flex">
         <span>Lo sentimos, aún no hay cursos disponibles.</span>
       </div>
@@ -34,7 +34,7 @@
   
     
   </div>
-  <div class="col-md-4 col-sm-12 d-flex align-items-center justify-content-center ">
+  <div class="col-md-3 col-sm-12 mt-5 d-flex align-items-start justify-content-center ">
     <img class="img-curso" src="@/assets/curso-p.png" alt="" >
   </div>
 </div>

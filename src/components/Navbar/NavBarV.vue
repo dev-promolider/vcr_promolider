@@ -7,7 +7,8 @@
               :permanent="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
               :expand-on-hover="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
               :mini-variant="mini"
-              class="color-drawer rounded-0"
+              class="color-drawer"
+              style="box-shadow: 1px 1px 15px 1px #35424a;"
             >
               <v-list>
                 <v-list-item class="px-2" link :to="{name: 'perfil'}" >
@@ -16,10 +17,10 @@
                     </v-list-item-avatar>
                     <v-list-item >
                     <v-list-item-content>
-                      <v-list-item-title class="text-white">
+                      <v-list-item-title style="color:#131b1e">
                          {{name}}
                         </v-list-item-title>
-                        <v-list-item-subtitle class="text-white">{{email}}</v-list-item-subtitle>
+                        <v-list-item-subtitle style="color:#131b1e">{{email}}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                 </v-list-item>
@@ -30,9 +31,9 @@
                 >
                   <v-list-item  link  v-for="(link, index ) in listNavBar" :key="index" :to="{name: link.path}"   >
                     <v-list-item-icon class="mr-3" >
-                      <v-icon class="text-white" >{{`mdi-${link.icon}`}}</v-icon>
+                      <v-icon class="text-#131b1e" >{{`mdi-${link.icon}`}}</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title style="font-size: 15px"   class="text-white" >{{link.nombre}}</v-list-item-title>
+                    <v-list-item-title style="font-size: 15px"   class="text-#131b1e" >{{link.nombre}}</v-list-item-title>
                   </v-list-item>
                 </v-list>
 
@@ -41,18 +42,18 @@
                     <div >
                       <v-list nav dense>
                           <v-list-item href="https://promolider.org/sistema/index.html" target="_blank" >
-                            <v-list-item-icon style="margin-right: 5px" class="px-1">
-                              <img width="18px"  src="@/assets/icon-promolider.png" alt="promolider">
+                            <v-list-item-icon style="margin-right: 5px" class="px-0">
+                              <img src="@/assets/icon-promolider.png" alt="promolider" style="background: #131b1e;padding:3px; border-radius: 50%; width: 150%; height: 100%;">
                             </v-list-item-icon>
                             <v-list-item-title >
-                                <h3 style="color:white; letter-spacing: 3.5px; padding-top: 3px">Promolíder</h3>
+                                <h4 style="color:#131b1e; letter-spacing: 3.5px; padding-top: 4px">Promolíder</h4>
                             </v-list-item-title>
                           </v-list-item>
-                        <v-list-item link  :to="{ name: 'preguntas-frecuentes'}" style="color:white; font-size: 18px" class="text-decoration-none">
+                        <v-list-item link  :to="{ name: 'preguntas-frecuentes'}" style="color:#131b1e; font-size: 18px" class="text-decoration-none">
                             <v-list-item-icon style="margin-right: 5px">
-                              <v-icon  class="text-white">mdi-help</v-icon>
+                              <v-icon  class="" style="color:#131b1e;">mdi-help</v-icon>
                             </v-list-item-icon>
-                            <v-list-item-title style="color:white; font-size: 14px; letter-spacing: 1.3px;" >Preguntas Frecuentes</v-list-item-title>
+                            <v-list-item-title style="color:#131b1e; font-size: 14px; letter-spacing: 1.3px;" >Preguntas Frecuentes</v-list-item-title>
                         </v-list-item>
                       </v-list>
                     </div>
@@ -115,8 +116,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .color-drawer{
-   background: rgb(53,66,74);
-   background: radial-gradient(circle, rgb(38, 46, 52) 0%, rgba(19,27,30,1) 45%);
+   background: #1ae800 !important;
 }
 a:hover{
   text-decoration: none;

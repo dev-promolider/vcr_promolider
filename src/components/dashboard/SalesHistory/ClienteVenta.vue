@@ -105,14 +105,15 @@ export default {
   margin: auto;
 }
 .cliente .color {
-  background: #35424a;
+  background: #1ae800;
   margin-bottom: 13px;
   height: 64px;
   cursor: pointer;
+  box-shadow: 1px 2px 8px #131b1e;
 }
 
 .cliente .color:hover {
-  background: #131b1e;
+  background: #16b201;
 }
 
 .marco {
@@ -130,7 +131,7 @@ export default {
 .titulos .titulo_dentro {
   
   margin-left: 32px;
-  margin-top: 42px;
+  margin-top: 25px;
   font-weight: 300;
   font-size: 15px;
   text-align: center;
@@ -142,7 +143,7 @@ export default {
   
   width: 180px;
   float: right;
-  margin-top: 37px;
+  margin-top: 20px;
   font-size: 15px;
   margin-right: 15px;
   color: #1ae800;

@@ -23,6 +23,8 @@ export default {
 <!-- Definiendo estilos globales -->
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+
 
 /* Paleta de colores */
 :root{
@@ -46,8 +48,7 @@ export default {
 
 *{
 
-font-family: Arial;
-
+font-family: 'Bree Serif', serif;
 }
 
 #app{
