@@ -187,14 +187,12 @@ export default {
             try {
                 this.isLoadingSearchCourse = false
                 const { data:courses } = await this.axios.get(`/course/search-courses/${this.querySearch}`)
-                console.log(courses);
                 if(courses.length === 0){
                     this.message = `Lo sentimos, no hemos encontrado resultados para "${this.querySearch}"`
                     this.isLoadingSearchCourse = true
                     this.stateCoursesSearch = true
                     this.courses = []
                 }else{
-                    console.log(courses);
                     this.message = `${courses.length} resultados para “${ this.querySearch }”`
                     this.courses = courses
                     this.isLoadingSearchCourse = true
