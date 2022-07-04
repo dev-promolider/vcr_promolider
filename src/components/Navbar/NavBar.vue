@@ -256,7 +256,7 @@
           </div>
 
           <!--SearchCourse sheet-->
-       <!--  <v-bottom-sheet
+        <v-bottom-sheet
             fullscreen
             v-model="sheet"
             height="100vh"
@@ -295,7 +295,7 @@
               </v-icon>
           </div>
           </v-sheet>
-        </v-bottom-sheet> -->
+        </v-bottom-sheet>
 
   </div>
   
@@ -368,7 +368,7 @@ export default {
       },
       onSearchCourse(){
          if( !this.search)return
-           this.sheet = !this.sheet
+           this.sheet = false
            this.$router.push({name: 'search' , query: { q : this.search}}).catch(() => {})
         
       },

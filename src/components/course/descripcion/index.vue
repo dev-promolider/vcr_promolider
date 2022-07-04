@@ -115,6 +115,9 @@
                                   <div v-if="dinamic === 2">
                                       Juego de Cartas
                                   </div>
+                                  <div v-else>
+                                     
+                                  </div>
                               </v-btn>
                       
                      
