@@ -132,14 +132,11 @@ export default {
 <style scoped>
 
 .card {
-  /* background: linear-gradient(to right, rgba(15, 32, 39, 0.609), rgba(32, 58, 67, 0.609), rgba(44, 83, 100, 0.609));  */
-  
   border: 1px solid #e2e8f0;
   height: 100%;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  box-shadow: 1px 1px 8px #131b1e;
   transition:  0.5s; 
   max-width: 300px;
   min-width: 300px;
