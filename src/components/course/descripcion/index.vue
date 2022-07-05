@@ -1,139 +1,129 @@
 <template>
-      <div >
-     <template>
-          <v-card class="elevation-0">
-              <v-tabs
-                  v-model="tab"
-                  background-color="success"
-                  dark
-                  centered
-                  flat
-              >
-                <v-tab
-                    v-for="item in items"
-                    :key="item.tab"
+  <div>
+    <template>
+      <v-card class="elevation-0">
+        <v-tabs v-model="tab" background-color="success" dark centered flat>
+          <v-tab v-for="item in items" :key="item.tab">
+            {{ item.tab }}
+          </v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="tab">
+          <v-tab-item v-for="item in items" :key="item.tab">
+            <v-card flat v-if="item.tab === 'Resumen'">
+              <v-card-text class="h6 text-justify">
+                {{ lesson.description }}
+              </v-card-text>
+            </v-card>
+            <v-card flat v-if="item.tab === 'Recursos'">
+              <template v-if="!isResources">
+                <v-card-text class="h6 text-center">
+                  Ningún recurso disponible
+                </v-card-text>
+              </template>
+              <div v-else>
+                <ul class="list-group list-group-flush">
+                  <li
+                    class="list-group-item"
+                    v-for="(resource, index) in resources"
+                    :key="index"
                   >
-                    {{ item.tab }}
-                </v-tab>
-             </v-tabs>
-
-             <v-tabs-items v-model="tab">
-                <v-tab-item
-                  v-for="item in items"
-                  :key="item.tab"
-                >
-                  <v-card flat v-if="item.tab === 'Resumen'">
-                          <v-card-text   class="h6 text-justify text--primary">
-                            {{ lesson.description }}
-                         </v-card-text>
-                  </v-card>
-                  <v-card flat v-if="item.tab === 'Recursos'">
-                       <template v-if="!isResources">
-                         <v-card-text class="h6 text-center text--primary">
-                            Esta clase no tiene recursos ...
-                         </v-card-text>
-                      </template>
-                      <div v-else>
-                            <ul class="list-group list-group-flush">
-                              <li
-                                class="list-group-item "
-                                v-for="(resource, index) in resources"
-                                :key="index"
-                              >
-                                Recurso {{ index + 1 }}.
-                                <a class=" text-decoration-none text-success" disabled>
-                                  <i class="fas fa-download "></i>
-                                  {{ getNameResource(resource.resource_file) }}
-                                </a>
-
-                                <a href="#modal" class="open"
-                                        ><button
-                                          class="btn btn-success"
-                                          @click="preView(resource)"
-                                        >
-                                          Ver Archivo
-                                        </button></a>
-                                        </li>
-                                        <div class="modal" id="modal">
-                                          <a href="#" class="modal-bg"></a>
-                                          <div class="modal-content">
-                                            <a href="#" class="modal-exit">x</a>
-                                            <div class="row m-5 justify-content-sm-center">
-                                              <div>
-                                                <iframe :src="picture" class="pdf"> </iframe>
-                                                  <button class="btn btn-success " id="button">DESCARGAR</button>
-                                                <div v-if="carga" class="cargando">
-                                                <div class="spinner-border"></div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                   </div>
-                                </div>
-                            </ul>
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        {{ index + 1 }})
+                        <a
+                          style="font-size: 0.8em; text-decoration: none"
+                          disabled
+                        >
+                          <i class="fas fa-download"></i>
+                          {{ getNameResource(resource.resource_file) }}
+                        </a>
                       </div>
-                  </v-card>
-                    
-                      <v-card flat v-if="item.tab === 'Exámen'">
-                   
-                          <div v-if="dataEx">
+                      <div>
+                        <a href="#modal" class="open"
+                          ><button
+                            class="btn btn-primary btn-sm"
+                            @click="preView(resource)"
+                          >
+                            Ver Archivo
+                          </button></a
+                        >
+                      </div>
+                    </div>
+                  </li>
 
-                            <div class="mt-4" v-if="dataEx.data === 'No existe el examen'">
-                              <p>Esta lección no tiene ninguna prueba.</p><br><p>Continua la siguiente lección.</p>
-                            </div>
-                            <div class="mx-4 mt-4" v-else>
-                              <p class="text-justify">
-                                <button @click="Testing" class="test">Realizar prueba</button>
-                              </p>
-                            </div>
+                  <div class="modal" id="modal">
+                    <a href="#" class="modal-bg"></a>
+                    <div class="modal-content">
+                      <a href="#" class="modal-exit">x</a>
+                      <div class="row m-5 text-center">
+                        <div style="max-width: 100px">
+                          <iframe :src="picture" class="pdf"> </iframe>
+                          <button class="btn btn-primary" id="button">
+                            DESCARGAR
+                          </button>
+                          <div v-if="carga" class="cargando">
+                            <div class="spinner-border"></div>
                           </div>
-                     
-                      
-                    </v-card> 
-                   
-                  <v-card flat v-if="item.tab === 'Dinámicas'" class="p-3">
-
-                     <template v-if="!isLoadingDinamic">
-                      <div class="text-center">
-                        <v-progress-circular indeterminate color="success" >
-
-                        </v-progress-circular>
+                        </div>
                       </div>
-                     </template>
+                    </div>
+                  </div>
+                </ul>
+              </div>
+            </v-card>
 
-                    <template v-if="isLoadingDinamic">
+            <v-card flat v-if="item.tab === 'Exámen'">
+              <div v-if="dataEx">
+                <div
+                  class="mt-4 text-center"
+                  v-if="dataEx.data === 'No existe el examen'"
+                >
+                  Ningún examen disponible
+                </div>
+                <div class="mx-4 mt-4" v-else>
+                  <p class="text-justify">
+                    <button @click="Testing" class="test">
+                      Realizar prueba
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </v-card>
 
-                      <template v-if="stateDinamic">
-                    
+            <v-card flat v-if="item.tab === 'Dinámicas'" class="p-3">
+              <template v-if="!isLoadingDinamic">
+                <div class="text-center">
+                  <v-progress-circular indeterminate color="success">
+                  </v-progress-circular>
+                </div>
+              </template>
 
-                              <v-btn class="mx-2" color="success" @click="goToDinamics( dinamic )" v-for="(dinamic  , index ) in idDinamicGame" :key="index">
-                                  <v-icon left >
-                                    mdi-gamepad-variant
-                                  </v-icon>
-                                  <div v-if="dinamic === 1">
-                                      Ahorcado
-                                  </div>
-                                  <div v-if="dinamic === 2">
-                                      Juego de Cartas
-                                  </div>
-                              </v-btn>
-                      
-                     
-                      </template>
-                    </template>
-                     <template v-if="!stateDinamic && isLoadingDinamic">
-                        <v-card-text class="text-center h6 text--primary" >
-                            No hay dinámicas por ahora.
-                        </v-card-text>
-                    </template>
-                   
-                  </v-card> 
-                </v-tab-item>
-             </v-tabs-items>
-        </v-card>
+              <template v-if="isLoadingDinamic">
+                <template v-if="stateDinamic">
+                  <v-btn
+                    class="mx-2"
+                    color="success"
+                    @click="goToDinamics(dinamic)"
+                    v-for="(dinamic, index) in idDinamicGame"
+                    :key="index"
+                  >
+                    <v-icon left> mdi-gamepad-variant </v-icon>
+                    <div v-if="dinamic === 1">Ahorcado</div>
+                    <div v-if="dinamic === 2">Juego de Cartas</div>
+                  </v-btn>
+                </template>
+              </template>
+              <template v-if="!stateDinamic && isLoadingDinamic">
+                <v-card-text class="text-center h6">
+                  Ninguna dinámica disponible
+                </v-card-text>
+              </template>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-card>
     </template>
-  
-
-    
   </div>
 </template>
 
@@ -147,15 +137,15 @@ export default {
       isActive: 1,
       open: false,
       picture: null,
-      carga: null, 
-      model: 'tab-2',
-      text: 'Lorem ipsum dolor sit amet',
+      carga: null,
+      model: "tab-2",
+      text: "Lorem ipsum dolor sit amet",
       tab: null,
       items: [
-        {tab: 'Resumen'},
-        {tab: 'Recursos'},
-        {tab: 'Exámen'},
-        {tab: 'Dinámicas'}
+        { tab: "Resumen" },
+        { tab: "Recursos" },
+        { tab: "Exámen" },
+        { tab: "Dinámicas" },
       ],
       stateDinamic: true,
       idDinamicGame: [],
@@ -164,16 +154,16 @@ export default {
   },
   computed: {
     ...mapState("course", ["lesson", "resources", "isResources", "dataEx"]),
-    queryDinamic(){
-      return this.$route.query.class
-    }
+    queryDinamic() {
+      return this.$route.query.class;
+    },
   },
   methods: {
     ...mapActions("course", {
       getResources: "getResources",
       /* getTest: "getTest", */
       getLesson: "getLesson",
-      getActiveDinamicClass: "getActiveDinamicClass"
+      getActiveDinamicClass: "getActiveDinamicClass",
     }),
 
     changeTab(el) {
@@ -212,47 +202,47 @@ export default {
       let filenameWithExtension = filepath.replace(/^.*[\\/]/, "");
       return filenameWithExtension;
     },
-    async getActiveDinamics(){
+    async getActiveDinamics() {
       try {
-
-        this.isLoadingDinamic = false 
+        this.isLoadingDinamic = false;
         const dataSend = {
           idClass: this.$route.query.class,
-          game_for: 'class'
+          game_for: "class",
+        };
+
+        let { data } = await this.getActiveDinamicClass(dataSend);
+        if (data.length === 0) {
+          this.stateDinamic = false;
+          this.isLoadingDinamic = true;
+          this.idDinamicGame = [];
+        } else {
+          this.idDinamicGame = data;
+          this.isLoadingDinamic = true;
+          this.stateDinamic = true;
         }
-  
-        let { data } = await this.getActiveDinamicClass( dataSend )
-        if(  data.length === 0 ) {
-            this.stateDinamic = false
-            this.isLoadingDinamic = true
-            this.idDinamicGame = []
-        }else {
-          this.idDinamicGame = data
-          this.isLoadingDinamic = true
-          this.stateDinamic = true
-        }
-        
       } catch (error) {
-         throw new Error( error )
+        throw new Error(error);
       }
     },
-    goToDinamics( id ){
-       this.$router.push({name: 'dinamic', params: {id}, query: {c: this.$route.query.class, t:'class' }})
-    }
-
+    goToDinamics(id) {
+      this.$router.push({
+        name: "dinamic",
+        params: { id },
+        query: { c: this.$route.query.class, t: "class" },
+      });
+    },
   },
-  watch:{
-    async queryDinamic(){
-      this.getActiveDinamics()
-    }
+  watch: {
+    async queryDinamic() {
+      this.getActiveDinamics();
+    },
   },
- created() {
-     
+  created() {
     this.getResources(this.$route.query.class);
   },
   mounted() {
-    this.isLoadingDinamic = true
-    this.getActiveDinamics()  
+    this.isLoadingDinamic = true;
+    this.getActiveDinamics();
   },
 };
 </script>
@@ -385,7 +375,6 @@ export default {
   text-decoration: none;
 }
 
-
 /* Modal container*/
 .modal {
   visibility: hidden;
@@ -454,17 +443,13 @@ export default {
   right: 2%;
   font-size: 1.5rem;
   text-decoration: none;
-  color: #d20000;
-  background: #198754;
+  color: #000000;
   padding: 0 15px 0 15px;
-  border-radius: 5px;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
 .pdf {
   width: 70vw;
   height: 100%;
-  border-radius: 15px;
 }
 
 .cargando {
@@ -478,7 +463,7 @@ export default {
   height: 100vh;
   border-radius: 15px;
 }
-.spinner-border{
+.spinner-border {
   margin: 20% 0 0 -20%;
 }
 </style>

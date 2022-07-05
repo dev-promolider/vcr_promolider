@@ -1,44 +1,42 @@
 <template>
-<div class="container-fluid my-5 ">
-<div class="row my-5">
-  <div class="col-md-9 col-sm-12 ">
-      <div v-if="notCourses" class="no-result center-element d-flex">
-        <span>Lo sentimos, aún no hay cursos disponibles.</span>
-      </div>
-      <div class=" mt-5" v-if="loading">
-        <loadingCourses />
-      </div>
+  <div class="container-fluid my-5">
+    <div class="row my-5">
+      <div class="col-md-12 col-sm-12">
+        <div v-if="notCourses" class="no-result center-element d-flex">
+          <span>Lo sentimos, aún no hay cursos disponibles.</span>
+        </div>
+        <div class="mt-5" v-if="loading">
+          <loadingCourses />
+        </div>
         <!-- Últimos cursos -->
         <!-- Cursos recien lanzados -->
         <div class="mb-4" v-if="relatedCourses.length > 0">
           <h3 class="m-0 font-weight-bold">Más recientes</h3>
           <CarrouselCourse :courses="relatedCourses" />
         </div>
-        
+
         <!-- Todos los cursos -->
         <div class="mb-4" v-if="courses.length > 0">
           <h3 class="m-0 font-weight-bold">Todos los cursos</h3>
           <CarrouselCourse :courses="courses" />
         </div>
-  
+
         <!-- Cursos de interes -->
         <div class="mb-4" v-if="interesCourses.length > 0">
           <h3 class="m-0 font-weight-bold">Cursos de interés</h3>
           <CarrouselCourse :courses="interesCourses" />
         </div>
         <!-- Continuar aprendiendo -->
-  
+
         <div v-if="this.coursView > 0">
-          <CarrouselCourseViewed v-if="!loading"/>
+          <CarrouselCourseViewed v-if="!loading" />
         </div>
-  
-    
-  </div>
-  <div class="col-md-3 col-sm-12 mt-5 d-flex align-items-start justify-content-center ">
+      </div>
+      <!-- <div class="col-md-3 col-sm-12 mt-5 d-flex align-items-start justify-content-center ">
     <img class="img-curso" src="@/assets/curso-p.png" alt="" >
+  </div> -->
+    </div>
   </div>
-</div>
-</div>
 </template>
 
 <script>
@@ -55,7 +53,6 @@ export default {
   data() {
     return {
       //nameUser: localStorage.getItem("name_user"),
-
       cuenta: localStorage.getItem("id_account_type") /* hice esto */,
       informacion: [],
       lord: true,
@@ -77,7 +74,7 @@ export default {
       prueba: [],
       notCourses: false,
 
-      coursView:null,
+      coursView: null,
     };
   },
 
@@ -150,14 +147,13 @@ export default {
       });
     },
 
-    mostrarAprendiendo(){
-        let datos = null
-        this.axios.get('course/last-courses-rep')
-        .then((res) =>{
-          datos = res.data.data;
-          this.coursView = datos.length
-        })
-      },
+    mostrarAprendiendo() {
+      let datos = null;
+      this.axios.get("course/last-courses-rep").then((res) => {
+        datos = res.data.data;
+        this.coursView = datos.length;
+      });
+    },
   },
   created() {
     this.getAttributes();
@@ -167,18 +163,13 @@ export default {
 </script>
 
 <style scoped>
-
-main{
+main {
   padding: 12px 0.5px !important;
 }
-.row{
+.row {
   height: 100%;
 }
-/* links
-https://www.tiktok.com/@rubentuestaok/video/7057606896286502149 
-https://www.tiktok.com/@_ismaelsanchez18/video/7059826752171969798
-*/
-.all-course{
+.all-course {
   padding-left: 20px;
 }
 .container-fluid {
@@ -197,23 +188,20 @@ h3 {
   font-size: 25px;
   margin-bottom: 15px;
 }
-.pl-10{
+.pl-10 {
   padding-left: 20px;
 }
-.img-curso{
- 
+.img-curso {
   width: 100%;
 }
-@media screen and (min-width: 1200px){
-  .img-curso{
- 
-  width: 80%;
+@media screen and (min-width: 1200px) {
+  .img-curso {
+    width: 80%;
+  }
 }
-}
-@media screen and (max-width: 768px){
-  .img-curso{
- 
-  width: 80%;
-}
+@media screen and (max-width: 768px) {
+  .img-curso {
+    width: 80%;
+  }
 }
 </style>
