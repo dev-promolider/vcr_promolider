@@ -1,19 +1,20 @@
 <template>
   <div class="content-student">
-      <div class="section-main">
-          <KeepLearning/>
-          <Successes/>
-      </div>
+          <div class="section-main" >
+              <KeepLearning/>
+              <Successes/>
+          </div>
       
+         <div :class="[ this.$vuetify.breakpoint.xs  ?  'm-3' : 'm-5']" >
+            <div v-if="this.coursView > 0" >
+              <CarrouselCourseViewed />
+            </div>
           
-          <div v-if="this.coursView > 0" class="m-5">
-          <CarrouselCourseViewed />
-        </div>
-        
-          <div  :class="[ this.$vuetify.breakpoint.xs  ?  'm-1' : 'm-5']">
-          <h4 class="mx-1"><strong>Cursos recomendados:</strong></h4>
-          <RecommendedCourse/>  
-         </div>
+            <div>
+              <h4 ><strong>Cursos recomendados:</strong></h4>
+              <RecommendedCourse/>  
+          </div>
+        </div> 
   </div>
 </template>
 
@@ -74,6 +75,7 @@ export default {
   .section-main{
     grid-template-columns: repeat(1,1fr);
     padding: 30px 20px;
+    gap: 20px;
   }
 }
 </style>

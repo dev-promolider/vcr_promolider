@@ -1,13 +1,9 @@
-const getTitulo = ()=> {
-    
-    return new Promise ( resolve => {
-
+const getTitulo = () => {
+    return new Promise(resolve => {
         const titulo = "Inicio";
-
-        setTimeout(()=>{
+        setTimeout(() => {
             resolve(titulo);
         }, 3000)
-
     })
-}   
+}
 export default getTitulo;

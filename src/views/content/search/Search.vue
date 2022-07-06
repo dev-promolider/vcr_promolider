@@ -95,9 +95,9 @@
                                         v-model="course.ranking_by_user"
                                         ></v-rating>
                                     </div>
-                                    <div class="d-flex">
+                                    <!-- <div class="d-flex">
                                         <div class="text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]" >79 horas totales - 800 clases - Principante </div>
-                                    </div>
+                                    </div> -->
                                     <div class="text-start d-flex"  v-if="$vuetify.breakpoint.xs">
                                         <div class="font-weight-bold mr-1 " :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">S/.{{course.price}}</div>
                                         <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div>
@@ -106,8 +106,8 @@
                             </v-col>
                             <v-col sm="mr-auto" cols="2" v-if="!$vuetify.breakpoint.xs">
                                 <div class="ma-2 text-end">
-                                    <div class="font-weight-bold" :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">S/.{{course.price}}</div>
-                                    <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div>
+                                    <div class="font-weight-bold" :class="[$vuetify.breakpoint.xs && 'text-mobile' ]">{{course.price === 0 ? 'GRATIS' : `S/.${course.price}` }}</div>
+                                    <!-- <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div> -->
                                 </div>
                             </v-col>
                         </v-row>

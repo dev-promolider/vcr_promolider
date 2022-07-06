@@ -13,6 +13,7 @@ import router from './router'
 import store from './store'
 import vuetify from '../src/plugins/vuetify'
 import '@mdi/font/css/materialdesignicons.css'
+import VueSocialSharing from 'vue-social-sharing'
 
 Vue.config.productionTip = false
 
@@ -26,11 +27,14 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
+
 // Vue Use Nodes
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(VueHorizontal)
 Vue.use(Vuetify)
+
+Vue.use(VueSocialSharing);
 Vue.use(vueTimeago, {
   name: 'Timeago', // Component name, `Timeago` by default
   locale: 'es', // Default locale

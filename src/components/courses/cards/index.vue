@@ -5,8 +5,9 @@ cardType(el tipo de card que se desea).
 -->
 
 <template>
-    <div class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)"   :style="`max-width: ${width}%; height: ${height}px`">
-        <div
+    <div v-if="course" class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)"   :style="`max-width: ${width}%; height: ${height}px`">
+      
+        <div 
               :class="[{'btn-play':cardType == 3},'image']"
               :style="{ background: `url(${course.url_portada})`}"
         ></div>
@@ -36,7 +37,7 @@ cardType(el tipo de card que se desea).
               <b-avatar
                 class="mb-3 ml-2"
                 variant="info"
-                src="https://placekitten.com/200/200"
+                :src="course.portada"
               ></b-avatar>
               <p class="m-1 ml-2 ">
                 {{ course.name + " " + course.last_name }}
@@ -83,23 +84,24 @@ export default {
     }, */
 
     // Evento cuando se quita el cursor de la card para quitar el background
-    mouseleave(){
+   /*  mouseleave(){
       this.$store.commit("course/COURSE_HOVER", []);
-    },
+    }, */
     
     // Accion para la card de tipo 1
     action(id){
-      this.mouseleave()
+      /* this.mouseleave() */
       this.$router.push({name: "buy-cursos", params: { ide:id }})
     },
 
     // Accion par el tipo de card 2 y 3 que redirecciona a ver el curso 
     async goToCourse(id){
-      this.mouseleave()
+      /* this.mouseleave() */
       let dataRequest;
 
       // Verificamos la ultima clase vista del curso y el tiempo de reproduccion de dicha clase
       await this.axios.get(`purchased/show-class-seen?course_id=${id}`).then((res)=>{
+        
         dataRequest = res.data.data;
         this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
       });
@@ -109,20 +111,20 @@ export default {
         await this.axios.get('course/temary/get-all-class/' + id).then(
           (res) => {
             let fistClass = res.data.data.modules[0].lessons[0].name;
-            this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+          this.$router.push(`course-user?course=${id}&class=${fistClass}`)
           }
         )
       }else{
-        this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
+       this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
       }
     }
 
     
   },
 
-  destroyed(){
+  /* destroyed(){
     this.mouseleave()
-  }
+  } */
 
 }
 </script>
@@ -130,14 +132,11 @@ export default {
 <style scoped>
 
 .card {
-  /* background: linear-gradient(to right, rgba(15, 32, 39, 0.609), rgba(32, 58, 67, 0.609), rgba(44, 83, 100, 0.609));  */
-  overflow: hidden;
   border: 1px solid #e2e8f0;
   height: 100%;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  box-shadow: 2px 2px 10px #131b1e, 0.144;
   transition:  0.5s; 
   max-width: 300px;
   min-width: 300px;
@@ -151,6 +150,7 @@ export default {
   background-size: cover !important;
   background-repeat: no-repeat !important;
   cursor: pointer;
+  height: 100%;
 }
 
 .content {
@@ -182,7 +182,6 @@ export default {
   margin-bottom: 8px;
   color: #6b6b6b;
   line-clamp: 2;
-  overflow: hidden;
 }
 
 .date {

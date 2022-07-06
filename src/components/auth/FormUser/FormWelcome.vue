@@ -1,6 +1,6 @@
 <template>
     <div class="welcome">
-        <img src="https://promolider.org/sistema/images/5.jpg" height="852px" width="870px">
+        <img src="@/assets/background-login.png" height="852px" width="870px">
        
         <transition name="fade" >
             <div class="welcome-text mx-5" v-if="show" >

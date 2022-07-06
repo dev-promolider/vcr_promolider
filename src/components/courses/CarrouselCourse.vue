@@ -2,7 +2,7 @@
   <main>
     <vue-horizontal class="horizontal">
       <section class="item" v-for="course in courses" :key="course.id">
-          <Card :course="course" :cardType="cardType" />
+        <Card :course="course" :cardType="cardType" />
       </section>
     </vue-horizontal>
   </main>
@@ -15,14 +15,14 @@ import Card from "@/components/courses/cards";
 export default {
   name: "CarrouselCourse",
   components: {
-    Card
+    Card,
   },
   data() {
     return {
       peeked: false,
       timeout: null,
       baseURL: "http://promolider.xyz/storage/",
-      cardType: 1
+      cardType: 1,
     };
   },
   props: {
@@ -30,12 +30,9 @@ export default {
       type: Array,
     },
   },
-  methods: {
-
-  },
+  methods: {},
 };
 </script>
-
 
 <!-- Parent CSS (Container) -->
 <style scoped>
@@ -43,8 +40,10 @@ export default {
   margin-bottom: 16px;
 }
 
-.item{
+.item {
   width: 335px !important;
+
+  padding: 15px;
 }
 
 main {
@@ -116,7 +115,6 @@ main {
   }
 }
 </style>
-
 
 <style scoped>
 @media (max-width: 767.98px) {

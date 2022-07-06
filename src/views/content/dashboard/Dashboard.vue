@@ -24,6 +24,8 @@ export default {
       this.producer = !this.producer;
     }else if(localStorage.getItem("rol_user") == 3){
       this.student = !this.student;
+    }else if( localStorage.getItem('rol_user') == 2){
+      this.student = !this.student
     }
   }
 };
