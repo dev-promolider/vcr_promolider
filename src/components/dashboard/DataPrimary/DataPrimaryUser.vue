@@ -15,14 +15,17 @@
               v-if="mostrar"
               class="font-weight-bold text-white font-number my-1"
               style="color: black !important"
-            ><strong>
-              {{ courses }}
+            >
+              <strong>
+                {{ courses }}
               </strong>
             </p>
-            <p class="text-white mar-top" style="color: black !important"><strong>Mis Cursos</strong></p>
+            <p class="text-white mar-top" style="color: black !important">
+              <strong>Mis Cursos</strong>
+            </p>
           </div>
         </div>
-        
+
         <div class="col-6 my-3">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
@@ -51,18 +54,27 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-        
+
           <p class="my-1">Mi Membresía</p>
-          <div class="font-weight-bold font-role my-1 d-flex justify-content-center" v-if="mostrar">
+          <div
+            class="font-weight-bold font-role my-1 d-flex justify-content-center"
+            v-if="mostrar"
+          >
             {{ typePlans.toUpperCase() }}
             <div class="dropright">
-              <i class="fas fa-question-circle ml-2" data-toggle="dropdown" aria-expanded="false">
+              <i
+                class="fas fa-question-circle ml-2"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
               </i>
               <div class="dropdown-menu info-membresia p-3">
-                <p class="text-light text-left">Los beneficios de tu menbresia son los siguientes: <br><br> 
-                - Acceso a todos los cursos disponibles<br>
-                - Publicacion de cursos propios<br>
-                - Gestionar tus ingresos
+                <p class="text-light text-left">
+                  Los beneficios de tu menbresia son los siguientes:
+                  <br /><br />
+                  - Acceso a todos los cursos disponibles<br />
+                  - Publicacion de cursos propios<br />
+                  - Gestionar tus ingresos
                 </p>
               </div>
             </div>
@@ -70,8 +82,6 @@
           <p class=""><i class="fas fa-infinity mr-2"></i> días restantes</p>
         </div>
 
-
-        
         <div class="four col-6 mt-2">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
@@ -92,7 +102,6 @@
   </div>
 </template>
 <script>
-// import {useDispatch} from 'vuex';
 export default {
   name: "DataPrimaryUser",
   comoponents: {},
@@ -125,19 +134,14 @@ export default {
 };
 </script>
 <style scoped>
-/* ul{
-  display: flex;
-  margin: 2%;
-  */
-
-.info-membresia{
- background: #131b1e;
- font-size: 12px;
- max-width: 300px !important;
- min-width: 200px !important;
+.info-membresia {
+  background: #131b1e;
+  font-size: 12px;
+  max-width: 300px !important;
+  min-width: 200px !important;
 }
 
-.fa-question-circle{
+.fa-question-circle {
   font-size: 20px;
   cursor: pointer;
 }
@@ -150,21 +154,17 @@ export default {
 .attributes {
   width: 100%;
   gap: 2em;
-  /* justify-content: space-between; */
   padding: 0px;
 }
 .item-attribute {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  background: rgb(253, 253, 253);
+  /* background: rgb(253, 253, 253); */
   position: relative;
   color: rgb(0, 0, 0);
-  /* width: 50%; */
   list-style: none;
-  /* padding: 1%; */
   flex-grow: 1;
-
   border: 0.5px solid rgb(236, 236, 236);
 }
 .one {
@@ -173,12 +173,6 @@ export default {
 .four {
   border-radius: 0px 25px 25px 0px;
 }
-/* .font-size-2-5{
-  font-size: 2.5rem;
-}
-.font-size-1-4{
-  font-size: 1.4rem;
-} */
 .font-number {
   font-size: 2rem;
 }

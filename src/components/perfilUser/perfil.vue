@@ -366,7 +366,6 @@ export default {
         });
     },
 
-
     userAccountType() {
       this.axios.get("dashboard/getattributes").then((r) => {
         const rs = r.data.data;
@@ -421,15 +420,14 @@ export default {
       });
     },
 
-    getCountry(){
-      this.axios.get('/countries')
-      .then((res)=>{
-        this.pais = res.data
-        this.namePais = this.pais.map((element)=>{
-          return element.name
-        })
-      })
-    }
+    getCountry() {
+      this.axios.get("/countries").then((res) => {
+        this.pais = res.data;
+        this.namePais = this.pais.map((element) => {
+          return element.name;
+        });
+      });
+    },
   },
 };
 </script>

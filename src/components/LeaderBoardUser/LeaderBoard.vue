@@ -1,36 +1,20 @@
 <template>
-  <div class="caja container my-5 " >
+  <div class="caja container" >
     <div class="tittle card m-3 w-50 position-absolute text-center border-gradient border-gradient-green" >
       <h3 class="">RANKING</h3>
     </div>
-    <div class="puntos card mt-4 border-gradient border-gradient-green p-2">
-      
-          <table class="table table-success  table-striped mt-5 text-center">
-  <thead >
-    <tr >
-      <th scope="col"> <p>#</p></th>
-      <th scope="col">  </th>
-      <th scope="col" class="">USUARIOS</th>
-      <th scope="col">PUNTAJES</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="item in datos" :key="item.id">
-      <th scope="row"><p>1</p></th>
-      <td></td>
-      <td class="td-img d-flex justify-content-around align-items-center">
-      
-      <div ><img src="@/assets/perfil-del-usuario.png" alt="" ></div>
-      <div >{{item.name}}</div>
-      </td>
-      <td>{{item.total}} Pts</td>
-    </tr>
-    
-  </tbody>
-</table> 
-          
+    <div class="puntos card mt-5 border-gradient border-gradient-green p-2">
+     
+<div class="m-sm-4">
 
-      
+  <div class="table text-center" v-for="(dato,index) in datos" :key="index">
+    <div class="tablita col-2"><p>{{index+1}}</p></div>
+    <div class="tablita col-2"><img src="@/assets/perfil-del-usuario.png" alt="" ></div>
+    <div class="tablita col-5"><p>{{dato.name}}</p></div>
+    <div class="tablita col-3"><p>{{dato.total}}</p></div>
+  </div>
+</div>
+          
     </div>
   </div>
 </template>
@@ -66,15 +50,19 @@ export default {
 
 <style lang="scss" scoped>
 .caja{
-  background: #9cdab6;
+  background: #1ae800;
   border-radius: 15px;
   backdrop-filter: blur(10px);
+  margin-top:3%;
+  margin-bottom:3%;
+  height: auto;
+  
 }
 .tittle{
     background: 
-    linear-gradient(#9cdab6, #9cdab6) 
+    linear-gradient(#1ae800, #1ae800) 
     padding-box,
-    linear-gradient(to right, #40525d, #40525d) border-box;
+    linear-gradient(to right, #35424a, #35424a) border-box;
   border-radius: 15px;
   border: 4px solid transparent;
     z-index: 1;
@@ -83,14 +71,18 @@ export default {
 }
 .puntos{
     background: 
-    linear-gradient(#9cdab6, #9cdab6) 
+    linear-gradient(#1ae800, #1ae800) 
     padding-box,
-    linear-gradient(to right,  #40525d, #40525d) border-box;
+    linear-gradient(to right,  #35424a, #35424a) border-box;
   border: 4px solid transparent;
   border-radius: 15px;
 }
 .table{
-    border-radius: 25px;
+    border-radius: 15px;
+    box-shadow:  1px 1px 5px #131b1e;
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
 p{
     font-size: 20px;
@@ -106,10 +98,6 @@ h3{
 
 img{
   width: 60px
-}
-.td-img{
-  padding:0px;
-  
 }
 
 
@@ -132,15 +120,22 @@ img{
 }
 }
 @media screen and(max-width: 560px){
+  
+  
     h3{
     font-size: 15px;
-    margin: 5px;
+    margin:0;
+    padding:0;
 }
     p{
     font-size: 12px;
+    margin:0;
+    padding:0;
 }
 img{
-  width: 20px
+  width: 30px;
+  padding: 0;
+  margin: 0;
 }
 }
 </style>

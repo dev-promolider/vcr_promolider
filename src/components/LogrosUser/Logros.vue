@@ -1,11 +1,11 @@
 <template>
   <div class="row">
     <div class="col-md-9">
-      <div class="caja-principal m-4 overflow-hidden">
+      <div class="caja-principal p-5 overflow-hidden">
         <div class="encabezado d-flex justify-content-star">
 
-          <div class="m-4 d-flex texto-logro">
-            <img src="@/assets/logo-inicial.png" alt="" class="img-logo mx-4" />
+          <div class="p-4 d-flex texto-logro">
+            <img src="@/assets/logo-inicial.png" alt="" class="img-logo px-4" />
             <small class="text-white flex"
               >Bienvenido a la seccion de Logros!!!</small
             >
@@ -107,16 +107,11 @@ p{color:#fff}
   height: 100%;
 }
 .encabezado {
-  background: rgb(0, 0, 0);
-  background: radial-gradient(
-    circle,
-    rgb(19, 98, 23) 10%,
-    rgb(21, 39, 48) 45%
-  );
+  background: #35424a;
   border-radius: 10px 10px 0px 0px;
 }
 .cuerpo {
-  background: rgb(231, 230, 230);
+  background: #1ae800;
   border-radius: 0px 0px 10px 10px;
 }
 
@@ -127,7 +122,7 @@ p{color:#fff}
   font-size: 20px;
 }
 .caja {
-  flex: 0 1 300px;
+  flex: 0 1 250px;
   box-shadow: 2px 2px 4px  rgba(255, 255, 255, 0.459);
   border-radius: 5px;
   cursor: pointer;
@@ -140,15 +135,15 @@ p{color:#fff}
 
 .cajita2 {
   border-radius: 5px;
-  background: rgb(20, 48, 62);
+  background: #35424a;
   font-size: 10px;
 }
 .img-curso {
-  width: 100%;
+  width: 80%;
 }
 @media screen and (min-width: 1200px) {
   .img-curso {
-    width: 100%;
+    width: 80%;
   }
 }
 @media screen and (max-width: 768px) {
@@ -160,7 +155,7 @@ p{color:#fff}
 .opacar{
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.836);
+  background-color: #131b1ee1;
   position: absolute;
   z-index: 1;
   top: 0;

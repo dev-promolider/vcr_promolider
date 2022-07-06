@@ -132,14 +132,11 @@ export default {
 <style scoped>
 
 .card {
-  /* background: linear-gradient(to right, rgba(15, 32, 39, 0.609), rgba(32, 58, 67, 0.609), rgba(44, 83, 100, 0.609));  */
-  overflow: hidden;
   border: 1px solid #e2e8f0;
   height: 100%;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  box-shadow: 2px 2px 10px #131b1e, 0.144;
   transition:  0.5s; 
   max-width: 300px;
   min-width: 300px;
@@ -185,7 +182,6 @@ export default {
   margin-bottom: 8px;
   color: #6b6b6b;
   line-clamp: 2;
-  overflow: hidden;
 }
 
 .date {

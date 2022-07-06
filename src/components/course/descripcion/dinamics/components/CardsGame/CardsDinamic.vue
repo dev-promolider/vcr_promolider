@@ -28,14 +28,14 @@
                             </button>
                 </div>
             </template>
-            <template v-if="isGameFinish">
-                <v-fade-transition>
-                    <v-card elevation="10" color="success" class="m-auto mt-10 text-center fade-in" width="500px">
-                        <v-icon class="ma-5" size="100" color="white" icon>mdi-check-circle-outline</v-icon>
-                        <v-card-text class="text-h3 font-weight-bold white--text">Ganaste {{ sumPoint }} puntos</v-card-text>
-                    </v-card>
-                </v-fade-transition>
-            </template>
+                <Transition name="bounce" >
+                    <template v-if="isGameFinish">
+                            <v-card elevation="10" color="success" class="m-auto mt-10 text-center fade-in" width="500px">
+                                <v-icon class="ma-5" size="100" color="white" icon>mdi-check-circle-outline</v-icon>
+                                <v-card-text class="text-h3 font-weight-bold white--text">Ganaste {{ sumPoint }} puntos</v-card-text>
+                            </v-card>
+                    </template>
+                </Transition>
         </template>
         
         <template v-else >
@@ -362,5 +362,23 @@ export default {
         -o-transform: rotateY(180deg);
         -ms-transform: rotateY(180deg);
         transform: rotateY(180deg);
+    }
+    /*************** Animation message*/
+    .bounce-enter-active {
+        animation: bounce-in 0.5s;
+    }
+    .bounce-leave-active {
+        animation: bounce-in 0.5s reverse;
+        }
+            @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.25);
+            }
+            100% {
+                transform: scale(1);
+            }
     }
 </style>
