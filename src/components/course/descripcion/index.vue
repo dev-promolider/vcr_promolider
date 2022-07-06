@@ -109,11 +109,8 @@
                                   <v-icon left >
                                     mdi-gamepad-variant
                                   </v-icon>
-                                  <div v-if="dinamic === 1">
-                                      Ahorcado
-                                  </div>
-                                  <div v-if="dinamic === 2">
-                                      Juego de Cartas
+                                  <div v-if="dinamic">
+                                      Dinamica {{index + 1 }}
                                   </div>
                                   <div v-else>
                                      
@@ -240,7 +237,7 @@ export default {
       }
     },
     goToDinamics( id ){
-       this.$router.push({name: 'dinamic', params: {id}, query: {c: this.$route.query.class, t:'class' }})
+       this.$router.push({name: 'dinamic', params: {id}, query: {c: this.$route.query.course }})
     }
 
   },

@@ -95,6 +95,10 @@ import { mapActions } from 'vuex';
 export default {
   name: "Ahorcado",
   props:{
+    datos: {
+      type: Object,
+      required: true
+    }
   },
   data() {
     return {
@@ -110,10 +114,14 @@ export default {
       letras: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
       frutas: [],
       contadorFlag: 0,
+      productor_id: 1
     };
   },
   methods: {
-    ...mapActions('course', ['getDataDinamic']),
+    ...mapActions('course', ['sendAnswersCards'] ),
+    senAnswers( value ){
+      this.sendAnswersCards( value )
+    },
     async generarAleatorio() {
       this.game = true;
       this.win = false;
@@ -124,7 +132,8 @@ export default {
       this.botones = [];
       this.color_botones = [];
       
-      await this.getGameData()
+      this.frutas[0] = this.datos.detail.word.toLowerCase()
+
       this.aleatorio = Math.floor(Math.random() * this.frutas.length);
       //	Crea un array de la misma longitud de
       for (var i = 0; i < this.frutas[this.aleatorio].length; i++) {
@@ -160,19 +169,16 @@ export default {
         if (this.contador_aciertos == this.palabra_generada.length) {
           this.win = true;
           this.game = false;
+          this.senAnswers( { data: true , productor_id: this.productor_id , game_type: 'ahorcado' } )
         }
 
         if (this.contador_errores == 5) {
           this.lost = true;
           this.game = false;
+          this.senAnswers( { data: false, productor_id: this.productor_id, game_type: 'ahorcado' } )
         }
       } //	End If Game
     },
-    async getGameData(){
-      const { ok, data} = await this.getDataDinamic( +this.$route.params.id )
-      if(!ok) return
-      this.frutas[0] = data.detail.word.toLowerCase()
-    }
    
   },
   computed: {
