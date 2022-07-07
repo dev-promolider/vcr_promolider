@@ -144,6 +144,7 @@ export const setPoints = ( state, points) => {
 }
 
 export const sumPoints = (state, points ) => {
+    state.sumPoints = points
     state.points += points
 }
 

@@ -193,7 +193,6 @@ export default {
                     this.stateCoursesSearch = true
                     this.courses = []
                 }else{
-                    console.log(courses);
                     this.message = `${courses.length} resultados para “${ this.querySearch }”`
                     this.courses = courses
                     this.isLoadingSearchCourse = true

@@ -191,7 +191,7 @@
 export default {
   name: "VirtualClassroomBuyCursos",
   
-
+  props: ['ide'],
   data() {
     return {
       inactive:false,
@@ -335,6 +335,11 @@ export default {
           this.loadingRelated=false;
         });
     },
+  },
+  watch:{
+    ide(){
+      this.getAttributes()
+    }
   },
   created() {
     // Llamamos a la funcion que trae los atributos

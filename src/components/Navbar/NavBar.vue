@@ -282,7 +282,12 @@
               </v-icon>
           </div>
           </v-sheet>
+<<<<<<< HEAD
+        </v-bottom-sheet>
+
+=======
         </v-bottom-sheet> -->
+>>>>>>> 7a042ad5d03ea2c0c23270ec15028d21e5c8f956
   </div>
 </template>
 

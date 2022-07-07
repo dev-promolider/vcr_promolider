@@ -1,41 +1,50 @@
 <template>
   <div>
       <template  v-if="!loadingCardGame">
-
-      <div class="title-cards">
-          Juego de Cartas
-      </div>
-      <div class="d-flex flex-row justify-content-center py-1">
-        <div class="turns p-3"><span class="btn btn-cards">Turnos : <span class="badge" :class="finish ? 'badge-cards' : 'badge-light'">{{turns}}</span> </span></div>
-        <div class="totalTime p-3"><span class="btn btn-cards">Tiempo Total : <span class="badge" :class="finish ? 'badge-cards' : 'badge-light'">{{min}} : {{sec}}</span></span></div>
-      </div>
-      <div class="contenedor-cards">
-          <div  :key="index" v-for="(card, index) in memoryCards" class=" flip-container" :class="{ 'flipped': card.isFlipped, 'matched' : card.isMatched }" @click="flipCard(card)">
-                  <div class="memorycard" style="position: relative">
-                              <div class="front border rounded shadow item"><i class="fas fa-question"></i></div>
-                              <div class="back rounded border item">
-                                <img  height="100%" :src="card.img" :alt="card.alt" srcset="">
-                              </div>
-                  </div>
-          </div>
-      </div>
-      <div class="botton-start">
-                <button class="btn btn-cards mx-2" @click="_gettingStart" :disabled="isActiveReady"  >
-                    Empezar
-                </button>
-                <button class="btn btn-dark" @click="resetGame"   >
-                    Reiniciar
-                </button>
-        </div>
-
-      </template>
-      <template v-else >
-                <div class="text-center mt-5" >
-                    <v-progress-circular indeterminate color="success" size="52">
-
-                    </v-progress-circular>
+            <template v-if="!isGameFinish">
+                <div class="title-cards">
+                    Juego de Cartas
                 </div>
-      </template>
+                <div class="d-flex flex-row justify-content-center py-1">
+                    <div class="turns p-3"><span class="btn btn-cards">Turnos : <span class="badge" :class="finish ? 'badge-cards' : 'badge-light'">{{turns}}</span> </span></div>
+                    <div class="totalTime p-3"><span class="btn btn-cards">Tiempo Total : <span class="badge" :class="finish ? 'badge-cards' : 'badge-light'">{{min}} : {{sec}}</span></span></div>
+                </div>
+                <div class="contenedor-cards">
+                    <div  :key="index" v-for="(card, index) in memoryCards" class=" flip-container" :class="{ 'flipped': card.isFlipped, 'matched' : card.isMatched }" @click="flipCard(card)">
+                            <div class="memorycard" style="position: relative">
+                                        <div class="front border rounded shadow item"><i class="fas fa-question"></i></div>
+                                        <div class="back rounded border item">
+                                            <img width="130px"  height="100%" :src="card.img" :alt="card.alt" srcset="">
+                                        </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="botton-start">
+                            <button class="btn btn-cards mx-2" @click="_gettingStart" :disabled="isActiveReady"  >
+                                Empezar
+                            </button>
+                            <button class="btn btn-dark" @click="resetGame"   >
+                                Reiniciar
+                            </button>
+                </div>
+            </template>
+                <Transition name="bounce" >
+                    <template v-if="isGameFinish">
+                            <v-card elevation="10" color="success" class="m-auto mt-10 text-center fade-in" width="500px">
+                                <v-icon class="ma-5" size="100" color="white" icon>mdi-check-circle-outline</v-icon>
+                                <v-card-text class="text-h3 font-weight-bold white--text">Ganaste {{ sumPoint }} puntos</v-card-text>
+                            </v-card>
+                    </template>
+                </Transition>
+        </template>
+        
+        <template v-else >
+                    <div class="text-center mt-5" >
+                        <v-progress-circular indeterminate color="success" size="52">
+
+                        </v-progress-circular>
+                    </div>
+        </template>
 
   </div>
 
@@ -46,11 +55,12 @@
 <script>
 import Vue from 'vue';
 import _ from 'lodash'
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
     data(){
         return {
             cards: [],
+            isGameFinish: false,
             isActiveReady: false,
             gettingStart: false,
             memoryCards:[],
@@ -62,10 +72,16 @@ export default {
                 seconds: 0,
             },
             loadingCardGame: true,
-            data: {}
+            data: {},
+            productor_id: null
         }
     },
     computed:{
+        ...mapState('course', ['sumPoints']),
+        sumPoint(){
+            return this.sumPoints
+        },
+
         sec(){
             if(this.totalTime.seconds < 10){
                 return '0'+this.totalTime.seconds;
@@ -89,10 +105,16 @@ export default {
 
         /*Clonar y combinar cartas*/ 
        this.memoryCards = _.shuffle(this.memoryCards.concat(_.cloneDeep(this.cards), _.cloneDeep(this.cards)));
+
+       this.getActiveCourse(  )
     },
 
     methods:{
-        ...mapActions('course', ['getDataDinamic']),
+        ...mapActions('course', ['getDataDinamic', 'sendAnswersCards', 'getCourseActive']),
+        async getActiveCourse(){
+           const {data} = await this.getCourseActive(this.$route.query.c)
+           this.productor_id =  data[0].user_id
+        },
         /*Crear cartas*/
         async createCards(){
           const {ok , data} = await this.getDataDinamic( +this.$route.params.id)
@@ -106,9 +128,8 @@ export default {
             let detailGame = this.data.detail
 
             for (let i = 0; i < numeroCartas; i++) {
-              this.cards.push( { img: detailGame[i].img, alt: detailGame[i].name,id: i} )
+              this.cards.push( { img: detailGame[i].img, alt: detailGame[i].name, name: i} )
             }
-
             this.loadingCardGame = false
         },
         /*Voltear Carta*/
@@ -146,7 +167,8 @@ export default {
                         if(this.memoryCards.every(card => card.isMatched === true)){
                             this.finish = true;
                             clearInterval(this.interval);
-                            console.log( { tiempo: this.totalTime, turnos: this.turns});
+                            this.sendAnswersCards( { tiempo: this.totalTime , game_type:  'cartas', productor_id : this.productor_id } ) 
+                            this.isGameFinish = true
                             this.totalTime =  {minutes: 0,seconds: 0}
                             this.turns = 0
                         }
@@ -204,6 +226,9 @@ export default {
                 }, 600);
             
         },
+        sendAnswers( value ){
+            this.sendAnswersData( value )
+        }
     }
 }
 </script>
@@ -337,5 +362,23 @@ export default {
         -o-transform: rotateY(180deg);
         -ms-transform: rotateY(180deg);
         transform: rotateY(180deg);
+    }
+    /*************** Animation message*/
+    .bounce-enter-active {
+        animation: bounce-in 0.5s;
+    }
+    .bounce-leave-active {
+        animation: bounce-in 0.5s reverse;
+        }
+            @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.25);
+            }
+            100% {
+                transform: scale(1);
+            }
     }
 </style>

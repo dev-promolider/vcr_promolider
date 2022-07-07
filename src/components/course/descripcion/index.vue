@@ -101,17 +101,17 @@
 
               <template v-if="isLoadingDinamic">
                 <template v-if="stateDinamic">
-                  <v-btn
-                    class="mx-2"
-                    color="success"
-                    @click="goToDinamics(dinamic)"
-                    v-for="(dinamic, index) in idDinamicGame"
-                    :key="index"
-                  >
-                    <v-icon left> mdi-gamepad-variant </v-icon>
-                    <div v-if="dinamic === 1">Ahorcado</div>
-                    <div v-if="dinamic === 2">Juego de Cartas</div>
-                  </v-btn>
+                   <v-btn class="mx-2" color="success" @click="goToDinamics( dinamic )" v-for="(dinamic  , index ) in idDinamicGame" :key="index">
+                                  <v-icon left >
+                                    mdi-gamepad-variant
+                                  </v-icon>
+                                  <div v-if="dinamic">
+                                      Dinamica {{index + 1 }}
+                                  </div>
+                                  <div v-else>
+                                     
+                                  </div>
+                              </v-btn>
                 </template>
               </template>
               <template v-if="!stateDinamic && isLoadingDinamic">
@@ -224,13 +224,10 @@ export default {
         throw new Error(error);
       }
     },
-    goToDinamics(id) {
-      this.$router.push({
-        name: "dinamic",
-        params: { id },
-        query: { c: this.$route.query.class, t: "class" },
-      });
-    },
+    goToDinamics( id ){
+       this.$router.push({name: 'dinamic', params: {id}, query: {c: this.$route.query.course }})
+    }
+
   },
   watch: {
     async queryDinamic() {
