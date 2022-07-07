@@ -24,6 +24,7 @@ export default () => ({
     courseHover: [],
     examDaily: true,
     points: 0,
+    sumPoints: 0,
     dinamicClass: [],
     gameData: {}
 })

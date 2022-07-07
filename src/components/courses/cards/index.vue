@@ -91,7 +91,7 @@ export default {
     // Accion para la card de tipo 1
     action(id){
       /* this.mouseleave() */
-      this.$router.push({name: "buy-cursos", params: { ide:id }})
+      this.$router.push({name: "buy-cursos", params: { ide:id }}).catch(()=>{})
     },
 
     // Accion par el tipo de card 2 y 3 que redirecciona a ver el curso 
@@ -111,11 +111,11 @@ export default {
         await this.axios.get('course/temary/get-all-class/' + id).then(
           (res) => {
             let fistClass = res.data.data.modules[0].lessons[0].name;
-          this.$router.push(`course-user?course=${id}&class=${fistClass}`)
+          this.$router.push(`course-user?course=${id}&class=${fistClass}`).catch(() => {})
           }
         )
       }else{
-       this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`)
+       this.$router.push(`course-user?course=${id}&class=${dataRequest.name}`).catch(() => {})
       }
     }
 

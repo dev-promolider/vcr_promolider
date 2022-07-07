@@ -42,7 +42,7 @@ const routes = [
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
       { path: '/perfil', name: 'perfil', component: Perfil },
       { path: '/option-preferences', name: 'option-preferences', component: optionPreference },
-      { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos },
+      { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos, props:  true  },
       { path: '/suscription-user', name: 'suscription-user', component: Suscription },
       { path: '/certificado-user', name: 'certificado-user', component: Certificado },
       { path: '/detalle-certificado', name: 'detalle-certificado', component: detalleCertificado },
