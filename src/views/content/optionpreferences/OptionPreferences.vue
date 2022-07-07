@@ -86,16 +86,16 @@ export default {
             } )
             
             if(this.list.length >=3){
-                if(array_delete.length != 0){
-                    this.toRegister(array_delete, "delete");
-                }
+                this.isLoading = false
                 if(array_save.length != 0){
                     this.toRegister(array_save, "save");
+                }
+                if(array_delete.length != 0){
+                    this.toRegister(array_delete, "delete");
                 }
                 if(array_delete.length == 0 && array_save.length == 0){
                     this.makeToast( 'success', 'No se ha realizado ningún cambio' )
                 }
-                this.setPreferencesList();
                 
             }else{
                 this.makeToast( 'danger' , 'Debe seleccionar como mínimo 3 categorías')
@@ -112,9 +112,10 @@ export default {
 
             if( resp.status === 200){
                 this.makeToast( 'success', 'Categorías '+text+' correctamente' )
-
+                this.setPreferencesList();
             }else{
                 this.makeToast( 'danger', 'Error al intentar registrar los cambios' )
+                this.setPreferencesList();
             }               
 
         }, 
@@ -141,8 +142,10 @@ export default {
                 this.list = [];
                 this.list_init = [];             
                 for (let i = 0; i< data.length; i++) {
-                  this.list.push(data[i].categories_id)
-                  this.list_init.push(data[i].categories_id)                   
+                    if(!this.list.includes(data[i].categories_id)){
+                        this.list.push(data[i].categories_id)
+                        this.list_init.push(data[i].categories_id)  
+                    }                 
                 }
                 this.preferences = this.setSelected( this.preferences )
                 this.isLoading = true
