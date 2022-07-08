@@ -34,11 +34,7 @@ cardType(el tipo de card que se desea).
             </div>
            
             <div class="d-flex mt-2" v-if="cardType == 2">
-              <b-avatar
-                class="mb-3 ml-2"
-                variant="info"
-                :src="course.portada"
-              ></b-avatar>
+              <img :src="course.photo" class="rounded-circle" style="height: 46px">
               <p class="m-1 ml-2 ">
                 {{ course.name + " " + course.last_name }}
               </p>
@@ -59,6 +55,7 @@ export default {
   name: "Card",
   data() {
     return {
+      photo:null,
     };
   },
   props: {

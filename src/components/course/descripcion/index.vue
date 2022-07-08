@@ -56,17 +56,26 @@
                     <a href="#" class="modal-bg"></a>
                     <div class="modal-content">
                       <a href="#" class="modal-exit">x</a>
-                      <div class="row m-5 text-center">
-                        <div style="max-width: 100px">
-                          <iframe :src="picture" class="pdf"> </iframe>
+                      <div class="row m-5 container1 d-flex flex-column">
+                       
+                          
+                       
+                          <img :src="picture" class="pdf" />
+                       
+                          <br>
+                      
+                      
                           <button class="btn btn-primary" id="button">
                             DESCARGAR
                           </button>
+                       
+
                           <div v-if="carga" class="cargando">
                             <div class="spinner-border"></div>
                           </div>
-                        </div>
+                      
                       </div>
+                    
                     </div>
                   </div>
                 </ul>
@@ -445,8 +454,14 @@ export default {
 }
 
 .pdf {
-  width: 70vw;
-  height: 100%;
+  width: 50vw;
+  height: 65%;
+}
+
+.container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cargando {
