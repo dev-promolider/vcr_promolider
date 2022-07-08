@@ -47,7 +47,7 @@
             <v-list-item style="min-height: 30px">
               <v-list-item-content>
                 <v-list-item-title
-                  ><span>Usuario:</span> {{ userUp.name }}
+                  ><span>Nombre:</span> {{ userUp.name }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
