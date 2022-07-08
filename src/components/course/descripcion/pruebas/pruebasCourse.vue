@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%; background: white; width: 99%">
+  <div style="height: 100%; background: transparent; width: 99%">
     <div
       v-if="isLoadingQuestions"
       class="text-center"
@@ -9,49 +9,22 @@
     </div>
 
     <div v-else>
-      <h3 class="text-center p-3 pb-0">{{ datos.title }}</h3>
 
       <Transition name="bounce">
-        <div
-          v-if="mostrar"
-          class="caja-texto"
-          :class="[
-            this.respExam.message === 'aprobado'
-              ? 'success-texto'
-              : 'danger-texto',
-          ]"
-        >
-          <div
-            class="d-flex flex-column justify-content-center align-items-center my-3"
-            style="font-size: 20px; font-weight: bold"
-          >
-            <div>
-              <i
-                :class="[
-                  this.respExam.message === 'aprobado'
-                    ? 'fas fa-smile'
-                    : 'fas fa-frown',
-                ]"
-                style="font-size: 55px"
-              ></i>
-            </div>
-            <div>
-              {{
-                this.respExam.message === "aprobado"
-                  ? `¡Felicitaciones!`
-                  : ""
-              }}
-            </div>
-            <div>Ústed ah {{ this.respExam.message }}</div>
-            <div>Puntos obtenidos: {{ this.respExam.points }}</div>
-            <div>Score: {{ this.respExam.score }}</div>
-          </div>
-          
-            <button class="btn btn-success position-absolute" style="bottom: 0" @click="goCourse">Regresar al Curso</button>
-        
-        </div>
+        <v-card v-if="mostrar" color="#28c76f" class="m-auto text-center mt-10" width="600">
+          <v-card-text class="text-h4 white--text" >
+            Su exámen se revisará pronto.
+          </v-card-text>
+          <v-card-actions>
+            <v-row align="center" justify="center">
+              <v-btn color="black" @click="comeBack" class="white--text mb-5" >Regresar</v-btn>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+
       </Transition>
-      <div class="wrapper-stepper mx-5" v-if="mostrar === false">
+      <div class="wrapper-stepper mx-5" v-if="!mostrar">
+      <h3 class="text-center ma-7 pb-0  text-capitalize">{{ datos.title }}</h3>
         <div class="stepper">
           <div class="stepper-progress">
             <div
@@ -62,7 +35,7 @@
 
           <div
             class="stepper-item"
-            :class="{ current: step == index, success: step > index }"
+            :class="{ current: step == index, succes: step > index }"
             v-for="(question, index) in questions"
             :key="index"
           >
@@ -72,12 +45,14 @@
                 src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png"
                 alt=""
               />
-              <span class="number">
+              <span class="number white--text">
                 {{ index + 1 }}
               </span>
             </div>
+             
           </div>
         </div>
+       
 
         <div
           class="stepper-content"
@@ -85,20 +60,21 @@
           :key="index"
         >
           <div class="stepper-pane" v-if="step == index">
-            <div class="contenedor d-flex justify-content-around">
-              <div class="title-question">
+            <div class="contenedor d-flex justify-content-around ">
+              <div class="title-question  text-capitalize">
                 {{ question.title }}
               </div>
-              <div class="puntos">Obten {{ question.points }} puntos</div>
+              <div class="puntos text-capitalize">Obten {{ question.points }} puntos</div>
             </div>
 
             <div v-for="(q, i) in question.options" :key="i">
+             
               <div
                 class="options-questions"
                 v-if="question.question_type_id == 1"
               >
                 <input
-                  :id="q"
+                  :id="i"
                   type="radio"
                   class="input-opciones"
                   :checked="checked"
@@ -106,7 +82,7 @@
                   :value="i"
                   v-model="form[index].option"
                 />
-                <label :for="q" class="opciones"> {{ q }} </label>
+                <label :for="i" class="opciones"> {{ q }} </label>
               </div>
 
               <div
@@ -115,11 +91,11 @@
               >
                 <input
                   type="checkbox"
-                  :id="q"
+                  :id="i"
                   :value="i"
                   v-model="form[index].option"
                 />
-                <label :for="q" class="opciones"> {{ q }} </label>
+                <label :for="i" class="opciones"> {{ q }} </label>
               </div>
 
               <div
@@ -127,7 +103,7 @@
                 v-else-if="question.question_type_id == 3"
               >
                 <input
-                  :id="q"
+                  :id="i"
                   type="radio"
                   class="input-opciones"
                   :checked="checked"
@@ -135,24 +111,26 @@
                   :value="i"
                   v-model="form[index].option"
                 />
-                <label :for="q" class="opciones"> {{ q }} </label>
+                <label :for="i" class="opciones"> {{ q }} </label>
               </div>
 
 
             </div>
-              <div v-if="question.question_type_id==4" class="textarea">
-                <textarea
-                  placeholder="Responda aquí..."
-                  maxlength="200"
-                  cols="50"
-                  rows="10"
-                  class="opciones"
-                  v-model="text"
-                >
-                </textarea>
-                <button class="btn btn--green-1 open" @click="sendAnswers" >
-            Enviar
-          </button>
+              <div v-if="question.question_type_id == 4" class="textarea">
+                <v-row justify="center">
+                  <v-col cols="12" sm="9" >
+                    <v-textarea
+                      color="dark"
+                      placeholder="Responda aquí..."
+                      maxlength="200"
+                      cols="30"
+                      rows="3"
+                      v-model="form[index].option"
+                      outlined
+                    >
+                    </v-textarea>
+                  </v-col>
+                </v-row>
               </div>
           </div>
         </div>
@@ -221,7 +199,6 @@ export default {
     async setExam() {
       const resp_exam = await this.getExam(this.$route.params.id);
       if (resp_exam.status === 200) {
-        console.log(resp_exam.data.data.questions);
         this.datos = resp_exam.data.data.exam;
         const { questions } = resp_exam.data.data;
         this.questions = questions;
@@ -239,6 +216,7 @@ export default {
       if (this.form[this.step].option.length <= 0 ) {
         this.isDisabled = false;
         return false;
+
       } else {
         this.step++;
       }
@@ -259,7 +237,6 @@ export default {
       this.enviarText()
       console.log(this.exam_id)
       console.log(this.form)
-      console.log(this.course_active[0].id)
 
       if (this.form.length < this.options.length) {
         return false;
@@ -268,7 +245,7 @@ export default {
           .post("course/exam/answers", {
             id_exam: this.exam_id,
             answers: this.form,
-            course_id: this.course_active[0].id,
+            course_id: this.$route.query.course
           })
           .then((resp) => {
             this.mostrar = true;
@@ -277,12 +254,8 @@ export default {
           });
       }
     },
-    goCourse(){
-      this.axios.get('course/temary/get-all-class/' + this.course_active[0].id)
-      .then((res) => {
-            let fistClass = res.data.data.modules[0].lessons[0].name;
-            this.$router.push(`../course-user?course=${this.course_active[0].id}&class=${fistClass}`)
-          })
+    comeBack(){
+       this.$router.back()
     }
   },
   created() {
@@ -302,6 +275,7 @@ $black-1: #000000;
 $red-1: #e7837c;
 $transiton: all 500ms ease;
 $font-anksans-regular: fon;
+
 
 .sendAnswers {
   padding: 35px 15% !important;
@@ -348,7 +322,7 @@ label {
 }
 
 .wrapper-stepper {
-  background-color: #fff;
+  background-color: #f0f0f0;
   padding: 2% 10%;
   box-shadow: rgba($color: #000000, $alpha: 0.09);
   overflow: hidden;
@@ -419,7 +393,7 @@ label {
     bottom: -24px;
   }
 }
-.stepper-item.success {
+.stepper-item {
   .stepper-item-counter {
     border-color: $green-1;
     background-color: $green-3;
@@ -456,6 +430,7 @@ label {
 }
 //Panel donde se muestra el contenido
 .stepper-pane {
+  background: rgba(255, 255, 255, 0.555);
   color: rgb(0, 0, 0);
   padding: 5px 15px 50px 14px;
   box-shadow: 0 8px 12px rgba($color: #000000, $alpha: 0.09);

@@ -194,7 +194,7 @@ export default {
     },
 
     Testing() {
-      this.$router.push({ name: "test", params: { id: this.dataEx.data } });
+      this.$router.push({ name: "test", params: { id: this.dataEx.data }, query : { class: this.$route.query.class , course: this.$route.query.course   } });
     },
 
     // Extraer solo nombre del recurso y no toda la ruta
