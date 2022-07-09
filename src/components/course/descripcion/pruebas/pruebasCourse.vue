@@ -11,7 +11,7 @@
     <div v-else>
 
       <Transition name="bounce">
-        <v-card v-if="mostrar" color="#28c76f" class="m-auto text-center mt-10" width="600">
+        <v-card v-if="mostrar && !typeExamem" color="#28c76f" class="m-auto text-center mt-10" width="600">
           <v-card-text class="text-h4 white--text" >
             Su exámen se revisará pronto.
           </v-card-text>
@@ -21,7 +21,16 @@
             </v-row>
           </v-card-actions>
         </v-card>
-
+        <v-card v-if="mostrar && typeExamem" color="#28c76f" class="m-auto text-center mt-10" width="600">
+          <v-card-text class="text-h4 white--text" >
+            Ústed ha ganado {{points}} puntos.
+          </v-card-text>
+          <v-card-actions>
+            <v-row align="center" justify="center">
+              <v-btn color="black" @click="comeBack" class="white--text mb-5" >Regresar</v-btn>
+            </v-row>
+          </v-card-actions>
+        </v-card>
       </Transition>
       <div class="wrapper-stepper mx-5" v-if="!mostrar">
       <h3 class="text-center ma-7 pb-0  text-capitalize">{{ datos.title }}</h3>
@@ -52,7 +61,7 @@
              
           </div>
         </div>
-       
+            
 
         <div
           class="stepper-content"
@@ -68,7 +77,7 @@
             </div>
 
             <div v-for="(q, i) in question.options" :key="i">
-             
+        
               <div
                 class="options-questions"
                 v-if="question.question_type_id == 1"
@@ -120,6 +129,7 @@
                 <v-row justify="center">
                   <v-col cols="12" sm="9" >
                     <v-textarea
+                     @change="selectOption"
                       color="dark"
                       placeholder="Responda aquí..."
                       maxlength="200"
@@ -168,6 +178,8 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
+      points: 0,
+      typeExamem: false,
       step: 0,
       questions: [],
       options: [],
@@ -194,6 +206,7 @@ export default {
     ...mapMutations("course", ["sumPoints"]),
     ...mapActions("course", {
       getExam: "getExam",
+      sendAnswersExamen: 'sendAnswersExamen'
     }),
 
     async setExam() {
@@ -214,6 +227,7 @@ export default {
     },
     addStep() {
       if (this.form[this.step].option.length <= 0 ) {
+        
         this.isDisabled = false;
         return false;
 
@@ -233,25 +247,24 @@ export default {
       this.form.push({ option: [this.text] })
     }},
 
-    sendAnswers() {
+    async sendAnswers() {
       this.enviarText()
-      console.log(this.exam_id)
-      console.log(this.form)
 
       if (this.form.length < this.options.length) {
         return false;
       } else {
-        this.axios
-          .post("course/exam/answers", {
-            id_exam: this.exam_id,
-            answers: this.form,
-            course_id: this.$route.query.course
-          })
-          .then((resp) => {
-            this.mostrar = true;
-            this.respExam = resp.data;
-            this.sumPoints(Number(resp.data.points));
-          });
+        
+        const { ok,  resp } = await this.sendAnswersExamen( { id_exam: +this.exam_id, answers: this.form, course_id: +this.$route.query.course} )
+       
+        if( !ok ) return 
+          if( resp.data === 'Waiting' ){
+              this.typeExamem = false  
+              this.mostrar = true
+          }else{
+              this.points = resp.data.points_gained
+              this.typeExamem = true 
+              this.mostrar = true
+          }
       }
     },
     comeBack(){

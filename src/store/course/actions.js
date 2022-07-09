@@ -204,3 +204,21 @@ export const sendAnswersCards = async ({commit},{  tiempo = 0 , productor_id , g
     }
 
 }
+
+//Enviar las respuestas del examen
+
+export const sendAnswersExamen = async (_, { id_exam , answers , course_id} ) =>{
+
+    try {
+        const resp = await axios.post("course/exam/answers", { id_exam, answers, course_id })
+
+        console.log(resp);
+        return { ok: true , resp }
+
+    } catch (error) {
+
+        return { ok: false}
+
+    }
+
+}
