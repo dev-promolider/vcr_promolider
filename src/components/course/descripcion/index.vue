@@ -86,7 +86,7 @@
               <div v-if="dataEx">
                 <div
                   class="mt-4 text-center"
-                  v-if="dataEx.data === 'No existe el examen'"
+                  v-if="dataEx.data === 'No existe el examen' || dataEx.data === 'Límite de intentos alcanzado'"
                 >
                   Ningún examen disponible
                 </div>
