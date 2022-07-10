@@ -6,8 +6,8 @@
 
           <div class="p-4 d-flex texto-logro">
             <img src="@/assets/logo-inicial.png" alt="" class="img-logo px-4" />
-            <small class="text-white flex"
-              >Bienvenido a la seccion de Logros!!!</small
+            <small class="text-white flex "
+              >Bienvenido a la sección de logros!!!</small
             >
           </div>
         </div>
@@ -16,9 +16,9 @@
 
           <div class="cuerpo-caja d-flex flex-wrap justify-content-around p-2 text-capitalize">
 
-            <div class="caja d-flex m-3" v-for="(logro, index) in logros" :key="index">
+            <div style="max-width: 180px" class="  caja d-flex m-3" v-for="(logro, index) in logros" :key="index">
              
-              <div class="cajita2 d-flex flex-fill align-items-center position-relative">
+              <div class="cajita2  d-flex flex-fill align-items-center position-relative">
                 <div class="container text-white">
                   <!-- <div class="row row-cols-2">
                     <div class="col-4 px-0">N° {{logro.id}}</div>
@@ -38,7 +38,7 @@
                     <div class="col-8 px-0">{{logro.description}}</div>
                   </div> -->
                   <div class="row center">
-                    <img :src="logro.icon" alt="">
+                    <img width="100px" :src="logro.icon" alt="">
                   </div>
                   <div class="row center">
                     <p>{{logro.name}}</p>

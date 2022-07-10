@@ -56,17 +56,26 @@
                     <a href="#" class="modal-bg"></a>
                     <div class="modal-content">
                       <a href="#" class="modal-exit">x</a>
-                      <div class="row m-5 text-center">
-                        <div style="max-width: 100px">
-                          <iframe :src="picture" class="pdf"> </iframe>
+                      <div class="row m-5 container1 d-flex flex-column">
+                       
+                          
+                       
+                          <img :src="picture" class="pdf" />
+                       
+                          <br>
+                      
+                      
                           <button class="btn btn-primary" id="button">
                             DESCARGAR
                           </button>
+                       
+
                           <div v-if="carga" class="cargando">
                             <div class="spinner-border"></div>
                           </div>
-                        </div>
+                      
                       </div>
+                    
                     </div>
                   </div>
                 </ul>
@@ -77,7 +86,7 @@
               <div v-if="dataEx">
                 <div
                   class="mt-4 text-center"
-                  v-if="dataEx.data === 'No existe el examen'"
+                  v-if="dataEx.data === 'No existe el examen' || dataEx.data === 'Límite de intentos alcanzado'"
                 >
                   Ningún examen disponible
                 </div>
@@ -101,17 +110,17 @@
 
               <template v-if="isLoadingDinamic">
                 <template v-if="stateDinamic">
-                  <v-btn
-                    class="mx-2"
-                    color="success"
-                    @click="goToDinamics(dinamic)"
-                    v-for="(dinamic, index) in idDinamicGame"
-                    :key="index"
-                  >
-                    <v-icon left> mdi-gamepad-variant </v-icon>
-                    <div v-if="dinamic === 1">Ahorcado</div>
-                    <div v-if="dinamic === 2">Juego de Cartas</div>
-                  </v-btn>
+                   <v-btn class="mx-2" color="success" @click="goToDinamics( dinamic )" v-for="(dinamic  , index ) in idDinamicGame" :key="index">
+                                  <v-icon left >
+                                    mdi-gamepad-variant
+                                  </v-icon>
+                                  <div v-if="dinamic">
+                                      Dinamica {{index + 1 }}
+                                  </div>
+                                  <div v-else>
+                                     
+                                  </div>
+                              </v-btn>
                 </template>
               </template>
               <template v-if="!stateDinamic && isLoadingDinamic">
@@ -194,7 +203,7 @@ export default {
     },
 
     Testing() {
-      this.$router.push({ name: "test", params: { id: this.dataEx.data } });
+      this.$router.push({ name: "test", params: { id: this.dataEx.data }, query : { class: this.$route.query.class , course: this.$route.query.course   } });
     },
 
     // Extraer solo nombre del recurso y no toda la ruta
@@ -224,13 +233,10 @@ export default {
         throw new Error(error);
       }
     },
-    goToDinamics(id) {
-      this.$router.push({
-        name: "dinamic",
-        params: { id },
-        query: { c: this.$route.query.class, t: "class" },
-      });
-    },
+    goToDinamics( id ){
+       this.$router.push({name: 'dinamic', params: {id}, query: {c: this.$route.query.course }})
+    }
+
   },
   watch: {
     async queryDinamic() {
@@ -448,8 +454,14 @@ export default {
 }
 
 .pdf {
-  width: 70vw;
-  height: 100%;
+  width: 50vw;
+  height: 65%;
+}
+
+.container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cargando {

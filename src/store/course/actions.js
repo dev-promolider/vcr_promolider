@@ -4,11 +4,19 @@ import moment from "moment";
 
 // Curso Activo
 export const getCourseActive = async (context, id) => {
-    await axios.get('course/details/' + id).then(
-        (res) => {
-            context.commit("SET_COURSE_ACTIVE", res.data.data)
-        }
-    ) 
+    try {
+        const res =  await axios.get('course/details/' + id)
+
+        const { data }  = res.data
+
+        context.commit("SET_COURSE_ACTIVE", data)
+
+        return{ok: true , data}
+    } catch (error) {
+        return {ok: false}
+    }
+
+ 
 }
 
 
@@ -92,12 +100,13 @@ export const getTest = async (context, data) => {
     
 }
 
+//Obtenemos los datos del exam
 export const getExam= async (_, data) => {
     const respuesta =  await axios.post(`course/exam`, {exam_id : data})
     return respuesta
 }
 
-
+//Obtenemos los puntos
 export const getPoints = async ( {commit} , id) => {
     try {
         const data = await axios.get(`profile/points/${id}`)
@@ -110,7 +119,7 @@ export const getPoints = async ( {commit} , id) => {
         console.log(error);
     }
 }
-
+//Enviamos el comentario
 export const setComments = async ( { commit } , comment ) => {
         try {
             const { comments } = comment    
@@ -141,7 +150,7 @@ export const setComments = async ( { commit } , comment ) => {
         }
    
 }
-
+//Obtemos la dinamica activa
 export const getActiveDinamicClass = async ( { commit } , { game_for, idClass }) => {
     
     try {
@@ -164,18 +173,52 @@ export const getActiveDinamicClass = async ( { commit } , { game_for, idClass })
 
 
 }
-
+//Obtenemos los datos de las dinamicas dependiendo el id
 export const getDataDinamic = async ({commit}, id ) => {
 
     try {
         const { data } = await axios.post('/course/game', { game_id: id } )
-
         commit('setGameData', data )
         return {ok: true, data }
 
 
     } catch (error) {
         return {ok: false}
+    }
+
+}
+//Enviamos las respuestas de la dinamica de cartas
+export const sendAnswersCards = async ({commit},{  tiempo = 0 , productor_id , game_type , data  }) => {
+
+    let segundos = 0;
+
+    segundos = ( tiempo.minutes * 60 ) + tiempo.seconds 
+
+    try {
+        const resp = await axios.post( '/course/game/add-points', { game_type , productor_id , tiempo: segundos, data } )
+       
+        commit('sumPoints', resp.data)
+        return { ok :true }
+    } catch (error) {
+        return {ok: false}
+    }
+
+}
+
+//Enviar las respuestas del examen
+
+export const sendAnswersExamen = async (_, { id_exam , answers , course_id} ) =>{
+
+    try {
+        const resp = await axios.post("course/exam/answers", { id_exam, answers, course_id })
+
+        console.log(resp);
+        return { ok: true , resp }
+
+    } catch (error) {
+
+        return { ok: false}
+
     }
 
 }

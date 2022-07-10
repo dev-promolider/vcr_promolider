@@ -47,7 +47,7 @@
             <v-list-item style="min-height: 30px">
               <v-list-item-content>
                 <v-list-item-title
-                  ><span>Usuario:</span> {{ userUp.name }}
+                  ><span>Nombre:</span> {{ userUp.name }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -133,15 +133,28 @@
                         dense
                         v-model="userUp.last_name"
                       ></v-text-field>
+
+
                       <v-select
-                        :items="namePais"
-                        v-model="userUp.country"
+                        v-model="varCountryInit"
+                        :items="pais"
+                        item-value="id"
+                        item-text="name"
                         label="Pais"
                         outlined
                         dense
                         class="mt-5"
                         no-data-text="No hay datos"
                       ></v-select>
+
+
+                      <v-text-field
+                        class="mt-5"
+                        label="email"
+                        outlined
+                        dense
+                        v-model="userUp.email"
+                      ></v-text-field>
                     </v-col>
                     <v-textarea
                       class="px-3"
@@ -318,10 +331,12 @@ export default {
         rol: "",
         plan: "",
       },
-
       cuaDetalles: "",
       pais: [],
       namePais: [],
+      compEmail: localStorage.getItem("email_user"),
+      varEmail: 0,
+      varCountryInit:[],
     };
   },
   created() {
@@ -330,13 +345,19 @@ export default {
     this.cuaDetalles = localStorage.getItem("name_user");
     this.userAccountType();
     this.getCountry();
+    console.log("COUNTRY");
+    console.log(this.userUp.country);
   },
   computed: {
     ...mapState("user", ["id_user"]),
   },
   methods: {
     userUpdate() {
+      if(this.validateForm()){
       this.isLoadingUpdateUser = true;
+      console.log(this.userUp.country);  
+      this.userUp.country = this.varCountryInit;
+      console.log(this.userUp.country);  
       this.axios
         .post("/user/update", this.userUp)
         .then((res) => {
@@ -360,10 +381,43 @@ export default {
           localStorage.setItem("name_user", res.data.name);
           localStorage.setItem("last_name_user", res.data.last_name);
           localStorage.setItem("date_birth_user", res.data.date_birth);
-          localStorage.setItem("country_user", res.data.country);
+          localStorage.setItem("country_user", res.data.id_country);
           localStorage.setItem("biography_user", res.data.biography);
           localStorage.setItem("city", res.data.city);
         });
+      }
+    },
+
+    validateForm() {
+
+      if(this.compEmail != this.userUp.email){
+      const formdata = new FormData();
+      formdata.append('field','email');
+      formdata.append('value',this.userUp.email);
+
+      this.axios
+        .post("/user/verify-duplicate", formdata)
+        .then((res) => {
+
+          this.varEmail = res.data;
+          console.log("variable");
+          console.log(this.varEmail);
+
+
+          if(this.varEmail == 1){
+          alert("El correo que ha cambiado ya esta registrado con otro usuario");
+           return false;
+          }
+        return true;  
+        })
+        .catch(() => {
+          //console.log(error);
+        });
+
+      }
+
+
+      
     },
 
     userAccountType() {
@@ -423,6 +477,13 @@ export default {
     getCountry() {
       this.axios.get("/countries").then((res) => {
         this.pais = res.data;
+        
+        for (var i = 0, l = this.pais.length; i < l; i++) {
+          if(this.userUp.country == this.pais[i].id){
+              this.varCountryInit = this.pais[i];
+          }
+        }
+
         this.namePais = this.pais.map((element) => {
           return element.name;
         });
