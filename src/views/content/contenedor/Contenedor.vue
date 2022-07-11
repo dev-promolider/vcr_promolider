@@ -12,7 +12,7 @@
 
     <div  v-if="!mostrar">
       <NavBarV />
-      <v-main app >
+      <v-main app class="correccionPadding">
 
         <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada})`  }" />
       </v-main>
@@ -75,6 +75,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.correccionPadding{
+  padding-top: 25px !important;
+}
+
+
 .btnflo{
   height: 60px;
   width: 60px;
