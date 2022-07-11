@@ -1,25 +1,33 @@
 <template>
   <div>
-    
     <div class="pref" v-if="mostrar">
       <div class="container">
-        <Preferencias /> 
-      </div>  
-         
+        <Preferencias />
+      </div>
     </div>
-    
-    
 
-    <div  v-if="!mostrar">
+    <div v-if="!mostrar">
       <NavBarV />
-      <v-main app >
-
+      <v-main app class="correccionPadding">
         <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada})`  }" />
+
       </v-main>
-      <img src="@/assets/ruleta.png" class="btnflo" data-toggle="modal" data-target="#ruleta" alt="">
+      <img
+        src="@/assets/ruleta.png"
+        class="btnflo"
+        data-toggle="modal"
+        data-target="#ruleta"
+        alt=""
+      />
 
       <!-- Modal -->
-      <div class="modal fade" id="ruleta"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div
+        class="modal fade"
+        id="ruleta"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered modal-xl">
           <div class="modal-content">
             <div class="modal-body">
@@ -27,18 +35,15 @@
             </div>
           </div>
         </div>
-    
       </div>
     </div>
-    
   </div>
 </template>
 <script>
 import NavBarV from "@/components/Navbar/NavBarV.vue";
 import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
-import { mapState } from 'vuex';
-import VueWinWheel from '@/components/Student/dashboard/Roulette'
-
+import { mapState } from "vuex";
+import VueWinWheel from "@/components/Student/dashboard/Roulette";
 
 export default {
   name: "Contenedor",
@@ -46,21 +51,19 @@ export default {
     NavBarV,
     Preferencias,
     VueWinWheel,
-    
-},
+  },
   data() {
     return {
       mostrar: false,
       status_user: null,
-      barraMenu: true
+      barraMenu: true,
     };
   },
 
-  computed:{
-    ...mapState('course',['courseHover'])
+  computed: {
+    ...mapState("course", ["courseHover"]),
   },
   methods: {
-    
     barmenu() {
       this.barraMenu = !this.barraMenu;
     },
@@ -75,6 +78,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.correccionPadding{
+  padding-top: 25px !important;
+}
+
+
 .btnflo{
   height: 60px;
   width: 60px;
@@ -119,19 +128,19 @@ export default {
   flex-direction: column;
 }
 @media screen and(max-width: 1024px) {
-    .sidebar-mobile{
-        position: absolute;
-        z-index: 32;
-    }
-    .sidebar-none{
-        position: absolute;
-        z-index: 32;
-    }
-    .barrita{
-      visibility: visible !important;
-    }
+  .sidebar-mobile {
+    position: absolute;
+    z-index: 32;
+  }
+  .sidebar-none {
+    position: absolute;
+    z-index: 32;
+  }
+  .barrita {
+    visibility: visible !important;
+  }
 }
-.barrita{
+.barrita {
   position: absolute;
   top: 0;
   margin: 1.3rem 1rem;
@@ -140,12 +149,11 @@ export default {
   visibility: hidden;
   cursor: pointer;
 }
-.background-router{
-  height: 90vh ;
-  width: 100vw ;
+.background-router {
+  height: 90vh;
+  width: 100vw;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-
 </style>

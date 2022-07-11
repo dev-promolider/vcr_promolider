@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="w-100 backgro px-4 py-2" v-if="muestro">
+
+    <div class="w-100 backgro px-4 py-2">
       <p class="titulo m-0 ml-3">Mis certificados</p>
     </div>
-    <div class="container position-relative" v-if="muestro">
-    
-      <div class="col col-12" >
+    <div class="container mt-5 position-relative" v-if="muestro">
+      <div class="col col-md-6 col-lg-9 mx-auto" >
         <div
           class="category-logo container d-flex row text-center" 
         >

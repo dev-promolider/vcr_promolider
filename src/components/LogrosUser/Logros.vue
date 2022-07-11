@@ -1,4 +1,8 @@
 <template>
+<div>
+    <div class="w-100 backgro px-4 py-2">
+      <p class="titulo m-0 ml-3">Logros</p>
+    </div>
   <div class="row">
     <div class="col-md-9">
       <div class="caja-principal p-5 overflow-hidden">
@@ -64,6 +68,7 @@
       <img class="img-curso" src="@/assets/logro.png" alt="" />
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -85,7 +90,6 @@ export default {
       this.axios('badges/my-progress')
       .then((res) => {
         this.logros = res.data;
-        console.log(this.logros);
       });
     }
   },
@@ -166,5 +170,16 @@ p{color:#fff}
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.backgro {
+  background: #131b1e;
+  opacity: 0.9;
+  z-index: 10;
+}
+.titulo {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: left;
 }
 </style>
