@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div  >
       <Transition name="bounce" >
         <template v-if="!isGameFinish">
                         <template >
@@ -19,7 +19,7 @@
 
         </template>
     </Transition>
-    <div style="heigth: 90vh" id="ga" class="text-center mt-4" v-if="isGameFinish">
+    <div  style="heigth: 90vh;" id="ga" class="text-center mt-4 " v-if="isGameFinish">
       
       <div class="row justify-content-md-center m-2">
       
@@ -41,8 +41,9 @@
             </button>
             <button></button>
           </ul>
+          <div class="text-capitalize subtitle-1 font-weight-bold text--secondary">Pista: {{datos.game.title}}</div>
         </div>
-        <!-- End primera columna -->
+        <!-- End primera columna -->  
 
         <div class="container text-center d-flex justify-content-center">
           <div class="col-sm-10">
@@ -96,9 +97,9 @@
         disabled
           />
           <br />
-          <button class="btn btn-success" @click="generarAleatorio">
+          <!-- <button class="btn btn-success" @click="generarAleatorio">
             NUEVO JUEGO
-          </button>
+          </button> -->
         </div>
         <!-- En cuarta columna -->
       </div>

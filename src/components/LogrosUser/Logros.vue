@@ -90,7 +90,6 @@ export default {
       this.axios('badges/my-progress')
       .then((res) => {
         this.logros = res.data;
-        console.log(this.logros);
       });
     }
   },
