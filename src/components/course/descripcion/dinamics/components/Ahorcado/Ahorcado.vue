@@ -1,34 +1,50 @@
 <template>
-
-  <div  >
-      <Transition name="bounce" >
-        <template v-if="!isGameFinish">
-                        <template >
-                                <v-card elevation="10" color="success" class="m-auto mt-10 text-center fade-in" width="500px">
-                                    <v-icon class="ma-5" size="100" color="white" icon>mdi-check-circle-outline</v-icon>
-                                    <v-card-text class="text-h3 font-weight-bold white--text">Ganaste <span v-if="sumPoint" >{{sumPoint}}</span> <v-progress-circular v-if="!sumPoint" indeterminate ></v-progress-circular> puntos</v-card-text>
-                                    <v-row align="center" justify="center">
-                                        <v-card-actions>
-                                          <v-btn color="black" class="white--text" @click="comeBack">
-                                            Regresar
-                                          </v-btn>
-                                        </v-card-actions>
-                                    </v-row>
-                                </v-card>
-                        </template>
-
+  <div>
+    <Transition name="bounce">
+      <template v-if="!isGameFinish">
+        <template>
+          <v-card
+            elevation="10"
+            color="success"
+            class="m-auto mt-10 text-center fade-in"
+            width="500px"
+          >
+            <v-icon class="ma-5" size="100" color="white" icon
+              >mdi-check-circle-outline</v-icon
+            >
+            <v-card-text class="text-h3 font-weight-bold white--text"
+              >Ganaste <span v-if="sumPoint">{{ sumPoint }}</span>
+              <v-progress-circular
+                v-if="!sumPoint"
+                indeterminate
+              ></v-progress-circular>
+              puntos</v-card-text
+            >
+            <v-row align="center" justify="center">
+              <v-card-actions>
+                <v-btn color="black" class="white--text" @click="comeBack">
+                  Regresar
+                </v-btn>
+              </v-card-actions>
+            </v-row>
+          </v-card>
         </template>
+      </template>
     </Transition>
-    <div  style="heigth: 90vh;" id="ga" class="text-center mt-4 " v-if="isGameFinish">
-      
-      <div class="row justify-content-md-center m-2">
-      
-
-    </div>
+    <div
+      style="heigth: 90vh"
+      id="ga"
+      class="text-center mt-4"
+      v-if="isGameFinish"
+    >
+      <div class="row justify-content-md-center m-2"></div>
       <div class="row">
         <div class="col-sm-12">
-          <h1 class="text-center text-info">AHORCADO</h1>
-      <P class="text-center mb-5">RECUERDA QUE SOLO TIENES 5 INTENTOS</P>
+          <h2 class="text-center">{{ datos.game.title }}</h2>
+          <P
+            class="text-center mb-5 subtitle-1 font-weight-bold text--secondary"
+            >RECUERDA QUE SOLO TIENES 5 INTENTOS</P
+          >
           <ul id="horizontal-list centrado">
             <!-- Aca va la lista de las letras digitadas -->
             <button
@@ -39,11 +55,14 @@
             >
               <span class="badge">{{ item }}</span>
             </button>
-            <button></button>
           </ul>
-          <div class="text-capitalize subtitle-1 font-weight-bold text--secondary">Pista: {{datos.game.title}}</div>
+          <div
+            class="text-capitalize subtitle-1 font-weight-bold text--secondary"
+          >
+            Pista: {{ datos.detail.description }}
+          </div>
         </div>
-        <!-- End primera columna -->  
+        <!-- End primera columna -->
 
         <div class="container text-center d-flex justify-content-center">
           <div class="col-sm-10">
@@ -69,7 +88,7 @@
       </div>
       <!-- End row -->
 
-      <div class="row d-flex justify-content-center ">
+      <div class="row d-flex justify-content-center">
         <!-- <div class="col-xs-8 col-sm-8 col-md-8">
           <br />
           <div>
@@ -78,14 +97,14 @@
         </div> -->
         <!-- End tercera columna -->
 
-        <div class="co-xs-8 col-sm-8 col-md-8 m-3">
+        <div class="col-xs-8 col-sm-8 col-md-8">
           <br />
           <label class="text-primary">Aciertos:</label>
           <input
             type="text"
             class="form-control text-center"
             v-model="contador_aciertos"
-        disabled
+            disabled
           />
           <br />
           <label class="text-primary">Errores:</label>
@@ -94,7 +113,7 @@
             class="form-control text-center"
             v-model="contador_errores"
             size="3"
-        disabled
+            disabled
           />
           <br />
           <!-- <button class="btn btn-success" @click="generarAleatorio">
@@ -104,21 +123,19 @@
         <!-- En cuarta columna -->
       </div>
       <!-- End row -->
-
-
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Ahorcado",
-  props:{
+  props: {
     datos: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -136,16 +153,16 @@ export default {
       letras: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
       frutas: [],
       contadorFlag: 0,
-      productor_id: 1
+      productor_id: 1,
     };
   },
   methods: {
-    ...mapActions('course', ['sendAnswersCards'] ),
-    comeBack(){
-      this.$router.back()
+    ...mapActions("course", ["sendAnswersCards"]),
+    comeBack() {
+      this.$router.back();
     },
-    senAnswers( value ){
-      this.sendAnswersCards( value )
+    senAnswers(value) {
+      this.sendAnswersCards(value);
     },
     async generarAleatorio() {
       this.game = true;
@@ -156,7 +173,7 @@ export default {
       this.contador_errores = 0;
       this.botones = [];
       this.color_botones = [];
-      this.frutas[0] = this.datos.detail.word.toLowerCase()
+      this.frutas[0] = this.datos.detail.word.toLowerCase();
 
       this.aleatorio = Math.floor(Math.random() * this.frutas.length);
       //	Crea un array de la misma longitud de
@@ -193,43 +210,47 @@ export default {
         if (this.contador_aciertos == this.palabra_generada.length) {
           this.win = true;
           this.game = false;
-          this.senAnswers( { data: true , productor_id: this.productor_id , game_type: 'ahorcado' } )
-          this.isGameFinish = false
+          this.senAnswers({
+            data: true,
+            productor_id: this.productor_id,
+            game_type: "ahorcado",
+          });
+          this.isGameFinish = false;
         }
 
         if (this.contador_errores == 5) {
           this.lost = true;
           this.game = false;
-          this.senAnswers( { data: false, productor_id: this.productor_id, game_type: 'ahorcado' } )
-          this.isGameFinish = false
+          this.senAnswers({
+            data: false,
+            productor_id: this.productor_id,
+            game_type: "ahorcado",
+          });
+          this.isGameFinish = false;
         }
       } //	End If Game
     },
-   
   },
   computed: {
-    ...mapState('course', ['sumPoints']),
-        sumPoint(){
-            return this.sumPoints
+    ...mapState("course", ["sumPoints"]),
+    sumPoint() {
+      return this.sumPoints;
     },
     palabra_generada: function () {
       return this.frutas[this.aleatorio];
     }, //	End palab//	End comparar
   }, //	End computed
-  
+
   created: function () {
     this.generarAleatorio();
   },
-  mounted(){
-    
-  }
-
+  mounted() {},
 };
 </script>
 
 <style lang="scss" scoped>
 #ga {
-  background:rgb(253, 253, 253);
+  background: rgb(253, 253, 253);
   border-radius: 15px;
 }
 .teclado {

@@ -16,7 +16,7 @@
           <div class="title-contactos">
             <p>Chats</p>
           </div>
-          <div class="chat-all">
+          <div class="chat-all" v-if="contacts.length > 0">
             <div
               class="item-chat"
               v-for="contact in contacts"
@@ -61,10 +61,21 @@
               </div>
             </div> -->
           </div>
+
+          <div class="chat-all" v-else>
+            <div class="text-center">
+              <p style="font-size: 0.8em">
+                <strong
+                  >¡ Comunicate con tus <br />
+                  profesores y suscriptores !</strong
+                >
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="colum-chat">
+      <div class="colum-chat" v-if="actualContact != null">
         <div class="parallel header">
           <div class="user">
             <img :src="actualContact.photo" />
@@ -217,7 +228,7 @@ export default {
       mensaje: "",
       newMessage: false,
       mostrar: true,
-      contacts: null,
+      contacts: [],
     };
   },
   methods: {
