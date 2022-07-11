@@ -1,7 +1,16 @@
 <template>
+
+<div>
+    <div class="w-100 backgro px-4 py-2">
+      <p class="titulo m-0 ml-3">Mensajes</p>
+    </div>
+
+   <div class="colum-contacts " v-if="mostrar">
+
   <div class="contenedor text aling-center">
     <div class="container-message">
       <div class="colum-contacts" v-if="mostrar">
+
         <div class="header-search">
           <div class="user">
             <img :src="user.photo_user" />
@@ -188,6 +197,7 @@
       </div> -->
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -348,5 +358,17 @@ export default {
   height: calc(100vh - 80px);
   padding: 25px 75px;
   background-color: #e5e5e5;
+}
+
+.backgro {
+  background: #131b1e;
+  opacity: 0.9;
+  z-index: 10;
+}
+.titulo {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: left;
 }
 </style>

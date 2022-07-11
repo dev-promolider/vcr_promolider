@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="w-100 backgro px-4 py-2">
+      <p class="titulo m-0 ml-3">Mis certificados</p>
+    </div>
     <div class="container mt-5 position-relative" v-if="muestro">
       <div class="col col-md-6 col-lg-9 mx-auto" >
         <div
@@ -101,5 +104,15 @@ export default {
 .slip {
   margin-top: 15%;
 }
-
+.backgro {
+  background: #131b1e;
+  opacity: 0.9;
+  z-index: 10;
+}
+.titulo {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: left;
+}
 </style>

@@ -8,11 +8,9 @@
 
     <div v-if="!mostrar">
       <NavBarV />
-      <v-main app>
-        <router-view
-          class="background-router"
-          :style="{ 'background-image': `url(${courseHover.url_portada})` }"
-        />
+      <v-main app class="correccionPadding">
+        <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada})`  }" />
+
       </v-main>
       <img
         src="@/assets/ruleta.png"
@@ -80,7 +78,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.btnflo {
+
+.correccionPadding{
+  padding-top: 25px !important;
+}
+
+
+.btnflo{
   height: 60px;
   width: 60px;
   position: fixed;

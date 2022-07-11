@@ -1,5 +1,13 @@
 <template>
+ <div>
+
+    <div class="w-100 backgro px-4 py-2">
+      <p class="titulo m-0 ml-3">Marketplace</p>
+    </div>
+    
+
   <div class="container-fluid my-5">
+
     <div class="row my-5">
       <div class="col-md-12 col-sm-12">
         <div v-if="notCourses" class="no-result center-element d-flex">
@@ -36,6 +44,7 @@
     <img class="img-curso" src="@/assets/curso-p.png" alt="" >
   </div> -->
     </div>
+  </div>
   </div>
 </template>
 
@@ -190,6 +199,17 @@ h3 {
 }
 .pl-10 {
   padding-left: 20px;
+}
+.backgro {
+  background: #131b1e;
+  opacity: 0.9;
+  z-index: 10;
+}
+.titulo {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: left;
 }
 .img-curso {
   width: 100%;

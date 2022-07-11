@@ -1,4 +1,8 @@
 <template>
+<div>
+    <div class="w-100 backgro px-4 py-2">
+      <p class="titulo m-0 ml-3">Leader Board</p>
+    </div>
   <div class="caja container" >
     <div class="tittle card m-3 w-50 position-absolute text-center border-gradient border-gradient-green" >
       <h3 class="">RANKING</h3>
@@ -9,7 +13,7 @@
 
   <div class="table text-center" v-for="(dato,index) in datos" :key="index">
     <div class="tablita col-2"><p>{{index+1}}</p></div>
-    <div class="tablita col-2"><img src="@/assets/perfil-del-usuario.png" alt="" ></div>
+    <div class="tablita col-2"><v-avatar size="50"><img :src="dato.photo" alt="" ></v-avatar></div>
     <div class="tablita col-5"><p>{{dato.name}}</p></div>
     <div class="tablita col-3"><p>{{dato.total}}</p></div>
   </div>
@@ -17,6 +21,7 @@
           
     </div>
   </div>
+</div>  
 </template>
 
 <script>
@@ -137,5 +142,16 @@ img{
   padding: 0;
   margin: 0;
 }
+}
+.backgro {
+  background: #131b1e;
+  opacity: 0.9;
+  z-index: 10;
+}
+.titulo {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: left;
 }
 </style>
