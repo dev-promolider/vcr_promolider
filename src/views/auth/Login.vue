@@ -31,7 +31,7 @@ export default {
     opacity: 0 !important;
   }
   .v-application--wrap {
-    background-color: #35424a !important;
+    background-color: #35424a ;
   }
 }
 :root {

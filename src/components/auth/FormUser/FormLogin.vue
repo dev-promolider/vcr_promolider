@@ -71,7 +71,7 @@
     </div>
 
     <div class="row text-center mt-5 justify-content-center mb-3 items">
-      <div class="col-md-2 col-sm-3">
+      <div class="col-2">
         <a
           href="https://www.facebook.com/Promolider-101670701715747"
           target="_blank"
@@ -79,12 +79,12 @@
           <img src="@/views/auth/icons/facebook-icon.png" />
         </a>
       </div>
-      <div class="col-md-2 col-sm-3">
+      <div class="col-2">
         <a href="https://www.instagram.com/promoliderorg/" target="_blank">
           <img src="@/views/auth/icons/instagram-icon.png" />
         </a>
       </div>
-      <div class="col-md-2 col-sm-3">
+      <div class="col-2">
         <a
           href="http://www.linkedin.com/company/promolíder/?originalSubdomain=pe"
           target="_blank"
@@ -92,12 +92,12 @@
           <img src="@/views/auth/icons/linked-icon.png" />
         </a>
       </div>
-      <div class="col-md-2 col-sm-3">
+      <div class="col-2">
         <a href="https://promolider.org/" target="_blank">
           <img src="@/views/auth/icons/web-icon.png" />
         </a>
       </div>
-      <div class="col-md-2 col-sm-3">
+      <div class="col-2">
         <a
           href="https://www.youtube.com/channel/UCj-NmJXOnJt55aDRh1R0LLg/featured"
           target="_blank"

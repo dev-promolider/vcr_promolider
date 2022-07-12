@@ -8,10 +8,9 @@
 
     <div v-if="!mostrar">
       <NavBarV />
-      <v-main app>
+      <v-main app style="background-color: #FFFFFF !important">
         <router-view
           class="background-router"
-          :style="{ 'background-image': `url(${courseHover.url_portada})` }"
         />
       </v-main>
       <img
