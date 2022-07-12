@@ -188,9 +188,9 @@ main {
   overflow-y: scroll;
 }
 
-.container-fluid::-webkit-scrollbar {
+/* .container-fluid::-webkit-scrollbar {
   display: none;
-}
+} */
 
 h3 {
   color: #35424a;

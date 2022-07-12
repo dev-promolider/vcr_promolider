@@ -1,73 +1,131 @@
 <template>
-<div>
-    <div class="w-100 backgro px-4 py-2">
+  <div style="height: 100%">
+    <div class="backgro px-4 py-2">
       <p class="titulo m-0 ml-3">Logros</p>
     </div>
-  <div class="row">
-    <div class="col-md-9">
-      <div class="caja-principal p-5 overflow-hidden">
-        <div class="encabezado d-flex justify-content-star">
 
-          <div class="p-4 d-flex texto-logro">
-            <img src="@/assets/logo-inicial.png" alt="" class="img-logo px-4" />
-            <small class="text-white flex "
-              >Bienvenido a la sección de logros!!!</small
-            >
-          </div>
-        </div>
-
-        <div class="cuerpo">
-
-          <div class="cuerpo-caja d-flex flex-wrap justify-content-around p-2 text-capitalize">
-
-            <div style="max-width: 180px" class="  caja d-flex m-3" v-for="(logro, index) in logros" :key="index">
-             
-              <div class="cajita2  d-flex flex-fill align-items-center position-relative">
-                <div class="container text-white">
-                  <!-- <div class="row row-cols-2">
-                    <div class="col-4 px-0">N° {{logro.id}}</div>
-                    <div class="col-8 px-0">{{logro.name}}</div>
-                  </div>
-                  <div class="row row-cols-2">
-                    <div v-if="logro.level == 1" class="col-4 px-0">
-                      <v-icon>mdi-star</v-icon>
-                    </div>
-                    <div v-if="logro.level == 2" class="col-4 px-0">
-                      <v-icon>mdi-star</v-icon><v-icon>mdi-star</v-icon>
-                    </div>
-                    <div v-if="logro.level == 3" class="col-4 px-0">
-                      <v-icon>mdi-star</v-icon><v-icon>mdi-star</v-icon><v-icon>mdi-star</v-icon>
-                    </div>
-
-                    <div class="col-8 px-0">{{logro.description}}</div>
-                  </div> -->
-                  <div class="row center">
-                    <img width="100px" :src="logro.icon" alt="">
-                  </div>
-                  <div class="row center">
-                    <p>{{logro.name}}</p>
-                  </div>
-                  <div class="row center">
-                    <p>Nivel {{logro.level}}</p>
-                  </div>
-                  
-                </div>
-                <div v-if="logro.obtained == false" class="opacar">
-                <div class="h-100 d-flex align-items-center justify-content-center">
-                  <p><strong>{{logro.description}}</strong></p>
-                </div>
+    <div class="row p-4">
+      <div class="col-md-12 col-lg-8">
+        <div class="row">
+          <div
+            class="col-md-4 col-sm-4"
+            v-for="(logro, index) in logros"
+            :key="index"
+          >
+            <div v-if="logro.obtained == true">
+              <div
+                class="card text-center justify-content-center obtained"
+                :title="logro.description"
+              >
+                <img
+                  style="
+                    max-height: 150px;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                  "
+                  :alt="logro.name"
+                  :src="logro.icon"
+                />
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 1em">
+                    {{ logro.name }}
+                  </h5>
                 </div>
               </div>
             </div>
 
+            <div v-else class="card text-center justify-content-center opacar">
+              <img
+                style="
+                  max-height: 150px;
+                  display: block;
+                  margin-left: auto;
+                  margin-right: auto;
+                "
+                :alt="logro.name"
+                :src="logro.icon"
+              />
+              <div class="card-body">
+                <h5 class="card-title" style="font-size: 1em">
+                  {{ logro.name }}
+                </h5>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="col-md-4 d-sm-none d-xs-none d-md-block text-center">
+        <img
+          class="img-curso"
+          src="@/assets/handsome-guy.png"
+          alt="handsome-guy"
+          style="70%"
+        />
+      </div>
     </div>
-    <div class="mt-5 col-md-3 d-flex align-items-start justify-content-center">
-      <img class="img-curso" src="@/assets/logro.png" alt="" />
-    </div>
-  </div>
+    <!-- 
+    <div class="row">
+      <div class="col-md-9">
+        <div class="caja-principal p-5 overflow-hidden">
+          <div class="encabezado d-flex justify-content-star">
+            <div class="p-4 d-flex texto-logro">
+              <img
+                src="@/assets/logo-inicial.png"
+                alt=""
+                class="img-logo px-4"
+              />
+              <small class="text-white flex"
+                >Bienvenido a la sección de logros!!!</small
+              >
+            </div>
+          </div>
+
+          <div class="cuerpo">
+            <div
+              class="cuerpo-caja d-flex flex-wrap justify-content-around p-2 text-capitalize"
+            >
+              <div
+                style="max-width: 180px"
+                class="caja d-flex m-3"
+                v-for="(logro, index) in logros"
+                :key="index"
+              >
+                <div
+                  class="cajita2 d-flex flex-fill align-items-center position-relative"
+                >
+                  <div class="container text-white">
+                    <div class="row center">
+                      <img width="100px" :src="logro.icon" alt="" />
+                    </div>
+                    <div class="row center">
+                      <p>{{ logro.name }}</p>
+                    </div>
+                    <div class="row center">
+                      <p>Nivel {{ logro.level }}</p>
+                    </div>
+                  </div>
+                  <div v-if="logro.obtained == false" class="opacar">
+                    <div
+                      class="h-100 d-flex align-items-center justify-content-center"
+                    >
+                      <p>
+                        <strong>{{ logro.description }}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mt-5 col-md-3 d-flex align-items-start justify-content-center"
+      >
+        <img class="img-curso" src="@/assets/handsome-guy.png" alt="" />
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -77,7 +135,7 @@ export default {
 
   data() {
     return {
-      logros:null,
+      logros: null,
     };
   },
 
@@ -86,91 +144,40 @@ export default {
   },
 
   methods: {
-    getLogros(){
-      this.axios('badges/my-progress')
-      .then((res) => {
+    getLogros() {
+      this.axios("badges/my-progress").then((res) => {
         this.logros = res.data;
       });
-    }
+    },
   },
-  
-  
 };
 </script>
 
 <style scoped>
-p{color:#fff}
-.view {
-  backdrop-filter: initial;
-}
-.row {
-  margin: 0px;
-  padding: 0px;
-}
-.caja-principal {
-  height: 100%;
-}
-.encabezado {
-  background: #35424a;
-  border-radius: 10px 10px 0px 0px;
-}
-.cuerpo {
-  background: #1ae800;
-  border-radius: 0px 0px 10px 10px;
-}
-
-.navbar-toggler {
-  margin: 10px;
-}
-.texto-logro {
-  font-size: 20px;
-}
-.caja {
+.obtained {
   flex: 0 1 250px;
-  box-shadow: 2px 2px 4px  rgba(255, 255, 255, 0.459);
+  box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.459);
   border-radius: 5px;
   cursor: pointer;
-  transition: transform .5s;
+  transition: transform 0.5s;
 }
-.caja:hover{
-  transform: scale(1.1,1.1);
-}
-
-
-.cajita2 {
-  border-radius: 5px;
-  background: #35424a;
-  font-size: 10px;
-}
-.img-curso {
-  width: 80%;
-}
-@media screen and (min-width: 1200px) {
-  .img-curso {
-    width: 80%;
-  }
-}
-@media screen and (max-width: 768px) {
-  .img-curso {
-    width: 40%;
-  }
+.obtained:hover {
+  transform: scale(1.1, 1.1);
 }
 
-.opacar{
-  width: 100%;
-  height: 100%;
-  background-color: #131b1ee1;
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  border-radius: 5px;
+.opacar {
+  background-color: #808080;
 }
-.center{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.opacar img {
+  opacity: 0.4;
 }
+
+.opacar h5 {
+  opacity: 0.4;
+  color: #afafaf;
+}
+
 .backgro {
   background: #131b1e;
   opacity: 0.9;
@@ -182,4 +189,5 @@ p{color:#fff}
   font-weight: 700;
   text-align: left;
 }
+
 </style>

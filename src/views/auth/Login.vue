@@ -130,7 +130,7 @@ export default {
     width: 100%;
   }
 } */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 </style>

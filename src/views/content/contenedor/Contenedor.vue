@@ -103,9 +103,9 @@ export default {
   height: 100vh;
 }
 
-.view::-webkit-scrollbar {
-  display: none;
-}
+// .view::-webkit-scrollbar {
+//   display: none;
+// }
 
 .content {
   width: 100%;
