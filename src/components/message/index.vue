@@ -64,11 +64,9 @@
 
           <div class="chat-all" v-else>
             <div class="text-center">
-              <p style="font-size: 0.8em">
-                <strong
-                  >¡ Comunicate con tus <br />
-                  profesores y suscriptores !</strong
-                >
+              <p style="font-size: 0.8em; color: #545454">
+                ¡ Comunicate con tus <br />
+                profesores y suscriptores !
               </p>
             </div>
           </div>
@@ -90,6 +88,73 @@
             <p class="text-secondary">Saluda a {{ actualContact.name }}</p>
           </div>
           <div v-else v-for="message in actualMessageContent" :key="message.id">
+            <div v-if="message.transmitter_id == user.id" class="text-right">
+              {{ message.message }}
+            </div>
+          </div>
+
+          <!-- <div v-if="message_add.isLoadingMessage" class="center-spinner">
+            <b-spinner class="b-spinner" label="Loading..." variant="success" />
+            <p class="text-success">Cargando mensajes ...</p>
+          </div> -->
+          <!-- <section
+            class="message-general"
+            v-for="mensa in general"
+            :key="mensa.id"
+            v-else-if="!message_add.isLoadingMessage"
+          >
+            <div class="message-contact" v-if="mensa.name != name_user">
+              <img src="../../assets/contacto.svg" />
+              <p>{{ mensa.message }} {{ mensa.id }}</p>
+            </div>
+            <div class="message-user" v-else>
+              <p>{{ mensa.message }}</p>
+              <img src="../../assets/logo-perfil.png" />
+            </div>
+          </section> -->
+          <!-- <div class="message-contact">
+            <img src="../../assets/contacto.svg" />
+            <div class="escribiendo">
+              <div class="isTyping"></div>
+            </div>
+          </div> -->
+        </div>
+
+        <div class="parallel footer">
+          <div class="message-send">
+            <input
+              class="message-wrriten"
+              v-model="message_add.message"
+              @keyup.enter="sendMessage"
+              type="text"
+              placeholder="Escribe un mensaje"
+            />
+            <div class="btn-send">
+              <img
+                @click="sendMessage(actualContact.id)"
+                src="../../assets/send.svg"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="colum-chat" v-else>
+        <div class="parallel header">
+          <div class="user">
+            <img src="" />
+          </div>
+          <p>{{ actualContact.name + " " + actualContact.last_name }}</p>
+          <!-- <button class="btn-options">
+            <img src="../../assets/Menuchat.svg" alt="" />
+          </button> -->
+        </div>
+        <div class="body-chat">
+          <div class="center-spinner">
+            <p class="text-secondary">Saluda a {{ actualContact.name }}</p>
+          </div>
+          <div>
             <div v-if="message.transmitter_id == user.id" class="text-right">
               {{ message.message }}
             </div>
