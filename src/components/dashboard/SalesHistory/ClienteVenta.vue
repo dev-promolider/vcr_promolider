@@ -34,11 +34,13 @@
         >
           <b-list-group-item class="d-flex align-items-center color">
             <div class="containerImg col-2">
+              <v-avatar size="40">
               <img
-                src="@/assets/perfil-del-usuario.png"
+                :src="item.photo"
                 alt="Avatar"
                 class="image"
               />
+              </v-avatar>
               <div class="middle">
                 <p class="text">
                   {{ item.client }} {{ item.client_last_name }}

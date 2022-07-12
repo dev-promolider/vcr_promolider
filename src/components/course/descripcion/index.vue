@@ -60,7 +60,7 @@
                        
                           
                        
-                          <img :src="picture" class="pdf" />
+                          <iframe :src="picture" class="pdf"> </iframe>
                        
                           <br>
                       

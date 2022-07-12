@@ -5,7 +5,7 @@ cardType(el tipo de card que se desea).
 -->
 
 <template>
-    <div v-if="course" class="card" @click="cardType == 1 ? action(course.id): goToCourse(course.id)"   :style="`max-width: ${width}%; height: ${height}px`">
+    <div v-if="course" class="card" @click="cardType == 1 ? action(course.id): ( cardType == 4 ? getCertificates(course) :goToCourse(course.id) )"   :style="`max-width: ${width}%; height: ${height}px`">
       
         <div 
               :class="[{'btn-play':cardType == 3},'image']"
@@ -90,7 +90,9 @@ export default {
       /* this.mouseleave() */
       this.$router.push({name: "buy-cursos", params: { ide:id }}).catch(()=>{})
     },
-
+    getCertificates(course){
+      this.$emit('selectedCertificate',course);
+    },
     // Accion par el tipo de card 2 y 3 que redirecciona a ver el curso 
     async goToCourse(id){
       /* this.mouseleave() */

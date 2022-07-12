@@ -8,7 +8,7 @@
 
     <div v-if="!mostrar">
       <NavBarV />
-      <v-main app style="background-color: #FFFFFF !important">
+      <v-main app  class="correccionPadding" style="background-color: #FFFFFF !important">
         <router-view
           class="background-router"
         />
@@ -79,7 +79,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.btnflo {
+
+.correccionPadding{
+  padding-top: 25px !important;
+}
+
+
+.btnflo{
   height: 60px;
   width: 60px;
   position: fixed;
