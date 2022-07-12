@@ -8,9 +8,10 @@
 
     <div v-if="!mostrar">
       <NavBarV />
-      <v-main app class="correccionPadding">
-        <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada})`  }" />
-
+      <v-main app  class="correccionPadding" style="background-color: #FFFFFF !important">
+        <router-view
+          class="background-router"
+        />
       </v-main>
       <img
         src="@/assets/ruleta.png"

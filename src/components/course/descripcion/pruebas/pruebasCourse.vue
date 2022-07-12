@@ -9,31 +9,44 @@
     </div>
 
     <div v-else>
-
       <Transition name="bounce">
-        <v-card v-if="mostrar && !typeExamem" color="#28c76f" class="m-auto text-center mt-10" width="600">
-          <v-card-text class="text-h4 white--text" >
+        <v-card
+          v-if="mostrar && !typeExamem"
+          color="#28c76f"
+          class="m-auto text-center mt-10"
+          width="600"
+        >
+          <v-card-text class="text-h4 white--text">
             Su exámen se revisará pronto.
           </v-card-text>
           <v-card-actions>
             <v-row align="center" justify="center">
-              <v-btn color="black" @click="comeBack" class="white--text mb-5" >Regresar</v-btn>
+              <v-btn color="black" @click="comeBack" class="white--text mb-5"
+                >Regresar</v-btn
+              >
             </v-row>
           </v-card-actions>
         </v-card>
-        <v-card v-if="mostrar && typeExamem" color="#28c76f" class="m-auto text-center mt-10" width="600">
-          <v-card-text class="text-h4 white--text" >
-            Ústed ha ganado {{points}} puntos.
+        <v-card
+          v-if="mostrar && typeExamem"
+          color="#28c76f"
+          class="m-auto text-center mt-10"
+          width="600"
+        >
+          <v-card-text class="text-h4 white--text">
+            Su calificación es {{ rate }} ha recibido {{ points }} puntos.
           </v-card-text>
           <v-card-actions>
             <v-row align="center" justify="center">
-              <v-btn color="black" @click="comeBack" class="white--text mb-5" >Regresar</v-btn>
+              <v-btn color="black" @click="comeBack" class="white--text mb-5"
+                >Regresar</v-btn
+              >
             </v-row>
           </v-card-actions>
         </v-card>
       </Transition>
       <div class="wrapper-stepper mx-5" v-if="!mostrar">
-      <h3 class="text-center ma-7 pb-0  text-capitalize">{{ datos.title }}</h3>
+        <h3 class="text-center ma-7 pb-0 text-capitalize">{{ datos.title }}</h3>
         <div class="stepper">
           <div class="stepper-progress">
             <div
@@ -58,10 +71,8 @@
                 {{ index + 1 }}
               </span>
             </div>
-             
           </div>
         </div>
-            
 
         <div
           class="stepper-content"
@@ -69,15 +80,16 @@
           :key="index"
         >
           <div class="stepper-pane" v-if="step == index">
-            <div class="contenedor d-flex justify-content-around ">
-              <div class="title-question  text-capitalize">
-                {{ question.title }}
+            <div class="d-flex justify-content-between p-4 text-uppercase">
+              <div>
+                <p class="font-weight-bold">{{ question.title }}</p>
               </div>
-              <div class="puntos text-capitalize">Obten {{ question.points }} puntos</div>
+              <div>
+                <p class="font-weight-bold">{{ question.points }} pts.</p>
+              </div>
             </div>
 
             <div v-for="(q, i) in question.options" :key="i">
-        
               <div
                 class="options-questions"
                 v-if="question.question_type_id == 1"
@@ -122,34 +134,35 @@
                 />
                 <label :for="i" class="opciones"> {{ q }} </label>
               </div>
-
-
             </div>
-              <div v-if="question.question_type_id == 4" class="textarea">
-                <v-row justify="center">
-                  <v-col cols="12" sm="9" >
-                    <v-textarea
-                     @change="selectOption"
-                      color="dark"
-                      placeholder="Responda aquí..."
-                      maxlength="200"
-                      cols="30"
-                      rows="3"
-                      v-model="form[index].option"
-                      outlined
-                    >
-                    </v-textarea>
-                  </v-col>
-                </v-row>
-              </div>
+            <div v-if="question.question_type_id == 4" class="textarea">
+              <v-row justify="center">
+                <v-col cols="12" sm="9">
+                  <v-textarea
+                    @change="selectOption"
+                    color="dark"
+                    placeholder="Responda aquí..."
+                    maxlength="200"
+                    cols="30"
+                    rows="3"
+                    v-model="form[index].option"
+                    outlined
+                  >
+                  </v-textarea>
+                </v-col>
+              </v-row>
+            </div>
           </div>
         </div>
         <div
           v-if="step === Object.keys(this.questions).length"
           class="sendAnswers stepper-pane"
         >
-          Has llegado al final del examén, si está seguro de sus respuestas
-          seleccione enviar.
+          <p>
+            ¡Felicitaciones! Ha completado la evaluación y ahora puede enviarla
+            para su calificación presionando enviar.
+          </p>
+          Si desea cambiar sus respuestas presione anterior.
         </div>
 
         <div class="controls">
@@ -160,7 +173,8 @@
             class="btn btn--green-1"
             @click="addStep"
             :disabled="isDisabled"
-            v-if="step !== Object.keys(questions).length"          >
+            v-if="step !== Object.keys(questions).length"
+          >
             Siguiente
           </button>
 
@@ -179,6 +193,7 @@ export default {
   data() {
     return {
       points: 0,
+      rate: 0,
       typeExamem: false,
       step: 0,
       questions: [],
@@ -191,7 +206,7 @@ export default {
       mostrar: false,
       isLoadingQuestions: true,
       datos: {},
-      text:null,
+      text: null,
     };
   },
   computed: {
@@ -200,13 +215,13 @@ export default {
         (100 / Object.keys(this.questions).length) * (this.step + 1 - 1) + "%"
       );
     },
-    ...mapState("course", ["course_active",]),
+    ...mapState("course", ["course_active"]),
   },
   methods: {
     ...mapMutations("course", ["sumPoints"]),
     ...mapActions("course", {
       getExam: "getExam",
-      sendAnswersExamen: 'sendAnswersExamen'
+      sendAnswersExamen: "sendAnswersExamen",
     }),
 
     async setExam() {
@@ -226,50 +241,53 @@ export default {
       });
     },
     addStep() {
-      if (this.form[this.step].option.length <= 0 ) {
-        
+      if (this.form[this.step].option.length <= 0) {
         this.isDisabled = false;
         return false;
-
       } else {
         this.step++;
       }
     },
     sustractStep() {
-      this.checked  ? (this.isDisabled = false) : (this.isDisabled = true);
+      this.checked ? (this.isDisabled = false) : (this.isDisabled = true);
       this.step--;
     },
     selectOption() {
-      
       this.isDisabled = false;
     },
-    enviarText(){if (this.text!= null) {
-      this.form.push({ option: [this.text] })
-    }},
+    enviarText() {
+      if (this.text != null) {
+        this.form.push({ option: [this.text] });
+      }
+    },
 
     async sendAnswers() {
-      this.enviarText()
+      this.enviarText();
 
       if (this.form.length < this.options.length) {
         return false;
       } else {
-        
-        const { ok,  resp } = await this.sendAnswersExamen( { id_exam: +this.exam_id, answers: this.form, course_id: +this.$route.query.course} )
-       
-        if( !ok ) return 
-          if( resp.data === 'Waiting' ){
-              this.typeExamem = false  
-              this.mostrar = true
-          }else{
-              this.points = resp.data.points_gained
-              this.typeExamem = true 
-              this.mostrar = true
-          }
+        const { ok, resp } = await this.sendAnswersExamen({
+          id_exam: +this.exam_id,
+          answers: this.form,
+          course_id: +this.$route.query.course,
+        });
+
+        if (!ok) return;
+        if (resp.data === "Waiting") {
+          this.typeExamem = false;
+          this.mostrar = true;
+        } else {
+          this.points = resp.data.points_gained;
+          this.rate = resp.data.rate;
+          this.typeExamem = true;
+          this.mostrar = true;
+        }
       }
     },
-    comeBack(){
-       this.$router.back()
-    }
+    comeBack() {
+      this.$router.back();
+    },
   },
   created() {
     this.setExam();
@@ -288,7 +306,6 @@ $black-1: #000000;
 $red-1: #e7837c;
 $transiton: all 500ms ease;
 $font-anksans-regular: fon;
-
 
 .sendAnswers {
   padding: 35px 15% !important;
