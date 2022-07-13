@@ -7,18 +7,23 @@
 //import Contenedor from '@/views/content/contenedor/Contenedor.vue';
 export default {
   components: {},
-
   data() {
     return {};
   },
 };
 </script>
 
-<!-- Definiendo estilos globales -->
 <style>
-/* @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap'); */
-
-/* Paleta de colores */
+main {
+  padding-top: 0px !important;
+}
+.v-main__wrap {
+  background-image: url("../src/assets/water-background.webp");
+  background-size: 50%;
+  background-position-x: center;
+  background-position-y: 50px;
+  background-repeat: repeat-y;
+}
 :root {
   --bg-color: #f8f8f8;
   --color-white: #464040;
@@ -43,11 +48,41 @@ export default {
 }
 
 #app {
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw;
+  height: 100vh; */
   background-color: var(--bg-content);
-  overflow: scroll;
+  /* overflow: scroll; */
 }
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #28c76f;
+  box-shadow: inset 0 0 6px #28c76f;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px #28c76f;
+  box-shadow: inset 0 0 6px #28c76f;
+  background-color: #28c76f;
+}
+
+/* ::-webkit-scrollbar,
+.scroll::-webkit-scrollbar,
+[class*="scroll"]::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: var(--display);
+  width: 12px;
+  height: var(--scroll-size);
+  background: #3f474d;
+} */
+
 .component-frame {
   z-index: 0 !important;
 }

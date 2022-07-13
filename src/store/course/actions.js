@@ -207,10 +207,10 @@ export const sendAnswersCards = async ({commit},{  tiempo = 0 , productor_id , g
 
 //Enviar las respuestas del examen
 
-export const sendAnswersExamen = async (_, { id_exam , answers , course_id} ) =>{
-
+export const sendAnswersExamen = async ( _ , { id_exam , answers , course_id , seconds_used } ) =>{
+    
     try {
-        const resp = await axios.post("course/exam/answers", { id_exam, answers, course_id })
+        const resp = await axios.post("course/exam/answers", { id_exam, answers, course_id ,seconds_used })
 
         console.log(resp);
         return { ok: true , resp }
@@ -222,3 +222,19 @@ export const sendAnswersExamen = async (_, { id_exam , answers , course_id} ) =>
     }
 
 }
+
+export const buyCourse = async ( _ , id_course ) => {
+    try {
+        const resp = await axios.post('/cart/buy-course', { id_course } )
+        console.log(resp);
+
+          return {ok: true}
+
+    } catch (error) {
+
+         return {ok: false}
+        
+    }
+
+}
+

@@ -114,7 +114,7 @@ export default {
         },
         { nombre: "Mensajes", icon: "message-processing", path: "messages" },
         { nombre: "Logros", icon: "trophy", path: "logros" },
-        { nombre: "LeaderBoard", icon: "star", path: "leaderBoard" },
+        { nombre: "Clasificación", icon: "star", path: "leaderBoard" },
       ],
     };
   },

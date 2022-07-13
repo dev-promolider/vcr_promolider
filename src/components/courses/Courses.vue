@@ -1,14 +1,10 @@
 <template>
- <div>
-
-    <div class="w-100 backgro px-4 py-2">
-      <p class="titulo m-0 ml-3">Marketplace</p>
+  <div>
+    <div class="row text-left px-3 h-100 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Marketplace</div>
     </div>
-    
 
-  <div class="container-fluid my-5">
-
-    <div class="row my-5">
+    <div class="row px-4">
       <div class="col-md-12 col-sm-12">
         <div v-if="notCourses" class="no-result center-element d-flex">
           <span>Lo sentimos, aún no hay cursos disponibles.</span>
@@ -16,35 +12,27 @@
         <div class="mt-5" v-if="loading">
           <loadingCourses />
         </div>
-        <!-- Últimos cursos -->
-        <!-- Cursos recien lanzados -->
+
         <div class="mb-4" v-if="relatedCourses.length > 0">
           <h3 class="m-0 font-weight-bold">Más recientes</h3>
           <CarrouselCourse :courses="relatedCourses" />
         </div>
 
-        <!-- Todos los cursos -->
         <div class="mb-4" v-if="courses.length > 0">
           <h3 class="m-0 font-weight-bold">Todos los cursos</h3>
           <CarrouselCourse :courses="courses" />
         </div>
 
-        <!-- Cursos de interes -->
         <div class="mb-4" v-if="interesCourses.length > 0">
           <h3 class="m-0 font-weight-bold">Cursos de interés</h3>
           <CarrouselCourse :courses="interesCourses" />
         </div>
-        <!-- Continuar aprendiendo -->
 
         <div v-if="this.coursView > 0">
           <CarrouselCourseViewed v-if="!loading" />
         </div>
       </div>
-      <!-- <div class="col-md-3 col-sm-12 mt-5 d-flex align-items-start justify-content-center ">
-    <img class="img-curso" src="@/assets/curso-p.png" alt="" >
-  </div> -->
     </div>
-  </div>
   </div>
 </template>
 
@@ -170,58 +158,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-main {
-  padding: 12px 0.5px !important;
-}
-.row {
-  height: 100%;
-}
-.all-course {
-  padding-left: 20px;
-}
-.container-fluid {
-  width: 95%;
-  height: 100%;
-  margin: auto;
-  overflow-y: scroll;
-}
-
-.container-fluid::-webkit-scrollbar {
-  display: none;
-}
-
-h3 {
-  color: #35424a;
-  font-size: 25px;
-  margin-bottom: 15px;
-}
-.pl-10 {
-  padding-left: 20px;
-}
-.backgro {
-  background: #131b1e;
-  opacity: 0.9;
-  z-index: 10;
-}
-.titulo {
-  color: white;
-  font-size: 2.2rem;
-  font-weight: 700;
-  text-align: left;
-}
-.img-curso {
-  width: 100%;
-}
-@media screen and (min-width: 1200px) {
-  .img-curso {
-    width: 80%;
-  }
-}
-@media screen and (max-width: 768px) {
-  .img-curso {
-    width: 80%;
-  }
-}
-</style>

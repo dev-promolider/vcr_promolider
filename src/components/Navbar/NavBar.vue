@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-bottom: 60px">
     <v-app-bar app elevation="7" height="50px" color="#28c76f">
       <v-app-bar-nav-icon
         @click="changeDrawer"
@@ -72,7 +72,7 @@
         v-if="!$vuetify.breakpoint.xs && points"
         color="#20282ed1"
         text-color="white"
-        style="font-size: 15px"
+        style="font-size: 1.3em"
       >
         <v-icon left> mdi-trophy-award </v-icon>
         {{ points }} Pts.
@@ -161,15 +161,16 @@
               <v-list-item-content>
                 <v-list-item-title
                   v-html="item.title"
-                  style="color: grey"
+                  style="color: #4b4b4c"
                   class="font-weight-bold"
                 ></v-list-item-title>
                 <v-list-item-subtitle
+                  style="color: #676767"
                   v-html="item.subtitle"
                 ></v-list-item-subtitle>
                 <v-list-item-subtitle
                   ><timeago
-                    style="color: #327e00; font-weight: bold"
+                    style="color: #4b4b4c; font-weight: bold"
                     :datetime="item.created_at"
                     :auto-update="60"
                   ></timeago
@@ -241,53 +242,6 @@
         </div>
       </div>
     </div>
-
-    <!--SearchCourse sheet-->
-    <!--  <v-bottom-sheet
-            fullscreen
-            v-model="sheet"
-            height="100vh"
-            width="100vw"
-        >
-          <v-sheet
-            height="100vh"
-          >
-          <div class="d-flex p-3">
-            <v-autocomplete  
-                  color="dark"
-                  @keypress.enter="onSearchCourse"
-                  hide-no-data
-                  :search-input.sync="search"
-                  dense
-                  append-icon=""
-                  prepend-inner-icon="mdi-magnify"  
-                  clearable
-                  hide-details
-                  hide-selected
-                  item-text="name"
-                  item-value="symbol"
-                  return-object
-                  label="Buscar un curso">.
-                      <template v-slot:no-data>
-                      <v-list-item>
-                        <v-list-item-title>
-                          Buscar curso favorito
-                          <strong>Bit coins</strong>
-                        </v-list-item-title>
-                      </v-list-item>
-                    </template>
-              </v-autocomplete>
-              <v-icon @click="sheet = false">
-                 mdi-close
-              </v-icon>
-          </div>
-          </v-sheet>
-<<<<<<< HEAD
-        </v-bottom-sheet>
-
-=======
-        </v-bottom-sheet> -->
->>>>>>> 7a042ad5d03ea2c0c23270ec15028d21e5c8f956
   </div>
 </template>
 

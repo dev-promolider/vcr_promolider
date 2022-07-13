@@ -1,41 +1,41 @@
 <template>
-<div>
-    <div class="w-100 backgro px-4 py-2">
-      <p class="titulo m-0 ml-3">Preguntas frecuentes</p>
+  <div style="min-height: 700px">
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Preguntas frecuentes</div>
     </div>
-  <div class="container d-flex justify-content-center mt-5">
-    <div class="col-md-7 col-sm-12 col-lg-6">
-      <h1 class="text-center mb-4">Preguntas frecuentes</h1>
-      <ul class="list-group list-unstyled">
-        <li
-          class="item-question px-5 py-4"
-          v-for="(preg, index) in preguntasF"
-          :key="index"
-        >
-          <div
-            class="d-flex justify-content-between cursor-pointer"
-            v-b-toggle="preg.question.replace(/ /g, '')"
-            @click="rotate === index ? (rotate = null) : (rotate = index)"
+
+    <div class="row">
+      <div class="col-md-11w col-sm-11 col-xs-11">
+        <ul class="list-group list-unstyled">
+          <li
+            class="item-question py-4"
+            v-for="(preg, index) in preguntasF"
+            :key="index"
           >
-            <h5 class="font-weight-bolder">{{ preg.question }}</h5>
-            <button
-              :class="['btn-plus', { 'btn-plus-rotate': rotate === index }]"
+            <div
+              class="d-flex justify-content-between cursor-pointer"
+              v-b-toggle="preg.question.replace(/ /g, '')"
+              @click="rotate === index ? (rotate = null) : (rotate = index)"
             >
-              <i class="fas fa-plus text-right"></i>
-            </button>
-          </div>
-          <b-collapse
-            :id="preg.question.replace(/ /g, '')"
-            class="mt-3"
-            accordion="my-accordion"
-          >
-            <p class="text-left">{{ preg.answer }}</p>
-          </b-collapse>
-        </li>
-      </ul>
+              <h5 class="font-weight-bolder">{{ preg.question }}</h5>
+              <button
+                :class="['btn-plus', { 'btn-plus-rotate': rotate === index }]"
+              >
+                <i class="fas fa-plus text-right"></i>
+              </button>
+            </div>
+            <b-collapse
+              :id="preg.question.replace(/ /g, '')"
+              class="mt-3"
+              accordion="my-accordion"
+            >
+              <p class="text-left">{{ preg.answer }}</p>
+            </b-collapse>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -73,11 +73,11 @@ export default {
   transform: rotate(137deg);
   transition: 1s;
 }
-.backgro {
+/* .backgro {
   background: #131b1e;
   opacity: 0.9;
   z-index: 10;
-}
+} */
 .titulo {
   color: white;
   font-size: 2.2rem;
