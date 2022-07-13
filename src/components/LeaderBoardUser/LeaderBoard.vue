@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="w-100 backgro px-4 py-2">
-      <p class="titulo m-0 ml-3">Tabla de clasificación</p>
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Tabla de clasificación</div>
     </div>
+
     <div class="caja container">
       <div
         class="tittle card m-3 w-50 position-absolute text-center border-gradient border-gradient-green"

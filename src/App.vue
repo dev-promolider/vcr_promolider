@@ -7,7 +7,6 @@
 //import Contenedor from '@/views/content/contenedor/Contenedor.vue';
 export default {
   components: {},
-
   data() {
     return {};
   },
@@ -17,7 +16,9 @@ export default {
 <!-- Definiendo estilos globales -->
 <style>
 /* @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap'); */
-
+main {
+  padding-top: 0px !important;
+}
 /* Paleta de colores */
 .v-main__wrap {
   /* background-color: red; */
@@ -59,6 +60,7 @@ export default {
 
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px #28c76f;
+  box-shadow: inset 0 0 6px #28c76f;
   border-radius: 10px;
   background-color: #f5f5f5;
 }
@@ -71,6 +73,7 @@ export default {
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px #28c76f;
+  box-shadow: inset 0 0 6px #28c76f;
   background-color: #28c76f;
 }
 

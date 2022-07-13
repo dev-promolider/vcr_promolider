@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%">
-    <div class="backgro px-4 py-2">
-      <p class="titulo m-0 ml-3">Logros</p>
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Mis logros</div>
     </div>
 
     <div class="row p-4">
@@ -189,5 +189,4 @@ export default {
   font-weight: 700;
   text-align: left;
 }
-
 </style>

@@ -1,23 +1,22 @@
 <template>
   <div>
-
-    <div class="w-100 backgro px-4 py-2">
-      <p class="titulo m-0 ml-3">Mis certificados</p>
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Mis certificados</div>
     </div>
+
     <div class="container mt-5 position-relative" v-if="muestro">
-      <div class="col col-md-6 col-lg-9 mx-auto" >
-        <div
-          class="category-logo container d-flex row text-center" 
-        >
-        
+      <div class="col col-md-6 col-lg-9 mx-auto">
+        <div class="category-logo container d-flex row text-center">
           <div
             class="card-group mx-3 my-2"
-            
             v-for="(item, index) in informacion"
             :key="index"
-            
           >
-            <Card :course="item" :cardType="cardType" @selectedCertificate="escoger" />
+            <Card
+              :course="item"
+              :cardType="cardType"
+              @selectedCertificate="escoger"
+            />
           </div>
           <!-- <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
@@ -38,11 +37,16 @@
       </div>
     </div>
 
-    <div class="container  " v-if="mostrar">
+    <div class="container" v-if="mostrar">
       <Detalles :certificate="certificate" />
 
-      <button type="button" class="btn btn-outline-success mb-2 mt-5" @click="cerrar()">Escoger otro certificado</button>
-      
+      <button
+        type="button"
+        class="btn btn-outline-success mb-2 mt-5"
+        @click="cerrar()"
+      >
+        Escoger otro certificado
+      </button>
     </div>
   </div>
 </template>
@@ -63,29 +67,29 @@ export default {
       mostrar: false,
       muestro: true,
       spin: false,
-      informacion:[],
+      informacion: [],
       cardType: 4,
-      certificate: {}
+      certificate: {},
     };
   },
-  
+
   mounted() {},
 
   methods: {
-     getAttributes() {
-        this.axios.get("/course/certificate-list").then((datos) => {
-            this.informacion =datos.data;
-        });
-     },
-     getCertificate(id){
-        this.axios.get("/course/certificate/"+id).then((datos) => {
-          this.certificate = datos.data[0];
-          
-          this.spin = false;
-          this.mostrar = true;
-          this.muestro = false;
-        });
-     },
+    getAttributes() {
+      this.axios.get("/course/certificate-list").then((datos) => {
+        this.informacion = datos.data;
+      });
+    },
+    getCertificate(id) {
+      this.axios.get("/course/certificate/" + id).then((datos) => {
+        this.certificate = datos.data[0];
+
+        this.spin = false;
+        this.mostrar = true;
+        this.muestro = false;
+      });
+    },
     escoger(certificate) {
       this.getCertificate(certificate.id);
 
@@ -105,9 +109,9 @@ export default {
       this.spin = false;
     },
   },
-   created() {
-  this.getAttributes();
-},
+  created() {
+    this.getAttributes();
+  },
 };
 </script>
 

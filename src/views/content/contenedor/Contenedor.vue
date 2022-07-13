@@ -1,17 +1,13 @@
 <template>
   <div>
     <div class="pref" v-if="mostrar">
-      <div class="container">
         <Preferencias />
-      </div>
     </div>
 
     <div v-if="!mostrar">
       <NavBarV />
-      <v-main app  class="correccionPadding" style="background-color: #FFFFFF !important">
-        <router-view
-          class="background-router"
-        />
+      <v-main app style="background-color: #ffffff !important">
+        <router-view class="background-router" />
       </v-main>
       <img
         src="@/assets/ruleta.png"
@@ -79,19 +75,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.correccionPadding{
-  padding-top: 25px !important;
-}
-
-
-.btnflo{
+.btnflo {
   height: 60px;
   width: 60px;
   position: fixed;
   bottom: 20px;
   right: 20px;
   cursor: pointer;
+}
+@media (max-width: 1000px) {
+  .v-application--wrap {
+    background-color: none !important;
+    min-height: inherit;
+  }
 }
 
 .view {
@@ -150,11 +146,11 @@ export default {
   visibility: hidden;
   cursor: pointer;
 }
-.background-router {
-  height: 90vh;
-  width: 100vw;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+// .background-router {
+//   height: 90vh;
+//   width: 100vw;
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: cover;
+// }
 </style>

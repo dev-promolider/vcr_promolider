@@ -1,7 +1,7 @@
 <template>
-    <div class="all-course">
-        <Courses/>  
-    </div>
+  <div style="height: 100%">
+    <Courses />
+  </div>
 </template>
 <script>
 import Courses from "@/components/courses/Courses.vue";
@@ -12,20 +12,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.all-course {
-  width: 100%;
-  padding-right: 0px;
-  
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-/* .all-course::-webkit-scrollbar {
-  width: 7px;
-} */
-/* .all-courset::-webkit-scrollbar-thumb {
-  background: #5cc151;
-  border-radius: 25px;
-} */
-</style>
