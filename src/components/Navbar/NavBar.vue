@@ -72,7 +72,7 @@
         v-if="!$vuetify.breakpoint.xs && points"
         color="#20282ed1"
         text-color="white"
-        style="font-size: 15px"
+        style="font-size: 1.3em"
       >
         <v-icon left> mdi-trophy-award </v-icon>
         {{ points }} Pts.
@@ -242,48 +242,6 @@
         </div>
       </div>
     </div>
-
-    <!--SearchCourse sheet-->
-    <!--  <v-bottom-sheet
-            fullscreen
-            v-model="sheet"
-            height="100vh"
-            width="100vw"
-        >
-          <v-sheet
-            height="100vh"
-          >
-          <div class="d-flex p-3">
-            <v-autocomplete  
-                  color="dark"
-                  @keypress.enter="onSearchCourse"
-                  hide-no-data
-                  :search-input.sync="search"
-                  dense
-                  append-icon=""
-                  prepend-inner-icon="mdi-magnify"  
-                  clearable
-                  hide-details
-                  hide-selected
-                  item-text="name"
-                  item-value="symbol"
-                  return-object
-                  label="Buscar un curso">.
-                      <template v-slot:no-data>
-                      <v-list-item>
-                        <v-list-item-title>
-                          Buscar curso favorito
-                          <strong>Bit coins</strong>
-                        </v-list-item-title>
-                      </v-list-item>
-                    </template>
-              </v-autocomplete>
-              <v-icon @click="sheet = false">
-                 mdi-close
-              </v-icon>
-          </div>
-          </v-sheet>
-        </v-bottom-sheet> -->
   </div>
 </template>
 
