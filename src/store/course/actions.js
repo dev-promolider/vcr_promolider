@@ -222,3 +222,19 @@ export const sendAnswersExamen = async ( _ , { id_exam , answers , course_id , s
     }
 
 }
+
+export const buyCourse = async ( _ , id_course ) => {
+    try {
+        const resp = await axios.post('/cart/buy-course', { id_course } )
+        console.log(resp);
+
+          return {ok: true}
+
+    } catch (error) {
+
+         return {ok: false}
+        
+    }
+
+}
+
