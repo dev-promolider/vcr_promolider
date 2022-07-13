@@ -15,7 +15,7 @@
       :class="[{ 'btn-play': cardType == 3 }, 'image']"
       :style="{ background: `url(${course.url_portada})` }"
     ></div>
-    <div class="content">
+    <div class="content p-3">
       <p class="m-0 name text-left text-capitalize">
         {{ course.title }}
       </p>
@@ -42,7 +42,7 @@
       </div>
 
       <div class="d-flex mt-2" v-if="cardType == 2">
-        <img :src="course.photo" class="rounded-circle" style="height: 46px" />
+        <img :src="course.photo" class="rounded-circle" style="height: 30px" />
         <p class="m-1 ml-2">
           {{ course.name + " " + course.last_name }}
         </p>
@@ -139,11 +139,13 @@ export default {
 
 <style scoped>
 .card {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   border: 1px solid #e2e8f0;
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  /* padding: 10px; */
   transition: 0.5s;
   max-width: 300px;
   min-width: 300px;
@@ -153,6 +155,9 @@ export default {
 }
 .image {
   min-height: 150px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  /* border-radius: 20px; */
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
