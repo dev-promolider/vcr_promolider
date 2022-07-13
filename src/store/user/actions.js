@@ -7,7 +7,6 @@ export const actionUser = async (context, body) => {
         context.commit("SET_STATUS_REQUEST_LOGIN",error.response.status)
       });
     
-    console.log(res.data);
     //let fullName = res.data.data.user.fullName
     let last_name = res.data.data.user.last_name
     let photo = res.data.data.user.photo

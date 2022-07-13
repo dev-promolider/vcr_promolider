@@ -1,50 +1,64 @@
 <template>
-
-<div>
-    <div class="w-100 backgro px-4 py-2">
-      <p class="titulo m-0 ml-3">Mensajes</p>
+  <div style="min-height: 700px">
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Mis mensajes</div>
     </div>
 
-   <div class="colum-contacts " v-if="mostrar">
-
-  <div class="contenedor text aling-center">
-    <div class="container-message">
-      <div class="colum-contacts" v-if="mostrar">
-
-        <div class="header-search">
-          <div class="user">
-            <img :src="user.photo_user" />
+    <div class="row p-3">
+      <div class="col-md-3">
+        <div class="row">
+          <div
+            class="col-md-12 list list-row card"
+            style="padding: 0; margin: 0"
+          >
+            <div class="list-item">
+              <img class="small-img" src="" />
+              <a>xd</a>
+            </div>
           </div>
-          <!-- <input
+        </div>
+      </div>
+      <div class="col-md-9"></div>
+    </div>
+
+    <div class="colum-contacts" v-if="!mostrar">
+      <div class="contenedor text aling-center">
+        <div class="container-message">
+          <div class="colum-contacts" v-if="mostrar">
+            <div class="header-search">
+              <div class="user">
+                <img :src="user.photo_user" />
+              </div>
+              <!-- <input
             class="search-chat"
             type="text"
             placeholder="Buscar chats o contacto..."
           /> -->
-        </div>
-        <div class="chats">
-          <div class="title-contactos">
-            <p>Chats</p>
-          </div>
-          <div class="chat-all" v-if="contacts.length > 0">
-            <div
-              class="item-chat"
-              v-for="contact in contacts"
-              :key="contact.id"
-            >
-              <div class="user">
-                <img :src="contact.photo" />
+            </div>
+            <div class="chats">
+              <div class="title-contactos">
+                <p>Chats</p>
               </div>
-              <div class="user-message">
-                <p class="user-name">
-                  <b>{{ contact.name }}</b>
-                </p>
-                <p size="30" class="message-inline">{{ contact.id }}</p>
-              </div>
-              <!-- <div class="time-message">
+              <div class="chat-all" v-if="contacts.length > 0">
+                <div
+                  class="item-chat"
+                  v-for="contact in contacts"
+                  :key="contact.id"
+                >
+                  <div class="user">
+                    <img :src="contact.photo" />
+                  </div>
+                  <div class="user-message">
+                    <p class="user-name">
+                      <b>{{ contact.name }}</b>
+                    </p>
+                    <p size="30" class="message-inline">{{ contact.id }}</p>
+                  </div>
+                  <!-- <div class="time-message">
                 <p class="hora">4:14PM</p>
               </div> -->
-            </div>
-            <!-- <div
+                </div>
+                <!-- <div
               @click="
                 listarMensajes(chat.email, 'firts'),
                   (message_add.id = chat.transmitter_id);
@@ -69,44 +83,51 @@
                 <p class="hora">4:14PM</p>
               </div>
             </div> -->
-          </div>
+              </div>
 
-          <div class="chat-all" v-else>
-            <div class="text-center">
-              <p style="font-size: 0.8em; color: #545454">
-                ¡ Comunicate con tus <br />
-                profesores y suscriptores !
-              </p>
+              <div class="chat-all" v-else>
+                <div class="text-center">
+                  <p style="font-size: 0.8em; color: #545454">
+                    ¡ Comunicate con tus <br />
+                    profesores y suscriptores !
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="colum-chat" v-if="actualContact != null">
-        <div class="parallel header">
-          <div class="user">
-            <img :src="actualContact.photo" />
-          </div>
-          <p>{{ actualContact.name + " " + actualContact.last_name }}</p>
-          <!-- <button class="btn-options">
+          <div class="colum-chat" v-if="actualContact != null">
+            <div class="parallel header">
+              <div class="user">
+                <img :src="actualContact.photo" />
+              </div>
+              <p>{{ actualContact.name + " " + actualContact.last_name }}</p>
+              <!-- <button class="btn-options">
             <img src="../../assets/Menuchat.svg" alt="" />
           </button> -->
-        </div>
-        <div class="body-chat">
-          <div v-if="actualMessageContent == null" class="center-spinner">
-            <p class="text-secondary">Saluda a {{ actualContact.name }}</p>
-          </div>
-          <div v-else v-for="message in actualMessageContent" :key="message.id">
-            <div v-if="message.transmitter_id == user.id" class="text-right">
-              {{ message.message }}
             </div>
-          </div>
+            <div class="body-chat">
+              <div v-if="actualMessageContent == null" class="center-spinner">
+                <p class="text-secondary">Saluda a {{ actualContact.name }}</p>
+              </div>
+              <div
+                v-else
+                v-for="message in actualMessageContent"
+                :key="message.id"
+              >
+                <div
+                  v-if="message.transmitter_id == user.id"
+                  class="text-right"
+                >
+                  {{ message.message }}
+                </div>
+              </div>
 
-          <!-- <div v-if="message_add.isLoadingMessage" class="center-spinner">
+              <!-- <div v-if="message_add.isLoadingMessage" class="center-spinner">
             <b-spinner class="b-spinner" label="Loading..." variant="success" />
             <p class="text-success">Cargando mensajes ...</p>
           </div> -->
-          <!-- <section
+              <!-- <section
             class="message-general"
             v-for="mensa in general"
             :key="mensa.id"
@@ -121,59 +142,62 @@
               <img src="../../assets/logo-perfil.png" />
             </div>
           </section> -->
-          <!-- <div class="message-contact">
+              <!-- <div class="message-contact">
             <img src="../../assets/contacto.svg" />
             <div class="escribiendo">
               <div class="isTyping"></div>
             </div>
           </div> -->
-        </div>
+            </div>
 
-        <div class="parallel footer">
-          <div class="message-send">
-            <input
-              class="message-wrriten"
-              v-model="message_add.message"
-              @keyup.enter="sendMessage"
-              type="text"
-              placeholder="Escribe un mensaje"
-            />
-            <div class="btn-send">
-              <img
-                @click="sendMessage(actualContact.id)"
-                src="../../assets/send.svg"
-                alt=""
-              />
+            <div class="parallel footer">
+              <div class="message-send">
+                <input
+                  class="message-wrriten"
+                  v-model="message_add.message"
+                  @keyup.enter="sendMessage"
+                  type="text"
+                  placeholder="Escribe un mensaje"
+                />
+                <div class="btn-send">
+                  <img
+                    @click="sendMessage(actualContact.id)"
+                    src="../../assets/send.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="colum-chat" v-else>
-        <div class="parallel header">
-          <div class="user">
-            <img src="" />
-          </div>
-          <p>{{ actualContact.name + " " + actualContact.last_name }}</p>
-          <!-- <button class="btn-options">
+          <div class="colum-chat" v-else>
+            <div class="parallel header">
+              <div class="user">
+                <img src="" />
+              </div>
+              <p>{{ actualContact.name + " " + actualContact.last_name }}</p>
+              <!-- <button class="btn-options">
             <img src="../../assets/Menuchat.svg" alt="" />
           </button> -->
-        </div>
-        <div class="body-chat">
-          <div class="center-spinner">
-            <p class="text-secondary">Saluda a {{ actualContact.name }}</p>
-          </div>
-          <div>
-            <div v-if="message.transmitter_id == user.id" class="text-right">
-              {{ message.message }}
             </div>
-          </div>
+            <div class="body-chat">
+              <div class="center-spinner">
+                <p class="text-secondary">Saluda a {{ actualContact.name }}</p>
+              </div>
+              <div>
+                <div
+                  v-if="message.transmitter_id == user.id"
+                  class="text-right"
+                >
+                  {{ message.message }}
+                </div>
+              </div>
 
-          <!-- <div v-if="message_add.isLoadingMessage" class="center-spinner">
+              <!-- <div v-if="message_add.isLoadingMessage" class="center-spinner">
             <b-spinner class="b-spinner" label="Loading..." variant="success" />
             <p class="text-success">Cargando mensajes ...</p>
           </div> -->
-          <!-- <section
+              <!-- <section
             class="message-general"
             v-for="mensa in general"
             :key="mensa.id"
@@ -188,35 +212,35 @@
               <img src="../../assets/logo-perfil.png" />
             </div>
           </section> -->
-          <!-- <div class="message-contact">
+              <!-- <div class="message-contact">
             <img src="../../assets/contacto.svg" />
             <div class="escribiendo">
               <div class="isTyping"></div>
             </div>
           </div> -->
-        </div>
+            </div>
 
-        <div class="parallel footer">
-          <div class="message-send">
-            <input
-              class="message-wrriten"
-              v-model="message_add.message"
-              @keyup.enter="sendMessage"
-              type="text"
-              placeholder="Escribe un mensaje"
-            />
-            <div class="btn-send">
-              <img
-                @click="sendMessage(actualContact.id)"
-                src="../../assets/send.svg"
-                alt=""
-              />
+            <div class="parallel footer">
+              <div class="message-send">
+                <input
+                  class="message-wrriten"
+                  v-model="message_add.message"
+                  @keyup.enter="sendMessage"
+                  type="text"
+                  placeholder="Escribe un mensaje"
+                />
+                <div class="btn-send">
+                  <img
+                    @click="sendMessage(actualContact.id)"
+                    src="../../assets/send.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- <div class="colum-chat">
+          <!-- <div class="colum-chat">
         <div class="parallel header">
           <div class="user">
             <img src="../../assets/contacto.svg" />
@@ -271,10 +295,10 @@
           </div>
         </div>
       </div> -->
+        </div>
+      </div>
     </div>
   </div>
-   </div>
-</div>
 </template>
 
 <script>
@@ -429,6 +453,92 @@ export default {
 
 <style scoped>
 @import "./style.css";
+
+.small-img {
+  width: 70px;
+  max-width: 70px;
+  min-width: 70px;
+  margin: 0;
+  padding: 0;
+  height: 50px;
+}
+.small-img-sub {
+  width: 70px;
+  max-width: 70px;
+  min-width: 70px;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.card-img-top {
+  min-height: 200px;
+  width: auto;
+  max-height: 200px;
+}
+.last_courses {
+  margin-top: 25px;
+}
+body {
+  background-color: #f9f9fa;
+}
+.card {
+  background: #fff;
+  border-width: 0;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(19, 24, 44, 0.125);
+  border-radius: 0.25rem;
+}
+.list-item {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+}
+.list-row .list-item {
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0.75rem 0.625rem;
+}
+.list-item {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+}
+.list-row .list-item > * {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
+.dropdown {
+  position: relative;
+}
+a:focus,
+a:hover {
+  text-decoration: none;
+}
+list-item {
+  background: white;
+}
+
 .contenedor {
   display: block;
   width: 100%;

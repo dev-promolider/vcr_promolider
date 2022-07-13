@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-bottom: 60px">
     <v-app-bar app elevation="7" height="50px" color="#28c76f">
       <v-app-bar-nav-icon
         @click="changeDrawer"
@@ -161,15 +161,16 @@
               <v-list-item-content>
                 <v-list-item-title
                   v-html="item.title"
-                  style="color: grey"
+                  style="color: #4b4b4c"
                   class="font-weight-bold"
                 ></v-list-item-title>
                 <v-list-item-subtitle
+                  style="color: #676767"
                   v-html="item.subtitle"
                 ></v-list-item-subtitle>
                 <v-list-item-subtitle
                   ><timeago
-                    style="color: #327e00; font-weight: bold"
+                    style="color: #4b4b4c; font-weight: bold"
                     :datetime="item.created_at"
                     :auto-update="60"
                   ></timeago
@@ -282,12 +283,7 @@
               </v-icon>
           </div>
           </v-sheet>
-<<<<<<< HEAD
-        </v-bottom-sheet>
-
-=======
         </v-bottom-sheet> -->
->>>>>>> 7a042ad5d03ea2c0c23270ec15028d21e5c8f956
   </div>
 </template>
 
