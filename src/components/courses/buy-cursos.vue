@@ -236,16 +236,19 @@ export default {
   methods: {
     ...mapActions('course',{
         getCourse: 'getCourse',
-        getVideo: 'getVideo'
+        getVideo: 'getVideo',
+        buyCourse: 'buyCourse'
       }),
 
     // Redirección a la vista para comprar el curso
-    BuyCourse(){
-      /* this.axios.post('/cart/buy-course', {
-          "course_id": this.pao_id
-      } )
-      this.$router.push("/suscription-user") */
-      this.$router.push("/buy/"+this.pao_id) 
+    async BuyCourse(){
+      if( this.precio === 0 ) {
+        const { ok } = await this.buyCourse( this.pao_id )
+        if( !ok ) return 
+        this.$router.push({name: 'suscription-user'})
+      }else{
+        this.$router.push("/buy/"+this.pao_id) 
+      }
     },
 
     FilterBtn(){
