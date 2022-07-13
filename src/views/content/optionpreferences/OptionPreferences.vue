@@ -1,22 +1,50 @@
 <template>
-  <div style="height: 100%">
+  <div style="height: 100%; min-height: 600px">
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Mis Preferencias</div>
+    </div>
+
     <div class="row p-5" v-if="isLoading">
       <div
-        class="col-md-3 text-center preference"
+        class="col-md-2 text-center preference"
         :class="[{ opacity: preference.selected }]"
         v-for="preference in preferences"
         :key="preference.id"
         @click="editPreference(preference)"
       >
-        <i :class="preference.icon"></i>
+        <i :class="preference.icon" style="font-size: 2.5em"></i>
         <p>{{ preference.name }}</p>
       </div>
-    </div>
-    <div class="row">
       <div class="col-md-12 text-right">
         <button class="btn btn-success" @click="addPreferences">Guardar</button>
       </div>
     </div>
+    <!-- <div v-else> -->
+    <v-container>
+      <v-row>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader
+            v-bind="attrs"
+            type="card-avatar, article, actions"
+          ></v-skeleton-loader>
+        </v-col>
+
+        <v-col cols="12" md="4">
+          <v-skeleton-loader
+            v-bind="attrs"
+            type="table-heading, list-item-two-line, image, table-tfoot"
+          ></v-skeleton-loader>
+        </v-col>
+
+        <v-col cols="12" md="4">
+          <v-skeleton-loader
+            v-bind="attrs"
+            type="list-item-avatar-three-line, image, article"
+          ></v-skeleton-loader>
+        </v-col>
+      </v-row>
+    </v-container>
+    <!-- </div> -->
     <!-- <div v-if="isLoading">
         <h4 class="title-preference">
           Seleccione sus categorías
@@ -29,8 +57,6 @@
             Obtenga recomendaciones personalizadas.</b-tooltip
           >
         </h4>
-
-
 
       </div> -->
     <!-- <b-spinner
@@ -170,12 +196,6 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 1000px) {
-  .v-application--wrap {
-    background-color: inherit !important;
-  }
-}
-
 .pointer {
   cursor: pointer;
 }
@@ -191,12 +211,7 @@ export default {
   opacity: 0.25;
   color: black;
 }
-.preferences i {
-  font-size: 55px;
-}
-.name-preference {
-  font-size: 20px;
-}
+
 @media (max-width: 768px) {
   .preferences i {
     font-size: 30px;

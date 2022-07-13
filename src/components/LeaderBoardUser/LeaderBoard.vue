@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="min-height: 700px">
     <div class="row text-left px-3 h2" style="background-color: #35424a">
       <div class="col-md-12 text-white px-5">Tabla de clasificación</div>
     </div>

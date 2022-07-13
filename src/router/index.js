@@ -5,14 +5,18 @@ import Home from '../views/content/dashboard/Dashboard.vue'
 import AttributeVenta from '../components/AttributeVenta/AttributeVenta.vue'
 import AttributeUser from '../components/AttributeUser/AttributeUser.vue'
 import AttributeCourse from '../components/AttributeCourse/AttributeCourse.vue'
+
 import Courses from '../views/content/courses/Courses.vue'
+import Suscription from '../views/content/suscriptions/Suscriptions.vue'
+
 import Messages from '../views/content/message/Messages.vue'
 import CursoUser from '../views/content/course/Course.vue'
 // import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
 import Login from '../views/auth/Login.vue'
 import Perfil from '../views/content/perfil/Perfil.vue'
 import buycursos from '../components/courses/buy-cursos.vue'
-import Suscription from '../components/suscription/suscription.vue'
+
+// import Suscription from '../components/suscription/suscription.vue'
 import Certificado from '../components/Certificado/certificado.vue'
 import detalleCertificado from '../components/Certificado/detalleCertificado.vue'
 import pruebasCourse from '../components/course/descripcion/pruebas/pruebasCourse.vue'
@@ -43,7 +47,7 @@ const routes = [
       { path: '/perfil', name: 'perfil', component: Perfil },
       { path: '/option-preferences', name: 'option-preferences', component: optionPreference },
       { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos, props: true },
-      { path: '/suscription-user', name: 'suscription-user', component: Suscription },
+      { path: '/suscription-user',component: Suscription , name: 'suscription-user' },
       { path: '/certificado-user', name: 'certificado-user', component: Certificado },
       { path: '/detalle-certificado', name: 'detalle-certificado', component: detalleCertificado },
       { path: '/logros', name: 'logros', component: logrosUser },

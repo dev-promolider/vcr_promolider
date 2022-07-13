@@ -1,16 +1,11 @@
 <template>
-  <div style="height: 100%">
-    <div
-      class="d-grid"
-      :class="[
-        this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
-          ? 'flex-column'
-          : 'contenedor-profile',
-      ]"
-    >
-      <div class="profile mx-1">
-        <div class="h2 py-3 text-secondary mx-1">Ajustes de Perfil</div>
+  <div style="min-height: 700px">
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Ajustes de perfil</div>
+    </div>
 
+    <v-row class="text-center p-3">
+      <v-col cols="4" sm="9" md="4">
         <v-card elevation="2">
           <v-card
             elevation="0"
@@ -60,11 +55,11 @@
             </v-list-item>
           </v-list>
         </v-card>
-      </div>
+      </v-col>
 
-      <div class="profile-tabs mx-2" style="width: 90%">
-        <v-card elevation="0">
-          <v-tabs show-arrows v-model="tab" background-color="#000000" dark>
+      <v-col cols="8" sm="12" md="8">
+        <v-card elevation="2">
+          <v-tabs show-arrows v-model="tab" dark>
             <v-tab v-for="(ltab, index) in listTabs" :key="index">
               <v-icon left> mdi-{{ ltab.icon }} </v-icon>
               {{ ltab.title }}
@@ -214,8 +209,27 @@
             </v-tab-item>
           </v-tabs-items>
         </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- <div
+      class="d-grid"
+      :class="[
+        this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
+          ? 'flex-column'
+          : 'contenedor-profile',
+      ]"
+    >
+      <div class="profile mx-1">
+        <div class="h2 py-3 text-secondary mx-1">Ajustes de Perfil</div>
+
+
       </div>
-    </div>
+
+      <div class="profile-tabs mx-2" style="width: 90%">
+    
+      </div>
+    </div> -->
 
     <!-- Modals -->
     <v-dialog @click:outside="onCancel" v-model="modalImage" max-width="490">
@@ -477,6 +491,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.theme--light .v-tabs-items {
+  background-color: transparent !important;
+}
+
+.theme--light {
+  background-color: transparent !important;
+}
+.v-tabs-items {
+  background-color: transparent !important;
+}
+
 .contenedor-profile {
   display: grid;
   gap: 20px;

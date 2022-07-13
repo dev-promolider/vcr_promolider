@@ -1,7 +1,5 @@
 <template>
-  <div style="height: 100%">
     <Courses />
-  </div>
 </template>
 <script>
 import Courses from "@/components/courses/Courses.vue";

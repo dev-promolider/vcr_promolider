@@ -13,15 +13,11 @@ export default {
 };
 </script>
 
-<!-- Definiendo estilos globales -->
 <style>
-/* @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap'); */
 main {
   padding-top: 0px !important;
 }
-/* Paleta de colores */
 .v-main__wrap {
-  /* background-color: red; */
   background-image: url("../src/assets/water-background.webp");
   background-size: 50%;
   background-position-x: center;
