@@ -19,52 +19,70 @@
         <button class="btn btn-success" @click="addPreferences">Guardar</button>
       </div>
     </div>
-    <!-- <div v-else> -->
-    <v-container>
-      <v-row>
-        <v-col cols="12" md="4">
-          <v-skeleton-loader
-            v-bind="attrs"
-            type="card-avatar, article, actions"
-          ></v-skeleton-loader>
-        </v-col>
-
-        <v-col cols="12" md="4">
-          <v-skeleton-loader
-            v-bind="attrs"
-            type="table-heading, list-item-two-line, image, table-tfoot"
-          ></v-skeleton-loader>
-        </v-col>
-
-        <v-col cols="12" md="4">
-          <v-skeleton-loader
-            v-bind="attrs"
-            type="list-item-avatar-three-line, image, article"
-          ></v-skeleton-loader>
-        </v-col>
-      </v-row>
-    </v-container>
-    <!-- </div> -->
-    <!-- <div v-if="isLoading">
-        <h4 class="title-preference">
-          Seleccione sus categorías
-          <i id="tooltip-target-1" class="fas fa-info-circle pointer"></i>
-          <b-tooltip
-            placement="right"
-            target="tooltip-target-1"
-            triggers="hover"
-          >
-            Obtenga recomendaciones personalizadas.</b-tooltip
-          >
-        </h4>
-
-      </div> -->
-    <!-- <b-spinner
-        class="loading"
-        label="Spinning"
-        type="grow"
-        v-else
-      ></b-spinner> -->
+    <div v-else>
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="3">
+            <v-skeleton-loader
+              type="card"
+              class="mx-auto"
+              max-width="300"
+            ></v-skeleton-loader>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-skeleton-loader
+              type="card"
+              class="mx-auto"
+              max-width="300"
+            ></v-skeleton-loader>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-skeleton-loader
+              type="card"
+              class="mx-auto"
+              max-width="300"
+            ></v-skeleton-loader>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-skeleton-loader
+              type="card"
+              class="mx-auto"
+              max-width="300"
+            ></v-skeleton-loader>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="3">
+            <v-skeleton-loader
+              type="card"
+              class="mx-auto"
+              max-width="300"
+            ></v-skeleton-loader>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-skeleton-loader
+              type="card"
+              class="mx-auto"
+              max-width="300"
+            ></v-skeleton-loader>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-skeleton-loader
+              type="card"
+              class="mx-auto"
+              max-width="300"
+            ></v-skeleton-loader>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-skeleton-loader
+              type="card"
+              class="mx-auto"
+              max-width="300"
+            ></v-skeleton-loader>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -196,6 +214,9 @@ export default {
 </script>
 
 <style scoped>
+.v-skeleton-loader__image {
+  height: 100px;
+}
 .pointer {
   cursor: pointer;
 }
