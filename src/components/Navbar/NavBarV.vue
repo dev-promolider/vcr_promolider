@@ -28,7 +28,7 @@
       <v-list nav dense>
         <v-list-item
           link
-          style="color: #ffffff"
+          style="color: #ffffff; margin-bottom: 25px !important"
           v-for="(link, index) in listNavBar"
           :key="index"
           :to="{ name: link.path }"
@@ -66,6 +66,7 @@
                 </h4>
               </v-list-item-title>
             </v-list-item>
+
             <v-list-item
               link
               :to="{ name: 'preguntas-frecuentes' }"
@@ -143,5 +144,9 @@ export default {
 }
 a:hover {
   text-decoration: none;
+}
+.v-list-item--active {
+  background-color:#000000;
+  color: #1AE800 !important;
 }
 </style>

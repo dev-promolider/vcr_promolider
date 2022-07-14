@@ -5,10 +5,10 @@
     </div>
 
     <div class="row p-4">
-      <div class="col-md-12 col-lg-8">
+      <div class="col-md-12 col-lg-12">
         <div class="row">
           <div
-            class="col-md-4 col-sm-4"
+            class="col-md-3 col-sm-4"
             v-for="(logro, index) in logros"
             :key="index"
           >
@@ -54,14 +54,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4 d-sm-none d-xs-none d-md-block text-center">
-        <img
-          class="img-curso"
-          src="@/assets/handsome-guy.png"
-          alt="handsome-guy"
-          style="70%"
-        />
       </div>
     </div>
     <!-- 
@@ -138,11 +130,9 @@ export default {
       logros: null,
     };
   },
-
   mounted() {
     this.getLogros();
   },
-
   methods: {
     getLogros() {
       this.axios("badges/my-progress").then((res) => {
@@ -154,6 +144,11 @@ export default {
 </script>
 
 <style scoped>
+.card{
+  background-color: transparent;
+  border: 0px;
+  border-radius: 20px;
+}
 .obtained {
   flex: 0 1 250px;
   box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.459);

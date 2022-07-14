@@ -55,8 +55,8 @@ main {
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px #28c76f;
-  box-shadow: inset 0 0 6px #28c76f;
+  -webkit-box-shadow: inset 0 0 6px #1AE800;
+  box-shadow: inset 0 0 6px #1AE800;
   border-radius: 10px;
   background-color: #f5f5f5;
 }
@@ -68,9 +68,9 @@ main {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px #28c76f;
-  box-shadow: inset 0 0 6px #28c76f;
-  background-color: #28c76f;
+  -webkit-box-shadow: inset 0 0 6px #1AE800;
+  box-shadow: inset 0 0 6px #1AE800;
+  background-color: #1AE800;
 }
 
 /* ::-webkit-scrollbar,
