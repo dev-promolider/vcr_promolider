@@ -9,7 +9,6 @@
 </template>
 
 <script>
-// For convenience sake, I import a collection of images from unsplash.
 import Card from "@/components/courses/cards";
 
 export default {

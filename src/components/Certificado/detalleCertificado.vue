@@ -1,10 +1,8 @@
 <template>
     <div> 
-        <div class="container " >
-           
-           <div class="position-relative moveras shadow p-3 mb-5 bg-white" v-for="items in certificado" :key="items.id" >
-
-            
+        <div class="" >
+           <!--
+           <div class="position-relative moveras shadow p-3 mb-5 bg-white" v-for="items in certificado" :key="items.id" >    
                 <p class="text-dark display-4 font-weight-bold">Certificado de finalización</p>
                 <div class="ml-5 mr-5 mt-5 px-3">
                      
@@ -15,18 +13,22 @@
                    <hr class="w-50 mb-0 mt-5">
                    <p >David Ernesto Bojorge Sequera, Instructor</p>
                </div>
-            
-
+           </div>-->
+           <div class="row justify-content-center" >
+                <div id="template" >
+                    <div v-if="certificate" v-html="certificate.certificate" >                           
+                    </div>
+                </div>
            </div>
-        
-
-
+           <div class="row justify-content-center" >
+                <button class="btn btn-outline-success mb-2 mt-5" @click="createPDF" >Descargar certificado</button>
+           </div>
         </div>
-     
     </div>
 </template>
 
 <script>
+import html2pdf from "html2pdf.js";
 export default {
     name: 'VirtualClassroomDetallecertificado',
 
@@ -41,28 +43,28 @@ export default {
 
         };
     },
-
-    mounted() {
-        
+    props: {
+        certificate: {
+        type: Object,
+        },
     },
-
+    mounted() {  
+    },
     methods: {
-        getAttributes() {
-     this.axios.get("/purchased/certificate-data").then((datos) => {
-       
-         this.informacion =datos.data.data;
-         this.nombre = this.informacion.name;
-         this.apellido = this.informacion.last_namee;
-          this.certificado = this.informacion.purchaseds;
-        
-        
-        console.log(this.cursos)
-        });
-  },
+        async createPDF(){
+            let template = document.getElementById('template');
+            
+            html2pdf().from(template).set({
+                //margin:       [0, 1 , 0, 0],
+                filename: 'certificate.pdf',
+                image: { type: "png", quality: 0.98 },
+                html2canvas: { dpi: 192, letterRendering: true, useCORS: true },
+                jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
+            }).save();
+        },
     },
     created() {
-  this.getAttributes();
-},
+    },
 };
 </script>
 

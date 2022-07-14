@@ -1,107 +1,146 @@
 <template>
-  <div style="heigth: 90vh" id="ga" class="text-center mt-4">
-	  <div class="row justify-content-md-center m-2">
-    <div v-if="win" class="bg-success p-2 mt-5" style="border-radius: 15px;">
-      <p  style="font-size: 20px;"><strong> ¡ GANASTE ! </strong></p>
-    </div>
-    <div v-if="lost" class="bg-danger p-2 mt-5" style="border-radius: 15px;">
-      <p style="font-size: 20px;"><strong> ¡ PERDISTE ! </strong></p>
-    </div>
-
-	</div>
-    <div class="row">
-      <div class="col-sm-12">
-        <h1 class="text-center text-info">AHORCADO</h1>
-		<P class="text-center mb-5">RECUERDA QUE SOLO TIENES 5 INTENTOS</P>
-        <ul id="horizontal-list centrado">
-          <!-- Aca va la lista de las letras digitadas -->
-          <button
-            v-for="(item, index) in palabra_escrita"
-            :key="index"
-            type="button"
-            class="btn btn-success cuadro text-center"
+  <div>
+    <Transition name="bounce">
+      <template v-if="!isGameFinish">
+        <template>
+          <v-card
+            elevation="10"
+            color="success"
+            class="m-auto mt-10 text-center fade-in"
+            width="500px"
           >
-            <span class="badge">{{ item }}</span>
-          </button>
-          <button></button>
-        </ul>
-      </div>
-      <!-- End primera columna -->
-
-      <div class="container text-center d-flex justify-content-center">
-        <div class="col-sm-10">
-          <!-- Aca va el teclado -->
-          <span v-for="(letra, index) in letras" :key="index">
-            <button
-              v-on:click="comparar(letra, index)"
-              class="teclado"
-              v-bind:key="letra"
-              v-bind:disabled="botones[index]"
-              v-bind:class="{
-                verde: color_botones[index] == 'verde',
-                rojo: color_botones[index] == 'rojo',
-              }"
+            <v-icon class="ma-5" size="100" color="white" icon
+              >mdi-check-circle-outline</v-icon
             >
-              {{ letra }}
+            <v-card-text class="text-h3 font-weight-bold white--text"
+              >Ganaste <span v-if="sumPoint">{{ sumPoint }}</span>
+              <v-progress-circular
+                v-if="!sumPoint"
+                indeterminate
+              ></v-progress-circular>
+              puntos</v-card-text
+            >
+            <v-row align="center" justify="center">
+              <v-card-actions>
+                <v-btn color="black" class="white--text" @click="comeBack">
+                  Regresar
+                </v-btn>
+              </v-card-actions>
+            </v-row>
+          </v-card>
+        </template>
+      </template>
+    </Transition>
+    <div
+      style="heigth: 90vh"
+      id="ga"
+      class="text-center mt-4"
+      v-if="isGameFinish"
+    >
+      <div class="row justify-content-md-center m-2"></div>
+      <div class="row">
+        <div class="col-sm-12">
+          <h2 class="text-center">{{ datos.game.title }}</h2>
+          <P
+            class="text-center mb-5 subtitle-1 font-weight-bold text--secondary"
+            >RECUERDA QUE SOLO TIENES 5 INTENTOS</P
+          >
+          <ul id="horizontal-list centrado">
+            <!-- Aca va la lista de las letras digitadas -->
+            <button
+              v-for="(item, index) in palabra_escrita"
+              :key="index"
+              type="button"
+              class="btn btn-success cuadro text-center"
+            >
+              <span class="badge">{{ item }}</span>
             </button>
-          </span>
+          </ul>
+          <div
+            class="text-capitalize subtitle-1 font-weight-bold text--secondary"
+          >
+            Pista: {{ datos.detail.description }}
+          </div>
         </div>
-        <!-- End segunda columna -->
-      </div>
-      <!-- End container text-center -->
-    </div>
-    <!-- End row -->
+        <!-- End primera columna -->
 
-    <div class="row d-flex justify-content-center ">
-      <!-- <div class="col-xs-8 col-sm-8 col-md-8">
-        <br />
-        <div>
-          <img v-bind:src="'@/components/Ahorcado/imagenes/'+contador_errores+'.png'" alt=""/>
+        <div class="container text-center d-flex justify-content-center">
+          <div class="col-sm-10">
+            <!-- Aca va el teclado -->
+            <span v-for="(letra, index) in letras" :key="index">
+              <button
+                v-on:click="comparar(letra, index)"
+                class="teclado"
+                v-bind:key="letra"
+                v-bind:disabled="botones[index]"
+                v-bind:class="{
+                  verde: color_botones[index] == 'verde',
+                  rojo: color_botones[index] == 'rojo',
+                }"
+              >
+                {{ letra }}
+              </button>
+            </span>
+          </div>
+          <!-- End segunda columna -->
         </div>
-      </div> -->
-      <!-- End tercera columna -->
-
-      <div class="co-xs-8 col-sm-8 col-md-8 m-3">
-        <br />
-        <label class="text-primary">Aciertos:</label>
-        <input
-          type="text"
-          class="form-control text-center"
-          v-model="contador_aciertos"
-		  disabled
-        />
-        <br />
-        <label class="text-primary">Errores:</label>
-        <input
-          type="text"
-          class="form-control text-center"
-          v-model="contador_errores"
-          size="3"
-		  disabled
-        />
-        <br />
-        <button class="btn btn-success" @click="generarAleatorio">
-          NUEVO JUEGO
-        </button>
+        <!-- End container text-center -->
       </div>
-      <!-- En cuarta columna -->
+      <!-- End row -->
+
+      <div class="row d-flex justify-content-center">
+        <!-- <div class="col-xs-8 col-sm-8 col-md-8">
+          <br />
+          <div>
+            <img v-bind:src="'@/components/Ahorcado/imagenes/'+contador_errores+'.png'" alt=""/>
+          </div>
+        </div> -->
+        <!-- End tercera columna -->
+
+        <div class="col-xs-8 col-sm-8 col-md-8">
+          <br />
+          <label class="text-primary">Aciertos:</label>
+          <input
+            type="text"
+            class="form-control text-center"
+            v-model="contador_aciertos"
+            disabled
+          />
+          <br />
+          <label class="text-primary">Errores:</label>
+          <input
+            type="text"
+            class="form-control text-center"
+            v-model="contador_errores"
+            size="3"
+            disabled
+          />
+          <br />
+          <!-- <button class="btn btn-success" @click="generarAleatorio">
+            NUEVO JUEGO
+          </button> -->
+        </div>
+        <!-- En cuarta columna -->
+      </div>
+      <!-- End row -->
     </div>
-    <!-- End row -->
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Ahorcado",
-  props:{
+  props: {
     datos: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
+      isGameFinish: true,
+      mostrar: true,
       game: true,
       win: false,
       lost: false,
@@ -114,13 +153,16 @@ export default {
       letras: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
       frutas: [],
       contadorFlag: 0,
-      productor_id: 1
+      productor_id: 1,
     };
   },
   methods: {
-    ...mapActions('course', ['sendAnswersCards'] ),
-    senAnswers( value ){
-      this.sendAnswersCards( value )
+    ...mapActions("course", ["sendAnswersCards"]),
+    comeBack() {
+      this.$router.back();
+    },
+    senAnswers(value) {
+      this.sendAnswersCards(value);
     },
     async generarAleatorio() {
       this.game = true;
@@ -131,8 +173,7 @@ export default {
       this.contador_errores = 0;
       this.botones = [];
       this.color_botones = [];
-      
-      this.frutas[0] = this.datos.detail.word.toLowerCase()
+      this.frutas[0] = this.datos.detail.word.toLowerCase();
 
       this.aleatorio = Math.floor(Math.random() * this.frutas.length);
       //	Crea un array de la misma longitud de
@@ -169,36 +210,47 @@ export default {
         if (this.contador_aciertos == this.palabra_generada.length) {
           this.win = true;
           this.game = false;
-          this.senAnswers( { data: true , productor_id: this.productor_id , game_type: 'ahorcado' } )
+          this.senAnswers({
+            data: true,
+            productor_id: this.productor_id,
+            game_type: "ahorcado",
+          });
+          this.isGameFinish = false;
         }
 
         if (this.contador_errores == 5) {
           this.lost = true;
           this.game = false;
-          this.senAnswers( { data: false, productor_id: this.productor_id, game_type: 'ahorcado' } )
+          this.senAnswers({
+            data: false,
+            productor_id: this.productor_id,
+            game_type: "ahorcado",
+          });
+          this.isGameFinish = false;
         }
       } //	End If Game
     },
-   
   },
   computed: {
+    ...mapState("course", ["sumPoints"]),
+    sumPoint() {
+      return this.sumPoints;
+    },
     palabra_generada: function () {
       return this.frutas[this.aleatorio];
     }, //	End palab//	End comparar
   }, //	End computed
+
   created: function () {
     this.generarAleatorio();
   },
-  mounted(){
-    
-  }
-
+  mounted() {},
 };
 </script>
 
 <style lang="scss" scoped>
 #ga {
-  background:rgb(253, 253, 253);
+  background: rgb(253, 253, 253);
   border-radius: 15px;
 }
 .teclado {

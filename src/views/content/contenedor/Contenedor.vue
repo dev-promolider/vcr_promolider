@@ -1,25 +1,30 @@
 <template>
   <div>
-    
     <div class="pref" v-if="mostrar">
-      <div class="container">
-        <Preferencias /> 
-      </div>  
-         
+        <Preferencias />
     </div>
-    
-    
 
-    <div  v-if="!mostrar">
+    <div v-if="!mostrar">
       <NavBarV />
-      <v-main app >
-
-        <router-view class="background-router"  :style="{  'background-image': `url(${courseHover.url_portada})`  }" />
+      <v-main app style="background-color: #ffffff !important">
+        <router-view class="background-router" />
       </v-main>
-      <img src="@/assets/ruleta.png" class="btnflo" data-toggle="modal" data-target="#ruleta" alt="">
+      <img
+        src="@/assets/ruleta.png"
+        class="btnflo"
+        data-toggle="modal"
+        data-target="#ruleta"
+        alt=""
+      />
 
       <!-- Modal -->
-      <div class="modal fade" id="ruleta"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div
+        class="modal fade"
+        id="ruleta"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered modal-xl">
           <div class="modal-content">
             <div class="modal-body">
@@ -27,18 +32,15 @@
             </div>
           </div>
         </div>
-    
       </div>
     </div>
-    
   </div>
 </template>
 <script>
 import NavBarV from "@/components/Navbar/NavBarV.vue";
 import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
-import { mapState } from 'vuex';
-import VueWinWheel from '@/components/Student/dashboard/Roulette'
-
+import { mapState } from "vuex";
+import VueWinWheel from "@/components/Student/dashboard/Roulette";
 
 export default {
   name: "Contenedor",
@@ -46,21 +48,19 @@ export default {
     NavBarV,
     Preferencias,
     VueWinWheel,
-    
-},
+  },
   data() {
     return {
       mostrar: false,
       status_user: null,
-      barraMenu: true
+      barraMenu: true,
     };
   },
 
-  computed:{
-    ...mapState('course',['courseHover'])
+  computed: {
+    ...mapState("course", ["courseHover"]),
   },
   methods: {
-    
     barmenu() {
       this.barraMenu = !this.barraMenu;
     },
@@ -75,13 +75,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.btnflo{
+.btnflo {
   height: 60px;
   width: 60px;
   position: fixed;
   bottom: 20px;
   right: 20px;
   cursor: pointer;
+}
+@media (max-width: 1000px) {
+  .v-application--wrap {
+    background-color: none !important;
+    min-height: inherit;
+  }
 }
 
 .view {
@@ -93,9 +99,9 @@ export default {
   height: 100vh;
 }
 
-.view::-webkit-scrollbar {
-  display: none;
-}
+// .view::-webkit-scrollbar {
+//   display: none;
+// }
 
 .content {
   width: 100%;
@@ -119,19 +125,19 @@ export default {
   flex-direction: column;
 }
 @media screen and(max-width: 1024px) {
-    .sidebar-mobile{
-        position: absolute;
-        z-index: 32;
-    }
-    .sidebar-none{
-        position: absolute;
-        z-index: 32;
-    }
-    .barrita{
-      visibility: visible !important;
-    }
+  .sidebar-mobile {
+    position: absolute;
+    z-index: 32;
+  }
+  .sidebar-none {
+    position: absolute;
+    z-index: 32;
+  }
+  .barrita {
+    visibility: visible !important;
+  }
 }
-.barrita{
+.barrita {
   position: absolute;
   top: 0;
   margin: 1.3rem 1rem;
@@ -140,12 +146,11 @@ export default {
   visibility: hidden;
   cursor: pointer;
 }
-.background-router{
-  height: 90vh ;
-  width: 100vw ;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
+// .background-router {
+//   height: 90vh;
+//   width: 100vw;
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: cover;
+// }
 </style>

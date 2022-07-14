@@ -1,16 +1,11 @@
 <template>
-  <div style="height: 100%">
-    <div
-      class="d-grid"
-      :class="[
-        this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
-          ? 'flex-column'
-          : 'contenedor-profile',
-      ]"
-    >
-      <div class="profile mx-1">
-        <div class="h2 py-3 text-secondary mx-1">Ajustes de Perfil</div>
+  <div style="min-height: 700px">
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Ajustes de perfil</div>
+    </div>
 
+    <v-row class="text-center p-3">
+      <v-col cols="4" sm="9" md="4">
         <v-card elevation="2">
           <v-card
             elevation="0"
@@ -47,7 +42,7 @@
             <v-list-item style="min-height: 30px">
               <v-list-item-content>
                 <v-list-item-title
-                  ><span>Usuario:</span> {{ userUp.name }}
+                  ><span>Nombre:</span> {{ userUp.name }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -58,20 +53,13 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item style="min-height: 30px">
-              <v-list-item-content>
-                <v-list-item-title
-                  ><span>País:</span> Lima, Perú
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
           </v-list>
         </v-card>
-      </div>
+      </v-col>
 
-      <div class="profile-tabs mx-2" style="width: 90%">
-        <v-card elevation="0">
-          <v-tabs show-arrows v-model="tab" background-color="#000000" dark>
+      <v-col cols="8" sm="12" md="8">
+        <v-card elevation="2">
+          <v-tabs show-arrows v-model="tab" dark>
             <v-tab v-for="(ltab, index) in listTabs" :key="index">
               <v-icon left> mdi-{{ ltab.icon }} </v-icon>
               {{ ltab.title }}
@@ -110,12 +98,13 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
                             v-model="userUp.date_birth"
-                            label="Cumpleaños"
+                            label="Fecha de Nacimiento"
                             prepend-icon="mdi-calendar"
                             readonly
                             v-bind="attrs"
                             v-on="on"
                             type="date"
+                            disabled
                           ></v-text-field>
                         </template>
                         <v-date-picker
@@ -133,15 +122,26 @@
                         dense
                         v-model="userUp.last_name"
                       ></v-text-field>
+
                       <v-select
-                        :items="namePais"
-                        v-model="userUp.country"
+                        v-model="varCountryInit"
+                        :items="pais"
+                        item-value="id"
+                        item-text="name"
                         label="Pais"
                         outlined
                         dense
                         class="mt-5"
                         no-data-text="No hay datos"
                       ></v-select>
+
+                      <v-text-field
+                        class="mt-5"
+                        label="Correo electrónico"
+                        outlined
+                        dense
+                        v-model="userUp.email"
+                      ></v-text-field>
                     </v-col>
                     <v-textarea
                       class="px-3"
@@ -171,7 +171,7 @@
                     <v-col cols="12" sm="6">
                       <v-text-field
                         class="mt-5"
-                        label="Nueva Contraseña"
+                        label="Nueva contraseña"
                         outlined
                         dense
                         name="password"
@@ -184,7 +184,7 @@
                     <v-col cols="12" sm="6">
                       <v-text-field
                         class="mt-5"
-                        label="Confirman Nueva Contraseña"
+                        label="Repetir nueva contraseña"
                         outlined
                         dense
                         name="password"
@@ -202,15 +202,34 @@
                     class="my-4"
                     type="submit"
                   >
-                    Cambiar Contraseña
+                    Cambiar contraseña
                   </v-btn>
                 </v-form>
               </v-card>
             </v-tab-item>
           </v-tabs-items>
         </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- <div
+      class="d-grid"
+      :class="[
+        this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
+          ? 'flex-column'
+          : 'contenedor-profile',
+      ]"
+    >
+      <div class="profile mx-1">
+        <div class="h2 py-3 text-secondary mx-1">Ajustes de Perfil</div>
+
+
       </div>
-    </div>
+
+      <div class="profile-tabs mx-2" style="width: 90%">
+    
+      </div>
+    </div> -->
 
     <!-- Modals -->
     <v-dialog @click:outside="onCancel" v-model="modalImage" max-width="490">
@@ -318,10 +337,12 @@ export default {
         rol: "",
         plan: "",
       },
-
       cuaDetalles: "",
       pais: [],
       namePais: [],
+      compEmail: localStorage.getItem("email_user"),
+      varEmail: 0,
+      varCountryInit: [],
     };
   },
   created() {
@@ -330,40 +351,70 @@ export default {
     this.cuaDetalles = localStorage.getItem("name_user");
     this.userAccountType();
     this.getCountry();
+    console.log("COUNTRY");
+    console.log(this.userUp.country);
   },
   computed: {
     ...mapState("user", ["id_user"]),
   },
   methods: {
     userUpdate() {
-      this.isLoadingUpdateUser = true;
-      this.axios
-        .post("/user/update", this.userUp)
-        .then((res) => {
-          if (res.data.status === 200) {
-            this.isLoadingUpdateUser = false;
-            this.alertUpdateUser = true;
-            this.msgUpdateUser = res.data.message;
-            this.isActiveAlertUser = true;
-          } else {
-            this.msgUpdateUser = "Error al actualizar";
-            this.isActiveAlertUser = false;
-          }
-        })
-        .catch(() => {
-          //console.log(error);
-        });
+      if (this.validateForm()) {
+        this.isLoadingUpdateUser = true;
+        this.userUp.country = this.varCountryInit;
+        this.axios
+          .post("/user/update", this.userUp)
+          .then((res) => {
+            if (res.data.status === 200) {
+              this.isLoadingUpdateUser = false;
+              this.alertUpdateUser = true;
+              this.msgUpdateUser = res.data.message;
+              this.isActiveAlertUser = true;
+            } else {
+              this.msgUpdateUser = "Error al actualizar";
+              this.isActiveAlertUser = false;
+            }
+          })
+          .catch(() => {
+            //console.log(error);
+          });
 
-      this.axios
-        .get(`/user/show?id=${localStorage.getItem("id_user")}`)
-        .then((res) => {
-          localStorage.setItem("name_user", res.data.name);
-          localStorage.setItem("last_name_user", res.data.last_name);
-          localStorage.setItem("date_birth_user", res.data.date_birth);
-          localStorage.setItem("country_user", res.data.country);
-          localStorage.setItem("biography_user", res.data.biography);
-          localStorage.setItem("city", res.data.city);
-        });
+        this.axios
+          .get(`/user/show?id=${localStorage.getItem("id_user")}`)
+          .then((res) => {
+            localStorage.setItem("name_user", res.data.name);
+            localStorage.setItem("last_name_user", res.data.last_name);
+            localStorage.setItem("date_birth_user", res.data.date_birth);
+            localStorage.setItem("country_user", res.data.id_country);
+            localStorage.setItem("biography_user", res.data.biography);
+            localStorage.setItem("city", res.data.city);
+          });
+      }
+    },
+
+    validateForm() {
+      if (this.compEmail != this.userUp.email) {
+        const formdata = new FormData();
+        formdata.append("field", "email");
+        formdata.append("value", this.userUp.email);
+
+        this.axios
+          .post("/user/verify-duplicate", formdata)
+          .then((res) => {
+            this.varEmail = res.data;
+
+            if (this.varEmail == 1) {
+              alert(
+                "El correo que ha cambiado ya esta registrado con otro usuario"
+              );
+              return false;
+            }
+            return true;
+          })
+          .catch(() => {
+            //console.log(error);
+          });
+      }
     },
 
     userAccountType() {
@@ -423,6 +474,13 @@ export default {
     getCountry() {
       this.axios.get("/countries").then((res) => {
         this.pais = res.data;
+
+        for (var i = 0, l = this.pais.length; i < l; i++) {
+          if (this.userUp.country == this.pais[i].id) {
+            this.varCountryInit = this.pais[i];
+          }
+        }
+
         this.namePais = this.pais.map((element) => {
           return element.name;
         });
@@ -433,6 +491,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.theme--light .v-tabs-items {
+  background-color: transparent !important;
+}
+
+.theme--light {
+  background-color: transparent !important;
+}
+.v-tabs-items {
+  background-color: transparent !important;
+}
+
 .contenedor-profile {
   display: grid;
   gap: 20px;

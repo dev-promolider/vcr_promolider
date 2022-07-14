@@ -1,11 +1,14 @@
 <template>
   <div>
     <div class="marco p-3">
-      <div class="titulos">
-        <p style="font-size: 1em">Última Ventas</p>
-        <router-link to="/attribute">
-          <p style="font-size: 1em; text-decoration: none">Todas las ventas</p>
-        </router-link>
+      <div class="header d-flex justify-content-between mb-2">
+        <p style="font-size: 1em">Ventas</p>
+        <router-link
+          to="/attribute"
+          class="text-decoration-none"
+          style="font-size: 1em; color: #000000"
+          >Todos las ventas</router-link
+        >
       </div>
 
       <div class="mover ml-2 mt-2 text-center">
@@ -34,11 +37,9 @@
         >
           <b-list-group-item class="d-flex align-items-center color">
             <div class="containerImg col-2">
-              <img
-                src="@/assets/perfil-del-usuario.png"
-                alt="Avatar"
-                class="image"
-              />
+              <v-avatar size="40">
+                <img :src="item.photo" alt="Avatar" class="image" />
+              </v-avatar>
               <div class="middle">
                 <p class="text">
                   {{ item.client }} {{ item.client_last_name }}

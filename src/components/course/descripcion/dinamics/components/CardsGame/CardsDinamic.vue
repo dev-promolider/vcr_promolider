@@ -28,12 +28,22 @@
                             </button>
                 </div>
             </template>
-                <Transition name="bounce" >
+               <Transition name="bounce" >
                     <template v-if="isGameFinish">
-                            <v-card elevation="10" color="success" class="m-auto mt-10 text-center fade-in" width="500px">
-                                <v-icon class="ma-5" size="100" color="white" icon>mdi-check-circle-outline</v-icon>
-                                <v-card-text class="text-h3 font-weight-bold white--text">Ganaste {{ sumPoint }} puntos</v-card-text>
-                            </v-card>
+                                    <template >
+                                            <v-card elevation="10" color="success" class="m-auto mt-10 text-center fade-in" width="500px">
+                                                <v-icon class="ma-5" size="100" color="white" icon>mdi-check-circle-outline</v-icon>
+                                                <v-card-text class="text-h3 font-weight-bold white--text">Ganaste <span v-if="sumPoint" >{{sumPoint}}</span> <v-progress-circular v-if="!sumPoint" indeterminate ></v-progress-circular> puntos</v-card-text>
+                                                <v-row align="center" justify="center">
+                                                    <v-card-actions>
+                                                    <v-btn color="black" class="white--text" @click="comeBack">
+                                                        Regresar
+                                                    </v-btn>
+                                                    </v-card-actions>
+                                                </v-row>
+                                            </v-card>
+                                    </template>
+
                     </template>
                 </Transition>
         </template>
@@ -111,6 +121,9 @@ export default {
 
     methods:{
         ...mapActions('course', ['getDataDinamic', 'sendAnswersCards', 'getCourseActive']),
+        comeBack(){
+            this.$router.back()
+        },
         async getActiveCourse(){
            const {data} = await this.getCourseActive(this.$route.query.c)
            this.productor_id =  data[0].user_id

@@ -1,11 +1,23 @@
 <template>
-  <div>
+  <div style="min-height: 700px">
+    <div class="row text-left px-3 h2" style="background-color: #35424a">
+      <div class="col-md-12 text-white px-5">Mis certificados</div>
+    </div>
+
     <div class="container mt-5 position-relative" v-if="muestro">
-      <div class="col col-md-6 col-lg-9 mx-auto" >
-        <div
-          class="category-logo container d-flex row text-center cursor-pointer" 
-        >
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
+      <div class="col col-md-6 col-lg-9 mx-auto">
+        <div class="category-logo container d-flex row text-center">
+          <div
+            class="card-group mx-3 my-2"
+            v-for="(item, index) in informacion"
+            :key="index"
+          >
+            <Card
+              :course="item"
+              :cardType="cardType"
+              @selectedCertificate="escoger"
+            />
+          </div>
           <!-- <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
           <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
@@ -25,53 +37,70 @@
       </div>
     </div>
 
-    <div class="container  " v-if="mostrar">
-      <Detalles />
+    <div class="container" v-if="mostrar">
+      <Detalles :certificate="certificate" />
 
-<button type="button" class="btn btn-outline-success mb-2 mt-5" @click="cerrar()">Escoger otro certificado</button>
-      
+      <button
+        type="button"
+        class="btn btn-outline-success mb-2 mt-5"
+        @click="cerrar()"
+      >
+        Escoger otro certificado
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import Detalles from "@/components/Certificado/detalleCertificado.vue";
+import Card from "@/components/courses/cards";
+
 export default {
   name: "VirtualClassroomCertificado",
 
   components: {
     Detalles,
+    Card,
   },
   data() {
     return {
       mostrar: false,
       muestro: true,
       spin: false,
-      informacion:[]
+      informacion: [],
+      cardType: 4,
+      certificate: {},
     };
   },
 
   mounted() {},
 
   methods: {
-     getAttributes() {
-     this.axios.get("/purchased/certificate-data").then((datos) => {
-       
-         this.informacion =datos.data.data;
-         console.log(this.informacion)
-        //  console.log(this.informacion)
-        });
-     },
-    escoger() {
-      // this.$router.push('/detalle-certificado')
-      this.muestro = false;
-      this.spin = true;
+    getAttributes() {
+      this.axios.get("/course/certificate-list").then((datos) => {
+        this.informacion = datos.data;
+      });
+    },
+    getCertificate(id) {
+      this.axios.get("/course/certificate/" + id).then((datos) => {
+        this.certificate = datos.data[0];
 
-      setTimeout(() => {
         this.spin = false;
         this.mostrar = true;
         this.muestro = false;
-      }, 500);
+      });
+    },
+    escoger(certificate) {
+      this.getCertificate(certificate.id);
+
+      // this.$router.push('/detalle-certificado')
+      this.muestro = false;
+      this.spin = true;
+      /*setTimeout(() => {
+        this.spin = false;
+        this.mostrar = true;
+        this.muestro = false;
+      }, 100);*/
     },
 
     cerrar() {
@@ -80,9 +109,9 @@ export default {
       this.spin = false;
     },
   },
-   created() {
-  this.getAttributes();
-},
+  created() {
+    this.getAttributes();
+  },
 };
 </script>
 
@@ -101,5 +130,15 @@ export default {
 .slip {
   margin-top: 15%;
 }
-
+.backgro {
+  background: #131b1e;
+  opacity: 0.9;
+  z-index: 10;
+}
+.titulo {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: left;
+}
 </style>

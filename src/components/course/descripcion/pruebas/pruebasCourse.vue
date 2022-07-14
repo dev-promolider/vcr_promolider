@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%; background: white; width: 99%">
+  <div style="height: 78.5vh; background: white; width: 99%">
     <div
       v-if="isLoadingQuestions"
       class="text-center"
@@ -9,187 +9,199 @@
     </div>
 
     <div v-else>
-      <h3 class="text-center p-3 pb-0">{{ datos.title }}</h3>
 
       <Transition name="bounce">
-        <div
-          v-if="mostrar"
-          class="caja-texto"
-          :class="[
-            this.respExam.message === 'aprobado'
-              ? 'success-texto'
-              : 'danger-texto',
-          ]"
-        >
-          <div
-            class="d-flex flex-column justify-content-center align-items-center my-3"
-            style="font-size: 20px; font-weight: bold"
-          >
-            <div>
-              <i
-                :class="[
-                  this.respExam.message === 'aprobado'
-                    ? 'fas fa-smile'
-                    : 'fas fa-frown',
-                ]"
-                style="font-size: 55px"
-              ></i>
-            </div>
-            <div>
-              {{
-                this.respExam.message === "aprobado"
-                  ? `¡Felicitaciones!`
-                  : ""
-              }}
-            </div>
-            <div>Ústed ah {{ this.respExam.message }}</div>
-            <div>Puntos obtenidos: {{ this.respExam.points }}</div>
-            <div>Score: {{ this.respExam.score }}</div>
-          </div>
-          
-            <button class="btn btn-success position-absolute" style="bottom: 0" @click="goCourse">Regresar al Curso</button>
-        
-        </div>
+        <card-alert 
+          v-if="mostrar && typeExamem === 1" 
+          color="#009ED0" class="mx-auto"
+           style="margin: 150px" 
+          title="Su examen se revisará pronto" 
+          :img="require('@/assets/icon-coin.png')" >
+        </card-alert>
+         <card-alert 
+          v-if="mostrar && typeExamem === 2"
+          color="#00A876" class="mx-auto"
+           style="margin: 150px" 
+          :title="`Has ganado ${points} puntos.`" 
+          subtitle="Sigue acumulando puntos para obtener recompezas."
+          :img="require('@/assets/icon-coin.png')" >
+        </card-alert>
+        <card-alert 
+          v-if="mostrar && typeExamem === 3"
+          color="#D0004B" class="mx-auto"
+          style="margin: 150px" 
+          :title="`Has ganado ${points} puntos.`" 
+          subtitle="Sigue acumulando puntos para obtener recompezas."
+          :img="require('@/assets/icon-coin.png')" >
+        </card-alert>
       </Transition>
-      <div class="wrapper-stepper mx-5" v-if="mostrar === false">
-        <div class="stepper">
-          <div class="stepper-progress">
+      <div class="wrapper-stepper mx-5" v-if="!mostrar">
+            <div class="d-flex align-center" :class="[$vuetify.breakpoint.xs ? 'flex-column mb-10' : 'justify-center' ]"  >
+                <h3 class="text-center ma-7 pb-0  text-capitalize">{{ datos.title }}</h3>
+
+                <v-chip color="black" text-color="white" v-if="time" >
+                  Time: {{timeLeft}}
+                </v-chip>
+            </div>
+        <template v-if="isTimeActive">
+          <div class="text-center" >
+            <v-btn color="warning" @click="startExam">Empezar</v-btn>
+          </div>
+        </template>
+        <template v-if="!isTimeActive">
+            <div class="stepper">
+              <div class="stepper-progress">
+                <div
+                  class="stepper-progress-bar"
+                  :style="'width:' + stepperProgress"
+                ></div>
+              </div>
+
+              <div
+                class="stepper-item"
+                :class="{ current: step == index, succes: step > index }"
+                v-for="(question, index) in questions"
+                :key="index"
+              >
+           
+                <div class="stepper-item-counter">
+                  <img
+                    class="icon-success"
+                    src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png"
+                    alt=""
+                  />
+                  <span class="number white--text">
+                    {{ index + 1 }}
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+                
+
             <div
-              class="stepper-progress-bar"
-              :style="'width:' + stepperProgress"
-            ></div>
-          </div>
+              class="stepper-content"
+              v-for="(question, index) in questions"
+              :key="index"
+            >
+              <div class="stepper-pane" v-if="step == index">
+                <div class="contenedor d-flex justify-content-around ">
+                  <div class="title-question  text-capitalize">
+                    {{ question.title }}
+                  </div>
+                  <div class="puntos text-capitalize">Obten {{ question.points }} puntos</div>
+                </div>
 
-          <div
-            class="stepper-item"
-            :class="{ current: step == index, success: step > index }"
-            v-for="(question, index) in questions"
-            :key="index"
-          >
-            <div class="stepper-item-counter">
-              <img
-                class="icon-success"
-                src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png"
-                alt=""
-              />
-              <span class="number">
-                {{ index + 1 }}
-              </span>
+                <div v-for="(q, i) in question.options" :key="i">
+            
+                  <div
+                    class="options-questions"
+                    v-if="question.question_type_id == 1"
+                  >
+                    <input
+                      :id="i"
+                      type="radio"
+                      class="input-opciones"
+                      :checked="checked"
+                      @click="selectOption"
+                      :value="i"
+                      v-model="form[index].option"
+                    />
+                    <label :for="i" class="opciones"> {{ q }} </label>
+                  </div>
+
+                  <div
+                    class="options-questions"
+                    v-if="question.question_type_id == 2"
+                  >
+                    <input
+                      type="checkbox"
+                      :id="i"
+                      :value="i"
+                      v-model="form[index].option"
+                    />
+                    <label :for="i" class="opciones"> {{ q }} </label>
+                  </div>
+
+                  <div
+                    class="options-questions"
+                    v-else-if="question.question_type_id == 3"
+                  >
+                    <input
+                      :id="i"
+                      type="radio"
+                      class="input-opciones"
+                      :checked="checked"
+                      @click="selectOption"
+                      :value="i"
+                      v-model="form[index].option"
+                    />
+                    <label :for="i" class="opciones"> {{ q }} </label>
+                  </div>
+
+
+                </div>
+                  <div v-if="question.question_type_id == 4" class="textarea">
+                    <v-row justify="center">
+                      <v-col cols="12" sm="9" >
+                        <v-textarea
+                        @change="selectOption"
+                          color="dark"
+                          placeholder="Responda aquí..."
+                          maxlength="200"
+                          cols="30"
+                          rows="3"
+                          v-model="form[index].option"
+                          outlined
+                        >
+                        </v-textarea>
+                      </v-col>
+                    </v-row>
+                  </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div
-          class="stepper-content"
-          v-for="(question, index) in questions"
-          :key="index"
-        >
-          <div class="stepper-pane" v-if="step == index">
-            <div class="contenedor d-flex justify-content-around">
-              <div class="title-question">
-                {{ question.title }}
-              </div>
-              <div class="puntos">Obten {{ question.points }} puntos</div>
+            <div
+              v-if="step === Object.keys(this.questions).length"
+              class="sendAnswers stepper-pane"
+            >
+              Has llegado al final del examén, si está seguro de sus respuestas
+              seleccione enviar.
             </div>
 
-            <div v-for="(q, i) in question.options" :key="i">
-              <div
-                class="options-questions"
-                v-if="question.question_type_id == 1"
-              >
-                <input
-                  :id="q"
-                  type="radio"
-                  class="input-opciones"
-                  :checked="checked"
-                  @click="selectOption"
-                  :value="i"
-                  v-model="form[index].option"
-                />
-                <label :for="q" class="opciones"> {{ q }} </label>
-              </div>
+            <div class="controls">
+              <button class="btn" @click="sustractStep" :disabled="step == 0">
+                Anterior
+              </button>
+              <button
+                class="btn btn--green-1"
+                @click="addStep"
+                :disabled="isDisabled"
+                v-if="step !== Object.keys(questions).length"          >
+                Siguiente
+              </button>
 
-              <div
-                class="options-questions"
-                v-if="question.question_type_id == 2"
-              >
-                <input
-                  type="checkbox"
-                  :id="q"
-                  :value="i"
-                  v-model="form[index].option"
-                />
-                <label :for="q" class="opciones"> {{ q }} </label>
-              </div>
-
-              <div
-                class="options-questions"
-                v-else-if="question.question_type_id == 3"
-              >
-                <input
-                  :id="q"
-                  type="radio"
-                  class="input-opciones"
-                  :checked="checked"
-                  @click="selectOption"
-                  :value="i"
-                  v-model="form[index].option"
-                />
-                <label :for="q" class="opciones"> {{ q }} </label>
-              </div>
-
-
+              <button class="btn btn--green-1 open" @click="sendAnswers" v-else>
+                Enviar
+              </button>
             </div>
-              <div v-if="question.question_type_id==4" class="textarea">
-                <textarea
-                  placeholder="Responda aquí..."
-                  maxlength="200"
-                  cols="50"
-                  rows="10"
-                  class="opciones"
-                  v-model="text"
-                >
-                </textarea>
-                <button class="btn btn--green-1 open" @click="sendAnswers" >
-            Enviar
-          </button>
-              </div>
-          </div>
-        </div>
-        <div
-          v-if="step === Object.keys(this.questions).length"
-          class="sendAnswers stepper-pane"
-        >
-          Has llegado al final del examén, si está seguro de sus respuestas
-          seleccione enviar.
-        </div>
-
-        <div class="controls">
-          <button class="btn" @click="sustractStep" :disabled="step == 0">
-            Anterior
-          </button>
-          <button
-            class="btn btn--green-1"
-            @click="addStep"
-            :disabled="isDisabled"
-            v-if="step !== Object.keys(questions).length"          >
-            Siguiente
-          </button>
-
-          <button class="btn btn--green-1 open" @click="sendAnswers" v-else>
-            Enviar
-          </button>
-        </div>
+        </template>
       </div>
     </div>
+    
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import moment from 'moment';
+import CardAlert from './components/CardAlert.vue';
 export default {
+  components: { CardAlert },
   data() {
     return {
+      isTimeActive: false,
+      points: 0,
+      typeExamem: 0,
       step: 0,
       questions: [],
       options: [],
@@ -202,6 +214,9 @@ export default {
       isLoadingQuestions: true,
       datos: {},
       text:null,
+      printTime: '',
+      intervaltime: 0,
+      time: 0
     };
   },
   computed: {
@@ -210,23 +225,33 @@ export default {
         (100 / Object.keys(this.questions).length) * (this.step + 1 - 1) + "%"
       );
     },
+    timeLeft(){
+      return moment.utc( this.time * 1000 ).format('HH:mm:ss')
+    },
     ...mapState("course", ["course_active",]),
   },
   methods: {
     ...mapMutations("course", ["sumPoints"]),
     ...mapActions("course", {
       getExam: "getExam",
+      sendAnswersExamen: 'sendAnswersExamen'
     }),
 
     async setExam() {
       const resp_exam = await this.getExam(this.$route.params.id);
       if (resp_exam.status === 200) {
-        console.log(resp_exam.data.data.questions);
-        this.datos = resp_exam.data.data.exam;
-        const { questions } = resp_exam.data.data;
+        const { questions, exam } = resp_exam.data.data
+
+        this.datos = exam;
         this.questions = questions;
         this.splitQuestions(questions);
         this.isLoadingQuestions = false;
+        if( exam.time === null ){
+          this.isTimeActive = false
+        }else{
+          this.time = this.datos.time
+          this.isTimeActive = true
+        }
       }
     },
     splitQuestions(questions) {
@@ -237,8 +262,10 @@ export default {
     },
     addStep() {
       if (this.form[this.step].option.length <= 0 ) {
+        
         this.isDisabled = false;
         return false;
+
       } else {
         this.step++;
       }
@@ -255,40 +282,61 @@ export default {
       this.form.push({ option: [this.text] })
     }},
 
-    sendAnswers() {
+    async sendAnswers() {
       this.enviarText()
-      console.log(this.exam_id)
-      console.log(this.form)
-      console.log(this.course_active[0].id)
 
       if (this.form.length < this.options.length) {
         return false;
       } else {
-        this.axios
-          .post("course/exam/answers", {
-            id_exam: this.exam_id,
-            answers: this.form,
-            course_id: this.course_active[0].id,
-          })
-          .then((resp) => {
-            this.mostrar = true;
-            this.respExam = resp.data;
-            this.sumPoints(Number(resp.data.points));
-          });
+        
+        const { ok,  resp } = await this.sendAnswersExamen( { id_exam: +this.exam_id, answers: this.form, course_id: +this.$route.query.course, seconds_used: this.time } )
+       
+        if( !ok ) return 
+          if( resp.data === 'Waiting' ){
+              this.typeExamem = 1  
+              this.mostrar = true
+          }else if( resp.data.message === 'Desaprobado'){
+             this.points = resp.data.points
+             this.typeExamem = 3
+             this.mostrar = true
+          }else{
+              this.clearTime()
+              this.points = resp.data.points_gained 
+              this.typeExamem = 2 
+              this.mostrar = true
+          }
       }
     },
-    goCourse(){
-      this.axios.get('course/temary/get-all-class/' + this.course_active[0].id)
-      .then((res) => {
-            let fistClass = res.data.data.modules[0].lessons[0].name;
-            this.$router.push(`../course-user?course=${this.course_active[0].id}&class=${fistClass}`)
-          })
+    setTime(  ){
+       this.intervaltime = setInterval(() => {
+          
+          this.time--;
+
+          if( this.time  === 0 ) {
+            this.sendAnswers()
+            this.clearTime()
+          }
+
+       },1000)
+    },
+    comeBack(){
+       this.$router.back()
+    },
+    startExam(){
+      this.isTimeActive = false
+      this.setTime(  )
+    },
+    clearTime(){
+      clearInterval(this.intervaltime)
     }
   },
   created() {
     this.setExam();
     //Validación si tiene comprado el curso
   },
+  beforeDestroy(){
+    this.clearTime()
+  }
 };
 </script>
 
@@ -302,6 +350,7 @@ $black-1: #000000;
 $red-1: #e7837c;
 $transiton: all 500ms ease;
 $font-anksans-regular: fon;
+
 
 .sendAnswers {
   padding: 35px 15% !important;
@@ -348,7 +397,7 @@ label {
 }
 
 .wrapper-stepper {
-  background-color: #fff;
+  background-color: white;
   padding: 2% 10%;
   box-shadow: rgba($color: #000000, $alpha: 0.09);
   overflow: hidden;
@@ -419,7 +468,7 @@ label {
     bottom: -24px;
   }
 }
-.stepper-item.success {
+.stepper-item {
   .stepper-item-counter {
     border-color: $green-1;
     background-color: $green-3;
@@ -456,6 +505,7 @@ label {
 }
 //Panel donde se muestra el contenido
 .stepper-pane {
+  background: rgba(255, 255, 255, 0.555);
   color: rgb(0, 0, 0);
   padding: 5px 15px 50px 14px;
   box-shadow: 0 8px 12px rgba($color: #000000, $alpha: 0.09);
@@ -511,16 +561,17 @@ input[type="checkbox"] {
 }
 .options-questions label {
   color: #ffffff;
-  background: $green-1;
-  padding: 5px 40px;
+  background: #38b322;
+  padding: 2px 10px 5px 40px;
   display: inline-block;
   position: relative;
   font-size: 1.1rem;
   border-radius: 10px;
   cursor: pointer;
+  font-weight: 500;
 }
 .options-questions label:hover {
-  background: $green-2;
+  background: #31c916;
 }
 .options-questions label::before {
   content: "";
@@ -536,7 +587,7 @@ input[type="checkbox"] {
 }
 .options-questions input[type="radio"]:checked + label,
 .options-questions input[type="checkbox"]:checked + label {
-  padding: 5px 40px;
+  padding: 2px 10px 5px 40px;
   background: #3bc023;
   border-radius: 10px;
   color: #fff;
