@@ -1,8 +1,8 @@
 <template>
   <div class="exitos">
-    <div class="d-flex justify-content-between" >
+    <div class="d-flex justify-content-between">
       <div class="header-logro">
-        <img src="@/assets/cup.svg" alt="">
+        <img src="@/assets/cup.svg" alt="" />
         <p>Logros</p>
       </div>
       <div class="details-logros" @click="goLogros()">
@@ -39,33 +39,30 @@
 export default {
   name: "Successes",
 
-
-data() {
-      return {
-        coursView:null,
-      }
+  data() {
+    return {
+      coursView: null,
+    };
+  },
+  methods: {
+    goLogros() {
+      this.$router.push("/logros").then();
     },
-methods: {
-  goLogros(){
-    this.$router.push("/logros")
-    .then()
-  },
 
-created() {
-    this.mostrarAprendiendo();
+    created() {
+      this.mostrarAprendiendo();
+    },
   },
-
-},
-}
+};
 </script>
 <style scoped>
-@import './style.css';
+@import "./style.css";
 .exitos {
   display: flex;
   flex-direction: column;
   gap: 60px;
 }
-.logros-user{
+.logros-user {
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -100,7 +97,7 @@ created() {
 .line-progres-1 {
   background: #1ae800;
 }
-.details-logros{
+.details-logros {
   cursor: pointer;
 }
 </style>

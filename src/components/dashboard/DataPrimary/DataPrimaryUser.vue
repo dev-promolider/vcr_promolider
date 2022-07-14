@@ -21,7 +21,7 @@
               </strong>
             </p>
             <p class="text-white mar-top" style="color: black !important">
-              <strong>Mis Cursos</strong>
+          Mis Cursos
             </p>
           </div>
         </div>

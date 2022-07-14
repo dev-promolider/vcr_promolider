@@ -17,7 +17,7 @@
             v-for="(dato, index) in datos"
             :key="index"
           >
-            <div class="tablita col-2">
+            <div class="tablita col-2 text-white text-bold">
               <p>{{ index + 1 }}</p>
             </div>
             <div class="tablita col-2">
@@ -64,7 +64,7 @@ export default {
 
 <style lang="scss" scoped>
 .caja {
-  background: #1ae800;
+  // background: #1ae800;
   border-radius: 15px;
   backdrop-filter: blur(10px);
   margin-top: 3%;

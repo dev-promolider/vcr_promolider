@@ -114,7 +114,7 @@ export default {
   margin: auto;
 }
 .cliente .color {
-  background: #28c76f;
+  background: #1AE800;
   margin-bottom: 13px;
   height: 64px;
   cursor: pointer;
