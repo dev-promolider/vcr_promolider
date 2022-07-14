@@ -22,53 +22,51 @@
       Sesión inciada exitosamente
     </div>
 
-    <div class="d-flex justify-content-center align-items-center mt-3">
+    <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
       <img src="@/assets/logo-inicial.png" class="mx-1" />
-      <div class="text-logo">Promolíder</div>
+      <div class="text-logo mt-5 mb-5">Promolíder</div>
     </div>
 
-    <div class="mt-5">
-      <b-form @submit.prevent="singin">
-        <div class="mt-5">
-          <b-form-group class="my-2 subtitle text-white" label="Usuario *">
-            <b-form-input
-              class="rounded-pill mt-2"
-              type="text"
-              v-model="form.username"
-              placeholder="Ingrese su usuario"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </div>
-
-        <div class="mt-5">
-          <b-form-group class="my-2 subtitle text-white" label="Contraseña *">
-            <b-form-input
-              class="rounded-pill holder-form mt-2"
-              type="password"
-              v-model="form.password"
-              placeholder="Ingrese su contraseña"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </div>
-
-        <b-form-group>
-          <b-form-checkbox-group>
-            <b-form-checkbox
-              class="subtitle text-white mt-4"
-              value="me"
-              name="checkbox-validation"
-              >Recuerdame</b-form-checkbox
-            >
-          </b-form-checkbox-group>
+    <b-form @submit.prevent="singin">
+      <div class="mt-5">
+        <b-form-group class="my-2 subtitle text-white" label="Usuario *">
+          <b-form-input
+            class="rounded-pill mt-2"
+            type="text"
+            v-model="form.username"
+            placeholder="Ingrese su usuario"
+            required
+          ></b-form-input>
         </b-form-group>
+      </div>
 
-        <b-button class="submit-iniciar rounded-pill" type="submit" block
-          >Ingresar</b-button
-        >
-      </b-form>
-    </div>
+      <div class="mt-5">
+        <b-form-group class="my-2 subtitle text-white" label="Contraseña *">
+          <b-form-input
+            class="rounded-pill holder-form mt-2"
+            type="password"
+            v-model="form.password"
+            placeholder="Ingrese su contraseña"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </div>
+
+      <b-form-group>
+        <b-form-checkbox-group>
+          <b-form-checkbox
+            class="subtitle text-white mt-4"
+            value="me"
+            name="checkbox-validation"
+            >Recuerdame</b-form-checkbox
+          >
+        </b-form-checkbox-group>
+      </b-form-group>
+
+      <b-button class="submit-iniciar rounded-pill mb-5" type="submit" block
+        >Ingresar</b-button
+      >
+    </b-form>
 
     <div class="row text-center mt-5 justify-content-center mb-3 items">
       <div class="col-2">

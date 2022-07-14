@@ -1,16 +1,8 @@
 <template>
-  <div class="row position-fixed">
-    <div class="col-md-12">
-      <img
-        class="w-100 h-100 background"
-        style="
-          opacity: 0.8;
-          background-position: center;
-          background-size: cover;
-        "
-        src="@/assets/background-login.webp"
-      />
-      <!-- <transition name="fade">
+  <!-- <div class="row w-100 h-100" style="min-height: 100 vh">
+    <div class="col-md-8"> -->
+  <img class="background" src="@/assets/background-login.webp" />
+  <!-- <transition name="fade">
         <div class="welcome-text mx-5" v-if="show">
           Bienvenido a <span>Promolíder</span>
           <transition name="fade">
@@ -20,8 +12,8 @@
           </transition>
         </div>
       </transition> -->
-    </div>
-  </div>
+  <!-- </div>
+  </div> -->
 </template>
 <script>
 export default {
@@ -85,5 +77,14 @@ export default {
   .welcome-text {
     font-size: 56px;
   }
+}
+.background {
+  opacity: 0.8;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0px !important;
 }
 </style>
