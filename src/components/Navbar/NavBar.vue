@@ -1,6 +1,6 @@
 <template>
   <div style="margin-bottom: 60px">
-    <v-app-bar app elevation="7" height="50px" color="#28c76f">
+    <v-app-bar app elevation="7" height="50px" color="#1AE800">
       <v-app-bar-nav-icon
         @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
@@ -488,4 +488,6 @@ a:hover {
     box-shadow: 2px 2px 2px #131b1e;
   }
 }
+
+
 </style>
