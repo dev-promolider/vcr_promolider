@@ -225,8 +225,7 @@ export const sendAnswersExamen = async ( _ , { id_exam , answers , course_id , s
 
 export const buyCourse = async ( _ , id_course ) => {
     try {
-        const resp = await axios.post('/cart/buy-course', { id_course } )
-        console.log(resp);
+          await axios.post('/cart/buy-course', { id_course } )
 
           return {ok: true}
 
@@ -238,3 +237,22 @@ export const buyCourse = async ( _ , id_course ) => {
 
 }
 
+
+export const sendRespDailyQuizz = async ( { commit } , isCorrect ) => {
+
+
+    try {
+        const resp = await axios.post('course/exam/daily/points', { isCorrect })
+
+        const { earned_points } =  resp.data
+
+        commit('sumPoints', Number(earned_points) )
+
+        return {ok: true}
+
+    } catch (error) {
+         return {ok: false}
+        
+    }
+
+}
