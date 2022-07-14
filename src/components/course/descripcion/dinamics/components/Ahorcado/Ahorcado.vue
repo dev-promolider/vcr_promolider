@@ -154,6 +154,7 @@ export default {
       frutas: [],
       contadorFlag: 0,
       productor_id: 1,
+      course_game_id: this.$route.params.id
     };
   },
   methods: {
@@ -214,6 +215,7 @@ export default {
             data: true,
             productor_id: this.productor_id,
             game_type: "ahorcado",
+            course_game_id: this.course_game_id
           });
           this.isGameFinish = false;
         }
@@ -225,6 +227,7 @@ export default {
             data: false,
             productor_id: this.productor_id,
             game_type: "ahorcado",
+            course_game_id: this.course_game_id
           });
           this.isGameFinish = false;
         }

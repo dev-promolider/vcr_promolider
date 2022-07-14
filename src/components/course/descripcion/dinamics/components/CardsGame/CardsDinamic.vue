@@ -83,7 +83,8 @@ export default {
             },
             loadingCardGame: true,
             data: {},
-            productor_id: null
+            productor_id: null,
+            course_game_id: this.$route.params.id
         }
     },
     computed:{
@@ -180,7 +181,7 @@ export default {
                         if(this.memoryCards.every(card => card.isMatched === true)){
                             this.finish = true;
                             clearInterval(this.interval);
-                            this.sendAnswersCards( { tiempo: this.totalTime , game_type:  'cartas', productor_id : this.productor_id } ) 
+                            this.sendAnswersCards( { tiempo: this.totalTime , game_type:  'cartas', productor_id : this.productor_id, course_game_id: this.course_game_id } ) 
                             this.isGameFinish = true
                             this.totalTime =  {minutes: 0,seconds: 0}
                             this.turns = 0

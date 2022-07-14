@@ -188,14 +188,14 @@ export const getDataDinamic = async ({commit}, id ) => {
 
 }
 //Enviamos las respuestas de la dinamica de cartas
-export const sendAnswersCards = async ({commit},{  tiempo = 0 , productor_id , game_type , data  }) => {
+export const sendAnswersCards = async ({commit},{  tiempo = 0 , productor_id , game_type , data, course_game_id }) => {
 
     let segundos = 0;
 
     segundos = ( tiempo.minutes * 60 ) + tiempo.seconds 
 
     try {
-        const resp = await axios.post( '/course/game/add-points', { game_type , productor_id , tiempo: segundos, data } )
+        const resp = await axios.post( '/course/game/add-points', { game_type , productor_id , tiempo: segundos, data, course_game_id } )
        
         commit('sumPoints', resp.data)
         return { ok :true }
