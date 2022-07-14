@@ -100,6 +100,22 @@ export const getTest = async (context, data) => {
     
 }
 
+// Obtenemos el examen del modulo
+export const getModuleExam = async ({commit}, payload) => {
+
+    try {
+        const resp =  await axios.post(`course/exam/active`, payload)
+
+        const { data } = resp 
+
+        commit('setModuleExam', data)
+
+    } catch (error) {
+        return {ok: false}
+    }   
+    
+}
+
 //Obtenemos los datos del exam
 export const getExam= async (_, data) => {
     const respuesta =  await axios.post(`course/exam`, {exam_id : data})

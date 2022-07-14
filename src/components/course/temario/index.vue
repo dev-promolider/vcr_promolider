@@ -1,47 +1,93 @@
 <template>
-  <div class="contenedor-temario border-box">
-    <!-- Cuerpo temario -->
-    <div class="temario ">
-      <div class="center-spinner" v-if="isLoading">
-        <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
-      </div>
-
-      <ul
-        class=" mt-2 text-truncate"
-        v-for="(model, index) in course.modules"
-        :key="index"
-        v-else
+ 
+    <v-card elevation="0" >
+      <v-tabs
+       class="rounded-0"
+        v-model="tab"
+        background-color="black"
+         dark 
+         centered 
+         flat
       >
-        <li class="nav-temario text-truncate" :title="model.name">
-          <span v-b-toggle="model.name.replace(/ /g, '')">
-            <strong> {{ index + 1 }}. {{ model.name }} </strong>
-          </span>
-          <b-collapse visible :id="model.name.replace(/ /g, '')">
-            <ul>
-              <li
-                v-for="(less, index) in course.modules[index].lessons"
-                :key="index"
-              >
-                <input
-                  type="checkbox"
-                  v-model="completedLessons"
-                  :value="less.id"
-                  @click="checkClass(less.id)"
-                />
-                <a
-                  @click="changeClass(less)"
-                  :class="{ activo: less.name === clase }"
-                  :title="less.name"
-                  >{{ less.name }}
-                </a>
-                <!--v-bind="less.name===clase ? urlClass=less.url : '' " -->
-              </li>
-            </ul>
-          </b-collapse>
-        </li>
-      </ul>
-    </div>
-  </div>
+        <v-tab
+          v-for="item in items"
+          :key="item.tab"
+          
+        >
+          {{ item.tab }}
+        </v-tab>
+      </v-tabs>
+
+      <v-tabs-items v-model="tab">
+        <v-tab-item
+          v-for="item in items"
+          :key="item.tab"
+        >
+          <v-card v-if="item.tab === 'Clases'" flat>
+             <div class="contenedor-temario border-box">
+             <!-- Cuerpo temario -->
+              <div class="temario ">
+                <div class="center-spinner" v-if="isLoading">
+                  <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
+                </div>
+
+                <ul
+                  class=" mt-2 text-truncate"
+                  v-for="(model, index) in course.modules"
+                  :key="index"
+                  v-else
+                >
+                  <li class="nav-temario text-truncate" :title="model.name">
+                    <span v-b-toggle="model.name.replace(/ /g, '')">
+                      <strong> {{ index + 1 }}. {{ model.name }} </strong>
+                    </span>
+                    <b-collapse visible :id="model.name.replace(/ /g, '')">
+                      <ul>
+                        <li
+                          v-for="(less, index) in course.modules[index].lessons"
+                          :key="index"
+                        >
+                          <input
+                            type="checkbox"
+                            v-model="completedLessons"
+                            :value="less.id"
+                            @click="checkClass(less.id)"
+                          />
+                          <a
+                            @click="changeClass(less)"
+                            :class="{ activo: less.name === clase }"
+                            :title="less.name"
+                            >{{ less.name }}
+                          </a>
+                        </li>
+                      </ul>
+                    </b-collapse>
+                  </li>
+                </ul>
+              </div>
+             </div>
+
+          </v-card>
+
+          <v-card v-if="item.tab === '2'" flat>
+            <v-card-text v-if="moduleExamen === 'No existe el examen' " class="text-center subtitle-1 dark-text font-weight-bold" > {{moduleExamen}}  </v-card-text>
+            <div v-else  class="text-center m-4">
+                <v-btn  class="success rounded-xl" @click="goToExam" >Examen - Módulo</v-btn>
+            </div>
+          </v-card>
+
+
+          <v-card v-if="item.tab === '3'" flat>
+            <v-card-text>3</v-card-text>
+          </v-card>
+
+
+        </v-tab-item>
+      </v-tabs-items>
+  </v-card>
+
+   
+ 
 </template>
 
 <script>
@@ -51,6 +97,12 @@ export default {
   name: "Temario",
   data() {
     return {
+      tab: null,
+      items: [
+          { tab: 'Clases' },
+          { tab: '2' },
+          { tab: '3' },
+      ],
       progress: 0,
       clase: null,
       completedLessons: [],
@@ -58,7 +110,7 @@ export default {
   },
   computed: {
     ...mapGetters("course", ["course"]),
-    ...mapState("course", ["allLessons", "lesson", "isLoading"]),
+    ...mapState("course", ["allLessons", "lesson", "isLoading", "moduleExamen"]),
   },
   methods: {
     ...mapActions("course", {
@@ -75,7 +127,10 @@ export default {
       "UPDATE_PROGRESS_COURSE",
       "DESTROY_PROGRESS_COURSE",
     ]),
-
+    //Ir al examen de modulo
+    goToExam(){
+      this.$router.push({ name: "test", params: { id: this.moduleExamen }, query : { class: this.$route.query.class , course: this.$route.query.course   } });
+    },
     // Funcion para calcular el progreso del curso
     async getProgress() {
       const completed = await Object.keys(this.completedLessons).length;
