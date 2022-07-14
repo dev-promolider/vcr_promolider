@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
     name: "QuestionDaily",
@@ -61,6 +61,7 @@ export default {
         ...mapState('course',['examDaily'])
     },
     methods: {
+        ...mapActions('course', ['sendRespDailyQuizz']),
         getQuestion(){
             let array;
             this.axios.get(`course/exam/daily`).then((res)=>{
@@ -96,7 +97,7 @@ export default {
         },
 
         sendResponse(response){
-            this.axios.post('course/exam/daily/points',{isCorrect:response})
+            this.sendRespDailyQuizz( response )
         }
 
     },
