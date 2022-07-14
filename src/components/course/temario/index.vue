@@ -4,7 +4,7 @@
       <v-tabs
        class="rounded-0"
         v-model="tab"
-        background-color="black"
+        background-color="success"
          dark 
          centered 
          flat
@@ -69,16 +69,19 @@
 
           </v-card>
 
-          <v-card v-if="item.tab === '2'" flat>
-            <v-card-text v-if="moduleExamen === 'No existe el examen' " class="text-center subtitle-1 dark-text font-weight-bold" > {{moduleExamen}}  </v-card-text>
+          <v-card v-if="item.tab === 'Examen'" flat>
+            <template v-if="loading && !moduleExamen">
+              <div class="text-center">
+                <v-progress-circular
+                  indeterminate
+                  color="black"
+                ></v-progress-circular>
+              </div>
+            </template>
+            <v-card-text  v-if="isNaN(parseInt(moduleExamen))" class="text-center subtitle-1 dark-text font-weight-bold" > {{moduleExamen}}  </v-card-text>
             <div v-else  class="text-center m-4">
                 <v-btn  class="success rounded-xl" @click="goToExam" >Examen - Módulo</v-btn>
             </div>
-          </v-card>
-
-
-          <v-card v-if="item.tab === '3'" flat>
-            <v-card-text>3</v-card-text>
           </v-card>
 
 
@@ -100,12 +103,12 @@ export default {
       tab: null,
       items: [
           { tab: 'Clases' },
-          { tab: '2' },
-          { tab: '3' },
+          { tab: 'Examen' },
       ],
       progress: 0,
       clase: null,
       completedLessons: [],
+      loading: true
     };
   },
   computed: {
@@ -121,15 +124,16 @@ export default {
       lastSeenLesson: "lastSeenLesson",
       getComments: "getComments",
       getTest: "getTest",
+      getModuleExam: "getModuleExam",
     }),
 
     ...mapMutations("course", [
       "UPDATE_PROGRESS_COURSE",
       "DESTROY_PROGRESS_COURSE",
     ]),
-    //Ir al examen de modulo
+    //Ir al Examen Modulo
     goToExam(){
-      this.$router.push({ name: "test", params: { id: this.moduleExamen }, query : { class: this.$route.query.class , course: this.$route.query.course   } });
+       this.$router.push({ name: "test", params: { id: this.moduleExamen }, query : { class: this.$route.query.class , course: this.$route.query.course   } });
     },
     // Funcion para calcular el progreso del curso
     async getProgress() {
@@ -162,6 +166,11 @@ export default {
       // Solicitar los nuevos examenes si es necesario
       this.getTest({
         exam_type: "class",
+        id_type: this.lesson.id,
+      });
+      // Solicitar los nuevos examenes si es necesario
+      this.getModuleExam({
+        exam_type: "module",
         id_type: this.lesson.id,
       });
 
