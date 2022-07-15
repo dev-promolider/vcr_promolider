@@ -5,7 +5,11 @@
         @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
       ></v-app-bar-nav-icon>
+      <div class="text-white text-bold banner-text" style="font-weight: 700">
+        Bienvenido a Promolíder, tu academia digital
+      </div>
       <v-spacer></v-spacer>
+
       <div class="mx-2" style="min-width: 25%" v-if="!$vuetify.breakpoint.xs">
         <v-autocomplete
           style="border-radius: 12px"
@@ -72,7 +76,7 @@
         v-if="!$vuetify.breakpoint.xs && points"
         color="#20282ed1"
         text-color="white"
-        style="font-size: 1.3em"
+        style="font-size: 1.4em"
       >
         <v-icon left> mdi-trophy-award </v-icon>
         {{ points }} Pts.
@@ -489,5 +493,9 @@ a:hover {
   }
 }
 
-
+@media screen and (max-width: 900px) {
+  .banner-text {
+    display: none;
+  }
+}
 </style>
