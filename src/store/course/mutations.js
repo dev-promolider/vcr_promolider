@@ -129,6 +129,11 @@ export const DATA_EX = (state, dataEx) => {
     state.dataEx = dataEx
 }
 
+// Cargarmos la informacióm del examen de cada modulo
+export const setModuleExam = ( state, payload) => {
+   state.moduleExamen = payload
+}
+
 
 // Escuchamos el evento hover sobre algun curso para hacer un cambio de fondo
 export const COURSE_HOVER = (state, courseHover) =>{
