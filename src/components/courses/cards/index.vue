@@ -1,7 +1,7 @@
 <template>
   <div
+    class="course-card"
     v-if="course"
-    class="card"
     @click="
       cardType == 1
         ? action(course.id)
@@ -9,21 +9,25 @@
         ? getCertificates(course)
         : goToCourse(course.id)
     "
-    :style="`max-width: ${width}%; height: ${height}px`"
   >
     <div
       :class="[{ 'btn-play': cardType == 3 }, 'image']"
       :style="{ background: `url(${course.url_portada})` }"
     ></div>
-    <div class="content p-3">
-      <p class="m-0 name text-left text-capitalize">
-        {{ course.title }}
-      </p>
-      <p class="m-0 producer text-left" v-if="cardType == 1">
-        {{ course.name }}
-      </p>
 
-      <!-- <div class="d-flex stars" v-if="cardType == 1">
+    <div class="content p-3">
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top;0 px; padding-bottom: 0px">
+          <p class="text-left text-capitalize course-title">
+            {{ course.title }}
+          </p>
+        </div>
+
+        <p class="m-0 producer text-left" v-if="cardType == 1">
+          {{ course.name }}
+        </p>
+
+        <!-- <div class="d-flex stars" v-if="cardType == 1">
         <h5 class="font-weight-bold text-warning puntuacion mr-2">3,5</h5>
         <i class="fas fa-star text-warning"></i>
         <i class="fas fa-star text-warning"></i>
@@ -32,25 +36,41 @@
         <i class="far fa-star text-warning"></i>
       </div> -->
 
-      <div class="date" v-if="cardType == 1">
-        <p class="m-0 money text-left" v-if="course.price > 0">
-          S/. {{ course.price }}
-        </p>
-        <p class="m-0 money text-left" v-if="course.price == 0">
-          <img src="@/assets/free.png" alt="" width="25" /> GRATIS
-        </p>
-      </div>
+        <div class="date" v-if="cardType == 1">
+          <p class="m-0 money text-left" v-if="course.price > 0">
+            S/. {{ course.price }}
+          </p>
+          <p class="m-0 money text-left" v-if="course.price == 0">
+            <img src="@/assets/free.png" alt="" width="25" /> GRATIS
+          </p>
+        </div>
 
-      <div class="d-flex mt-2" v-if="cardType == 2">
-        <img :src="course.photo" class="rounded-circle" style="height: 30px" />
-        <p class="m-1 ml-2">
-          {{ course.name + " " + course.last_name }}
-        </p>
-      </div>
-      <div class="d-flex mt-2" v-if="cardType == 3">
-        <p class="m-1 ml-2">
-          {{ course.last_class_reprod }}
-        </p>
+        <div
+          class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+          style="padding-top;0 px; padding-bottom: 0px"
+          v-if="cardType == 2"
+        >
+          <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-2">
+              <img
+                :src="course.photo"
+                class="rounded-circle"
+                style="height: 30px"
+              />
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-9 course-productor">
+              <p>
+                {{ course.name + " " + course.last_name }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex mt-2" v-if="cardType == 3">
+          <p class="m-1 ml-2">
+            {{ course.last_class_reprod }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -138,26 +158,38 @@ export default {
 </script>
 
 <style scoped>
-.card {
+.course-title {
+  font-size: 1.3em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.course-productor {
+  font-size: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
+}
+.course-card {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   border: 1px solid #e2e8f0;
-  height: 100%;
+  /* height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; */
   /* padding: 10px; */
   transition: 0.5s;
-  max-width: 300px;
-  min-width: 300px;
+  /* max-width: 280px;
+  min-width: 280px; */
 }
-.card:hover {
+.course-card:hover {
   transform: scale(1.04);
 }
 .image {
   min-height: 150px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  /* border-radius: 20px; */
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
@@ -166,11 +198,11 @@ export default {
 }
 
 .content {
-  padding: 12px 16px 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  /* background: rgba(175, 175, 175, 0.256); */
+  /* padding: 12px 16px 0 0; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* gap: 5px; */
+  background: rgba(175, 175, 175, 0.256);
   transition: 1s;
 }
 .content:hover {
