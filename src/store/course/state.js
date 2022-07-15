@@ -26,5 +26,6 @@ export default () => ({
     points: 0,
     sumPoints: 0,
     dinamicClass: [],
-    gameData: {}
+    gameData: {},
+    moduleExamen: null
 })

@@ -46,7 +46,7 @@
 
     <div class="col-12 col-md-6">
       <div class="row">
-        <div class="col-6">
+        <div class="col-4">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto mt-3 membresia"
             v-if="loading"
@@ -82,7 +82,7 @@
           <p class=""><i class="fas fa-infinity mr-2"></i> días restantes</p>
         </div>
 
-        <div class="four col-6 mt-2">
+        <div class="four col-4 mt-2">
           <div
             class="spinner-border spinner-border-sm ml-auto mr-auto"
             v-if="loading"
@@ -97,11 +97,28 @@
             <p class="mar-top">Mis Afiliados</p>
           </div>
         </div>
+
+         <div class="four col-4 mt-2">
+          <div
+            class="spinner-border spinner-border-sm ml-auto mr-auto"
+            v-if="loading"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="">
+            <p v-if="mostrar" class="font-weight-bold font-number my-1">
+              {{points || 0}} <v-icon>mdi-coin</v-icon>
+            </p>
+            <p class="mar-top">Mis Puntos</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {  mapState } from 'vuex';
 export default {
   name: "DataPrimaryUser",
   comoponents: {},
@@ -115,8 +132,12 @@ export default {
       loading: true,
     };
   },
+  computed:{
+    ...mapState('course', ['points']),
+  },
   methods: {
     getAttributes() {
+
       this.axios.get("dashboard/getattributes").then((r) => {
         this.loading = false;
         this.mostrar = true;
@@ -126,6 +147,7 @@ export default {
         this.typePlans = rs.accountType;
         this.affilates = rs.totalClients;
       });
+
     },
   },
   created() {

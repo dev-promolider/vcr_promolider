@@ -70,6 +70,7 @@ export default {
       getComments: "getComments",
       getCourseActive: "getCourseActive",
       getTest: "getTest",
+      getModuleExam : 'getModuleExam',
     }),
 
     ...mapMutations("course", [
@@ -87,6 +88,7 @@ export default {
           this.getVideo(res.data[0].id);
           this.getComments(res.data[0].id);
           this.getTest({ exam_type: "class", id_type: res.data[0].id });
+          this.getModuleExam({ exam_type: "module", id_type: res.data[0].id });
         });
     },
   },
