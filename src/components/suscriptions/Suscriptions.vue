@@ -8,8 +8,8 @@
       <div class="col-md-12" v-if="loading">
         <loadingCourses />
       </div>
-      <div class="col-md-12" v-if="caritas">
-        <span>Sin resultados</span>
+      <div class="col-md-12 text-center mt-5" v-if="caritas">
+        <span class="h2">Sin resultados</span>
       </div>
 
       <div

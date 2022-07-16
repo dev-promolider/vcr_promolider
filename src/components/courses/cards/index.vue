@@ -17,15 +17,34 @@
 
     <div class="content p-3">
       <div class="row">
-        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top;0 px; padding-bottom: 0px">
+        <div
+          class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+          style="padding-top;0 px; padding-bottom: 0px"
+        >
           <p class="text-left text-capitalize course-title">
             {{ course.title }}
           </p>
         </div>
 
-        <p class="m-0 producer text-left" v-if="cardType == 1">
-          {{ course.name }}
-        </p>
+        <div class="row pl-4" v-if="cardType == 1">
+          <div
+            class="col-md-12 col-lg-12 col-sm-12 col-xs-12 d-flex justify-content-between"
+          >
+            <div>
+              <p class="text-right" v-if="cardType == 1">
+                {{ course.name }}
+              </p>
+            </div>
+            <div>
+              <p class="text-right px-4" v-if="course.price > 0">
+                S/. {{ course.price }}
+              </p>
+              <p class="text-right px-4" v-if="course.price == 0">
+                <img src="@/assets/free.png" alt="" width="25" /> GRATIS
+              </p>
+            </div>
+          </div>
+        </div>
 
         <!-- <div class="d-flex stars" v-if="cardType == 1">
         <h5 class="font-weight-bold text-warning puntuacion mr-2">3,5</h5>
@@ -35,15 +54,6 @@
         <i class="fas fa-star-half-alt text-warning"></i>
         <i class="far fa-star text-warning"></i>
       </div> -->
-
-        <div class="date" v-if="cardType == 1">
-          <p class="m-0 money text-left" v-if="course.price > 0">
-            S/. {{ course.price }}
-          </p>
-          <p class="m-0 money text-left" v-if="course.price == 0">
-            <img src="@/assets/free.png" alt="" width="25" /> GRATIS
-          </p>
-        </div>
 
         <div
           class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
@@ -66,10 +76,15 @@
           </div>
         </div>
 
-        <div class="d-flex mt-2" v-if="cardType == 3">
-          <p class="m-1 ml-2">
-            {{ course.last_class_reprod }}
-          </p>
+        <div
+          class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+          v-if="cardType == 3"
+        >
+          <div class="row text-left px-4" style="color: #464646">
+            <p>
+              {{ course.last_class_reprod }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -163,13 +178,13 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;
 }
 .course-productor {
   font-size: 1em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: 10px;
 }
 .course-card {
   border-top-left-radius: 20px;
@@ -180,8 +195,8 @@ export default {
   flex-direction: column; */
   /* padding: 10px; */
   transition: 0.5s;
-  /* max-width: 280px;
-  min-width: 280px; */
+  max-width: 265px;
+  min-width: 265px;
 }
 .course-card:hover {
   transform: scale(1.04);
@@ -205,11 +220,11 @@ export default {
   background: rgba(175, 175, 175, 0.256);
   transition: 1s;
 }
-.content:hover {
+/* .content:hover {
   cursor: pointer;
   background: #fff;
   transition: 0.8s;
-}
+} */
 
 .name {
   margin-left: 4px;
