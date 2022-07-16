@@ -9,17 +9,17 @@ import { mapState } from 'vuex';
     "
   >
     <div class="row">
-      <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left">
+      <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left" style=" margin-top: 0px !important; margin-bottom: 0px !important">
         <p
           class="text-capitalize text-left"
-          style="font-weight: 700; font-size: 1.2em"
+          style="font-weight: 700; font-size: 1.2em; margin-top: 0px !important; margin-bottom: 0px !important"
         >
           {{ $route.query.class }}
         </p>
       </div>
 
       <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-right">
-        <b-button-group size="sm" class="btn-group" v-if="!endClass">
+        <b-button-group size="sm" class="btn-group" v-if="!endClass" >
           <b-button class="btn-back px-4" @click="previusClass()"
             ><i class="fas fa-backward"></i
           ></b-button>
@@ -44,9 +44,19 @@ import { mapState } from 'vuex';
         style="font-size: 1em"
         v-if="courseActive[0]"
       >
-        <p class="text-uppercase text-left">{{ courseActive[0].title }}</p>
+        <p
+          class="text-uppercase text-left"
+          style="margin-top: 0px !important; margin-bottom: 0px !important"
+        >
+          {{ courseActive[0].title }}
+        </p>
         {{ getNameProductor(courseActive[0].user_id) }}
-        <p class="text-uppercase text-left">{{ nombre }}</p>
+        <p
+          class="text-uppercase text-left"
+          style="margin-top: 0px !important; margin-bottom: 0px !important"
+        >
+          {{ nombre }}
+        </p>
       </div>
     </div>
   </div>
