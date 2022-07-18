@@ -84,7 +84,7 @@
                   class="mt-4 text-center"
                   v-if="
                     dataEx.data === 'No existe el examen' ||
-                    dataEx.data === 'Límite de intentos alcanzado'
+                    dataEx.data === 'limite de intentos alcanzado'
                   "
                 >
                   Ningún examen disponible

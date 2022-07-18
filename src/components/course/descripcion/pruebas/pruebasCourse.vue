@@ -21,21 +21,23 @@
         </card-alert>
         <card-alert
           v-if="mostrar && typeExamem === 2"
-          color="#00A876"
+          :color="status === 'Aprobado' ? '#00A876' : '#D0004B' "
           class="mx-auto"
           style="margin: 150px"
-          :title="`Has ganado ${points} puntos.`"
-          subtitle="Sigue acumulando puntos para obtener recompenzas."
+          :rank="`Rank: ${rank}`"
+          :rate="`Rate: ${rate}`"
+          :title="`Has ${status} el examen`"  
+          :subtitle="`Has ganado ${points} puntos. Sigue acumulando puntos para obtener recompenzas.`"
           :img="require('@/assets/icon-coin.png')"
         >
         </card-alert>
-        <card-alert
+          <card-alert
           v-if="mostrar && typeExamem === 3"
-          color="#D0004B"
+          color="#076579"
           class="mx-auto"
           style="margin: 150px"
-          :title="`Haz ${status} el exámen`"
-          :subtitle="`Has ganado ${points} puntos. Sigue acumulando puntos para obtener recompenzas.`"
+          :title="`Has ganado ${points} puntos.`"  
+          :subtitle="`Sigue acumulando puntos para obtener recompenzas.`"
           :img="require('@/assets/icon-coin.png')"
         >
         </card-alert>
@@ -93,6 +95,7 @@
             v-for="(question, index) in questions"
             :key="index"
           >
+        
             <div class="stepper-pane" v-if="step == index">
               <div class="contenedor d-flex justify-content-around">
                 <div class="title-question text-capitalize">
@@ -102,8 +105,8 @@
                   Obten {{ question.points }} puntos
                 </div>
               </div>
-
               <div v-for="(q, i) in question.options" :key="i">
+                {{i}}
                 <div
                   class="options-questions"
                   v-if="question.question_type_id == 1"
@@ -306,22 +309,27 @@ export default {
           course_id: +this.$route.query.course,
           seconds_used: this.time,
         });
-
         if (!ok) return;
+        const { message = '', points = 0, rank = 0, rate = 0  } = resp.data
+
         if (resp.data === "Waiting") {
           this.typeExamem = 1;
           this.mostrar = true;
-        } else if (resp.data.message === "Desaprobado") {
-          this.points = resp.data.points;
-          this.typeExamem = 3;
+        } else if ( message === "Desaprobado" || message === 'Aprobado' ) {
+          this.clearTime();
+          this.points = points;
+          this.status = message;
+          this.rank = rank;
+          this.rate = rate;
+          this.typeExamem = 2;
           this.mostrar = true;
         } else {
           this.clearTime();
-          this.points = resp.data.points_gained;
-          this.status = resp.data.message;
-          this.rank = resp.data.rank;
-          this.rate = resp.data.rate;
-          this.typeExamem = 2;
+          this.points = resp.data.points_gained || points;
+          this.status = message;
+          this.rank = rank;
+          this.rate = rate;
+          this.typeExamem = 3;
           this.mostrar = true;
         }
       }
