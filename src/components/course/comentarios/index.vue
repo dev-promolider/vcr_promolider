@@ -1,6 +1,6 @@
 <template>
   <div>
-      <v-card dense style="border-radius: 15px">
+      <v-card dense style="border-radius: 15px" elevation="0" >
         <v-list-item three-line style="width: 94%; padding-top: 20px">
           <v-list-item-avatar height="55px" width="55px">
             <v-img :src="img"></v-img>

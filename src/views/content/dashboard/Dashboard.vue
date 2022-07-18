@@ -25,7 +25,7 @@ export default {
     } else if (localStorage.getItem("rol_user") == 3) {
       this.student = !this.student;
     } else if (localStorage.getItem("rol_user") == 2) {
-      this.student = !this.student;
+      this.producer = !this.producer;
     }
   },
 };
