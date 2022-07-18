@@ -122,7 +122,7 @@ export default {
 }
 p {
   text-align: center;
-  margin-top: 19px;
+  /* margin-top: 19px; */
 }
 .El_button {
   margin-left: 45px;

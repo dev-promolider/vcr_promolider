@@ -1,5 +1,5 @@
 <template>
-  <div class="player ">
+  <div class="player">
     <video-player
       class="video vjs-custom-skin vjs-big-play-centered"
       ref="videoPlayer"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapState} from "vuex";
+import { mapMutations, mapGetters, mapState } from "vuex";
 import { videoPlayer } from "vue-video-player";
 import "video.js/dist/video-js.css";
 
@@ -34,15 +34,18 @@ export default {
   data() {
     return {
       playerOptions: {},
-      idCourse: this.$route.query.course
+      idCourse: this.$route.query.course,
     };
   },
   mounted() {
     this.playerOptions = {
-      height: 100,
+      responsive: true,
+      fluid: true,
+      // width: "100%",
+      // height: 100,
       preload: "auto",
       autoplay: false,
-      muted: true,
+      muted: false,
       language: "es",
       playbackRates: [0.7, 1.0, 1.5, 2.0],
       //techOrder: ["youtube"],
@@ -69,19 +72,17 @@ export default {
       return this.$refs.videoPlayer.player;
     },
     ...mapGetters("course", ["urlVideo", "timeReady"]),
- 
+
     ...mapState("course", ["lesson"]),
- 
   },
   methods: {
-
     ...mapMutations("course", ["CLEAR_VIDEO"]),
 
     // Eventos del reproductor que podemos usar
     onPlayerPlay() {},
     // Caundo el usaruario ponga pause se actualizara el tiempo en que se esta quedando
     onPlayerPause(player) {
-      this.actualizarTiempo(player.currentTime())
+      this.actualizarTiempo(player.currentTime());
     },
     onPlayerEnded() {},
     onPlayerLoadeddata() {},
@@ -99,24 +100,30 @@ export default {
     },
 
     // Función para actualizar el tiempo de reproduccion de la clase
-    actualizarTiempo(time){
-      this.axios.patch(`purchased/save-class-seen?course_id=${this.$route.query.course}&display_time=${time}&class_id=${this.lesson.id}`)
-    }
+    actualizarTiempo(time) {
+      this.axios.patch(
+        `purchased/save-class-seen?course_id=${this.$route.query.course}&display_time=${time}&class_id=${this.lesson.id}`
+      );
+    },
   },
   beforeDestroy() {
     // Cuando el componente se destruya o cierre por casualidad actualizaremos el tiempo en el que se esta quedando
-    this.axios.patch(`purchased/save-class-seen?course_id=${this.idCourse}&display_time=${this.player.currentTime()}&class_id=${this.lesson.id}`)
-    
+    this.axios.patch(
+      `purchased/save-class-seen?course_id=${
+        this.idCourse
+      }&display_time=${this.player.currentTime()}&class_id=${this.lesson.id}`
+    );
+
     // Actualizaremos la variable global de vuex para no generar conflicto con otra clase
     this.$store.commit("course/UPDATE_TIME", 0);
   },
-  destroyed(){
+  destroyed() {
     // Borramos datos del video al destruir el componente para no generar conflictos
     this.CLEAR_VIDEO();
-  }
+  },
 };
 </script>
 
 <style scoped>
-@import './style.css';
+@import "./style.css";
 </style>

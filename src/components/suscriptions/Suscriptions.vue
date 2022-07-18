@@ -5,24 +5,19 @@
     </div>
 
     <div class="row mt-5">
-      <div class="col-md-12">
-        <div class="row mr-5 ml-5 mover d-flex">
-          <div v-if="loading">
-            <loadingCourses />
-          </div>
+      <div class="col-md-12" v-if="loading">
+        <loadingCourses />
+      </div>
+      <div class="col-md-12 text-center mt-5" v-if="caritas">
+        <span class="h2">Sin resultados</span>
+      </div>
 
-          <div v-if="caritas" class="center-element no-result carita">
-            <span>Sin resultados</span>
-          </div>
-
-          <div
-            class="card-group mx-3 my-2"
-            v-for="(item, index) in informacion"
-            :key="index"
-          >
-            <Card :course="item" :cardType="cardType" />
-          </div>
-        </div>
+      <div
+        class="col-md-4 col-lg-3 col-sm-6 col-xs-12 px-5"
+        v-for="(item, index) in informacion"
+        :key="index"
+      >
+        <Card :course="item" :cardType="cardType" />
       </div>
     </div>
   </div>
