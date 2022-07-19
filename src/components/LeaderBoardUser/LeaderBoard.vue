@@ -4,7 +4,7 @@
       <div class="col-md-12 text-white px-5">Tabla de clasificación</div>
     </div>
 
-    <div class="caja container">
+    <div class="caja container" v-if="!isLoading">
       <div
         class="tittle card m-3 w-50 position-absolute text-center border-gradient border-gradient-green"
       >
@@ -33,6 +33,16 @@
         </div>
       </div>
     </div>
+     <template v-if="isLoading" >
+          <v-row class="ml-0 mt-10" justify="center" >
+            <v-col cols="12" sm="7"  >
+                  <v-skeleton-loader
+                      max-width="1200"
+                      type="image"
+                  ></v-skeleton-loader>
+            </v-col>
+          </v-row>
+      </template>
   </div>
 </template>
 
@@ -43,6 +53,7 @@ export default {
   data() {
     return {
       datos: null,
+      isLoading: true 
     };
   },
 
@@ -51,8 +62,8 @@ export default {
   methods: {
     getRanking() {
       this.axios.get("classroom-points/ranking").then((res) => {
-        console.log(res.data);
         this.datos = res.data;
+        this.isLoading = false
       });
     },
   },

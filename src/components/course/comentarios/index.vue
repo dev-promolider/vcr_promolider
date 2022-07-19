@@ -1,10 +1,10 @@
 <template>
-  <div class="border border-secondary" style="border-radius: 9px">
-    <v-card dense style="border-radius: 15px">
-      <v-list-item three-line>
-        <v-list-item-avatar height="55px" width="55px">
-          <v-img :src="img"></v-img>
-        </v-list-item-avatar>
+  <div>
+      <v-card dense style="border-radius: 15px" elevation="0" >
+        <v-list-item three-line style="width: 94%; padding-top: 20px">
+          <v-list-item-avatar height="55px" width="55px">
+            <v-img :src="img"></v-img>
+          </v-list-item-avatar>
 
         <v-list-item-content>
           <v-form @submit.prevent="sendComment()" ref="form" lazy-validation>

@@ -1,10 +1,13 @@
 <template>
   <div style="min-height: 700px">
+
+
+
     <div class="row text-left px-3 h2" style="background-color: #35424a">
       <div class="col-md-12 text-white px-5">Mis logros</div>
     </div>
 
-    <div class="row p-4">
+     <div v-if="!isLoading" class="row p-4">
       <div class="col-md-12 col-lg-12">
         <div class="row">
           <div
@@ -54,8 +57,29 @@
             </div>
           </div>
         </div>
+
+    
+
       </div>
-    </div>
+      
+
+
+    </div> 
+
+    
+        <template v-if="isLoading" >
+          <v-row class="mx-10">
+            <v-col cols="12" xs="1" sm="6" md="4" lg="3"  v-for="i in 12" :key="i" >
+              
+                  <v-skeleton-loader
+                      class="m-1"
+                      max-width="500"
+                      type="image"
+                  ></v-skeleton-loader>
+            
+            </v-col>
+          </v-row>
+      </template>
     <!-- 
     <div class="row">
       <div class="col-md-9">
@@ -128,6 +152,7 @@ export default {
   data() {
     return {
       logros: null,
+      isLoading: true
     };
   },
   mounted() {
@@ -137,6 +162,7 @@ export default {
     getLogros() {
       this.axios("badges/my-progress").then((res) => {
         this.logros = res.data;
+        this.isLoading = false
       });
     },
   },
