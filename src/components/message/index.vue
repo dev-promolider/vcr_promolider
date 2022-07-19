@@ -1,300 +1,170 @@
 <template>
   <div style="min-height: 700px">
-    <div class="row text-left px-3 h2" style="background-color: #35424a">
+    <div
+      class="row text-left px-3 h2"
+      style="background-color: #35424a; margin-bottom: 0px"
+    >
       <div class="col-md-12 text-white px-5">Mis mensajes</div>
     </div>
 
-    <div class="row p-3">
-      <div class="col-md-3">
+    <div
+      class="row px-4"
+      style="min-height: 600px; margin-top: 0px; padding-top: 0px"
+    >
+      <div class="col-md-3 chat-border-top-left">
         <div class="row">
-          <div
-            class="col-md-12 list list-row card"
-            style="padding: 0; margin: 0"
-          >
-            <div class="list-item">
-              <img class="small-img" src="" />
-              <a>xd</a>
+          <div class="col-md-12">
+            <div class="user">
+              <img :src="user.photo_user" />
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-9"></div>
-    </div>
 
-    <div class="colum-contacts" v-if="!mostrar">
-      <div class="contenedor text aling-center">
-        <div class="container-message">
-          <div class="colum-contacts" v-if="mostrar">
-            <div class="header-search">
-              <div class="user">
-                <img :src="user.photo_user" />
-              </div>
-              <!-- <input
-            class="search-chat"
-            type="text"
-            placeholder="Buscar chats o contacto..."
-          /> -->
-            </div>
-            <div class="chats">
-              <div class="title-contactos">
-                <p>Chats</p>
-              </div>
-              <div class="chat-all" v-if="contacts.length > 0">
-                <div
-                  class="item-chat"
-                  v-for="contact in contacts"
-                  :key="contact.id"
-                >
-                  <div class="user">
-                    <img :src="contact.photo" />
-                  </div>
-                  <div class="user-message">
-                    <p class="user-name">
-                      <b>{{ contact.name }}</b>
-                    </p>
-                    <p size="30" class="message-inline">{{ contact.id }}</p>
-                  </div>
-                  <!-- <div class="time-message">
-                <p class="hora">4:14PM</p>
-              </div> -->
+          <div class="col-md-12 text-left" style="padding-bottom: 0px">
+            <p class="text-left">Chats</p>
+            <hr />
+          </div>
+
+          <div
+            class="col-md-12"
+            v-if="contacts.length > 0"
+            style="padding-top: 0px"
+          >
+            <div v-for="contact in contacts" :key="contact.id">
+              <div
+                class="row d-flex justify-content-center text-center chat-item"
+              >
+                <div class="col-lg-2">
+                  <img
+                    :src="contact.photo"
+                    class="rounded-circle"
+                    style="max-width: 40px"
+                  />
                 </div>
-                <!-- <div
-              @click="
-                listarMensajes(chat.email, 'firts'),
-                  (message_add.id = chat.transmitter_id);
-                email = chat.email;
-                idTwo = chat.transmitter_id;
-              "
-              class="item-chat"
-              v-for="chat in chats"
-              :key="chat.transmitter_id"
-            >
-              <div class="user">
-                <img src="../../assets/contacto.svg" />
-                <span></span>
-              </div>
-              <div class="user-message">
-                <p class="user-name">
-                  <b>{{ chat.fullname }}</b>
-                </p>
-                <p size="30" class="message-inline">{{ chat.message }}</p>
-              </div>
-              <div class="time-message">
-                <p class="hora">4:14PM</p>
-              </div>
-            </div> -->
-              </div>
-
-              <div class="chat-all" v-else>
-                <div class="text-center">
-                  <p style="font-size: 0.8em; color: #545454">
-                    ¡ Comunicate con tus <br />
-                    profesores y suscriptores !
+                <div class="col-lg-10">
+                  <p
+                    class="text-left"
+                    style="margin-bottom: 0; font-size: 0.8em"
+                  >
+                    {{ contact.name }}
+                  </p>
+                  <p class="text-left chat-last-message">
+                    {{ contact.last_message }}
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="colum-chat" v-if="actualContact != null">
-            <div class="parallel header">
-              <div class="user">
-                <img :src="actualContact.photo" />
-              </div>
-              <p>{{ actualContact.name + " " + actualContact.last_name }}</p>
-              <!-- <button class="btn-options">
-            <img src="../../assets/Menuchat.svg" alt="" />
-          </button> -->
-            </div>
-            <div class="body-chat">
-              <div v-if="actualMessageContent == null" class="center-spinner">
-                <p class="text-secondary">Saluda a {{ actualContact.name }}</p>
-              </div>
+          <div class="col-md-12" v-else>
+            <p class="text-center" style="font-size: 0.8em; color: #545454">
+              ¡ Comunicate con tus <br />
+              profesores y suscriptores !
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 chat-border-top-right" style="min-height: 500px">
+        <div class="row" v-if="actualContact != null">
+          <div class="col-md-1" style="background-color: #ffffff">
+            <img
+              :src="actualContact.photo"
+              class="rounded-circle"
+              style="max-width: 50px"
+            />
+          </div>
+
+          <div class="col-md-10" style="background-color: #ffffff">
+            <p class="text-left">
+              {{ actualContact.name + " " + actualContact.lastname }}
+            </p>
+          </div>
+
+          <div class="col-md-1 text-right" style="background-color: #ffffff">
+            <button class="text-right">
+              <img src="../../assets/Menuchat.svg" alt="button" />
+            </button>
+          </div>
+
+          <div
+            class="col-md-12 justify-content-center chat-empty"
+            v-if="actualMessageContent.length == 0"
+          >
+            <p class="text-center">Saluda a {{ actualContact.name }}</p>
+          </div>
+
+          <div
+            class="col-md-12 chat-content mt-2"
+            style="overflow-y: scroll"
+            v-else
+          >
+            <div
+              class="row mb-5 mt-2 px-2"
+              v-for="message in actualMessageContent"
+              :key="message.id"
+            >
               <div
-                v-else
-                v-for="message in actualMessageContent"
-                :key="message.id"
+                v-if="message.transmitter_id == user.id"
+                class="chat-item-message"
+                style="width: max-content; margin-left: auto; margin-right: 0"
               >
                 <div
-                  v-if="message.transmitter_id == user.id"
-                  class="text-right"
+                  style="
+                    background-color: #006aff;
+                    color: #ffffff;
+                    border-radius: 20px;
+                  "
+                  class="p-2"
                 >
                   {{ message.message }}
                 </div>
+                <p class="text-right" style="margin-left: 20px">
+                  {{ moment(message.created_at).format("DD/MM/YYYY hh:mm A") }}
+                </p>
               </div>
 
-              <!-- <div v-if="message_add.isLoadingMessage" class="center-spinner">
-            <b-spinner class="b-spinner" label="Loading..." variant="success" />
-            <p class="text-success">Cargando mensajes ...</p>
-          </div> -->
-              <!-- <section
-            class="message-general"
-            v-for="mensa in general"
-            :key="mensa.id"
-            v-else-if="!message_add.isLoadingMessage"
-          >
-            <div class="message-contact" v-if="mensa.name != name_user">
-              <img src="../../assets/contacto.svg" />
-              <p>{{ mensa.message }} {{ mensa.id }}</p>
-            </div>
-            <div class="message-user" v-else>
-              <p>{{ mensa.message }}</p>
-              <img src="../../assets/logo-perfil.png" />
-            </div>
-          </section> -->
-              <!-- <div class="message-contact">
-            <img src="../../assets/contacto.svg" />
-            <div class="escribiendo">
-              <div class="isTyping"></div>
-            </div>
-          </div> -->
-            </div>
-
-            <div class="parallel footer">
-              <div class="message-send">
-                <input
-                  class="message-wrriten"
-                  v-model="message_add.message"
-                  @keyup.enter="sendMessage"
-                  type="text"
-                  placeholder="Escribe un mensaje"
-                />
-                <div class="btn-send">
-                  <img
-                    @click="sendMessage(actualContact.id)"
-                    src="../../assets/send.svg"
-                    alt=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="colum-chat" v-else>
-            <div class="parallel header">
-              <div class="user">
-                <img src="" />
-              </div>
-              <p>{{ actualContact.name + " " + actualContact.last_name }}</p>
-              <!-- <button class="btn-options">
-            <img src="../../assets/Menuchat.svg" alt="" />
-          </button> -->
-            </div>
-            <div class="body-chat">
-              <div class="center-spinner">
-                <p class="text-secondary">Saluda a {{ actualContact.name }}</p>
-              </div>
-              <div>
+              <div
+                v-else
+                class="chat-item-message p-2"
+                style="width: max-content margin-right: auto; margin-left: 0;"
+              >
                 <div
-                  v-if="message.transmitter_id == user.id"
-                  class="text-right"
+                  style="
+                    background-color: #006aff;
+                    color: #ffffff;
+                    border-radius: 20px;
+                  "
+                  class="p-2"
                 >
                   {{ message.message }}
                 </div>
+                <p class="text-left" style="margin-left: 20px">
+                  {{ moment(message.created_at).format("DD/MM/YYYY hh:mm A") }}
+                </p>
               </div>
+            </div>
+          </div>
 
-              <!-- <div v-if="message_add.isLoadingMessage" class="center-spinner">
-            <b-spinner class="b-spinner" label="Loading..." variant="success" />
-            <p class="text-success">Cargando mensajes ...</p>
-          </div> -->
-              <!-- <section
-            class="message-general"
-            v-for="mensa in general"
-            :key="mensa.id"
-            v-else-if="!message_add.isLoadingMessage"
-          >
-            <div class="message-contact" v-if="mensa.name != name_user">
-              <img src="../../assets/contacto.svg" />
-              <p>{{ mensa.message }} {{ mensa.id }}</p>
-            </div>
-            <div class="message-user" v-else>
-              <p>{{ mensa.message }}</p>
-              <img src="../../assets/logo-perfil.png" />
-            </div>
-          </section> -->
-              <!-- <div class="message-contact">
-            <img src="../../assets/contacto.svg" />
-            <div class="escribiendo">
-              <div class="isTyping"></div>
-            </div>
-          </div> -->
-            </div>
-
-            <div class="parallel footer">
-              <div class="message-send">
+          <div class="col-md-12 input-message">
+            <div class="row">
+              <div class="col-md-10">
                 <input
-                  class="message-wrriten"
-                  v-model="message_add.message"
-                  @keyup.enter="sendMessage"
+                  style="width: 100%; outline: none"
+                  v-model="message_input"
+                  @keyup.enter="sendMessage(actualContact.id)"
                   type="text"
                   placeholder="Escribe un mensaje"
                 />
-                <div class="btn-send">
-                  <img
-                    @click="sendMessage(actualContact.id)"
-                    src="../../assets/send.svg"
-                    alt=""
-                  />
-                </div>
+              </div>
+              <div class="col-md-2 text-right">
+                <img
+                  class="text-right"
+                  @click="sendMessage(actualContact.id)"
+                  src="../../assets/send.svg"
+                />
               </div>
             </div>
           </div>
-
-          <!-- <div class="colum-chat">
-        <div class="parallel header">
-          <div class="user">
-            <img src="../../assets/contacto.svg" />
-            <span></span>
-          </div>
-          <p>Gabriela Casas</p>
-          <button class="btn-options">
-            <img src="../../assets/Menuchat.svg" alt="" />
-          </button>
-        </div>
-        <div class="body-chat">
-          <div v-if="message_add.isLoadingMessage" class="center-spinner">
-            <b-spinner class="b-spinner" label="Loading..." variant="success" />
-            <p class="text-success">Cargando mensajes ...</p>
-          </div>
-          <section
-            class="message-general"
-            v-for="mensa in general"
-            :key="mensa.id"
-            v-else-if="!message_add.isLoadingMessage"
-          >
-            <div class="message-contact" v-if="mensa.name != name_user">
-              <img src="../../assets/contacto.svg" />
-              <p>{{ mensa.message }} {{ mensa.id }}</p>
-            </div>
-            <div class="message-user" v-else>
-              <p>{{ mensa.message }}</p>
-              <img src="../../assets/logo-perfil.png" />
-            </div>
-          </section>
-   
-          <div class="message-contact">
-            <img src="../../assets/contacto.svg" />
-            <div class="escribiendo">
-              <div class="isTyping"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="parallel footer">
-          <div class="message-send">
-            <input
-              class="message-wrriten"
-              v-model="message_add.message"
-              @keyup.enter="sendMessage"
-              type="text"
-              placeholder="Escribe un mensaje"
-            />
-            <div class="btn-send">
-              <img @click="sendMessage" src="../../assets/send.svg" alt="" />
-            </div>
-          </div>
-        </div>
-      </div> -->
         </div>
       </div>
     </div>
@@ -303,6 +173,8 @@
 
 <script>
 import Echo from "laravel-echo";
+import moment from "moment";
+
 window.Pusher = require("pusher-js");
 
 export default {
@@ -312,19 +184,21 @@ export default {
   name: "message",
   data() {
     return {
+      moment: moment,
       actualContact: { photo: null },
-      actualMessageContent: null,
+      actualMessageContent: [],
       chats: null,
       general: [],
       name_user: null,
       email: null,
       idOne: localStorage.getItem("id_user"),
       idTwo: null,
-      message_add: {
-        id: null,
-        message: null,
-        isLoadingMessage: null,
-      },
+      message_input: null,
+      // message_add: {
+      //   id: null,
+      //   message: null,
+      //   isLoadingMessage: null,
+      // },
       mensaje: "",
       newMessage: false,
       mostrar: true,
@@ -332,11 +206,15 @@ export default {
     };
   },
   methods: {
-    sendMessage() {
+    sendMessage(receiver_id) {
       this.axios
-        .post("messages/add", this.message_add)
+        .post("messages/add", {
+          receiver_id: receiver_id,
+          message: this.message_input,
+        })
         .then(() => {
-          this.message_add.message = "";
+          this.listActualContentMessage(this.idOne, receiver_id);
+          this.message_input = "";
         })
         .catch(() => {
           console.log("Error en enviar");
@@ -353,52 +231,50 @@ export default {
           receiver_id: receiver_id,
         })
         .then((r) => {
-          if (r.data.length > 0) {
-            this.actualMessageContent = r.data;
-          }
+          // reverse order
+          this.actualMessageContent = r.data;
         })
         .catch(() => {
           console.log("Error");
         });
     },
 
-    lista() {
-      this.axios.get(`messages/listContacts/${this.idOne}`).then((r) => {
-        this.contacts = r.data;
-        this.actualContact = r.data[0];
-        this.message_add.id = r.data[0].id; // receiver_id
-        this.listActualContentMessage(this.idOne, r.data[0].id);
+    listContacts() {
+      this.axios.get(`messages/listContacts/${this.idOne}`).then((response) => {
+        let first_row = response.data[0];
+        this.contacts = response.data;
+        this.actualContact = first_row;
+        // this.message_add.id = first_row.id; // receiver_id
+        this.listActualContentMessage(this.idOne, first_row.id);
       });
-      // this.axios.get("messages/listAll").then((r) => {
-      //   const res = r.data.data;
-      //   this.chats = res;
-      // });
     },
-    listarMensajes(email, render) {
-      this.name_user = localStorage.getItem("name_user");
-      if (render === "firts") {
-        this.message_add.isLoadingMessage = true;
-        this.axios.get("messages/with/" + email).then((r) => {
-          const res = r.data.data;
-          this.general = res;
-          this.message_add.isLoadingMessage = false;
-        });
-      } else {
-        this.axios.get("messages/with/" + email).then((r) => {
-          const res = r.data.data;
-          this.general = res;
-        });
-      }
-    },
+
+    // listarMensajes(email, render) {
+    //   this.name_user = localStorage.getItem("name_user");
+    //   if (render === "firts") {
+    //     this.message_add.isLoadingMessage = true;
+    //     this.axios.get("messages/with/" + email).then((r) => {
+    //       const res = r.data.data;
+    //       this.general = res;
+    //       this.message_add.isLoadingMessage = false;
+    //     });
+    //   } else {
+    //     this.axios.get("messages/with/" + email).then((r) => {
+    //       const res = r.data.data;
+    //       this.general = res;
+    //     });
+    //   }
+    // },
+
     usersID() {
-      var ids;
+      let ids;
       if (this.idOne > this.idTwo) {
         ids = this.idTwo + "" + this.idOne;
-        console.log(ids);
+        // console.log(ids);
         return ids;
       } else {
         ids = this.idOne + "" + this.idTwo;
-        console.log(ids);
+        // console.log(ids);
         return ids;
       }
     },
@@ -412,7 +288,7 @@ export default {
     },
   },
   created() {
-    this.lista();
+    this.listContacts();
     //this.listarMensajes();
     window.Echo = new Echo({
       broadcaster: "pusher",
@@ -454,108 +330,50 @@ export default {
 <style scoped>
 @import "./style.css";
 
-.small-img {
-  width: 70px;
-  max-width: 70px;
-  min-width: 70px;
-  margin: 0;
-  padding: 0;
-  height: 50px;
-}
-.small-img-sub {
-  width: 70px;
-  max-width: 70px;
-  min-width: 70px;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-.card-img-top {
-  min-height: 200px;
-  width: auto;
-  max-height: 200px;
-}
-.last_courses {
-  margin-top: 25px;
-}
 body {
   background-color: #f9f9fa;
 }
-.card {
-  background: #fff;
-  border-width: 0;
-  border-radius: 0.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1.5rem;
+
+.chat-item:hover {
+  background: #35424a;
 }
-.card {
-  position: relative;
+
+.chat-item-message {
+  /* background-color: #006aff; */
+}
+
+.chat-border-top-left {
+  border: solid #aaaaaa 1px;
+  /* border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px; */
+}
+
+.chat-border-top-right {
+  border: solid #aaaaaa 1px;
+  /* border-top-right-radius: 20px; */
+  /* border-bottom-right-radius: 20px; */
+  background-color: #efefef;
+  min-height: 400px;
+}
+.input-message {
+  background-color: #ffffff;
+  bottom: 0px;
+  position: absolute;
+}
+.chat-empty {
+  background-color: #efefef;
+  min-height: 400px;
   display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: #fff;
-  background-clip: border-box;
-  border: 1px solid rgba(19, 24, 44, 0.125);
-  border-radius: 0.25rem;
-}
-.list-item {
-  position: relative;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-}
-.list-row .list-item {
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-align: center;
   align-items: center;
-  padding: 0.75rem 0.625rem;
 }
-.list-item {
-  position: relative;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
+.chat-content {
+  background-color: #efefef;
 }
-.list-row .list-item > * {
-  padding-left: 0.625rem;
-  padding-right: 0.625rem;
-}
-.dropdown {
-  position: relative;
-}
-a:focus,
-a:hover {
-  text-decoration: none;
-}
-list-item {
-  background: white;
-}
-
-.contenedor {
-  display: block;
-  width: 100%;
-  height: calc(100vh - 80px);
-  padding: 25px 75px;
-  background-color: #e5e5e5;
-}
-
-.backgro {
-  background: #131b1e;
-  opacity: 0.9;
-  z-index: 10;
-}
-.titulo {
-  color: white;
-  font-size: 2.2rem;
-  font-weight: 700;
-  text-align: left;
+.chat-last-message {
+  margin-bottom: 0;
+  font-size: 0.9em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
