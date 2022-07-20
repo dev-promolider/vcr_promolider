@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height: 700px">
+  <div style="min-height: 100vh">
     <div class="row text-left px-3 h-100 h2" style="background-color: #35424a">
       <div class="col-md-12 text-white px-5">Marketplace</div>
     </div>

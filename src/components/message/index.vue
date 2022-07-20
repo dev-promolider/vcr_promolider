@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height: 700px">
+  <div style="min-height: 100vh">
     <div
       class="row text-left px-3 h2"
       style="background-color: #35424a; margin-bottom: 0px"
@@ -8,14 +8,22 @@
     </div>
 
     <div
+      v-if="loading == false"
       class="row px-4"
       style="min-height: 600px; margin-top: 0px; padding-top: 0px"
     >
       <div class="col-md-3 chat-border-top-left">
         <div class="row">
           <div class="col-md-12">
-            <div class="user">
-              <img :src="user.photo_user" />
+            <div class="row">
+              <div class="col-md-2">
+                <div class="user">
+                  <img :src="user.photo_user" />
+                </div>
+              </div>
+              <div class="col-md-10">
+                {{ session_user_name }}
+              </div>
             </div>
           </div>
 
@@ -168,6 +176,94 @@
         </div>
       </div>
     </div>
+
+    <div
+      v-else
+      class="row px-4"
+      style="min-height: 600px; margin-top: 0px; padding-top: 0px"
+    >
+      <div class="col-md-3 chat-border-top-left">
+        <div class="row">
+          <div
+            class="col-md-12 my-5"
+            style="margin-bottom: 0px; padding-bottom: 0px"
+          >
+            <div class="row">
+              <div class="col-md-3">
+                <b-skeleton type="avatar"></b-skeleton>
+              </div>
+
+              <div class="col-md-9">
+                <b-skeleton animation="fade" width="85%"></b-skeleton>
+                <b-skeleton animation="fade" width="70%"></b-skeleton>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 text-left" style="padding-bottom: 0px">
+            <p class="text-left">Chats</p>
+            <hr />
+          </div>
+
+          <div
+            class="col-md-12"
+            style="padding-top: 0px"
+            v-for="index in 5"
+            :key="index"
+          >
+            <div class="row">
+              <div class="col-md-2">
+                <b-skeleton type="avatar"></b-skeleton>
+              </div>
+              <div class="col-md-9 mt-1">
+                <b-skeleton animation="fade" width="85%"></b-skeleton>
+                <b-skeleton animation="fade" width="70%"></b-skeleton>
+                <hr />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 chat-border-top-right" style="min-height: 500px">
+        <div class="row">
+          <div class="col-md-1" style="background-color: #ffffff">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+
+          <div class="col-md-10" style="background-color: #ffffff">
+            <p class="text-left mt-2">
+              <b-skeleton animation="fade" width="45%"></b-skeleton>
+            </p>
+          </div>
+
+          <div class="col-md-1 text-right" style="background-color: #ffffff">
+            <button class="text-right">
+              <img src="../../assets/Menuchat.svg" alt="button" />
+            </button>
+          </div>
+
+          <div class="col-md-12 justify-content-center chat-empty">
+            <b-spinner label="spinning"></b-spinner>
+          </div>
+
+          <div class="col-md-12 input-message">
+            <div class="row">
+              <div class="col-md-10">
+                <input
+                  style="width: 100%; outline: none"
+                  type="text"
+                  placeholder="Escribe un mensaje"
+                />
+              </div>
+              <div class="col-md-2 text-right">
+                <img class="text-right" src="../../assets/send.svg" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -192,6 +288,9 @@ export default {
       name_user: null,
       email: null,
       idOne: localStorage.getItem("id_user"),
+      session_user_name: `${localStorage.getItem(
+        "name_user"
+      )}  ${localStorage.getItem("last_name_user")}`,
       idTwo: null,
       message_input: null,
       // message_add: {
@@ -203,6 +302,7 @@ export default {
       newMessage: false,
       mostrar: true,
       contacts: [],
+      loading: true,
     };
   },
   methods: {
@@ -245,7 +345,10 @@ export default {
         this.contacts = response.data;
         this.actualContact = first_row;
         // this.message_add.id = first_row.id; // receiver_id
-        this.listActualContentMessage(this.idOne, first_row.id);
+        this.loading = false;
+        if (first_row != undefined && first_row.lenght > 0) {
+          this.listActualContentMessage(this.idOne, first_row.id);
+        }
       });
     },
 

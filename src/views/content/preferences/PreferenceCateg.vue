@@ -1,51 +1,84 @@
 <template>
-  <div class="contenidos my-5">
+  <div
+    class="row p-2"
+    v-if="muestra"
+    style="background-color: #ffffff; min-height: 100vh"
+  >
+    <div class="col-md-12 mt-5 px-5 py-3">
+      <p class="h1 text-center">Seleccione categorías de su interés</p>
+      <p class="h5 text-center" style="color: #7e7e7e">
+        Seleccione al menos 3 categorías, esto ayudará a obtener recomendaciones
+        personalizadas
+      </p>
+    </div>
 
+    <div
+      class="w-50 container alert alert-danger alert-dismissible fade show"
+      role="alert"
+      v-if="alertita"
+    >
+      <div class="mx-auto w-100">
+        <strong class="text-center">Seleccione mínimo 3 categorías</strong>
+      </div>
 
-    <h2 class="text-center font-weight-bold">
-      Seleccione las categorias de su preferencia
-    </h2>
+      <button
+        type="button"
+        class="close"
+        @click="closeAlert"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
-    <p class="text-justify my-5">
-      Selecciona al menos 3 categorias de cursos que sean de su agrado, esto le
-      ayudara a obtener recomendaciones personalizadas. Las categorías
-      seleccionas no se mostrarán públicamente.
-    </p>
-
-    <div class="w-50 container alert alert-danger alert-dismissible fade show" role="alert" v-if="alertita">
-
-      <div class="mx-auto  w-100"> <strong class="container">Debes Seleccionar  3 categorias como minimo!!!</strong></div>
- 
-  <button type="button" class="close" @click="closeAlert" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-
-    <div class="container-fluid" v-if="muestra">
-      <div class="row d-flex justify-content-center my-5">
-        <div v-if="isLoadingItems" class="row d-flex justify-content-center">
-          <div
-            v-for="itemNumber in loadingItems"
-            :key="itemNumber.id"
-            class="category mb-4"
-          >
-            <label class="loader loader-logo"></label>
-            <label class="loader loader-name"></label>
-          </div>
-        </div>
-        <div class="category mb-4" v-for="items in item" :key="items.id" :class="{select:preferences.categorys.includes(items.id)}">
-            <input type="checkbox" :name=items.name :id=items.name>
-            <label :for=items.name class="category-logo text-center cursor-pointer" @click="escoger(items.id)"><i :class='items.icon'></i></label>
-            <label :for=items.name class="category-name text-center cursor-pointer" @click="escoger(items.id)">{{ items.name }}</label>
-        </div>
+    <div v-if="isLoadingItems" class="row d-flex justify-content-center">
+      <div
+        v-for="itemNumber in loadingItems"
+        :key="itemNumber.id"
+        class="category mb-4"
+      >
+        <label class="loader loader-logo"></label>
+        <label class="loader loader-name"></label>
       </div>
     </div>
 
-    <div class="row d-flex justify-content-end" v-if="muestra">
-      <button class="btn-custom" v-on:click="cambiar">
-        Continuar <i class="fas fa-angle-double-right"></i>
-       
-      </button>
+    <div v-else class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <div class="row">
+        <div
+          class="col-md-2 col-xs-2 col-sm-3 col-lg-2"
+          v-for="items in item"
+          :key="items.id"
+          :class="{ select: preferences.categorys.includes(items.id) }"
+        >
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
+              <input type="checkbox" :name="items.name" :id="items.name" />
+              <label
+                :for="items.name"
+                class="category-logo cursor-pointer"
+                @click="escoger(items.id)"
+                ><i :class="items.icon"></i></label
+              ><br />
+              <label
+                :for="items.name"
+                class="category-name text-center cursor-pointer"
+                @click="escoger(items.id)"
+                >{{ items.name }}</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right">
+        <button
+          class="btn-custom"
+          v-on:click="cambiar"
+          style="font-size: 1em; font-weight: 600"
+        >
+          Continuar <i class="fas fa-angle-double-right"></i>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -81,9 +114,7 @@ export default {
           .catch((e) => {
             console.log(e);
           });
-      } else if (
-        this.preferences.categorys.length < 3 
-      ) {
+      } else if (this.preferences.categorys.length < 3) {
         this.alertita = true;
         this.muestra = true;
       }
@@ -115,10 +146,6 @@ export default {
 </script>
 
 <style scoped>
-.contenidos {
-  position: relative;
-}
-
 .loader-logo {
   height: 80px;
   width: 40%;
@@ -132,21 +159,19 @@ export default {
   margin-inline: auto;
 }
 
-.container-fluid {
-  min-height: 50vh !important;
-}
 input[type="checkbox"] {
   display: none;
 }
 .category-logo {
-  font-size: 60px;
-  color: var(--first-color-green);
+  font-size: 2em;
+  color: #aaaaaa;
   transition: 1s;
 }
+
 .category-name {
-  font-size: 25px;
+  font-size: 1em;
   font-weight: bolder;
-  color: var(--first-color-green);
+  color: #aaaaaa;
   transition: 1s;
 }
 
@@ -158,38 +183,17 @@ input[type="checkbox"] {
   transition: 1s;
 }
 
-
-/* input[type="checkbox"]:checked + label, 
-input[type="checkbox"]:checked + label  + label{
-    color: rgb(1, 97, 1) !important;
-}
-
-input[type="checkbox"]:hover + label,
-input[type="checkbox"]:hover + label + label {
-  text-shadow: 1px 1px 5px rgb(26, 26, 26);
-  transform: translateY(-10px) !important;
-} */
-
-input[type="checkbox"]:hover + label{
+input[type="checkbox"]:hover + label {
   animation: temblar 1s 2.5 alternate;
-} 
-
-
-.category:hover , .select{
-  border-radius: 10px;
-  background: #1ae800, 0.459;
-  box-shadow: 0 2px 32px 0 #131b1e, 0.274;
-  backdrop-filter: blur(2px);
 }
 
-
-.category:hover label, .select label{
-    color: white !important;
+.category:hover label,
+.select label {
+  color: #1ae800;
 }
 
-
-@media (max-width:480px){
-  .category{
+/* @media (max-width: 480px) {
+  .category {
     width: 80% !important;
   }
   .loader-logo {
@@ -204,33 +208,29 @@ input[type="checkbox"]:hover + label{
     width: 90%;
     margin-inline: auto;
   }
-}
+} */
 
 @keyframes temblar {
-  0%{
+  0% {
     transform: rotate(-15deg);
   }
   50% {
     transform: rotate(0deg);
   }
-  100%{
+  100% {
     transform: rotate(15deg);
   }
 }
 
-
 /* Animacion para mover iconos */
 @keyframes temblare {
-  from{
-      transform: translateX(0);
+  from {
+    transform: translateX(0);
   }
-  to{
-    
+  to {
     transform: translateY(1vh);
-
   }
 }
-
 
 /* .alerta{
   width: 35%;
@@ -261,7 +261,7 @@ width: 98%;
 height: 100%;
 border-radius:0px 15px 15px 0px; */
 /* display: flex; */
- 
+
 /* } */
 /* .lateral i{
   color:#f8cd56;
@@ -325,5 +325,4 @@ border-radius:0px 15px 15px 0px; */
   transition: 0.5s;
   
 } */
-
 </style>

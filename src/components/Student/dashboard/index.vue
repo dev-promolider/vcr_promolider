@@ -1,5 +1,5 @@
 <template>
-  <div class="content-student">
+  <div class="content-student" style="min-height: 100vh">
           <div class="section-main" >
               <KeepLearning/>
               <Successes/>

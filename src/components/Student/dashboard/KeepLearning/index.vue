@@ -1,5 +1,5 @@
 <template>
-    <div style="min-height: 100%; width:100%" >
+    <div style="min-height: 100vh; width:100%" >
      <v-fade-transition>
          <v-card v-if="isWelcomeActive" elevation="0"  color="transparent" style="margin: 100px auto" class="d-flex justify-center align-center flex-column" >
             <v-card-title class="d-flex justify-center align-center ">
