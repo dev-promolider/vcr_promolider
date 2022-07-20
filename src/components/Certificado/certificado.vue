@@ -4,11 +4,14 @@
       <div class="col-md-12 text-white px-5">Mis certificados</div>
     </div>
 
-    <div class="container mt-5 position-relative" v-if="muestro">
-      <div class="col col-md-6 col-lg-9 mx-auto">
-        <div class="category-logo container d-flex row text-center">
+    <div class="col-md-12 text-center mt-5" v-if="informacion.length == 0 && this.spin == false" >
+      <h2 class="col-12">Sin resultados</h2>
+    </div>
+
+    <div class="container" v-if="muestro">
+      <div class="row">
           <div
-            class="card-group mx-3 my-2"
+            class="col col-lg-4"
             v-for="(item, index) in informacion"
             :key="index"
           >
@@ -18,14 +21,6 @@
               @selectedCertificate="escoger"
             />
           </div>
-          <!-- <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div>
-          <div class="ml-5" @click="escoger()"><i class="fas fa-book"></i></div> -->
-        </div>
       </div>
     </div>
 
@@ -77,8 +72,12 @@ export default {
 
   methods: {
     getAttributes() {
+      this.spin = true;
       this.axios.get("/course/certificate-list").then((datos) => {
         this.informacion = datos.data;
+        this.spin = false;
+      }).catch( ()=>{
+        this.spin = false;
       });
     },
     getCertificate(id) {
