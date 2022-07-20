@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 export const SET_COURSE= (state, course) =>{
 
     state.course = course;
@@ -130,7 +132,9 @@ export const GET_RATING = (state, allRating) => {
         state.isLoadingRating = false
         state.allRating = []
     }else{ */
-        state.allRating = allRating
+        
+        //state.allRating = allRating
+        Vue.set(state, 'allRating', allRating);
         state.isLoadingRating = false
     /* } */
 }

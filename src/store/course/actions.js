@@ -183,9 +183,8 @@ export const setComments = async ( { commit } , comment ) => {
 export const setRating = async ( { commit },comment) => {
     try {
        const resp = await axios.post('course/rate/store', comment)
-       
-       if( resp.data.status === 200){
-        commit('setRating', resp)
+       if( resp.data.status === 200){  
+        commit('setRating', comment)
        }
         
     } catch (error) {
