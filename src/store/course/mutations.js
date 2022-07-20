@@ -98,9 +98,11 @@ export const GET_PROGRESS = (state) => {
 export const DESTROY_PROGRESS = (state) => {
     state.courseSelect = false;
     state.allComments = [],
+    state.allRating = [],
     state.lesson = []
     state.allLessonsId = []
     state.allLessons = 0
+    state.courseRating = 0
 }
 
 
@@ -121,6 +123,25 @@ export const GET_COMMENTS = (state, allComments) => {
         state.isLoadingComments = false
     }
 }
+
+// Llenamos la valoracion de un curso
+export const GET_RATING = (state, allRating) => {
+    /* if(allRating.data === undefined){
+        state.isLoadingRating = false
+        state.allRating = []
+    }else{ */
+        state.allRating = allRating
+        state.isLoadingRating = false
+    /* } */
+}
+
+export const GET_COURSE_RATING = (state, courseRating) => {
+        state.courseRating = courseRating
+}
+
+
+
+
 
 
 // Lenamos datos del examen de la clase activa
@@ -157,6 +178,13 @@ export const setComments = (state, comments) => {
     state.allComments = [ ...state.allComments, comments]
 }
 
+export const setRating = (state, newRating) => {
+    state.allRating = [ ...state.allRating, newRating]
+}
+
+export const setCourseRating = (state, courseRating) => {
+    state.courseRating = [ ...state.courseRating, courseRating]
+}
 
 export const setDataDinamic = ( state , data) => {
     state.dinamicClass = data

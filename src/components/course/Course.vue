@@ -68,9 +68,11 @@ export default {
       getVideo: "getVideo",
       lastSeenLesson: "lastSeenLesson",
       getComments: "getComments",
+      getRating: "getRating",
       getCourseActive: "getCourseActive",
       getTest: "getTest",
       getModuleExam : 'getModuleExam',
+      getCourseRating : 'getCourseRating',
     }),
 
     ...mapMutations("course", [
@@ -87,6 +89,7 @@ export default {
           this.getLesson(res.data[0]);
           this.getVideo(res.data[0].id);
           this.getComments(res.data[0].id);
+          this.getRating(this.$route.query.course);
           this.getTest({ exam_type: "class", id_type: res.data[0].id });
           this.getModuleExam({ exam_type: "module", id_type: res.data[0].id });
         });
@@ -96,6 +99,8 @@ export default {
     this.activeLesson();
     this.GET_PROGRESS();
     this.getCourseActive(this.$route.query.course);
+    this.getCourseRating(this.$route.query.rate);
+    this.$root.$refs.Course = this;
   },
   beforeMount() {
     // Verificamos que en la URL venga el curso y clase, en caso contrario se le mostrara un error
