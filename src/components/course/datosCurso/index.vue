@@ -97,14 +97,15 @@ export default {
   },
   methods: {
     // Definimos los metodos que vienen de Vuex
-    ...mapActions("course", {
-      getCourse: "getCourse",
-      getLesson: "getLesson",
-      getResources: "getResources",
-      getVideo: "getVideo",
-      lastSeenLesson: "lastSeenLesson",
-      getComments: "getComments",
-      getTest: "getTest",
+    ...mapActions('course',{
+      getCourse: 'getCourse',
+      getLesson: 'getLesson',
+      getResources: 'getResources',
+      getVideo: 'getVideo',
+      lastSeenLesson: 'lastSeenLesson',
+      getComments: 'getComments',
+      getRating: 'getRating',
+      getTest: 'getTest'
     }),
 
     // Obtenemos el nombre del productor del curso actual
@@ -166,7 +167,12 @@ export default {
       // Obtenemos los comentarios de la nueva clase
       this.getComments(lesson.id);
 
-      this.getTest(this.$route.query.course);
+
+      // Obtenemos la valoracion del curso
+      this.getRating(this.$route.query.course)
+
+      
+      this.getTest(this.$route.query.course)
 
       // Enviando la ultima clase que esta visualizando
       let sendData = {

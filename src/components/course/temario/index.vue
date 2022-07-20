@@ -127,6 +127,7 @@ export default {
       getVideo: "getVideo",
       lastSeenLesson: "lastSeenLesson",
       getComments: "getComments",
+      getRating: "getRating",
       getTest: "getTest",
       getModuleExam: "getModuleExam",
     }),
@@ -173,6 +174,9 @@ export default {
 
       // Solicitar los comentarios de la nueva clase
       this.getComments(less.id);
+
+      // Solicitar las valoraciones del Curso
+      this.getRating(this.$route.query.course);
 
       // Solicitar los nuevos examenes si es necesario
       this.getTest({

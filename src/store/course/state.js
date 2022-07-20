@@ -20,6 +20,7 @@ export default () => ({
     courseSelect: false,
     allComments: [],
     isLoadingComments: true,
+    isLoadingRating: true,
     dataEx: null,
     courseHover: [],
     examDaily: true,
