@@ -1,10 +1,21 @@
 <template>
 <div    :class="[ this.$vuetify.breakpoint.xs  ?  'mr-3' : 'mr-30']">
-    <vue-horizontal  class="horizontal">.
+    <vue-horizontal  class="horizontal " v-if="!isLoading">.
       <section class="mr-5" v-for="course in relatedCourses" :key="course.id">
         <Card  :course="course" :cardType="1" isMouseOverActive />
       </section>
     </vue-horizontal>
+    <template v-if="isLoading" >
+          <v-row >
+            <v-col cols="12" xs="1" sm="6" md="4" lg="3"  v-for="i in 4" :key="i" >
+                  <v-skeleton-loader
+                      class="m-1"
+                      max-width="500"
+                      type="image"
+                  ></v-skeleton-loader>
+            </v-col>
+          </v-row>
+      </template>
 </div>
 </template>
 
@@ -21,12 +32,14 @@ export default {
     return {
       model:null,
       relatedCourses: [],
+      isLoading: true
     };
   },
   methods: {
     async getAttributes() {
       await this.axios.get("course/released-courses").then((datos) => {
         this.relatedCourses = this.filterCourseInactive(datos.data.data);
+        this.isLoading = false
       });
     },
 

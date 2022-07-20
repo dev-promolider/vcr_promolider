@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div
+    class="border border-secondary mb-5"
+    style="border-radius: 5px; min-height: 300px"
+  >
     <template>
       <v-card class="elevation-0">
         <v-tabs v-model="tab" background-color="success" dark centered flat>
@@ -57,25 +60,18 @@
                     <div class="modal-content">
                       <a href="#" class="modal-exit">x</a>
                       <div class="row m-5 container1 d-flex flex-column">
-                       
-                          
-                       
-                          <iframe :src="picture" class="pdf"> </iframe>
-                       
-                          <br>
-                      
-                      
-                          <button class="btn btn-primary" id="button">
-                            DESCARGAR
-                          </button>
-                       
+                        <iframe :src="picture" class="pdf"> </iframe>
 
-                          <div v-if="carga" class="cargando">
-                            <div class="spinner-border"></div>
-                          </div>
-                      
+                        <br />
+
+                        <button class="btn btn-primary" id="button">
+                          DESCARGAR
+                        </button>
+
+                        <div v-if="carga" class="cargando">
+                          <div class="spinner-border"></div>
+                        </div>
                       </div>
-                    
                     </div>
                   </div>
                 </ul>
@@ -86,7 +82,10 @@
               <div v-if="dataEx">
                 <div
                   class="mt-4 text-center"
-                  v-if="dataEx.data === 'No existe el examen' || dataEx.data === 'Límite de intentos alcanzado'"
+                  v-if="
+                    dataEx.data === 'No existe el examen' ||
+                    dataEx.data === 'limite de intentos alcanzado'
+                  "
                 >
                   Ningún examen disponible
                 </div>
@@ -110,17 +109,17 @@
 
               <template v-if="isLoadingDinamic">
                 <template v-if="stateDinamic">
-                   <v-btn class="mx-2" color="success" @click="goToDinamics( dinamic )" v-for="(dinamic  , index ) in idDinamicGame" :key="index">
-                                  <v-icon left >
-                                    mdi-gamepad-variant
-                                  </v-icon>
-                                  <div v-if="dinamic">
-                                      Dinamica {{index + 1 }}
-                                  </div>
-                                  <div v-else>
-                                     
-                                  </div>
-                              </v-btn>
+                  <v-btn
+                    class="mx-2"
+                    color="success"
+                    @click="goToDinamics(dinamic)"
+                    v-for="(dinamic, index) in idDinamicGame"
+                    :key="index"
+                  >
+                    <v-icon left> mdi-gamepad-variant </v-icon>
+                    <div v-if="dinamic">Dinamica {{ index + 1 }}</div>
+                    <div v-else></div>
+                  </v-btn>
                 </template>
               </template>
               <template v-if="!stateDinamic && isLoadingDinamic">
@@ -217,13 +216,18 @@ export default {
     },
 
     Testing() {
-      if(isNaN(this.dataEx.data) == false){
-        this.$router.push({ name: "test", params: { id: this.dataEx.data }, query : { class: this.$route.query.class , course: this.$route.query.course   } });
-      }
-      else{
+      if (isNaN(this.dataEx.data) == false) {
+        this.$router.push({
+          name: "test",
+          params: { id: this.dataEx.data },
+          query: {
+            class: this.$route.query.class,
+            course: this.$route.query.course,
+          },
+        });
+      } else {
         alert(this.dataEx.data);
       }
-      
     },
 
     // Extraer solo nombre del recurso y no toda la ruta
@@ -253,9 +257,14 @@ export default {
         throw new Error(error);
       }
     },
-    goToDinamics( id ){
-       this.$router.push({name: 'dinamic', params: {id}, query: {c: this.$route.query.course }})
-    }
+
+    goToDinamics(id) {
+      this.$router.push({
+        name: "dinamic",
+        params: { id },
+        query: { c: this.$route.query.course },
+      });
+    },
   },
   watch: {
     async queryDinamic() {
@@ -478,9 +487,9 @@ export default {
 }
 
 .container1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cargando {

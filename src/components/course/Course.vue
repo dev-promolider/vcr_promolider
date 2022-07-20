@@ -3,35 +3,26 @@
     <div v-if="error" class="no-result center-element">
       <span>Lo sentimos se produjo un error</span>
     </div>
+    <div class="row px-5">
+      <div class="col-lg-8" style="background-color: #ffffff">
+        <Video v-if="renderVideo"></Video>
 
-    <div class="caja-course p-5">
-      <div class="caja-video">
-        <div class="card h-100">
-          <Video v-if="renderVideo"></Video>
-          <div v-else class="center-spinner">
-            <b-spinner
-              style="width: 3rem; height: 3rem"
-              variant="secondary"
-              label="Large Spinner"
-            ></b-spinner>
-          </div>
+        <div v-else class="center-spinner">
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            variant="secondary"
+            label="Large Spinner"
+          ></b-spinner>
+        </div>
           <DatosCurso></DatosCurso>
-        </div>
-      </div>
-      <div class="caja-temario">
-        <div class="card h-100">
-          <Temario></Temario>
-        </div>
-      </div>
-      <div class="caja-descrption">
-        <div class="card h-100">
+
+        <div class="mt-3">
           <Descripcion></Descripcion>
         </div>
       </div>
-      <div class="caja-comentario" >
-        <div class="card h-100" >
-          <Comentarios></Comentarios>
-        </div>
+      <div class="col-lg-4">
+        <Temario></Temario>
+        <Comentarios></Comentarios>
       </div>
     </div>
   </div>

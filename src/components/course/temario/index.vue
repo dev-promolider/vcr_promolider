@@ -1,38 +1,38 @@
 <template>
- 
-    <v-card elevation="0" >
+  <div class="mb-3" style="border-radius: 20px;">
+    <v-card elevation="0">
       <v-tabs
-       class="rounded-0"
+        class="rounded-0"
         v-model="tab"
         background-color="success"
-         dark 
-         centered 
-         flat
+        dark
+        centered
+        flat
       >
-        <v-tab
-          v-for="item in items"
-          :key="item.tab"
-          
-        >
+        <v-tab v-for="item in items" :key="item.tab">
           {{ item.tab }}
         </v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
-        <v-tab-item
-          v-for="item in items"
-          :key="item.tab"
-        >
+      <v-tabs-items
+        v-model="tab"
+        class="border border-secondary"
+        style="min-height: 520px"
+      >
+        <v-tab-item v-for="item in items" :key="item.tab">
           <v-card v-if="item.tab === 'Clases'" flat>
-             <div class="contenedor-temario border-box">
-             <!-- Cuerpo temario -->
-              <div class="temario ">
+            <div class="contenedor-temario border-box">
+              <!-- Cuerpo temario -->
+              <div class="temario">
                 <div class="center-spinner" v-if="isLoading">
-                  <b-spinner label="Large Spinner" variant="secondary"></b-spinner>
+                  <b-spinner
+                    label="Large Spinner"
+                    variant="secondary"
+                  ></b-spinner>
                 </div>
 
                 <ul
-                  class=" mt-2 text-truncate"
+                  class="mt-2 text-truncate"
                   v-for="(model, index) in course.modules"
                   :key="index"
                   v-else
@@ -65,8 +65,7 @@
                   </li>
                 </ul>
               </div>
-             </div>
-
+            </div>
           </v-card>
 
           <v-card v-if="item.tab === 'Examen'" flat>
@@ -78,19 +77,22 @@
                 ></v-progress-circular>
               </div>
             </template>
-            <v-card-text  v-if="isNaN(parseInt(moduleExamen))" class="text-center subtitle-1 dark-text font-weight-bold" > {{moduleExamen}}  </v-card-text>
-            <div v-else  class="text-center m-4">
-                <v-btn  class="success rounded-xl" @click="goToExam" >Examen - Módulo</v-btn>
+            <v-card-text
+              v-if="isNaN(parseInt(moduleExamen))"
+              class="text-center subtitle-1 dark-text font-weight-bold"
+            >
+              {{ moduleExamen }}
+            </v-card-text>
+            <div v-else class="text-center m-4">
+              <v-btn class="success rounded-xl" @click="goToExam"
+                >Examen - Módulo</v-btn
+              >
             </div>
           </v-card>
-
-
         </v-tab-item>
       </v-tabs-items>
-  </v-card>
-
-   
- 
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -101,19 +103,21 @@ export default {
   data() {
     return {
       tab: null,
-      items: [
-          { tab: 'Clases' },
-          { tab: 'Examen' },
-      ],
+      items: [{ tab: "Clases" }, { tab: "Examen" }],
       progress: 0,
       clase: null,
       completedLessons: [],
-      loading: true
+      loading: true,
     };
   },
   computed: {
     ...mapGetters("course", ["course"]),
-    ...mapState("course", ["allLessons", "lesson", "isLoading", "moduleExamen"]),
+    ...mapState("course", [
+      "allLessons",
+      "lesson",
+      "isLoading",
+      "moduleExamen",
+    ]),
   },
   methods: {
     ...mapActions("course", {
@@ -133,8 +137,15 @@ export default {
       "DESTROY_PROGRESS_COURSE",
     ]),
     //Ir al Examen Modulo
-    goToExam(){
-       this.$router.push({ name: "test", params: { id: this.moduleExamen }, query : { class: this.$route.query.class , course: this.$route.query.course   } });
+    goToExam() {
+      this.$router.push({
+        name: "test",
+        params: { id: this.moduleExamen },
+        query: {
+          class: this.$route.query.class,
+          course: this.$route.query.course,
+        },
+      });
     },
     // Funcion para calcular el progreso del curso
     async getProgress() {
@@ -200,7 +211,6 @@ export default {
     // Clases completadas
     getCompletedLessons(id) {
       this.axios.get(`purchased/show?course_id=${id}`).then((res) => {
-
         for (const index in res.data.data) {
           if (res.data.status[index] === "SEEN") {
             this.completedLessons.push(res.data.data[index]);
