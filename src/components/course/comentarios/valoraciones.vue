@@ -1,7 +1,7 @@
 <template>
   <div>
 
-      <v-card dense style="border-radius: 15px">
+      <v-card dense style="border-radius: 15px" :key="cardRender">
 
 
       
@@ -14,7 +14,11 @@
                 </v-list-item-title>
 
                 <v-list-item-title class="font-weight-bold">
-                  <h2>Puntaje promedio : {{parseRate(courseRating)}}</h2>
+                  <h2 v-if="avg != 0">Puntaje promedio : {{avg}}</h2>
+                  <div v-else>
+                  <h3 >Aún no se ha valorado el curso ...</h3>
+                  <h3 >se el primero en comentar y valorar! :D</h3>
+                  </div>
                 </v-list-item-title>
 
                 <v-list-item-subtitle>
@@ -24,7 +28,7 @@
                     readonly
                     length="5"
                     size="40"
-                    :value ="parseRate(courseRating)"
+                    :value ="avg"
                   ></v-rating>
                 </v-list-item-subtitle>
 
@@ -139,6 +143,7 @@ export default {
   },
   data() {
     return {
+      cardRender: 0,
       img: localStorage.getItem("photo_user"),
       useId: "",
       comentarios: [],
@@ -162,6 +167,24 @@ export default {
     comments() {
       return this.getRating;
     },
+    avg() {
+
+      if(this.getRating === undefined){
+        return 0;
+      }
+
+      if(this.getRating.length === 0){
+        return 0;
+      }
+
+      var finalArray = this.getRating.map(function (obj) {
+      return obj.rate;
+      });
+
+      const average = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
+
+      return average(finalArray); 
+    },
   },
 
 
@@ -181,13 +204,16 @@ export default {
         alert("Valoracion enviada");
         if (this.newRating.course_id != undefined) {
           await this.setRating(this.newRating);
+          await this.getRating2(this.$route.query.course);
           this.newRating.commentary = "";
           this.newRating.rate = 0;
+          this.forceRerender();
+
         }
       }
     },
     forceRerender() {
-      this.componentKey += 1;  
+      this.cardRender = this.cardRender +1;  
     },
     date(dt) {
       return moment(dt).format("DD-MM-YYYY");
