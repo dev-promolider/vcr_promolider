@@ -88,6 +88,18 @@ export const getComments = async (context, id) => {
     })
 }
 
+// Obtenemos la valoracion de un curso
+export const getRating = async (context, id) => {
+    await axios.get(`course/rate/show/${id}`)
+    .then((res) =>{
+      context.commit('GET_RATING', res.data);
+    })
+}
+
+export const getCourseRating =  (context, courseRating) => { 
+      context.commit('GET_COURSE_RATING', courseRating);
+}
+
 
 // Obtenemos el examen de una clase
 export const getTest = async (context, data) => {
@@ -165,6 +177,20 @@ export const setComments = async ( { commit } , comment ) => {
             throw new Error(error)
         }
    
+}
+
+//Enviamos el comentario
+export const setRating = async ( { commit },comment) => {
+    try {
+       const resp = await axios.post('course/rate/store', comment)
+       
+       if( resp.data.status === 200){
+        commit('setRating', resp)
+       }
+        
+    } catch (error) {
+        throw new Error(error)
+    }
 }
 //Obtemos la dinamica activa
 export const getActiveDinamicClass = async ( { commit } , { game_for, idClass }) => {

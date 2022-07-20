@@ -128,6 +128,15 @@
                 </v-card-text>
               </template>
             </v-card>
+
+            <v-card flat v-if="item.tab === 'Valoraciones'">
+              
+              <Valoraciones  />
+
+
+
+            </v-card>
+
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -137,8 +146,12 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import Valoraciones from "@/components/course/comentarios/valoraciones.vue";
 
 export default {
+  components: {
+      Valoraciones
+  },
   name: "Descripcion",
   data() {
     return {
@@ -154,6 +167,7 @@ export default {
         { tab: "Recursos" },
         { tab: "Exámen" },
         { tab: "Dinámicas" },
+        { tab: "Valoraciones" },
       ],
       stateDinamic: true,
       idDinamicGame: [],
@@ -243,6 +257,7 @@ export default {
         throw new Error(error);
       }
     },
+
     goToDinamics(id) {
       this.$router.push({
         name: "dinamic",

@@ -155,13 +155,21 @@ export default {
           .then((res) => {
             let fistClass = res.data.data.modules[0].lessons[0].name;
             this.$router
-              .push(`course-user?course=${id}&class=${fistClass}`)
+              .push({name:'curso', query: {course: id , class: fistClass , rate : this.course.ranking_by_user}})
               .catch(() => {});
+            // this.$router
+            //   .push(`course-user?course=${id}&class=${fistClass}`)
+            //   .catch(() => {});  
+              //this.$router.push({ name: 'foo', params: {title: 'test title' }})
           });
       } else {
         this.$router
-          .push(`course-user?course=${id}&class=${dataRequest.name}`)
+          .push({name:'curso', query: {course: id , class: dataRequest.name, rate : this.course.ranking_by_user }})
           .catch(() => {});
+
+      /*   this.$router
+          .push(`course-user?course=${id}&class=${dataRequest.name}`)
+          .catch(() => {});   */
       }
     },
   },

@@ -38,7 +38,7 @@ const routes = [
       { path: '/home', component: Home, name: 'home' },
       { path: '/', component: Home, name: 'home' },
       { path: '/courses', component: Courses, name: 'courses' },
-      { path: '/course-user', component: CursoUser, name: 'curso', },
+      { path: '/course-user', component: CursoUser, name: 'curso',  props: true},
       { path: '/test/:id', component: pruebasCourse, name: 'test' },
       { path: '/course-user/dinamic/:id', component: DinamicClass, name: 'dinamic' },
       { path: '/messages', component: Messages, name: 'messages' },

@@ -9,5 +9,7 @@ export const urlVideo = (state) => state.urlVideo;
 export const timeReady = (state) => state.timeReady;
 export const getProductor = (state) => state.productor;
 export const getComments = (state) => state.allComments;
+export const getRating = (state) => state.allRating;
+export const getCourseRating = (state) => state.courseRating;
 export const getCourseActive = (state) => state.course_active;
 export const getDataEx = (state) => state.dataEx;
