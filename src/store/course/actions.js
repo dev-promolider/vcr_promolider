@@ -115,8 +115,10 @@ export const getTest = async (context, data) => {
 // Obtenemos el examen del modulo
 export const getModuleExam = async ({commit}, payload) => {
 
+    console.log( payload);
     try {
-        const resp =  await axios.post(`course/exam/active`, payload)
+        const resp =  await axios.post(`course/exam/module/active`, payload)
+
 
         const { data } = resp 
 
