@@ -82,7 +82,7 @@ export default {
           this.getComments(res.data[0].id);
           this.getRating(this.$route.query.course);
           this.getTest({ exam_type: "class", id_type: res.data[0].id });
-          this.getModuleExam({ exam_type: "module", id_type: res.data[0].id });
+          this.getModuleExam({  id_course: this.$route.query.course });
         });
     },
   },
