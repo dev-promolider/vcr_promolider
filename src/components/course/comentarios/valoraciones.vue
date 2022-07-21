@@ -10,14 +10,13 @@
               <v-list-item-content>
               
                 <v-list-item-title class="font-weight-bold">
-                  <h1>Comentarios de los estudiantes</h1>
+                  <h4 class="display-6">Comentarios</h4>
                 </v-list-item-title>
 
                 <v-list-item-title class="font-weight-bold">
-                  <h2 v-if="avg != 0">Puntaje promedio : {{avg}}</h2>
+                  <h4 class="display-6" v-if="avg != 0">Puntaje promedio : {{avg}}</h4>
                   <div v-else>
-                  <h3 >Aún no se ha valorado el curso ...</h3>
-                  <h3 >se el primero en comentar y valorar! :D</h3>
+                  <h4 class="display-6">!Sé el primero en comentar y valorar el curso!</h4>
                   </div>
                 </v-list-item-title>
 
@@ -42,8 +41,8 @@
     
 
 
-        <v-list-item three-line style="width: 94%; padding-top: 20px">
-          <v-list-item-avatar height="55px" width="55px">
+        <v-list-item three-line style="width: 100%; padding-top: 20px">
+          <v-list-item-avatar>
             <v-img :src="img"></v-img>
           </v-list-item-avatar>
 
