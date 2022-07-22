@@ -299,3 +299,13 @@ export const sendRespDailyQuizz = async ( { commit } , isCorrect ) => {
     }
 
 }
+
+//Enviar mensage al productor
+export const sendMessagePro = async ( _ , payload ) => {
+    try {
+        await axios.post('/messages/add', payload )
+        return {ok: true}
+    } catch (error) {
+        return {ok: false }
+    }
+}
