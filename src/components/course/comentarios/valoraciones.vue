@@ -28,6 +28,7 @@
                     length="5"
                     size="40"
                     :value ="avg"
+                    half-increments
                   ></v-rating>
                 </v-list-item-subtitle>
 
@@ -62,9 +63,22 @@
                     length="5"
                     size="30"
                     v-model="newRating.rate"
+                    half-increments
                   ></v-rating>
 
             </v-form>
+             <v-alert
+             v-model="alert"
+             dismissible
+             elevation="11"
+             type="warning"
+             >{{ alertMessage }}</v-alert>
+             <v-alert
+             v-model="alert2"
+             dismissible
+             elevation="11"
+             type="success"
+             >{{ alertMessage }}</v-alert>    
           </v-list-item-content>
         </v-list-item>
         <div
@@ -104,6 +118,7 @@
                     length="5"
                     size="30"
                     :value ="i.rate"
+                    half-increments
                   ></v-rating>
                 </v-list-item-subtitle>
 
@@ -128,7 +143,7 @@
           </template>
         </v-list>
       </v-card>
-  </div>
+  </div>  
 </template>
 
 <script>
@@ -142,6 +157,9 @@ export default {
   },
   data() {
     return {
+      alert: false,
+      alert2: false,
+      alertMessage: "",
       cardRender: 0,
       img: localStorage.getItem("photo_user"),
       useId: "",
@@ -192,24 +210,44 @@ export default {
     ...mapActions("course", ["setRating"]),
     ...mapActions("course", { getRating2: "getRating",}),
     // Funcion para el envio de mensajes
+
+
     async sendRating() {
       
-      
-      
-      if (this.newRating.comments === "" && this.newRating.rate === 0) {
-        return;
-      } else {
-        this.newRating.course_id = this.$route.query.course;
-        alert("Valoracion enviada");
-        if (this.newRating.course_id != undefined) {
+        if(this.validationRating()){
+
+          this.newRating.course_id = this.$route.query.course;
+          
+          if (this.newRating.course_id != undefined) {
+
           await this.setRating(this.newRating);
           await this.getRating2(this.$route.query.course);
+          this.alertMessage="Gracias por valorar este curso!";
+          this.alert2=true;
           this.newRating.commentary = "";
           this.newRating.rate = 0;
-          this.forceRerender();
+          }}},
 
-        }
+
+    validationRating() {
+      if (this.newRating.commentary === "" && this.newRating.rate === 0) {
+        this.alertMessage="Escriba un comentario y deje una valoración";
+        this.alert=true;
+        return false;
       }
+
+      if (this.newRating.commentary === "") {
+        this.alertMessage="Comentario vacío! Escriba un comentario";
+        this.alert=true;
+        return false;
+      }
+
+      if (this.newRating.commentary === 0) {
+        this.alertMessage="Valoracion 0 estrellas! Debe ser mayor a 0";
+        this.alert=true;
+        return false;
+      }
+    return true;
     },
     forceRerender() {
       this.cardRender = this.cardRender +1;  
