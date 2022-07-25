@@ -309,3 +309,14 @@ export const sendMessagePro = async ( _ , payload ) => {
         return {ok: false }
     }
 }
+
+export const getLeaderBoard = async ({commit}) => {
+    try {
+        const resp = await axios.get('classroom-points/ranking')
+        const { data } =  resp
+        commit('getLeaderBoard', data )
+        return {ok: true}
+    } catch (error) {
+        return {ok:false}
+    }
+}

@@ -30,5 +30,17 @@ export default () => ({
     gameData: {},
     moduleExamen: {
         module_exams: []
-    }
+    },
+    leaderBoard: [{
+        LeftPoints:0,
+        RightPoints:0,
+        active:false,
+        encid:"",
+        fullName:"",
+        id: 0,
+        name:"",
+        photo:"",
+        qualified: true,
+        total:0,
+    }],
 })

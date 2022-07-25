@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 60px">
+  <div style="margin-bottom: 50px">
     <v-app-bar app elevation="7" height="50px" color="#1AE800">
       <v-app-bar-nav-icon
         @click="changeDrawer"
@@ -152,13 +152,13 @@
             >Notificaciones</v-subheader
           >
           <v-divider class="my-1"></v-divider>
-          <v-card-title class="py-1" v-if="items.length === 0">
+          <v-card-title class="py-1" v-if="items.length === 0 && !isLoading">
             <span class="text-center subtitle text--secondary"
               >Usted no tiene notificaciones</span
             >
           </v-card-title>
-          <template v-for="(item, index) in items">
-            <v-list-item :key="index">
+          <template v-if="!isLoading" >
+            <v-list-item v-for="(item, index) in items" :key="index">
               <v-list-item-avatar height="50px" width="50px">
                 <v-img max-height="125" :src="item.avatar"></v-img>
               </v-list-item-avatar>
@@ -181,6 +181,15 @@
                 ></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
+          </template>
+          <template v-if="isLoading">
+            <v-sheet >
+                            <v-skeleton-loader
+                              v-for="i in 10" :key="i"
+                              v-bind="attrs"
+                              type="list-item-avatar"
+                            ></v-skeleton-loader>
+                          </v-sheet>
           </template>
           <v-divider class="my-1"></v-divider>
           <v-card-text v-if="items.length > 0">
@@ -258,6 +267,9 @@ export default {
   },
   data() {
     return {
+      attrs:{
+        class: 'pa-2'
+      },
       sheet: false,
       search: null,
       numberItems: 0,
@@ -266,6 +278,7 @@ export default {
       drawer: false,
       dialogCertificate: false,
       stateCertificate: false,
+      isLoading: true,
       links: [
         { nombre: "Mi perfil", nameRouter: "perfil" },
         { nombre: "Mis preferencias", nameRouter: "option-preferences" },
@@ -343,7 +356,10 @@ export default {
       }
     },
     async getNotifications() {
+      this.isLoading = true
       const data = await this.axios.get("/notifications/list");
+
+
       const noti = data.data.map((e) => {
         return {
           title: e.title,
@@ -358,6 +374,8 @@ export default {
         this.numberItems = Object.keys(noti).length;
       }
       this.items = noti;
+
+      this.isLoading = false 
     },
     async getCertificate(course) {
       try {
