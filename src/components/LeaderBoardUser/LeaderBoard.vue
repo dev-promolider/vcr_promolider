@@ -141,7 +141,7 @@
           </v-card>
         </div>
       </v-col> -->
-      <!-- <v-col v-if="isLoading" align-self="center">
+      <v-col v-if="isLoading" align-self="center">
         <div class="d-flex align-start justify-center" v-if="isLoading">
           <v-progress-circular
             :size="70"
@@ -190,7 +190,7 @@
             type="list-item-avatar"
           ></v-skeleton-loader>
         </v-sheet>
-      </v-col> -->
+      </v-col>
     </v-row>
   </v-container>
 </template>
