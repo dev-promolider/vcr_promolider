@@ -10,7 +10,7 @@
     "
     class="background-leaderboard pb-3"
   >
-    <v-row>
+    <!-- <v-row>
       <div class="confetti">
         <div class="confetti-piece" v-for="i in 20" :key="i"></div>
       </div>
@@ -191,7 +191,7 @@
           ></v-skeleton-loader>
         </v-sheet>
       </v-col>
-    </v-row>
+    </v-row> -->
   </v-container>
 </template>
 
