@@ -14,7 +14,7 @@
       <div class="confetti">
         <div class="confetti-piece" v-for="i in 20" :key="i"></div>
       </div>
-      <v-col
+      <!-- <v-col
         align-self="end"
         :class="[$vuetify.breakpoint.xs && 'mt-50']"
         cols="12"
@@ -140,7 +140,7 @@
             >
           </v-card>
         </div>
-      </v-col>
+      </v-col> -->
       <!-- <v-col v-if="isLoading" align-self="center">
         <div class="d-flex align-start justify-center" v-if="isLoading">
           <v-progress-circular
