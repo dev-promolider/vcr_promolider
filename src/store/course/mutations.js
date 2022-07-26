@@ -197,3 +197,7 @@ export const setDataDinamic = ( state , data) => {
 export const setGameData = (state, data) => {
     state.gameData = data
 }
+
+export const getLeaderBoard = (state, data) => {
+    state.leaderBoard = data
+}
