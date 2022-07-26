@@ -10,7 +10,7 @@
     "
     class="background-leaderboard pb-3"
   >
-    <!-- <v-row>
+    <v-row>
       <div class="confetti">
         <div class="confetti-piece" v-for="i in 20" :key="i"></div>
       </div>
@@ -141,7 +141,7 @@
           </v-card>
         </div>
       </v-col>
-      <v-col v-if="isLoading" align-self="center">
+      <!-- <v-col v-if="isLoading" align-self="center">
         <div class="d-flex align-start justify-center" v-if="isLoading">
           <v-progress-circular
             :size="70"
@@ -190,8 +190,8 @@
             type="list-item-avatar"
           ></v-skeleton-loader>
         </v-sheet>
-      </v-col>
-    </v-row> -->
+      </v-col> -->
+    </v-row>
   </v-container>
 </template>
 
