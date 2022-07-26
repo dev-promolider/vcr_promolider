@@ -10,7 +10,7 @@
     "
     class="background-leaderboard pb-3"
   >
-    <v-row>
+    <v-row style="margin-top: 150px">
       <div class="confetti">
         <div class="confetti-piece" v-for="i in 20" :key="i"></div>
       </div>
@@ -134,7 +134,9 @@
               style="position: relative"
               :class="[$vuetify.breakpoint.xs ? 'text-h6' : 'text-h3']"
               class="white--text text-center"
-              ><span class="font-weight-bold">{{thirdPlace.total}}</span></v-card-text
+              ><span class="font-weight-bold">{{
+                thirdPlace.total
+              }}</span></v-card-text
             >
           </v-card>
         </div>
