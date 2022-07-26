@@ -14,7 +14,7 @@
       <div class="confetti">
         <div class="confetti-piece" v-for="i in 20" :key="i"></div>
       </div>
-      <!-- <v-col
+      <v-col
         align-self="end"
         :class="[$vuetify.breakpoint.xs && 'mt-50']"
         cols="12"
@@ -36,14 +36,14 @@
                 class="font-weight-bold color-name-leaderboard"
                 :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h4']"
               >
-                {{ secondPlace?.name }}
+                {{ secondPlace.name }}
               </div>
               <v-avatar
                 class="my-5"
                 :width="$vuetify.breakpoint.xs ? 70 : 110"
                 :height="$vuetify.breakpoint.xs ? 70 : 110"
               >
-                <img :src="secondPlace?.photo" />
+                <img :src="secondPlace.photo" />
               </v-avatar>
             </div>
             <v-img
@@ -58,7 +58,7 @@
               :class="[$vuetify.breakpoint.xs ? 'text-h6' : 'text-h3']"
               class="white--text text-center"
             >
-              <span class="font-weight-bold">{{ secondPlace?.total }}</span>
+              <span class="font-weight-bold">{{ secondPlace.total }}</span>
             </v-card-text>
           </v-card>
           <v-card
@@ -75,14 +75,14 @@
                 class="font-weight-bold color-name-leaderboard"
                 :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h4']"
               >
-                {{ firstPlace?.name }}
+                {{ firstPlace.name }}
               </div>
               <v-avatar
                 class="my-5"
                 :width="$vuetify.breakpoint.xs ? 70 : 110"
                 :height="$vuetify.breakpoint.xs ? 70 : 110"
               >
-                <img :src="firstPlace?.photo"
+                <img :src="firstPlace.photo"
               /></v-avatar>
             </div>
             <v-img
@@ -96,7 +96,7 @@
               :class="[$vuetify.breakpoint.xs ? 'text-h6' : 'text-h3']"
               class="white--text text-center"
               ><span class="font-weight-bold">{{
-                firstPlace?.total
+                firstPlace.total
               }}</span></v-card-text
             >
           </v-card>
@@ -114,14 +114,14 @@
                 class="font-weight-bold color-name-leaderboard"
                 :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h4']"
               >
-                {{ thirdPlace?.name }}
+                {{ thirdPlace.name }}
               </div>
               <v-avatar
                 class="my-5"
                 :width="$vuetify.breakpoint.xs ? 70 : 110"
                 :height="$vuetify.breakpoint.xs ? 70 : 110"
               >
-                <img :src="thirdPlace?.photo"
+                <img :src="thirdPlace.photo"
               /></v-avatar>
             </div>
             <v-img
@@ -134,13 +134,11 @@
               style="position: relative"
               :class="[$vuetify.breakpoint.xs ? 'text-h6' : 'text-h3']"
               class="white--text text-center"
-              ><span class="font-weight-bold">{{
-                thirdPlace?.total
-              }}</span></v-card-text
+              ><span class="font-weight-bold">{{thirdPlace.total}}</span></v-card-text
             >
           </v-card>
         </div>
-      </v-col> -->
+      </v-col>
       <v-col v-if="isLoading" align-self="center">
         <div class="d-flex align-start justify-center" v-if="isLoading">
           <v-progress-circular
@@ -151,7 +149,7 @@
           ></v-progress-circular>
         </div>
       </v-col>
-      <!-- <v-col cols="12" sm="4">
+      <v-col cols="12" sm="4">
         <v-card
           class="rounded-lg"
           tile
@@ -167,14 +165,14 @@
                     </v-col>
                     <v-col sm="2">
                       <v-avatar size="30">
-                        <v-img :src="`${list?.photo}`"></v-img>
+                        <v-img :src="`${list.photo}`"></v-img>
                       </v-avatar>
                     </v-col>
                     <v-col sm="4">
-                      <v-list-item-title>{{ list?.name }}</v-list-item-title>
+                      <v-list-item-title>{{ list.name }}</v-list-item-title>
                     </v-col>
                     <v-col sm="3">
-                      <v-list-item-title>{{ list?.total }}</v-list-item-title>
+                      <v-list-item-title>{{ list.total }}</v-list-item-title>
                     </v-col>
                   </v-row>
                 </v-list-item-content>
@@ -190,7 +188,7 @@
             type="list-item-avatar"
           ></v-skeleton-loader>
         </v-sheet>
-      </v-col> -->
+      </v-col>
     </v-row>
   </v-container>
 </template>
