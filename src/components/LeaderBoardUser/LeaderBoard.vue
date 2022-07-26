@@ -151,7 +151,7 @@
           ></v-progress-circular>
         </div>
       </v-col>
-      <v-col cols="12" sm="4">
+      <!-- <v-col cols="12" sm="4">
         <v-card
           class="rounded-lg"
           tile
@@ -190,7 +190,7 @@
             type="list-item-avatar"
           ></v-skeleton-loader>
         </v-sheet>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
