@@ -1,7 +1,7 @@
 <template>
   <div>
 
-      <v-card dense style="border-radius: 15px">
+      <v-card dense style="border-radius: 15px" :key="cardRender">
 
 
       
@@ -10,11 +10,14 @@
               <v-list-item-content>
               
                 <v-list-item-title class="font-weight-bold">
-                  <h1>Comentarios de los estudiantes</h1>
+                  <h4 class="display-6">Comentarios</h4>
                 </v-list-item-title>
 
                 <v-list-item-title class="font-weight-bold">
-                  <h2>Puntaje promedio : {{parseRate(courseRating)}}</h2>
+                  <h4 class="display-6" v-if="avg != 0">Puntaje promedio : {{avg}}</h4>
+                  <div v-else>
+                  <h4 class="display-6">!Sé el primero en comentar y valorar el curso!</h4>
+                  </div>
                 </v-list-item-title>
 
                 <v-list-item-subtitle>
@@ -24,7 +27,8 @@
                     readonly
                     length="5"
                     size="40"
-                    :value ="parseRate(courseRating)"
+                    :value ="avg"
+                    half-increments
                   ></v-rating>
                 </v-list-item-subtitle>
 
@@ -38,8 +42,8 @@
     
 
 
-        <v-list-item three-line style="width: 94%; padding-top: 20px">
-          <v-list-item-avatar height="55px" width="55px">
+        <v-list-item three-line style="width: 100%; padding-top: 20px">
+          <v-list-item-avatar>
             <v-img :src="img"></v-img>
           </v-list-item-avatar>
 
@@ -59,9 +63,22 @@
                     length="5"
                     size="30"
                     v-model="newRating.rate"
+                    half-increments
                   ></v-rating>
 
             </v-form>
+             <v-alert
+             v-model="alert"
+             dismissible
+             elevation="11"
+             type="warning"
+             >{{ alertMessage }}</v-alert>
+             <v-alert
+             v-model="alert2"
+             dismissible
+             elevation="11"
+             type="success"
+             >{{ alertMessage }}</v-alert>    
           </v-list-item-content>
         </v-list-item>
         <div
@@ -101,6 +118,7 @@
                     length="5"
                     size="30"
                     :value ="i.rate"
+                    half-increments
                   ></v-rating>
                 </v-list-item-subtitle>
 
@@ -125,7 +143,7 @@
           </template>
         </v-list>
       </v-card>
-  </div>
+  </div>  
 </template>
 
 <script>
@@ -139,6 +157,10 @@ export default {
   },
   data() {
     return {
+      alert: false,
+      alert2: false,
+      alertMessage: "",
+      cardRender: 0,
       img: localStorage.getItem("photo_user"),
       useId: "",
       comentarios: [],
@@ -162,6 +184,24 @@ export default {
     comments() {
       return this.getRating;
     },
+    avg() {
+
+      if(this.getRating === undefined){
+        return 0;
+      }
+
+      if(this.getRating.length === 0){
+        return 0;
+      }
+
+      var finalArray = this.getRating.map(function (obj) {
+      return obj.rate;
+      });
+
+      const average = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
+
+      return average(finalArray); 
+    },
   },
 
 
@@ -170,24 +210,47 @@ export default {
     ...mapActions("course", ["setRating"]),
     ...mapActions("course", { getRating2: "getRating",}),
     // Funcion para el envio de mensajes
+
+
     async sendRating() {
       
-      
-      
-      if (this.newRating.comments === "" && this.newRating.rate === 0) {
-        return;
-      } else {
-        this.newRating.course_id = this.$route.query.course;
-        alert("Valoracion enviada");
-        if (this.newRating.course_id != undefined) {
+        if(this.validationRating()){
+
+          this.newRating.course_id = this.$route.query.course;
+          
+          if (this.newRating.course_id != undefined) {
+
           await this.setRating(this.newRating);
+          await this.getRating2(this.$route.query.course);
+          this.alertMessage="Gracias por valorar este curso!";
+          this.alert2=true;
           this.newRating.commentary = "";
           this.newRating.rate = 0;
-        }
+          }}},
+
+
+    validationRating() {
+      if (this.newRating.commentary === "" && this.newRating.rate === 0) {
+        this.alertMessage="Escriba un comentario y deje una valoración";
+        this.alert=true;
+        return false;
       }
+
+      if (this.newRating.commentary === "") {
+        this.alertMessage="Comentario vacío! Escriba un comentario";
+        this.alert=true;
+        return false;
+      }
+
+      if (this.newRating.commentary === 0) {
+        this.alertMessage="Valoracion 0 estrellas! Debe ser mayor a 0";
+        this.alert=true;
+        return false;
+      }
+    return true;
     },
     forceRerender() {
-      this.componentKey += 1;  
+      this.cardRender = this.cardRender +1;  
     },
     date(dt) {
       return moment(dt).format("DD-MM-YYYY");

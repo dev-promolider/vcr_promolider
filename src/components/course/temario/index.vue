@@ -69,7 +69,7 @@
           </v-card>
 
           <v-card v-if="item.tab === 'Examen'" flat>
-            <template v-if="loading && !moduleExamen">
+            <template v-if="isLoading && !moduleExamen">
               <div class="text-center">
                 <v-progress-circular
                   indeterminate
@@ -77,17 +77,19 @@
                 ></v-progress-circular>
               </div>
             </template>
-            <v-card-text
-              v-if="isNaN(parseInt(moduleExamen))"
-              class="text-center subtitle-1 dark-text font-weight-bold"
-            >
-              {{ moduleExamen }}
-            </v-card-text>
-            <div v-else class="text-center m-4">
-              <v-btn class="success rounded-xl" @click="goToExam"
-                >Examen - Módulo</v-btn
+            <template v-else>
+              <v-card-text
+                v-if="moduleExamen.module_exams.length === 0 "
+                class="text-center subtitle-1 dark-text font-weight-bold"
               >
-            </div>
+                No se encontró ningún examen
+              </v-card-text>
+              <div v-else class="m-2">
+                <v-btn class="my-4 success rounded-xl" style="width: 400px; max-width: 100%" v-for="module_exam in moduleExamen.module_exams" :key="module_exam.id"  @click="goToExam(module_exam.id)"
+                  >{{module_exam.title}}</v-btn
+                >
+              </div>
+            </template>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -137,10 +139,10 @@ export default {
       "DESTROY_PROGRESS_COURSE",
     ]),
     //Ir al Examen Modulo
-    goToExam() {
+    goToExam( id ) {
       this.$router.push({
         name: "test",
-        params: { id: this.moduleExamen },
+        params: { id },
         query: {
           class: this.$route.query.class,
           course: this.$route.query.course,
@@ -184,10 +186,7 @@ export default {
         id_type: this.lesson.id,
       });
       // Solicitar los nuevos examenes si es necesario
-      this.getModuleExam({
-        exam_type: "module",
-        id_type: this.lesson.id,
-      });
+      this.getModuleExam({id_course: this.$route.query.course,});
 
       // Enviando la ultima clase que esta visualizando
       let sendData = {
@@ -207,7 +206,6 @@ export default {
         });
       }
     },
-
     // Clases completadas
     getCompletedLessons(id) {
       this.axios.get(`purchased/show?course_id=${id}`).then((res) => {
@@ -232,6 +230,7 @@ export default {
 
     // Recibiendo las clases completadas del curso
     this.getCompletedLessons(this.$route.query.course);
+
   },
   updated() {
     // Actualizando la barra de progreso

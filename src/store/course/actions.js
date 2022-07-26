@@ -115,8 +115,10 @@ export const getTest = async (context, data) => {
 // Obtenemos el examen del modulo
 export const getModuleExam = async ({commit}, payload) => {
 
+    console.log( payload);
     try {
-        const resp =  await axios.post(`course/exam/active`, payload)
+        const resp =  await axios.post(`course/exam/module/active`, payload)
+
 
         const { data } = resp 
 
@@ -183,9 +185,8 @@ export const setComments = async ( { commit } , comment ) => {
 export const setRating = async ( { commit },comment) => {
     try {
        const resp = await axios.post('course/rate/store', comment)
-       
-       if( resp.data.status === 200){
-        commit('setRating', resp)
+       if( resp.data.status === 200){  
+        commit('setRating', comment)
        }
         
     } catch (error) {
@@ -297,4 +298,25 @@ export const sendRespDailyQuizz = async ( { commit } , isCorrect ) => {
         
     }
 
+}
+
+//Enviar mensage al productor
+export const sendMessagePro = async ( _ , payload ) => {
+    try {
+        await axios.post('/messages/add', payload )
+        return {ok: true}
+    } catch (error) {
+        return {ok: false }
+    }
+}
+
+export const getLeaderBoard = async ({commit}) => {
+    try {
+        const resp = await axios.get('classroom-points/ranking')
+        const { data } =  resp
+        commit('getLeaderBoard', data )
+        return {ok: true}
+    } catch (error) {
+        return {ok:false}
+    }
 }
