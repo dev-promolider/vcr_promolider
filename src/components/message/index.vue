@@ -441,9 +441,7 @@ body {
   background: #35424a;
 }
 
-.chat-item-message {
-  /* background-color: #006aff; */
-}
+
 
 .chat-border-top-left {
   border: solid #aaaaaa 1px;
