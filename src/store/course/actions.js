@@ -38,8 +38,15 @@ export const getLesson = (context, less) => {
 
 
 // Indicar que clase se esta viendo por ultima vez
-export const lastSeenLesson = async (context,data)=>{
-    await axios.patch(`purchased/save-class-seen?course_id=${data.course_id}&class_id=${data.class_id}`)
+export const lastSeenLesson = async ( _ , { course_id, class_id } )=>{
+
+    if( !course_id && !class_id ) return 
+    try {
+        await axios.patch(`purchased/save-class-seen?course_id=${course_id}&class_id=${class_id}`)
+        return {ok:true}
+    } catch (error) {
+        return {ok:false}
+    }
 }
 
 
@@ -319,4 +326,15 @@ export const getLeaderBoard = async ({commit}) => {
     } catch (error) {
         return {ok:false}
     }
+}
+
+export const updateTime = ( _ , { course,  time , lessonId } ) =>  {
+    try {
+        axios.patch( `purchased/save-class-seen?course_id=${course}&display_time=${time}&class_id=${lessonId}`);
+        return {ok : true}
+    } catch (error) {
+        console.log(error);
+        return {ok : false}    
+    }
+
 }

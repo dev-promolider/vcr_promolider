@@ -13,23 +13,23 @@
           <loadingCourses />
         </div>
 
-        <div class="mb-4" v-if="relatedCourses.length > 0">
+        <div class="mb-4" v-if="relatedCourses.length > 0 && !loading">
           <h3 class="m-0 font-weight-bold">Más recientes</h3>
           <CarrouselCourse :courses="relatedCourses" />
         </div>
 
-        <div class="mb-4" v-if="courses.length > 0">
+        <div class="mb-4" v-if="courses.length > 0 && !loading">
           <h3 class="m-0 font-weight-bold">Todos los cursos</h3>
           <CarrouselCourse :courses="courses" />
         </div>
 
-        <div class="mb-4" v-if="interesCourses.length > 0">
+        <div class="mb-4" v-if="interesCourses.length > 0 && !loading">
           <h3 class="m-0 font-weight-bold">Cursos de interés</h3>
           <CarrouselCourse :courses="interesCourses" />
         </div>
 
-        <div v-if="this.coursView > 0">
-          <CarrouselCourseViewed v-if="!loading" />
+        <div v-if="this.coursView > 0 && !loading">
+          <CarrouselCourseViewed  />
         </div>
       </div>
     </div>

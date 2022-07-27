@@ -1,6 +1,6 @@
 <template>
-  <div style="margin-bottom: 50px">
-    <v-app-bar app elevation="7" height="50px" color="#1AE800">
+  <div style="margin-bottom: 80px">
+    <v-app-bar app elevation="7" height="80px" color="#1AE800">
       <v-app-bar-nav-icon
         @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
@@ -45,12 +45,12 @@
         </v-btn>
       </div>
 
-      <v-btn icon v-if="examDaily" data-toggle="modal" data-target="#question">
+      <v-btn icon v-if="examDaily" data-toggle="modal" data-target="#question" x-large>
         <div class="nav nav-sub-h1">
           <li class="nav-item">
             <i
               class="fas fa-question"
-              style="font-size: 18px"
+              style="font-size: 25px"
               :class="[tooltip ? 'pulse' : '']"
             ></i>
           </li>
@@ -74,21 +74,24 @@
 
       <v-chip
         v-if="!$vuetify.breakpoint.xs && points"
+        class="px-5"
         color="#20282ed1"
         text-color="white"
-        style="font-size: 1.4em"
+        style="font-size: 2.2em; height: 45px"
+        large
       >
-        <v-icon left> mdi-trophy-award </v-icon>
-        {{ points }} Pts.
+        <v-icon size="30" left> mdi-trophy-award </v-icon>
+        {{ points }} Pts
       </v-chip>
-      <v-btn icon v-if="courseSelect" class="ga">
+
+      <v-btn icon v-if="courseSelect" x-large class="mx-2 ga">
         <v-progress-circular
           :rotate="-90"
-          :size="40"
+          :size="50"
           :width="5"
           :value="progressCourseSelect"
         >
-          <v-icon> mdi-trophy </v-icon>
+          <v-icon size="30" > mdi-trophy </v-icon>
           <div class="box">
             <span
               >{{ progressCourseSelect }}% de {{ allLessons }} completados</span
@@ -106,8 +109,8 @@
         max-width="950"
       >
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-school</v-icon>
+          <v-btn x-large icon v-bind="attrs" v-on="on">
+            <v-icon size="40" >mdi-school</v-icon>
           </v-btn>
         </template>
         <v-card class="pt-5">
@@ -135,19 +138,19 @@
       <!--Notificaciones -->
       <v-menu style="z-index: 201" left bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+          <v-btn x-large icon v-bind="attrs" v-on="on">
             <v-badge
               overlap
               color="#d54338"
               :value="isBadgeActive"
               :content="numberItems"
             >
-              <v-icon> mdi-bell </v-icon>
+              <v-icon size="35"> mdi-bell </v-icon>
             </v-badge>
           </v-btn>
         </template>
 
-        <v-list three-line width="450px" class="scroll">
+        <v-list three-line max-width="450px" class="scroll">
           <v-subheader style="font-size: 1.3rem; font-weight: 600"
             >Notificaciones</v-subheader
           >
@@ -194,10 +197,9 @@
           <v-divider class="my-1"></v-divider>
           <v-card-text v-if="items.length > 0">
             <v-btn
+              block
               color="#60d950"
               deep
-              large
-              width="100%"
               class="text-white"
               height="35px"
               >Ver todo</v-btn
@@ -209,8 +211,8 @@
       <!--Opciones-->
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
+          <v-btn x-large icon v-bind="attrs" v-on="on">
+            <v-icon size="30">mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
 
