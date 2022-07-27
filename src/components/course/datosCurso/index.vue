@@ -76,7 +76,7 @@
             >Enviar mensaje al productor</v-toolbar>
             <v-form  
               ref="form" 
-              @submit.prevent="SendMessageProductor( idUser )"
+              @submit.prevent="sendMessage( idUser )"
               v-if="!loading && !isMessageLoading" 
               v-model="valid" 
             >
@@ -205,10 +205,14 @@ export default {
 
     //Abir el modal message - Productor
 
-    async SendMessageProductor( id ){
+    async sendMessage( id ){
         this.loading = true
+        if( this.formMessage.message === '' ){
+          this.loading =  false
+          return 
+        }
         const { ok } =  await this.sendMessagePro({ receiver_id: id, message: this.formMessage.message })
-          this.formMessage.message = ''
+        this.formMessage.message = ''
         if( !ok ){
            this.alertMessage.message = 'Ocurrió un error al intentar enviar el mensaje.'
            this.alertMessage.statusMessage = false
