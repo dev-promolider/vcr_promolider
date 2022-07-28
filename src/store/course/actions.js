@@ -122,7 +122,6 @@ export const getTest = async (context, data) => {
 // Obtenemos el examen del modulo
 export const getModuleExam = async ({commit}, payload) => {
 
-    console.log( payload);
     try {
         const resp =  await axios.post(`course/exam/module/active`, payload)
 
@@ -151,9 +150,9 @@ export const getPoints = async ( {commit} , id) => {
         const {total} = data.data
 
         commit( 'setPoints', total )
-
+        return {ok: true}
     } catch (error) {
-        console.log(error);
+        return {ok: false}
     }
 }
 //Enviamos el comentario
@@ -262,7 +261,6 @@ export const sendAnswersExamen = async ( _ , { id_exam , answers , course_id , s
     try {
         const resp = await axios.post("course/exam/answers", { id_exam, answers, course_id ,seconds_used })
 
-        console.log(resp);
         return { ok: true , resp }
 
     } catch (error) {
@@ -333,7 +331,6 @@ export const updateTime = ( _ , { course,  time , lessonId } ) =>  {
         axios.patch( `purchased/save-class-seen?course_id=${course}&display_time=${time}&class_id=${lessonId}`);
         return {ok : true}
     } catch (error) {
-        console.log(error);
         return {ok : false}    
     }
 
