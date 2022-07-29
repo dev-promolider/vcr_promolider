@@ -56,8 +56,8 @@
           {{ nombre }}
         </p>
       </div>
-       <div class="col-xs-1 col-md-1 col-lg-1 text-left " v-if="idUser != idProductor" >
-        <v-icon  @click="dialog = true" class="text-left" color="green" > 
+       <div class="col-xs-1 col-md-1 col-lg-1 text-left " v-if="idUser != idProductor"  >
+        <v-icon  @click="openMessageDialog" class="text-left" color="green" > 
           mdi-message-text-outline
         </v-icon>
        </div>
@@ -96,7 +96,6 @@
                   @click="dialog = !dialog"
                 >Cancelar</v-btn>
                 <v-btn
-                :disabled="!valid"
                   type="submit"
                   text
                 >Enviar</v-btn>
@@ -206,26 +205,40 @@ export default {
     //Abir el modal message - Productor
 
     async sendMessage( id ){
-        this.loading = true
-        if( this.formMessage.message === '' ){
-          this.loading =  false
-          return 
-        }
+        if(!this.validateMessage(this.formMessage.message)) return 
+        this.loading = true 
         const { ok } =  await this.sendMessagePro({ receiver_id: id, message: this.formMessage.message })
-        this.formMessage.message = ''
+        
         if( !ok ){
-           this.alertMessage.message = 'Ocurrió un error al intentar enviar el mensaje.'
-           this.alertMessage.statusMessage = false
-           this.loading = false
-           this.isMessageLoading = true
-           
-           return
+           this.showAlert({
+            message: 'Ocurrió un error al intentar enviar el mensaje.',
+            statusMessage: false, 
+            loading: false, 
+            isMessageLoading: true 
+           })
         }
-
-        this.alertMessage.statusMessage = true
-        this.alertMessage.message = 'Mensaje enviado correctamente.'
-        this.loading = false
-        this.isMessageLoading = true
+        this.showAlert({
+          message: 'Mensaje enviado correctamente',
+          statusMessage: true, 
+          loading: false, 
+          isMessageLoading: true 
+        })
+    },
+    openMessageDialog(){
+      this.dialog = true
+      this.loading = false 
+      this.isMessageLoading = false 
+    },
+    validateMessage( message ){
+        if( message !== '' ) return true 
+    },
+    showAlert({ message, statusMessage, loading, isMessageLoading }){
+        this.alertMessage.message = message
+        this.alertMessage.statusMessage = statusMessage
+        this.loading = loading
+        this.isMessageLoading = isMessageLoading
+        this.formMessage.message = ''
+        return 
     },
     //Validar mensaje form
     validate () {
