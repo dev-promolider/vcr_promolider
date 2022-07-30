@@ -5,36 +5,38 @@
     style="
       align-items: normal;
       height: 100%;
-      min-height: 94.7vh;
+      min-height: 91.5vh;
       max-width: 100% !important;
     "
     class="background-leaderboard pb-3"
   >
-    <v-row style="margin-top: 150px">
+    <v-row>
       <div class="confetti">
         <div class="confetti-piece" v-for="i in 20" :key="i"></div>
       </div>
       <v-col
         align-self="end"
-        :class="[$vuetify.breakpoint.xs && 'mt-50']"
+        :class="[$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ?  'mt-50' : '']"
         cols="12"
-        sm="8"
+        lg="8"
         v-if="!isLoading"
       >
         <div class="grid-card-leaderboard d-flex align-end justify-center">
           <v-card
             color="#23b121c2"
             class="text-center"
-            :width="$vuetify.breakpoint.xs ? 120 : 250"
-            :height="$vuetify.breakpoint.xs ? 200 : 370"
+            width="100%"
+             v-if="secondPlace"
+           :max-width="$vuetify.breakpoint.xs ? 110 : 250"
+           :height="$vuetify.breakpoint.xs ? 200 : 360"
+            min-width="120"
           >
             <div
               class="align-imgs m-auto black--text text-center"
               :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h5']"
             >
               <div
-                class="font-weight-bold color-name-leaderboard"
-                :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h4']"
+                class="font-weight-bold color-name-leaderboard "
               >
                 {{ secondPlace.name }}
               </div>
@@ -47,9 +49,9 @@
               </v-avatar>
             </div>
             <v-img
-              class="mx-auto mt-10"
-              :width="$vuetify.breakpoint.xs ? 70 : 130"
-              :height="$vuetify.breakpoint.xs ? 60 : 120"
+              class="mx-auto p-10 mt-10"
+              width="100%"
+              :max-width="$vuetify.breakpoint.xs ? 70 : 140"
               :src="require('@/assets/icon-second.png')"
             >
             </v-img>
@@ -64,7 +66,8 @@
           <v-card
             color="#23b121"
             class="text-center"
-            :width="$vuetify.breakpoint.xs ? 120 : 300"
+            width="100%"
+            :max-width="$vuetify.breakpoint.xs ? 120 : 300"
             :height="$vuetify.breakpoint.xs ? 250 : 500"
           >
             <div
@@ -72,10 +75,9 @@
               :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h5']"
             >
               <div
-                class="font-weight-bold color-name-leaderboard"
-                :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h4']"
+                class="font-weight-bold color-name-leaderboard text-xs-h6"
               >
-                {{ firstPlace.name }}
+                {{ firstPlace.name  }}
               </div>
               <v-avatar
                 class="my-5"
@@ -86,9 +88,9 @@
               /></v-avatar>
             </div>
             <v-img
-              class="mx-auto mt-10"
-              :width="$vuetify.breakpoint.xs ? 70 : 140"
-              :height="$vuetify.breakpoint.xs ? 60 : 130"
+              class="mx-auto p-10 mt-10"
+              width="100%"
+              :max-width="$vuetify.breakpoint.xs ? 70 : 140"
               :src="require('@/assets/icon-first.png')"
             ></v-img>
             <v-card-text
@@ -103,16 +105,16 @@
           <v-card
             color="#23b121c2"
             class="text-center"
-            :width="$vuetify.breakpoint.xs ? 120 : 250"
+            width="100%"
+            v-if="thirdPlace"
+            :max-width="$vuetify.breakpoint.xs ? 110 : 250"
             :height="$vuetify.breakpoint.xs ? 180 : 300"
           >
             <div
               class="align-imgs m-auto black--text text-center"
-              :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h5']"
             >
               <div
-                class="font-weight-bold color-name-leaderboard"
-                :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h4']"
+                class="font-weight-bold color-name-leaderboard text-xl-h4 text-md-h5"
               >
                 {{ thirdPlace.name }}
               </div>
@@ -125,9 +127,9 @@
               /></v-avatar>
             </div>
             <v-img
-              class="mx-auto mt-10"
-              :width="$vuetify.breakpoint.xs ? 70 : 110"
-              :height="$vuetify.breakpoint.xs ? 60 : 100"
+              class="mx-auto p-10 mt-10"
+              width="100%"
+              :max-width="$vuetify.breakpoint.xs ? 70 : 140"
               :src="require('@/assets/icon-third.png')"
             ></v-img>
             <v-card-text
@@ -151,7 +153,7 @@
           ></v-progress-circular>
         </div>
       </v-col>
-      <v-col cols="12" sm="4">
+      <v-col cols="12" lg="4"  >
         <v-card
           class="rounded-lg"
           tile
@@ -161,19 +163,17 @@
             <div v-for="list in listLeaderBoard" :key="list.id">
               <v-list-item class="ma-4 white--text" style="background: #131b1e">
                 <v-list-item-content>
-                  <v-row align="center">
-                    <v-col sm="2">
+                  <v-row align="center"  >
+                    <v-col cols="2"  sm="2">
                       <v-list-item-title>{{ list.id }}</v-list-item-title>
                     </v-col>
-                    <v-col sm="2">
-                      <v-avatar size="30">
-                        <v-img :src="`${list.photo}`"></v-img>
-                      </v-avatar>
+                    <v-col  cols="2"   sm="2">
+                        <v-img width="30"  min-width="30" :src="`${list.photo}`"></v-img>
                     </v-col>
-                    <v-col sm="4">
+                    <v-col cols="6"  sm="6">
                       <v-list-item-title>{{ list.name }}</v-list-item-title>
                     </v-col>
-                    <v-col sm="3">
+                    <v-col cols="2"  sm="2">
                       <v-list-item-title>{{ list.total }}</v-list-item-title>
                     </v-col>
                   </v-row>
@@ -222,7 +222,7 @@ export default {
       return this.getListLeaderBoard;
     },
     firstPlace() {
-      return this.getFirstPlaceLeaderBoard;
+      return this.getFirstPlaceLeaderBoard ;
     },
     secondPlace() {
       return this.getSecondPlaceLeaderBoard;

@@ -14,7 +14,7 @@ export const getCourseRating = (state) => state.courseRating;
 export const getCourseActive = (state) => state.course_active;
 export const getDataEx = (state) => state.dataEx;
 export const getListLeaderBoard = ( state ) => state.leaderBoard.slice( 3 , state.leaderBoard.length )
-export const getFirstPlaceLeaderBoard = ( state ) => state.leaderBoard.slice(0,1)[0]
-export const getSecondPlaceLeaderBoard = ( state ) => state.leaderBoard.slice(1,2)[0]
-export const getThirdPlaceLeaderBoard = ( state ) => state.leaderBoard.slice(2,3)[0]
+export const getFirstPlaceLeaderBoard = ( state ) => state.leaderBoard.slice(0,1)[0] || { name: 'Juan' , photo: require('@/assets/perfil-del-usuario.png') }
+export const getSecondPlaceLeaderBoard = ( state ) => state.leaderBoard.slice(1,2)[0] || { name: 'Roberto' , photo: require('@/assets/perfil-del-usuario.png') }
+export const getThirdPlaceLeaderBoard = ( state ) => state.leaderBoard.slice(2,3)[0] || { name: 'Lucia' , photo: require('@/assets/perfil-del-usuario.png') }
     
