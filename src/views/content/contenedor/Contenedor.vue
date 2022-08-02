@@ -7,7 +7,7 @@
     <div v-if="!mostrar">
       <NavBarV />
       <v-main app style="background-color: #ffffff !important">
-        <router-view class="background-router" />
+        <router-view />
       </v-main>
       <img
         src="@/assets/ruleta.png"

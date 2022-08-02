@@ -30,7 +30,7 @@
 
       <div
         v-else
-        class="message d-flex mb-3"
+        class="message d-flex px-5 mb-3"
         v-for="user in getLastMessages"
         :key="user.id"
       >
@@ -83,7 +83,7 @@ export default {
   margin: auto;
 }
 .message {
-  background-color: #131b1e;
+  background-color: #1AE800;
   border-radius: 15px;
   align-items: center;
 }

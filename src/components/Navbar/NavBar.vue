@@ -71,18 +71,16 @@
           <div class="circle"></div>
         </div>
       </v-btn>
-
-      <v-chip
-        v-if="!$vuetify.breakpoint.xs && points"
-        class="px-5"
-        color="#20282ed1"
-        text-color="white"
-        style="font-size: 2.2em; height: 45px"
-        large
-      >
-        <v-icon size="30" left> mdi-trophy-award </v-icon>
-        {{ points }} Pts
-      </v-chip>
+        <v-chip
+          v-if="!$vuetify.breakpoint.xs && points >= 0"
+          class="px-4 mx-3"
+          color="#20282ed1"
+          text-color="white"
+          large
+        >
+          <v-icon  left size="30" > mdi-trophy-award </v-icon>
+          <div class="text-h4 font-weight-bold">{{points}} Pts</div>
+        </v-chip>
 
       <v-btn icon v-if="courseSelect" x-large class="mx-2 ga">
         <v-progress-circular
@@ -138,7 +136,7 @@
       <!--Notificaciones -->
       <v-menu style="z-index: 201" left bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn x-large icon v-bind="attrs" v-on="on">
+          <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
             <v-badge
               overlap
               color="#d54338"
@@ -211,7 +209,7 @@
       <!--Opciones-->
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn x-large icon v-bind="attrs" v-on="on">
+          <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
             <v-icon size="30">mdi-dots-vertical</v-icon>
           </v-btn>
         </template>

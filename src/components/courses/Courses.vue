@@ -1,8 +1,6 @@
 <template>
   <div style="min-height: 100vh">
-    <div class="row text-left px-3 h-100 h2" style="background-color: #35424a">
-      <div class="col-md-12 text-white px-5">Marketplace</div>
-    </div>
+    <SectionTitle title="Marketplace" />
 
     <div class="row px-4">
       <div class="col-md-12 col-sm-12">
@@ -40,12 +38,14 @@
 import CarrouselCourse from "@/components/courses/CarrouselCourse";
 import CarrouselCourseViewed from "@/components/courses/CarrouselCourseViewed";
 import loadingCourses from "@/components/courses/loadingCourses";
+import SectionTitle from '../Navbar/SectionTitle.vue'
 export default {
   name: "Courses",
   components: {
     CarrouselCourseViewed,
     CarrouselCourse,
     loadingCourses,
+    SectionTitle,
   },
   data() {
     return {

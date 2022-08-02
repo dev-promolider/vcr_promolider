@@ -121,10 +121,8 @@ export const getTest = async (context, data) => {
 
 // Obtenemos el examen del modulo
 export const getModuleExam = async ({commit}, payload) => {
-
     try {
-        const resp =  await axios.post(`course/exam/module/active`, payload)
-
+        const resp =  await axios.post(`course/exam/module/active`, {id_course: payload})
 
         const { data } = resp 
 
@@ -334,4 +332,29 @@ export const updateTime = ( _ , { course,  time , lessonId } ) =>  {
         return {ok : false}    
     }
 
+}
+
+
+export const getCourseRelated = async (  ) => {
+
+    try {
+        const data = await axios.get("course/released-courses");
+        const { data:datos } = data.data     
+        return datos
+    } catch (error) {
+        throw new Error(error)
+    }
+
+}
+export const getActiveDinamicModule = async ( {commit}, payload ) => {
+    try {
+        const { data } = await axios.post( '/course/game/module/active', { id_course: payload } )
+       
+        commit('setActiveDinamicModule', data)
+        return { ok: true }
+    } catch (error) {
+        
+        return { ok: false }
+        
+    }
 }

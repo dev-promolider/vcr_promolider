@@ -1,11 +1,6 @@
 <template>
   <div style="min-height: 100vh">
-    <div
-      class="row text-left px-3 h2"
-      style="background-color: #35424a; margin-bottom: 0px"
-    >
-      <div class="col-md-12 text-white px-5">Mis mensajes</div>
-    </div>
+    <section-title title="Mis mensajes" />
 
     <div
       v-if="loading == false"
@@ -270,10 +265,12 @@
 <script>
 import Echo from "laravel-echo";
 import moment from "moment";
+import SectionTitle from '../Navbar/SectionTitle.vue';
 
 window.Pusher = require("pusher-js");
 
 export default {
+  components: { SectionTitle },
   props: {
     user: Object,
   },
