@@ -12,6 +12,9 @@
               <div v-if="this.relatedCourses.length > 0">
                 <RecommendedCourse  :datos="relatedCourses"/>  
               </div>
+              <div class="text-h5 font-weight-bold" v-else>
+                  Cursos recomendados
+              </div>
               <div v-if="((this.coursView === 1 ||  0)) && (this.relatedCourses.length === 0) " >
                   <div class="no-result center-element d-flex"><span>Lo sentimos, aún no hay cursos disponibles.</span></div>
               </div>

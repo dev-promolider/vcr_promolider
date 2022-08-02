@@ -15,9 +15,9 @@
             <v-btn color="success" :to="{name: 'courses'}" style="text-decoration: none">
               MarketPlace
             </v-btn>
-            <v-card-title>
-              <span class="subtitle text--secondary text-center">En está sección podrás visualizar tus cursos y alcanzar tus logros.</span>
-            </v-card-title>
+            <v-card-text>
+              <div class="subtitle text--primary text-h6 text-center">En está sección podrás visualizar tus cursos y alcanzar tus logros.</div>
+            </v-card-text>
          </v-card>
      </v-fade-transition>
  

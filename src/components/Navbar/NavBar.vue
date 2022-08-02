@@ -71,16 +71,19 @@
           <div class="circle"></div>
         </div>
       </v-btn>
+      <div>
+
         <v-chip
           v-if="!$vuetify.breakpoint.xs && points >= 0"
-          class="px-4 mx-3"
+          class="mx-2"
           color="#20282ed1"
           text-color="white"
           large
         >
-          <v-icon  left size="30" > mdi-trophy-award </v-icon>
+          <v-icon  size="30" > mdi-trophy-award </v-icon>
           <div class="text-h4 font-weight-bold">{{points}} Pts</div>
         </v-chip>
+      </div>
 
       <v-btn icon v-if="courseSelect" x-large class="mx-2 ga">
         <v-progress-circular
