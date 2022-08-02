@@ -4,16 +4,29 @@
               <KeepLearning/>
               <Successes/>
           </div>
-      
-         <div :class="[ this.$vuetify.breakpoint.xs  ?  'm-3' : 'm-5']" >
-            <div v-if="this.coursView > 0" >
-              <CarrouselCourseViewed />
-            </div>
-          
-            <div>
-              <h4 ><strong>Cursos recomendados:</strong></h4>
-              <RecommendedCourse/>  
-          </div>
+         <div  :class="[ this.$vuetify.breakpoint.xs  ?  'm-3' : 'm-5']" >
+            <template v-if="!isLoading">
+              <div v-if="this.coursView > 0" >
+                <CarrouselCourseViewed />
+              </div>
+              <div v-if="this.relatedCourses.length > 0">
+                <RecommendedCourse  :datos="relatedCourses"/>  
+              </div>
+              <div v-if="((this.coursView === 1 ||  0)) && (this.relatedCourses.length === 0) " >
+                  <div class="no-result center-element d-flex"><span>Lo sentimos, aún no hay cursos disponibles.</span></div>
+              </div>
+            </template>
+            <template v-if="isLoading" >
+                        <v-row >
+                          <v-col cols="12" xs="1" sm="6" md="4" lg="3"  v-for="i in 4" :key="i" >
+                                <v-skeleton-loader
+                                    class="m-1"
+                                    max-width="500"
+                                    type="image"
+                                ></v-skeleton-loader>
+                          </v-col>
+                        </v-row>
+            </template>
         </div> 
   </div>
 </template>
@@ -23,6 +36,7 @@ import CarrouselCourseViewed from '@/components/courses/CarrouselCourseViewed.vu
 import RecommendedCourse from "@/components/Student/dashboard/RecommendedCourse";
 import KeepLearning from './KeepLearning';
 import Successes from './Successes';
+import { mapActions } from 'vuex';
 
 export default {
   name: "DashboardStudent",
@@ -30,19 +44,16 @@ export default {
     CarrouselCourseViewed,
     RecommendedCourse, 
     KeepLearning, Successes ,
-    
-
     },
     data() {
       return {
         coursView:null,
+        relatedCourses: [],
+        isLoading: true
       }
     },
-
-    mounted() {
-    },
-
     methods: {
+    ...mapActions('course', ['getCourseRelated']),
       mostrarAprendiendo(){
         let datos = null
         this.axios.get('course/last-courses-rep')
@@ -51,10 +62,16 @@ export default {
           this.coursView = datos.length
         })
       },
+      async getAttributes() {
+        let datos = await this.getCourseRelated()
+        this.relatedCourses = datos
+        this.isLoading = false
+      },
     },
     created() {
-    this.mostrarAprendiendo();
-  },
+     this.mostrarAprendiendo();
+     this.getAttributes()
+    },
 }
 </script>
 <style scoped>

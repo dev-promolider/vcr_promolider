@@ -1,6 +1,11 @@
 <template>
   <div class="mb-3" style="border-radius: 20px;">
-    <v-card elevation="0">
+    <v-card elevation="0" color="success">
+       <v-card-title class="text-center justify-center ">
+          <h1 class="font-weight-bold text-h5 white--text my-0">
+             Sección - Módulo
+          </h1>
+       </v-card-title>
       <v-tabs
         class="rounded-0"
         v-model="tab"
@@ -91,6 +96,35 @@
               </div>
             </template>
           </v-card>
+
+          <v-card v-if="item.tab === 'Dinámicas'" flat>
+            <template v-if="isLoading && !moduleDinamic">
+              <div class="text-center">
+                <v-progress-circular
+                  indeterminate
+                  color="black"
+                ></v-progress-circular>
+              </div>
+            </template>
+            <template v-else>
+              <v-card-text
+                v-if="moduleDinamic.module_games === `Ninguna dinámica disponible` "
+                class="text-center subtitle-1 dark-text font-weight-bold"
+              >
+                {{moduleDinamic.module_games}}
+              </v-card-text>
+              <div v-if="moduleDinamic.module_games > 0"  >
+                <v-row justify="center" class="m-2">
+                  <v-col v-for="module_dinamic in moduleDinamic.module_games" :key="module_dinamic"  cols="12" sm="auto">
+                    <v-btn  class="mx-1 success rounded-xl"    @click="goToDinamics(module_dinamic.id)"
+                      >{{module_dinamic.title}}</v-btn
+                    >
+                  </v-col>
+                </v-row>
+              </div>
+            </template>
+          </v-card>
+
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -105,7 +139,11 @@ export default {
   data() {
     return {
       tab: null,
-      items: [{ tab: "Clases" }, { tab: "Examen" }],
+      items: [
+        { tab: "Clases" }, 
+        { tab: "Examen" },
+        { tab: "Dinámicas" },
+        ],
       progress: 0,
       clase: null,
       completedLessons: [],
@@ -119,6 +157,7 @@ export default {
       "lesson",
       "isLoading",
       "moduleExamen",
+      "moduleDinamic"
     ]),
   },
   methods: {
@@ -132,8 +171,8 @@ export default {
       getRating: "getRating",
       getTest: "getTest",
       getModuleExam: "getModuleExam",
+      getActiveDinamicModule: "getActiveDinamicModule",
     }),
-
     ...mapMutations("course", [
       "UPDATE_PROGRESS_COURSE",
       "DESTROY_PROGRESS_COURSE",
@@ -147,6 +186,13 @@ export default {
           class: this.$route.query.class,
           course: this.$route.query.course,
         },
+      });
+    },
+    goToDinamics(id) {
+      this.$router.push({
+        name: "dinamic",
+        params: { id },
+        query: { c: this.$route.query.course },
       });
     },
     // Funcion para calcular el progreso del curso
@@ -186,7 +232,10 @@ export default {
         id_type: this.lesson.id,
       });
       // Solicitar los nuevos examenes si es necesario
-      this.getModuleExam({id_course: this.$route.query.course,});
+      this.getModuleExam(this.$route.query.course);
+
+      //Solicitar DinamicaActivas
+      this.getActiveDinamicModule(this.$route.query.course);
 
       // Enviando la ultima clase que esta visualizando
       let sendData = {

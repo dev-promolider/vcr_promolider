@@ -2,10 +2,7 @@
   <div style="min-height: 100vh">
 
 
-
-    <div class="row text-left px-3 h2" style="background-color: #35424a">
-      <div class="col-md-12 text-white px-5">Mis logros</div>
-    </div>
+    <section-title title="Mis logros" />
 
      <div v-if="!isLoading" class="row p-4">
       <div class="col-md-12 col-lg-12">
@@ -146,7 +143,9 @@
 </template>
 
 <script>
+import SectionTitle from '../Navbar/SectionTitle.vue';
 export default {
+  components: { SectionTitle },
   name: "Logros",
 
   data() {

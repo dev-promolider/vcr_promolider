@@ -1,21 +1,10 @@
 <template>
 <div    :class="[ this.$vuetify.breakpoint.xs  ?  'mr-3' : 'mr-30']">
-    <vue-horizontal  class="horizontal " v-if="!isLoading">.
-      <section class="mr-5" v-for="course in relatedCourses" :key="course.id">
+    <vue-horizontal  class="horizontal" >.
+      <section class="mr-5" v-for="course in this.datos" :key="course.id">
         <Card  :course="course" :cardType="1" isMouseOverActive />
       </section>
     </vue-horizontal>
-    <template v-if="isLoading" >
-          <v-row >
-            <v-col cols="12" xs="1" sm="6" md="4" lg="3"  v-for="i in 4" :key="i" >
-                  <v-skeleton-loader
-                      class="m-1"
-                      max-width="500"
-                      type="image"
-                  ></v-skeleton-loader>
-            </v-col>
-          </v-row>
-      </template>
 </div>
 </template>
 
@@ -25,46 +14,38 @@
 import Card from '@/components/courses/cards';
 
 export default {
+  props:{
+    datos: {
+      type: Array
+    }
+  },
   components:{
     Card
   },
   data() {
     return {
       model:null,
-      relatedCourses: [],
       isLoading: true
     };
   },
   methods: {
-    async getAttributes() {
-      await this.axios.get("course/released-courses").then((datos) => {
-        this.relatedCourses = this.filterCourseInactive(datos.data.data);
-        this.isLoading = false
-      });
-    },
 
-    filterCourseInactive(data) {
-      var courseFilter;
-      if (this.cuenta == 5) {
-        /* hice esto */
-        courseFilter = data.filter((course) => {
-          return course.status != 0 && course.course_level_id == 1;
-        });
-      } else {
-        courseFilter = data.filter((course) => {
-          return course.status != 0;
-        });
-      }
-
-      return courseFilter;
-    },
+    // filterCourseInactive(data) {
+    //   var courseFilter;
+    //   if (this.cuenta == 5) {
+    //     /* hice esto */
+    //     courseFilter = data.filter((course) => {
+    //       return course.status != 0 && course.course_level_id == 1;
+    //     });
+    //   } else {
+    //     courseFilter = data.filter((course) => {
+    //       return course.status != 0;
+    //     });
+    //   }
+    //   return courseFilter;
     editar(id){
       this.$router.push('/buy-cursos/' + id)
     }
-  },
-
-  created() {
-    this.getAttributes();
   },
 };
 </script>

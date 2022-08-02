@@ -1,8 +1,6 @@
 <template>
   <div style="min-height: 100vh">
-    <div class="row text-left px-3 h2" style="background-color: #35424a">
-      <div class="col-md-12 text-white px-5">Mis certificados</div>
-    </div>
+     <section-title title="Mis certificados" />
 
     <div class="col-md-12 text-center mt-5" v-if="informacion.length == 0 && this.spin == false" >
       <h2 class="col-12">Sin resultados</h2>
@@ -49,6 +47,7 @@
 <script>
 import Detalles from "@/components/Certificado/detalleCertificado.vue";
 import Card from "@/components/courses/cards";
+import SectionTitle from '../Navbar/SectionTitle.vue';
 
 export default {
   name: "VirtualClassroomCertificado",
@@ -56,6 +55,7 @@ export default {
   components: {
     Detalles,
     Card,
+    SectionTitle,
   },
   data() {
     return {

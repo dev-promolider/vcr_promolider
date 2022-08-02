@@ -1,5 +1,5 @@
 <template>
-  <div class="" style="width: 98%">
+  <div class="py-10" style="width: 98%">
     <div v-if="error" class="no-result center-element">
       <span>Lo sentimos se produjo un error</span>
     </div>
@@ -64,6 +64,7 @@ export default {
       getTest: "getTest",
       getModuleExam : 'getModuleExam',
       getCourseRating : 'getCourseRating',
+      getActiveDinamicModule: "getActiveDinamicModule"
     }),
 
     ...mapMutations("course", [
@@ -82,7 +83,8 @@ export default {
           this.getComments(res.data[0].id);
           this.getRating(this.$route.query.course);
           this.getTest({ exam_type: "class", id_type: res.data[0].id });
-          this.getModuleExam({  id_course: this.$route.query.course });
+          this.getModuleExam( this.$route.query.course );
+          this.getActiveDinamicModule( this.$route.query.course );
         });
     },
   },

@@ -80,8 +80,8 @@
           class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
           v-if="cardType == 3"
         >
-          <div class="row text-left px-4" style="color: #464646">
-            <p>
+          <div class="row px-4" style="color: #464646">
+            <p class="text-left">
               {{ course.last_class_reprod }}
             </p>
           </div>

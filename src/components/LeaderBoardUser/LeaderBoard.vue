@@ -159,13 +159,13 @@
           tile
           v-if="listLeaderBoard.length > 0 && !isLoading"
         >
-          <v-list color="#2fcd2d">
-            <div v-for="list in listLeaderBoard" :key="list.id">
+          <v-list color="#2fcd2d"  class="scroll">
+            <div v-for="(list, index) in listLeaderBoard" :key="list.id">
               <v-list-item class="ma-4 white--text" style="background: #131b1e">
                 <v-list-item-content>
                   <v-row align="center"  >
                     <v-col cols="2"  sm="2">
-                      <v-list-item-title>{{ list.id }}</v-list-item-title>
+                      <v-list-item-title>{{ index  }}</v-list-item-title>
                     </v-col>
                     <v-col  cols="2"   sm="2">
                         <v-img width="30"  min-width="30" :src="`${list.photo}`"></v-img>
@@ -309,7 +309,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 2;
+  z-index: 0;
 }
 .confetti-piece {
   position: absolute;
@@ -507,6 +507,21 @@ body {
   }
   to {
     -webkit-transform: translateY(550px);
+  }
+}
+.scroll {
+  height: 100%;
+  max-height: 88vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar-thumb {
+    background-color: #131b1e;
+    box-shadow: none;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #ffffff;
+    box-shadow: inset 0 0 6px #ffffff;
+    background-color: #ffffff;
+    border-radius: 10px !important;
   }
 }
 </style>

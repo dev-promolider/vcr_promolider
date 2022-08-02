@@ -193,6 +193,9 @@ export const setCourseRating = (state, courseRating) => {
 export const setDataDinamic = ( state , data) => {
     state.dinamicClass = data
 }
+export const setActiveDinamicModule = ( state , data) => {
+    state.moduleDinamic = data
+}
 
 export const setGameData = (state, data) => {
     state.gameData = data
