@@ -72,33 +72,54 @@
               </div>
             </div>
           </v-card>
-
           <v-card v-if="item.tab === 'Examen'" flat>
-            <template v-if="isLoading && !moduleExamen">
+            <template v-if="isLoading && moduleExamen">
               <div class="text-center">
                 <v-progress-circular
                   indeterminate
-                  color="black"
+                  color="grey"
                 ></v-progress-circular>
               </div>
             </template>
             <template v-else>
               <v-card-text
-                v-if="moduleExamen.module_exams.length === 0 "
+                v-if="moduleExamen.course_exam === null && moduleExamen.module_exams.length === 0  "
                 class="text-center subtitle-1 dark-text font-weight-bold"
               >
-                No se encontró ningún examen
+              Ningún examen disponible
               </v-card-text>
-              <div v-else class="m-2">
-                <v-btn class="my-4 success rounded-xl" style="width: 400px; max-width: 100%" v-for="module_exam in moduleExamen.module_exams" :key="module_exam.id"  @click="goToExam(module_exam.id)"
-                  >{{module_exam.title}}</v-btn
-                >
+              <div v-else >
+                  <v-row justify="start" class="m-2">
+                    <template v-if="moduleExamen.module_exams.length > 0" >
+                      <v-col
+                        v-for="moduloExam in moduleExamen.module_exams" 
+                        :key="moduloExam.id"
+                        cols="12" sm="6">
+                         <v-btn 
+                        class="mx-1 success rounded-xl" 
+                        @click="goToExam(moduloExam.id)"
+                        >
+                        {{moduloExam.title}}
+                        </v-btn> 
+                      </v-col>
+                    </template>
+                    <template v-if="moduleExamen.course_exam != null" >
+                      <v-col cols="12" sm="auto" >
+                         <v-btn 
+                        class="mx-1 success rounded-xl" 
+                        @click="goToExam(moduleExamen.course_exam.id)"
+                        >
+                        {{moduleExamen.course_exam.title}}
+                        </v-btn> 
+                      </v-col>
+                    </template>
+                  </v-row> 
               </div>
             </template>
           </v-card>
 
           <v-card v-if="item.tab === 'Dinámicas'" flat>
-            <template v-if="isLoading && !moduleDinamic">
+            <template v-if="isLoading && moduleDinamic">
               <div class="text-center">
                 <v-progress-circular
                   indeterminate
@@ -107,21 +128,29 @@
               </div>
             </template>
             <template v-else>
+
               <v-card-text
-                v-if="moduleDinamic.module_games === `Ninguna dinámica disponible` "
+                v-if="moduleDinamic.module_games === `Ninguna dinámica disponible` && moduleDinamic.course_game === `Ninguna dinámica disponible`"
                 class="text-center subtitle-1 dark-text font-weight-bold"
               >
-                {{moduleDinamic.module_games}}
+                Ninguna dinamica disponible
               </v-card-text>
-              <div v-if="moduleDinamic.module_games > 0"  >
-                <v-row justify="center" class="m-2">
-                  <v-col v-for="module_dinamic in moduleDinamic.module_games" :key="module_dinamic"  cols="12" sm="auto">
-                    <v-btn  class="mx-1 success rounded-xl"    @click="goToDinamics(module_dinamic.id)"
-                      >{{module_dinamic.title}}</v-btn
-                    >
-                  </v-col>
+                <v-row justify="start" class="m-2">
+                  <template v-if="Array.isArray(moduleDinamic.module_games) && moduleDinamic.module_games.length > 0 ">
+                    <v-col  v-for="module_dinamic in moduleDinamic.module_games" :key="module_dinamic.id" cols="6" >
+                      <v-btn  class="mx-1 success rounded-xl"    @click="goToDinamics(module_dinamic.id)"
+                        >{{module_dinamic.title}}</v-btn
+                      >
+                    </v-col>
+                  </template>
+                  <template v-if="typeof(moduleDinamic.course_game) === 'object'">
+                    <v-col cols="6" >
+                      <v-btn  class="mx-1 success rounded-xl"    @click="goToDinamics(moduleDinamic.course_game.id)"
+                        >{{moduleDinamic.course_game.title}}</v-btn
+                      >
+                    </v-col>
+                  </template>
                 </v-row>
-              </div>
             </template>
           </v-card>
 

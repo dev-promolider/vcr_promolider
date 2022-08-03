@@ -38,9 +38,8 @@ export const getLesson = (context, less) => {
 
 
 // Indicar que clase se esta viendo por ultima vez
-export const lastSeenLesson = async ( _ , { course_id, class_id } )=>{
-
-    if( !course_id && !class_id ) return 
+export const lastSeenLesson = async ( _ , { course_id, class_id } ) => {
+    if( !course_id || !class_id ) return 
     try {
         await axios.patch(`purchased/save-class-seen?course_id=${course_id}&class_id=${class_id}`)
         return {ok:true}

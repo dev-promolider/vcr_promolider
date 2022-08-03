@@ -31,7 +31,9 @@ export default () => ({
         total:0,
     }],
     lesson:[],
-    moduleDinamic: [],
+    moduleDinamic: {
+        module_games: []
+    },
     moduleExamen: {
         module_exams: []
     },

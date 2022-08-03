@@ -106,7 +106,6 @@
                 </div>
               </div>
               <div v-for="(q, i) in question.options" :key="i">
-                {{i}}
                 <div
                   class="options-questions"
                   v-if="question.question_type_id == 1"

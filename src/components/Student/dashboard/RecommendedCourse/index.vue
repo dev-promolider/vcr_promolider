@@ -1,5 +1,8 @@
 <template>
 <div    :class="[ this.$vuetify.breakpoint.xs  ?  'mr-3' : 'mr-30']">
+     <div class="text-h5 font-weight-bold" >
+         Cursos Recomendados
+    </div>
     <vue-horizontal  class="horizontal" >.
       <section class="mr-5" v-for="course in this.datos" :key="course.id">
         <Card  :course="course" :cardType="1" isMouseOverActive />
