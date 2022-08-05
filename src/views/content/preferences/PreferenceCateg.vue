@@ -1,6 +1,6 @@
 <template>
   <div
-    class="row p-2"
+    class="scroll-y row p-2"
     v-if="muestra"
     style="background-color: #ffffff; min-height: 100vh"
   >
@@ -146,6 +146,11 @@ export default {
 </script>
 
 <style scoped>
+
+.scroll-y {
+overflow-y: auto;
+max-height: 100vh;
+}
 .loader-logo {
   height: 80px;
   width: 40%;
