@@ -5,11 +5,14 @@
         @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
       ></v-app-bar-nav-icon>
-      <div class="text-black text-bold banner-text" style="font-weight: 700">
+
+      <!-- Mensaje de Bienvenida -->
+      <div class="text-white text-bold banner-text" style="font-weight: 700">
         Bienvenido a Promolíder, tu academia digital
       </div>
       <v-spacer></v-spacer>
 
+      <!-- Barra de búsqueda -->
       <div class="mx-2" style="min-width: 25%" v-if="!$vuetify.breakpoint.xs">
         <v-autocomplete
           style="border-radius: 12px"
@@ -29,68 +32,21 @@
           return-object
           label="Buscar un curso"
           >.
-          <template v-slot:no-data>
-            <v-list-item>
-              <v-list-item-title>
-                Buscar curso favorito
-                <strong>Bit coins</strong>
-              </v-list-item-title>
-            </v-list-item>
-          </template>
         </v-autocomplete>
       </div>
 
-      <div v-else>
-        <v-btn icon @click="sheet = true">
-          <v-icon> mdi-magnify </v-icon>
-        </v-btn>
-      </div>
-
-      <v-btn
-        icon
-        v-if="examDaily"
-        data-toggle="modal"
-        data-target="#question"
-        x-large
+      <!-- Puntos -->
+      <v-chip
+        v-if="!$vuetify.breakpoint.xs && points >= 0"
+        class="mx-2"
+        label
+        outlined
+        text-color="#1ae800"
+        color="#1ae800"
       >
-        <div class="nav nav-sub-h1">
-          <li class="nav-item">
-            <i
-              class="fas fa-question"
-              style="font-size: 25px; color: #1ae800"
-              :class="[tooltip ? 'pulse' : '']"
-            ></i>
-          </li>
-          <div class="tooltip-box d-flex" v-if="tooltip">
-            <div
-              style="
-                font-size: 10px;
-                word-wrap: break-word;
-                text-transform: none;
-              "
-            >
-              Gana puntos contestando preguntas.<i
-                class="fas fa-times"
-                @click="hideToolTip"
-              ></i>
-            </div>
-          </div>
-          <div class="circle"></div>
-        </div>
-      </v-btn>
-
-      <div>
-        <v-chip
-          v-if="!$vuetify.breakpoint.xs && points >= 0"
-          class="mx-2"
-          color="#20282ed1"
-          text-color="white"
-          large
-        >
-          <v-icon size="20"> mdi-trophy-award </v-icon>
-          <div class="font-weight-bold">{{ points }} Pts</div>
-        </v-chip>
-      </div>
+        <v-icon left color="#1ae800"> mdi-trophy-award </v-icon>
+        {{ points }} Pts
+      </v-chip>
 
       <!--Modal Certificate-->
       <v-tooltip bottom>
@@ -109,41 +65,35 @@
         <span v-if="progressCourseSelect == 100">Completado</span>
         <span v-else>{{ progressCourseSelect }}% de 100%</span>
       </v-tooltip>
-      
-      <v-dialog
-        v-if="stateCertificate"
-        v-model="dialogCertificate"
-        max-width="950"
-      >
-        <template v-slot:activator="{ on, attrs }">
+
+      <!-- Pregunta diaria -->
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            icon
+            v-if="examDaily"
+            data-toggle="modal"
+            data-target="#question"
+          >
+            <v-icon size="20" color="#1ae800">mdi-help</v-icon>
+          </v-btn>
+        </template>
+        <span> Gana puntos contestando preguntas</span>
+      </v-tooltip>
+
+      <!-- Certificado  -->
+      <v-tooltip bottom v-if="stateCertificate" v-model="dialogCertificate">
+        <template v-slot:activator="{ on }">
           <v-btn x-large icon v-bind="attrs" v-on="on">
             <v-icon size="20" style="color: #1ae800">mdi-school</v-icon>
           </v-btn>
         </template>
-        <v-card class="pt-5">
-          <v-card-text v-html="certificate"></v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="green darken-1"
-              text
-              @click="dialogCertificate = false"
-            >
-              Cancelar
-            </v-btn>
-            <v-btn
-              color="green darken-1"
-              text
-              @click="dialogCertificate = false"
-            >
-              Aceptar
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+        <span>Ya puede adquirir su certificado</span>
+      </v-tooltip>
 
       <!--Notificaciones -->
-      <v-menu style="z-index: 201" left bottom>
+      <v-menu style="z-index: 201" bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
             <v-badge
@@ -244,16 +194,28 @@
       </v-menu>
     </v-app-bar>
 
-  
-    <div
-      class="modal fade"
-      id="question"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-xl">
+    <!-- <div class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+          <div class="modal-body"></div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="modal" tabindex="-1" role="dialog" id="question">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Pregunta diaria</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           <div class="modal-body">
             <QuestionDaily />
           </div>
@@ -278,7 +240,7 @@ export default {
       sheet: false,
       search: null,
       numberItems: 0,
-      tooltip: false,
+      // tooltip: false,
       isBadgeActive: false,
       drawer: false,
       dialogCertificate: false,
@@ -347,19 +309,19 @@ export default {
     changeDrawer() {
       this.$emit("click", !this.drawer);
     },
-    hideToolTip() {
-      if (this.item == 0) {
-        this.tooltip = false;
-        localStorage.setItem("item", 1);
-      }
-    },
-    showToolTip() {
-      this.item = localStorage.getItem("item") || 0;
+    // hideToolTip() {
+    //   if (this.item == 0) {
+    //     this.tooltip = false;
+    //     localStorage.setItem("item", 1);
+    //   }
+    // },
+    // showToolTip() {
+    //   this.item = localStorage.getItem("item") || 0;
 
-      if (this.item == 0) {
-        this.tooltip = true;
-      }
-    },
+    //   if (this.item == 0) {
+    //     this.tooltip = true;
+    //   }
+    // },
     async getNotifications() {
       this.isLoading = true;
       const data = await this.axios.get("/notifications/list");
@@ -396,7 +358,6 @@ export default {
           const { data } = await this.axios.get(
             `/course/certificate/${course}`
           );
-
           const { certificate } = data[0];
           this.certificate = certificate;
           this.stateCertificate = data;
@@ -441,7 +402,11 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.v-label {
+  font-size: 0.8em;
+}
+
 .scroll {
   height: 100%;
   max-height: 450px;
