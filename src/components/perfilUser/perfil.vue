@@ -1,10 +1,8 @@
 <template>
   <div style="min-height: 700px">
-    <div class="row text-left px-3 h2" style="background-color: #35424a">
-      <div class="col-md-12 text-white px-5">Ajustes de perfil</div>
-    </div>
+    <section-title title="Ajustes de perfil" />
 
-    <v-row class="text-center p-3">
+    <v-row class=" p-3">
       <v-col cols="4" sm="9" md="4">
         <v-card elevation="2">
           <v-card
@@ -30,8 +28,12 @@
               {{ this.userUp.name }}
             </v-card-title>
             <v-chip-group>
-              <v-chip color="green" outlined>{{ userUp.rol }}</v-chip>
-              <v-chip color="green" outlined>{{ userUp.plan }}</v-chip>
+              <v-chip color="green" outlined>Rol : {{ userUp.rol }}</v-chip>
+ 
+            </v-chip-group>
+            <v-chip-group>
+         
+              <v-chip color="green" outlined>Membresia : {{ userUp.plan }}</v-chip>
             </v-chip-group>
           </v-card>
 
@@ -298,10 +300,13 @@
 
 <script>
 import { mapState } from "vuex";
+import SectionTitle from '../Navbar/SectionTitle.vue';
 
 export default {
   name: "perfil",
-
+  components: {
+    SectionTitle,
+  },
   data() {
     return {
       isActiveAlertUser: false,
@@ -491,16 +496,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.theme--light .v-tabs-items {
-  background-color: transparent !important;
-}
 
-.theme--light {
-  background-color: transparent !important;
-}
-.v-tabs-items {
-  background-color: transparent !important;
-}
 
 .contenedor-profile {
   display: grid;
@@ -611,5 +607,9 @@ export default {
   padding: 0 15px 0 15px;
   border-radius: 5px;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.v-dialog{
+  background-color:white !important;
 }
 </style>

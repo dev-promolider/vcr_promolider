@@ -1,9 +1,6 @@
 <template>
-  <div style="min-height: 700px">
-    <div class="row text-left px-3 h2" style="background-color: #35424a">
-      <div class="col-md-12 text-white px-5">Preguntas frecuentes</div>
-    </div>
-
+  <div style="min-height: 100vh">
+    <section-title title="Preguntas frecuentes" />
     <div class="row">
       <div class="col-md-11w col-sm-11 col-xs-11">
         <ul class="list-group list-unstyled">
@@ -39,8 +36,12 @@
 </template>
 
 <script>
+import SectionTitle from '../Navbar/SectionTitle.vue';
 export default {
   name: "preguntas-frecuentes",
+  components: {
+    SectionTitle,
+  },
   data() {
     return {
       preguntasF: null,

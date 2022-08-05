@@ -1,4 +1,4 @@
-<template>
+<template >
   <div>
     <v-navigation-drawer
       v-model="drawer"
@@ -6,8 +6,9 @@
       :permanent="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
       :expand-on-hover="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
       :mini-variant="mini"
-      class="color-drawer"
+      class="color-drawer" 
     >
+
       <v-list>
         <v-list-item class="px-2" link :to="{ name: 'perfil' }">
           <v-list-item-avatar class="mr-1">
@@ -77,7 +78,7 @@
                 <v-icon class="" style="color: #ffffff">mdi-help</v-icon>
               </v-list-item-icon>
               <v-list-item-title style="color: #ffffff; font-size: 14px"
-                >Preguntas Frecuentes</v-list-item-title
+                >Preguntas frecuentes</v-list-item-title
               >
             </v-list-item>
           </v-list>
@@ -138,7 +139,7 @@ export default {
   mounted() {},
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .color-drawer {
   background: #35424a !important;
 }
@@ -148,5 +149,17 @@ a:hover {
 .v-list-item--active {
   background-color:#000000;
   color: #1AE800 !important;
+}
+
+.v-navigation-drawer__content::-webkit-scrollbar-track{
+  -webkit-box-shadow: inset 0 0 6px #5d5d5d;
+  background-color: #5d5d5d;
+}
+.v-navigation-drawer__content::-webkit-scrollbar{
+  width: 0px;
+}
+.v-navigation-drawer__content::-webkit-scrollbar-thumb{
+  -webkit-box-shadow: inset 0 0 6px #424242;
+  background-color: #424242;
 }
 </style>

@@ -1,8 +1,7 @@
 <template>
-  <div style="height: 100%; min-height: 600px">
-    <div class="row text-left px-3 h2" style="background-color: #35424a">
-      <div class="col-md-12 text-white px-5">Mis Preferencias</div>
-    </div>
+  <div style="min-height: 100vh">
+    
+    <section-title title="Mis preferencias" />
 
     <div class="row p-5" v-if="isLoading">
       <div
@@ -88,7 +87,13 @@
 
 <script>
 import Vue from "vue";
+import SectionTitle from '../../../components/Navbar/SectionTitle.vue';
 export default {
+  name: "Preferences",
+  components: {
+    SectionTitle,
+  },
+
   data() {
     return {
       preferences: [],
