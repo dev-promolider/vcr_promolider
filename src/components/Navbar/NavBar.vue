@@ -5,7 +5,7 @@
         @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
       ></v-app-bar-nav-icon>
-      <div class="text-white text-bold banner-text" style="font-weight: 700">
+      <div class="text-black text-bold banner-text" style="font-weight: 700">
         Bienvenido a Promolíder, tu academia digital
       </div>
       <v-spacer></v-spacer>
