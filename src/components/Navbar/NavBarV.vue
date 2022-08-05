@@ -138,9 +138,10 @@ export default {
   mounted() {},
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .color-drawer {
-  background: #35424a !important;
+  // background: #35424a !important;
+  background: #131b1e !important;
 }
 a:hover {
   text-decoration: none;
@@ -150,3 +151,4 @@ a:hover {
   color: #1AE800 !important;
 }
 </style>
+

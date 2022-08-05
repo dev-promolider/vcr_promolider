@@ -1,6 +1,6 @@
 <template>
-  <div style="margin-bottom: 80px">
-    <v-app-bar app elevation="7" height="80px" color="#1AE800">
+  <div style="margin-bottom: 60px">
+    <v-app-bar app elevation="7" color="#35424a">
       <v-app-bar-nav-icon
         @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
@@ -39,18 +39,25 @@
           </template>
         </v-autocomplete>
       </div>
+
       <div v-else>
         <v-btn icon @click="sheet = true">
           <v-icon> mdi-magnify </v-icon>
         </v-btn>
       </div>
 
-      <v-btn icon v-if="examDaily" data-toggle="modal" data-target="#question" x-large>
+      <v-btn
+        icon
+        v-if="examDaily"
+        data-toggle="modal"
+        data-target="#question"
+        x-large
+      >
         <div class="nav nav-sub-h1">
           <li class="nav-item">
             <i
               class="fas fa-question"
-              style="font-size: 25px"
+              style="font-size: 25px; color: #1ae800"
               :class="[tooltip ? 'pulse' : '']"
             ></i>
           </li>
@@ -71,8 +78,8 @@
           <div class="circle"></div>
         </div>
       </v-btn>
-      <div>
 
+      <div>
         <v-chip
           v-if="!$vuetify.breakpoint.xs && points >= 0"
           class="mx-2"
@@ -80,30 +87,29 @@
           text-color="white"
           large
         >
-          <v-icon  size="30" > mdi-trophy-award </v-icon>
-          <div class="text-h4 font-weight-bold">{{points}} Pts</div>
+          <v-icon size="20"> mdi-trophy-award </v-icon>
+          <div class="font-weight-bold">{{ points }} Pts</div>
         </v-chip>
       </div>
 
-      <v-btn icon v-if="courseSelect" x-large class="mx-2 ga">
-        <v-progress-circular
-          :rotate="-90"
-          :size="50"
-          :width="5"
-          :value="progressCourseSelect"
-        >
-          <v-icon size="30" > mdi-trophy </v-icon>
-          <div class="box">
-            <span
-              >{{ progressCourseSelect }}% de {{ allLessons }} completados</span
-            ><br />
-            <span>Acaba el curso para <br />obtener tu certificado</span>
-          </div>
-        </v-progress-circular>
-      </v-btn>
-
       <!--Modal Certificate-->
-
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on" v-if="courseSelect" style="color: #1ae800">
+            <v-progress-circular
+              :rotate="-90"
+              :size="40"
+              :width="3"
+              :value="progressCourseSelect"
+            >
+              <v-icon size="15"> mdi-trophy </v-icon>
+            </v-progress-circular>
+          </v-btn>
+        </template>
+        <span v-if="progressCourseSelect == 100">Completado</span>
+        <span v-else>{{ progressCourseSelect }}% de 100%</span>
+      </v-tooltip>
+      
       <v-dialog
         v-if="stateCertificate"
         v-model="dialogCertificate"
@@ -111,7 +117,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-btn x-large icon v-bind="attrs" v-on="on">
-            <v-icon size="40" >mdi-school</v-icon>
+            <v-icon size="20" style="color: #1ae800">mdi-school</v-icon>
           </v-btn>
         </template>
         <v-card class="pt-5">
@@ -146,7 +152,7 @@
               :value="isBadgeActive"
               :content="numberItems"
             >
-              <v-icon size="35"> mdi-bell </v-icon>
+              <v-icon size="20" style="color: #1ae800"> mdi-bell </v-icon>
             </v-badge>
           </v-btn>
         </template>
@@ -158,10 +164,10 @@
           <v-divider class="my-1"></v-divider>
           <v-card-title class="py-1" v-if="items.length === 0 && !isLoading">
             <span class="text-center subtitle text--secondary"
-              >Usted no tiene notificaciones</span
+              >No existen notificaciones</span
             >
           </v-card-title>
-          <template v-if="!isLoading" >
+          <template v-if="!isLoading">
             <v-list-item v-for="(item, index) in items" :key="index">
               <v-list-item-avatar height="50px" width="50px">
                 <v-img max-height="125" :src="item.avatar"></v-img>
@@ -187,22 +193,18 @@
             </v-list-item>
           </template>
           <template v-if="isLoading">
-            <v-sheet >
-                            <v-skeleton-loader
-                              v-for="i in 10" :key="i"
-                              v-bind="attrs"
-                              type="list-item-avatar"
-                            ></v-skeleton-loader>
-                          </v-sheet>
+            <v-sheet>
+              <v-skeleton-loader
+                v-for="i in 10"
+                :key="i"
+                v-bind="attrs"
+                type="list-item-avatar"
+              ></v-skeleton-loader>
+            </v-sheet>
           </template>
           <v-divider class="my-1"></v-divider>
           <v-card-text v-if="items.length > 0">
-            <v-btn
-              block
-              color="#60d950"
-              deep
-              class="text-white"
-              height="35px"
+            <v-btn block color="#60d950" deep class="text-white" height="35px"
               >Ver todo</v-btn
             >
           </v-card-text>
@@ -213,7 +215,7 @@
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
-            <v-icon size="30">mdi-dots-vertical</v-icon>
+            <v-icon size="25" style="color: #1ae800">mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
 
@@ -242,7 +244,7 @@
       </v-menu>
     </v-app-bar>
 
-    <!-- Modal -->
+  
     <div
       class="modal fade"
       id="question"
@@ -270,8 +272,8 @@ export default {
   },
   data() {
     return {
-      attrs:{
-        class: 'pa-2'
+      attrs: {
+        class: "pa-2",
       },
       sheet: false,
       search: null,
@@ -359,9 +361,8 @@ export default {
       }
     },
     async getNotifications() {
-      this.isLoading = true
+      this.isLoading = true;
       const data = await this.axios.get("/notifications/list");
-
 
       const noti = data.data.map((e) => {
         return {
@@ -378,7 +379,7 @@ export default {
       }
       this.items = noti;
 
-      this.isLoading = false 
+      this.isLoading = false;
     },
     async getCertificate(course) {
       try {
@@ -490,17 +491,6 @@ a:hover {
   100% {
     color: #000000;
   }
-}
-
-.box {
-  position: absolute;
-  transition: transform 1s;
-  width: 0%;
-  height: 0%;
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0);
-  font-size: 0.8em;
-  padding: 5px;
 }
 
 .ga:hover {
