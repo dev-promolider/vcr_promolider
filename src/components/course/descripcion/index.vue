@@ -20,83 +20,109 @@
 
         <v-tabs-items v-model="tab">
           <v-tab-item v-for="item in items" :key="item.tab">
-            <v-card flat v-if="item.tab === 'Resumen'">
-              <v-card-text class="h6 text-justify">
+            <!-- Resumen -->
+            <v-card
+              flat
+              v-if="item.tab === 'Resumen'"
+              color="#131b1e"
+              rounded="xl"
+            >
+              <v-card-text class="h6 text-justify text-white">
                 {{ lesson.description }}
               </v-card-text>
             </v-card>
-
-            <v-card flat v-if="item.tab === 'Recursos'">
+            <!-- Recursos -->
+            <v-card
+              flat
+              v-if="item.tab === 'Recursos'"
+              color="#131b1e"
+              outlined
+              rounded="xl"
+              tag="div"
+            >
               <template v-if="!isResources">
-                <v-card-text class="h6 text-center">
+                <v-card-text class="h6 text-center text-white">
                   Ningún recurso disponible
                 </v-card-text>
               </template>
               <div v-else>
-                <ul class="list-group list-group-flush">
-                  <li
-                    class="list-group-item"
-                    v-for="(resource, index) in resources"
-                    :key="index"
-                  >
-                    <div class="d-flex justify-content-between">
-                      <div>
-                        {{ index + 1 }})
-                        <a
-                          style="font-size: 0.8em; text-decoration: none"
-                          disabled
-                        >
-                          <i class="fas fa-download"></i>
-                          {{ getNameResource(resource.resource_file) }}
-                        </a>
-                      </div>
-                      <div>
-                        <a href="#modal" class="open"
-                          ><button
-                            class="btn btn-primary btn-sm"
-                            @click="preView(resource)"
+                <v-card-text class="h6">
+                  <ul class="list-group list-group-flush">
+                    <li
+                      class="list-group-item"
+                      v-for="(resource, index) in resources"
+                      :key="index"
+                      style="background-color: #131b1e"
+                    >
+                      <div class="d-flex justify-content-between text-white">
+                        <div>
+                          {{ index + 1 }})
+                          <a
+                            style="font-size: 0.8em; text-decoration: none"
+                            disabled
                           >
-                            Ver Archivo
-                          </button></a
-                        >
+                            <i class="fas fa-download"></i>
+                            {{ getNameResource(resource.resource_file) }}
+                          </a>
+                        </div>
+                        <div>
+                          <a href="#modal" class="open">
+                            <button
+                              class="btn btn-primary btn-sm"
+                              @click="preView(resource)"
+                            >
+                              Ver Archivo
+                            </button></a
+                          >
+                        </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
 
-                  <div class="modal" id="modal">
-                    <a href="#" class="modal-bg"></a>
-                    <div class="modal-content">
-                      <a href="#" class="modal-exit">x</a>
-                      <div class="row m-5 container1 d-flex flex-column">
-                        <iframe :src="picture" class="pdf"> </iframe>
+                    <div class="modal" id="modal">
+                      <a href="#" class="modal-bg"></a>
+                      <div class="modal-content">
+                        <a href="#" class="modal-exit">x</a>
+                        <div class="row m-5 container1 d-flex flex-column">
+                          <iframe :src="picture" class="pdf"> </iframe>
 
-                        <br />
+                          <br />
 
-                        <button class="btn btn-primary" id="button">
-                          DESCARGAR
-                        </button>
+                          <button class="btn btn-primary" id="button">
+                            DESCARGAR
+                          </button>
 
-                        <div v-if="carga" class="cargando">
-                          <div class="spinner-border"></div>
+                          <div v-if="carga" class="cargando">
+                            <div class="spinner-border"></div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </ul>
+                  </ul>
+                </v-card-text>
               </div>
             </v-card>
-
-            <v-card flat v-if="item.tab === 'Exámen'">
+            <!-- Examen -->
+            <v-card
+              flat
+              v-if="item.tab === 'Examen'"
+              color="#131b1e"
+              outlined
+              rounded="xl"
+              tag="div"
+            >
               <div v-if="dataEx">
-                <div
-                  class="mt-4 text-center"
+                <template
                   v-if="
                     dataEx.data === 'No existe el examen' ||
-                    dataEx.data === 'limite de intentos alcanzado'
+                    dataEx.data === 'limite de intentos alcanzado' ||
+                    dataEx.data === 'usted aprovo el examen'
                   "
                 >
-                  Ningún examen disponible
-                </div>
+                  <v-card-text class="h6 text-center text-white">
+                    Ningún examen disponible
+                  </v-card-text>
+                </template>
+
                 <div class="mx-4 mt-4" v-else>
                   <p class="text-justify">
                     <button @click="Testing" class="test">
@@ -107,7 +133,15 @@
               </div>
             </v-card>
 
-            <v-card flat v-if="item.tab === 'Dinámicas'" class="p-3">
+            <!-- Dinámicas -->
+            <v-card
+              flat
+              v-if="item.tab === 'Dinámicas'"
+              color="#131b1e"
+              outlined
+              rounded="xl"
+              tag="div"
+            >
               <template v-if="!isLoadingDinamic">
                 <div class="text-center">
                   <v-progress-circular indeterminate color="success">
@@ -130,14 +164,22 @@
                   </v-btn>
                 </template>
               </template>
+
               <template v-if="!stateDinamic && isLoadingDinamic">
-                <v-card-text class="text-center h6">
+                <v-card-text class="text-center h6 text-white">
                   Ninguna dinámica disponible
                 </v-card-text>
               </template>
             </v-card>
 
-            <v-card flat v-if="item.tab === 'Valoraciones'">
+            <v-card
+              flat
+              v-if="item.tab === 'Valoraciones'"
+              color="#131b1e"
+              outlined
+              rounded="xl"
+              tag="div"
+            >
               <Valoraciones />
             </v-card>
           </v-tab-item>
@@ -168,7 +210,7 @@ export default {
       items: [
         { tab: "Resumen" },
         { tab: "Recursos" },
-        { tab: "Exámen" },
+        { tab: "Examen" },
         { tab: "Dinámicas" },
         { tab: "Valoraciones" },
       ],
@@ -303,6 +345,11 @@ export default {
   margin-left: 7px;
 }
 
+/* .v-card > :last-child:not(.v-btn):not(.v-chip):not(.v-avatar) { */
+/* .v-card > :last-child {
+  background-color: #131b1e;
+  border-radius: 20px;
+} */
 /* .tab-pane {
   width: 100%;
   height: 215px;
@@ -324,31 +371,22 @@ export default {
   border-bottom: solid #e5e5e5 0.2px !important;
 }
 .nav-tabs li {
-  /* Makes a horizontal row */
   float: left;
-  /* So the psueudo elements can be
-     abs. positioned inside */
   position: relative;
   cursor: pointer;
 }
 .nav-tabs a {
-  /* Make them block level
-     and only as wide as they need */
   float: left;
   text-decoration: none;
-
-  /* Default colors */
   color: white;
   background: #c4c4c4;
   font-size: 18px;
 }
 .nav-tabs .active {
-  /* Highest, active tab is on top */
   z-index: 3;
   pointer-events: none;
 }
 .nav-tabs .active a {
-  /* Colors when tab is active */
   background: white;
   color: black;
 }
@@ -356,13 +394,10 @@ export default {
 .nav-tabs .nav-item:after,
 .nav-tabs .nav-link:before,
 .nav-tabs .nav-link:after {
-  /* All pseudo elements are 
-     abs. positioned and on bottom */
   position: absolute;
   bottom: 0;
 }
-/* Only the first, last, and active
-   tabs need pseudo elements at all */
+
 .nav-tabs .nav-item:after,
 .nav-tabs .nav-item a:after,
 .nav-tabs .nav-item:before,
@@ -376,11 +411,8 @@ export default {
 .nav-tabs .active:before,
 .nav-tabs .active:after {
   background: white;
-
-  /* Squares below circles */
   z-index: 1;
 }
-/* Squares */
 .nav-tabs li:before,
 .nav-tabs li:after {
   background: #c4c4c4;
