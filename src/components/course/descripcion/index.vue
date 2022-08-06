@@ -1,11 +1,18 @@
 <template>
-  <div
+  <!-- <div
     class="border border-secondary mb-5"
     style="border-radius: 5px; min-height: 300px"
-  >
+  > -->
+  <div style="min-height: 300px">
     <template>
       <v-card class="elevation-0">
-        <v-tabs v-model="tab" background-color="success" dark centered flat>
+        <v-tabs
+          v-model="tab"
+          background-color="#f2f5fa"
+          color="#1a1a1a"
+          :hide-slider="true"
+          :left="true"
+        >
           <v-tab v-for="item in items" :key="item.tab">
             {{ item.tab }}
           </v-tab>
@@ -18,6 +25,7 @@
                 {{ lesson.description }}
               </v-card-text>
             </v-card>
+
             <v-card flat v-if="item.tab === 'Recursos'">
               <template v-if="!isResources">
                 <v-card-text class="h6 text-center">
@@ -130,13 +138,8 @@
             </v-card>
 
             <v-card flat v-if="item.tab === 'Valoraciones'">
-              
-              <Valoraciones  />
-
-
-
+              <Valoraciones />
             </v-card>
-
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -150,7 +153,7 @@ import Valoraciones from "@/components/course/comentarios/valoraciones.vue";
 
 export default {
   components: {
-      Valoraciones
+    Valoraciones,
   },
   name: "Descripcion",
   data() {
@@ -282,14 +285,32 @@ export default {
 </script>
 
 <style scoped>
-.tab-pane {
+.v-tab:not(.v-tab--active) {
+  color: #1a1a1a !important;
+  background: #ffffff;
+  margin-bottom: 10px;
+  border-radius: 50px;
+  margin-right: 7px;
+  margin-left: 7px;
+}
+
+.v-tab {
+  color: #1a1a1a !important;
+  background: #1ae800;
+  margin-bottom: 10px;
+  border-radius: 50px;
+  margin-right: 7px;
+  margin-left: 7px;
+}
+
+/* .tab-pane {
   width: 100%;
   height: 215px;
   overflow-y: auto;
 }
 .tab-pane::-webkit-scrollbar {
   display: none;
-}
+} */
 .nav-item {
   margin-left: 25px !important;
   margin-bottom: 0px !important;
@@ -305,7 +326,6 @@ export default {
 .nav-tabs li {
   /* Makes a horizontal row */
   float: left;
-
   /* So the psueudo elements can be
      abs. positioned inside */
   position: relative;

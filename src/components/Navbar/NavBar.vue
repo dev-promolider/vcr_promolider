@@ -93,7 +93,7 @@
       </v-tooltip>
 
       <!--Notificaciones -->
-      <v-menu style="z-index: 201" bottom>
+      <v-menu style="z-index: 201" left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
             <v-badge
@@ -107,7 +107,7 @@
           </v-btn>
         </template>
 
-        <v-list three-line max-width="450px" class="scroll">
+        <v-list three-line max-width="400px" class="scroll">
           <v-subheader style="font-size: 1.3rem; font-weight: 600"
             >Notificaciones</v-subheader
           >
@@ -379,7 +379,7 @@ export default {
   },
 
   mounted() {
-    this.showToolTip();
+    // this.showToolTip();
     this.getpoints();
   },
   created() {
