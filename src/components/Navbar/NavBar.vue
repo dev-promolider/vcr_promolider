@@ -1,15 +1,18 @@
 <template>
-  <div style="margin-bottom: 80px">
-    <v-app-bar app elevation="7" height="80px" color="#1AE800">
+  <div style="margin-bottom: 60px">
+    <v-app-bar app elevation="7" color="#35424a">
       <v-app-bar-nav-icon
         @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
       ></v-app-bar-nav-icon>
-      <div class="text-black text-bold banner-text" style="font-weight: 700">
+
+      <!-- Mensaje de Bienvenida -->
+      <div class="text-white text-bold banner-text" style="font-weight: 700">
         Bienvenido a Promolíder, tu academia digital
       </div>
       <v-spacer></v-spacer>
 
+      <!-- Barra de búsqueda -->
       <div class="mx-2" style="min-width: 25%" v-if="!$vuetify.breakpoint.xs">
         <v-autocomplete
           style="border-radius: 12px"
@@ -29,112 +32,65 @@
           return-object
           label="Buscar un curso"
           >.
-          <template v-slot:no-data>
-            <v-list-item>
-              <v-list-item-title>
-                Buscar curso favorito
-                <strong>Bit coins</strong>
-              </v-list-item-title>
-            </v-list-item>
-          </template>
         </v-autocomplete>
       </div>
-      <div v-else>
-        <v-btn icon @click="sheet = true">
-          <v-icon> mdi-magnify </v-icon>
-        </v-btn>
-      </div>
 
-      <v-btn icon v-if="examDaily" data-toggle="modal" data-target="#question" x-large>
-        <div class="nav nav-sub-h1">
-          <li class="nav-item">
-            <i
-              class="fas fa-question"
-              style="font-size: 25px"
-              :class="[tooltip ? 'pulse' : '']"
-            ></i>
-          </li>
-          <div class="tooltip-box d-flex" v-if="tooltip">
-            <div
-              style="
-                font-size: 10px;
-                word-wrap: break-word;
-                text-transform: none;
-              "
-            >
-              Gana puntos contestando preguntas.<i
-                class="fas fa-times"
-                @click="hideToolTip"
-              ></i>
-            </div>
-          </div>
-          <div class="circle"></div>
-        </div>
-      </v-btn>
-      <div>
-
-        <v-chip
-          v-if="!$vuetify.breakpoint.xs && points >= 0"
-          class="mx-2"
-          color="#20282ed1"
-          text-color="white"
-          large
-        >
-          <v-icon  size="30" > mdi-trophy-award </v-icon>
-          <div class="text-h4 font-weight-bold">{{points}} Pts</div>
-        </v-chip>
-      </div>
-
-      <v-btn icon v-if="courseSelect" x-large class="mx-2 ga">
-        <v-progress-circular
-          :rotate="-90"
-          :size="50"
-          :width="5"
-          :value="progressCourseSelect"
-        >
-          <v-icon size="30" > mdi-trophy </v-icon>
-          <div class="box">
-            <span
-              >{{ progressCourseSelect }}% de {{ allLessons }} completados</span
-            ><br />
-            <span>Acaba el curso para <br />obtener tu certificado</span>
-          </div>
-        </v-progress-circular>
-      </v-btn>
+      <!-- Puntos -->
+      <v-chip
+        v-if="!$vuetify.breakpoint.xs && points >= 0"
+        class="mx-2"
+        label
+        outlined
+        text-color="#1ae800"
+        color="#1ae800"
+      >
+        <v-icon left color="#1ae800"> mdi-trophy-award </v-icon>
+        {{ points }} Pts
+      </v-chip>
 
       <!--Modal Certificate-->
-
-      <v-dialog
-        v-if="stateCertificate"
-        v-model="dialogCertificate"
-        max-width="950"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn x-large icon v-bind="attrs" v-on="on">
-            <v-icon size="40" >mdi-school</v-icon>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on" v-if="courseSelect" style="color: #1ae800">
+            <v-progress-circular
+              :rotate="-90"
+              :size="40"
+              :width="3"
+              :value="progressCourseSelect"
+            >
+              <v-icon size="15"> mdi-trophy </v-icon>
+            </v-progress-circular>
           </v-btn>
         </template>
-        <v-card class="pt-5">
-          <v-card-text v-html="certificate"></v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="green darken-1"
-              text
-              @click="dialogCertificate = false"
-            >
-              Cancelar
-            </v-btn>
-            <v-btn
-              color="green darken-1"
-              text
-              @click="dialogCertificate = false"
-            >
-              Aceptar
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+        <span v-if="progressCourseSelect == 100">Completado</span>
+        <span v-else>{{ progressCourseSelect }}% de 100%</span>
+      </v-tooltip>
+
+      <!-- Pregunta diaria -->
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            icon
+            v-if="examDaily"
+            data-toggle="modal"
+            data-target="#question"
+          >
+            <v-icon size="20" color="#1ae800">mdi-help</v-icon>
+          </v-btn>
+        </template>
+        <span> Gana puntos contestando preguntas</span>
+      </v-tooltip>
+
+      <!-- Certificado  -->
+      <v-tooltip bottom v-if="stateCertificate" v-model="dialogCertificate">
+        <template v-slot:activator="{ on }">
+          <v-btn x-large icon v-bind="attrs" v-on="on">
+            <v-icon size="20" style="color: #1ae800">mdi-school</v-icon>
+          </v-btn>
+        </template>
+        <span>Ya puede adquirir su certificado</span>
+      </v-tooltip>
 
       <!--Notificaciones -->
       <v-menu style="z-index: 201" left bottom>
@@ -146,22 +102,22 @@
               :value="isBadgeActive"
               :content="numberItems"
             >
-              <v-icon size="35"> mdi-bell </v-icon>
+              <v-icon size="20" style="color: #1ae800"> mdi-bell </v-icon>
             </v-badge>
           </v-btn>
         </template>
 
-        <v-list three-line max-width="450px" class="scroll">
+        <v-list three-line max-width="400px" class="scroll">
           <v-subheader style="font-size: 1.3rem; font-weight: 600"
             >Notificaciones</v-subheader
           >
           <v-divider class="my-1"></v-divider>
           <v-card-title class="py-1" v-if="items.length === 0 && !isLoading">
             <span class="text-center subtitle text--secondary"
-              >Usted no tiene notificaciones</span
+              >No existen notificaciones</span
             >
           </v-card-title>
-          <template v-if="!isLoading" >
+          <template v-if="!isLoading">
             <v-list-item v-for="(item, index) in items" :key="index">
               <v-list-item-avatar height="50px" width="50px">
                 <v-img max-height="125" :src="item.avatar"></v-img>
@@ -187,22 +143,18 @@
             </v-list-item>
           </template>
           <template v-if="isLoading">
-            <v-sheet >
-                            <v-skeleton-loader
-                              v-for="i in 10" :key="i"
-                              v-bind="attrs"
-                              type="list-item-avatar"
-                            ></v-skeleton-loader>
-                          </v-sheet>
+            <v-sheet>
+              <v-skeleton-loader
+                v-for="i in 10"
+                :key="i"
+                v-bind="attrs"
+                type="list-item-avatar"
+              ></v-skeleton-loader>
+            </v-sheet>
           </template>
           <v-divider class="my-1"></v-divider>
           <v-card-text v-if="items.length > 0">
-            <v-btn
-              block
-              color="#60d950"
-              deep
-              class="text-white"
-              height="35px"
+            <v-btn block color="#60d950" deep class="text-white" height="35px"
               >Ver todo</v-btn
             >
           </v-card-text>
@@ -213,7 +165,7 @@
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
-            <v-icon size="30">mdi-dots-vertical</v-icon>
+            <v-icon size="25" style="color: #1ae800">mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
 
@@ -242,16 +194,28 @@
       </v-menu>
     </v-app-bar>
 
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="question"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-xl">
+    <!-- <div class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+          <div class="modal-body"></div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="modal" tabindex="-1" role="dialog" id="question">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Pregunta diaria</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           <div class="modal-body">
             <QuestionDaily />
           </div>
@@ -270,13 +234,13 @@ export default {
   },
   data() {
     return {
-      attrs:{
-        class: 'pa-2'
+      attrs: {
+        class: "pa-2",
       },
       sheet: false,
       search: null,
       numberItems: 0,
-      tooltip: false,
+      // tooltip: false,
       isBadgeActive: false,
       drawer: false,
       dialogCertificate: false,
@@ -345,23 +309,22 @@ export default {
     changeDrawer() {
       this.$emit("click", !this.drawer);
     },
-    hideToolTip() {
-      if (this.item == 0) {
-        this.tooltip = false;
-        localStorage.setItem("item", 1);
-      }
-    },
-    showToolTip() {
-      this.item = localStorage.getItem("item") || 0;
+    // hideToolTip() {
+    //   if (this.item == 0) {
+    //     this.tooltip = false;
+    //     localStorage.setItem("item", 1);
+    //   }
+    // },
+    // showToolTip() {
+    //   this.item = localStorage.getItem("item") || 0;
 
-      if (this.item == 0) {
-        this.tooltip = true;
-      }
-    },
+    //   if (this.item == 0) {
+    //     this.tooltip = true;
+    //   }
+    // },
     async getNotifications() {
-      this.isLoading = true
+      this.isLoading = true;
       const data = await this.axios.get("/notifications/list");
-
 
       const noti = data.data.map((e) => {
         return {
@@ -378,7 +341,7 @@ export default {
       }
       this.items = noti;
 
-      this.isLoading = false 
+      this.isLoading = false;
     },
     async getCertificate(course) {
       try {
@@ -395,7 +358,6 @@ export default {
           const { data } = await this.axios.get(
             `/course/certificate/${course}`
           );
-
           const { certificate } = data[0];
           this.certificate = certificate;
           this.stateCertificate = data;
@@ -417,7 +379,7 @@ export default {
   },
 
   mounted() {
-    this.showToolTip();
+    // this.showToolTip();
     this.getpoints();
   },
   created() {
@@ -440,7 +402,11 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.v-label {
+  font-size: 0.8em;
+}
+
 .scroll {
   height: 100%;
   max-height: 450px;
@@ -490,17 +456,6 @@ a:hover {
   100% {
     color: #000000;
   }
-}
-
-.box {
-  position: absolute;
-  transition: transform 1s;
-  width: 0%;
-  height: 0%;
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0);
-  font-size: 0.8em;
-  padding: 5px;
 }
 
 .ga:hover {

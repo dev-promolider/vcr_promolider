@@ -8,17 +8,25 @@
     "
   >
     <div class="row">
-      <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left" style=" margin-top: 0px !important; margin-bottom: 0px !important">
+      <div
+        class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left"
+        style="margin-top: 0px !important; margin-bottom: 0px !important"
+      >
         <p
           class="text-capitalize text-left"
-          style="font-weight: 700; font-size: 1.2em; margin-top: 0px !important; margin-bottom: 0px !important"
+          style="
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+          "
         >
           {{ $route.query.class }}
         </p>
       </div>
 
       <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-right">
-        <b-button-group size="sm" class="btn-group" v-if="!endClass" >
+        <b-button-group size="sm" class="btn-group" v-if="!endClass">
           <b-button class="btn-back px-4" @click="previusClass()"
             ><i class="fas fa-backward"></i
           ></b-button>
@@ -56,80 +64,79 @@
           {{ nombre }}
         </p>
       </div>
-       <div class="col-xs-1 col-md-1 col-lg-1 text-left " v-if="idUser != idProductor"  >
-        <v-icon  @click="openMessageDialog" class="text-left" color="green" > 
+      <div
+        class="col-xs-1 col-md-1 col-lg-1 text-left"
+        v-if="idUser != idProductor"
+      >
+        <v-icon @click="openMessageDialog" class="text-left" color="green">
           mdi-message-text-outline
         </v-icon>
-       </div>
+      </div>
     </div>
-      <v-dialog
-        transition="dialog-bottom-transition"
-        max-width="600"
-        v-model="dialog"
-      >
-        <template >
-          <v-card >
-            <v-toolbar
-              class="font-weight-bold text-h6"
-              elevation="0"
-              dark
-            >Enviar mensaje al productor</v-toolbar>
-            <v-form  
-              ref="form" 
-              @submit.prevent="sendMessage( idUser )"
-              v-if="!loading && !isMessageLoading" 
-              v-model="valid" 
+    <v-dialog
+      transition="dialog-bottom-transition"
+      max-width="600"
+      v-model="dialog"
+    >
+      <template>
+        <v-card>
+          <v-toolbar class="font-weight-bold text-h6" elevation="0" dark
+            >Enviar mensaje al productor</v-toolbar
+          >
+          <v-form
+            ref="form"
+            @submit.prevent="sendMessage(idUser)"
+            v-if="!loading && !isMessageLoading"
+            v-model="valid"
+          >
+            <v-textarea
+              :rules="messageRules"
+              v-model.trim="formMessage.message"
+              placeholder="Escribe una sugerencia o duda."
+              color="black"
+              rows="4"
+              outlined
+              class="pa-5"
+              required
             >
-              <v-textarea 
-                :rules="messageRules" 
-                v-model.trim="formMessage.message"
-                placeholder="Escribe una sugerencia o duda." 
-                color="black" rows="4" 
-                outlined class="pa-5" 
-                required  
-              > 
-
-              </v-textarea>
-              <v-card-actions class="justify-end">
-                <v-btn
-                  text
-                  @click="dialog = !dialog"
-                >Cancelar</v-btn>
-                <v-btn
-                  type="submit"
-                  text
-                >Enviar</v-btn>
-              </v-card-actions>
-            </v-form>
-            <div class="text-center p-5" v-if="loading">
-              <v-progress-circular
-                :size="50"
-                :width="5"
-                indeterminate
-              ></v-progress-circular>
+            </v-textarea>
+            <v-card-actions class="justify-end">
+              <v-btn text @click="dialog = !dialog">Cancelar</v-btn>
+              <v-btn type="submit" text>Enviar</v-btn>
+            </v-card-actions>
+          </v-form>
+          <div class="text-center p-5" v-if="loading">
+            <v-progress-circular
+              :size="50"
+              :width="5"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+          <v-slide-y-transition>
+            <div
+              class="mt-5 mx-5 pt-5 d-flex justify-center"
+              v-if="!loading && isMessageLoading"
+            >
+              <v-alert
+                dense
+                prominent
+                elevation="1"
+                :type="alertMessage.statusMessage ? 'success' : 'error'"
+                class="text-h6 rounded-lg mx-auto"
+              >
+                {{ alertMessage.message }}
+              </v-alert>
             </div>
-            <v-slide-y-transition>
-              <div class="mt-5 mx-5 pt-5 d-flex justify-center" v-if="!loading && isMessageLoading">
-                <v-alert
-                  dense
-                  prominent
-                  elevation="1"
-                  :type="alertMessage.statusMessage ? 'success' : 'error'"
-                  class="text-h6 rounded-lg mx-auto"
-                >
-                  {{ alertMessage.message }}
-                </v-alert>
-              </div>
-            </v-slide-y-transition>
-            <v-card-actions class="justify-end" v-if="!loading && isMessageLoading">
-                <v-btn
-                  text
-                  @click="dialog = !dialog"
-                >Cerrar</v-btn>
-              </v-card-actions>
-          </v-card>
-        </template>
-      </v-dialog>
+          </v-slide-y-transition>
+          <v-card-actions
+            class="justify-end"
+            v-if="!loading && isMessageLoading"
+          >
+            <v-btn text @click="dialog = !dialog">Cerrar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </v-dialog>
   </div>
 </template>
 
@@ -150,18 +157,16 @@ export default {
       photo: null,
       dialog: false,
       formMessage: {
-        message: ''
+        message: "",
       },
-      messageRules: [
-        v => !!v || 'El mensaje es obligatorio',
-      ],
-      alertMessage:{
+      messageRules: [(v) => !!v || "El mensaje es obligatorio"],
+      alertMessage: {
         statusMessage: true,
-        message: ''
+        message: "",
       },
       loading: false,
       isMessageLoading: false,
-      idProductor: localStorage.getItem('id_user') 
+      idProductor: localStorage.getItem("id_user"),
     };
   },
   computed: {
@@ -174,75 +179,77 @@ export default {
       elProductor: "getProductor",
       courseActive: "getCourseActive",
     }),
-    idUser(){
-      return this.courseActive[0]?.user_id
-    }
+    idUser() {
+      return this.courseActive[0]?.user_id;
+    },
   },
-  mounted(){
-      this.getNameProductor(  this.idProductor )
+  mounted() {
+    this.getNameProductor(this.idProductor);
   },
   created() {
     this.classActive();
-    
   },
   destroyed() {
     this.endClass = false;
   },
   methods: {
     // Definimos los metodos que vienen de Vuex
-    ...mapActions('course',{
-      getCourse: 'getCourse',
-      getLesson: 'getLesson',
-      getResources: 'getResources',
-      getVideo: 'getVideo',
-      lastSeenLesson: 'lastSeenLesson',
-      getComments: 'getComments',
-      getRating: 'getRating',
-      getTest: 'getTest',
-      sendMessagePro: 'sendMessagePro'
+    ...mapActions("course", {
+      getCourse: "getCourse",
+      getLesson: "getLesson",
+      getResources: "getResources",
+      getVideo: "getVideo",
+      lastSeenLesson: "lastSeenLesson",
+      getComments: "getComments",
+      getRating: "getRating",
+      getTest: "getTest",
+      sendMessagePro: "sendMessagePro",
     }),
 
     //Abir el modal message - Productor
 
-    async sendMessage( id ){
-        if(!this.validateMessage(this.formMessage.message)) return 
-        this.loading = true 
-        const { ok } =  await this.sendMessagePro({ receiver_id: id, message: this.formMessage.message })
-        
-        if( !ok ){
-           this.showAlert({
-            message: 'Ocurrió un error al intentar enviar el mensaje.',
-            statusMessage: false, 
-            loading: false, 
-            isMessageLoading: true 
-           })
-        }
+    async sendMessage(id) {
+      if (!this.validateMessage(this.formMessage.message)) return;
+      this.loading = true;
+      const { ok } = await this.sendMessagePro({
+        receiver_id: id,
+        message: this.formMessage.message,
+      });
+
+      if (!ok) {
         this.showAlert({
-          message: 'Mensaje enviado correctamente',
-          statusMessage: true, 
-          loading: false, 
-          isMessageLoading: true 
-        })
+          message: "Ocurrió un error al intentar enviar el mensaje.",
+          statusMessage: false,
+          loading: false,
+          isMessageLoading: true,
+        });
+      }
+      this.showAlert({
+        message: "Mensaje enviado correctamente",
+        statusMessage: true,
+        loading: false,
+        isMessageLoading: true,
+      });
     },
-    openMessageDialog(){
-      this.dialog = true
-      this.loading = false 
-      this.isMessageLoading = false 
+    openMessageDialog() {
+      this.dialog = true;
+      this.loading = false;
+      this.isMessageLoading = false;
     },
-    validateMessage( message ){
-        if( message !== '' ) return true 
+    validateMessage(message) {
+      if (message !== "") return true;
     },
-    showAlert({ message, statusMessage, loading, isMessageLoading }){
-        this.alertMessage.message = message
-        this.alertMessage.statusMessage = statusMessage
-        this.loading = loading
-        this.isMessageLoading = isMessageLoading
-        this.formMessage.message = ''
-        return 
+    showAlert({ message, statusMessage, loading, isMessageLoading }) {
+      this.alertMessage.message = message;
+      this.alertMessage.statusMessage = statusMessage;
+      this.loading = loading;
+      this.isMessageLoading = isMessageLoading;
+      this.formMessage.message = "";
+      return;
     },
     //Validar mensaje form
-    validate () {
-        this.$refs.form.validate()
+    validate() {
+      this.$refs.form.validate();
     },
     // Obtenemos el nombre del productor del curso actual
     getNameProductor(id) {
@@ -303,12 +310,10 @@ export default {
       // Obtenemos los comentarios de la nueva clase
       this.getComments(lesson.id);
 
-
       // Obtenemos la valoracion del curso
-      this.getRating(this.$route.query.course)
+      this.getRating(this.$route.query.course);
 
-      
-      this.getTest(this.$route.query.course)
+      this.getTest(this.$route.query.course);
 
       // Enviando la ultima clase que esta visualizando
       let sendData = {

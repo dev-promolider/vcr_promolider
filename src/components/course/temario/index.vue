@@ -1,11 +1,59 @@
 <template>
-  <div class="mb-3" style="border-radius: 20px;">
-    <v-card elevation="0" color="success">
-       <v-card-title class="text-center justify-center ">
-          <h1 class="font-weight-bold text-h5 white--text my-0">
-             Sección - Módulo
-          </h1>
-       </v-card-title>
+  <div class="mb-3" style="border-radius: 20px; margin-top: 40px">
+    <div class="row px-5">
+      <div class="col-lg-12">
+        <p class="text-left" style="font-size: 1.5em; font-weight: 600">
+          Temario
+        </p>
+      </div>
+    </div>
+
+    <div class="temario">
+      <div class="center-spinner" v-if="isLoading">
+        <b-spinner variant="secondary"></b-spinner>
+      </div>
+
+      <ul v-else v-for="(model, index) in course.modules" :key="index">
+        <li class="nav-temario" :title="model.name">
+          <p
+            style="font-weight: 700; display: inline"
+            v-b-toggle="model.name.replace(/ /g, '')"
+          >
+            {{ index + 1 }}. {{ model.name }}
+          </p>
+
+          <b-collapse visible :id="model.name.replace(/ /g, '')">
+            <ul>
+              <li
+                v-for="(less, index) in course.modules[index].lessons"
+                :key="index"
+              >
+                <input
+                  type="checkbox"
+                  v-model="completedLessons"
+                  :value="less.id"
+                  @click="checkClass(less.id)"
+                />
+                <a
+                  @click="changeClass(less)"
+                  :class="{ activo: less.name === clase }"
+                  :title="less.name"
+                  >{{ less.name }}
+                </a>
+              </li>
+            </ul>
+          </b-collapse>
+        </li>
+      </ul>
+    </div>
+
+    <!-- <v-card elevation="0" color="success">
+      <v-card-title class="text-center justify-center">
+        <h1 class="font-weight-bold text-h5 white--text my-0">
+          Sección - Módulo
+        </h1>
+      </v-card-title>
+
       <v-tabs
         class="rounded-0"
         v-model="tab"
@@ -27,49 +75,6 @@
         <v-tab-item v-for="item in items" :key="item.tab">
           <v-card v-if="item.tab === 'Clases'" flat>
             <div class="contenedor-temario border-box">
-              <!-- Cuerpo temario -->
-              <div class="temario">
-                <div class="center-spinner" v-if="isLoading">
-                  <b-spinner
-                    label="Large Spinner"
-                    variant="secondary"
-                  ></b-spinner>
-                </div>
-
-                <ul
-                  class="mt-2 text-truncate"
-                  v-for="(model, index) in course.modules"
-                  :key="index"
-                  v-else
-                >
-                  <li class="nav-temario text-truncate" :title="model.name">
-                    <span v-b-toggle="model.name.replace(/ /g, '')">
-                      <strong> {{ index + 1 }}. {{ model.name }} </strong>
-                    </span>
-                    <b-collapse visible :id="model.name.replace(/ /g, '')">
-                      <ul>
-                        <li
-                          v-for="(less, index) in course.modules[index].lessons"
-                          :key="index"
-                        >
-                          <input
-                            type="checkbox"
-                            v-model="completedLessons"
-                            :value="less.id"
-                            @click="checkClass(less.id)"
-                          />
-                          <a
-                            @click="changeClass(less)"
-                            :class="{ activo: less.name === clase }"
-                            :title="less.name"
-                            >{{ less.name }}
-                          </a>
-                        </li>
-                      </ul>
-                    </b-collapse>
-                  </li>
-                </ul>
-              </div>
             </div>
           </v-card>
           <v-card v-if="item.tab === 'Examen'" flat>
@@ -83,37 +88,42 @@
             </template>
             <template v-else>
               <v-card-text
-                v-if="moduleExamen.course_exam === null && moduleExamen.module_exams.length === 0  "
+                v-if="
+                  moduleExamen.course_exam === null &&
+                  moduleExamen.module_exams.length === 0
+                "
                 class="text-center subtitle-1 dark-text font-weight-bold"
               >
-              Ningún examen disponible
+                Ningún examen disponible
               </v-card-text>
-              <div v-else >
-                  <v-row justify="start" class="m-2">
-                    <template v-if="moduleExamen.module_exams.length > 0" >
-                      <v-col
-                        v-for="moduloExam in moduleExamen.module_exams" 
-                        :key="moduloExam.id"
-                        cols="12" sm="6">
-                         <v-btn 
-                        class="mx-1 success rounded-xl" 
+              <div v-else>
+                <v-row justify="start" class="m-2">
+                  <template v-if="moduleExamen.module_exams.length > 0">
+                    <v-col
+                      v-for="moduloExam in moduleExamen.module_exams"
+                      :key="moduloExam.id"
+                      cols="12"
+                      sm="6"
+                    >
+                      <v-btn
+                        class="mx-1 success rounded-xl"
                         @click="goToExam(moduloExam.id)"
-                        >
-                        {{moduloExam.title}}
-                        </v-btn> 
-                      </v-col>
-                    </template>
-                    <template v-if="moduleExamen.course_exam != null" >
-                      <v-col cols="12" sm="auto" >
-                         <v-btn 
-                        class="mx-1 success rounded-xl" 
+                      >
+                        {{ moduloExam.title }}
+                      </v-btn>
+                    </v-col>
+                  </template>
+                  <template v-if="moduleExamen.course_exam != null">
+                    <v-col cols="12" sm="auto">
+                      <v-btn
+                        class="mx-1 success rounded-xl"
                         @click="goToExam(moduleExamen.course_exam.id)"
-                        >
-                        {{moduleExamen.course_exam.title}}
-                        </v-btn> 
-                      </v-col>
-                    </template>
-                  </v-row> 
+                      >
+                        {{ moduleExamen.course_exam.title }}
+                      </v-btn>
+                    </v-col>
+                  </template>
+                </v-row>
               </div>
             </template>
           </v-card>
@@ -128,35 +138,50 @@
               </div>
             </template>
             <template v-else>
-
               <v-card-text
-                v-if="moduleDinamic.module_games === `Ninguna dinámica disponible` && moduleDinamic.course_game === `Ninguna dinámica disponible`"
+                v-if="
+                  moduleDinamic.module_games ===
+                    `Ninguna dinámica disponible` &&
+                  moduleDinamic.course_game === `Ninguna dinámica disponible`
+                "
                 class="text-center subtitle-1 dark-text font-weight-bold"
               >
                 Ninguna dinamica disponible
               </v-card-text>
-                <v-row justify="start" class="m-2">
-                  <template v-if="Array.isArray(moduleDinamic.module_games) && moduleDinamic.module_games.length > 0 ">
-                    <v-col  v-for="module_dinamic in moduleDinamic.module_games" :key="module_dinamic.id" cols="6" >
-                      <v-btn  class="mx-1 success rounded-xl"    @click="goToDinamics(module_dinamic.id)"
-                        >{{module_dinamic.title}}</v-btn
-                      >
-                    </v-col>
-                  </template>
-                  <template v-if="typeof(moduleDinamic.course_game) === 'object'">
-                    <v-col cols="6" >
-                      <v-btn  class="mx-1 success rounded-xl"    @click="goToDinamics(moduleDinamic.course_game.id)"
-                        >{{moduleDinamic.course_game.title}}</v-btn
-                      >
-                    </v-col>
-                  </template>
-                </v-row>
+              <v-row justify="start" class="m-2">
+                <template
+                  v-if="
+                    Array.isArray(moduleDinamic.module_games) &&
+                    moduleDinamic.module_games.length > 0
+                  "
+                >
+                  <v-col
+                    v-for="module_dinamic in moduleDinamic.module_games"
+                    :key="module_dinamic.id"
+                    cols="6"
+                  >
+                    <v-btn
+                      class="mx-1 success rounded-xl"
+                      @click="goToDinamics(module_dinamic.id)"
+                      >{{ module_dinamic.title }}</v-btn
+                    >
+                  </v-col>
+                </template>
+                <template v-if="typeof moduleDinamic.course_game === 'object'">
+                  <v-col cols="6">
+                    <v-btn
+                      class="mx-1 success rounded-xl"
+                      @click="goToDinamics(moduleDinamic.course_game.id)"
+                      >{{ moduleDinamic.course_game.title }}</v-btn
+                    >
+                  </v-col>
+                </template>
+              </v-row>
             </template>
           </v-card>
-
         </v-tab-item>
       </v-tabs-items>
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 
@@ -168,11 +193,7 @@ export default {
   data() {
     return {
       tab: null,
-      items: [
-        { tab: "Clases" }, 
-        { tab: "Examen" },
-        { tab: "Dinámicas" },
-        ],
+      items: [{ tab: "Clases" }, { tab: "Examen" }, { tab: "Dinámicas" }],
       progress: 0,
       clase: null,
       completedLessons: [],
@@ -186,7 +207,7 @@ export default {
       "lesson",
       "isLoading",
       "moduleExamen",
-      "moduleDinamic"
+      "moduleDinamic",
     ]),
   },
   methods: {
@@ -207,7 +228,7 @@ export default {
       "DESTROY_PROGRESS_COURSE",
     ]),
     //Ir al Examen Modulo
-    goToExam( id ) {
+    goToExam(id) {
       this.$router.push({
         name: "test",
         params: { id },
@@ -308,7 +329,6 @@ export default {
 
     // Recibiendo las clases completadas del curso
     this.getCompletedLessons(this.$route.query.course);
-
   },
   updated() {
     // Actualizando la barra de progreso

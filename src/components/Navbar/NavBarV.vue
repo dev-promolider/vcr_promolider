@@ -141,7 +141,8 @@ export default {
 </script>
 <style lang="scss">
 .color-drawer {
-  background: #35424a !important;
+  // background: #35424a !important;
+  background: #131b1e !important;
 }
 a:hover {
   text-decoration: none;
@@ -163,3 +164,4 @@ a:hover {
   background-color: #424242;
 }
 </style>
+
