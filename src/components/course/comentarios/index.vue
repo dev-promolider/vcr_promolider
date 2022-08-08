@@ -58,7 +58,7 @@
       v-if="isLoadingComments === false && allComments.length > 0"
     >
       <div class="row">
-        <v-list color="#e8e9ea">
+        <v-list color="#e8e9ea" class="px-4">
           <template v-for="(i, index) in comments">
             <v-list-item
               class="pt-1 bg-white mb-5"
