@@ -1,10 +1,13 @@
 <template>
   <div>
-      <v-card dense style="border-radius: 15px" elevation="0" >
-        <v-list-item three-line style="width: 94%; padding-top: 20px">
-          <v-list-item-avatar height="55px" width="55px">
-            <v-img :src="img"></v-img>
-          </v-list-item-avatar>
+    <div class="row">
+
+    </div>
+    <v-card dense style="border-radius: 15px" elevation="0">
+      <v-list-item three-line style="width: 94%; padding-top: 20px">
+        <v-list-item-avatar height="55px" width="55px">
+          <v-img :src="img"></v-img>
+        </v-list-item-avatar>
 
         <v-list-item-content>
           <v-form @submit.prevent="sendComment()" ref="form" lazy-validation>
@@ -19,7 +22,7 @@
           </v-form>
         </v-list-item-content>
       </v-list-item>
-      <div
+      <!-- <div
         class="d-flex justify-content-center align-items-center py-5"
         v-if="isLoadingComments"
       >
@@ -66,18 +69,18 @@
             </v-list-item-content>
           </v-list-item>
         </template>
-      </v-list>
+      </v-list> -->
     </v-card>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
-import vueShowMoreText from "vue-show-more-text";
+// import vueShowMoreText from "vue-show-more-text";
 export default {
   name: "Comentarios",
   components: {
-    vueShowMoreText,
+    // vueShowMoreText,
   },
   data() {
     return {

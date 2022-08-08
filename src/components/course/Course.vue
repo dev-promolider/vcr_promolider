@@ -23,7 +23,7 @@
       </div>
       <div class="col-lg-4" style="background-color: #e8e9ea">
         <Temario></Temario>
-        <!-- <Comentarios></Comentarios> -->
+        <Comentarios></Comentarios>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import Temario from "@/components/course/temario";
 import Descripcion from "@/components/course/descripcion";
-// import Comentarios from "@/components/course/comentarios";
+import Comentarios from "@/components/course/comentarios";
 import Video from "@/components/course/video";
 // import DatosCurso from "@/components/course/datosCurso";
 
@@ -47,7 +47,7 @@ export default {
   components: {
     Temario,
     Descripcion,
-    // Comentarios,
+    Comentarios,
     Video,
     // DatosCurso,
   },
