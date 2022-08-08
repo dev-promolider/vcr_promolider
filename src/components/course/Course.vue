@@ -1,5 +1,5 @@
 <template>
-  <div class="background">
+  <div class="background pb-5">
     <div v-if="error" class="no-result center-element">
       <span>Lo sentimos se produjo un error</span>
     </div>
