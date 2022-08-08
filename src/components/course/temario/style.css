@@ -2,8 +2,30 @@ ul {
   font-size: 1em;
 }
 
+.module-text {
+  font-weight: 700;
+  display: inline;
+  font-size: 0.8em;
+}
+
+.temario {
+  background-color: #ffffff;
+  border-radius: 30px;
+}
+
+@media only screen and (min-width: 1000px) {
+  .temario {
+    min-height: 450px;
+    max-height: 450px;
+  }
+}
+
 .nav-temario {
   list-style: none;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-right: 10px;
 }
 .nav-temario ul li {
   padding: 10px 0;
@@ -20,11 +42,11 @@ ul {
   position: relative;
   color: #333333;
   font-size: 0.8em;
-  line-height: 1rem;
+  line-height: 0.7rem;
   font-weight: 500;
   top: 5px;
   cursor: pointer;
-  margin-left: 2.5rem;
+  margin-left: 2rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -44,7 +66,7 @@ input[type="checkbox"]:after {
   content: "\f058";
   color: #1ae800;
   font-size: 24px;
-  background: #e8e9ea;
+  background: #ffffff;
 }
 input[type="checkbox"]:checked {
   font-family: "Font Awesome 5 Free";

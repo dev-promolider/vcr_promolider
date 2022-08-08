@@ -6,7 +6,7 @@
       </div>
 
       <!-- Imagen -->
-      <div class="col-md-3 col-lg-3">
+      <div class="col-md-4 col-lg-4">
         <img
           class="same-image-size"
           :src="allRating['course'].url_portada"
@@ -15,9 +15,9 @@
       </div>
 
       <!-- Detalles -->
-      <div class="col-md-8">
-        <div class="row">
-          <div class="col-md-12 border-left mt-3" style="margin-left: 50px">
+      <div class="col-md-8 col-lg-8">
+        <div class="row" style="padding: 0">
+          <div class="col-md-12 border-left mt-3">
             <img
               class="small-image"
               :src="allRating['productor'].photo"
@@ -94,7 +94,7 @@
                 color="warning"
                 hover
                 length="5"
-                size="30"
+                size="25"
                 v-model="newRating.rate"
                 half-increments
               ></v-rating>

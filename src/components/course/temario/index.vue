@@ -1,24 +1,26 @@
 <template>
-  <div class="mb-3" style="border-radius: 20px; margin-top: 40px">
-    <div class="row px-5">
-      <div class="col-lg-12">
-        <p class="text-left" style="font-size: 1.5em; font-weight: 600">
-          Temario
-        </p>
+  <div
+    class="mb-3 px-4"
+    style="border-radius: 20px; margin-top: 40px; margin-right: 10px"
+  >
+    <div class="temario pb-3">
+      <div class="row">
+        <div class="col-lg-12">
+          <p
+            class="text-left"
+            style="font-size: 1.3em; font-weight: 600; margin-left: 20px"
+          >
+            Temario
+          </p>
+        </div>
       </div>
-    </div>
-
-    <div class="temario">
       <div class="center-spinner" v-if="isLoading">
         <b-spinner variant="secondary"></b-spinner>
       </div>
 
       <ul v-else v-for="(model, index) in course.modules" :key="index">
         <li class="nav-temario" :title="model.name">
-          <p
-            style="font-weight: 700; display: inline"
-            v-b-toggle="model.name.replace(/ /g, '')"
-          >
+          <p class="module-text" v-b-toggle="model.name.replace(/ /g, '')">
             {{ index + 1 }}. {{ model.name }}
           </p>
 
