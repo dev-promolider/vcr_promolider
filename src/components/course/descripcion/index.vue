@@ -1,8 +1,4 @@
 <template>
-  <!-- <div
-    class="border border-secondary mb-5"
-    style="border-radius: 5px; min-height: 300px"
-  > -->
   <div style="min-height: 300px">
     <template>
       <v-card class="elevation-0">
@@ -18,7 +14,7 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs-items v-model="tab">
+        <v-tabs-items v-model="tab" style="background-color: #f2f5fa">
           <v-tab-item v-for="item in items" :key="item.tab">
             <!-- Resumen -->
             <v-card

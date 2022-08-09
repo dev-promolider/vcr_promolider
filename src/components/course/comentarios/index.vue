@@ -7,7 +7,7 @@
     </div>
 
     <!-- Publicar comentario -->
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding-top: 0px; padding-bottom: 0px">
       <div class="row input-comment align-items-center remove-p-m mb-5">
         <div
           class="col-md-2 h-100 d-flex justify-content-center align-items-center"
