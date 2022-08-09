@@ -6,7 +6,7 @@
       </div>
 
       <!-- Imagen -->
-      <div class="col-md-4 col-lg-4">
+      <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
         <img
           class="same-image-size"
           :src="allRating['course'].url_portada"
@@ -15,9 +15,9 @@
       </div>
 
       <!-- Detalles -->
-      <div class="col-md-8 col-lg-8">
+      <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
         <div class="row" style="padding: 0">
-          <div class="col-md-12 border-left mt-3">
+          <div class="col-md-12 col-sm-12 col-xs-12 border-left mt-3">
             <img
               class="small-image"
               :src="allRating['productor'].photo"
@@ -75,7 +75,11 @@
       <v-container>
         <v-form @submit.prevent="sendRating()" ref="form" lazy-validation>
           <v-row>
-            <v-col cols="8" style="margin-bottom: 0px; padding-bottom: 0px">
+            <v-col
+              md="8"
+              xs="12"
+              style="margin-bottom: 0px; padding-bottom: 0px"
+            >
               <v-text-field
                 class="text-green"
                 color="#19e800"
@@ -88,7 +92,11 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="4" style="margin-bottom: 0px; padding-bottom: 0px">
+            <v-col
+              md="4"
+              sm="12"
+              style="margin-bottom: 0px; padding-bottom: 0px"
+            >
               <v-rating
                 style="margin-left: -20px"
                 color="warning"
@@ -347,6 +355,9 @@ export default {
   font-size: 1em;
   display: inline;
   padding-left: 20px;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 .califications {
   font-size: 0.8em;
