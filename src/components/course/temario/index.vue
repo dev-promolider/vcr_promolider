@@ -5,185 +5,172 @@
   >
     <div class="temario pb-3">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-6 col-md-6">
           <p
             class="text-left"
-            style="font-size: 1.3em; font-weight: 600; margin-left: 20px"
+            style="
+              font-size: 1.3em;
+              font-weight: 600;
+              margin-left: 20px;
+              display: inline;
+            "
           >
-            Temario
+            {{ title }}
           </p>
         </div>
+        <div class="col-lg-6 col-md-6 text-right">
+          <v-menu>
+            <template v-slot:activator="{ on: menu, attrs }">
+              <v-btn
+                color="#1ad003"
+                text
+                small
+                depressed
+                plain
+                v-bind="attrs"
+                v-on="{ ...menu }"
+              >
+                <v-icon dark> mdi-dots-vertical </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in items"
+                :key="index"
+                link
+                @click="menuActionClick(item.action)"
+              >
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
       </div>
+
       <div class="center-spinner" v-if="isLoading">
         <b-spinner variant="secondary"></b-spinner>
       </div>
 
-      <ul v-else v-for="(model, index) in course.modules" :key="index">
-        <li class="nav-temario" :title="model.name">
-          <p class="module-text" v-b-toggle="model.name.replace(/ /g, '')">
-            {{ index + 1 }}. {{ model.name }}
-          </p>
+      <div v-else>
+        <div v-if="content == 'temary'">
+          <ul
+            v-for="(model, index) in course.modules"
+            :key="index"
+            class="mt-3"
+          >
+            <li class="nav-temario" :title="model.name">
+              <p class="module-text" v-b-toggle="model.name.replace(/ /g, '')">
+                {{ index + 1 }}. {{ model.name }}
+              </p>
 
-          <b-collapse visible :id="model.name.replace(/ /g, '')">
-            <ul>
-              <li
-                v-for="(less, index) in course.modules[index].lessons"
-                :key="index"
-              >
-                <input
-                  type="checkbox"
-                  v-model="completedLessons"
-                  :value="less.id"
-                  @click="checkClass(less.id)"
-                />
-                <a
-                  @click="changeClass(less)"
-                  :class="{ activo: less.name === clase }"
-                  :title="less.name"
-                  >{{ less.name }}
-                </a>
-              </li>
-            </ul>
-          </b-collapse>
-        </li>
-      </ul>
-    </div>
-
-    <!-- <v-card elevation="0" color="success">
-      <v-card-title class="text-center justify-center">
-        <h1 class="font-weight-bold text-h5 white--text my-0">
-          Sección - Módulo
-        </h1>
-      </v-card-title>
-
-      <v-tabs
-        class="rounded-0"
-        v-model="tab"
-        background-color="success"
-        dark
-        centered
-        flat
-      >
-        <v-tab v-for="item in items" :key="item.tab">
-          {{ item.tab }}
-        </v-tab>
-      </v-tabs>
-
-      <v-tabs-items
-        v-model="tab"
-        class="border border-secondary"
-        style="min-height: 520px"
-      >
-        <v-tab-item v-for="item in items" :key="item.tab">
-          <v-card v-if="item.tab === 'Clases'" flat>
-            <div class="contenedor-temario border-box">
-            </div>
-          </v-card>
-          <v-card v-if="item.tab === 'Examen'" flat>
-            <template v-if="isLoading && moduleExamen">
-              <div class="text-center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey"
-                ></v-progress-circular>
-              </div>
-            </template>
-            <template v-else>
-              <v-card-text
-                v-if="
-                  moduleExamen.course_exam === null &&
-                  moduleExamen.module_exams.length === 0
-                "
-                class="text-center subtitle-1 dark-text font-weight-bold"
-              >
-                Ningún examen disponible
-              </v-card-text>
-              <div v-else>
-                <v-row justify="start" class="m-2">
-                  <template v-if="moduleExamen.module_exams.length > 0">
-                    <v-col
-                      v-for="moduloExam in moduleExamen.module_exams"
-                      :key="moduloExam.id"
-                      cols="12"
-                      sm="6"
-                    >
-                      <v-btn
-                        class="mx-1 success rounded-xl"
-                        @click="goToExam(moduloExam.id)"
-                      >
-                        {{ moduloExam.title }}
-                      </v-btn>
-                    </v-col>
-                  </template>
-                  <template v-if="moduleExamen.course_exam != null">
-                    <v-col cols="12" sm="auto">
-                      <v-btn
-                        class="mx-1 success rounded-xl"
-                        @click="goToExam(moduleExamen.course_exam.id)"
-                      >
-                        {{ moduleExamen.course_exam.title }}
-                      </v-btn>
-                    </v-col>
-                  </template>
-                </v-row>
-              </div>
-            </template>
-          </v-card>
-
-          <v-card v-if="item.tab === 'Dinámicas'" flat>
-            <template v-if="isLoading && moduleDinamic">
-              <div class="text-center">
-                <v-progress-circular
-                  indeterminate
-                  color="black"
-                ></v-progress-circular>
-              </div>
-            </template>
-            <template v-else>
-              <v-card-text
-                v-if="
-                  moduleDinamic.module_games ===
-                    `Ninguna dinámica disponible` &&
-                  moduleDinamic.course_game === `Ninguna dinámica disponible`
-                "
-                class="text-center subtitle-1 dark-text font-weight-bold"
-              >
-                Ninguna dinamica disponible
-              </v-card-text>
-              <v-row justify="start" class="m-2">
-                <template
-                  v-if="
-                    Array.isArray(moduleDinamic.module_games) &&
-                    moduleDinamic.module_games.length > 0
-                  "
-                >
-                  <v-col
-                    v-for="module_dinamic in moduleDinamic.module_games"
-                    :key="module_dinamic.id"
-                    cols="6"
+              <b-collapse visible :id="model.name.replace(/ /g, '')">
+                <ul>
+                  <li
+                    v-for="(less, index) in course.modules[index].lessons"
+                    :key="index"
                   >
-                    <v-btn
-                      class="mx-1 success rounded-xl"
-                      @click="goToDinamics(module_dinamic.id)"
-                      >{{ module_dinamic.title }}</v-btn
-                    >
-                  </v-col>
-                </template>
-                <template v-if="typeof moduleDinamic.course_game === 'object'">
-                  <v-col cols="6">
-                    <v-btn
-                      class="mx-1 success rounded-xl"
-                      @click="goToDinamics(moduleDinamic.course_game.id)"
-                      >{{ moduleDinamic.course_game.title }}</v-btn
-                    >
-                  </v-col>
-                </template>
-              </v-row>
+                    <input
+                      type="checkbox"
+                      v-model="completedLessons"
+                      :value="less.id"
+                      @click="checkClass(less.id)"
+                    />
+                    <a
+                      @click="changeClass(less)"
+                      :class="{ activo: less.name === clase }"
+                      :title="less.name"
+                      >{{ less.name }}
+                    </a>
+                  </li>
+                </ul>
+              </b-collapse>
+            </li>
+          </ul>
+        </div>
+
+        <div v-else-if="content == 'tests'">
+          <v-card-text
+            v-if="
+              moduleExamen.course_exam === null &&
+              moduleExamen.module_exams.length === 0
+            "
+            class="text-center subtitle-1 dark-text mt-4"
+          >
+            Ningún examen disponible
+          </v-card-text>
+          <div v-else>
+            <v-row justify="start" class="m-2">
+              <template v-if="moduleExamen.module_exams.length > 0">
+                <v-col
+                  v-for="moduloExam in moduleExamen.module_exams"
+                  :key="moduloExam.id"
+                  cols="12"
+                  sm="6"
+                >
+                  <v-btn
+                    class="mx-1 success rounded-xl"
+                    @click="goToExam(moduloExam.id)"
+                  >
+                    {{ moduloExam.title }}
+                  </v-btn>
+                </v-col>
+              </template>
+              <template v-if="moduleExamen.course_exam != null">
+                <v-col cols="12" sm="auto">
+                  <v-btn
+                    class="mx-1 success rounded-xl"
+                    @click="goToExam(moduleExamen.course_exam.id)"
+                  >
+                    {{ moduleExamen.course_exam.title }}
+                  </v-btn>
+                </v-col>
+              </template>
+            </v-row>
+          </div>
+        </div>
+
+        <div v-else-if="content == 'games'">
+          <v-card-text
+            v-if="
+              moduleDinamic.module_games === `Ninguna dinámica disponible` &&
+              moduleDinamic.course_game === `Ninguna dinámica disponible`
+            "
+            class="text-center subtitle-1 dark-text mt-4"
+          >
+            Ninguna dinamica disponible
+          </v-card-text>
+          <v-row justify="start" class="m-2">
+            <template
+              v-if="
+                Array.isArray(moduleDinamic.module_games) &&
+                moduleDinamic.module_games.length > 0
+              "
+            >
+              <v-col
+                v-for="module_dinamic in moduleDinamic.module_games"
+                :key="module_dinamic.id"
+                cols="6"
+              >
+                <v-btn
+                  class="mx-1 success rounded-xl"
+                  @click="goToDinamics(module_dinamic.id)"
+                  >{{ module_dinamic.title }}</v-btn
+                >
+              </v-col>
             </template>
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-card> -->
+            <template v-if="typeof moduleDinamic.course_game === 'object'">
+              <v-col cols="6">
+                <v-btn
+                  class="mx-1 success rounded-xl"
+                  @click="goToDinamics(moduleDinamic.course_game.id)"
+                  >{{ moduleDinamic.course_game.title }}</v-btn
+                >
+              </v-col>
+            </template>
+          </v-row>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -194,8 +181,14 @@ export default {
   name: "Temario",
   data() {
     return {
-      tab: null,
-      items: [{ tab: "Clases" }, { tab: "Examen" }, { tab: "Dinámicas" }],
+      content: "temary",
+      title: "Temario",
+
+      items: [
+        { title: "Temario", action: "temary" },
+        { title: "Exámenes", action: "tests" },
+        { title: "Dinámicas", action: "games" },
+      ],
       progress: 0,
       clase: null,
       completedLessons: [],
@@ -229,6 +222,21 @@ export default {
       "UPDATE_PROGRESS_COURSE",
       "DESTROY_PROGRESS_COURSE",
     ]),
+
+    menuActionClick(action) {
+      if (action === "temary") {
+        this.content = "temary";
+        this.title = "Temario";
+        
+      } else if (action === "tests") {
+        this.content = "tests";
+        this.title = "Exámenes";
+      } else if (action === "games") {
+        this.content = "games";
+        this.title = "Dinámicas";
+      }
+    },
+
     //Ir al Examen Modulo
     goToExam(id) {
       this.$router.push({
