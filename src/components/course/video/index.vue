@@ -38,6 +38,8 @@ export default {
     };
   },
   mounted() {
+    console.log(this.timeReady);
+    window.addEventListener('unload', this.someMethod);
     this.playerOptions = {
       responsive: true,
       fluid: true,
@@ -103,13 +105,18 @@ export default {
     actualizarTiempo( time ) {
       this.updateTime({ course: this.$route.query.course,  time , lessonId: this.lesson.id })
     },
+    someMethod(player) {
+      this.actualizarTiempo(player.currentTime());
+    }
   },
   beforeDestroy() {
+    window.removeEventListener('unload', this.someMethod);  
     // Cuando el componente se destruya o cierre por casualidad actualizaremos el tiempo en el que se esta quedando
-    this.updateTime({ course: this.idCourse,  time: this.player.currentTime() , lessonId: this.lesson.id })
+    this.updateTime({ course: this.idCourse,  time: this.player.currentTime() , lessonId: this.lesson.id });
 
     // Actualizaremos la variable global de vuex para no generar conflicto con otra clase
-    this.$store.commit("course/UPDATE_TIME", 0);
+    
+    //this.$store.commit("course/UPDATE_TIME", 0);
   },
   destroyed() {
     // Borramos datos del video al destruir el componente para no generar conflictos
