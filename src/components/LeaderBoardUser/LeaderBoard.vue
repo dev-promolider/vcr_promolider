@@ -8,7 +8,7 @@
       min-height: 91.5vh;
       max-width: 100% !important;
     "
-    class="background-leaderboard pb-3"
+    class="background-leaderboard pb-3 mt-5"
   >
     <v-row>
       <div class="confetti">
@@ -16,7 +16,9 @@
       </div>
       <v-col
         align-self="end"
-        :class="[$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ?  'mt-50' : '']"
+        :class="[
+          $vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-50' : '',
+        ]"
         cols="12"
         lg="8"
         v-if="!isLoading"
@@ -26,18 +28,16 @@
             color="#23b121c2"
             class="text-center"
             width="100%"
-             v-if="secondPlace"
-           :max-width="$vuetify.breakpoint.xs ? 110 : 250"
-           :height="$vuetify.breakpoint.xs ? 200 : 360"
+            v-if="secondPlace"
+            :max-width="$vuetify.breakpoint.xs ? 110 : 250"
+            :height="$vuetify.breakpoint.xs ? 200 : 360"
             min-width="120"
           >
             <div
               class="align-imgs m-auto black--text text-center"
               :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h5']"
             >
-              <div
-                class="font-weight-bold color-name-leaderboard "
-              >
+              <div class="font-weight-bold color-name-leaderboard">
                 {{ secondPlace.name }}
               </div>
               <v-avatar
@@ -74,10 +74,8 @@
               class="align-imgs m-auto black--text text-center"
               :class="[$vuetify.breakpoint.xs ? 'text-h7' : 'text-h5']"
             >
-              <div
-                class="font-weight-bold color-name-leaderboard text-xs-h6"
-              >
-                {{ firstPlace.name  }}
+              <div class="font-weight-bold color-name-leaderboard text-xs-h6">
+                {{ firstPlace.name }}
               </div>
               <v-avatar
                 class="my-5"
@@ -110,9 +108,7 @@
             :max-width="$vuetify.breakpoint.xs ? 110 : 250"
             :height="$vuetify.breakpoint.xs ? 180 : 300"
           >
-            <div
-              class="align-imgs m-auto black--text text-center"
-            >
+            <div class="align-imgs m-auto black--text text-center">
               <div
                 class="font-weight-bold color-name-leaderboard text-xl-h4 text-md-h5"
               >
@@ -153,27 +149,30 @@
           ></v-progress-circular>
         </div>
       </v-col>
-      <v-col cols="12" lg="4"  >
-        <v-card
-          class="rounded-lg"
-          tile
-          v-if="listLeaderBoard.length > 0 && !isLoading"
-        >
-          <v-list color="#2fcd2d"  class="scroll">
+      <v-col cols="12" lg="4">
+        <v-card tile v-if="listLeaderBoard.length > 0 && !isLoading">
+          <v-list class="scroll" outlined>
             <div v-for="(list, index) in listLeaderBoard" :key="list.id">
-              <v-list-item class="ma-4 white--text" style="background: #131b1e">
+              <v-list-item
+                class="ma-4 white--text"
+                style="background: #131b1e; border-radius: 30px"
+              >
                 <v-list-item-content>
-                  <v-row align="center"  >
-                    <v-col cols="2"  sm="2">
-                      <v-list-item-title>{{ index  }}</v-list-item-title>
+                  <v-row align="center">
+                    <v-col cols="2" sm="2">
+                      <v-list-item-title>{{ index + 4 }}</v-list-item-title>
                     </v-col>
-                    <v-col  cols="2"   sm="2">
-                        <v-img width="30"  min-width="30" :src="`${list.photo}`"></v-img>
+                    <v-col cols="2" sm="2">
+                      <v-img
+                        width="30"
+                        min-width="30"
+                        :src="`${list.photo}`"
+                      ></v-img>
                     </v-col>
-                    <v-col cols="6"  sm="6">
+                    <v-col cols="6" sm="6">
                       <v-list-item-title>{{ list.name }}</v-list-item-title>
                     </v-col>
-                    <v-col cols="2"  sm="2">
+                    <v-col cols="2" sm="2">
                       <v-list-item-title>{{ list.total }}</v-list-item-title>
                     </v-col>
                   </v-row>
@@ -222,7 +221,7 @@ export default {
       return this.getListLeaderBoard;
     },
     firstPlace() {
-      return this.getFirstPlaceLeaderBoard ;
+      return this.getFirstPlaceLeaderBoard;
     },
     secondPlace() {
       return this.getSecondPlaceLeaderBoard;
@@ -248,15 +247,18 @@ export default {
 </script>
 
 <style lang="scss">
+.theme--light.v-sheet--outlined {
+  border: none !important;
+}
+.v-sheet.v-card:not(.v-sheet--outlined) {
+  box-shadow: none !important;
+}
 body {
   overflow: hidden !important;
   margin: 0;
   padding: 0;
 }
-.contenedor {
-  margin: 0 auto;
-  width: 100%;
-}
+
 .mt-50 {
   margin-top: 150px;
 }
@@ -277,7 +279,7 @@ body {
 }
 
 .background-leaderboard {
-  background: #131b1e;
+  background: #ffffff;
 }
 .color-name-leaderboard {
   color: #27c125;

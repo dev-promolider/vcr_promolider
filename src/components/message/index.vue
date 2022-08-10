@@ -1,11 +1,9 @@
 <template>
   <div style="min-height: 100vh">
-    <section-title title="Mis mensajes" />
-
     <div
       v-if="loading == false"
       class="row px-4"
-      style="min-height: 600px; margin-top: 0px; padding-top: 0px"
+      style="min-height: 630px; margin-top: 0px; padding-top: 0px"
     >
       <div class="col-md-3 chat-border-top-left">
         <div class="row">
@@ -265,12 +263,12 @@
 <script>
 import Echo from "laravel-echo";
 import moment from "moment";
-import SectionTitle from '../Navbar/SectionTitle.vue';
+// import SectionTitle from "../Navbar/SectionTitle.vue";
 
 window.Pusher = require("pusher-js");
 
 export default {
-  components: { SectionTitle },
+  // components: { SectionTitle },
   props: {
     user: Object,
   },
@@ -317,9 +315,6 @@ export default {
           console.log("Error en enviar");
         });
     },
-    // cambiarFondo() {
-    //   return (this.fondo = true);
-    // },
 
     listActualContentMessage(transmitter_id, receiver_id) {
       this.axios
@@ -329,6 +324,7 @@ export default {
         })
         .then((r) => {
           // reverse order
+          console.log(r);
           this.actualMessageContent = r.data;
         })
         .catch(() => {
@@ -343,7 +339,8 @@ export default {
         this.actualContact = first_row;
         // this.message_add.id = first_row.id; // receiver_id
         this.loading = false;
-        if (first_row != undefined && first_row.lenght > 0) {
+
+        if (first_row != undefined && first_row != null) {
           this.listActualContentMessage(this.idOne, first_row.id);
         }
       });
@@ -389,7 +386,7 @@ export default {
   },
   created() {
     this.listContacts();
-    //this.listarMensajes();
+    // this.listActualContentMessage(this.idOne, actualContact);
     window.Echo = new Echo({
       broadcaster: "pusher",
       key: "PROMOLIDER2022",
@@ -437,8 +434,6 @@ body {
 .chat-item:hover {
   background: #35424a;
 }
-
-
 
 .chat-border-top-left {
   border: solid #aaaaaa 1px;
