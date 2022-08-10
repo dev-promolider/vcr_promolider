@@ -1,6 +1,6 @@
 <template>
   <div
-    class="course-card"
+    class="course-card mb-5"
     v-if="course"
     @click="
       cardType == 1
@@ -11,16 +11,19 @@
     "
   >
     <div
-      :class="[{ 'btn-play': cardType == 3 }, 'image']"
-      :style="{ background: `url(${course.url_portada})` }"
-    ></div>
+      :class="[{ 'btn-play': cardType == 3 }]"
+      style="border-top-left-radius: 30px; border-top-right-radius: 30px"
+    >
+      <img
+        :src="course.url_portada"
+        class="card-img-top border-radius-image"
+        :class="[{ image: cardType == 3 }]"
+      />
+    </div>
 
-    <div class="content p-3">
+    <div class="content p-2">
       <div class="row">
-        <div
-          class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
-          style="padding-top;0 px; padding-bottom: 0px"
-        >
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 py-2 ml-2">
           <p class="text-left text-capitalize course-title">
             {{ course.title }}
           </p>
@@ -28,32 +31,43 @@
 
         <div class="row pl-4" v-if="cardType == 1">
           <div
-            class="col-md-12 col-lg-12 col-sm-12 col-xs-12 d-flex justify-content-between"
+            class="col-md-12 col-lg-12 col-sm-12 col-xs-12 d-flex justify-content-between ml-2"
           >
             <div>
-              <p class="text-right" v-if="cardType == 1">
+              <p class="text-left" v-if="cardType == 1" style="color: #5f5f60">
                 {{ course.name }}
               </p>
             </div>
             <div>
-              <p class="text-right px-4" v-if="course.price > 0">
+              <p
+                class="text-right px-4"
+                v-if="course.price > 0"
+                style="color: #5f5f60"
+              >
                 S/. {{ course.price }}
               </p>
-              <p class="text-right px-4" v-if="course.price == 0">
-                <img src="@/assets/free.png" alt="" width="25" /> GRATIS
+              <p
+                class="text-right px-4"
+                v-if="course.price == 0"
+                style="color: #5f5f60"
+              >
+                <img src="@/assets/free.png" alt="" width="20" /> GRATIS
               </p>
             </div>
+            <p class="text-left text-white course-details-p-small">
+              {{ avg }}
+            </p>
           </div>
         </div>
 
         <!-- <div class="d-flex stars" v-if="cardType == 1">
-        <h5 class="font-weight-bold text-warning puntuacion mr-2">3,5</h5>
-        <i class="fas fa-star text-warning"></i>
-        <i class="fas fa-star text-warning"></i>
-        <i class="fas fa-star text-warning"></i>
-        <i class="fas fa-star-half-alt text-warning"></i>
-        <i class="far fa-star text-warning"></i>
-      </div> -->
+          <h5 class="font-weight-bold text-warning puntuacion mr-2">3,5</h5>
+          <i class="fas fa-star text-warning"></i>
+          <i class="fas fa-star text-warning"></i>
+          <i class="fas fa-star text-warning"></i>
+          <i class="fas fa-star-half-alt text-warning"></i>
+          <i class="far fa-star text-warning"></i>
+        </div> -->
 
         <div
           class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
@@ -77,11 +91,11 @@
         </div>
 
         <div
-          class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+          class="col-md-12 col-lg-12 col-sm-12 col-xs-12 ml-2"
           v-if="cardType == 3"
         >
-          <div class="row px-4" style="color: #464646">
-            <p class="text-left">
+          <div class="row" style="color: #464646">
+            <p class="text-left lesson-title px-3">
               {{ course.last_class_reprod }}
             </p>
           </div>
@@ -155,19 +169,33 @@ export default {
           .then((res) => {
             let fistClass = res.data.data.modules[0].lessons[0].name;
             this.$router
-              .push({name:'curso', query: {course: id , class: fistClass , rate : this.course.ranking_by_user}})
+              .push({
+                name: "curso",
+                query: {
+                  course: id,
+                  class: fistClass,
+                  rate: this.course.ranking_by_user,
+                },
+              })
               .catch(() => {});
             // this.$router
             //   .push(`course-user?course=${id}&class=${fistClass}`)
-            //   .catch(() => {});  
-              //this.$router.push({ name: 'foo', params: {title: 'test title' }})
+            //   .catch(() => {});
+            //this.$router.push({ name: 'foo', params: {title: 'test title' }})
           });
       } else {
         this.$router
-          .push({name:'curso', query: {course: id , class: dataRequest.name, rate : this.course.ranking_by_user }})
+          .push({
+            name: "curso",
+            query: {
+              course: id,
+              class: dataRequest.name,
+              rate: this.course.ranking_by_user,
+            },
+          })
           .catch(() => {});
 
-      /*   this.$router
+        /*   this.$router
           .push(`course-user?course=${id}&class=${dataRequest.name}`)
           .catch(() => {});   */
       }
@@ -181,12 +209,28 @@ export default {
 </script>
 
 <style scoped>
+.border-radius-image {
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+}
+.card-img-top {
+  min-height: 150px;
+  max-height: 150px;
+}
+
 .course-title {
-  font-size: 1.3em;
+  font-size: 1.2em;
+  display: inline;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 500;
+}
+
+.lesson-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .course-productor {
   font-size: 1em;
@@ -195,44 +239,35 @@ export default {
   text-overflow: ellipsis;
 }
 .course-card {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
   border: 1px solid #e2e8f0;
-  /* height: 100%;
-  display: flex;
-  flex-direction: column; */
-  /* padding: 10px; */
   transition: 0.5s;
   max-width: 265px;
   min-width: 265px;
 }
 .course-card:hover {
-  transform: scale(1.04);
+  transform: scale(1.1);
+  transition: 0.8s;
+  cursor: pointer;
 }
+
 .image {
   min-height: 150px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
   cursor: pointer;
   height: 100%;
+  z-index: 9;
 }
 
 .content {
-  /* padding: 12px 16px 0 0; */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* gap: 5px; */
-  background: rgba(175, 175, 175, 0.256);
+  background: #f2f5fa;
   transition: 1s;
 }
-/* .content:hover {
-  cursor: pointer;
-  background: #fff;
-  transition: 0.8s;
-} */
 
 .name {
   margin-left: 4px;
@@ -251,16 +286,16 @@ export default {
   line-clamp: 2;
 }
 
-.date {
+/* .date {
   font-size: 12px;
   font-weight: 500;
   line-height: 1.5;
-}
+} */
 
-.stars,
+/* .stars,
 .stars h5 {
   font-size: 12px;
-}
+} */
 .money {
   font-size: 1.1rem;
   font-weight: 700;
@@ -269,18 +304,24 @@ export default {
 }
 .btn-play {
   position: relative;
-  background: red;
+  background: #ffffff;
+}
+
+.image:hover {
+  transition: 0.8s;
 }
 
 .btn-play:after {
   font-family: "Font Awesome 5 Free";
   content: "\f144";
-  color: rgba(96, 217, 80, 0.561);
+  color: rgba(25, 232, 0, 0.561);
   font-size: 80px;
   position: absolute;
   top: 50%;
   left: 50%;
   margin-top: -60px;
   margin-left: -40px;
+  z-index: 99;
+  filter: inherit;
 }
 </style>

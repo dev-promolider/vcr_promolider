@@ -1,13 +1,14 @@
 <template>
   <div style="min-height: 100vh">
-    <section-title title="Mis aprendizaje" />
+    <section-title title="Mi aprendizaje" />
 
     <div class="row mt-5">
       <div class="col-md-12" v-if="loading">
         <loadingCourses />
       </div>
-      <div class="col-md-12 text-center mt-5" v-if="caritas">
-        <span class="h2">Sin resultados</span>
+
+      <div class="no-result sad-face" v-if="caritas">
+        <span >Sin resultados</span>
       </div>
 
       <div
@@ -25,7 +26,7 @@
 import Card from "@/components/courses/cards";
 import loadingCourses from "@/components/courses/loadingCourses";
 import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
-import SectionTitle from '../Navbar/SectionTitle.vue';
+import SectionTitle from "../Navbar/SectionTitle.vue";
 export default {
   name: "Suscription",
   components: {
