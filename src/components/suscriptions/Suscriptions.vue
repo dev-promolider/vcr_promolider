@@ -2,13 +2,13 @@
   <div style="min-height: 100vh">
     <section-title title="Mi aprendizaje" />
 
-    <div class="row mt-5">
+    <div class="row mt-5 ml-1">
       <div class="col-md-12" v-if="loading">
         <loadingCourses />
       </div>
 
       <div class="no-result sad-face" v-if="caritas">
-        <span >Sin resultados</span>
+        <span>Sin resultados</span>
       </div>
 
       <div
