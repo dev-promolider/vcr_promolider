@@ -18,7 +18,29 @@
               :cardType="cardType"
               @selectedCertificate="escoger"
             />
+
+             <v-btn
+                  rounded
+                  color="primary"
+                  dark
+                  v-if="item.is_paid == 0"
+                >
+                  Precio : S/.{{JSON.parse(item.data).certificate_price}}
+             </v-btn>
+
+             <v-btn
+                  rounded
+                  color="primary"
+                  dark
+                  v-if="item.is_paid == 1"
+                >
+                  Adquirido
+             </v-btn>
+
           </div>
+
+         
+
       </div>
     </div>
 
@@ -90,6 +112,7 @@ export default {
       });
     },
     escoger(certificate) {
+      if(certificate.is_paid == 1){
       this.getCertificate(certificate.id);
 
       // this.$router.push('/detalle-certificado')
@@ -100,6 +123,15 @@ export default {
         this.mostrar = true;
         this.muestro = false;
       }, 100);*/
+      }else{
+
+        this.$router.push({
+          name: 'buyCertificate',
+          params: {
+          certificate: {...certificate}
+          },
+        });
+      }
     },
 
     cerrar() {

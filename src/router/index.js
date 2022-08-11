@@ -26,6 +26,7 @@ import preguntasFrecuentes from '../components/preguntasFrecuentes'
 import leaderBoard from '../components/LeaderBoardUser/LeaderBoard.vue'
 import optionPreference from '../views/content/optionpreferences/OptionPreferences.vue'
 import Buy from '../views/content/buy/buy.vue'
+import BuyCertificate from '../views/content/buy/buyCertificate.vue'
 import Search from '../views/content/search/Search.vue'
 Vue.use(VueRouter)
 
@@ -54,6 +55,7 @@ const routes = [
       { path: '/preguntas-frecuentes', name: 'preguntas-frecuentes', component: preguntasFrecuentes },
       { path: '/leaderBoard', name: 'leaderBoard', component: leaderBoard },
       { path: '/buy/:ide', name: 'buy', component: Buy },
+      { path: '/buyCertificate', name: 'buyCertificate', component: BuyCertificate , props: true},
       { path: '/course/search/', name: 'search', component: Search },
     ]
   },
