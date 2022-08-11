@@ -4,20 +4,24 @@
 
     <div class="row px-4">
       <div class="col-md-12 col-sm-12">
-        <div v-if="notCourses" class="no-result center-element d-flex">
-          <span>Lo sentimos, aún no hay cursos disponibles.</span>
+        <div v-if="notCourses" class="mb-4">
+          <h3 class="m-0 font-weight-bold">Cursos</h3>
+          <div class="no-result sad-face">
+            <span>Lo sentimos, aún no hay cursos disponibles.</span>
+          </div>
         </div>
+
         <div class="mt-5" v-if="loading">
           <loadingCourses />
         </div>
 
-        <div class="mb-4" v-if="relatedCourses.length > 0 && !loading">
-          <h3 class="m-0 font-weight-bold">Más recientes</h3>
+        <div class="mb-4 ml-2" v-if="relatedCourses.length > 0 && !loading">
+          <h3 class="mb-1 font-weight-bold">Más recientes</h3>
           <CarrouselCourse :courses="relatedCourses" />
         </div>
 
-        <div class="mb-4" v-if="courses.length > 0 && !loading">
-          <h3 class="m-0 font-weight-bold">Todos los cursos</h3>
+        <div class="mb-4 ml-2" v-if="courses.length > 0 && !loading">
+          <h3 class="mb-2 font-weight-bold">Todos los cursos</h3>
           <CarrouselCourse :courses="courses" />
         </div>
 
@@ -27,7 +31,7 @@
         </div>
 
         <div v-if="this.coursView > 0 && !loading">
-          <CarrouselCourseViewed  />
+          <CarrouselCourseViewed />
         </div>
       </div>
     </div>
@@ -38,7 +42,7 @@
 import CarrouselCourse from "@/components/courses/CarrouselCourse";
 import CarrouselCourseViewed from "@/components/courses/CarrouselCourseViewed";
 import loadingCourses from "@/components/courses/loadingCourses";
-import SectionTitle from '../Navbar/SectionTitle.vue'
+import SectionTitle from "../Navbar/SectionTitle.vue";
 export default {
   name: "Courses",
   components: {
@@ -158,3 +162,12 @@ export default {
   },
 };
 </script>
+<style>
+.sad-face {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

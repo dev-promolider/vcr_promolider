@@ -3,9 +3,7 @@
     v-if="lastCourses.length > 0"
     :class="lastCourses.length > 0 ? 'main-content' : 'main-none'"
   >
-    <h4 class="font-weight-bold">
-      {{ nameUser }}, continua aprendiendo:
-    </h4>
+    <h4 class="font-weight-bold">{{ username }}, continua aprendiendo:</h4>
     <vue-horizontal class="horizontal">
       <section class="m-3" v-for="course in lastCourses" :key="course.id">
         <Card :course="course" :cardType="3" />
@@ -24,11 +22,11 @@ export default {
   },
   data() {
     return {
-      nameUser: localStorage.getItem("name_user"),
+      username: localStorage.getItem("name_user"),
       lastCourses: [],
       peeked: false,
       timeout: null,
-      baseURL: "http://promolider.xyz/storage/",
+      // baseURL: "http://promolider.xyz/storage/",
     };
   },
   methods: {
