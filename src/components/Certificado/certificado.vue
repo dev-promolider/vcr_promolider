@@ -1,9 +1,16 @@
 <template>
   <div style="min-height: 100vh">
-     <section-title title="Mis certificados" />
+    <section-title title="Mis certificados" />
 
-    <div class="col-md-12 text-center mt-5" v-if="informacion.length == 0 && this.spin == false" >
+    <!-- <div class="col-md-12 text-center mt-5"  >
       <h2 class="col-12">Sin resultados</h2>
+    </div> -->
+
+    <div
+      class="no-result sad-face"
+      v-if="informacion.length == 0 && this.spin == false"
+    >
+      <span>Sin resultados</span>
     </div>
 
     <div class="container" v-if="muestro">
@@ -47,9 +54,6 @@
              </v-btn>
 
           </div>
-
-         
-
       </div>
     </div>
 
@@ -78,7 +82,7 @@
 <script>
 import Detalles from "@/components/Certificado/detalleCertificado.vue";
 import Card from "@/components/courses/cards";
-import SectionTitle from '../Navbar/SectionTitle.vue';
+import SectionTitle from "../Navbar/SectionTitle.vue";
 
 export default {
   name: "VirtualClassroomCertificado",
@@ -106,12 +110,15 @@ export default {
   methods: {
     getAttributes() {
       this.spin = true;
-      this.axios.get("/course/certificate-list").then((datos) => {
-        this.informacion = datos.data;
-        this.spin = false;
-      }).catch( ()=>{
-        this.spin = false;
-      });
+      this.axios
+        .get("/course/certificate-list")
+        .then((datos) => {
+          this.informacion = datos.data;
+          this.spin = false;
+        })
+        .catch(() => {
+          this.spin = false;
+        });
     },
 
     getDiscount() {

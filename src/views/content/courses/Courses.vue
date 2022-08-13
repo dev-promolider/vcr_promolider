@@ -1,5 +1,5 @@
 <template>
-    <Courses />
+    <Courses/>
 </template>
 <script>
 import Courses from "@/components/courses/Courses.vue";
