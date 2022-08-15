@@ -14,7 +14,7 @@
               v-b-toggle="preg.question.replace(/ /g, '')"
               @click="rotate === index ? (rotate = null) : (rotate = index)"
             >
-              <h5 class="font-weight-bolder">{{ preg.question }}</h5>
+              <h5 style="font-weight: 400">{{ preg.question }}</h5>
               <button
                 :class="['btn-plus', { 'btn-plus-rotate': rotate === index }]"
               >
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import SectionTitle from '../Navbar/SectionTitle.vue';
+import SectionTitle from "../Navbar/SectionTitle.vue";
 export default {
   name: "preguntas-frecuentes",
   components: {
