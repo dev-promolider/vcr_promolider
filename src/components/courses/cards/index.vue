@@ -1,5 +1,6 @@
 <template>
   <div
+    :title="course.title"
     class="course-card mb-5"
     v-if="course"
     @click="
@@ -23,40 +24,26 @@
 
     <div class="content p-2">
       <div class="row">
-        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 py-2 ml-2">
+        <div
+          class="col-md-12 col-lg-12 col-sm-12 col-xs-12 py-2 ml-2 content-overflow"
+        >
           <p class="text-left text-capitalize course-title">
             {{ course.title }}
           </p>
         </div>
 
         <div class="row pl-4" v-if="cardType == 1">
-          <div
-            class="col-md-12 col-lg-12 col-sm-12 col-xs-12 d-flex justify-content-between ml-2"
-          >
-            <div>
-              <p class="text-left" v-if="cardType == 1" style="color: #5f5f60">
-                {{ course.name }}
-              </p>
-            </div>
-            <div>
-              <p
-                class="text-right px-4"
-                v-if="course.price > 0"
-                style="color: #5f5f60"
-              >
-                S/. {{ course.price }}
-              </p>
-              <p
-                class="text-right px-4"
-                v-if="course.price == 0"
-                style="color: #5f5f60"
-              >
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div
+              class="d-flex justify-content-between col-md-12"
+              style="color: #5f5f60"
+            >
+              <div>{{ course.name }}</div>
+              <div v-if="course.price > 0">${{ course.price }}</div>
+              <div v-else>
                 <img src="@/assets/free.png" alt="" width="20" /> GRATIS
-              </p>
+              </div>
             </div>
-            <p class="text-left text-white course-details-p-small">
-              {{ avg }}
-            </p>
           </div>
         </div>
 
@@ -221,9 +208,7 @@ export default {
 .course-title {
   font-size: 1.2em;
   display: inline;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
   font-weight: 500;
 }
 
@@ -261,7 +246,6 @@ export default {
   background-repeat: no-repeat !important;
   cursor: pointer;
   height: 100%;
-  z-index: 9;
 }
 
 .content {
@@ -321,7 +305,12 @@ export default {
   left: 50%;
   margin-top: -60px;
   margin-left: -40px;
-  z-index: 99;
   filter: inherit;
+}
+
+.content-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
