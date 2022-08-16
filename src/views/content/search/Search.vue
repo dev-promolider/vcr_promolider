@@ -1,27 +1,26 @@
 <template>
-  <div
-    style="
-      background: white;
-      padding-top: 0 !important;
-      height: 100%;
-      min-height: 92vh;
-    "
-  >
-    <div
-      style="max-width: 1300px; margin: 0 auto; width: 85%"
-      v-if="isLoadingSearchCourse"
-    >
-      <h1
-        :class="[
-          this.$vuetify.breakpoint.xs
-            ? 'h6 font-weight-bold text-start pt-3 ml-3 pt-2'
-            : 'h2 font-weight-bold py-5',
-        ]"
-      >
-        {{ message }}
-      </h1>
+  <div>
+    <!-- Loader -->
+    <div v-if="isLoadingSearchCourse" style="height: 100vh">
+      <div class="container d-flex h-100">
+        <div class="row justify-content-center align-self-center">
+          <v-progress-circular color="green" indeterminate size="80">
+          </v-progress-circular>
+        </div>
+      </div>
+    </div>
 
-      <v-row class="mt-3" no-gutters v-if="!stateCoursesSearch">
+    <div v-else style="height: 100vh">
+      <!-- Message if the content is empty -->
+      <div v-if="courses.length == 0" class="container d-flex h-50 mt-5">
+        <div class="no-result center-element">
+          <span style="font-size: 1.4em">{{ message }}</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div style="max-width: 1300px; margin: 0 auto; width: 85%" v-else>
+        <!-- <v-row class="mt-3" no-gutters v-if="!stateCoursesSearch">
         <v-col cols="auto">
           <v-btn
             color="dark"
@@ -57,9 +56,9 @@
         >
           <div class="subtitle">{{ courses.length }} resultados</div>
         </v-col>
-      </v-row>
-      <v-row class="mt-0">
-        <v-col
+      </v-row> -->
+        <v-row class="mt-0">
+          <!-- <v-col
           v-if="showSlideFilter"
           class="slide-filter mt-2"
           :class="[showSlideFilter ? 'expanded' : '']"
@@ -94,61 +93,66 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
-        </v-col>
-        <v-col sm="mr-auto">
-          <v-card
-            class="mb-2 text-decoration-none"
-            v-for="(course, index) in courses"
-            :key="index"
-            elevation="0"
-            :to="{ name: 'buy-cursos', params: { ide: course.id } }"
-          >
-            <v-row no-gutters>
-              <v-col sm="auto" cols="3">
-                <v-img
-                  class="m-2"
-                  :src="course.url_portada"
-                  max-width="260px"
-                  max-height="145px"
-                >
-                </v-img>
-              </v-col>
-              <v-col sm="mr-auto">
-                <div class="m-1">
-                  <div
-                    class="font-weight-bold text-capitalize"
-                    :class="[$vuetify.breakpoint.xs && 'text-mobile']"
-                  >
-                    {{ course.title }}
-                  </div>
+        </v-col> -->
 
-                  <div
-                    class="caption text-capitalize"
-                    v-if="!$vuetify.breakpoint.xs"
-                  >
-                    {{ course.description }}
-                  </div>
+          <v-col md="12" class="mt-3">
+            <span style="font-size: 1.4em">{{ message }}</span>
+          </v-col>
 
-                  <div
-                    class="text--secondary text-uppercase"
-                    :class="[
-                      $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
-                    ]"
+          <v-col sm="mr-auto">
+            <v-card
+              class="mb-2 text-decoration-none"
+              v-for="(course, index) in courses"
+              :key="index"
+              elevation="0"
+              :to="{ name: 'buy-cursos', params: { ide: course.id } }"
+            >
+              <v-row no-gutters>
+                <v-col sm="auto" cols="3">
+                  <v-img
+                    class="m-2"
+                    :src="course.url_portada"
+                    max-width="260px"
+                    max-height="145px"
                   >
-                    {{ course.name || "Administrador" }}
-                  </div>
-
-                  <div class="d-flex align-center">
+                  </v-img>
+                </v-col>
+                <v-col sm="mr-auto">
+                  <div class="m-1">
                     <div
-                      class="font-weight-bold"
-                      :class="[
-                        $vuetify.breakpoint.xs ? 'text-mobile' : 'subtitle-1',
-                      ]"
-                      style="color: #b4690e"
+                      class="font-weight-bold text-capitalize"
+                      :class="[$vuetify.breakpoint.xs && 'text-mobile']"
                     >
-                      {{ course.ranking_by_user }}
+                      {{ course.title }}
                     </div>
-                    <!-- <v-rating
+
+                    <div
+                      class="caption text-capitalize"
+                      v-if="!$vuetify.breakpoint.xs"
+                    >
+                      {{ course.description }}
+                    </div>
+
+                    <div
+                      class="text--secondary text-uppercase"
+                      :class="[
+                        $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
+                      ]"
+                    >
+                      {{ course.name || "Administrador" }}
+                    </div>
+
+                    <div class="d-flex align-center">
+                      <div
+                        class="font-weight-bold"
+                        :class="[
+                          $vuetify.breakpoint.xs ? 'text-mobile' : 'subtitle-1',
+                        ]"
+                        style="color: #b4690e"
+                      >
+                        {{ course.ranking_by_user }}
+                      </div>
+                      <!-- <v-rating
                       readonly
                       dense
                       :size="$vuetify.breakpoint.xs ? '10' : '13'"
@@ -157,72 +161,66 @@
                       half-increments
                       v-model="course.ranking_by_user"
                     ></v-rating> -->
-                  </div>
-                  <!-- <div class="d-flex">
+                    </div>
+                    <!-- <div class="d-flex">
                                         <div class="text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]" >79 horas totales - 800 clases - Principante </div>
                                     </div> -->
-                  <div class="text-start d-flex" v-if="$vuetify.breakpoint.xs">
                     <div
-                      class="font-weight-bold mr-1"
+                      class="text-start d-flex"
+                      v-if="$vuetify.breakpoint.xs"
+                    >
+                      <div
+                        class="font-weight-bold mr-1"
+                        :class="[$vuetify.breakpoint.xs && 'text-mobile']"
+                      >
+                        S/.{{ course.price }}
+                      </div>
+                      <div
+                        class="text-decoration-line-through text--secondary"
+                        :class="[
+                          $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
+                        ]"
+                      >
+                        S/.299.99
+                      </div>
+                    </div>
+                  </div>
+                </v-col>
+
+                <v-col sm="mr-auto" cols="2" v-if="!$vuetify.breakpoint.xs">
+                  <div class="ma-2 text-end">
+                    <div
+                      class="font-weight-bold"
                       :class="[$vuetify.breakpoint.xs && 'text-mobile']"
                     >
-                      S/.{{ course.price }}
+                      {{ course.price === 0 ? "GRATIS" : `S/.${course.price}` }}
                     </div>
-                    <div
-                      class="text-decoration-line-through text--secondary"
-                      :class="[
-                        $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
-                      ]"
-                    >
-                      S/.299.99
-                    </div>
+                    <!-- <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div> -->
                   </div>
-                </div>
-              </v-col>
-              <v-col sm="mr-auto" cols="2" v-if="!$vuetify.breakpoint.xs">
-                <div class="ma-2 text-end">
-                  <div
-                    class="font-weight-bold"
-                    :class="[$vuetify.breakpoint.xs && 'text-mobile']"
-                  >
-                    {{ course.price === 0 ? "GRATIS" : `S/.${course.price}` }}
-                  </div>
-                  <!-- <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div> -->
-                </div>
-              </v-col>
-            </v-row>
-            <v-divider></v-divider>
-          </v-card>
-        </v-col>
-        <v-overlay :value="overlay" color="white" opacity="0.3" z-index="9">
-          <v-progress-circular
+                </v-col>
+              </v-row>
+              <v-divider></v-divider>
+            </v-card>
+          </v-col>
+          <v-overlay :value="overlay" color="white" opacity="0.3" z-index="9">
+            <v-progress-circular
+              color="green"
+              indeterminate
+              size="64"
+            ></v-progress-circular>
+          </v-overlay>
+        </v-row>
+        <div class="text-center py-5" v-if="!stateCoursesSearch">
+          <v-pagination
+            circle
+            v-model="page"
+            :length="15"
+            :total-visible="5"
             color="green"
-            indeterminate
-            size="64"
-          ></v-progress-circular>
-        </v-overlay>
-      </v-row>
-      <div class="text-center py-5" v-if="!stateCoursesSearch">
-        <v-pagination
-          circle
-          v-model="page"
-          :length="15"
-          :total-visible="5"
-          color="green"
-        ></v-pagination>
+          ></v-pagination>
+        </div>
       </div>
     </div>
-
-    <template>
-      <div
-        class="text-center pt-5"
-        style="height: 90vh"
-        v-if="!isLoadingSearchCourse"
-      >
-        <v-progress-circular color="green" indeterminate size="80">
-        </v-progress-circular>
-      </div>
-    </template>
   </div>
 </template>
 
@@ -240,9 +238,9 @@ export default {
         { state: "Más recientes" },
       ],
       page: 1,
-      raiting: 3.5,
+      rating: 3.5,
       overlay: false,
-      isLoadingSearchCourse: false,
+      isLoadingSearchCourse: null,
       courses: [],
       stateCoursesSearch: true,
       message: null,
@@ -260,20 +258,19 @@ export default {
   methods: {
     async getCoursesSearched() {
       try {
-        this.isLoadingSearchCourse = false;
         const { data: courses } = await this.axios.get(
           `/course/search-courses/${this.querySearch}`
         );
         if (courses.length === 0) {
           this.message = `Lo sentimos, no hemos encontrado resultados para "${this.querySearch}"`;
-          this.isLoadingSearchCourse = true;
-          this.stateCoursesSearch = true;
+          this.isLoadingSearchCourse = false;
+          // this.stateCoursesSearch = true;
           this.courses = [];
         } else {
           this.message = `${courses.length} resultados para “${this.querySearch}”`;
           this.courses = courses;
-          this.isLoadingSearchCourse = true;
-          this.stateCoursesSearch = true;
+          this.isLoadingSearchCourse = false;
+          // this.stateCoursesSearch = true;
         }
       } catch (error) {
         throw new Error(error);

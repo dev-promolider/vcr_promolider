@@ -1,5 +1,6 @@
 <template>
   <div
+    :title="course.title"
     class="course-card mb-5"
     v-if="course"
     @click="
@@ -23,13 +24,16 @@
 
     <div class="content p-2">
       <div class="row">
-        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 py-2 ml-2">
+        <div
+          class="col-md-12 col-lg-12 col-sm-12 col-xs-12 py-2 ml-2 content-overflow"
+        >
           <p class="text-left text-capitalize course-title">
             {{ course.title }}
           </p>
         </div>
 
         <div class="row pl-4" v-if="cardType == 1">
+
           <div
             class="name col-md-12 col-lg-12 col-sm-12 col-xs-12 ml-2"
             
@@ -305,9 +309,7 @@ export default {
 .course-title {
   font-size: 1.2em;
   display: inline;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
   font-weight: 500;
 }
 
@@ -345,7 +347,6 @@ export default {
   background-repeat: no-repeat !important;
   cursor: pointer;
   height: 100%;
-  z-index: 9;
 }
 
 .content {
@@ -405,7 +406,12 @@ export default {
   left: 50%;
   margin-top: -60px;
   margin-left: -40px;
-  z-index: 99;
   filter: inherit;
+}
+
+.content-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
