@@ -1,4 +1,4 @@
-<template >
+<template>
   <div>
     <v-navigation-drawer
       v-model="drawer"
@@ -6,9 +6,8 @@
       :permanent="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
       :expand-on-hover="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
       :mini-variant="mini"
-      class="color-drawer" 
+      class="color-drawer"
     >
-
       <v-list>
         <v-list-item class="px-2" link :to="{ name: 'perfil' }">
           <v-list-item-avatar class="mr-1">
@@ -44,30 +43,6 @@
       <template v-slot:append>
         <div>
           <v-list nav dense>
-            <v-list-item
-              href="https://promolider.org/sistema/index.html"
-              target="_blank"
-            >
-              <v-list-item-icon style="margin-right: 5px" class="px-0">
-                <img
-                  src="@/assets/promolider_logo.png"
-                  alt="promolider"
-                  style="padding: 3px; width: 150%; height: 100%"
-                />
-              </v-list-item-icon>
-              <v-list-item-title>
-                <h4
-                  style="
-                    color: #ffffff;
-                    letter-spacing: 3.5px;
-                    padding-top: 4px;
-                  "
-                >
-                  Promolíder
-                </h4>
-              </v-list-item-title>
-            </v-list-item>
-
             <v-list-item
               link
               :to="{ name: 'preguntas-frecuentes' }"
@@ -107,8 +82,8 @@ export default {
       img: localStorage.getItem("photo_user"),
       listNavBar: [
         { nombre: "Inicio", icon: "home", path: "home" },
-        { nombre: "Marketplace", icon: "store", path: "courses" },
         { nombre: "Mi Aprendizaje", icon: "book", path: "suscription-user" },
+        { nombre: "Marketplace", icon: "store", path: "courses" },
         {
           nombre: "Mis Certificaciones",
           icon: "school",
@@ -148,20 +123,19 @@ a:hover {
   text-decoration: none;
 }
 .v-list-item--active {
-  background-color:#000000;
-  color: #1AE800 !important;
+  background-color: #000000;
+  color: #1ae800 !important;
 }
 
-.v-navigation-drawer__content::-webkit-scrollbar-track{
+.v-navigation-drawer__content::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px #5d5d5d;
   background-color: #5d5d5d;
 }
-.v-navigation-drawer__content::-webkit-scrollbar{
+.v-navigation-drawer__content::-webkit-scrollbar {
   width: 0px;
 }
-.v-navigation-drawer__content::-webkit-scrollbar-thumb{
+.v-navigation-drawer__content::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px #424242;
   background-color: #424242;
 }
 </style>
-
