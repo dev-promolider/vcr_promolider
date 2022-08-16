@@ -82,8 +82,8 @@ export default {
       img: localStorage.getItem("photo_user"),
       listNavBar: [
         { nombre: "Inicio", icon: "home", path: "home" },
-        { nombre: "Marketplace", icon: "store", path: "courses" },
         { nombre: "Mi Aprendizaje", icon: "book", path: "suscription-user" },
+        { nombre: "Marketplace", icon: "store", path: "courses" },
         {
           nombre: "Mis Certificaciones",
           icon: "school",

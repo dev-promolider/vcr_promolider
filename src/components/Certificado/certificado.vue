@@ -25,25 +25,6 @@
               :cardType="cardType"
               @selectedCertificate="escoger"
             />
-
-             <v-btn
-                  rounded
-                  color="primary"
-                  dark
-                  v-if="item.is_paid == 0"
-                >
-                  Precio : S/.{{JSON.parse(item.data).certificate_price}}
-             </v-btn>
-
-             <v-btn
-                  rounded
-                  color="primary"
-                  dark
-                  v-if="item.is_paid == 1"
-                >
-                  Adquirido
-             </v-btn>
-
           </div>
       </div>
     </div>
@@ -91,6 +72,8 @@ export default {
       informacion: [],
       cardType: 4,
       certificate: {},
+      certificateDisc: 0,
+      finalPrice : 0,
     };
   },
 
@@ -109,6 +92,22 @@ export default {
           this.spin = false;
         });
     },
+
+    getDiscount() {
+      this.spin = true;
+      this.axios.get("/course/certificate-discount").then((datos) => {
+        this.certificateDisc = datos.data;
+        this.spin = false;
+      }).catch( ()=>{
+        this.spin = false;
+      });
+    },
+
+    calcDiscount(price){
+      var disc = price*(this.certificateDisc/100);
+      return price-disc;
+    },
+
     getCertificate(id) {
       this.axios.get("/course/certificate/" + id).then((datos) => {
         this.certificate = datos.data[0];
@@ -132,10 +131,13 @@ export default {
       }, 100);*/
       }else{
 
+        this.finalPrice = this.calcDiscount(JSON.parse(certificate.data).certificate_price);
+
         this.$router.push({
           name: 'buyCertificate',
           params: {
-          certificate: {...certificate}
+          certificate: {...certificate},
+          finalPrice: this.finalPrice
           },
         });
       }
@@ -149,6 +151,7 @@ export default {
   },
   created() {
     this.getAttributes();
+    this.getDiscount();
   },
 };
 </script>
