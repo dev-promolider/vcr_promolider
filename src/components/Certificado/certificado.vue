@@ -25,34 +25,6 @@
               :cardType="cardType"
               @selectedCertificate="escoger"
             />
-
-             <v-btn
-                  rounded
-                  color="primary"
-                  dark
-                  v-if="item.is_paid == 0"
-                >
-                  Precio Original: S/.{{JSON.parse(item.data).certificate_price}}
-             </v-btn>
-
-             <v-btn
-                  rounded
-                  color="primary"
-                  dark
-                  v-if="item.is_paid == 0"
-                >
-                  Precio con Descuento : S/.{{calcDiscount(JSON.parse(item.data).certificate_price)}}
-             </v-btn>
-
-             <v-btn
-                  rounded
-                  color="primary"
-                  dark
-                  v-if="item.is_paid == 1"
-                >
-                  Adquirido
-             </v-btn>
-
           </div>
       </div>
     </div>
@@ -159,10 +131,13 @@ export default {
       }, 100);*/
       }else{
 
+        this.finalPrice = this.calcDiscount(JSON.parse(certificate.data).certificate_price);
+
         this.$router.push({
           name: 'buyCertificate',
           params: {
-          certificate: {...certificate}
+          certificate: {...certificate},
+          finalPrice: this.finalPrice
           },
         });
       }
@@ -176,6 +151,7 @@ export default {
   },
   created() {
     this.getAttributes();
+    this.getDiscount();
   },
 };
 </script>
