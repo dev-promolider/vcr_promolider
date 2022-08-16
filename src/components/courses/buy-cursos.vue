@@ -52,8 +52,8 @@
           >
             <!--<img v-if="this.precio == '' " width="25" :src="require('@/assets/free.png')" alt="">-->
             {{
-              this.precio > 0
-                ? "Comprar ahora S/." + this.precio + ""
+              this.price_with_discount > 0
+                ? "Comprar ahora S/." + this.price_with_discount + ""
                 : "Inscribete ahora"
             }}
           </button>
@@ -301,6 +301,7 @@ export default {
       items: [],
       pao_id: null,
       precio: "",
+      price_with_discount: "",
       descripcion: "",
       level: "",
       img: "",
@@ -378,6 +379,7 @@ export default {
         this.items = datos.data.data[0];
 
         this.precio = this.items.price;
+        this.price_with_discount = this.items.price_with_discount;
 
         // Obtenemos el nivel del curso
         switch (this.items.course_level_id) {
