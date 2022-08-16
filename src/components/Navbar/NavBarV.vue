@@ -44,31 +44,6 @@
         <div>
           <v-list nav dense>
             <v-list-item
-              style="text-decoration: none; box-shadow: none"
-              href="https://promolider.org/sistema/index.html"
-              target="_blank"
-            >
-              <v-list-item-icon style="margin-right: 5px" class="px-0">
-                <img
-                  src="@/assets/promolider_logo.png"
-                  alt="promolider"
-                  style="padding: 3px; width: 150%; height: 100%"
-                />
-              </v-list-item-icon>
-              <v-list-item-title>
-                <h4
-                  style="
-                    color: #ffffff;
-                    letter-spacing: 3.5px;
-                    padding-top: 4px;
-                  "
-                >
-                  Promolíder
-                </h4>
-              </v-list-item-title>
-            </v-list-item>
-
-            <v-list-item
               link
               :to="{ name: 'preguntas-frecuentes' }"
               style="color: #131b1e; font-size: 18px"
@@ -107,8 +82,8 @@ export default {
       img: localStorage.getItem("photo_user"),
       listNavBar: [
         { nombre: "Inicio", icon: "home", path: "home" },
-        { nombre: "Marketplace", icon: "store", path: "courses" },
         { nombre: "Mi Aprendizaje", icon: "book", path: "suscription-user" },
+        { nombre: "Marketplace", icon: "store", path: "courses" },
         {
           nombre: "Mis Certificaciones",
           icon: "school",
