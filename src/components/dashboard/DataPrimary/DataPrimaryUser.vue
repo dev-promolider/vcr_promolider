@@ -20,7 +20,7 @@
       </div>
 
       <div v-else>
-        <p v-if="mostrar" class="kpi-content">S/. {{ payment }}</p>
+        <p v-if="mostrar" class="kpi-content">$ {{ payment }}</p>
       </div>
 
       <p>Mis Ventas</p>

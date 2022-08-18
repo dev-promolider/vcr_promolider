@@ -13,7 +13,7 @@
   >
     <div
       :class="[{ 'btn-play': cardType == 3 }]"
-      style="border-top-left-radius: 30px; border-top-right-radius: 30px"
+      style="border-top-left-radius: 5px; border-top-right-radius: 5px"
     >
       <img
         :src="course.url_portada"
@@ -33,19 +33,92 @@
         </div>
 
         <div class="row pl-4" v-if="cardType == 1">
-          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <div
-              class="d-flex justify-content-between col-md-12"
-              style="color: #5f5f60"
-            >
-              <div>{{ course.name }}</div>
-              <div v-if="course.price > 0">${{ course.price }}</div>
-              <div v-else>
-                <img src="@/assets/free.png" alt="" width="20" /> GRATIS
-              </div>
-            </div>
+
+          <div
+            class="name col-md-12 col-lg-12 col-sm-12 col-xs-12 ml-2"
+            
+          >
+         
+              <p class="text-left" v-if="cardType == 1" style="color: #5f5f60">
+                {{ course.name }}
+              </p>
+
           </div>
+
+
+          <div
+            class="col-md-11  ml-1"
+            style="background: #5f5f60; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
+          >
+             
+              <p
+                class="text-left"
+                v-if="course.price == 0"
+                style="color: white"
+              >
+                <img src="@/assets/free.png" alt="" width="20" /> GRATIS
+              </p>
+              <b
+                class="text-left"
+                v-if="course.price > 0"
+                style="color: white"
+              >
+                $ {{ course.price_with_discount }}
+              </b>
+              <del
+                class="text-left px-1"
+                v-if="course.price > 0"
+                style="color: white"
+              >
+                $ {{ course.price }}
+              </del>
+              <br>
+              <br>
+              
+            </div>
+          
         </div>
+
+
+        
+        <div class="row pl-4" v-if="cardType == 4">
+
+          <div
+            class="cert col-md-11  ml-1 mt-2"
+            style="background: #5f5f60; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
+          >
+             
+              <p
+                class="text-left"
+                v-if="course.is_paid == 1"
+                style="color: white"
+              >
+                <img src="@/assets/free.png" alt="" width="20" /> Adquirido
+              </p>
+              <b
+                class="text-left"
+                v-if="calcDiscount(JSON.parse(course.data).certificate_price) > 0"
+                style="color: white"
+              >
+                $ {{ calcDiscount(JSON.parse(course.data).certificate_price) }}
+              </b>
+              <del
+                class="text-left px-1"
+                v-if="JSON.parse(course.data).certificate_price > 0"
+                style="color: white"
+              >
+                $ {{ JSON.parse(course.data).certificate_price }}
+              </del>
+              <br>
+              <br>
+              
+            </div>
+          
+        </div>
+
+        
+
+
 
         <!-- <div class="d-flex stars" v-if="cardType == 1">
           <h5 class="font-weight-bold text-warning puntuacion mr-2">3,5</h5>
@@ -98,6 +171,7 @@ export default {
   data() {
     return {
       photo: null,
+      certificateDisc: 0,
     };
   },
   props: {
@@ -116,6 +190,19 @@ export default {
     } */
   },
   methods: {
+    calcDiscount(price){
+      var disc = price*(this.certificateDisc/100);
+      return price-disc;
+    },
+    getDiscount() {
+      this.spin = true;
+      this.axios.get("/course/certificate-discount").then((datos) => {
+        this.certificateDisc = datos.data;
+        this.spin = false;
+      }).catch( ()=>{
+        this.spin = false;
+      });
+    },
     // Evento hover para cambiar el background del aula virtual
     /* mouseOver(course){
        this.$store.commit("course/COURSE_HOVER", course);
@@ -189,6 +276,10 @@ export default {
     },
   },
 
+  created() {
+    this.getDiscount();
+  },
+
   /* destroyed(){
     this.mouseleave()
   } */
@@ -197,12 +288,22 @@ export default {
 
 <style scoped>
 .border-radius-image {
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 .card-img-top {
-  min-height: 150px;
-  max-height: 150px;
+  min-height: 210px;
+  max-height: 210px;
+}
+
+.name{
+  min-height: 45px;
+  max-height: 45px;
+}
+
+.cert{
+  min-height: 45px;
+  max-height: 45px;
 }
 
 .course-title {

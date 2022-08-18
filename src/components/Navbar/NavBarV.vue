@@ -195,6 +195,7 @@ a:hover {
 }
 
 .v-navigation-drawer__content::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #5d5d5d;
   -webkit-box-shadow: inset 0 0 6px #5d5d5d;
   background-color: #5d5d5d;
 }
@@ -203,6 +204,7 @@ a:hover {
 }
 .v-navigation-drawer__content::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px #424242;
+  box-shadow: inset 0 0 6px #424242;
   background-color: #424242;
 }
 </style>

@@ -95,7 +95,7 @@
                         </v-img>
                       </v-avatar>
                       <p class="text-start flex-grow-1 text-capitalize"><strong>Certificado de {{this.$route.params.certificate.title}}</strong></p>
-                      <p class="">S/.{{JSON.parse(this.$route.params.certificate.data).certificate_price}}</p>
+                      <p class="">${{this.$route.params.finalPrice}}</p>
                     </div>
                   </div>
               </div>
@@ -110,12 +110,12 @@
           <p class="subt my-5 text-start"><strong>Resumen</strong></p>
           <div class="d-flex">
             <p class="text-start flex-grow-1">Precio original:</p>
-            <p class="">S/.{{JSON.parse(this.$route.params.certificate.data).certificate_price}}</p>
+            <p class="">${{this.$route.params.finalPrice}}</p>
           </div>
           <hr />
           <div class="d-flex">
             <p class="text-start flex-grow-1"><strong>Total:</strong></p>
-            <p class=""><strong>S/.{{JSON.parse(this.$route.params.certificate.data).certificate_price}}</strong></p>
+            <p class=""><strong>${{this.$route.params.finalPrice}}</strong></p>
           </div>
             <div>
                   <div  ref="paypal"  ></div>
@@ -170,7 +170,7 @@ export default {
                         description : this.$route.params.certificate.title,
                         amount: {
                           currency_code : "USD",
-                          value: JSON.parse(this.$route.params.certificate.data).certificate_price
+                          value: this.$route.params.finalPrice
                         }
                         }
                       ]
