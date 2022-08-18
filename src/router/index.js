@@ -8,6 +8,7 @@ import AttributeCourse from '../components/AttributeCourse/AttributeCourse.vue'
 
 import Courses from '../views/content/courses/Courses.vue'
 import Suscription from '../views/content/suscriptions/Suscriptions.vue'
+import ProductorCourses from '../views/content/productorCourses/ProductorCourses.vue'
 
 import Messages from '../views/content/message/Messages.vue'
 import CursoUser from '../views/content/course/Course.vue'
@@ -57,6 +58,7 @@ const routes = [
       { path: '/buy/:ide', name: 'buy', component: Buy },
       { path: '/buyCertificate', name: 'buyCertificate', component: BuyCertificate , props: true},
       { path: '/course/search/', name: 'search', component: Search },
+      { path: '/my-courses/', name: 'myCourses', component: ProductorCourses },
     ]
   },
 
