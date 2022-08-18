@@ -95,7 +95,7 @@
                         </v-img>
                       </v-avatar>
                       <p class="text-start flex-grow-1 text-capitalize"><strong>Certificado de {{this.$route.params.certificate.title}}</strong></p>
-                      <p class="">S/.{{this.$route.params.finalPrice}}</p>
+                      <p class="">${{this.$route.params.finalPrice}}</p>
                     </div>
                   </div>
               </div>
@@ -110,12 +110,12 @@
           <p class="subt my-5 text-start"><strong>Resumen</strong></p>
           <div class="d-flex">
             <p class="text-start flex-grow-1">Precio original:</p>
-            <p class="">S/.{{this.$route.params.finalPrice}}</p>
+            <p class="">${{this.$route.params.finalPrice}}</p>
           </div>
           <hr />
           <div class="d-flex">
             <p class="text-start flex-grow-1"><strong>Total:</strong></p>
-            <p class=""><strong>S/.{{this.$route.params.finalPrice}}</strong></p>
+            <p class=""><strong>${{this.$route.params.finalPrice}}</strong></p>
           </div>
             <div>
                   <div  ref="paypal"  ></div>

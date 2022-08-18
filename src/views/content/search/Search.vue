@@ -173,7 +173,7 @@
                         class="font-weight-bold mr-1"
                         :class="[$vuetify.breakpoint.xs && 'text-mobile']"
                       >
-                        S/.{{ course.price }}
+                        ${{ course.price }}
                       </div>
                       <div
                         class="text-decoration-line-through text--secondary"
@@ -181,7 +181,7 @@
                           $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
                         ]"
                       >
-                        S/.299.99
+                        $299.99
                       </div>
                     </div>
                   </div>

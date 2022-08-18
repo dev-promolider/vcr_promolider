@@ -63,14 +63,14 @@
                 v-if="course.price > 0"
                 style="color: white"
               >
-                S/. {{ course.price_with_discount }}
+                $ {{ course.price_with_discount }}
               </b>
               <del
                 class="text-left px-1"
                 v-if="course.price > 0"
                 style="color: white"
               >
-                S/. {{ course.price }}
+                $ {{ course.price }}
               </del>
               <br>
               <br>
@@ -100,14 +100,14 @@
                 v-if="calcDiscount(JSON.parse(course.data).certificate_price) > 0"
                 style="color: white"
               >
-                S/. {{ calcDiscount(JSON.parse(course.data).certificate_price) }}
+                $ {{ calcDiscount(JSON.parse(course.data).certificate_price) }}
               </b>
               <del
                 class="text-left px-1"
                 v-if="JSON.parse(course.data).certificate_price > 0"
                 style="color: white"
               >
-                S/. {{ JSON.parse(course.data).certificate_price }}
+                $ {{ JSON.parse(course.data).certificate_price }}
               </del>
               <br>
               <br>

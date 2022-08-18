@@ -95,7 +95,7 @@
                         </v-img>
                       </v-avatar>
                       <p class="text-start flex-grow-1 text-capitalize"><strong>{{itemCouse.title}}</strong></p>
-                      <p class="">S/.{{itemCouse.price_with_discount}}</p>
+                      <p class="">${{itemCouse.price_with_discount}}</p>
                     </div>
                   </div>
               </div>
@@ -110,12 +110,12 @@
           <p class="subt my-5 text-start"><strong>Resumen</strong></p>
           <div class="d-flex">
             <p class="text-start flex-grow-1">Precio original:</p>
-            <p class="">S/.{{itemCouse.price_with_discount}}</p>
+            <p class="">${{itemCouse.price_with_discount}}</p>
           </div>
           <hr />
           <div class="d-flex">
             <p class="text-start flex-grow-1"><strong>Total:</strong></p>
-            <p class=""><strong>S/.{{itemCouse.price_with_discount}}</strong></p>
+            <p class=""><strong>${{itemCouse.price_with_discount}}</strong></p>
           </div>
             <div>
                   <div  ref="paypal"  ></div>

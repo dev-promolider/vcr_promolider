@@ -53,7 +53,7 @@
             <!--<img v-if="this.precio == '' " width="25" :src="require('@/assets/free.png')" alt="">-->
             {{
               this.price_with_discount > 0
-                ? "Comprar ahora S/." + this.price_with_discount + ""
+                ? "Comprar ahora $" + this.price_with_discount + ""
                 : "Inscribete ahora"
             }}
           </button>
