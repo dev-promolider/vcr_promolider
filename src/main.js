@@ -22,8 +22,6 @@ const token = localStorage.getItem('access_token');
 
 
 axios.defaults.baseURL = 'http://crm.promolider.org/api/v1'
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-// axios.defaults.baseURL = 'http://415e-177-91-253-9.ngrok.io/promolider/public/api/v1'
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
