@@ -50,12 +50,19 @@
           ]"
         >
           <h3 class="text-center ma-7 pb-0 text-capitalize">
-            {{ datos.title }}
+            {{ datos.title }} 
           </h3>
+          
 
-          <v-chip color="black" text-color="white" v-if="time">
+          <v-chip color="black" text-color="white" v-if="examWithoutTime2">
             Time: {{ timeLeft }}
           </v-chip>
+
+          <v-chip color="black" text-color="white" v-if="examWithoutTime">
+            Examen sin tiempo
+          </v-chip>
+
+
         </div>
         <template v-if="isTimeActive">
           <div class="text-center">
@@ -232,6 +239,8 @@ export default {
       printTime: "",
       intervaltime: 0,
       time: 0,
+      examWithoutTime: false,
+      examWithoutTime2: true,
     };
   },
   computed: {
@@ -261,10 +270,16 @@ export default {
         this.questions = questions;
         this.splitQuestions(questions);
         this.isLoadingQuestions = false;
-        if (exam.time === null) {
-          this.isTimeActive = false;
-        } else {
+        if (exam.time === 59999940) {
+          this.isTimeActive = true;
+          this.examWithoutTime = true;
+          this.examWithoutTime2 = false;
           this.time = this.datos.time;
+        } else {
+          
+            this.time = this.datos.time;
+          
+          
           this.isTimeActive = true;
         }
       }
@@ -298,6 +313,8 @@ export default {
 
     async sendAnswers() {
       this.enviarText();
+
+      console.log(this.time);
 
       if (this.form.length < this.options.length) {
         return false;
