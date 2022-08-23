@@ -1,31 +1,37 @@
 <template>
   <div>
     <DashboardProducer v-if="producer" />
-    <DashboardStudent v-if="student" />
+    <!-- <DashboardStudent v-if="student" /> -->
+    <DashboardDistributor v-if="distributor" />
   </div>
 </template>
 <script>
 import DashboardProducer from "@/components/dashboard";
-import DashboardStudent from "@/components/Student/dashboard";
+// import DashboardStudent from "@/components/Student/dashboard";
+import DashboardDistributor from "@/components/Distributor/distributor";
 export default {
   name: "Dashboard",
   components: {
     DashboardProducer,
-    DashboardStudent,
+    // DashboardStudent,
+    DashboardDistributor,
   },
   data() {
     return {
       producer: false,
-      student: false,
+      distributor: false,
     };
   },
   created() {
     if (localStorage.getItem("rol_user") == 1) {
       this.producer = !this.producer;
+      console.log(this.producer)
     } else if (localStorage.getItem("rol_user") == 3) {
-      this.student = !this.student;
+      this.distributor = !this.distributor;
+      console.log(this.distributor)
     } else if (localStorage.getItem("rol_user") == 2) {
       this.producer = !this.producer;
+      console.log(this.distributor)
     }
   },
 };
