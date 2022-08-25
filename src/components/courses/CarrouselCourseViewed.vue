@@ -3,8 +3,8 @@
     v-if="lastCourses.length > 0"
     :class="lastCourses.length > 0 ? 'main-content' : 'main-none'"
   >
-    <h4 class="font-weight-bold">{{ username }}, continua aprendiendo:</h4>
-    <vue-horizontal class="horizontal">
+    <h4 class="font-weight-normal pl-2">{{ username }}, continua aprendiendo:</h4>
+    <vue-horizontal class="horizontal pl-1">
       <section class="m-3" v-for="course in lastCourses" :key="course.id">
         <Card :course="course" :cardType="3" />
       </section>

@@ -13,7 +13,7 @@
   >
     <div
       :class="[{ 'btn-play': cardType == 3 }]"
-      style="border-top-left-radius: 5px; border-top-right-radius: 5px"
+      style="border-top-left-radius: 15px; border-top-right-radius: 15px"
     >
       <img
         :src="course.url_portada"
@@ -48,7 +48,7 @@
 
           <div
             class="col-md-11  ml-1"
-            style="background: #5f5f60; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
+            style="background: #5f5f60; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
           >
              
               <p
@@ -85,7 +85,7 @@
 
           <div
             class="cert col-md-11  ml-1 mt-2"
-            style="background: #5f5f60; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
+            style="background: #5f5f60; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
           >
              
               <p
@@ -129,9 +129,10 @@
           <i class="far fa-star text-warning"></i>
         </div> -->
 
+
         <div
           class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
-          style="padding-top;0 px; padding-bottom: 0px"
+          style="padding-top;0 px; padding-bottom: 15px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
           v-if="cardType == 2"
         >
           <div class="row">
@@ -149,6 +150,7 @@
             </div>
           </div>
         </div>
+
 
         <div
           class="col-md-12 col-lg-12 col-sm-12 col-xs-12 ml-2"
@@ -288,8 +290,12 @@ export default {
 
 <style scoped>
 .border-radius-image {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.border-radius-2 {
+  border-bottom-left-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
 }
 .card-img-top {
   min-height: 210px;
@@ -327,7 +333,7 @@ export default {
 .course-card {
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-  border: 1px solid #e2e8f0;
+
   transition: 0.5s;
   max-width: 265px;
   min-width: 265px;
@@ -350,8 +356,10 @@ export default {
 }
 
 .content {
-  background: #f2f5fa;
+  background: #EBEBEC;
   transition: 1s;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .name {

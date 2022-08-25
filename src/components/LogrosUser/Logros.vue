@@ -14,7 +14,7 @@
           >
             <div v-if="logro.obtained == true">
               <div
-                class="card text-center justify-content-center obtained"
+                class="card text-center justify-content-center obtained bg-white"
                 :title="logro.description"
               >
                 <img

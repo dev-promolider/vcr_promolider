@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-light">
     <div v-if="paidFor">
       <div style="padding: 150px 0">
         <v-card class="elevation-0" color="transparent">
