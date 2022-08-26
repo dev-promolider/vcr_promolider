@@ -5,10 +5,10 @@
     style="
       align-items: normal;
       height: 100%;
-      min-height: 91.5vh;
+      min-height: 110.5vh;
       max-width: 100% !important;
     "
-    class="background-leaderboard pb-3 mt-5"
+    class="background-leaderboard "
   >
     <v-row>
       <div class="confetti">
@@ -525,5 +525,12 @@ body {
     background-color: #ffffff;
     border-radius: 10px !important;
   }
+}
+
+.v-sheet.v-card{
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+  border-bottom-left-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
 }
 </style>
