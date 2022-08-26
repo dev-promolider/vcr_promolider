@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Card from "@/components/courses/cards/index.vue";
+import Card from "@/components/courses/cards/marketplace.vue";
 
 export default {
   name: "CarrouselCourse",

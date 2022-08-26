@@ -17,17 +17,17 @@
 
         <div class="mb-4 ml-2" v-if="relatedCourses.length > 0 && !loading">
           <h3 class="mb-1 font-weight-normal">Más recientes</h3>
-          <CarrouselCourse :courses="relatedCourses" />
+          <CarrouselCourseMarketplace :courses="relatedCourses" />
         </div>
 
         <div class="mb-4 ml-2" v-if="courses.length > 0 && !loading">
           <h3 class="mb-2 font-weight-normal">Todos los cursos</h3>
-          <CarrouselCourse :courses="courses" />
+          <CarrouselCourseMarketplace :courses="courses" />
         </div>
 
         <div class="mb-4" v-if="interesCourses.length > 0 && !loading">
           <h3 class="m-0 font-weight-normal">Cursos de interés</h3>
-          <CarrouselCourse :courses="interesCourses" />
+          <CarrouselCourseMarketplace :courses="interesCourses" />
         </div>
 
         
@@ -37,13 +37,13 @@
 </template>
 
 <script>
-import CarrouselCourse from "@/components/courses/CarrouselCourse";
+import CarrouselCourseMarketplace from "@/components/courses/CarrouselCourseMarketplace";
 import loadingCourses from "@/components/courses/loadingCourses";
 import SectionTitle from "../Navbar/SectionTitle.vue";
 export default {
   name: "Courses",
   components: {
-    CarrouselCourse,
+    CarrouselCourseMarketplace,
     loadingCourses,
     SectionTitle,
   },
