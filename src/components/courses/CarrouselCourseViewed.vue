@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Card from "@/components/courses/cards";
+import Card from "@/components/courses/cards/index.vue";
 
 export default {
   name: "CarrouselCourseViewed",

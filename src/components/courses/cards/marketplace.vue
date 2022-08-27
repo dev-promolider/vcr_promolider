@@ -1,5 +1,5 @@
 <template>
-   <div
+  <div
     :title="course.title"
     class="course-card mb-5"
     v-if="course"
@@ -11,161 +11,50 @@
         : goToCourse(course.id)
     "
   >
-    <div
-      :class="[{ 'btn-play': cardType == 3 }]"
-      style="border-top-left-radius: 15px; border-top-right-radius: 15px"
-    >
-      <img
-        :src="course.url_portada"
-        class="card-img-top border-radius-image"
-        :class="[{ image: cardType == 3 }]"
-      />
-    </div>
 
-    <div class="content p-2">
-      <div class="row">
-        <div
-          class="col-md-12 col-lg-12 col-sm-12 col-xs-12 py-2 ml-2 content-overflow"
-        >
-          <p class="text-left text-capitalize course-title">
-            {{ course.title }}
-          </p>
+    <div class="tarjeta-cursos">
+      <img :src="course.url_portada" alt="no image" class="img-fluid img-cursos-portad">
+      <div class="text-primary-pl valoracion-curso">
+
+      <v-rating
+                style="display: inline"
+                color="warning"
+                hover
+                readonly
+                length="5"
+                size="15"
+                :value="parseFloat(course.ranking_by_user)"
+                half-increments
+              ></v-rating>
+      
+      </div>
+      <div class="fila-tarjeta bg-terciary-pl">
+        <div class="colum-tarjeta text-white">
+          <span class="descuento-tarjeta"> 30%</span>
         </div>
 
-        <div class="row pl-4" v-if="cardType == 1">
-
-          <div
-            class="name col-md-12 col-lg-12 col-sm-12 col-xs-12 ml-2"
-            
-          >
-         
-              <p class="text-left" v-if="cardType == 1" style="color: #5f5f60">
-                {{ course.name }}
-              </p>
-
-          </div>
-
-
-          <div
-            class="col-md-11  ml-1"
-            style="background: #5f5f60; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
-          >
-             
-              <p
-                class="text-left"
+        <p
+                class="fila-precio text-primary-pl"
                 v-if="course.price == 0"
-                style="color: white"
               >
                 <img src="@/assets/free.png" alt="" width="20" /> GRATIS
-              </p>
-              <b
-                class="text-left"
-                v-if="course.price > 0"
-                style="color: white"
-              >
-                $ {{ course.price_with_discount }}
-              </b>
-              <del
-                class="text-left px-1"
-                v-if="course.price > 0"
-                style="color: white"
-              >
-                $ {{ course.price }}
-              </del>
-              <br>
-              <br>
-              
-            </div>
-          
-        </div>
+        </p>
 
-        <div class="row pl-4" v-if="cardType == 4">
-
-          <div
-            class="cert col-md-11  ml-1 mt-2"
-            style="background: #5f5f60; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
-          >
-             
-              <p
-                class="text-left"
-                v-if="course.is_paid == 1"
-                style="color: white"
-              >
-                <img src="@/assets/free.png" alt="" width="20" /> Adquirido
-              </p>
-              <b
-                class="text-left"
-                v-if="calcDiscount(JSON.parse(course.data).certificate_price) > 0"
-                style="color: white"
-              >
-                $ {{ calcDiscount(JSON.parse(course.data).certificate_price) }}
-              </b>
-              <del
-                class="text-left px-1"
-                v-if="JSON.parse(course.data).certificate_price > 0"
-                style="color: white"
-              >
-                $ {{ JSON.parse(course.data).certificate_price }}
-              </del>
-              <br>
-              <br>
-              
-            </div>
-          
-        </div>
-
-        
-
-
-
-        <!-- <div class="d-flex stars" v-if="cardType == 1">
-          <h5 class="font-weight-bold text-warning puntuacion mr-2">3,5</h5>
-          <i class="fas fa-star text-warning"></i>
-          <i class="fas fa-star text-warning"></i>
-          <i class="fas fa-star text-warning"></i>
-          <i class="fas fa-star-half-alt text-warning"></i>
-          <i class="far fa-star text-warning"></i>
-        </div> -->
-
-
-        <div
-          class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
-          style="padding-top;0 px; padding-bottom: 15px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
-          v-if="cardType == 2"
-        >
-          <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-2">
-              <img
-                :src="course.photo"
-                class="rounded-circle"
-                style="height: 30px"
-              />
-            </div>
-            <div class="col-md-9 col-sm-9 col-xs-9 course-productor">
-              <p>
-                {{ course.name + " " + course.last_name }}
-              </p>
-            </div>
-          </div>
+        <div class="colum-tarjeta">
+          <div v-if="course.price > 0" class="fila-precio text-primary-pl">${{ course.price_with_discount.toFixed(2) }}</div>
+          <div v-if="course.price > 0" class="fila-precio-anterior text-white">${{ course.price.toFixed(2) }}</div>
         </div>
 
 
-        <div
-          class="col-md-12 col-lg-12 col-sm-12 col-xs-12 ml-2"
-          v-if="cardType == 3"
-        >
-          <div class="row" style="color: #464646">
-            <p class="text-left lesson-title px-3">
-              {{ course.last_class_reprod }}
-            </p>
-          </div>
-
+        <div class="colum-tarjeta">
+          <button class="btn bg-primary-pl">COMPRAR</button>
         </div>
       </div>
     </div>
+
+
+
   </div>
-
-
 </template>
 
 <script>
@@ -424,38 +313,39 @@ export default {
   text-overflow: ellipsis;
 }
 
+
 /* Colores de fondo promolíder */
 .bg-primary-pl {
   background-color: #1ae600;
 }
-
 .bg-secondary-pl {
   background-color: #35424a;
 }
-
 .bg-terciary-pl {
   background-color: #131b1e;
 }
-
 .bg-aux-pl {
   background-color: #e6e6e6;
 }
-
 /* Colores de texto promolíder */
 .text-primary-pl {
   color: #1ae600;
 }
-
 .text-secondary-pl {
   color: #35424a;
 }
-
 .text-terciary-pl {
   color: #131b1e;
 }
-.tarjeta-cursos {
+.tarjeta-cursos{
   width: 235px;
+
 }
+.img-cursos-portad{
+  border-radius: 10px 10px 0px 0px;
+  height: 154px;
+}
+
 .fila-tarjeta {
   display: flex;
   flex-direction: row;
@@ -478,6 +368,7 @@ export default {
   padding: 5px;
   font-weight: 600;
   text-align: right;
+  background-color:white;
 }
 .colum-tarjeta button {
   font-size: 14px;
@@ -493,6 +384,4 @@ export default {
   font-size: 14px;
   text-decoration-line: line-through;
 }
-
-
 </style>
