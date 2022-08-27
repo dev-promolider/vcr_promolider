@@ -18,8 +18,8 @@ main {
   padding-top: 0px !important;
 }
 .v-main__wrap {
-  background-image: url("../src/assets/water-background.webp");
-  background-size: 50%;
+  background-image: url("../src/assets/jovenes11.webp");
+  background-size: 100%;
   background-position-x: center;
   background-position-y: 50px;
   background-repeat: repeat-y;

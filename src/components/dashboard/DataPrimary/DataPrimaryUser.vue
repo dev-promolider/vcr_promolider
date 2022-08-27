@@ -1,5 +1,5 @@
 <template>
-  <div class="row text-center">
+  <div class="row text-center bg-white">
     <div class="col-md-3">
       <div v-if="loading" class="my-2">
         <v-progress-circular indeterminate color="green"></v-progress-circular>

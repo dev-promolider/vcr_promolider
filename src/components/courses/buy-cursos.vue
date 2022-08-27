@@ -1,11 +1,12 @@
 <template>
+<div class="bg-light">
   <div class="container-fluid">
     <!-- Primera sección -->
-    <div class="row my-5">
+    <div class="row py-5">
       <!-- Detalles del curso -->
       <div class="col-lg-4 col-md-12 pr-5 detailsCourse">
         <h3
-          class="mb-4 font-weight-bold title-course"
+          class="mb-4 font-weight-bold"
           :class="{ loader: !titulo, 'loader-titles': !titulo }"
         >
           {{ titulo }}
@@ -280,6 +281,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>

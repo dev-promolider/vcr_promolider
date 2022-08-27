@@ -16,38 +16,34 @@
         </div>
 
         <div class="mb-4 ml-2" v-if="relatedCourses.length > 0 && !loading">
-          <h3 class="mb-1 font-weight-bold">Más recientes</h3>
-          <CarrouselCourse :courses="relatedCourses" />
+          <h3 class="mb-1 font-weight-normal">Más recientes</h3>
+          <CarrouselCourseMarketplace :courses="relatedCourses" />
         </div>
 
         <div class="mb-4 ml-2" v-if="courses.length > 0 && !loading">
-          <h3 class="mb-2 font-weight-bold">Todos los cursos</h3>
-          <CarrouselCourse :courses="courses" />
+          <h3 class="mb-2 font-weight-normal">Todos los cursos</h3>
+          <CarrouselCourseMarketplace :courses="courses" />
         </div>
 
         <div class="mb-4" v-if="interesCourses.length > 0 && !loading">
-          <h3 class="m-0 font-weight-bold">Cursos de interés</h3>
-          <CarrouselCourse :courses="interesCourses" />
+          <h3 class="m-0 font-weight-normal">Cursos de interés</h3>
+          <CarrouselCourseMarketplace :courses="interesCourses" />
         </div>
 
-        <div v-if="this.coursView > 0 && !loading">
-          <CarrouselCourseViewed />
-        </div>
+        
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CarrouselCourse from "@/components/courses/CarrouselCourse";
-import CarrouselCourseViewed from "@/components/courses/CarrouselCourseViewed";
+import CarrouselCourseMarketplace from "@/components/courses/CarrouselCourseMarketplace";
 import loadingCourses from "@/components/courses/loadingCourses";
 import SectionTitle from "../Navbar/SectionTitle.vue";
 export default {
   name: "Courses",
   components: {
-    CarrouselCourseViewed,
-    CarrouselCourse,
+    CarrouselCourseMarketplace,
     loadingCourses,
     SectionTitle,
   },
@@ -148,17 +144,10 @@ export default {
       });
     },
 
-    mostrarAprendiendo() {
-      let datos = null;
-      this.axios.get("course/last-courses-rep").then((res) => {
-        datos = res.data.data;
-        this.coursView = datos.length;
-      });
-    },
+  
   },
   created() {
     this.getAttributes();
-    this.mostrarAprendiendo();
   },
 };
 </script>

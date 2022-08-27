@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="marco p-3">
+    <div class="marco p-3 bg-white">
       <div class="header d-flex justify-content-between mb-2">
         <p style="font-size: 1em">Ventas</p>
         <router-link
