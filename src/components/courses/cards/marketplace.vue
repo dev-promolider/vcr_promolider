@@ -13,7 +13,7 @@
   >
 
     <div class="tarjeta-cursos">
-      <img :src="course.url_portada" alt="no image">
+      <img :src="course.url_portada" alt="no image" class="img-fluid img-cursos-portad">
       <div class="text-primary-pl valoracion-curso">
 
       <v-rating
@@ -41,8 +41,8 @@
         </p>
 
         <div class="colum-tarjeta">
-          <div v-if="course.price > 0" class="fila-precio text-primary-pl">${{ course.price_with_discount }}</div>
-          <div v-if="course.price > 0" class="fila-precio-anterior text-white">${{ course.price }}</div>
+          <div v-if="course.price > 0" class="fila-precio text-primary-pl">${{ course.price_with_discount.toFixed(2) }}</div>
+          <div v-if="course.price > 0" class="fila-precio-anterior text-white">${{ course.price.toFixed(2) }}</div>
         </div>
 
 
@@ -337,9 +337,15 @@ export default {
 .text-terciary-pl {
   color: #131b1e;
 }
-.tarjeta-cursos {
+.tarjeta-cursos{
   width: 235px;
+
 }
+.img-cursos-portad{
+  border-radius: 10px 10px 0px 0px;
+  height: 154px;
+}
+
 .fila-tarjeta {
   display: flex;
   flex-direction: row;
@@ -362,6 +368,7 @@ export default {
   padding: 5px;
   font-weight: 600;
   text-align: right;
+  background-color:white;
 }
 .colum-tarjeta button {
   font-size: 14px;
