@@ -121,7 +121,7 @@
                     class="mx-1 success rounded-xl"
                     @click="goToExam(moduleExamen.course_exam.id)"
                   >
-                    {{ moduleExamen.course_exam.title }}
+                    {{ moduleExamen.course_exam.title }} 
                   </v-btn>
                 </v-col>
               </template>
@@ -296,7 +296,7 @@ export default {
 
       //Solicitar DinamicaActivas
       this.getActiveDinamicModule(this.$route.query.course);
-
+      
       // Enviando la ultima clase que esta visualizando
       let sendData = {
         course_id: this.$route.query.course,

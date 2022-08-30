@@ -17,17 +17,17 @@
 
         <div class="mb-4 ml-2" v-if="relatedCourses.length > 0 && !loading">
           <h3 class="mb-1 font-weight-normal">Más recientes</h3>
-          <CarrouselCourseMarketplace :courses="relatedCourses" />
+          <CarrouselCourseMarketplace :courses="relatedCourses"/>
         </div>
 
         <div class="mb-4 ml-2" v-if="courses.length > 0 && !loading">
           <h3 class="mb-2 font-weight-normal">Todos los cursos</h3>
-          <CarrouselCourseMarketplace :courses="courses" />
+          <CarrouselCourseMarketplace :courses="courses"/>
         </div>
 
         <div class="mb-4" v-if="interesCourses.length > 0 && !loading">
           <h3 class="m-0 font-weight-normal">Cursos de interés</h3>
-          <CarrouselCourseMarketplace :courses="interesCourses" />
+          <CarrouselCourseMarketplace :courses="interesCourses"/>
         </div>
 
         
@@ -70,8 +70,9 @@ export default {
       relatedCourses: [],
       prueba: [],
       notCourses: false,
-
       coursView: null,
+      certificateDisc: 0,
+      courseDisc: 0,
     };
   },
 
