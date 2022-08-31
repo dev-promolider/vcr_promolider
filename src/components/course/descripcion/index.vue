@@ -109,10 +109,7 @@
               <div v-if="dataEx">
                 <template
                   v-if="
-                    dataEx.data === 'No existe el examen' ||
-                    dataEx.data === 'limite de intentos alcanzado' ||
-                    dataEx.data === 'usted aprovo el examen'
-                  "
+                    dataEx.data === 'No existe el examen'"
                 >
                   <v-card-text class="h6 text-center text-white">
                     Ningún examen disponible
@@ -182,6 +179,37 @@
         </v-tabs-items>
       </v-card>
     </template>
+
+
+    <v-dialog
+        v-model="dialog"
+        width="500"
+      >
+        <v-card>
+          <v-card-title class="text-h5 lighten-2 alertTitle text-center text-white">
+            Aviso
+          </v-card-title>
+  
+          <v-card-text class="text-h6 text-center">
+            <br>{{this.alertMessage}}
+          </v-card-text>
+  
+          <v-divider></v-divider>
+  
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="#1ae800"
+              text
+              @click="dialog = false"
+            >
+              Aceptar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+
   </div>
 </template>
 
@@ -196,6 +224,9 @@ export default {
   name: "Descripcion",
   data() {
     return {
+      dialog: false,
+      componentKey: 0,
+      alertMessage: "",
       isActive: 1,
       open: false,
       picture: null,
@@ -267,7 +298,9 @@ export default {
           },
         });
       } else {
-        alert(this.dataEx.data);
+        //alert(this.dataEx.data);
+        this.alertMessage = this.dataEx.data;
+        this.dialog = true;
       }
     },
 
@@ -310,6 +343,10 @@ export default {
   watch: {
     async queryDinamic() {
       this.getActiveDinamics();
+    },
+
+    $route (){
+      this.tab= "Resumen";
     },
   },
   created() {
@@ -553,5 +590,12 @@ export default {
 }
 .spinner-border {
   margin: 20% 0 0 -20%;
+}
+.alertTitle {
+  background-color: #131b1e;
+}
+
+.alertText{
+  color:#1ae800;
 }
 </style>

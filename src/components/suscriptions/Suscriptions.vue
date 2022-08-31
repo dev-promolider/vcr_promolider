@@ -19,6 +19,12 @@
         <Card :course="item" :cardType="cardType" />
       </div>
     </div>
+
+  <div class="row mt-5 ml-1">
+    <div v-if="this.coursView > 0 && !loading">
+        <CarrouselCourseViewed />
+    </div>
+  </div>  
   </div>
 </template>
 
@@ -27,9 +33,11 @@ import Card from "@/components/courses/cards";
 import loadingCourses from "@/components/courses/loadingCourses";
 import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
 import SectionTitle from "../Navbar/SectionTitle.vue";
+import CarrouselCourseViewed from "@/components/courses/CarrouselCourseViewed";
 export default {
   name: "Suscription",
   components: {
+    CarrouselCourseViewed,
     loadingCourses,
     Card,
     SectionTitle,
@@ -41,6 +49,7 @@ export default {
       carita: true,
       caritas: false,
       cardType: 2,
+      coursView: null,
     };
   },
 
@@ -53,6 +62,14 @@ export default {
     ...mapActions("course", {
       getCourse: "getCourse",
     }),
+
+    mostrarAprendiendo() {
+      let datos = null;
+      this.axios.get("course/last-courses-rep").then((res) => {
+        datos = res.data.data;
+        this.coursView = datos.length;
+      });
+    },
 
     getAttributes() {
       this.axios.get("course/purchased-courses").then((datos) => {
@@ -69,6 +86,7 @@ export default {
 
   created() {
     this.getAttributes();
+    this.mostrarAprendiendo();
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div
+   <div
     :title="course.title"
     class="course-card mb-5"
     v-if="course"
@@ -13,7 +13,7 @@
   >
     <div
       :class="[{ 'btn-play': cardType == 3 }]"
-      style="border-top-left-radius: 5px; border-top-right-radius: 5px"
+      style="border-top-left-radius: 15px; border-top-right-radius: 15px"
     >
       <img
         :src="course.url_portada"
@@ -48,7 +48,7 @@
 
           <div
             class="col-md-11  ml-1"
-            style="background: #5f5f60; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
+            style="background: #5f5f60; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
           >
              
               <p
@@ -79,13 +79,11 @@
           
         </div>
 
-
-        
         <div class="row pl-4" v-if="cardType == 4">
 
           <div
             class="cert col-md-11  ml-1 mt-2"
-            style="background: #5f5f60; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px"
+            style="background: #5f5f60; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
           >
              
               <p
@@ -129,9 +127,10 @@
           <i class="far fa-star text-warning"></i>
         </div> -->
 
+
         <div
           class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
-          style="padding-top;0 px; padding-bottom: 0px"
+          style="padding-top;0 px; padding-bottom: 15px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px"
           v-if="cardType == 2"
         >
           <div class="row">
@@ -150,6 +149,7 @@
           </div>
         </div>
 
+
         <div
           class="col-md-12 col-lg-12 col-sm-12 col-xs-12 ml-2"
           v-if="cardType == 3"
@@ -159,10 +159,13 @@
               {{ course.last_class_reprod }}
             </p>
           </div>
+
         </div>
       </div>
     </div>
   </div>
+
+
 </template>
 
 <script>
@@ -288,8 +291,12 @@ export default {
 
 <style scoped>
 .border-radius-image {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.border-radius-2 {
+  border-bottom-left-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
 }
 .card-img-top {
   min-height: 210px;
@@ -327,7 +334,7 @@ export default {
 .course-card {
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-  border: 1px solid #e2e8f0;
+
   transition: 0.5s;
   max-width: 265px;
   min-width: 265px;
@@ -350,8 +357,10 @@ export default {
 }
 
 .content {
-  background: #f2f5fa;
+  background: #EBEBEC;
   transition: 1s;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .name {
@@ -414,4 +423,76 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Colores de fondo promolíder */
+.bg-primary-pl {
+  background-color: #1ae600;
+}
+
+.bg-secondary-pl {
+  background-color: #35424a;
+}
+
+.bg-terciary-pl {
+  background-color: #131b1e;
+}
+
+.bg-aux-pl {
+  background-color: #e6e6e6;
+}
+
+/* Colores de texto promolíder */
+.text-primary-pl {
+  color: #1ae600;
+}
+
+.text-secondary-pl {
+  color: #35424a;
+}
+
+.text-terciary-pl {
+  color: #131b1e;
+}
+.tarjeta-cursos {
+  width: 235px;
+}
+.fila-tarjeta {
+  display: flex;
+  flex-direction: row;
+  border-radius: 0px 0px 10px 10px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 0px;
+}
+.colum-tarjeta {
+  display: flex;
+  flex-direction: column;
+}
+.descuento-tarjeta {
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 9px 6px;
+  font-weight: 600;
+}
+.valoracion-curso {
+  padding: 5px;
+  font-weight: 600;
+  text-align: right;
+}
+.colum-tarjeta button {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 5px 5px;
+  border-radius: 8px;
+}
+.fila-precio {
+  font-size: 18px;
+  font-weight: 600;
+}
+.fila-precio-anterior {
+  font-size: 14px;
+  text-decoration-line: line-through;
+}
+
+
 </style>
