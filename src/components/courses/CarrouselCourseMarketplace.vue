@@ -2,7 +2,7 @@
   <main>
     <vue-horizontal>
       <section class="item" v-for="course in courses" :key="course.id">
-        <Card :course="course" :cardType="cardType" />
+        <Card :course="course" :cardType="cardType"/>
       </section>
     </vue-horizontal>
   </main>

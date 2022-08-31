@@ -30,7 +30,7 @@
       </div>
       <div class="fila-tarjeta bg-terciary-pl">
         <div class="colum-tarjeta text-white">
-          <span class="descuento-tarjeta"> 30%</span>
+          <span class="descuento-tarjeta"> %{{course.du}}</span>
         </div>
 
         <p

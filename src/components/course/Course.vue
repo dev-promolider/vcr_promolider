@@ -23,6 +23,12 @@
       </div>
       <div class="col-lg-4" style="background-color: #e8e9ea">
         <Temario></Temario>
+        <v-btn
+        depressed
+        color="#1ae800"
+        class="text-white ml-16"
+        >Invitar a otra persona
+        </v-btn>
         <Comentarios></Comentarios>
       </div>
     </div>
