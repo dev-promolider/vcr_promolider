@@ -332,8 +332,8 @@ export default {
   text-overflow: ellipsis;
 }
 .course-card {
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 
   transition: 0.5s;
   max-width: 265px;
@@ -347,8 +347,8 @@ export default {
 
 .image {
   min-height: 150px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
