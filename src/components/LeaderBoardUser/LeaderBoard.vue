@@ -28,7 +28,7 @@
             color="#23b121c2"
             class="text-center"
             width="100%"
-            v-if="secondPlace"
+            v-if="secondPlace.name != 'noName'"
             :max-width="$vuetify.breakpoint.xs ? 110 : 250"
             :height="$vuetify.breakpoint.xs ? 200 : 360"
             min-width="120"
@@ -104,7 +104,7 @@
             color="#23b121c2"
             class="text-center"
             width="100%"
-            v-if="thirdPlace"
+            v-if="thirdPlace.name != 'noName'"
             :max-width="$vuetify.breakpoint.xs ? 110 : 250"
             :height="$vuetify.breakpoint.xs ? 180 : 300"
           >
