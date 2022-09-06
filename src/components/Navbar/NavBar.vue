@@ -114,12 +114,12 @@
         </template>
 
         <v-list three-line max-width="400px" class="scroll">
-          <v-subheader style="font-size: 1.3rem; font-weight: 600"
+          <v-subheader style="font-size: 1.1rem; font-weight: 600"
             >Notificaciones</v-subheader
           >
           <v-divider class="my-1"></v-divider>
           <v-card-title class="py-1" v-if="items.length === 0 && !isLoading">
-            <span class="text-center subtitle text--secondary"
+            <span class="text-center subtitle text--secondary" style="font-size: 1.0rem; font-weight: 600"
               >No existen notificaciones</span
             >
           </v-card-title>
@@ -131,16 +131,16 @@
               <v-list-item-content>
                 <v-list-item-title
                   v-html="item.title"
-                  style="color: #4b4b4c"
+                  style="color: #4b4b4c; font-size: 0.9rem"
                   class="font-weight-bold"
                 ></v-list-item-title>
                 <v-list-item-subtitle
-                  style="color: #676767"
+                  style="color: #676767 ; font-size: 0.8rem"
                   v-html="item.subtitle"
                 ></v-list-item-subtitle>
                 <v-list-item-subtitle
                   ><timeago
-                    style="color: #4b4b4c; font-weight: bold"
+                    style="color: #4b4b4c; font-weight: bold ; font-size: 0.9rem"
                     :datetime="item.created_at"
                     :auto-update="60"
                   ></timeago
