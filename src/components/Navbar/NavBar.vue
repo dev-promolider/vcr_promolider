@@ -83,14 +83,20 @@
       </v-tooltip>
 
       <!-- Certificado  -->
-      <v-tooltip bottom v-if="stateCertificate" v-model="dialogCertificate">
-        <template v-slot:activator="{ on }">
-          <v-btn x-large icon v-bind="attrs" v-on="on">
-            <v-icon size="20" style="color: #1ae800">mdi-school</v-icon>
-          </v-btn>
-        </template>
-        <span>Ya puede adquirir su certificado</span>
-      </v-tooltip>
+      <template v-if="showCertificateIcon">
+        <v-tooltip bottom v-if="stateCertificate" v-model="dialogCertificate">
+          <template v-slot:activator="{ on }">
+            <v-btn v-if="certificateBought" x-large icon v-bind="attrs" v-on="on">
+              <v-icon size="20" style="color: #1ae800">mdi-school</v-icon>
+            </v-btn>
+            <v-btn v-else x-large icon v-bind="attrs" v-on="on"  @click="buy()">
+              <v-icon size="20" style="color: #1ae800">mdi-school</v-icon>
+            </v-btn>
+          </template>
+          <span v-if="certificateBought">Su certificado ya fue adquirido</span>
+          <span v-else>Ya puede adquirir su certificado</span>
+        </v-tooltip>
+      </template>
 
       <!--Notificaciones -->
       <v-menu style="z-index: 201" left bottom>
@@ -108,12 +114,12 @@
         </template>
 
         <v-list three-line max-width="400px" class="scroll">
-          <v-subheader style="font-size: 1.3rem; font-weight: 600"
+          <v-subheader style="font-size: 1.1rem; font-weight: 600"
             >Notificaciones</v-subheader
           >
           <v-divider class="my-1"></v-divider>
           <v-card-title class="py-1" v-if="items.length === 0 && !isLoading">
-            <span class="text-center subtitle text--secondary"
+            <span class="text-center subtitle text--secondary" style="font-size: 1.0rem; font-weight: 600"
               >No existen notificaciones</span
             >
           </v-card-title>
@@ -125,16 +131,16 @@
               <v-list-item-content>
                 <v-list-item-title
                   v-html="item.title"
-                  style="color: #4b4b4c"
+                  style="color: #4b4b4c; font-size: 0.9rem"
                   class="font-weight-bold"
                 ></v-list-item-title>
                 <v-list-item-subtitle
-                  style="color: #676767"
+                  style="color: #676767 ; font-size: 0.8rem"
                   v-html="item.subtitle"
                 ></v-list-item-subtitle>
                 <v-list-item-subtitle
                   ><timeago
-                    style="color: #4b4b4c; font-weight: bold"
+                    style="color: #4b4b4c; font-weight: bold ; font-size: 0.9rem"
                     :datetime="item.created_at"
                     :auto-update="60"
                   ></timeago
@@ -253,6 +259,13 @@ export default {
       ],
       items: [],
       certificate: null,
+      certificateData: {
+        data:{},
+      },
+      course: [],
+      finalPrice: null,
+      certificateBought: false,
+      showCertificateIcon: false,
     };
   },
   computed: {
@@ -290,6 +303,24 @@ export default {
     async getpoints() {
       await this.getPoints(localStorage.getItem("id_user"));
       this.showPointsExam = true;
+    },
+    async buy(){
+      console.log(this.certificate)
+      this.$router.push({
+          name: 'buyCertificate',
+          params: {
+          certificate: this.certificate.id_course,
+          finalPrice: this.finalPrice,
+          course: this.course,
+          },
+        });
+    },
+    async calcDiscount(price){
+      await this.axios.get("/course/certificate-discount").then((datos) => {
+        this.certificateDisc = datos.data;
+      })
+      var disc = price*(this.certificateDisc/100);
+      return price-disc;
     },
     optionAction(action, link) {
       if (action === "closeSesion") {
@@ -349,7 +380,7 @@ export default {
           this.stateCertificate = false;
           return;
         }
-
+        
         const { data } = await this.axios.get(
           `/course/certificate/check/${course}`
         );
@@ -360,7 +391,23 @@ export default {
           );
           const { certificate } = data[0];
           this.certificate = certificate;
-          this.stateCertificate = data;
+          this.stateCertificate = data; //modal para mostrar el certificado
+          await this.axios.get("/course/certificate/" + this.stateCertificate[0].id_course).then((response) => {
+            this.certificate = response.data[0];
+            if(this.certificate.is_paid == 1){
+              this.certificateBought = true;
+            }
+            this.showCertificateIcon = true;
+          }); 
+          await this.axios.get("/course/certificate/data").then((response) => {
+//corregir dato estatico en controlador
+            this.certificateData = response.data[0];
+          });
+          await this.axios.get("/course/details/1").then((response) => {
+            this.course = response;
+          });
+          this.finalPrice = await this.calcDiscount(this.certificateData.data.certificate_price);
+
         } else {
           this.stateCertificate = false;
         }
