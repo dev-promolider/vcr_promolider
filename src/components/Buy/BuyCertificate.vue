@@ -96,17 +96,18 @@
                 <div class="col-md-12">
                   <p class="subt text-start my-5">
                     <strong>Resumen del pedido</strong>
+                    <!-- {{this.$route.params.course.data.data[0].title}} -->
                   </p>
                   <div class="d-flex align-items-center">
                     <v-avatar rounded="0" class="mr-5">
-                      <v-img :src="this.$route.params.certificate.url_portada">
+                      <v-img :src="this.$route.params.course.data.data[0].url_portada">
                       </v-img>
                     </v-avatar>
                     <p class="text-start flex-grow-1 text-capitalize">
                       <strong
                         >Certificado de
-                        {{ this.$route.params.certificate.title }}</strong
-                      >
+                        {{ this.$route.params.course.data.data[0].title }}
+                        </strong>
                     </p>
                     <p class="">${{ this.$route.params.finalPrice }}</p>
                   </div>
@@ -184,7 +185,7 @@ export default {
             });
           },
           onApprove: (data, actions) => {
-            const id = this.$route.params.certificate.id;
+            const id = this.$route.params.certificate;
             const axios = this.axios;
             this.paidFor = true;
 
