@@ -18,7 +18,7 @@ main {
   padding-top: 0px !important;
 }
 .v-main__wrap {
-  background-image: url("../src/assets/jovenes11.webp");
+  /* background-image: url("../src/assets/jovenes11.webp"); */
   background-size: 100%;
   background-position-x: center;
   background-position-y: 50px;
