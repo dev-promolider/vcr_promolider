@@ -68,7 +68,7 @@
       >
     </b-form>
 
-    <div class="row text-center mt-5 justify-content-center mb-3 items">
+    <!-- <div class="row text-center mt-5 justify-content-center mb-3 items">
       <div class="col-2">
         <a
           href="https://www.facebook.com/Promolider-101670701715747"
@@ -103,7 +103,7 @@
           <img src="@/views/auth/icons/youtube-icon.png" />
         </a>
       </div>
-    </div>
+    </div> -->
 
     <div class="text-center">
       <h5 style="font-size: 0.7em; color: #989898">
