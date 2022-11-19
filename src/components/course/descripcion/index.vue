@@ -106,11 +106,15 @@
               rounded="xl"
               tag="div"
             >
-              <div v-if="dataEx">
-                <template
-                  v-if="
-                    dataEx.data === 'No existe el examen'"
-                >
+              <div
+                v-if="
+                  dataEx &&
+                  rate && // 👈 null and undefined check
+                  Object.keys(rate).length === 0 &&
+                  Object.getPrototypeOf(rate) === Object.prototype
+                "
+              >
+                <template v-if="dataEx.data === 'No existe el examen'">
                   <v-card-text class="h6 text-center text-white">
                     Ningún examen disponible
                   </v-card-text>
@@ -123,6 +127,29 @@
                     </button>
                   </p>
                 </div>
+              </div>
+              <div v-if="rate" class="p-5">
+                <v-card outlined>
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <div class="text-overline mb-4">{{ rate.title }}</div>
+                      <v-list-item-title class="text-h5 mb-1">
+                        Profesor: {{ rate.teacher }}
+                      </v-list-item-title>
+                      <v-list-item-subtitle
+                        >Obtuviste {{ rate.calification }}/{{
+                          rate.max_score
+                        }}</v-list-item-subtitle
+                      >
+                    </v-list-item-content>
+
+                    <v-list-item-avatar tile size="80" color="grey">
+                      <v-img
+                        src="https://yt3.ggpht.com/jl9Lin83wZ7kryTb27dDLNSh_pc3COoAmiWMXoE7-cCz0k74XD4YcZYDGuq3LK8D15WpLZFnwYc=s900-c-k-c0x00ffffff-no-rj"
+                      ></v-img>
+                    </v-list-item-avatar>
+                  </v-list-item>
+                </v-card>
               </div>
             </v-card>
 
@@ -180,36 +207,26 @@
       </v-card>
     </template>
 
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title
+          class="text-h5 lighten-2 alertTitle text-center text-white"
+        >
+          Aviso
+        </v-card-title>
 
-    <v-dialog
-        v-model="dialog"
-        width="500"
-      >
-        <v-card>
-          <v-card-title class="text-h5 lighten-2 alertTitle text-center text-white">
-            Aviso
-          </v-card-title>
-  
-          <v-card-text class="text-h6 text-center">
-            <br>{{this.alertMessage}}
-          </v-card-text>
-  
-          <v-divider></v-divider>
-  
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="#1ae800"
-              text
-              @click="dialog = false"
-            >
-              Aceptar
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+        <v-card-text class="text-h6 text-center">
+          <br />{{ this.alertMessage }}
+        </v-card-text>
 
+        <v-divider></v-divider>
 
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="#1ae800" text @click="dialog = false"> Aceptar </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -218,12 +235,19 @@ import { mapState, mapActions } from "vuex";
 import Valoraciones from "@/components/course/comentarios/valoraciones.vue";
 
 export default {
+  props: {
+    id_lesson: {
+      type: Number,
+      required: true,
+    },
+  },
   components: {
     Valoraciones,
   },
   name: "Descripcion",
   data() {
     return {
+      rate: {},
       dialog: false,
       componentKey: 0,
       alertMessage: "",
@@ -253,6 +277,23 @@ export default {
     },
   },
   methods: {
+    getRateExam: async function () {
+      try {
+        let userId = localStorage.getItem("id_user");
+        let lessonId = this.lesson.id;
+        // el lesson id aparecia siempre indefinido a menos que lo imprima o lo use en algun lado tuve que usar props para asegurar el flujo
+        let form = { lesson_id: lessonId, user_id: userId };
+        const { data } = await this.axios.post(
+          `course/exam/calification`,
+          form
+        );
+        this.rate = data;
+      } catch (error) {
+        console.log(error);
+      }
+      //
+    },
+
     ...mapActions("course", {
       getResources: "getResources",
       /* getTest: "getTest", */
@@ -345,8 +386,8 @@ export default {
       this.getActiveDinamics();
     },
 
-    $route (){
-      this.tab= "Resumen";
+    $route() {
+      this.tab = "Resumen";
     },
   },
   created() {
@@ -355,6 +396,7 @@ export default {
   mounted() {
     this.isLoadingDinamic = true;
     this.getActiveDinamics();
+    this.getRateExam();
   },
 };
 </script>
@@ -595,7 +637,7 @@ export default {
   background-color: #131b1e;
 }
 
-.alertText{
-  color:#1ae800;
+.alertText {
+  color: #1ae800;
 }
 </style>

@@ -18,7 +18,7 @@
         <!-- <DatosCurso></DatosCurso> -->
 
         <div class="mt-3">
-          <Descripcion></Descripcion>
+          <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
         </div>
       </div>
       <div class="col-lg-4" style="background-color: #e8e9ea">
@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       error: false,
+      lessonId: "",
     };
   },
   components: {
@@ -85,6 +86,8 @@ export default {
       this.axios
         .get(`class/show-class?name=${this.$route.query.class}`)
         .then((res) => {
+          let lessonId = res.data[0].id;
+          this.lessonId = lessonId;
           this.getLesson(res.data[0]);
           this.getVideo(res.data[0].id);
           this.getComments(res.data[0].id);
