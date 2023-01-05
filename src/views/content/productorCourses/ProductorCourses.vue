@@ -5,8 +5,10 @@
       <div class="col-md-12 col-sm-12">
         <div v-if="notCourses" class="mb-4">
           <h3 class="m-0 font-weight-bold">Cursos</h3>
-          <div class="no-result sad-face">
-            <span>Lo sentimos, aún no hay cursos disponibles.</span>
+          <div class="text-center">
+            <div class="no-result sad-face">
+            </div>
+            <span>Lo sentimos, aún no hay cursos disponibles.</span>  
           </div>
         </div>
 
@@ -17,6 +19,7 @@
         <div class="mb-4 ml-2" v-if="data.length > 0 && !loading">
           <!-- <h3 class="mb-1 font-weight-bold">Más recientes</h3> -->
           <CarrouselCourse :courses="data" />
+          <CarrouselCourseMarketplace :courses="data"/>
         </div>
       </div>
     </div>
@@ -24,6 +27,7 @@
 </template>
 <script>
 import CarrouselCourse from "@/components/courses/CarrouselCourse"
+import CarrouselCourseMarketplace from "@/components/courses/CarrouselCourseMarketplace";
 import loadingCourses from "@/components/courses/loadingCourses";
 import SectionTitle from "@/components/Navbar/SectionTitle.vue";
 export default {
@@ -38,6 +42,7 @@ export default {
         CarrouselCourse,
         loadingCourses,
         SectionTitle,
+        CarrouselCourseMarketplace,
     },
     mounted(){
         this.getData()
@@ -45,7 +50,11 @@ export default {
     methods:{
         async getData(){
             await this.axios.get('/course/list-actives/producer').then((response) => {
+              if(response.data.data.length == 0){
+                this.notCourses = true
+              }else{
                 this.data = response.data.data;
+              }
             });
             this.loading = false
         }

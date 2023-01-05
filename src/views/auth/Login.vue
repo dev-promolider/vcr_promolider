@@ -5,7 +5,7 @@
         class="col-md-7 col-lg-8 col-sm-6"
         style="max-width: 100%; height: 105vh; padding: 0px"
       >
-        <!-- <Form-Welcome /> -->
+        <Form-Welcome />
       </div>
       <!-- class="col-md-4 offset-md-4 col-xs-4 offset-xs-4 col-sm-6 offset-sm-3 mt-5 p-4 " -->
       <div
@@ -19,12 +19,12 @@
 </template>
 <script>
 import FormLogin from "@/components/auth/FormUser/FormLogin.vue";
-// import FormWelcome from "@/components/auth/FormUser/FormWelcome.vue";
+import FormWelcome from "@/components/auth/FormUser/FormWelcome.vue";
 export default {
   name: "Login",
   components: {
     FormLogin,
-    // FormWelcome,
+    FormWelcome,
   },
   methods: {},
 };

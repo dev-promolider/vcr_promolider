@@ -20,15 +20,15 @@
           <CarrouselCourseMarketplace :courses="relatedCourses"/>
         </div>
 
-        <div class="mb-4 ml-2" v-if="courses.length > 0 && !loading">
+        <div class="mb-4 ml-2" v-if="!loading">
           <h3 class="mb-2 font-weight-normal">Todos los cursos</h3>
           <CarrouselCourseMarketplace :courses="courses"/>
         </div>
 
-        <div class="mb-4" v-if="interesCourses.length > 0 && !loading">
+        <!-- <div class="mb-4" v-if="!loading">
           <h3 class="m-0 font-weight-normal">Cursos de interés</h3>
           <CarrouselCourseMarketplace :courses="interesCourses"/>
-        </div>
+        </div> -->
 
         
       </div>
@@ -81,18 +81,18 @@ export default {
       // await this.axios.get("course/last-courses-rep").then((datos) => {
       //   this.lastCourses = this.filterCourseInactive(datos.data.data);
       // });
+      await this.axios.get("course/released-courses").then((datos) => {
+        this.relatedCourses = datos.data.data;
+      });
 
       await this.axios.get("course/related-courses").then((datos) => {
-        this.courses = this.filterCourseInactive(datos.data.data);
+        this.courses = datos.data.data;
       });
 
       await this.axios.get("course/interesting-courses").then((datos) => {
-        this.interesCourses = this.filterCourseInactive(datos.data.data);
+        this.interesCourses = datos.data.data;
       });
 
-      await this.axios.get("course/released-courses").then((datos) => {
-        this.relatedCourses = this.filterCourseInactive(datos.data.data);
-      });
 
       this.loading = false;
 

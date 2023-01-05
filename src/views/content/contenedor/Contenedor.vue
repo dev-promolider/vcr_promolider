@@ -124,7 +124,7 @@ export default {
   max-height: 100%;
   flex-direction: column;
 }
-@media screen and(max-width: 1024px) {
+@media screen and (max-width: 1024px) {
   .sidebar-mobile {
     position: absolute;
     z-index: 32;

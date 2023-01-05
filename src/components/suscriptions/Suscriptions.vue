@@ -6,8 +6,9 @@
       <div class="col-md-12" v-if="loading">
         <loadingCourses />
       </div>
-
-      <div class="no-result sad-face" v-if="caritas">
+      <div class="text-center m-auto">
+        <div class="no-result sad-face" v-if="caritas">
+        </div>
         <span>Sin resultados</span>
       </div>
 

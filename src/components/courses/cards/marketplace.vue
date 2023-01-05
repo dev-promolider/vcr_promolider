@@ -41,8 +41,8 @@
         </p>
 
         <div class="colum-tarjeta">
-          <div v-if="course.price > 0" class="fila-precio text-primary-pl">${{ course.price_with_discount.toFixed(2) }}</div>
-          <div v-if="course.price > 0" class="fila-precio-anterior text-white">${{ course.price.toFixed(2) }}</div>
+          <div v-if="course.price > 0" class="fila-precio text-primary-pl">${{ course.price_with_discount }}</div>
+          <div v-if="course.price > 0" class="fila-precio-anterior text-white">${{ course.price }}</div>
         </div>
 
 
