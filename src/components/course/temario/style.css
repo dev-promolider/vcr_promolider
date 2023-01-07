@@ -80,6 +80,12 @@ input[type="checkbox"]:checked {
 .activo {
   font-weight: bold !important;
   pointer-events: none;
+  background-color: #1ae800;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 5px;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 .progressBar {
   font-size: 12px;
