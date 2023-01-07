@@ -6,13 +6,13 @@
       <div class="col-md-12" v-if="loading">
         <loadingCourses />
       </div>
-      <div class="text-center m-auto">
-        <div class="no-result sad-face" v-if="caritas">
+      <div v-if="caritas" class="text-center m-auto">
+        <div class="no-result sad-face">
+          <span>Sin resultados</span>
         </div>
-        <span>Sin resultados</span>
       </div>
 
-      <div
+      <div v-else
         class="col-md-4 col-lg-3 col-sm-6 col-xs-12 px-5"
         v-for="(item, index) in informacion"
         :key="index"
@@ -21,11 +21,11 @@
       </div>
     </div>
 
-  <div class="row mt-5 ml-1">
-    <div v-if="this.coursView > 0 && !loading">
-        <CarrouselCourseViewed />
-    </div>
-  </div>  
+    <!-- <div class="row mt-5 ml-1">
+      <div v-if="this.coursView > 0 && !loading">
+          <CarrouselCourseViewed />
+      </div>
+    </div>   -->
   </div>
 </template>
 
@@ -34,11 +34,11 @@ import Card from "@/components/courses/cards";
 import loadingCourses from "@/components/courses/loadingCourses";
 import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
 import SectionTitle from "../Navbar/SectionTitle.vue";
-import CarrouselCourseViewed from "@/components/courses/CarrouselCourseViewed";
+// import CarrouselCourseViewed from "@/components/courses/CarrouselCourseViewed";
 export default {
   name: "Suscription",
   components: {
-    CarrouselCourseViewed,
+    // CarrouselCourseViewed,
     loadingCourses,
     Card,
     SectionTitle,
@@ -47,7 +47,7 @@ export default {
     return {
       informacion: [],
       loading: true,
-      carita: true,
+      carita: false,
       caritas: false,
       cardType: 2,
       coursView: null,
@@ -76,9 +76,10 @@ export default {
       this.axios.get("course/purchased-courses").then((datos) => {
         this.loading = false;
         this.informacion = datos.data.data;
+        console.log(this.informacion)
 
         if (this.informacion.length == 0) {
-          this.carita = false;
+          this.carita = true;
           this.caritas = true;
         }
       });
@@ -87,7 +88,7 @@ export default {
 
   created() {
     this.getAttributes();
-    this.mostrarAprendiendo();
+    // this.mostrarAprendiendo();
   },
 };
 </script>
