@@ -8,8 +8,8 @@
       </div>
       <div v-if="caritas" class="text-center m-auto">
         <div class="no-result sad-face">
-          <span>Sin resultados</span>
         </div>
+        <span>Sin resultados</span>
       </div>
 
       <div v-else
