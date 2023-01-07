@@ -5,11 +5,12 @@
     <!-- <div class="col-md-12 text-center mt-5"  >
       <h2 class="col-12">Sin resultados</h2>
     </div> -->
-
-    <div
-      class="no-result sad-face"
-      v-if="informacion.length == 0 && this.spin == false"
-    >
+    <div class="text-center">
+      <div
+        class="no-result sad-face"
+        v-if="informacion.length == 0 && this.spin == false"
+      >
+      </div>
       <span>Sin resultados</span>
     </div>
 
