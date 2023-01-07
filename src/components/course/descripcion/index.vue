@@ -263,7 +263,7 @@ export default {
         { tab: "Recursos" },
         { tab: "Examen" },
         { tab: "Dinámicas" },
-        { tab: "Valoraciones" },
+        // { tab: "Valoraciones" },
       ],
       stateDinamic: true,
       idDinamicGame: [],
