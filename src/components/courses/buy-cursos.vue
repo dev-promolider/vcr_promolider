@@ -22,16 +22,6 @@
           </li>
           <li
             class="my-1"
-            :class="{
-              loader: !fecha_creacion,
-              'loader-text-small': !fecha_creacion,
-            }"
-          >
-            <i class="fas fa-calendar-alt mr-3"></i><strong>Publicado:</strong>
-            {{ fecha_creacion }}
-          </li>
-          <li
-            class="my-1"
             :class="{ loader: !categoria, 'loader-text-small': !categoria }"
           >
             <i class="fas fa-bezier-curve mr-2"></i><strong>Categoría:</strong>
