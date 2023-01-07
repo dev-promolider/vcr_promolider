@@ -6,6 +6,9 @@
 
     <div class="row" style="margin-left: 1px">
       <div class="col-lg-8" style="margin-top: 30px">
+        <div class="pb-1">
+          <strong>{{ this.courseInfo.title }}</strong>
+        </div>
         <Video v-if="renderVideo"></Video>
 
         <div v-else class="center-spinner">
@@ -49,6 +52,7 @@ export default {
     return {
       error: false,
       lessonId: "",
+      courseInfo: [],
     };
   },
   components: {
@@ -80,7 +84,11 @@ export default {
       "DESTROY_PROGRESS",
       "CLEAR_ALL_DATA",
     ]),
-
+    async getCourseInfo(){
+      await this.axios.get('course/details/' + this.$route.query.course).then((response) => {
+        this.courseInfo = response.data.data[0]
+      })
+    },
     // Leccion activa al momento de renderizar el componente
     activeLesson() {
       this.axios
@@ -97,6 +105,9 @@ export default {
           this.getActiveDinamicModule(this.$route.query.course);
         });
     },
+  },
+  mounted() {
+    this.getCourseInfo();
   },
   created() {
     this.activeLesson();
