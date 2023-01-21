@@ -276,10 +276,7 @@ export default {
           this.examWithoutTime2 = false;
           this.time = this.datos.time;
         } else {
-          
-            this.time = this.datos.time;
-          
-          
+          this.time = this.datos.time;
           this.isTimeActive = true;
         }
       }
@@ -313,8 +310,6 @@ export default {
 
     async sendAnswers() {
       this.enviarText();
-
-      console.log(this.time);
 
       if (this.form.length < this.options.length) {
         return false;

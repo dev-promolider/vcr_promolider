@@ -296,7 +296,7 @@ export default {
 
     ...mapActions("course", {
       getResources: "getResources",
-      /* getTest: "getTest", */
+      getTest: "getTest",
       getLesson: "getLesson",
       getActiveDinamicClass: "getActiveDinamicClass",
     }),
@@ -384,6 +384,9 @@ export default {
   watch: {
     async queryDinamic() {
       this.getActiveDinamics();
+      this.getTest();
+      this.getRateExam();
+      // this.getResources();
     },
 
     $route() {

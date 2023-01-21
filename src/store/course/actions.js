@@ -257,7 +257,6 @@ export const sendAnswersExamen = async ( _ , { id_exam , answers , course_id , s
     
     try {
         const resp = await axios.post("course/exam/answers", { id_exam, answers, course_id ,seconds_used })
-
         return { ok: true , resp }
 
     } catch (error) {
