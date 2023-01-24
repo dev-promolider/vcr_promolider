@@ -66,7 +66,7 @@
         </div>
         <template v-if="isTimeActive">
           <div class="text-center">
-            <v-btn color="warning" @click="startExam">Empezar</v-btn>
+            <v-btn color="#1ae800" @click="startExam">Empezar</v-btn>
           </div>
         </template>
         <template v-if="!isTimeActive">
@@ -309,6 +309,11 @@ export default {
     },
 
     async sendAnswers() {
+      var course_id = +this.$route.query.course;
+      if(course_id == undefined){
+        course_id = this.$route.query.id
+      }
+
       this.enviarText();
 
       if (this.form.length < this.options.length) {

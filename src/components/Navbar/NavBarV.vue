@@ -113,14 +113,11 @@ export default {
       role: null,
       listNavBar: [
         { nombre: "Inicio", icon: "home", path: "home" },
-        { nombre: "Mi Aprendizaje", icon: "book", path: "suscription-user" },
-        { nombre: "Mis Cursos", icon: "book-check", path: "myCourses" },
+        { nombre: "Mi aprendizaje", icon: "book", path: "suscription-user" },
+        { nombre: "Mis cursos", icon: "book-check", path: "myCourses" },
         { nombre: "Marketplace", icon: "store", path: "courses" },
-        {
-          nombre: "Mis Certificaciones",
-          icon: "school",
-          path: "certificado-user",
-        },
+        { nombre: "Mis exámenes", icon: "school", path: "examenes"},
+        { nombre: "Mis certificaciones", icon: "school", path: "examenes"},
         { nombre: "Mensajes", icon: "message-processing", path: "messages" },
         { nombre: "Logros", icon: "trophy", path: "logros" },
         { nombre: "Clasificación", icon: "star", path: "leaderBoard" },
