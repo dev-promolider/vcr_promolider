@@ -327,7 +327,12 @@ export default {
           };
         });
     },
-
+    getExam(){
+      this.getTest({
+          exam_type: "class",
+          id_type: this.lesson.id,
+        });
+    },
     Testing() {
       if (isNaN(this.dataEx.data) == false) {
         this.$router.push({
@@ -384,7 +389,7 @@ export default {
   watch: {
     async queryDinamic() {
       this.getActiveDinamics();
-      this.getTest();
+      this.getExam();
       this.getRateExam();
       // this.getResources();
     },

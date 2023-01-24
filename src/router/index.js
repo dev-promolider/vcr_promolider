@@ -20,6 +20,7 @@ const detalleCertificado = () => import('../components/Certificado/detalleCertif
 const pruebasCourse = () => import('../components/course/descripcion/pruebas/pruebasCourse.vue')
 const DinamicClass = () => import('../components/course/descripcion/dinamics/view/DinamicClass.vue')
 const logrosUser = () => import('../components/LogrosUser/Logros.vue')
+const examenes = () => import('../components/examenes/examenes.vue')
 
 const preguntasFrecuentes = () => import('../components/preguntasFrecuentes')
 const leaderBoard = () => import('../components/LeaderBoardUser/LeaderBoard.vue')
@@ -60,6 +61,7 @@ const routes = [
       { path: '/buyCertificate', name: 'buyCertificate', component: BuyCertificate, props: true },
       { path: '/course/search/', name: 'search', component: Search },
       { path: '/my-courses/', name: 'myCourses', component: ProductorCourses },
+      { path: '/examenes/', name: 'examenes', component: examenes },
     ]
   },
 
