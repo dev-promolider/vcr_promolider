@@ -100,16 +100,16 @@
                   </p>
                   <div class="d-flex align-items-center">
                     <v-avatar rounded="0" class="mr-5">
-                      <v-img :src="this.$route.params.course.data.data[0].url_portada">
+                      <v-img :src="this.certificate.url_portada">
                       </v-img>
                     </v-avatar>
                     <p class="text-start flex-grow-1 text-capitalize">
                       <strong
                         >Certificado de
-                        {{ this.$route.params.course.data.data[0].title }}
+                        {{ this.certificate.title }}
                         </strong>
                     </p>
-                    <p class="">${{ this.$route.params.finalPrice }}</p>
+                    <p class="">${{ finalPrice }}</p>
                   </div>
                 </div>
               </div>
@@ -121,13 +121,13 @@
           <p class="subt my-5 text-start"><strong>Resumen</strong></p>
           <div class="d-flex">
             <p class="text-start flex-grow-1">Precio original:</p>
-            <p class="">${{ this.$route.params.finalPrice }}</p>
+            <p class="">${{ certificatePrice }}</p>
           </div>
           <hr />
           <div class="d-flex">
             <p class="text-start flex-grow-1"><strong>Total:</strong></p>
             <p class="">
-              <strong>${{ this.$route.params.finalPrice }}</strong>
+              <strong>${{ finalPrice }}</strong>
             </p>
           </div>
           <div>
@@ -157,10 +157,32 @@ export default {
       states: [],
       loaded: false,
       paidFor: false,
+      certificate: [],
+      certificateDisc: 0,
+      finalPrice: 0,
+      certificatePrice: 0,
     };
   },
 
   methods: {
+    getCertificate() {
+      this.axios.get(`/course/certificate/data?course_id=${this.$route.params.courseId}`).then((datos) => {
+        this.certificate = datos.data
+        this.certificatePrice = datos.data.data.certificate_price
+      });
+    },
+    getDiscount() {
+      this.spin = true;
+      this.axios.get("/course/certificate-discount").then((datos) => {
+        this.certificateDisc = datos.data;
+        this.calcDiscount(this.certificate.data.certificate_price)
+      });
+    },
+
+    calcDiscount(price){
+      var disc = price*(this.certificateDisc/100);
+      this.finalPrice = price-disc;
+    },
     setLoaded() {
       window.paypal
         .Buttons({
@@ -175,17 +197,17 @@ export default {
             return actions.order.create({
               purchase_units: [
                 {
-                  description: this.$route.params.certificate.title,
+                  description: this.certificate.title,
                   amount: {
                     currency_code: "USD",
-                    value: this.$route.params.finalPrice,
+                    value: this.finalPrice,
                   },
                 },
               ],
             });
           },
           onApprove: (data, actions) => {
-            const id = this.$route.params.certificate;
+            const id = this.certificate.id;
             const axios = this.axios;
             this.paidFor = true;
 
@@ -215,10 +237,11 @@ export default {
     this.getCountries();
   },
   mounted() {
+    this.getCertificate();
+    this.getDiscount();
     const script = document.createElement("script");
     // script.src ="https://www.paypal.com/sdk/js?client-id=AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz&components=buttons"
-    const client_id =
-      "AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz";
+    const client_id = "AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz";
     script.src = `https://www.paypal.com/sdk/js?client-id=${client_id}&components=buttons`;
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);

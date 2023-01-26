@@ -37,8 +37,11 @@ export default {
       idCourse: this.$route.query.course,
     };
   },
+  props:{
+    courseId: String,
+    classId: Number
+  },
   mounted() {
-    console.log(this.timeReady);
     window.addEventListener('unload', this.someMethod);
     this.playerOptions = {
       responsive: true,
@@ -96,9 +99,13 @@ export default {
     playerStateChanged() {},
 
     // Función para inciar la reproducción
-    playerReadied(player) {
+    async playerReadied(player) {
       //  Iniciamos la reproducción en el tiempo que el usuario se quedo
-      player.currentTime(this.timeReady);
+      // player.currentTime(this.timeReady);
+      await this.axios.get(`/purchased/get-time?courseId=${this.courseId}&classId=${this.classId}`).then((response) => {
+        this.timeReprod = response.data.time
+      })
+      player.currentTime(this.timeReprod);
     },
 
     // Función para actualizar el tiempo de reproduccion de la clase
