@@ -58,7 +58,7 @@ const routes = [
       { path: '/preguntas-frecuentes', name: 'preguntas-frecuentes', component: preguntasFrecuentes },
       { path: '/leaderBoard', name: 'leaderBoard', component: leaderBoard },
       { path: '/buy/:ide', name: 'buy', component: Buy },
-      { path: '/buyCertificate', name: 'buyCertificate', component: BuyCertificate, props: true },
+      { path: '/buyCertificate/:courseId', name: 'buyCertificate', component: BuyCertificate, props: true },
       { path: '/course/search/', name: 'search', component: Search },
       { path: '/my-courses/', name: 'myCourses', component: ProductorCourses },
       { path: '/examenes/', name: 'examenes', component: examenes },

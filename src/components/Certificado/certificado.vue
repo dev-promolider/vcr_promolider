@@ -5,11 +5,8 @@
     <!-- <div class="col-md-12 text-center mt-5"  >
       <h2 class="col-12">Sin resultados</h2>
     </div> -->
-    <div class="text-center">
-      <div
-        class="no-result sad-face"
-        v-if="informacion.length == 0 && this.spin == false"
-      >
+    <div class="text-center" v-if="informacion.length == 0 && this.spin == false">
+      <div class="no-result sad-face">
       </div>
       <span>Sin resultados</span>
     </div>
@@ -133,12 +130,12 @@ export default {
       }else{
 
         this.finalPrice = this.calcDiscount(JSON.parse(certificate.data).certificate_price);
-
         this.$router.push({
           name: 'buyCertificate',
           params: {
-          certificate: {...certificate},
-          finalPrice: this.finalPrice
+          // certificate: {...certificate},
+          // finalPrice: this.finalPrice
+          courseId: certificate.id
           },
         });
       }

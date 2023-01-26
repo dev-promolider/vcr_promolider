@@ -9,7 +9,7 @@
         <div class="pb-1">
           <strong>{{ this.courseInfo.title }}</strong>
         </div>
-        <Video v-if="renderVideo"></Video>
+        <Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>
 
         <div v-else class="center-spinner">
           <b-spinner
