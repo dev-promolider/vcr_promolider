@@ -18,7 +18,7 @@
 
         <div class="mb-4 ml-2" v-if="data.length > 0 && !loading">
           <!-- <h3 class="mb-1 font-weight-bold">Más recientes</h3> -->
-          <CarrouselCourse :courses="data" />
+          <!-- <CarrouselCourse :courses="data" /> -->
           <CarrouselCourseMarketplace :courses="data"/>
         </div>
       </div>
@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import CarrouselCourse from "@/components/courses/CarrouselCourse"
+// import CarrouselCourse from "@/components/courses/CarrouselCourse"
 import CarrouselCourseMarketplace from "@/components/courses/CarrouselCourseMarketplace";
 import loadingCourses from "@/components/courses/loadingCourses";
 import SectionTitle from "@/components/Navbar/SectionTitle.vue";
@@ -39,7 +39,7 @@ export default {
         }
     },
     components: {
-        CarrouselCourse,
+        // CarrouselCourse,
         loadingCourses,
         SectionTitle,
         CarrouselCourseMarketplace,

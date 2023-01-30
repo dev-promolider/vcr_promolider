@@ -28,7 +28,7 @@
             {{ categoria }}
           </li>
         </ul>
-        <div>
+        <div v-if="!isOwner">
           <button
             v-if="this.courseFilter == false"
             class="btn-custom"
@@ -316,6 +316,7 @@ export default {
       isDetailsLoading: false,
       courseFilter: null,
       imgProductor: null,
+      isOwner: false,
     };
   },
   components: {
@@ -369,9 +370,9 @@ export default {
       // API para obtener los detalles
       this.axios.get("course/details/" + this.pao_id).then((datos) => {
         this.items = datos.data.data[0];
-
         this.precio = this.items.price;
         this.price_with_discount = this.items.price_with_discount;
+        this.isOwner = this.items.owner;
 
         // Obtenemos el nivel del curso
         switch (this.items.course_level_id) {
