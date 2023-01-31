@@ -1,8 +1,9 @@
 <template>
+  
   <div style="min-height: 700px">
     <section-title title="Ajustes de perfil" />
     <v-row class="p-3">
-      <v-col cols="4" sm="9" md="4">
+      <v-col cols="12" sm="9" md="4">
         <v-card elevation="2">
           <v-card
             elevation="0"
@@ -58,7 +59,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="8" sm="12" md="8">
+      <v-col cols="12" sm="12" md="8">
         <v-card elevation="2">
           <v-tabs
             show-arrows
