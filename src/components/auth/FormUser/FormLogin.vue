@@ -66,6 +66,9 @@
       <b-button class="submit-iniciar rounded-pill mb-5" type="submit" block
         >Ingresar</b-button
       >
+      <v-btn text color="#1ae800" class="mr-4" @click="dialog2 = true">
+        ¿Olvidaste tu contraseña?
+      </v-btn>
     </b-form>
 
     <!-- <div class="row text-center mt-5 justify-content-center mb-3 items">
@@ -111,6 +114,41 @@
         Promolíder
       </h5>
     </div>
+    <v-dialog v-model="dialog2" width="500">
+        <v-card>
+            <v-card-title class="text-h5 grey lighten-2">
+                <div>Recuperar contraseña</div>
+                <v-spacer></v-spacer>
+                <v-btn color="#1ae800" class="mr-4" @click="dialog2 = false">
+                    x
+                </v-btn>
+            </v-card-title>
+
+            <v-card-text class="mt-6">
+                <v-form ref="form3" v-model="valid3" lazy-validation>
+                    <div class="row">
+                        <div class="col">
+                            <p>Enviaremos un correo con sus credenciales, ingrese su correo en la siguiente casilla</p>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <v-text-field outlined v-model="form3.email" label="Correo" required typeof="email" type="email"></v-text-field>
+                        </div>
+                    </div>
+                </v-form>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="#1ae800" @click="sendEmail"> Aceptar </v-btn>
+                <v-btn color="#1ae800" @click="dialog2 = false"> Cancelar </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -125,6 +163,9 @@ export default {
         password: null,
       },
       year: "",
+      dialog2: false,
+      valid3: true,
+      form3: {},
     };
   },
   props: {},
@@ -139,6 +180,26 @@ export default {
 
     setYear() {
       this.year = new Date().getFullYear();
+    },
+
+    async sendEmail() {
+        try {
+            const {
+                status
+            } = await this.axios.post(
+                "/public/sendRecoveryEmail",
+                this.form3
+            );
+            if (status == 200) {
+                this.dialog2 = false;
+                alert("Se ha enviado el correo de recuperacion!");
+            } else {
+                this.dialog2 = false;
+                alert("Ha ocurrido un error!");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     },
   },
   computed: {

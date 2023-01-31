@@ -28,6 +28,7 @@ const optionPreference = () => import('../views/content/optionpreferences/Option
 const Buy = () => import('../views/content/buy/buy.vue')
 const BuyCertificate = () => import('../views/content/buy/buyCertificate.vue')
 const Search = () => import('../views/content/search/Search.vue')
+const PasswordRecovery = () => import('../views/content/passwordRecovery/index.vue')
 
 // import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
 // import Suscription from '../components/suscription/suscription.vue'
@@ -68,6 +69,7 @@ const routes = [
 
   { path: '/login', name: 'Login', component: Login },
   { path: '/attribute', name: 'attribute', component: AttributeVenta },
+  { path: '/contrasena', name: 'passwordrecovery', component: PasswordRecovery },
   // { path: '/preferences', name: 'Preferences', component: PreferencesCateg, meta: { autenticado: true } },
 
 ]
