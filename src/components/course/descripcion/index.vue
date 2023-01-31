@@ -50,7 +50,14 @@
                       :key="index"
                       style="background-color: #131b1e"
                     >
-                      <div class="d-flex justify-content-between text-white">
+                        <div class="d-flex justify-content-between text-white">
+                              <button @click="download(resource)">
+                                {{ index + 1 }})
+                                  <i class="fas fa-download"></i>
+                                    {{resource.filename}}
+                              </button>
+                        </div>
+                      <!-- <div class="d-flex justify-content-between text-white">
                         <div>
                           {{ index + 1 }})
                           <a
@@ -61,6 +68,7 @@
                             {{ getNameResource(resource.resource_file) }}
                           </a>
                         </div>
+                        
                         <div>
                           <a href="#modal" class="open">
                             <button
@@ -71,10 +79,10 @@
                             </button></a
                           >
                         </div>
-                      </div>
+                      </div> -->
                     </li>
 
-                    <div class="modal" id="modal">
+                    <!-- <div class="modal" id="modal">
                       <a href="#" class="modal-bg"></a>
                       <div class="modal-content">
                         <a href="#" class="modal-exit">x</a>
@@ -92,7 +100,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </ul>
                 </v-card-text>
               </div>
@@ -227,6 +235,22 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      color="#1ae800"
+    >
+      <p class="text-dark m-0 p-0">Su archivo se está descargando...</p>
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="#000"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          x
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -268,6 +292,7 @@ export default {
       stateDinamic: true,
       idDinamicGame: [],
       isLoadingDinamic: false,
+      snackbar: false,
     };
   },
   computed: {
@@ -304,29 +329,48 @@ export default {
     changeTab(el) {
       this.isActive = el;
     },
-    /* ---------------------------------- */
-    preView(resource) {
-      this.mostrar = !this.mostrar;
+    download(resource) {
+      this.snackbar = true;
       this.carga = true;
       this.axios
         .get(`class-resource/download-resource?id=${resource.id}`, {
           responseType: "blob",
         })
-        .then((res) => {
-          this.carga = false;
-          let FILE = window.URL.createObjectURL(res.data);
-          this.picture = FILE;
-
-          document.getElementById("button").onclick = function () {
-            var docUrl = document.createElement("a");
-            // Generamos un link de descarga
-            docUrl.href = FILE;
-            docUrl.setAttribute("download", `${resource.resource_file}`);
-            document.body.appendChild(docUrl);
-            docUrl.click();
-          };
+        .then((response) => {
+          console.log("ok")
+          const url = window.URL
+              .createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', resource.filename);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link)
         });
     },
+    /* ---------------------------------- */
+    // preView(resource) {
+    //   this.mostrar = !this.mostrar;
+    //   this.carga = true;
+    //   this.axios
+    //     .get(`class-resource/download-resource?id=${resource.id}`, {
+    //       responseType: "blob",
+    //     })
+    //     .then((res) => {
+    //       this.carga = false;
+    //       let FILE = window.URL.createObjectURL(res.data);
+    //       this.picture = FILE;
+
+    //       document.getElementById("button").onclick = function () {
+    //         var docUrl = document.createElement("a");
+    //         // Generamos un link de descarga
+    //         docUrl.href = FILE;
+    //         docUrl.setAttribute("download", `${resource.resource_file}`);
+    //         document.body.appendChild(docUrl);
+    //         docUrl.click();
+    //       };
+    //     });
+    // },
     getExam(){
       this.getTest({
           exam_type: "class",
