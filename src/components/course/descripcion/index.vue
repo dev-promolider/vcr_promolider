@@ -136,7 +136,7 @@
                   </p>
                 </div>
               </div>
-              <div v-if="rate" class="p-5">
+              <!-- <div v-if="rate" class="p-5">
                 <v-card outlined>
                   <v-list-item three-line>
                     <v-list-item-content>
@@ -158,7 +158,7 @@
                     </v-list-item-avatar>
                   </v-list-item>
                 </v-card>
-              </div>
+              </div> -->
             </v-card>
 
             <!-- Dinámicas -->
@@ -302,22 +302,22 @@ export default {
     },
   },
   methods: {
-    getRateExam: async function () {
-      try {
-        let userId = localStorage.getItem("id_user");
-        let lessonId = this.lesson.id;
-        // el lesson id aparecia siempre indefinido a menos que lo imprima o lo use en algun lado tuve que usar props para asegurar el flujo
-        let form = { lesson_id: lessonId, user_id: userId };
-        const { data } = await this.axios.post(
-          `course/exam/calification`,
-          form
-        );
-        this.rate = data;
-      } catch (error) {
-        console.log(error);
-      }
-      //
-    },
+    // getRateExam: async function () {
+    //   try {
+    //     let userId = localStorage.getItem("id_user");
+    //     let lessonId = this.lesson.id;
+    //     // el lesson id aparecia siempre indefinido a menos que lo imprima o lo use en algun lado tuve que usar props para asegurar el flujo
+    //     let form = { lesson_id: lessonId, user_id: userId };
+    //     const { data } = await this.axios.post(
+    //       `course/exam/calification`,
+    //       form
+    //     );
+    //     this.rate = data;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    //   //
+    // },
 
     ...mapActions("course", {
       getResources: "getResources",
@@ -434,7 +434,7 @@ export default {
     async queryDinamic() {
       this.getActiveDinamics();
       this.getExam();
-      this.getRateExam();
+      // this.getRateExam();
       // this.getResources();
     },
 
@@ -448,7 +448,7 @@ export default {
   mounted() {
     this.isLoadingDinamic = true;
     this.getActiveDinamics();
-    this.getRateExam();
+    // this.getRateExam();
   },
 };
 </script>
