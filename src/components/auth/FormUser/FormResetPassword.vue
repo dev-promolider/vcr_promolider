@@ -98,18 +98,20 @@
                 return true;
             },
             async login() {
+                console.log(this.form)
                 if(this.validateFields()){
                 try {
                     const {
                         status
-                    } = await this.$axios.post(
+                    } = await this.axios.post(
                         "/public/recoveryPassword",
                         this.form
                     );
+                    console.log(status)
                     if (status === 200) {
     
                         alert('La contraseña ha sido reestablecida correctamente');
-                        this.$router.push("/iniciar-sesion");
+                        this.$router.push("/login");
                     }
                 } catch (error) {
                     console.log(error);
