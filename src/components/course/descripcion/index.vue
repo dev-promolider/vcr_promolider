@@ -12,6 +12,14 @@
           <v-tab v-for="item in items" :key="item.tab">
             {{ item.tab }}
           </v-tab>
+          <v-tooltip right>
+              <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="#1ae800" elevation="10" large rounded v-bind="attrs" v-on="on">
+                      Días restantes del curso: {{date.daysUntil}}
+                  </v-btn>
+              </template>
+              <span>Fecha de inicio: {{date.fechaInicio}}<br>Fecha de finalización: {{date.fechaVencimiento}}</span>
+          </v-tooltip>
         </v-tabs>
 
         <v-tabs-items v-model="tab" style="background-color: #f2f5fa">
@@ -293,6 +301,7 @@ export default {
       idDinamicGame: [],
       isLoadingDinamic: false,
       snackbar: false,
+      date: [],
     };
   },
   computed: {
@@ -302,6 +311,11 @@ export default {
     },
   },
   methods: {
+    async expirationDate(){
+      this.axios.get(`/course/expiration-date?course_id=${this.$route.query.course}`).then((r) => {
+        this.date = r.data;
+      })
+    },
     // getRateExam: async function () {
     //   try {
     //     let userId = localStorage.getItem("id_user");
@@ -448,6 +462,7 @@ export default {
   mounted() {
     this.isLoadingDinamic = true;
     this.getActiveDinamics();
+    this.expirationDate();
     // this.getRateExam();
   },
 };
