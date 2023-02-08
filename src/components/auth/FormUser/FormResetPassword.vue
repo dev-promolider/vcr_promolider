@@ -98,26 +98,13 @@
                 return true;
             },
             async login() {
-                console.log(this.form)
                 if(this.validateFields()){
-                try {
-                    const {
-                        status
-                    } = await this.axios.post(
-                        "/public/recoveryPassword",
-                        this.form
-                    );
-                    console.log(status)
-                    if (status === 200) {
-    
-                        alert('La contraseña ha sido reestablecida correctamente');
-                        this.$router.push("/login");
-                    }
-                } catch (error) {
-                    console.log(error);
-                    this.showAlert();
-                    alert('ocurrió un problema, puede que los datos ingresados no sean los correctos');
-                }
+                    await this.axios.post("/public/recoveryPassword", this.form).then((r) => {
+                        alert(r.data);
+                        if(r.data == "Contraseña actualizada satisfactoriamente"){
+                            this.$router.push("/login");
+                        }
+                    })
                 }
             },
             ...mapActions("user", {
