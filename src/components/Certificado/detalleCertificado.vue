@@ -20,9 +20,9 @@
                     </div>
                 </div>
            </div>
-           <div class="row justify-content-center" >
+           <!-- <div class="row justify-content-center" >
                 <button class="btn btn-outline-success mb-2 mt-5" @click="createPDF" >Descargar certificado</button>
-           </div>
+           </div> -->
         </div>
     </div>
 </template>

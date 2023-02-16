@@ -1,6 +1,6 @@
 <template>
   <div style="min-height: 100vh">
-    <section-title title="Mis certificados" />
+    <!-- <section-title title="Mis certificados" /> -->
 
     <!-- <div class="col-md-12 text-center mt-5"  >
       <h2 class="col-12">Sin resultados</h2>
@@ -11,19 +11,40 @@
       <span>Sin resultados</span>
     </div>
 
-    <div class="container" v-if="muestro">
-      <div class="row">
-          <div
-            class="col col-lg-4"
-            v-for="(item, index) in informacion"
-            :key="index"
-          >
-            <Card
-              :course="item"
-              :cardType="cardType"
-              @selectedCertificate="escoger"
-            />
+    <div v-if="congratulationsPending" class="row" style="min-height: 80vh;">
+      <div class="col-12 col-md-6 d-flex align-items-center">
+        <div class="px-5">
+          <img :src="congratulationCertificateUrl" alt="" class="img-thumbnail">
+        </div>
+      </div>
+      <div class="col-12 col-md-6 d-flex align-items-center">
+        <div class="px-5">
+          <div>
+            <img src="@/assets/promolider.png" alt="">
           </div>
+          <div class="h1"><strong>¡Felicidades!</strong></div>
+          <p style="word-break: normal;">En Promolíder, sabemos el esfuerzo y dedicación que puso
+            para alcanzar este gran objetivo. Por ello, nos sentimos emocionados y estamos muy orgullosos de usted.</p>
+        </div>
+      </div>
+      
+    </div>
+
+    <div v-else>
+      <div class="container" v-if="muestro">
+        <div class="row">
+            <div
+              class="col col-lg-4"
+              v-for="(item, index) in informacion"
+              :key="index"
+            >
+              <Card
+                :course="item"
+                :cardType="cardType"
+                @selectedCertificate="escoger"
+              />
+            </div>
+        </div>
       </div>
     </div>
 
@@ -35,32 +56,32 @@
       </div>
     </div>
 
-    <div class="container" v-if="mostrar">
-      <Detalles :certificate="certificate" />
-
-      <button
+    <div class="container pt-5 mt-5 mx-auto" v-if="mostrar">
+      <!-- <Detalles :certificate="certificate" /> -->
+      <img :src="certificate.certificate_path" alt="" class="img-fluid">
+      <!-- <button
         type="button"
         class="btn btn-outline-success mb-2 mt-5"
         @click="cerrar()"
       >
         Escoger otro certificado
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
 
 <script>
-import Detalles from "@/components/Certificado/detalleCertificado.vue";
+// import Detalles from "@/components/Certificado/detalleCertificado.vue";
 import Card from "@/components/courses/cards";
-import SectionTitle from "../Navbar/SectionTitle.vue";
+// import SectionTitle from "../Navbar/SectionTitle.vue";
 
 export default {
   name: "VirtualClassroomCertificado",
 
   components: {
-    Detalles,
+    // Detalles,
     Card,
-    SectionTitle,
+    // SectionTitle,
   },
   data() {
     return {
@@ -72,6 +93,8 @@ export default {
       certificate: {},
       certificateDisc: 0,
       finalPrice : 0,
+      congratulationsPending: false,
+      congratulationCertificateUrl: "",
     };
   },
 
@@ -83,7 +106,9 @@ export default {
       this.axios
         .get("/course/certificate-list")
         .then((datos) => {
-          this.informacion = datos.data;
+          this.informacion = datos.data.Certificate;
+          this.congratulationsPending = datos.data.congratulation;
+          this.congratulationCertificateUrl = datos.data.congratulation_certificate_url;
           this.spin = false;
         })
         .catch(() => {
@@ -108,7 +133,7 @@ export default {
 
     getCertificate(id) {
       this.axios.get("/course/certificate/" + id).then((datos) => {
-        this.certificate = datos.data[0];
+        this.certificate = datos.data.Certificate;
 
         this.spin = false;
         this.mostrar = true;
