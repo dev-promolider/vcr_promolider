@@ -389,24 +389,18 @@ export default {
           const { data } = await this.axios.get(
             `/course/certificate/${course}`
           );
-          const { certificate } = data[0];
-          this.certificate = certificate;
-          this.stateCertificate = data; //modal para mostrar el certificado
-          await this.axios.get("/course/certificate/" + this.stateCertificate[0].id_course).then((response) => {
-            this.certificate = response.data[0];
-            if(this.certificate.is_paid == 1){
+          if(data.is_paid == 1){
               this.certificateBought = true;
-            }
-            this.showCertificateIcon = true;
-          }); 
-          await this.axios.get("/course/certificate/data").then((response) => {
-//corregir dato estatico en controlador
-            this.certificateData = response.data[0];
-          });
-          await this.axios.get("/course/details/1").then((response) => {
-            this.course = response;
-          });
-          this.finalPrice = await this.calcDiscount(this.certificateData.data.certificate_price);
+          }
+          this.showCertificateIcon = true;
+//           this.axios.get("/course/certificate/data").then((response) => {
+// //corregir dato estatico en controlador
+//             this.certificateData = response.data[0];
+//           });
+//           await this.axios.get("/course/details/1").then((response) => {
+//             this.course = response;
+//           });
+//           this.finalPrice = await this.calcDiscount(this.certificateData.data.certificate_price);
 
         } else {
           this.stateCertificate = false;
