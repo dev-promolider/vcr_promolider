@@ -1,5 +1,8 @@
 <template>
   <div class="background pb-5">
+    <div v-if="$route.params.mode == 'preview'" class="bg-danger text-white py-1 ajuste z-index-2 px-4">
+      Usted se encuentra en un entorno de pre-visualización
+    </div>
     <div v-if="error" class="no-result center-element">
       <span>Lo sentimos se produjo un error</span>
     </div>
@@ -9,7 +12,7 @@
         <div class="pb-1">
           <strong>{{ this.courseInfo.title }}</strong>
         </div>
-        <Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>
+        <Video v-if="rendrVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>
 
         <div v-else class="center-spinner">
           <b-spinner
