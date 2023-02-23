@@ -439,7 +439,7 @@ export default {
     this.getAttributes();
     // Obtenemos el temario del curso
     this.getCourse(this.$route.params.ide);
-
+  
     this.FilterBtn();
   },
 };
