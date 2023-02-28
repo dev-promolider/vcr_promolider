@@ -50,13 +50,13 @@ export const lastSeenLesson = async ( _ , { course_id, class_id } ) => {
 
 
 // Recibimos las clases completadas de un determinado curso
-export const getCompletedLessons = async (context, id) => {
-    await axios.get(`purchased/show?course_id=${id}`).then(
-        (res) => {
-            context.commit("SET_COMPLETED_LESSONS", res.data)
-        }
-    );
-}
+// export const getCompletedLessons = async (context, id) => {
+//     await axios.get(`purchased/show?course_id=${id}`).then(
+//         (res) => {
+//             context.commit("SET_COMPLETED_LESSONS", res.data)
+//         }
+//     );
+// }
 
 
 // Obtenemos los recursos de una clase
