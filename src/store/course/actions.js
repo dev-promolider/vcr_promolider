@@ -73,6 +73,7 @@ export const getResources = async (context, less) => {
 export const getVideo = async (context, classId) => {
     await axios.get(`video/stream-video?class_id=${classId}`).then(
         (res) => {
+            console.log(res.data)
             const data = res.data;
             context.commit('SET_VIDEO', data);
         }
