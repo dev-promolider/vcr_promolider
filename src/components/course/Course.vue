@@ -13,7 +13,7 @@
           <strong>{{ this.courseInfo.title }}</strong>
         </div>
 
-        <Video v-if="rendrVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>
+        <Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>
 
         <!-- <div v-else class="center-spinner">
           <b-spinner
