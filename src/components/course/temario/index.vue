@@ -338,7 +338,7 @@ export default {
     this.getCourse(this.$route.query.course);
 
     // Recibiendo las clases completadas del curso
-    this.getCompletedLessons(this.$route.query.course);
+    // this.getCompletedLessons(this.$route.query.course);
   },
   updated() {
     // Actualizando la barra de progreso
