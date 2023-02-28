@@ -12,15 +12,16 @@
         <div class="pb-1">
           <strong>{{ this.courseInfo.title }}</strong>
         </div>
-        <Video v-if="rendrVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>
 
-        <div v-else class="center-spinner">
+        <Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>
+
+        <!-- <div v-else class="center-spinner">
           <b-spinner
             style="width: 3rem; height: 3rem"
             variant="secondary"
             label="Large Spinner"
           ></b-spinner>
-        </div>
+        </div> -->
         <!-- <DatosCurso></DatosCurso> -->
 
         <div class="mt-3">
