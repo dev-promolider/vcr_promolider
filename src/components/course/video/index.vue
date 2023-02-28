@@ -59,7 +59,8 @@ export default {
           type: "Video/mp4",
           //baseHost: "https://crm-storage-user.s3.eu-west-1.amazonaws.com/video.mp4",
           // MP4
-          src: this.urlVideo,
+          // src: this.urlVideo,
+          src: "https://www.youtube.com/watch?v=Z_h97k4oNyg",
         },
       ],
       poster: "",
