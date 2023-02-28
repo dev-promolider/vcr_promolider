@@ -10,6 +10,13 @@
     <div
       class="alert alert-danger"
       role="alert"
+      v-if="getStatusRequest === 403"
+    >
+      Aún no se aprueba su ingreso,vuelva a intentarlo mas tarde
+    </div>
+    <div
+      class="alert alert-danger"
+      role="alert"
       v-if="getStatusRequest === 422"
     >
       Asegurese de llenar todos los campos con el formato requerido
