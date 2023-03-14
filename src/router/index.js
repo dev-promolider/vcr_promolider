@@ -67,6 +67,7 @@ const routes = [
       { path: '/my-courses/', name: 'myCourses', component: ProductorCourses },
       { path: '/examenes/', name: 'examenes', component: examenes },
       { path: '/mode/:mode/:productSlug/clase/:slug', component: CursoUser, name: 'preview', meta: { title: "- Previsualización"}},
+      { path: '/owlgame', name: 'owlgame', component: pruebaJuego , props: true},
     ]
   },
 
