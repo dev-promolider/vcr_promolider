@@ -1,6 +1,12 @@
 <template>
 <div>
-    <VueUnity :unity="unityContext" width="800" height="600" /> <br><br>
+    <template v-if="!loading">
+        <div class="text-center">
+            <v-progress-circular indeterminate color="success">
+            </v-progress-circular>
+        </div>
+    </template>
+    <VueUnity v-if="loading" class="pl-8  pt-8 rounded-0" :unity="unityContext" width="800" height="600" /> <br><br>
     <v-simple-table dark>
         <template v-slot:default>
             <thead>
@@ -33,13 +39,13 @@ import UnityWebgl from 'unity-webgl'
 import VueUnity from 'unity-webgl/vue'
 
 const Unity = new UnityWebgl({
-    loaderUrl: 'Build/buho/Promolider_Quiz.loader.js',
-    dataUrl: "Build/buho/Promolider_Quiz.data",
-    frameworkUrl: "Build/buho/Promolider_Quiz.framework.js",
-    codeUrl: "Build/buho/Promolider_Quiz.wasm",
+    loaderUrl: 'Build/buho/final2.loader.js',
+    dataUrl: "Build/buho/final2.data",
+    frameworkUrl: "Build/buho/final2.framework.js",
+    codeUrl: "Build/buho/final2.wasm",
 })
 
-Unity.on('device', () => alert('click device ...'))
+Unity.on('device', () => alert('click device ...'));
 
 export default {
     components: {
@@ -47,11 +53,33 @@ export default {
     },
     data() {
         return {
-            unityContext: Unity
+            unityContext: Unity,
+            loading: false,
+            datos: null,
         }
     },
     mounted() {
+        this.cargarDatos();
+    },
+    methods: {
+        async cargarDatos() {
+            await this.axios.get(`/course/dinamicas/datos/${this.$route.query.gameid}`).then((r) => {
+                console.table(r.data);
+                if (r.data.length == 0) {
+                    this.loading = false;
+                    this.datos = [];
+                    alert("no hay datos");
+                } else {
+                    this.datos = JSON.stringify(r.data);
+                    this.loading = true;
+                    setTimeout(this.consumirAPI, 5000);
+                }
+            })
+        },
 
+        consumirAPI(){
+            Unity.send('JavaScriptJson','setString',this.datos);
+        },
     },
 }
 // var container = document.querySelector("#unity-container");
