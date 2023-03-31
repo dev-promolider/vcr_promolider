@@ -342,6 +342,10 @@ export default {
 
     // Redirección a la vista para comprar el curso
     async BuyCourse() {
+      console.log("pao id")
+      console.log(this.pao_id)
+      console.log("price discount")
+      console.log(this.price_with_discount)
       if (this.precio === 0) {
         const { ok } = await this.buyCourse(this.pao_id);
         if (!ok) return;
@@ -352,9 +356,11 @@ export default {
           'course_id': this.pao_id,
           'price': this.price_with_discount
         }
+        console.log("axios openpay")
         this.axios.post("/pay/course-openpay", form).then((r) => {
           this.openpayData = r.data;
           this.processPay = true;
+          console.log(r.data)
         })
       }
     },
@@ -365,6 +371,8 @@ export default {
       this.axios("course/purchased-courses").then((res) => {
         let idcourse = res.data.data;
         var id_course = idcourse.map(function (idcourse) {
+          // console.log("idcourse")
+          // console.log(idcourse.id)
           return idcourse.id;
         });
         //console.log(id_course);
@@ -420,6 +428,8 @@ export default {
         this.axios.get("category/list").then((res) => {
           for (const index in res.data.data) {
             if (res.data.data[index].id == this.items.id_categories) {
+              // console.log("res data data")
+              // console.log(res.data.data[index].id)
               this.categoria = res.data.data[index].name;
             }
           }
