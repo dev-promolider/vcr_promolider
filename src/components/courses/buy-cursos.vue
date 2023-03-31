@@ -11,9 +11,9 @@
         >
           {{ titulo }}
         </h3>
-        <template v-if="processPay">
+        <!-- <template v-if="processPay">
           <Openpay :openpayData=openpayData></Openpay>
-        </template>
+        </template> -->
         <ul class="pl-3 mb-5 list-unstyled">
           <li
             class="my-1"
@@ -320,14 +320,14 @@ export default {
       courseFilter: null,
       imgProductor: null,
       isOwner: false,
-      openpayData: [],
-      processPay: false,
+      // openpayData: [],
+      // processPay: false,
     };
   },
   components: {
     Video,
     Card,
-    Openpay,
+    // Openpay,
   },
   computed: {
     ...mapState("course", ["course", "renderVideo", "isLoading"]),
@@ -347,14 +347,15 @@ export default {
         if (!ok) return;
         this.$router.push({ name: "suscription-user" });
       } else {
-        const form = {
-          'course_id': this.pao_id,
-          'price': this.price_with_discount
-        }
-        this.axios.post("/pay/course-openpay", form).then((r) => {
-          this.openpayData = r.data;
-          this.processPay = true;
-        })
+        this.$router.push("/buy/" + this.pao_id);
+        // const form = {
+        //   'course_id': this.pao_id,
+        //   'price': this.price_with_discount
+        // }
+        // this.axios.post("/pay/course-openpay", form).then((r) => {
+        //   this.openpayData = r.data;
+        //   this.processPay = true;
+        // })
       }
     },
 
