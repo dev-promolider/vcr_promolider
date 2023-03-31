@@ -279,7 +279,7 @@
 <script>
 import Video from "@/components/course/video";
 import Card from "@/components/courses/cards";
-import Openpay from "@/components/Buy/openpay.vue";
+// import Openpay from "@/components/Buy/openpay.vue";
 
 import { mapState, mapActions } from "vuex";
 
