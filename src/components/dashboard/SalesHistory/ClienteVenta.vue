@@ -85,6 +85,7 @@ export default {
   methods: {
     getAttributes() {
       this.axios.get("/reports/last-sells?n_sells=3").then((respuesta) => {
+        console.log(respuesta.data)
         this.info = respuesta.data.data;
 
         for (let index = 0; index < this.info.length; index++) {
