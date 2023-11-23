@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c7b33"],{5277:function(t,s,u){"use strict";u.r(s);var n=function(){var t=this,s=t._self._c;return s("div")},r=[],a=(u("14d9"),{data(){return{}},methods:{async start(){this.$router.push("/buy-cursos/"+this.$route.params.value).catch(()=>{})}},mounted(){this.start()}}),e=a,c=u("2877"),o=Object(c["a"])(e,n,r,!1,null,null,null);s["default"]=o.exports}}]);
-//# sourceMappingURL=chunk-2d0c7b33.cf82b4a2.js.map

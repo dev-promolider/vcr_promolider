@@ -16,7 +16,6 @@ export default {
     },  
     methods: {
         async generateOpenpayOrder(){
-            console.log("generate order")
             await this.axios.post("/pay/openpay-order").then((r) => {
                 this.order = "promolider2023-"+r.data;
             })
@@ -55,14 +54,10 @@ export default {
             var redirection;
             await fetch(`https://sandbox-api.openpay.pe/v1/${this.openpayData.id_openpay}/charges`, requestOptions).then(r => r.json())
                 .then(r => {
-                    console.log("charge id")
-                    console.log(this.charge_id)
                     this.charge_id = r.id;
                     redirection = r.payment_method.url;
                     this.storePaymentData();
                 });
-            console.log("redirection openpay")
-            console.log(redirection)
             window.location.href = redirection;
         },
         generateDatetime(){

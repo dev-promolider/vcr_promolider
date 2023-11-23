@@ -211,7 +211,7 @@ export default {
 
       const { data } = await this.axios("course/purchased-courses");
       const isPurchased = data.data.find((e) => e.id == id_course);
-
+      
       if (!isPurchased) return;
       this.$router.push({ name: "home" });
     },

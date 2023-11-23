@@ -30,11 +30,31 @@
             {{ categoria }}
           </li>
         </ul>
+        
         <div v-if="!isOwner">
           <button
-            v-if="this.courseFilter == false"
+            v-if="this.courseFilter == false && this.precio == 0"
             class="btn-custom"
             @click="BuyCourse()"
+            style="
+              font-size: 18px;
+              color: black;
+              font-weight: 600;
+              line-height: 1.5rem;
+            "
+            :class="{ loader: !titulo }"
+          >
+            {{
+              this.price_with_discount > 0
+                ? "Comprar ahora $" + this.price_with_discount + ""
+                : "Inscribete ahora"
+            }}
+          </button>
+
+          <button
+          v-if="this.courseFilter == false && this.precio > 0"
+            class="btn-custom"
+            data-toggle="modal" data-target="#paymentModal"
             style="
               font-size: 18px;
               color: black;
@@ -60,16 +80,22 @@
           </button>
         </div>
       </div>
-{{ videoimg }}
       <!-- Imagen del curso -->
-      <div
-        class="col-lg-8 pr-0 pl-4"
-        :class="{ loader: !videoimg, 'loader-img-course': !videoimg }"
-      >
-        <!-- <img :src="img" class="img-course" /> -->
-        <video controls width="100%" height="auto">
-            <source :src="videoimg" type="video/mp4">
-        </video>
+      <div class="col-lg-8 pr-0 pl-4" :class="{ loader: !videoimg, 'loader-img-course': !videoimg }" v-if="tymedia==1">
+        <video-player  class="video-player-box"
+            ref="videoPlayer"
+            :options="playerOptions"
+            :playsinline="true"
+            customEventName="customstatechangedeventname"
+            @play="onPlayerPlay($event)"
+            @pause="onPlayerPause($event)"
+            @loadeddata="onPlayerLoadeddata($event)"
+            @statechanged="playerStateChanged($event)"
+            @ready="playerReadied">
+        </video-player>
+      </div>
+      <div v-else class="col-lg-8 pr-0 pl-4" :class="{ loader: !img, 'loader-img-course': !img }">
+        <img :src="img" class="img-course" />
       </div>
     </div>
 
@@ -274,6 +300,38 @@
         </div>
       </div>
     </div>
+    <!-- Modal payment -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">METODOS DE PAGO</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click.prevent="closeModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <select class="custom-select" v-model="payment_method_id">
+              <option v-for="item in paymentMethod" :label="item.name" :value="item.id" :key="item.id">{{ item.name }}</option>
+            </select>
+
+            <div class="form-group col-12 mb-0" v-if="payment_method_id==5">
+                <p style="font-weight: bold;">Saldo Billetera: $/ {{ saldoTotal }}</p>
+                <p style="font-weight: bold;">Precio Curso: $/ {{ importeCurso }}</p>
+            </div>
+          </div>
+          
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click.prevent="closeModal()">Salir</button>
+            <button type="button" v-show="shouldDisplayBuyButton" @click="setBuyCourse()" class="btn btn-success">
+              {{ loadingCourse ? 'Procesando...' : 'Comprar' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 </template>
@@ -282,6 +340,9 @@
 import Video from "@/components/course/video";
 import Card from "@/components/courses/cards";
 import Openpay from "@/components/Buy/openpay.vue";
+import 'video.js/dist/video-js.css'
+import { videoPlayer } from 'vue-video-player'
+import 'vue-video-player/src/custom-theme.css'
 
 import { mapState, mapActions } from "vuex";
 
@@ -297,12 +358,11 @@ export default {
       emailProductor: "",
       items: [],
       pao_id: null,
-      precio: "",
       price_with_discount: "",
       descripcion: "",
       level: "",
       img: "",
-      videoimg: "",
+      
       titulo: "",
       curso_detalle: "",
       aprendera: "",
@@ -325,14 +385,56 @@ export default {
       isOwner: false,
       openpayData: [],
       processPay: false,
+      videoimg: "",
+      playerOptions: {
+          responsive: true,
+          fluid: true,
+          preload: "auto",
+          autoplay: false,
+          muted: false,
+          language: "es",
+          playbackRates: [0.7, 1.0, 1.5, 2.0],
+          sources: [
+            {
+              type: "Video/mp4",
+              src: ""
+            },
+          ],
+          poster: "",
+          controlBar: {
+            durationDisplay: true,
+            timeDivider: true,
+          },
+      },
+      tymedia: 0,
+      saldoTotal: 0,
+      importeCurso: 0,
+      paymentMethod: [],
+      payment_method_id: 1,
+      precio: 0,
+      user_id: null,
+      loadingCourse: false
     };
   },
   components: {
     Video,
     Card,
     Openpay,
+    videoPlayer
   },
   computed: {
+    shouldDisplayBuyButton() {
+      if (
+        (this.payment_method_id === 1) ||
+        (this.payment_method_id === 5 && this.saldoTotal >= this.importeCurso)
+      ) {
+        return true;
+      }
+      return false;
+    },
+    player() {
+        return this.$refs.videoPlayer.player
+    },
     ...mapState("course", ["course", "renderVideo", "isLoading"]),
   },
 
@@ -343,46 +445,111 @@ export default {
       buyCourse: "buyCourse",
     }),
 
+     // listen event
+    onPlayerPlay(player) {
+      console.log('player play!', player)
+    },
+    onPlayerPause(player) {
+      console.log('player pause!', player)
+    },
+
+    onPlayerLoadeddata() {},
+
+    // or listen state event
+    playerStateChanged(playerCurrentState) {
+      console.log('player current update state', playerCurrentState)
+    },
+
+    // player is ready
+    playerReadied(player) {
+      console.log('the player is readied', player)
+    },
+
+    closeModal(){
+      this.payment_method_id = 1;
+    },
+
+    getWalletUser(){
+      this.axios.get(`/reports/mymovements/${this.user_id}`)
+      .then((response) => {
+        this.saldoTotal = response.data.data.reduce((saldo, transaction) => {
+            if(transaction.type == 1){
+                return saldo + transaction.amount;
+            }else if(transaction.type == 0){
+              if(transaction.id_receiver){
+                return saldo + transaction.amount;
+              }else{
+                return saldo - transaction.amount;
+              }
+            }
+            return saldo;
+        }, 0);
+      })
+    },
+
+    getPaymentMethod(){
+      this.axios.get(`/config/payment-method/list-array`)
+      .then(response => {
+        this.paymentMethod = response.data.filter(data => !['Efectivo','Paypal','Transferencia'].includes(data.name));
+      })
+    },
+
+    async setBuyCourse(){
+      this.loadingCourse = true;
+      if(this.payment_method_id==1){
+        await this.BuyCourse();
+      }else{
+        const form = {
+          'id_course': this.pao_id,
+          'user_id': this.user_id,
+          'type_purchase': 2
+        }
+        this.axios.post("course/buy-purchased-course", form)
+        .then((r) => {
+          if(r.data.status==="ok"){
+            this.$message.success('La compra se ha realizado con éxito')
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }else{
+            console.log(r)
+          }
+        }).catch(error => {
+          console.log('Ocurrio un error', error)
+        }).finally(() => {
+            this.loadingCourse = false;
+        });
+      }
+    },
+
     // Redirección a la vista para comprar el curso
     async BuyCourse() {
-      console.log("pao id")
-      console.log(this.pao_id)
-      console.log("price discount")
-      console.log(this.price_with_discount)
+      
       if (this.precio === 0) {
         const { ok } = await this.buyCourse(this.pao_id);
         if (!ok) return;
         this.$router.push({ name: "suscription-user" });
       } else {
-        // this.$router.push("/buy/" + this.pao_id);
         const form = {
           'course_id': this.pao_id,
           'price': this.price_with_discount
         }
-        console.log("axios openpay")
         this.axios.post("/pay/course-openpay", form).then((r) => {
           this.openpayData = r.data;
           this.processPay = true;
-          console.log(r.data)
         })
       }
     },
-
-    
 
     FilterBtn() {
       this.axios("course/purchased-courses").then((res) => {
         let idcourse = res.data.data;
         var id_course = idcourse.map(function (idcourse) {
-          // console.log("idcourse")
-          // console.log(idcourse.id)
           return idcourse.id;
         });
-        //console.log(id_course);
         this.courseFilter = id_course.some(
           (id_cours) => id_cours == this.$route.params.ide
         );
-        //console.log(this.courseFilter);
       });
     },
 
@@ -399,6 +566,7 @@ export default {
         this.items = datos.data.data[0];
         this.precio = this.items.price;
         this.price_with_discount = this.items.price_with_discount;
+        this.importeCurso = this.items.price_with_discount;
         this.isOwner = this.items.owner;
 
         // Obtenemos el nivel del curso
@@ -413,8 +581,20 @@ export default {
             this.level = "Avanzado";
             break;
         }
-        this.img = this.items.url_portada;
         this.videoimg = this.items.path_url;
+        
+        if (this.videoimg.toLowerCase().endsWith(".mp4")) {
+          // Es un video
+          this.tymedia = 1;
+          this.$set(this.playerOptions.sources, 0, {
+            type: "video/mp4",
+            src: this.videoimg,
+          });
+        } else {
+          this.tymedia = 2;
+          this.img = this.items.path_url;
+        }
+
         this.titulo = this.items.title;
         this.descripcion = this.items.description;
         this.curso_detalle = this.items.course_about;
@@ -432,9 +612,9 @@ export default {
         this.axios.get("category/list").then((res) => {
           for (const index in res.data.data) {
             if (res.data.data[index].id == this.items.id_categories) {
-              // console.log("res data data")
-              // console.log(res.data.data[index].id)
               this.categoria = res.data.data[index].name;
+              this.user_id = res.data.status.id;
+              this.getWalletUser();
             }
           }
         });
@@ -465,20 +645,26 @@ export default {
     },
   },
   mounted(){
-    this.getAttributes();
+    
   },
   created() {
+
+    
     // Llamamos a la funcion que trae los atributos
     this.getAttributes();
     // Obtenemos el temario del curso
     this.getCourse(this.$route.params.ide);
   
     this.FilterBtn();
+    
+    this.getPaymentMethod();
   },
 };
 </script>
 
 <style scoped>
+
+
 .avatar-productor {
   width: 300px;
 }
