@@ -19,7 +19,6 @@ export default {
             console.log("generate order")
             await this.axios.post("/pay/openpay-order").then((r) => {
                 this.order = "promolider2023-"+r.data;
-                console.log(this.order)
             })
             this.sendOpenpayData();
         },
@@ -32,7 +31,7 @@ export default {
             var raw = JSON.stringify({
             "method": "card",
             "amount": this.openpayData.product_price,
-            "currency": "PEN",
+            "currency": "USD",
             "description": this.openpayData.product_detail,
             "order_id": this.order,
             "confirm": "false",

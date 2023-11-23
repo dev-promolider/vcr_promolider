@@ -43,7 +43,6 @@
             "
             :class="{ loader: !titulo }"
           >
-            <!--<img v-if="this.precio == '' " width="25" :src="require('@/assets/free.png')" alt="">-->
             {{
               this.price_with_discount > 0
                 ? "Comprar ahora $" + this.price_with_discount + ""
@@ -61,13 +60,16 @@
           </button>
         </div>
       </div>
-
+{{ videoimg }}
       <!-- Imagen del curso -->
       <div
         class="col-lg-8 pr-0 pl-4"
-        :class="{ loader: !img, 'loader-img-course': !img }"
+        :class="{ loader: !videoimg, 'loader-img-course': !videoimg }"
       >
-        <img :src="img" class="img-course" />
+        <!-- <img :src="img" class="img-course" /> -->
+        <video controls width="100%" height="auto">
+            <source :src="videoimg" type="video/mp4">
+        </video>
       </div>
     </div>
 
@@ -300,6 +302,7 @@ export default {
       descripcion: "",
       level: "",
       img: "",
+      videoimg: "",
       titulo: "",
       curso_detalle: "",
       aprendera: "",
@@ -411,6 +414,7 @@ export default {
             break;
         }
         this.img = this.items.url_portada;
+        this.videoimg = this.items.path_url;
         this.titulo = this.items.title;
         this.descripcion = this.items.description;
         this.curso_detalle = this.items.course_about;
@@ -459,6 +463,9 @@ export default {
     ide() {
       this.getAttributes();
     },
+  },
+  mounted(){
+    this.getAttributes();
   },
   created() {
     // Llamamos a la funcion que trae los atributos
