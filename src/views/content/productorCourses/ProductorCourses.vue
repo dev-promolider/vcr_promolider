@@ -17,8 +17,6 @@
         </div>
 
         <div class="mb-4 ml-2" v-if="data.length > 0 && !loading">
-          <!-- <h3 class="mb-1 font-weight-bold">Más recientes</h3> -->
-          <!-- <CarrouselCourse :courses="data" /> -->
           <CarrouselCourseMarketplace :courses="data"/>
         </div>
       </div>
