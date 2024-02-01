@@ -302,7 +302,7 @@ export default {
   background-color: #35424a;
 }
 .bg-terciary-pl {
-  background-color: #131b1e;
+  background-color: #166B6B;
 }
 .bg-aux-pl {
   background-color: #e6e6e6;

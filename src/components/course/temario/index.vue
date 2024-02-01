@@ -52,7 +52,7 @@
       </div>
 
       <div v-else>
-        <div v-if="content == 'temary'">
+        <div v-if="content == 'temary'"  style=" max-height: 300px; overflow-y: auto; ">
           <ul
             v-for="(model, index) in course.modules"
             :key="index"
@@ -64,23 +64,22 @@
               </p>
 
               <b-collapse visible :id="model.name.replace(/ /g, '')">
-                <ul>
-                  <li
-                    v-for="(less, index) in course.modules[index].lessons"
-                    :key="index"
-                  >
-                    <input
-                      type="checkbox"
-                      v-model="completedLessons"
-                      :value="less.id"
-                      @click="checkClass(less.id)"
-                    />
-                    <a
-                      @click="changeClass(less)"
-                      :class="{ activo: less.name === clase }"
-                      :title="less.name"
-                      >{{ less.name }}
-                    </a>
+                <ul style="overflow: auto; max-height: 200px;">
+                  <li v-for="(less, index) in course.modules[index].lessons" :key="index">
+                    <div style="display: flex; align-items: center;">
+                      <input
+                        style="margin-right: 0px; position: relative;"
+                        type="checkbox"
+                        v-model="completedLessons"
+                        :value="less.id"
+                        @click="checkClass(less.id)"
+                      />
+                      <a style="margin-left: 10px;"
+                        @click="changeClass(less)"
+                        :class="{ 'activo': less.name === clase }"
+                        :title="less.name"
+                      >{{ less.name }}</a>
+                    </div>
                   </li>
                 </ul>
               </b-collapse>

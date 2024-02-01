@@ -27,17 +27,18 @@
           :rank="`Rank: ${rank}`"
           :rate="`Rate: ${rate}`"
           :title="`Has ${status} el examen`"  
-          :subtitle="`Has ganado ${points} puntos. Sigue acumulando puntos para obtener recompenzas.`"
+          
           :img="require('@/assets/icon-coin.png')"
         >
+        <!-- :subtitle="`Has ganado ${points} puntos. Sigue acumulando puntos para obtener recompenzas.`" -->
+        <!-- :subtitle="`Sigue acumulando puntos para obtener recompenzas.`" -->
         </card-alert>
           <card-alert
           v-if="mostrar && typeExamem === 3"
           color="#076579"
           class="mx-auto"
           style="margin: 150px"
-          :title="`Has ganado ${points} puntos.`"  
-          :subtitle="`Sigue acumulando puntos para obtener recompenzas.`"
+          :title="`Has ${status} el examen`"
           :img="require('@/assets/icon-coin.png')"
         >
         </card-alert>

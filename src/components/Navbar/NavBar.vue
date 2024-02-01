@@ -1,7 +1,7 @@
 <template>
   <div style="margin-bottom: 60px">
     <v-app-bar app elevation="7" color="#35424a">
-      <v-app-bar-nav-icon
+      <v-app-bar-nav-icon color="#4ff70d"
         @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
       ></v-app-bar-nav-icon>

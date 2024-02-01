@@ -3,7 +3,7 @@
         <div class="col col-md-7 my-2 d-flex justify-content-center align-items-center">
             <div class="title position-relative">
                 <p class="font-size1">
-                    BIENVENIDO A TU
+                    HOLA {{ userName }} BIENVENIDO A TU
                 </p>
                 <p class="font-size2">
                     <strong>ACADEMIA DIGITAL</strong>
@@ -15,6 +15,15 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    data(){
+        return {
+            userName: localStorage.getItem("name_user")
+        }
+    } 
+}
+</script>
 <style>
 .font-size1{
     font-size: calc(1em + 0.5vw)

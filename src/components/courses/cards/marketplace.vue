@@ -28,6 +28,12 @@
               ></v-rating>
       
       </div>
+      <div class="fila-tarjeta-p1 bg-terciary-pl">
+        <p class="text-white">
+          {{ course.title }}
+        </p>
+      </div>
+
       <div class="fila-tarjeta bg-terciary-pl">
         <div class="colum-tarjeta text-white">
           <span class="descuento-tarjeta"> %{{course.du}}</span>
@@ -47,7 +53,7 @@
 
 
         <div class="colum-tarjeta">
-          <button class="btn bg-primary-pl">COMPRAR</button>
+          <button class="btn bg-primary-pl text-white">COMPRAR</button>
         </div>
       </div>
     </div>
@@ -316,13 +322,13 @@ export default {
 
 /* Colores de fondo promolíder */
 .bg-primary-pl {
-  background-color: #1ae600;
+  background-color: #303330;
 }
 .bg-secondary-pl {
   background-color: #35424a;
 }
 .bg-terciary-pl {
-  background-color: #131b1e;
+  background-color: #166b6b;
 }
 .bg-aux-pl {
   background-color: #e6e6e6;
@@ -354,6 +360,15 @@ export default {
   align-items: center;
   padding: 5px 0px;
 }
+
+.fila-tarjeta-p1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 0px;
+}
+
 .colum-tarjeta {
   display: flex;
   flex-direction: column;

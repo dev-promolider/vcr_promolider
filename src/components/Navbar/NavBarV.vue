@@ -28,35 +28,17 @@
       <v-list nav dense>
         <template v-if="showNav">
           <template v-for="(link, index) in listNavBar">
-            <template v-if="role == 'Producer'">
-                <v-list-item
-                  link
-                  style="color: #ffffff; margin-bottom: 25px !important"
-                  :key="index"
-                  :to="{ name: link.path }"
-                >
-                    <v-list-item-icon class="mr-3">
-                      <v-icon style="color: #ffffff">{{ `mdi-${link.icon}` }}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>{{ link.nombre }}</v-list-item-title>
-                </v-list-item>             
-            </template>
-            <template v-else>
-
-                <template v-if="link.nombre != 'Mis Cursos'">
-                  <v-list-item
-                      link
-                      style="color: #ffffff; margin-bottom: 25px !important"
-                      :key="index"
-                      :to="{ name: link.path }"
-                      >
-                      <v-list-item-icon class="mr-3">
-                        <v-icon style="color: #ffffff">{{ `mdi-${link.icon}` }}</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-title>{{ link.nombre }}</v-list-item-title>
-                  </v-list-item>
-                </template>
-            </template>
+              <v-list-item v-if="!(role === 'Distributor' && link.nombre === 'Mis cursos')"
+                link
+                style="color: #ffffff; margin-bottom: 25px !important"
+                :key="index"
+                :to="{ name: link.path }"
+              >
+                  <v-list-item-icon class="mr-3">
+                    <v-icon style="color: #ffffff">{{ `mdi-${link.icon}` }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>{{ link.nombre }}</v-list-item-title>
+              </v-list-item>  
           </template>
         </template>
         <template v-else>

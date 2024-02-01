@@ -15,7 +15,7 @@ ul {
 
 @media only screen and (min-width: 1000px) {
   .temario {
-    min-height: 450px;
+    min-height: 380px;
     max-height: 450px;
   }
 }
@@ -91,13 +91,13 @@ input[type="checkbox"]:checked {
   font-size: 12px;
 }
 
-.temario::-webkit-scrollbar {
+.temario::-webkit-scrollbar { 
   width: 15px;
   display: block;
   background: #131b1e;
   border-radius: 50px;
 }
-.temario::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
   display: block;
   background: #60d950;
   border-radius: 50px;
