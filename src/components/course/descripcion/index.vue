@@ -287,21 +287,29 @@ export default {
         };
     },
     computed: {
-        ...mapState("course", ["lesson", "resources", "isResources", "dataEx"]),
+        ...mapState("course", ["lesson", "resources", "isResources", "dataEx","dinamicClass"]),
         queryDinamic() {
             return this.$route.query.class;
         },
     },
     methods: {
         async listDinamicas() {
+
+
             await this.axios.get(`/course/dinamicas/list/${this.$route.query.course}`).then((r) => {
-                console.table(r.data);
+        
                 if (r.data.length == 0) {
                     this.stateDinamic = false;
                     this.isLoadingDinamic = true;
                     this.dinamicas = [];
                 } else {
-                    this.dinamicas = r.data;
+                    let temp=[];
+                    for(let dynamic of r.data){
+                        if(this.idDinamicGame.includes(dynamic.id)){
+                            temp=[...temp,dynamic];
+                        }
+                    }
+                    this.dinamicas=temp;
                     this.isLoadingDinamic = true;
                     this.stateDinamic = true;
                 }
@@ -420,7 +428,6 @@ export default {
                     idClass: this.$route.query.class,
                     game_for: "class",
                 };
-
                 let {
                     data
                 } = await this.getActiveDinamicClass(dataSend);
@@ -440,17 +447,19 @@ export default {
 
         goToDinamics(id) {
             this.$router.push({
-                name: "owlgame",
-                query: {
-                    gameid:id,
-                    courseid: this.$route.query.course
-                },
-            });
+        name: "dinamic",
+        params: { id },
+        query: { c: this.$route.query.course },
+      });
         },
     },
     watch: {
+        dinamicClass:{
+            handler:'listDinamicas',
+            immediate:true
+        },
         async queryDinamic() {
-            //this.getActiveDinamics();
+            this.getActiveDinamics();
             this.getExam();
             // this.getRateExam();
             // this.getResources();
@@ -465,9 +474,9 @@ export default {
     },
     mounted() {
         this.isLoadingDinamic = true;
-        //this.getActiveDinamics();
+        this.getActiveDinamics();
         this.expirationDate();
-        this.listDinamicas();
+        // this.listDinamicas();
         // this.getRateExam();
     },
 };

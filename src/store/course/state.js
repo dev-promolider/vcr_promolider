@@ -16,6 +16,7 @@ export default () => ({
     gameData: {},
     isLoading: true,
     isLoadingComments: true,
+    isLoadingDynamicComments:true,
     isLoadingRating: true,
     isResources: false,
     leaderBoard: [{
@@ -37,6 +38,8 @@ export default () => ({
     moduleExamen: {
         module_exams: []
     },
+    topDynamicData:[],
+    allDynamicComments:[],
     points: 0,
     productor: null,
     progressCourseSelect: 0,

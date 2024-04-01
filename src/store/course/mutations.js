@@ -125,6 +125,15 @@ export const GET_COMMENTS = (state, allComments) => {
         state.isLoadingComments = false
     }
 }
+export const GET_DYNAMIC_COMMENTS = (state, allDynamicComments) => {
+    if(allDynamicComments.data === 'No hay comentarios'){
+        state.isLoadingDynamicComments = false
+        state.allDynamicComments = []
+    }else{
+        state.allDynamicComments = allDynamicComments
+        state.isLoadingDynamicComments = false
+    }
+}
 
 // Llenamos la valoracion de un curso
 export const GET_RATING = (state, allRating) => {
@@ -177,9 +186,16 @@ export const sumPoints = (state, points ) => {
     state.sumPoints = points
     state.points += points
 }
+export const topDynamicData = (state, data ) => {
+    state.topDynamicData=data;
+    
+}
 
 export const setComments = (state, comments) => {
     state.allComments = [ ...state.allComments, comments]
+}
+export const setDynamicComments = (state, dynamicComments) => {
+    state.allDynamicComments.unshift(dynamicComments);
 }
 
 export const setRating = (state, newRating) => {

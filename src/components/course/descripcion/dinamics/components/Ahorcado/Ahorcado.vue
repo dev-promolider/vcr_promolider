@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div >
     <Transition name="bounce">
-      <template v-if="!isGameFinish">
+      <template v-if="isGameFinish">
         <template>
           <v-card
             elevation="10"
@@ -32,15 +32,14 @@
       </template>
     </Transition>
     <div
-      style="heigth: 90vh"
-      id="ga"
       class="text-center mt-4"
-      v-if="isGameFinish"
+      :class="{pre:!gameStarted,started:gameStarted}"
+      v-if="!isGameFinish"
     >
-      <div class="row justify-content-md-center m-2"></div>
-      <div class="row">
+      <v-btn v-if="!gameStarted" @click="_gettingStart">Empezar</v-btn>
+      <div class="row" v-if="gameStarted">
         <div class="col-sm-12">
-          <h2 class="text-center">{{ datos.game.title }}</h2>
+          <div class="totalTime p-3"><span class="btn btn-cards">Tiempo Total : <span class="badge" :class="isGameFinish ? 'badge-cards' : 'badge-light'">{{min}} : {{sec}}</span></span></div>
           <P
             class="text-center mb-5 subtitle-1 font-weight-bold text--secondary"
             >RECUERDA QUE SOLO TIENES 5 INTENTOS</P
@@ -85,10 +84,7 @@
           <!-- End segunda columna -->
         </div>
         <!-- End container text-center -->
-      </div>
-      <!-- End row -->
-
-      <div class="row d-flex justify-content-center">
+        <div class="row d-flex justify-content-center">
         <!-- <div class="col-xs-8 col-sm-8 col-md-8">
           <br />
           <div>
@@ -122,6 +118,10 @@
         </div>
         <!-- En cuarta columna -->
       </div>
+      </div>
+      <!-- End row -->
+
+     
       <!-- End row -->
     </div>
   </div>
@@ -139,7 +139,13 @@ export default {
   },
   data() {
     return {
-      isGameFinish: true,
+      isGameFinish: false,
+      gameStarted:false,
+      gettingStart:false,
+      totalTime: {
+                minutes: 0,
+                seconds: 0,
+            },
       mostrar: true,
       game: true,
       win: false,
@@ -159,6 +165,28 @@ export default {
   },
   methods: {
     ...mapActions("course", ["sendAnswersCards"]),
+        /*Empezar Juego*/
+        _startGame(){
+            this._tick();
+            this.interval = setInterval(this._tick,1000);
+           
+        },
+        /*Calcular Tiempo*/ 
+        _tick(){
+            if(this.totalTime.seconds !== 59){
+                this.totalTime.seconds++;
+                return
+            }
+
+            this.totalTime.minutes++;
+            this.totalTime.seconds = 0;
+        },
+        /*Boton empezar*/ 
+        _gettingStart(){
+            this.gameStarted=true;
+            this.gettingStart = true
+            this._startGame()
+        },
     comeBack() {
       this.$router.back();
     },
@@ -213,11 +241,14 @@ export default {
           this.game = false;
           this.senAnswers({
             data: true,
+            tiempo: this.totalTime ,
             productor_id: this.productor_id,
             game_type: "ahorcado",
             course_game_id: this.course_game_id
           });
-          this.isGameFinish = false;
+          this.totalTime =  {minutes: 0,seconds: 0}
+          this.isGameFinish = true;
+          
         }
 
         if (this.contador_errores == 5) {
@@ -229,7 +260,7 @@ export default {
             game_type: "ahorcado",
             course_game_id: this.course_game_id
           });
-          this.isGameFinish = false;
+          this.isGameFinish = true;
         }
       } //	End If Game
     },
@@ -242,6 +273,19 @@ export default {
     palabra_generada: function () {
       return this.frutas[this.aleatorio];
     }, //	End palab//	End comparar
+
+        sec(){
+            if(this.totalTime.seconds < 10){
+                return '0'+this.totalTime.seconds;
+            }
+            return this.totalTime.seconds;
+        },
+        min(){
+            if(this.totalTime.minutes < 10){
+                return '0'+this.totalTime.minutes;
+            }
+            return this.totalTime.minutes;
+        }
   }, //	End computed
 
   created: function () {
@@ -252,10 +296,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#ga {
+.started {
   background: rgb(253, 253, 253);
   border-radius: 15px;
 }
+.pre{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  border-radius: 15px;
+  height: 50vh;
+}
+.totalTime{
+        color: var(--sixth-color-green);
+    }
+    .btn-cards{
+        background: var(--bg-btn);
+    }
+    .btn-cards:hover{
+        background: #4cac40;
+    }
 .teclado {
   margin-top: 5px;
   margin-left: 4px;

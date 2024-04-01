@@ -154,34 +154,82 @@ export const getPoints = async ( {commit} , id) => {
 }
 //Enviamos el comentario
 export const setComments = async ( { commit } , comment ) => {
-        try {
-            const { comments } = comment    
-    
-           const resp = await axios.post('comments/send-comments', comment)
-           
-           if( resp.data.status === 200){
+    try {
+        const { comments } = comment    
 
-            const { user_photo, username, created_at } = resp.data.data[0]
+       const resp = await axios.post('comments/send-comments', comment)
+       
+       if( resp.data.status === 200){
 
-            const fecha = moment(created_at).format("DD-MM-YYYY")
+        const { user_photo, username, created_at } = resp.data.data[0]
 
-            const payload = {
-                comments,
-                user_photo,
-                username,
-                fecha
-            }
-        
-           
-            commit('setComments', payload )
+        const fecha = moment(created_at).format("DD-MM-YYYY")
 
-
-           }
-            
-        } catch (error) {
-            throw new Error(error)
+        const payload = {
+            comments,
+            user_photo,
+            username,
+            fecha
         }
-   
+    
+       
+        commit('setComments', payload )
+
+
+       }
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+
+}
+//Enviamos el comentario
+export const setDynamicComments = async ( { commit } , commentData ) => {
+    try {
+        const { content } = commentData    
+
+       const resp = await axios.post('course/game/comments/create', commentData)
+       console.log(resp)
+       if( resp.data.status === 200){
+
+        const { id,user_photo, username, created_at } = resp.data.data[0]
+
+        
+
+        const payload = {
+            id,
+            content,
+            photo:user_photo,
+            username,
+            created_at
+        }
+       
+        commit('setDynamicComments', payload )
+
+
+       }
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+
+}
+export const fetchDynamicComments = async ({commit},dynamic_id ) => {
+    try {
+         
+
+       const resp = await axios.get(`course/game/comments/list/${dynamic_id}`)
+       if( resp.data.status === 200){
+        console.log(resp.data.data)
+
+        commit('GET_DYNAMIC_COMMENTS',resp.data.data)
+
+       }
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+
 }
 
 //Enviamos el comentario
@@ -202,9 +250,10 @@ export const getActiveDinamicClass = async ( { commit } , { game_for, idClass })
     try {
         
         const { data:dataClass } = await axios.get(`class/show-class?name=${idClass}`)
+        console.log(dataClass);
         const {  data  } = await axios.post( '/course/game/active', { game_for, id_type: dataClass[0].id } )
         if( !data ) return 
-        
+        console.log(data);
         commit('setDataDinamic', data)
 
         return { ok: true , data}
@@ -224,6 +273,7 @@ export const getDataDinamic = async ({commit}, id ) => {
 
     try {
         const { data } = await axios.post('/course/game', { game_id: id } )
+        console.log(data)
         commit('setGameData', data )
         return {ok: true, data }
 
@@ -242,7 +292,8 @@ export const sendAnswersCards = async ({commit},{  tiempo = 0 , productor_id , g
 
     try {
         const resp = await axios.post( '/course/game/add-points', { game_type , productor_id , tiempo: segundos, data, course_game_id } )
-       
+       const dynamicTop= await axios.post('course/game/retrieve-dynamic-top',{course_game_id:course_game_id});
+       commit('topDynamicData',dynamicTop.data);
         commit('sumPoints', resp.data)
         return { ok :true }
     } catch (error) {
@@ -347,7 +398,7 @@ export const getCourseRelated = async (  ) => {
 export const getActiveDinamicModule = async ( {commit}, payload ) => {
     try {
         const { data } = await axios.post( '/course/game/module/active', { id_course: payload } )
-       
+       console.log(data);
         commit('setActiveDinamicModule', data)
         return { ok: true }
     } catch (error) {

@@ -89,7 +89,6 @@ export default {
     min-height: inherit;
   }
 }
-
 .view {
   overflow-y: scroll;
   background-repeat: none;

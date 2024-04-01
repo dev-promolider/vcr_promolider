@@ -1,13 +1,13 @@
 <template>
 <div>
-    <template v-if="!loading">
+    <template v-if="loading">
         <div class="text-center">
             <v-progress-circular indeterminate color="success">
             </v-progress-circular>
         </div>
     </template>
-    <VueUnity v-if="loading" class="pl-8  pt-8 rounded-0" :unity="unityContext" width="800" height="600" /> <br><br>
-    <v-simple-table dark>
+    <VueUnity v-if="!loading" class="pl-8 unity-canvas pt-8 rounded-0" :unity="unityContext" :width="'100%'" :height="'50vh'"/> <br><br>
+    <!-- <v-simple-table dark>
         <template v-slot:default>
             <thead>
                 <tr>
@@ -30,7 +30,7 @@
                 </tr>
             </tbody>
         </template>
-    </v-simple-table>
+    </v-simple-table> -->
 </div>
 </template>
 
@@ -39,23 +39,25 @@ import UnityWebgl from 'unity-webgl'
 import VueUnity from 'unity-webgl/vue'
 
 const Unity = new UnityWebgl({
-    loaderUrl: 'Build/buho/final2.loader.js',
-    dataUrl: "Build/buho/final2.data",
-    frameworkUrl: "Build/buho/final2.framework.js",
-    codeUrl: "Build/buho/final2.wasm",
+    loaderUrl: '/Build/buho/final2.loader.js',
+    dataUrl: "/Build/buho/final2.data",
+    frameworkUrl: "/Build/buho/final2.framework.js",
+    codeUrl: "/Build/buho/final2.wasm",
 })
 
 Unity.on('device', () => alert('click device ...'));
 
 export default {
+    props:['data'],
     components: {
         VueUnity
     },
     data() {
         return {
             unityContext: Unity,
-            loading: false,
+            loading: true,
             datos: null,
+            
         }
     },
     mounted() {
@@ -63,22 +65,26 @@ export default {
     },
     methods: {
         async cargarDatos() {
-            await this.axios.get(`/course/dinamicas/datos/${this.$route.query.gameid}`).then((r) => {
-                console.table(r.data);
+            // await this.axios.get(`/course/dinamicas/datos/${this.$route.query.gameid}`).then((r) => {
+                await this.axios.get(`/course/dinamicas/datos/${this.data.game.id}`).then((r) => {
+                console.log(r.data.data);
                 if (r.data.length == 0) {
                     this.loading = false;
                     this.datos = [];
                     alert("no hay datos");
                 } else {
                     this.datos = JSON.stringify(r.data);
-                    this.loading = true;
-                    setTimeout(this.consumirAPI, 5000);
+                    this.loading=false;
+                    setTimeout(this.consumirAPI, 10000);
+                    
                 }
-            })
+            }) ;
+            
         },
 
         consumirAPI(){
             Unity.send('JavaScriptJson','setString',this.datos);
+           
         },
     },
 }

@@ -46,8 +46,8 @@ export default {
     this.playerOptions = {
       responsive: true,
       fluid: true,
-      // width: "100%",
-      // height: 100,
+      // width: "500px",
+      // height: "100px",
       preload: "auto",
       autoplay: false,
       muted: false,

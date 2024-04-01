@@ -1,6 +1,12 @@
 <template>
   <div>
-      <template  v-if="!loadingCardGame">
+    <div
+      class="text-center mt-4"
+      :class="{pre:!gameStarted,started:gameStarted}"
+      v-if="!isGameFinish"
+    >
+      <v-btn v-if="!gameStarted" @click="_gettingStart" :disabled="isActiveReady">Empezar</v-btn>
+      <template  v-if="!loadingCardGame && gameStarted">
             <template v-if="!isGameFinish">
                 <div class="title-cards">
                     Juego de Cartas
@@ -20,9 +26,9 @@
                     </div>
                 </div>
                 <div class="botton-start">
-                            <button class="btn btn-cards mx-2" @click="_gettingStart" :disabled="isActiveReady"  >
+                            <!-- <button class="btn btn-cards mx-2" @click="_gettingStart" :disabled="isActiveReady"  >
                                 Empezar
-                            </button>
+                            </button> -->
                             <button class="btn btn-dark" @click="resetGame"   >
                                 Reiniciar
                             </button>
@@ -48,17 +54,17 @@
                 </Transition>
         </template>
         
-        <template v-else >
+        <!-- <template v-else >
                     <div class="text-center mt-5" >
                         <v-progress-circular indeterminate color="success" size="52">
 
                         </v-progress-circular>
                     </div>
-        </template>
+        </template> -->
 
   </div>
 
-
+</div>
 
 </template>
 
@@ -69,8 +75,9 @@ import { mapActions, mapState } from 'vuex';
 export default {
     data(){
         return {
-            cards: [],
             isGameFinish: false,
+            gameStarted:false,
+            cards: [],
             isActiveReady: false,
             gettingStart: false,
             memoryCards:[],
@@ -136,7 +143,6 @@ export default {
           if(!ok) return
 
             this.data = data 
-
             let numeroCartas = this.data.detail.length  
               
             let detailGame = this.data.detail
@@ -181,10 +187,11 @@ export default {
                         if(this.memoryCards.every(card => card.isMatched === true)){
                             this.finish = true;
                             clearInterval(this.interval);
-                            this.sendAnswersCards( { tiempo: this.totalTime , game_type:  'cartas', productor_id : this.productor_id, course_game_id: this.course_game_id } ) 
+                            this.sendAnswersCards( { data:true,tiempo: this.totalTime , game_type:  'cartas', productor_id : 1, course_game_id: this.course_game_id } ) 
                             this.isGameFinish = true
                             this.totalTime =  {minutes: 0,seconds: 0}
                             this.turns = 0
+                            
                         }
 
                     }, 400);
@@ -215,6 +222,7 @@ export default {
         },
         /*Boton empezar*/ 
         _gettingStart(){
+            this.gameStarted=true;
             this.gettingStart = true
             this._startGame()
         },
@@ -248,6 +256,19 @@ export default {
 </script>
 
 <style scoped>
+.started {
+  background: rgb(253, 253, 253);
+  border-radius: 15px;
+}
+.pre{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  border-radius: 15px;
+  height: 50vh;
+}
+
     .btn-cards{
         background: var(--bg-btn);
     }
