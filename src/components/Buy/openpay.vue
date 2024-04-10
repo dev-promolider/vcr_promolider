@@ -35,7 +35,7 @@ export default {
             "order_id": this.order,
             "confirm": "false",
             "send_email": "false",
-            "redirect_url": "https://vcr.promolider.org/suscription-user",
+            "redirect_url": "https://vcr.promolider.info/suscription-user",
             "due_date": fechaFormateada,
             "customer": {
                 "name": this.openpayData.user_name,
