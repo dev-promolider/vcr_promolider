@@ -187,7 +187,8 @@ export default {
                         if(this.memoryCards.every(card => card.isMatched === true)){
                             this.finish = true;
                             clearInterval(this.interval);
-                            this.sendAnswersCards( { data:true,tiempo: this.totalTime , game_type:  'cartas', productor_id : 1, course_game_id: this.course_game_id } ) 
+                            const timeInSeconds=this.totalTime.minutes*60 + this.totalTime.seconds;
+                            this.sendAnswersCards( { data:true,tiempo: timeInSeconds , game_type:  'cartas', productor_id : 1, course_game_id: this.course_game_id } ) 
                             this.isGameFinish = true
                             this.totalTime =  {minutes: 0,seconds: 0}
                             this.turns = 0

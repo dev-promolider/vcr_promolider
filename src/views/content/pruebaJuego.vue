@@ -67,7 +67,6 @@ export default {
         async cargarDatos() {
             // await this.axios.get(`/course/dinamicas/datos/${this.$route.query.gameid}`).then((r) => {
                 await this.axios.get(`/course/dinamicas/datos/${this.data.game.id}`).then((r) => {
-                console.log(r.data.data);
                 if (r.data.length == 0) {
                     this.loading = false;
                     this.datos = [];

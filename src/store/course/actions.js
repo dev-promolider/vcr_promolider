@@ -250,13 +250,16 @@ export const getActiveDinamicClass = async ( { commit } , { game_for, idClass })
     try {
         
         const { data:dataClass } = await axios.get(`class/show-class?name=${idClass}`)
-        console.log(dataClass);
-        const {  data  } = await axios.post( '/course/game/active', { game_for, id_type: dataClass[0].id } )
-        if( !data ) return 
-        console.log(data);
-        commit('setDataDinamic', data)
+        const {  data:classDynamics  } = await axios.post( '/course/game/active', { game_for, id_type: dataClass[0].id } )
+        // const {  data:moduleDynamics  } = await axios.post( '/course/game/active', { game_for:'module', id_type: dataClass[0].id_modules } )
+       
+        // if( !classDynamics && !moduleDynamics ) return 
+        // const dynamics=[...classDynamics,...moduleDynamics]
+        if( !classDynamics  ) return 
+        const dynamics=[...classDynamics]
+        commit('setDataDinamic', dynamics)
 
-        return { ok: true , data}
+        return { ok: true , data:dynamics}
     } catch (error) {
         
         return { ok: false }
@@ -284,14 +287,14 @@ export const getDataDinamic = async ({commit}, id ) => {
 
 }
 //Enviamos las respuestas de la dinamica de cartas
-export const sendAnswersCards = async ({commit},{  tiempo = 0 , productor_id , game_type , data, course_game_id }) => {
+export const sendAnswersCards = async ({commit},{  tiempo = 0 , productor_id ,achieved_points=0, game_type , data, course_game_id }) => {
 
-    let segundos = 0;
+    // let segundos = 0;
 
-    segundos = ( tiempo.minutes * 60 ) + tiempo.seconds 
+    // segundos = ( tiempo.minutes * 60 ) + tiempo.seconds 
 
     try {
-        const resp = await axios.post( '/course/game/add-points', { game_type , productor_id , tiempo: segundos, data, course_game_id } )
+        const resp = await axios.post( '/course/game/add-points', { game_type ,achieved_points, productor_id , tiempo: tiempo, data, course_game_id } )
        const dynamicTop= await axios.post('course/game/retrieve-dynamic-top',{course_game_id:course_game_id});
        commit('topDynamicData',dynamicTop.data);
         commit('sumPoints', resp.data)
@@ -317,20 +320,20 @@ export const sendAnswersExamen = async ( _ , { id_exam , answers , course_id , s
     }
 
 }
+// ??? Free course ???
+// export const buyCourse = async ( _ , id_course ) => {
+//     try {
+//           await axios.post('/cart/buy-course', { id_course } )
 
-export const buyCourse = async ( _ , id_course ) => {
-    try {
-          await axios.post('/cart/buy-course', { id_course } )
+//           return {ok: true}
 
-          return {ok: true}
+//     } catch (error) {
 
-    } catch (error) {
-
-         return {ok: false}
+//          return {ok: false}
         
-    }
+//     }
 
-}
+// }
 
 
 export const sendRespDailyQuizz = async ( { commit } , isCorrect ) => {
@@ -398,7 +401,7 @@ export const getCourseRelated = async (  ) => {
 export const getActiveDinamicModule = async ( {commit}, payload ) => {
     try {
         const { data } = await axios.post( '/course/game/module/active', { id_course: payload } )
-       console.log(data);
+        console.log(data)
         commit('setActiveDinamicModule', data)
         return { ok: true }
     } catch (error) {

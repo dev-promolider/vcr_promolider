@@ -6,7 +6,7 @@
                 </v-progress-circular>
             </div>
         </template>
-        <VueUnity v-if="!loading" class=" unity-canvas rounded-0" :unity="unityContext" :width="'100%'" :height="'60vh'"/> <br><br>
+        <VueUnity v-if="!loading && visible" class=" unity-canvas rounded-0" :unity="unityContext" :width="'100%'" :height="'60vh'"/> <br><br>
         <!-- <v-simple-table dark>
             <template v-slot:default>
                 <thead>
@@ -37,7 +37,7 @@
     <script>
     import UnityWebgl from 'unity-webgl'
     import VueUnity from 'unity-webgl/vue'
-    
+    import { mapActions } from "vuex";
     const Unity = new UnityWebgl({
         loaderUrl: '/Build/wordWheel/web2.loader.js',
         dataUrl: "/Build/wordWheel/web2.data",
@@ -46,7 +46,6 @@
     })
     
     Unity.on('device', () => alert('click device ...'));
-    
     export default {
         props:['data'],
         components: {
@@ -57,13 +56,21 @@
                 unityContext: Unity,
                 loading: true,
                 datos: null,
+                visible:true,
+                originalLog:console.log
                 
             }
         },
         mounted() {
             this.cargarDatos();
         },
+        beforeDestroy(){
+            Unity.unload();
+                    self.visible=false;
+                    console.log=this.originalLog;
+        },
         methods: {
+            ...mapActions("course", ["sendAnswersCards"]),
             async cargarDatos() {
                 // await this.axios.get(`/course/dinamicas/datos/${this.$route.query.gameid}`).then((r) => {
                     await this.axios.get(`/course/dinamicas/datos/${this.data.game.id}`).then((r) => {
@@ -84,7 +91,35 @@
     
             consumirAPI(){
                 Unity.send('JavaScriptJson','setString',this.datos);
-               
+                this.originalLog=console.log;
+                let self=this;
+            console.log=function(){
+                if(arguments[0].includes('Puntos')){
+                    let scoreData=arguments[0].match(/\d+(\.\d+)?/g);
+                    
+                    self.sendAnswersCards({
+            data: true,
+            achieved_points:parseInt(scoreData[0]),
+            tiempo: parseFloat(scoreData[1]).toFixed(2) ,
+            productor_id: 1,
+            game_type: "wordWheel",
+            course_game_id: self.$route.params.id
+          });
+
+
+
+ self.originalLog.apply(console, [ arguments[0] ]);
+
+                    
+                }
+                if(arguments[0].includes('juegoterminado')){
+                    Unity.unload();
+                    self.visible=false;
+                    console.log=self.originalLog;
+                }
+                
+
+            }
             },
         },
     }

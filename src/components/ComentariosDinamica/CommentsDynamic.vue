@@ -3,7 +3,7 @@
     <div class="total-comments">{{ comments.length + " COMENTARIOS" }}</div>
     <div class="comment-input">
       <img :src="userPic" alt="User's Profile Image" class="input-avatar">
-      <textarea placeholder="Escribe un comentario..." class="input-textarea" minlength="3" maxlength="255"
+      <textarea placeholder="Escribe un comentario..." class="input-textarea" ref="commentInput" @click="setFocus" minlength="3" maxlength="255"
         v-model="commentContent"></textarea>
       <button class="send-button" @click="sendComment">
         <img :src="require('@/assets/SendComment.svg')" alt="Send Comment">
@@ -70,12 +70,17 @@ export default {
           content: trimmedComment
 
         });
+        this.commentContent='';
+
       } else {
         console.log('error al enviar commentario', trimmedComment)
         this.commentContent='';
       }
 
 
+    },
+    setFocus(){
+      this.$refs.commentInput.focus();
     }
   },
   created() {

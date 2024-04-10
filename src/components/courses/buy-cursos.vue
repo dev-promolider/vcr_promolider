@@ -1,339 +1,264 @@
 <template>
-<div class="bg-light">
-  <div class="container-fluid">
-    <!-- Primera sección -->
-    <div class="row py-5">
-      <!-- Detalles del curso -->
-      <div class="col-lg-4 col-md-12 pr-5 detailsCourse">
-        <h3
-          class="mb-4 font-weight-bold"
-          :class="{ loader: !titulo, 'loader-titles': !titulo }"
-        >
-          {{ titulo }}
-        </h3>
-        <template v-if="processPay">
-          <Openpay :openpayData=openpayData></Openpay>
-        </template>
-        <ul class="pl-3 mb-5 list-unstyled">
-          <li
-            class="my-1"
-            :class="{ loader: !level, 'loader-text-small': !level }"
-          >
-            <i class="fas fa-chart-line mr-3"></i><strong>Nivel:</strong>
-            {{ level }}
-          </li>
-          <li
-            class="my-1"
-            :class="{ loader: !categoria, 'loader-text-small': !categoria }"
-          >
-            <i class="fas fa-bezier-curve mr-2"></i><strong>Categoría:</strong>
-            {{ categoria }}
-          </li>
-        </ul>
-        
-        <div v-if="!isOwner">
-          <button
-            v-if="this.courseFilter == false && this.precio == 0"
-            class="btn-custom"
-            @click="BuyCourse()"
-            style="
-              font-size: 18px;
-              color: black;
-              font-weight: 600;
-              line-height: 1.5rem;
-            "
-            :class="{ loader: !titulo }"
-          >
-            {{
-              this.price_with_discount > 0
-                ? "Comprar ahora $" + this.price_with_discount + ""
-                : "Inscribete ahora"
-            }}
-          </button>
-
-          <button
-          v-if="this.courseFilter == false && this.precio > 0"
-            class="btn-custom"
-            data-toggle="modal" data-target="#paymentModal"
-            style="
-              font-size: 18px;
-              color: black;
-              font-weight: 600;
-              line-height: 1.5rem;
-            "
-            :class="{ loader: !titulo }"
-          >
-            {{
-              this.price_with_discount > 0
-                ? "Comprar ahora $" + this.price_with_discount + ""
-                : "Inscribete ahora"
-            }}
-          </button>
-        </div>
-
-        <div v-if="this.courseFilter == true">
-          <button class="btn-custom" @click="GoCourse()">
-            <span>
-              Curso ya adquirido <br />
-              Ir a Aprendisaje</span
-            >
-          </button>
-        </div>
-      </div>
-      <!-- Imagen del curso -->
-      <div class="col-lg-8 pr-0 pl-4" :class="{ loader: !videoimg, 'loader-img-course': !videoimg }" v-if="tymedia==1">
-        <video-player  class="video-player-box"
-            ref="videoPlayer"
-            :options="playerOptions"
-            :playsinline="true"
-            customEventName="customstatechangedeventname"
-            @play="onPlayerPlay($event)"
-            @pause="onPlayerPause($event)"
-            @loadeddata="onPlayerLoadeddata($event)"
-            @statechanged="playerStateChanged($event)"
-            @ready="playerReadied">
-        </video-player>
-      </div>
-      <div v-else class="col-lg-8 pr-0 pl-4" :class="{ loader: !img, 'loader-img-course': !img }">
-        <img :src="img" class="img-course" />
-      </div>
-    </div>
-
-    <!-- Seccion inferior -->
-    <div class="row">
-      <div class="col-lg-9 col-md-12 mt-4">
-        <div class="border-box">
-          <v-expansion-panels accordion v-if="isDetailsLoading">
-            <v-expansion-panel>
-              <v-expansion-panel-header style="font-weight: bold">
-                Descripción del curso
-              </v-expansion-panel-header>
-              <v-expansion-panel-content class="text-justify">
-                {{ descripcion }}
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel>
-              <v-expansion-panel-header style="font-weight: bold">
-                Acerca de este curso
-              </v-expansion-panel-header>
-              <v-expansion-panel-content class="text-justify">
-                {{ curso_detalle }}
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel>
-              <v-expansion-panel-header style="font-weight: bold">
-                ¿Qué aprenderás?
-              </v-expansion-panel-header>
-              <v-expansion-panel-content class="text-justify">
-                {{ aprendera }}
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel>
-              <v-expansion-panel-header style="font-weight: bold">
-                ¿Qué conocimientos previos necesitas?
-              </v-expansion-panel-header>
-              <v-expansion-panel-content class="text-justify">
-                {{ previos }}
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel>
-              <v-expansion-panel-header style="font-weight: bold">
-                ¿A quién está dirigido?
-              </v-expansion-panel-header>
-              <v-expansion-panel-content class="text-justify">
-                {{ dirigido }}
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-
-          <v-skeleton-loader v-else type="sentences@5"></v-skeleton-loader>
-        </div>
-
-        <!-- Lista -->
-        <div>
-          <h4
-            class="font-weight-bold my-5"
-            :class="{ loader: isLoading, 'loader-text-small': isLoading }"
-          >
-            Temario del curso
-          </h4>
-          <div v-if="isLoading" class="loader loader-temary"></div>
-          <ul class="list-group" v-if="course">
-            <li
-              class="list-group-item"
-              v-for="(model, index) in course.modules"
-              :key="index"
-            >
-              <span
-                v-b-toggle="model.name.replace(/ /g, '')"
-                class="cursor-pointer"
-              >
-                <strong> {{ index + 1 }}. {{ model.name }}</strong>
-              </span>
-              <b-collapse
-                :visible="index === 0"
-                :id="model.name.replace(/ /g, '')"
-              >
-                <ul class="list-unstyled">
-                  <li
-                    v-for="(less, index) in course.modules[index].lessons"
-                    :key="index"
-                    class="my-4"
-                  >
-                    <div
-                      class="cursor-pointer"
-                      v-if="course.modules[0].lessons[0].id === less.id"
-                      @click="getVideo(less.id)"
-                      data-toggle="modal"
-                      data-target="#video"
-                    >
-                      <i class="far fa-play-circle text-success mr-3"></i
-                      >{{ less.name }}
-                    </div>
-                    <div v-else>
-                      <i class="fas fa-lock mr-3"></i>{{ less.name }}
-                    </div>
-                  </li>
-                </ul>
-              </b-collapse>
+  <div class="bg-light">
+    <div class="container-fluid">
+      <!-- Primera sección -->
+      <div class="row py-5">
+        <!-- Detalles del curso -->
+        <div class="col-lg-4 col-md-12 pr-5 detailsCourse">
+          <h3 class="mb-4 font-weight-bold" :class="{ loader: !titulo, 'loader-titles': !titulo }">
+            {{ titulo }}
+          </h3>
+          <template v-if="processPay">
+            <Openpay :openpayData=openpayData></Openpay>
+          </template>
+          <ul class="pl-3 mb-5 list-unstyled">
+            <li class="my-1" :class="{ loader: !level, 'loader-text-small': !level }">
+              <i class="fas fa-chart-line mr-3"></i><strong>Nivel:</strong>
+              {{ level }}
+            </li>
+            <li class="my-1" :class="{ loader: !categoria, 'loader-text-small': !categoria }">
+              <i class="fas fa-bezier-curve mr-2"></i><strong>Categoría:</strong>
+              {{ categoria }}
             </li>
           </ul>
+
+          <div v-if="!isOwner">
+            <button v-if="this.courseFilter == false && this.precio == 0" class="btn-custom" @click="BuyCourse()" style="
+              font-size: 18px;
+              color: black;
+              font-weight: 600;
+              line-height: 1.5rem;
+            " :class="{ loader: !titulo }">
+              {{
+            this.price_with_discount > 0
+              ? "Comprar ahora $" + this.price_with_discount + ""
+              : "Inscribete ahora"
+          }}
+            </button>
+
+            <button v-if="this.courseFilter == false && this.precio > 0" class="btn-custom" data-toggle="modal"
+              data-target="#paymentModal" style="
+              font-size: 18px;
+              color: black;
+              font-weight: 600;
+              line-height: 1.5rem;
+            " :class="{ loader: !titulo }">
+              {{
+            this.price_with_discount > 0
+              ? "Comprar ahora $" + this.price_with_discount + ""
+              : "Inscribete ahora"
+          }}
+            </button>
+          </div>
+
+          <div v-if="this.courseFilter == true">
+            <button class="btn-custom" @click="GoCourse()">
+              <span>
+                Curso ya adquirido <br />
+                Ir a Aprendisaje</span>
+            </button>
+          </div>
+        </div>
+        <!-- Imagen del curso -->
+        <div class="col-lg-8 pr-0 pl-4" :class="{ loader: !videoimg, 'loader-img-course': !videoimg }"
+          v-if="tymedia == 1">
+          <video-player class="video-player-box" ref="videoPlayer" :options="playerOptions" :playsinline="true"
+            customEventName="customstatechangedeventname" @play="onPlayerPlay($event)" @pause="onPlayerPause($event)"
+            @loadeddata="onPlayerLoadeddata($event)" @statechanged="playerStateChanged($event)" @ready="playerReadied">
+          </video-player>
+        </div>
+        <div v-else class="col-lg-8 pr-0 pl-4" :class="{ loader: !img, 'loader-img-course': !img }">
+          <img :src="img" class="img-course" />
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-12 mt-4 pr-0">
-        <!-- Productor -->
-        <v-card
-          v-if="isDetailsLoading"
-          elevation="1"
-          class="rounded-lg"
-          :class="[
+      <!-- Seccion inferior -->
+      <div class="row">
+        <div class="col-lg-9 col-md-12 mt-4">
+          <div class="border-box">
+            <v-expansion-panels accordion v-if="isDetailsLoading">
+              <v-expansion-panel>
+                <v-expansion-panel-header style="font-weight: bold">
+                  Descripción del curso
+                </v-expansion-panel-header>
+                <v-expansion-panel-content class="text-justify">
+                  {{ descripcion }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+
+              <v-expansion-panel>
+                <v-expansion-panel-header style="font-weight: bold">
+                  Acerca de este curso
+                </v-expansion-panel-header>
+                <v-expansion-panel-content class="text-justify">
+                  {{ curso_detalle }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+
+              <v-expansion-panel>
+                <v-expansion-panel-header style="font-weight: bold">
+                  ¿Qué aprenderás?
+                </v-expansion-panel-header>
+                <v-expansion-panel-content class="text-justify">
+                  {{ aprendera }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+
+              <v-expansion-panel>
+                <v-expansion-panel-header style="font-weight: bold">
+                  ¿Qué conocimientos previos necesitas?
+                </v-expansion-panel-header>
+                <v-expansion-panel-content class="text-justify">
+                  {{ previos }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+
+              <v-expansion-panel>
+                <v-expansion-panel-header style="font-weight: bold">
+                  ¿A quién está dirigido?
+                </v-expansion-panel-header>
+                <v-expansion-panel-content class="text-justify">
+                  {{ dirigido }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+
+            <v-skeleton-loader v-else type="sentences@5"></v-skeleton-loader>
+          </div>
+
+          <!-- Lista -->
+          <div>
+            <h4 class="font-weight-bold my-5" :class="{ loader: isLoading, 'loader-text-small': isLoading }">
+              Temario del curso
+            </h4>
+            <div v-if="isLoading" class="loader loader-temary"></div>
+            <ul class="list-group" v-if="course">
+              <li class="list-group-item" v-for="(model, index) in course.modules" :key="index">
+                <span v-b-toggle="model.name.replace(/ /g, '')" class="cursor-pointer">
+                  <strong> {{ index + 1 }}. {{ model.name }}</strong>
+                </span>
+                <b-collapse :visible="index === 0" :id="model.name.replace(/ /g, '')">
+                  <ul class="list-unstyled">
+                    <li v-for="(less, index) in course.modules[index].lessons" :key="index" class="my-4">
+                      <div class="cursor-pointer" v-if="course.modules[0].lessons[0].id === less.id"
+                        @click="getVideo(less.id)" data-toggle="modal" data-target="#video">
+                        <i class="far fa-play-circle text-success mr-3"></i>{{ less.name }}
+                      </div>
+                      <div v-else>
+                        <i class="fas fa-lock mr-3"></i>{{ less.name }}
+                      </div>
+                    </li>
+                  </ul>
+                </b-collapse>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-12 mt-4 pr-0">
+          <!-- Productor -->
+          <v-card v-if="isDetailsLoading" elevation="1" class="rounded-lg" :class="[
             this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
               ? ''
               : 'avatar-productor',
-          ]"
-        >
-          <v-list>
-            <v-list-item>
-              <v-list-item-avatar width="80px" height="80px">
-                <v-img :src="imgProductor"> </v-img>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ nameProductor }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ emailProductor }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-card>
-        <v-skeleton-loader
-          v-else
-          type="list-item-avatar-two-line"
-        ></v-skeleton-loader>
-        <!-- Recomendaciones -->
-        <div class="mt-4">
-          <h5
-            class="font-weight-bold my-3"
-            :class="{
-              loader: loadingRelated,
-              'loader-text-small': loadingRelated,
-            }"
-          >
-            Recomendaciones
-          </h5>
-          <div v-if="loadingRelated">
-            <div class="loader loader-card my-4"></div>
-            <div class="loader loader-card my-4"></div>
-            <div class="loader loader-card my-4"></div>
-          </div>
-          <div class="card-container">
-            <!-- card course -->
-            <div
-              class="mb-4 cursor-pointer"
-              v-for="course in courses1"
-              :key="course.id"
-            >
-              <Card :course="course" :cardType="1" :isMouseOverActive="true" />
+          ]">
+            <v-list>
+              <v-list-item>
+                <v-list-item-avatar width="80px" height="80px">
+                  <v-img :src="imgProductor"> </v-img>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ nameProductor }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{ emailProductor }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card>
+          <v-skeleton-loader v-else type="list-item-avatar-two-line"></v-skeleton-loader>
+          <!-- Recomendaciones -->
+          <div class="mt-4">
+            <h5 class="font-weight-bold my-3" :class="{
+            loader: loadingRelated,
+            'loader-text-small': loadingRelated,
+          }">
+              Recomendaciones
+            </h5>
+            <div v-if="loadingRelated">
+              <div class="loader loader-card my-4"></div>
+              <div class="loader loader-card my-4"></div>
+              <div class="loader loader-card my-4"></div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Video-Modal -->
-    <div
-      class="modal fade"
-      id="video"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content bg-dark">
-          <div class="modal-header">
-            <h3
-              class="modal-title text-white text-center"
-              id="staticBackdropLabel"
-            >
-              {{ titulo }}
-            </h3>
-          </div>
-          <div class="modal-body">
-            <div class="video">
-              <Video v-if="renderVideo" />
-              <div v-else class="center-spinner">
-                <b-spinner
-                  style="width: 3rem; height: 3rem"
-                  variant="secondary"
-                  label="Large Spinner"
-                ></b-spinner>
+            <div class="card-container">
+              <!-- card course -->
+              <div class="mb-4 cursor-pointer" v-for="course in courses1" :key="course.id">
+                <Card :course="course" :cardType="1" :isMouseOverActive="true" />
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Modal payment -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">METODOS DE PAGO</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click.prevent="closeModal()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <select class="custom-select" v-model="payment_method_id">
-              <option v-for="item in paymentMethod" :label="item.name" :value="item.id" :key="item.id">{{ item.name }}</option>
-            </select>
 
-            <div class="form-group col-12 mb-0" v-if="payment_method_id==5">
-                <p style="font-weight: bold;">Saldo Billetera: $/ {{ saldoTotal }}</p>
-                <p style="font-weight: bold;">Precio Curso: $/ {{ importeCurso }}</p>
+      <!-- Video-Modal -->
+      <div class="modal fade" id="video" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+          <div class="modal-content bg-dark">
+            <div class="modal-header">
+              <h3 class="modal-title text-white text-center" id="staticBackdropLabel">
+                {{ titulo }}
+              </h3>
             </div>
-          </div>
-          
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click.prevent="closeModal()">Salir</button>
-            <button type="button" v-show="shouldDisplayBuyButton" @click="setBuyCourse()" class="btn btn-success">
-              {{ loadingCourse ? 'Procesando...' : 'Comprar' }}
-            </button>
+            <div class="modal-body">
+              <div class="video">
+                <Video v-if="renderVideo" />
+                <div v-else class="center-spinner">
+                  <b-spinner style="width: 3rem; height: 3rem" variant="secondary" label="Large Spinner"></b-spinner>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <!-- Modal payment -->
+      <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">METODOS DE PAGO</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click.prevent="closeModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <select class="custom-select" v-model="payment_method_id">
+                <option v-for="item in paymentMethod" :label="item.name" :value="item.id" :key="item.id">{{ item.name }}
+                </option>
+              </select>
 
+              <div class="form-group col-12 mb-0" v-if="payment_method_id == 5">
+                <p style="font-weight: bold;">Saldo Billetera: $/ {{ saldoTotal }}</p>
+                <p style="font-weight: bold;">Precio Curso: $/ {{ importeCurso }}</p>
+              </div>
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                @click.prevent="closeModal()">Salir</button>
+              <button type="button" v-show="shouldDisplayBuyButton" @click="setBuyCourse()" class="btn btn-success">
+                {{ loadingCourse ? 'Procesando...' : 'Comprar' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -362,7 +287,7 @@ export default {
       descripcion: "",
       level: "",
       img: "",
-      
+
       titulo: "",
       curso_detalle: "",
       aprendera: "",
@@ -387,24 +312,24 @@ export default {
       processPay: false,
       videoimg: "",
       playerOptions: {
-          responsive: true,
-          fluid: true,
-          preload: "auto",
-          autoplay: false,
-          muted: false,
-          language: "es",
-          playbackRates: [0.7, 1.0, 1.5, 2.0],
-          sources: [
-            {
-              type: "Video/mp4",
-              src: ""
-            },
-          ],
-          poster: "",
-          controlBar: {
-            durationDisplay: true,
-            timeDivider: true,
+        responsive: true,
+        fluid: true,
+        preload: "auto",
+        autoplay: false,
+        muted: false,
+        language: "es",
+        playbackRates: [0.7, 1.0, 1.5, 2.0],
+        sources: [
+          {
+            type: "Video/mp4",
+            src: ""
           },
+        ],
+        poster: "",
+        controlBar: {
+          durationDisplay: true,
+          timeDivider: true,
+        },
       },
       tymedia: 0,
       saldoTotal: 0,
@@ -433,7 +358,7 @@ export default {
       return false;
     },
     player() {
-        return this.$refs.videoPlayer.player
+      return this.$refs.videoPlayer.player
     },
     ...mapState("course", ["course", "renderVideo", "isLoading"]),
   },
@@ -442,10 +367,10 @@ export default {
     ...mapActions("course", {
       getCourse: "getCourse",
       getVideo: "getVideo",
-      buyCourse: "buyCourse",
+      // buyCourse: "buyCourse",
     }),
 
-     // listen event
+    // listen event
     onPlayerPlay(player) {
       console.log('player play!', player)
     },
@@ -453,7 +378,7 @@ export default {
       console.log('player pause!', player)
     },
 
-    onPlayerLoadeddata() {},
+    onPlayerLoadeddata() { },
 
     // or listen state event
     playerStateChanged(playerCurrentState) {
@@ -465,80 +390,94 @@ export default {
       console.log('the player is readied', player)
     },
 
-    closeModal(){
+    closeModal() {
       this.payment_method_id = 1;
     },
 
-    getWalletUser(){
+    getWalletUser() {
       this.axios.get(`/reports/mymovements/${this.user_id}`)
-      .then((response) => {
-        this.saldoTotal = response.data.data.reduce((saldo, transaction) => {
-            if(transaction.type == 1){
+        .then((response) => {
+          
+          this.saldoTotal = response.data.data.reduce((saldo, transaction) => {
+           
+            if (transaction.type == 1) {
+              return saldo + transaction.amount;
+            } else if (transaction.type == 0) {
+              if (transaction.id_receiver===this.user_id) {
                 return saldo + transaction.amount;
-            }else if(transaction.type == 0){
-              if(transaction.id_receiver){
-                return saldo + transaction.amount;
-              }else{
+              } else {
                 return saldo - transaction.amount;
               }
             }
+            
             return saldo;
-        }, 0);
-      })
+          }, 0);
+          
+        })
     },
 
-    getPaymentMethod(){
+    getPaymentMethod() {
       this.axios.get(`/config/payment-method/list-array`)
-      .then(response => {
-        this.paymentMethod = response.data.filter(data => !['Efectivo','Paypal','Transferencia'].includes(data.name));
-      })
+        .then(response => {
+          this.paymentMethod = response.data.filter(data => !['Efectivo', 'Paypal', 'Transferencia'].includes(data.name));
+        })
     },
 
-    async setBuyCourse(){
+    async setBuyCourse() {
       this.loadingCourse = true;
-      if(this.payment_method_id==1){
+
+      if (this.payment_method_id === 1) {
         await this.BuyCourse();
-      }else{
+      } else if (this.payment_method_id === 5) {
         const form = {
           'id_course': this.pao_id,
           'user_id': this.user_id,
           'type_purchase': 2
         }
         this.axios.post("course/buy-purchased-course", form)
-        .then((r) => {
-          if(r.data.status==="ok"){
-            this.$message.success('La compra se ha realizado con éxito')
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
-          }else{
-            console.log(r)
-          }
-        }).catch(error => {
-          console.log('Ocurrio un error', error)
-        }).finally(() => {
+          .then((r) => {
+            if (r.data.status === "ok") {
+              this.$message.success('La compra se ha realizado con éxito')
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+            } else {
+              console.log(r)
+            }
+          }).catch(error => {
+            console.log('Ocurrio un error', error)
+          }).finally(() => {
             this.loadingCourse = false;
-        });
+          });
       }
     },
 
     // Redirección a la vista para comprar el curso
     async BuyCourse() {
-      
-      if (this.precio === 0) {
-        const { ok } = await this.buyCourse(this.pao_id);
-        if (!ok) return;
-        this.$router.push({ name: "suscription-user" });
-      } else {
-        const form = {
-          'course_id': this.pao_id,
-          'price': this.price_with_discount
+
+      // if (this.precio === 0) {
+      //   const { ok } = await this.buyCourse(this.pao_id);
+      //   if (!ok) return;
+      //   this.$router.push({ name: "suscription-user" });
+      // } else {
+      //   const form = {
+      //     'course_id': this.pao_id,
+      //     'price': this.price_with_discount
+      //   }
+      //   this.axios.post("/pay/course-openpay", form).then((r) => {
+      //     this.openpayData = r.data;
+      //     this.processPay = true;
+      //   })
+      // }
+
+      const form = {
+          'course_id': this.pao_id
         }
         this.axios.post("/pay/course-openpay", form).then((r) => {
-          this.openpayData = r.data;
-          this.processPay = true;
+          window.location.href = r.data.payment_url;
+          // this.openpayData = r.data;
+          // this.processPay = true;
         })
-      }
     },
 
     FilterBtn() {
@@ -563,7 +502,8 @@ export default {
 
       // API para obtener los detalles
       this.axios.get("course/details/" + this.pao_id).then((datos) => {
-        this.items = datos.data.data[0];
+
+        this.items = datos.data.data;
         this.precio = this.items.price;
         this.price_with_discount = this.items.price_with_discount;
         this.importeCurso = this.items.price_with_discount;
@@ -582,7 +522,7 @@ export default {
             break;
         }
         this.videoimg = this.items.path_url;
-        
+
         if (this.videoimg.toLowerCase().endsWith(".mp4")) {
           // Es un video
           this.tymedia = 1;
@@ -644,55 +584,59 @@ export default {
       this.getAttributes();
     },
   },
-  mounted(){
-    
+  mounted() {
+
   },
   created() {
 
-    
+
     // Llamamos a la funcion que trae los atributos
     this.getAttributes();
     // Obtenemos el temario del curso
     this.getCourse(this.$route.params.ide);
-  
+
     this.FilterBtn();
-    
+
     this.getPaymentMethod();
   },
 };
 </script>
 
 <style scoped>
-
-
 .avatar-productor {
   width: 300px;
 }
+
 .container-fluid {
   width: 97%;
   margin-inline: auto;
   padding-bottom: 50px;
-  background-image: none !important ;
+  background-image: none !important;
 }
+
 .title-course {
   text-transform: uppercase;
 }
+
 .img-course {
   width: 100%;
   max-width: 900px;
   max-height: 427px;
   border-radius: 25px;
 }
+
 .img-card {
   width: 100%;
   border-radius: 25px 25px 0px 0;
   height: 50%;
 }
+
 @media (max-width: 700px) and (min-width: 577px) {
   .img-card {
     height: 40%;
   }
 }
+
 .img-productor {
   width: 100% !important;
   height: 100% !important;
@@ -704,6 +648,7 @@ export default {
   padding-left: 0;
   border-radius: 25px;
 }
+
 .video {
   width: 100%;
   margin: auto;
@@ -731,6 +676,7 @@ export default {
     font-size: 10px;
   }
 }
+
 @media (max-width: 1200px) {
   .img-productor {
     width: 70% !important;
@@ -742,9 +688,11 @@ export default {
   .loader-img-course {
     display: none !important;
   }
+
   .img-course {
     display: none !important;
   }
+
   .detailsCourse {
     display: flex;
     flex-direction: column;
@@ -752,23 +700,27 @@ export default {
     text-align: center !important;
     padding-right: 1rem !important;
   }
+
   .detailsCourse p {
     text-align: center !important;
   }
+
   p {
-    padding-right: 0 !important ;
+    padding-right: 0 !important;
   }
 
   .cardCursos {
     width: 40% !important;
     flex: none !important;
   }
+
   .card-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
   }
+
   .detalles {
     font-size: 20px;
   }
@@ -779,6 +731,7 @@ export default {
     width: 155% !important;
     margin-left: 0 !important;
   }
+
   .productor {
     display: flex !important;
     flex-direction: row !important;

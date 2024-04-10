@@ -161,7 +161,6 @@ h1{
     flex-direction: column;
     row-gap: 20px;
     width: 95%;
-    min-height: 32vw;
 }
 .aux-comment{
     width: 95%;

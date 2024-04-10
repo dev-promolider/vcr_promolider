@@ -239,9 +239,10 @@ export default {
         if (this.contador_aciertos == this.palabra_generada.length) {
           this.win = true;
           this.game = false;
+          const timeInSeconds=this.totalTime.minutes*60 + this.totalTime.seconds;
           this.senAnswers({
             data: true,
-            tiempo: this.totalTime ,
+            tiempo: timeInSeconds,
             productor_id: this.productor_id,
             game_type: "ahorcado",
             course_game_id: this.course_game_id
