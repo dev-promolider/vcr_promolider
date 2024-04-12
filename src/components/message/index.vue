@@ -112,7 +112,7 @@
                             </p>
                         </div>
 
-                        <div v-else class="chat-item-message p-2" style="width: max-content margin-right: auto; margin-left: 0;">
+                        <div v-else class="chat-item-message p-2" style="width: max-content; margin-right: auto; margin-left: 0;">
                             <div style="
                     background-color: #006aff;
                     color: #ffffff;
