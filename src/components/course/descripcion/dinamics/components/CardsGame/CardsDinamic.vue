@@ -114,7 +114,8 @@ export default {
         }
     },
     async created(){
-        await this.createCards(  )
+        console.log('here')
+        await this.createCards()
         /*Settear en el arreglo cartas las variables voltear y igualdad de cartas en estado false*/
         this.cards.forEach((card) => {
             Vue.set(card,'isFlipped',false);
@@ -124,7 +125,8 @@ export default {
         /*Clonar y combinar cartas*/ 
        this.memoryCards = _.shuffle(this.memoryCards.concat(_.cloneDeep(this.cards), _.cloneDeep(this.cards)));
 
-       this.getActiveCourse(  )
+       this.getActiveCourse()
+       
     },
 
     methods:{
@@ -134,7 +136,7 @@ export default {
         },
         async getActiveCourse(){
            const {data} = await this.getCourseActive(this.$route.query.c)
-           this.productor_id =  data[0].user_id
+           this.productor_id =  data.user_id
         },
         /*Crear cartas*/
         async createCards(){

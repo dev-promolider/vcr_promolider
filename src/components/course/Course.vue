@@ -90,12 +90,12 @@ export default {
     ]),
     async getCourseInfo(){
       await this.axios.get('course/details/' + this.$route.query.course).then((response) => {
-        this.courseInfo = response.data.data[0]
+        this.courseInfo = response.data.data
       })
     },
     // Leccion activa al momento de renderizar el componente
-    activeLesson() {
-      this.axios
+   async activeLesson() {
+      await this.axios
         .get(`class/show-class?name=${this.$route.query.class}`)
         .then((res) => {
           let lessonId = res.data[0].id;
@@ -107,11 +107,15 @@ export default {
           this.getTest({ exam_type: "class", id_type: res.data[0].id });
           this.getModuleExam(this.$route.query.course);
           this.getActiveDinamicModule(this.$route.query.course);
+          
         });
+        
     },
+    
   },
   mounted() {
     this.getCourseInfo();
+    
   },
   created() {
     this.activeLesson();
