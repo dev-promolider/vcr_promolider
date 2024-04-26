@@ -166,7 +166,7 @@ export default {
   height: 12px;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1375px) {
   .leaderboard{
   flex-direction: column;
   align-items: center;
