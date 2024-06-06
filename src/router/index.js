@@ -45,7 +45,10 @@ const routes = [
 
       { path: '/home', component: Home, name: 'home' },
       { path: '/', component: Home, name: 'home' },
-      { path: '/courses', component: Courses, name: 'courses' },
+      // { path: '/courses', component: Courses, name: 'courses',meta:{autenticado:false}},
+      // { path: '/buy-cursos/:ide/:slug', name: 'buy-cursos', component: buycursos, props: true,meta:{autenticado:false} },
+      { path: '/courses', component: Courses, name: 'courses'},
+      { path: '/buy-cursos/:ide/:slug', name: 'buy-cursos', component: buycursos, props: true},
       { path: '/course-user', component: CursoUser, name: 'curso', props: true },
       { path: '/test/:id', component: pruebasCourse, name: 'test' },
       { path: '/course-user/dinamic/:id', component: DinamicClass, name: 'dinamic' },
@@ -54,7 +57,6 @@ const routes = [
       { path: '/attribute-course', name: 'attribute-course', component: AttributeCourse },
       { path: '/perfil', name: 'perfil', component: Perfil },
       { path: '/option-preferences', name: 'option-preferences', component: optionPreference },
-      { path: '/buy-cursos/:ide', name: 'buy-cursos', component: buycursos, props: true },
       { path: '/suscription-user', component: Suscription, name: 'suscription-user' },
       { path: '/certificado-user', name: 'certificado-user', component: Certificado },
       { path: '/detalle-certificado', name: 'detalle-certificado', component: detalleCertificado },
@@ -71,7 +73,7 @@ const routes = [
     ]
   },
 
-
+  // { path: '/marketplace', component: Courses, name: 'marketplace',meta:{autenticado:false}},
   { path: '/login', name: 'Login', component: Login },
   { path: '/attribute', name: 'attribute', component: AttributeVenta },
   { path: '/contrasena', name: 'passwordrecovery', component: PasswordRecovery },
@@ -91,14 +93,18 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('access_token');
   let autenticado = to.matched.some(record => record.meta.autenticado);
+  let exception = to.matched.some(record => record.meta.autenticado===false);
   // let status = localStorage.getItem('status_user')
-  if (autenticado && !token) {
+  if(exception){
+    next();
+  
+  }else if (autenticado && !token) {
     next('login');
   }
   //  if ((!autenticado && token) && status == 0 ) {
   //   next('/preferences');
   else if ((!autenticado && token)) {
-    next('/home');
+    next();
 
   }
   else {

@@ -1,5 +1,5 @@
 import axios from "axios";
-// import router from "../../router";
+import router from "../../router";
 
 export const actionUser = async (context, body) => {
 
@@ -49,9 +49,9 @@ export const actionUser = async (context, body) => {
 
     // } else if(statususer == 0) {
     //     window.location.reload(true);
-    // this.$router.push('/home')
+    router.push('/home')
     // }
     
-    window.location.reload(true);
+    // window.location.reload(true);
 
 }

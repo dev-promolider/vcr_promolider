@@ -5,7 +5,7 @@
     v-if="course"
     @click="
       cardType == 1
-        ? action(course.id)
+        ? action(course.id,course.slug)
         : cardType == 4
         ? getCertificates(course)
         : goToCourse(course.id)
@@ -112,10 +112,10 @@ export default {
     }, */
 
     // Accion para la card de tipo 1
-    action(id) {
+    action(id,slug) {
       /* this.mouseleave() */
       this.$router
-        .push({ name: "buy-cursos", params: { ide: id } })
+        .push({ name: "buy-cursos", params: { ide: id,slug:slug } })
         .catch(() => {});
     },
     getCertificates(course) {

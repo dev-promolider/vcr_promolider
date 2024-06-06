@@ -9,6 +9,7 @@ import lang from "element-ui/lib/locale/lang/es";
 import locale from "element-ui/lib/locale";
 import Vuetify from 'vuetify'
 
+import VueMeta from 'vue-meta';
 
 import App from './App.vue'
 import router from './router'
@@ -28,6 +29,11 @@ axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 locale.use(lang);
+
+Vue.use(VueMeta, {
+  // optional pluginOptions
+  refreshOnceOnNavigation: true
+});
 Vue.use(ElementUI);
 
 // Vue Use Nodes

@@ -22,7 +22,7 @@
             </li>
           </ul>
 
-          <div v-if="!isOwner">
+          <div v-if="!isOwner" style="display: flex; flex-direction: column; align-items: flex-start;">
             <button v-if="this.courseFilter == false && this.precio == 0" class="btn-custom" @click="BuyCourse()" style="
               font-size: 18px;
               color: black;
@@ -49,6 +49,7 @@
               : "Inscribete ahora"
           }}
             </button>
+            <button @click="shareURL" style="color: #28a745;"><img :src="require('@/assets/share-icon.png')" width="20" alt="share">Compartir curso</button>
           </div>
 
           <div v-if="this.courseFilter == true">
@@ -273,7 +274,25 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "VirtualClassroomBuyCursos",
-
+  metaInfo() {
+    return {
+      title: this.titulo,
+      meta: [
+        {
+          property: 'og:title',
+          content: this.titulo
+        },
+        {
+          property: 'og:description',
+          content: this.descripcion
+        },
+        {
+          property: 'og:image',
+          content: this.img
+        }
+      ]
+    };
+  },
   props: ["ide"],
   data() {
     return {
@@ -369,6 +388,17 @@ export default {
       getVideo: "getVideo",
       // buyCourse: "buyCourse",
     }),
+
+    shareURL(){
+      const url = window.location.href;
+      navigator.clipboard.writeText(url)
+        .then(() => {
+          alert('URL copied to clipboard!');
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    },
 
     // listen event
     onPlayerPlay(player) {
@@ -585,7 +615,6 @@ export default {
     },
   },
   mounted() {
-
   },
   created() {
 

@@ -173,7 +173,7 @@
                         class="font-weight-bold mr-1"
                         :class="[$vuetify.breakpoint.xs && 'text-mobile']"
                       >
-                        ${{ course.price }}
+                        ${{ course.price_with_discount }}
                       </div>
                       <div
                         class="text-decoration-line-through text--secondary"
@@ -193,7 +193,7 @@
                       class="font-weight-bold"
                       :class="[$vuetify.breakpoint.xs && 'text-mobile']"
                     >
-                      {{ course.price === 0 ? "GRATIS" : `S/.${course.price}` }}
+                      {{ course.price === 0 ? "GRATIS" : `$${course.price_with_discount}` }}
                     </div>
                     <!-- <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div> -->
                   </div>

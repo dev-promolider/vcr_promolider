@@ -46,8 +46,8 @@ export default {
     //     });
     //   }
     //   return courseFilter;
-    editar(id){
-      this.$router.push('/buy-cursos/' + id)
+    editar(id,slug){
+      this.$router.push('/buy-cursos/' + id+'/'+slug)
     }
   },
 };
