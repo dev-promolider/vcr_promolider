@@ -46,7 +46,7 @@
  video.video-js,
  video.vjs-tech {
   /* max-height: calc(70vh - 64px); */
-  max-height: 550px;
+  max-height: 450px;
    position: relative !important;
    /* width: 100%; */
    height: auto !important;

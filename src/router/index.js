@@ -98,15 +98,20 @@ router.beforeEach((to, from, next) => {
   if(exception){
     next();
   
-  }else if (autenticado && !token) {
-    next('login');
+  }else if (autenticado) {
+    if(!token){
+      next('login');
+    }else{
+      next();
+    }
+    
   }
   //  if ((!autenticado && token) && status == 0 ) {
   //   next('/preferences');
-  else if ((!autenticado && token)) {
-    next();
+  // else if ((!autenticado && token)) {
+  //   next();
 
-  }
+  // }
   else {
 
     next()
