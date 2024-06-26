@@ -22,9 +22,22 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false
 
 //get token localstorage
-const token = localStorage.getItem('access_token');
+// const token = localStorage.getItem('access_token');
 axios.defaults.baseURL = process.env.VUE_APP_API_URL+'/api/v1'
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access_token');
+  config.headers.Authorization = token ? `Bearer ${token}` : '';
+  return config;
+});
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if (error.response.status === 401) {
+    localStorage.removeItem('access_token')
+    router.push('/login')
+  }
+  return Promise.reject(error);
+});
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

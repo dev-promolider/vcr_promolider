@@ -6,8 +6,9 @@ import moment from "moment";
 export const getCourseActive = async (context, id) => {
     try {
         const res =  await axios.get('course/details/' + id)
-
+        
         const { data }  = res.data
+        console.log(data)
 
         context.commit("SET_COURSE_ACTIVE", data)
 

@@ -174,7 +174,7 @@ export default {
       } else {
         this.newComment.issuing_user_id = localStorage.getItem("id_user");
         this.newComment.receiving_user_id =
-          this.course_active[0].user_id.toString();
+          this.course_active.user_id.toString();
         this.newComment.class_id = this.lesson.id.toString();
 
         if (this.newComment.class_id != undefined) {
