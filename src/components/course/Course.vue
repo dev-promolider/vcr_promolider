@@ -90,21 +90,24 @@ export default {
     ]),
     async getCourseInfo(){
       await this.axios.get('course/details/' + this.$route.query.course).then((response) => {
+        console.log(response)
         this.courseInfo = response.data.data
       })
     },
     // Leccion activa al momento de renderizar el componente
    async activeLesson() {
+    const courseId=this.$route.query.course;
       await this.axios
-        .get(`class/show-class?name=${this.$route.query.class}`)
+        .get(`class/show-class/${courseId}?name=${this.$route.query.class}`)
         .then((res) => {
-          let lessonId = res.data[0].id;
+          console.log(res)
+          let lessonId = res.data.id;
           this.lessonId = lessonId;
-          this.getLesson(res.data[0]);
-          this.getVideo(res.data[0].id);
-          this.getComments(res.data[0].id);
+          this.getLesson(res.data);
+          this.getVideo(res.data.id);
+          this.getComments(res.data.id);
           this.getRating(this.$route.query.course);
-          this.getTest({ exam_type: "class", id_type: res.data[0].id });
+          this.getTest({ exam_type: "class", id_type: res.data.id });
           this.getModuleExam(this.$route.query.course);
           this.getActiveDinamicModule(this.$route.query.course);
           

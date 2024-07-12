@@ -76,7 +76,6 @@ export default {
       this.axios.get("course/purchased-courses").then((datos) => {
         this.loading = false;
         this.informacion = datos.data.data;
-        console.log(this.informacion)
 
         if (this.informacion.length == 0) {
           this.carita = true;

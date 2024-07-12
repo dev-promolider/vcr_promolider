@@ -154,9 +154,6 @@ export const GET_COURSE_RATING = (state, courseRating) => {
 
 
 
-
-
-
 // Lenamos datos del examen de la clase activa
 export const DATA_EX = (state, dataEx) => {
     if(!dataEx)return

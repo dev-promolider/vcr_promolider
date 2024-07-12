@@ -8,7 +8,7 @@ export const getCourseActive = async (context, id) => {
         const res =  await axios.get('course/details/' + id)
         
         const { data }  = res.data
-        console.log(data)
+        
 
         context.commit("SET_COURSE_ACTIVE", data)
 
@@ -25,6 +25,7 @@ export const getCourseActive = async (context, id) => {
 export const getCourse = async (context, id) => {
     await axios.get('course/temary/get-all-class/' + id).then(
         (res) => {
+            console.log(res)
             context.commit("SET_COURSE", res.data.data)
             context.commit("listId_NameClass", res.data.data)
         }
@@ -111,7 +112,8 @@ export const getCourseRating =  (context, courseRating) => {
 // Obtenemos el examen de una clase
 export const getTest = async (context, data) => {
     await axios.post(`course/exam/active`, data).then((res)=>{
-        context.commit('DATA_EX', res)
+
+        context.commit('DATA_EX', res.data)
     })
     .catch((e)=>{
         context.commit('DATA_EX', e.response.status)
@@ -246,12 +248,12 @@ export const setRating = async ( { commit },comment) => {
     }
 }
 //Obtemos la dinamica activa
-export const getActiveDinamicClass = async ( { commit } , { game_for, idClass }) => {
+export const getActiveDinamicClass = async ( { commit } , { game_for,courseId, idClass }) => {
     
     try {
         
-        const { data:dataClass } = await axios.get(`class/show-class?name=${idClass}`)
-        const {  data:classDynamics  } = await axios.post( '/course/game/active', { game_for, id_type: dataClass[0].id } )
+        const { data:dataClass } = await axios.get(`class/show-class/${courseId}?name=${idClass}`)
+        const {  data:classDynamics  } = await axios.post( '/course/game/active', { game_for, id_type: dataClass.id } )
         // const {  data:moduleDynamics  } = await axios.post( '/course/game/active', { game_for:'module', id_type: dataClass[0].id_modules } )
        
         // if( !classDynamics && !moduleDynamics ) return 
@@ -312,6 +314,7 @@ export const sendAnswersExamen = async ( _ , { id_exam , answers , course_id , s
     
     try {
         const resp = await axios.post("course/exam/answers", { id_exam, answers, course_id ,seconds_used })
+        console.log(resp);
         return { ok: true , resp }
 
     } catch (error) {

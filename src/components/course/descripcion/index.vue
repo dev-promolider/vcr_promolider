@@ -1,48 +1,50 @@
 <template>
-<div style="min-height: 300px">
-    <template>
-        <v-card class="elevation-0">
-            <v-tabs v-model="tab" background-color="#f2f5fa" color="#1a1a1a" :hide-slider="true" :left="true">
-                <v-tab v-for="item in items" :key="item.tab">
-                    {{ item.tab }}
-                </v-tab>
-                <v-tooltip right>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="#1ae800" elevation="10" large rounded v-bind="attrs" v-on="on">
-                            Días restantes del curso: {{date.daysUntil}}
-                        </v-btn>
-                    </template>
-                    <span>Fecha de inicio: {{date.fechaInicio}}<br>Fecha de finalización: {{date.fechaVencimiento}}</span>
-                </v-tooltip>
-            </v-tabs>
-
-            <v-tabs-items v-model="tab" style="background-color: #f2f5fa">
-                <v-tab-item v-for="item in items" :key="item.tab">
-                    <!-- Resumen -->
-                    <v-card flat v-if="item.tab === 'Resumen'" color="#131b1e" rounded="xl">
-                        <v-card-text class="h6 text-justify text-white">
-                            {{ lesson.description }}
-                        </v-card-text>
-                    </v-card>
-                    <!-- Recursos -->
-                    <v-card flat v-if="item.tab === 'Recursos'" color="#131b1e" outlined rounded="xl" tag="div">
-                        <template v-if="!isResources">
-                            <v-card-text class="h6 text-center text-white">
-                                Ningún recurso disponible
-                            </v-card-text>
+    <div style="min-height: 300px">
+        <template>
+            <v-card class="elevation-0">
+                <v-tabs v-model="tab" background-color="#f2f5fa" color="#1a1a1a" :hide-slider="true" :left="true">
+                    <v-tab v-for="item in items" :key="item.tab" >
+                        {{ item.tab }}
+                    </v-tab>
+                    <v-tooltip right>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn color="#1ae800" elevation="10" large rounded v-bind="attrs" v-on="on">
+                                Días restantes del curso: {{ date.daysUntil }}
+                            </v-btn>
                         </template>
-                        <div v-else>
-                            <v-card-text class="h6">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item" v-for="(resource, index) in resources" :key="index" style="background-color: #131b1e">
-                                        <div class="d-flex justify-content-between text-white">
-                                            <button @click="download(resource)">
-                                                {{ index + 1 }})
-                                                <i class="fas fa-download"></i>
-                                                {{resource.filename}}
-                                            </button>
-                                        </div>
-                                        <!-- <div class="d-flex justify-content-between text-white">
+                        <span>Fecha de inicio: {{ date.fechaInicio }}<br>Fecha de finalización:
+                            {{ date.fechaVencimiento }}</span>
+                    </v-tooltip>
+                </v-tabs>
+
+                <v-tabs-items v-model="tab" style="background-color: #f2f5fa">
+                    <v-tab-item v-for="item in items" :key="item.tab">
+                        <!-- Resumen -->
+                        <v-card flat v-if="item.tab === 'Resumen'" color="#131b1e" rounded="xl">
+                            <v-card-text class="h6 text-justify text-white">
+                                {{ lesson.description }}
+                            </v-card-text>
+                        </v-card>
+                        <!-- Recursos -->
+                        <v-card flat v-if="item.tab === 'Recursos'" color="#131b1e" outlined rounded="xl" tag="div">
+                            <template v-if="!isResources">
+                                <v-card-text class="h6 text-center text-white">
+                                    Ningún recurso disponible
+                                </v-card-text>
+                            </template>
+                            <div v-else>
+                                <v-card-text class="h6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item" v-for="(resource, index) in resources" :key="index"
+                                            style="background-color: #131b1e">
+                                            <div class="d-flex justify-content-between text-white">
+                                                <button @click="download(resource)">
+                                                    {{ index + 1 }})
+                                                    <i class="fas fa-download"></i>
+                                                    {{ resource.filename }}
+                                                </button>
+                                            </div>
+                                            <!-- <div class="d-flex justify-content-between text-white">
                         <div>
                           {{ index + 1 }})
                           <a
@@ -65,9 +67,9 @@
                           >
                         </div>
                       </div> -->
-                                    </li>
+                                        </li>
 
-                                    <!-- <div class="modal" id="modal">
+                                        <!-- <div class="modal" id="modal">
                       <a href="#" class="modal-bg"></a>
                       <div class="modal-content">
                         <a href="#" class="modal-exit">x</a>
@@ -86,33 +88,60 @@
                         </div>
                       </div>
                     </div> -->
-                                </ul>
-                            </v-card-text>
-                        </div>
-                    </v-card>
-                    <!-- Examen -->
-                    <v-card flat v-if="item.tab === 'Examen'" color="#131b1e" outlined rounded="xl" tag="div">
-                        <div v-if="
-                  dataEx &&
-                  rate && // 👈 null and undefined check
-                  Object.keys(rate).length === 0 &&
-                  Object.getPrototypeOf(rate) === Object.prototype
-                ">
-                            <template v-if="dataEx.data === 'No existe el examen'">
-                                <v-card-text class="h6 text-center text-white">
-                                    Ningún examen disponible
+                                    </ul>
                                 </v-card-text>
-                            </template>
-
-                            <div class="mx-4 mt-4" v-else>
-                                <p class="text-justify">
-                                    <button @click="Testing" class="test">
-                                        Realizar prueba
-                                    </button>
-                                </p>
                             </div>
-                        </div>
-                        <!-- <div v-if="rate" class="p-5">
+                        </v-card>
+                        <!-- Examen -->
+                        <v-card flat v-if="item.tab === 'Examen'" color="#131b1e" outlined rounded="xl" tag="div">
+                            <div v-if="dataEx &&
+                    rate && // 👈 null and undefined check
+                    Object.keys(rate).length === 0 &&
+                    Object.getPrototypeOf(rate) === Object.prototype
+                    ">
+                                <div class="text-white p-3">
+                                    <button @click="examList()" class="test">Resultados</button>
+                                </div>
+                                <div v-if="showDataEx">
+                                    <template v-if="dataEx === 'No existe el examen'">
+                                        <v-card-text class="h6 text-center text-white">
+                                            Ningún examen disponible
+                                        </v-card-text>
+                                    </template>
+                                    <template v-else-if="dataEx === 'El usuario ya aprobó el examen'">
+                                        <div class="mx-4 mt-4 h6 text-center text-white">
+                                            Usted ya aprobó este examen
+                                        </div>
+                                    </template>
+                                    <div class="mx-4 mt-4" v-else>
+                                        <!-- <div v-for="[data, index] in dataEx" :key="index"> -->
+                                        <p class="text-justify">
+                                            <button @click="Testing(dataEx)" class="test">
+                                                Examen de esta clase
+                                            </button>
+                                        </p>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+
+
+
+
+                                <!-- <template v-if="dataEx.data === 'No existe el examen'">
+                                    <v-card-text class="h6 text-center text-white">
+                                        Ningún examen disponible
+                                    </v-card-text>
+                                </template>
+
+                                <div class="mx-4 mt-4" v-else>
+                                    <p class="text-justify">
+                                        <button @click="Testing(dataEx)" class="test">
+                                            Realizar prueba
+                                        </button>
+                                    </p>
+                                </div> -->
+                            </div>
+                            <!-- <div v-if="rate" class="p-5">
                 <v-card outlined>
                   <v-list-item three-line>
                     <v-list-item-content>
@@ -135,102 +164,355 @@
                   </v-list-item>
                 </v-card>
               </div> -->
-                    </v-card>
+                        </v-card>
 
-                    <!-- Dinámicas -->
-                    <v-card flat v-if="item.tab === 'Dinámicas'" color="#131b1e" outlined rounded="xl" tag="div">
-                        <template v-if="!isLoadingDinamic">
-                            <div class="text-center">
-                                <v-progress-circular indeterminate color="success">
-                                </v-progress-circular>
-                            </div>
-                        </template>
+                        <!-- Dinámicas -->
+                        <v-card flat v-if="item.tab === 'Dinámicas'" color="#131b1e" outlined rounded="xl" tag="div">
+                            <template v-if="!isLoadingDinamic">
+                                <div class="text-center">
+                                    <v-progress-circular indeterminate color="success">
+                                    </v-progress-circular>
+                                </div>
+                            </template>
 
-                        <template v-if="isLoadingDinamic">
+                            <template v-if="isLoadingDinamic">
 
-                            <template v-if="stateDinamic">
+                                <template v-if="stateDinamic">
 
-                                <v-simple-table dark>
-                                    <template v-slot:default>
-                                        <thead>
-                                            <tr>
-                                                <th class="text-left">
-                                                    Titulo
-                                                </th>
-                                                <th class="text-left">
-                                                    Tipo de juego
-                                                </th>
-                                                <th class="text-left">
-                                                    Categoría
-                                                </th>
-                                                <th class="text-left">
-                                                    Acción
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="item in dinamicas" :key="item.id">
-                                                <td>{{ item.title }}</td>
-                                                <td>{{ item.type1 }}</td>
-                                                <td v-if="item.type2 == 1">Curso</td>
-                                                <td v-if="item.type2 == 2">Módulo</td>
-                                                <td v-if="item.type2 == 3">Clase</td>
-                                                <td>
-                                                    <v-btn class="mx-2" color="success" @click="goToDinamics(item.id)">
-                                                        Empezar
-                                                    </v-btn>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </template>
-                                </v-simple-table>
+                                    <v-simple-table dark>
+                                        <template v-slot:default>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">
+                                                        Titulo
+                                                    </th>
+                                                    <th class="text-left">
+                                                        Tipo de juego
+                                                    </th>
+                                                    <th class="text-left">
+                                                        Categoría
+                                                    </th>
+                                                    <th class="text-left">
+                                                        Acción
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="item in dinamicas" :key="item.id">
+                                                    <td>{{ item.title }}</td>
+                                                    <td>{{ item.type1 }}</td>
+                                                    <td v-if="item.type2 == 1">Curso</td>
+                                                    <td v-if="item.type2 == 2">Módulo</td>
+                                                    <td v-if="item.type2 == 3">Clase</td>
+                                                    <td>
+                                                        <v-btn class="mx-2" color="success"
+                                                            @click="goToDinamics(item.id)">
+                                                            Empezar
+                                                        </v-btn>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </template>
+                                    </v-simple-table>
+
+                                </template>
 
                             </template>
 
-                        </template>
+                            <template v-if="!stateDinamic">
+                                <v-card-text class="text-center h6 text-white">
+                                    Ninguna dinámica disponible
+                                </v-card-text>
+                            </template>
+                        </v-card>
 
-                        <template v-if="!stateDinamic">
-                            <v-card-text class="text-center h6 text-white">
-                                Ninguna dinámica disponible
-                            </v-card-text>
-                        </template>
-                    </v-card>
-
-                    <v-card flat v-if="item.tab === 'Valoraciones'" color="#131b1e" outlined rounded="xl" tag="div">
-                        <Valoraciones />
-                    </v-card>
-                </v-tab-item>
-            </v-tabs-items>
-        </v-card>
-    </template>
-
-    <v-dialog v-model="dialog" width="500">
-        <v-card>
-            <v-card-title class="text-h5 lighten-2 alertTitle text-center text-white">
-                Aviso
-            </v-card-title>
-
-            <v-card-text class="text-h6 text-center">
-                <br />{{ this.alertMessage }}
-            </v-card-text>
-
-            <v-divider></v-divider>
-
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="#1ae800" text @click="dialog = false"> Aceptar </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
-    <v-snackbar v-model="snackbar" color="#1ae800">
-        <p class="text-dark m-0 p-0">Su archivo se está descargando...</p>
-        <template v-slot:action="{ attrs }">
-            <v-btn color="#000" text v-bind="attrs" @click="snackbar = false">
-                x
-            </v-btn>
+                        <v-card flat v-if="item.tab === 'Valoraciones'" color="#131b1e" outlined rounded="xl" tag="div">
+                            <Valoraciones />
+                        </v-card>
+                    </v-tab-item>
+                </v-tabs-items>
+            </v-card>
         </template>
-    </v-snackbar>
-</div>
+
+        <v-dialog v-model="dialog" width="500">
+            <v-card>
+                <v-card-title class="text-h5 lighten-2 alertTitle text-center text-white">
+                    Aviso
+                </v-card-title>
+
+                <v-card-text class="text-h6 text-center">
+                    <br />{{ this.alertMessage }}
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="#1ae800" text @click="dialog = false"> Aceptar </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-snackbar v-model="snackbar" color="#1ae800">
+            <p class="text-dark m-0 p-0">Su archivo se está descargando...</p>
+            <template v-slot:action="{ attrs }">
+                <v-btn color="#000" text v-bind="attrs" @click="snackbar = false">
+                    x
+                </v-btn>
+            </template>
+        </v-snackbar>
+
+        <v-dialog v-model="showModalExams" width="600">
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">
+          Lista de exámenes
+        </v-card-title>
+
+        <v-card-text>
+          <div class="table-responsive py-2">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Clase</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template v-if="exams_data.counter_class != 0">
+                  <tr v-for="exam in exams_class" :key="exam.id" class="">
+                    <template v-if="exam.exist">
+                      <td>{{ exam.name }}</td>
+                      <template v-if="exam.approved === 'Approved'">
+                        <td class="text-success">
+                          Examen Aprobado
+                        </td>
+                        <td>
+                          <button class="btn btn-primary" @click="showExamResultsModal(exam.exam_id)">
+                            Ver Resultado
+                          </button>
+                        </td>
+                      </template>
+                      <template v-else-if="exam.approved === 'Disaproved'">
+                        <td class="text-danger">Desaprobado</td>
+                        <td>
+                          <button class="btn btn-primary" @click="showExamResultsModal(exam.exam_id)">
+                            Ver Resultado
+                          </button>
+                          <button class="btn btn-primary" @click="Testing(exam.exam_id)">
+                            Reintentar
+                          </button>
+                        </td>
+                      </template>
+                      <template v-else>
+                        <td>
+                          --
+                        </td>
+                        <td>
+                          <button class="btn btn-primary" @click="Testing(exam.exam_id)">
+                            Realizar Examen
+                          </button>
+                        </td>
+                      </template>
+
+                    </template>
+                  </tr>
+                </template>
+                <template v-else>
+                  <td colspan="3">No hay exámenes disponibles</td>
+                </template>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive py-2">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Módulo</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template v-if="exams_data.counter_module != 0">
+                  <tr v-for="exam in exams_module" :key="exam.id" class="">
+                    <template v-if="exam.exist">
+                      <td>{{ exam.name }}</td>
+                      <template v-if="exam.approved === 'Approved'">
+                        <td class="text-success">
+                          Examen Aprobado
+                        </td>
+                        <td>
+                          <button class="btn btn-primary" @click="showExamResultsModal(exam.exam_id)">
+                            Ver Resultado
+                          </button>
+                        </td>
+                      </template>
+                      <template v-else-if="exam.approved === 'Disaproved'">
+                        <td class="text-danger">Desaprobado</td>
+                        <td>
+                          <button class="btn btn-primary" @click="showExamResultsModal(exam.exam_id)">
+                            Ver Resultado
+                          </button>
+                          <button class="btn btn-primary" @click="Testing(exam.exam_id)">
+                            Reintentar
+                          </button>
+                        </td>
+                      </template>
+                      <template v-else>
+                        <td>
+                          --
+                        </td>
+                        <td>
+                          <button class="btn btn-primary" @click="Testing(exam.exam_id)">
+                            Realizar Examen
+                          </button>
+                        </td>
+                      </template>
+
+                    </template>
+
+                  </tr>
+                </template>
+                <template v-else>
+                  <td colspan="3">No hay exámenes disponibles</td>
+                </template>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive py-2">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Curso</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template v-if="exams_data.counter_course != 0">
+                  <tr class="">
+                    <template v-if="exam_course.exist">
+                      <td>{{ exam_course.name }}</td>
+                      <template v-if="exam_course.approved === 'Approved'">
+                        <td class="text-success">
+                          Examen Aprobado
+                        </td>
+                        <td>
+                          <button class="btn btn-primary" @click="showExamResultsModal(exam_course.exam_id)">
+                            Ver Resultado
+                          </button>
+                        </td>
+                      </template>
+                      <template v-else-if="exam_course.approved === 'Disaproved'">
+                        <td class="text-danger">Desaprobado</td>
+                        <td>
+                          <button class="btn btn-primary" @click="showExamResultsModal(exam_course.exam_id)">
+                            Ver Resultado
+                          </button>
+                          <button class="btn btn-primary" @click="Testing(exam_course.exam_id)">
+                            Reintentar
+                          </button>
+                        </td>
+                      </template>
+                      <template v-else>
+                        <td>
+                          --
+                        </td>
+                        <td>
+                          <button class="btn btn-primary" @click="Testing(exam_course.exam_id)">
+                            Realizar Examen
+                          </button>
+                        </td>
+                      </template>
+
+                    </template>
+
+                  </tr>
+                </template>
+                <template v-else>
+                  <td colspan="3">No hay examen disponible</td>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="showModalExams = false">
+            Cerrar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="showResultsModal" width="600">
+              <v-card>
+                <v-card-title class="text-h5 resultado">
+                  Resultados del Examen
+                </v-card-title>
+
+                <v-card-text class="text-black respuestas">
+                  <template v-if="examResults.respuestas &&
+          examResults.respuestas.length > 0
+          ">
+                    <div v-for="(answer, index) in examResults.respuestas" :key="index">
+                      <p>
+                        <span>Pregunta {{ index + 1 }}</span> :
+                        <span
+                          v-bind:class="[answer.respuestaSeleccionada === answer.respuestaCorrecta ? 'text-success' : 'text-danger']">{{
+          answer.pregunta }}</span>
+                        <br />
+                        <span>Respuesta seleccionada</span>:
+                        <span
+                          v-bind:class="[answer.respuestaSeleccionada === answer.respuestaCorrecta ? 'text-success' : 'text-danger']">{{
+          answer.respuestaSeleccionada }}</span>
+                        <br />
+                        <span>Respuesta correcta</span>:
+                        <span
+                          v-bind:class="[answer.respuestaSeleccionada === answer.respuestaCorrecta ? 'text-success' : 'text-danger']">{{
+          answer.respuestaCorrecta }}</span>
+
+                      </p>
+                    </div>
+                  </template>
+
+                  <!-- <template>
+                    <div>
+                      <div v-for="(pregunta, index) in resultados" :key="index">
+                        <p>
+                          Pregunta {{ index + 1 }}: {{ pregunta.pregunta }}
+                          <br />
+                          Respuesta seleccionada:
+                          {{ pregunta.respuestaSeleccionada }} <br />
+                          Respuesta correcta: {{ pregunta.respuestaCorrecta }}
+                        </p>
+                      </div>
+                    </div>
+                  </template> -->
+
+                  <!--   <template v-else>
+                    <p>No hay respuestas disponibles.</p>
+                  </template> -->
+                  <!-- Mostrar si el examen fue aprobado o no -->
+                  <p v-if="examResults.passed" class="text-success resultado-examen">
+                    ¡APROBADO!
+                  </p>
+                  <p v-else class="text-danger resultado-examen">DESAPROBADO</p>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn class="btn-cerrar" color="primary" text @click="showResultsModal = false">
+                    Cerrar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+    </div>
 </template>
 
 <script>
@@ -261,23 +543,31 @@ export default {
             open: false,
             picture: null,
             carga: null,
+            showDataEx: true,
+            examResults:{},
+            showResultsModal:false,
             model: "tab-2",
             text: "Lorem ipsum dolor sit amet",
             tab: null,
             items: [{
-                    tab: "Resumen"
-                },
-                {
-                    tab: "Recursos"
-                },
-                {
-                    tab: "Examen"
-                },
-                {
-                    tab: "Dinámicas"
-                },
+                tab: "Resumen"
+            },
+            {
+                tab: "Recursos"
+            },
+            {
+                tab: "Examen"
+            },
+            {
+                tab: "Dinámicas"
+            },
                 // { tab: "Valoraciones" },
             ],
+            exam_course: [],
+            exams_class: [],
+            exams_module: [],
+            exams_data: [],
+            showModalExams: false,
             stateDinamic: true,
             idDinamicGame: [],
             isLoadingDinamic: false,
@@ -287,29 +577,42 @@ export default {
         };
     },
     computed: {
-        ...mapState("course", ["lesson", "resources", "isResources", "dataEx","dinamicClass"]),
+        ...mapState("course", ["lesson", "resources", "isResources", "dataEx", "dinamicClass"]),
         queryDinamic() {
             return this.$route.query.class;
         },
     },
     methods: {
+
+        async examList() {
+            this.showModalExams = true;
+            await this.axios
+                .get(`/course/exam/list?id=${this.$route.query.course}`)
+                .then((response) => {
+                    console.log(response)
+                    this.exam_course = response.data.exam_course;
+                    this.exams_class = response.data.exams_class;
+                    this.exams_module = response.data.exams_module;
+                    this.exams_data = response.data;
+                });
+        },
         async listDinamicas() {
 
 
             await this.axios.get(`/course/dinamicas/list/${this.$route.query.course}`).then((r) => {
-        
+
                 if (r.data.length == 0) {
                     this.stateDinamic = false;
                     this.isLoadingDinamic = true;
                     this.dinamicas = [];
                 } else {
-                    let temp=[];
-                    for(let dynamic of r.data){
-                        if(this.idDinamicGame.includes(dynamic.id)){
-                            temp=[...temp,dynamic];
+                    let temp = [];
+                    for (let dynamic of r.data) {
+                        if (this.idDinamicGame.includes(dynamic.id)) {
+                            temp = [...temp, dynamic];
                         }
                     }
-                    this.dinamicas=temp;
+                    this.dinamicas = temp;
                     this.isLoadingDinamic = true;
                     this.stateDinamic = true;
                 }
@@ -396,24 +699,73 @@ export default {
                 id_type: this.lesson.id,
             });
         },
-        Testing() {
-            if (isNaN(this.dataEx.data) == false) {
-                this.$router.push({
-                    name: "test",
-                    params: {
-                        id: this.dataEx.data
-                    },
-                    query: {
-                        class: this.$route.query.class,
-                        course: this.$route.query.course,
-                    },
-                });
-            } else {
-                //alert(this.dataEx.data);
-                this.alertMessage = this.dataEx.data;
-                this.dialog = true;
-            }
-        },
+       
+
+        Testing(dataEx) {
+
+            console.log(dataEx)
+      if (this.$route.params.mode == "preview") {
+        this.$router.push({
+          name: "previewTest",
+          params: {
+            mode: "preview",
+            id: dataEx,
+            slug: this.$route.params.slug,
+          },
+        });
+      } else {
+        this.$router.push({
+          name: "test",
+          params: {
+            id: dataEx,
+            slug: this.$route.params.slug,
+          },
+        });
+      }
+
+      // Lógica para mostrar los resultados del examen
+      if (dataEx === "No existe el examen") {
+        this.mostrar = true;
+        this.typeExamem = 1; // Cambiar al tipo de resultado deseado
+      } else {
+        this.mostrar = true;
+        this.typeExamem = 3; // Cambiar al tipo de resultado deseado
+      }
+    },
+        // Testing() {
+        //     if (isNaN(this.dataEx.data) == false) {
+        //         this.$router.push({
+        //             name: "test",
+        //             params: {
+        //                 id: this.dataEx.data
+        //             },
+        //             query: {
+        //                 class: this.$route.query.class,
+        //                 course: this.$route.query.course,
+        //             },
+        //         });
+        //     } else {
+        //         //alert(this.dataEx.data);
+        //         this.alertMessage = this.dataEx.data;
+        //         this.dialog = true;
+        //     }
+        // },
+        async showExamResultsModal(examId) {
+      try {
+        const resp = await this.axios.post("course/exam/results", { examId: examId })
+        const resultados = resp.data;
+        console.log(resultados);
+        this.examResults = {
+          respuestas: resultados.detail, // Utiliza resultadosPreguntas en lugar de examResults.respuestas
+          passed: resultados.result,
+        };
+        this.showResultsModal = true;
+      } catch (error) {
+        alert('Error al recuperar resultados.')
+        return
+      }
+
+    },
 
         // Extraer solo nombre del recurso y no toda la ruta
         getNameResource(filepath) {
@@ -426,6 +778,7 @@ export default {
                 this.isLoadingDinamic = false;
                 const dataSend = {
                     idClass: this.$route.query.class,
+                    courseId: this.$route.query.course,
                     game_for: "class",
                 };
                 let {
@@ -447,16 +800,16 @@ export default {
 
         goToDinamics(id) {
             this.$router.push({
-        name: "dinamic",
-        params: { id },
-        query: { c: this.$route.query.course },
-      });
+                name: "dinamic",
+                params: { id },
+                query: { c: this.$route.query.course },
+            });
         },
     },
     watch: {
-        dinamicClass:{
-            handler:'listDinamicas',
-            immediate:true
+        dinamicClass: {
+            handler: 'listDinamicas',
+            immediate: true
         },
         async queryDinamic() {
             this.getActiveDinamics();
