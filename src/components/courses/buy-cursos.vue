@@ -63,6 +63,9 @@
         <!-- Imagen del curso -->
         <div class="col-lg-8 pr-0 pl-4" :class="{ loader: !videoimg, 'loader-img-course': !videoimg }"
           v-if="tymedia == 1">
+
+          <!-- If player button is out of place, modify custom-theme.css in the library files and rebuild -->
+
           <video-player class="video-player-box" ref="videoPlayer" :options="playerOptions" :playsinline="true"
             customEventName="customstatechangedeventname" @play="onPlayerPlay($event)" @pause="onPlayerPause($event)"
             @loadeddata="onPlayerLoadeddata($event)" @statechanged="playerStateChanged($event)" @ready="playerReadied">
