@@ -67,10 +67,11 @@ export default {
     // DatosCurso,
   },
   computed: {
-    ...mapState("course", ["lesson", "renderVideo"]),
+    ...mapState("course", ["lesson", "renderVideo","courseSelect"]),
   },
   methods: {
     ...mapActions("course", {
+      courseSelectedStatus:"courseSelectedStatus",
       getLesson: "getLesson",
       getVideo: "getVideo",
       lastSeenLesson: "lastSeenLesson",
@@ -100,7 +101,7 @@ export default {
       await this.axios
         .get(`class/show-class/${courseId}?name=${this.$route.query.class}`)
         .then((res) => {
-          console.log(res)
+          
           let lessonId = res.data.id;
           this.lessonId = lessonId;
           this.getLesson(res.data);
@@ -117,17 +118,21 @@ export default {
     
   },
   mounted() {
+
+    this.courseSelectedStatus(true);
+  
     this.getCourseInfo();
     
   },
   created() {
     this.activeLesson();
-    this.GET_PROGRESS();
+    
     this.getCourseActive(this.$route.query.course);
     this.getCourseRating(this.$route.query.rate);
     this.$root.$refs.Course = this;
   },
   beforeMount() {
+    
     // Verificamos que en la URL venga el curso y clase, en caso contrario se le mostrara un error
     if (!this.$route.query.class && !this.$route.query.course) {
       this.error = true;

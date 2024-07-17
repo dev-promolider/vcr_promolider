@@ -49,9 +49,9 @@
       </v-chip>
 
       <!--Modal Certificate-->
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" v-if="courseSelect" style="color: #1ae800">
+      <v-tooltip v-if="courseSelected" bottom >
+        <template v-slot:activator="{ on,attrs }">
+          <v-btn  v-bind="attrs"  icon v-on="on"  style="color: #1ae800">
             <v-progress-circular
               :rotate="-90"
               :size="40"
@@ -240,6 +240,7 @@ export default {
   },
   data() {
     return {
+      courseSelected:false,
       attrs: {
         class: "pa-2",
       },
@@ -268,6 +269,7 @@ export default {
       showCertificateIcon: false,
     };
   },
+  
   computed: {
     idCourse() {
       return this.$route.query.course;
@@ -421,8 +423,10 @@ export default {
 
   mounted() {
     // this.showToolTip();
+    
     this.getpoints();
   },
+ 
   created() {
     // this.printCertificate( this.$route.query.course )
     this.getNotifications();
@@ -435,6 +439,18 @@ export default {
     idCourse() {
       this.getCertificate(this.$route.query.course);
     },
+    courseSelect:{
+      handler(newVal) {
+       
+        this.courseSelected = newVal;
+        this.$forceUpdate();
+        console.log('updated')
+      },
+      immediate: true
+
+    },
+    
+
   },
   beforRouteUpdate(to, from, next) {
     this.getCertificate(to.query.course);

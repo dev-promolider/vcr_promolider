@@ -90,8 +90,8 @@ export const DESTROY_PROGRESS_COURSE = (state ) =>{
 }
 
 
-export const GET_PROGRESS = (state) => {
-    state.courseSelect = true;
+export const GET_PROGRESS = (state,payload=true) => {
+    state.courseSelect = payload;
 }
 
 

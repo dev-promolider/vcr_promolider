@@ -20,12 +20,15 @@ export const getCourseActive = async (context, id) => {
  
 }
 
+export const courseSelectedStatus = (context, payload) => {
+    context.commit("GET_PROGRESS", payload)
+}
 
 // Temario del curso
 export const getCourse = async (context, id) => {
     await axios.get('course/temary/get-all-class/' + id).then(
         (res) => {
-            console.log(res)
+            
             context.commit("SET_COURSE", res.data.data)
             context.commit("listId_NameClass", res.data.data)
         }
