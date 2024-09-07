@@ -28,14 +28,16 @@
           <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
         </div>
       </div>
-      <div class="col-lg-4" style="background-color: #e8e9ea">
+      <div class="col-lg-4" style="background-color: #F2F5FA">
+        <Docente></Docente>
         <Temario></Temario>
-        <v-btn
-        depressed
-        color="#1ae800"
-        class="text-white ml-16"
-        >Invitar a otra persona
-        </v-btn>
+        <div class="text-center mb-3">
+          <v-btn
+            depressed
+            color="#1ae800"
+            class="text-white"
+          >Invitar a otra persona</v-btn>
+        </div>
         <Comentarios></Comentarios>
       </div>
     </div>
@@ -49,6 +51,7 @@ import Descripcion from "@/components/course/descripcion";
 import Comentarios from "@/components/course/comentarios";
 import Video from "@/components/course/video";
 // import DatosCurso from "@/components/course/datosCurso";
+import Docente from "@/components/course/docente";
 
 export default {
   name: "Course",
@@ -65,6 +68,7 @@ export default {
     Comentarios,
     Video,
     // DatosCurso,
+    Docente,
   },
   computed: {
     ...mapState("course", ["lesson", "renderVideo","courseSelect"]),

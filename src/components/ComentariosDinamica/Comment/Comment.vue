@@ -54,15 +54,15 @@
   }
   .comment {
   display: flex;
-  width: 100%; /* Take full width of the parent */
-  align-items: center; /* Align items vertically */
+  width: 100%; 
+  align-items: center; 
 }
 
 .comment-avatar {
-  width: 100px; /* Adjust to match design */
-  height: 100px; /* Adjust to match design */
+  width: 50px; 
+  height: 50px;
   border-radius: 50%;
-  border: 5px solid #1AE800;
+  /*border: 5px solid #1AE800;*/
   object-fit: cover;
   margin-right: 20px;
 }
@@ -70,24 +70,24 @@
 .comment-content {
   
   border-radius: 10px;
-  padding: 15px;
-  width: 70%; /* Ensure it fills the space */
+  padding: 10px;
+  width: 70%; 
 }
 
 .comment-name {
   margin: 0;
   color: #333;
-  font-size: 25px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .comment-text {
-  margin-top: 4px; /* Space between name and text */
+  /*margin-top: 4px; */
   color: #333;
 }
 
 .comment-date {
-  margin-top: 8px; /* Space between text and date */
+  margin-top: 8px; 
   font-size: 0.85rem;
   color: #999;
 }

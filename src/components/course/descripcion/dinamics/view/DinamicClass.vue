@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="fill-height ma-0 pa-0">
+    <v-container fluid class="fill-height ma-0 pa-0" style="background-color: #F2F5FA;">
         <template v-if="!datos && !isLoadingGame">
             <div class="h2 text-center">Not found</div>
         </template>
@@ -46,21 +46,21 @@
                                     mollitia illo quam odit et adipisci in! Corrupti, similique!</p>
                             </template>
                         </div>
-                        <div v-if="isSmallScreen" class="aux-ranking">
-                                                    <Ranking></Ranking>
-                                                </div>
-                        <div  v-else class="aux-comment">
-                            <Comentarios></Comentarios>
-                        </div>
                         
                     </v-col>
                     <v-col class="col-rank" cols="12" xl="5" >
 
-                        <div  v-if="isSmallScreen" class="aux-comment">
+                        <!--<div  v-if="isSmallScreen" class="aux-comment">
                             <Comentarios></Comentarios>
                         </div>
                         <div v-else class="aux-ranking">
                             <Ranking></Ranking>
+                        </div>-->
+                        <div class="aux-ranking">
+                            <Ranking></Ranking>
+                        </div>
+                        <div  class="aux-comment">
+                            <Comentarios></Comentarios>
                         </div>
 
                     </v-col>

@@ -17,7 +17,7 @@
               {{ level }}
             </li>
             <li class="my-1" :class="{ loader: !categoria, 'loader-text-small': !categoria }">
-              <i class="fas fa-bezier-curve mr-2"></i><strong>Categoría:</strong>
+              <i class="fas fa-bezier-curve mr-2"></i><strong>CategoríaAAA:</strong>
               {{ categoria }}
             </li>
           </ul>
@@ -51,7 +51,28 @@
             </button>
             <button @click="shareURL" style="color: #28a745;"><img :src="require('@/assets/share-icon.png')" width="20" alt="share">Compartir curso</button>
           </div>
-
+          <!--<div v-if="isOwner" style="display: flex; flex-direction: column; align-items: flex-start;">
+             Botón para ver el curso 
+            <button class="btn-custom" @click="viewMyCourse()" style="
+              font-size: 18px;
+              color: black;
+              font-weight: 600;
+              line-height: 1.5rem;
+            " :class="{ loader: !titulo }">
+              Ver mi curso
+            </button>
+          </div>-->
+          <div v-if="isOwner" style="display: flex; flex-direction: column; align-items: flex-start;">
+            <!-- Botón para ver el curso -->
+            <button class="btn-custom" @click="goToCourse(pao_id)" style="
+              font-size: 18px;
+              color: black;
+              font-weight: 600;
+              line-height: 1.5rem;
+            " :class="{ loader: !titulo }">
+              Ver mi curso
+            </button>
+          </div>
           <div v-if="this.courseFilter == true">
             <button class="btn-custom" @click="GoCourse()">
               <span>
@@ -65,7 +86,6 @@
           v-if="tymedia == 1">
 
           <!-- If player button is out of place, modify custom-theme.css in the library files and rebuild -->
-
           <video-player class="video-player-box" ref="videoPlayer" :options="playerOptions" :playsinline="true"
             customEventName="customstatechangedeventname" @play="onPlayerPlay($event)" @pause="onPlayerPause($event)"
             @loadeddata="onPlayerLoadeddata($event)" @statechanged="playerStateChanged($event)" @ready="playerReadied">
@@ -456,6 +476,43 @@ export default {
         })
     },
 
+    async goToCourse(id) {
+      let dataRequest;
+
+      try {
+        // Obtener el tiempo de visualización del curso
+        const response = await this.axios.get(`purchased/show-class-seen?course_id=${id}`);
+        dataRequest = response.data.data;
+        this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
+
+        if (!dataRequest.name) {
+          // Si no hay nombre, obtener la primera clase del temario
+          const responseTemary = await this.axios.get(`course/temary/get-all-class/${id}`);
+          let firstClass = responseTemary.data.data.modules[0].lessons[0].name;
+          this.$router.push({
+            name: "curso",
+            query: {
+              course: id,
+              class: firstClass,
+              rate: this.course.ranking_by_user,
+            }
+          }).catch(() => {});
+        } else {
+          // Si hay nombre, redirigir a esa clase
+          this.$router.push({
+            name: "curso",
+            query: {
+              course: id,
+              class: dataRequest.name,
+              rate: this.course.ranking_by_user,
+            }
+          }).catch(() => {});
+        }
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+      }
+    },
+    
     async setBuyCourse() {
       this.loadingCourse = true;
 
@@ -542,6 +599,8 @@ export default {
         this.importeCurso = this.items.price_with_discount;
         this.isOwner = this.items.owner;
 
+        console.log("AAAA:", datos.data.data);
+
         // Obtenemos el nivel del curso
         switch (this.items.course_level_id) {
           case 1:
@@ -583,6 +642,7 @@ export default {
 
         // Obtenemos la categoria del curso que corresponde al id de la respuesta
         this.axios.get("category/list").then((res) => {
+          console.log("CATEGORIAAAAS", res.data.data)
           for (const index in res.data.data) {
             if (res.data.data[index].id == this.items.id_categories) {
               this.categoria = res.data.data[index].name;
@@ -597,6 +657,8 @@ export default {
           this.nameProductor = res.data.fullName;
           this.emailProductor = res.data.email;
           this.imgProductor = res.data.photo;
+
+          console.log("EEEEEE: ", res.data.fullName);
         });
       });
 

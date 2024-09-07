@@ -1,7 +1,7 @@
 <template>
-  <div class="user-row">
+  <div class="user-row" >
 
-    <span style="font-size: 32.5px; font-weight: 500; width: 41.5px; ">{{ pos }}</span>
+    <span style="font-size: 32.5px; font-weight: 500; width: 25px; ">{{ pos }}</span>
 
     <img :src="amazonBaseURL + user.photo" alt="User's profile picture">
 
@@ -62,16 +62,27 @@ export default {
 <style scoped>
 .user-row {
   display: flex;
-  column-gap: 10px;
-  width: 90%;
+  column-gap: 5%;
+  width: 95%;
   height: 62px;
   overflow-x: auto;
   overflow-y: hidden;
   align-items: center;
-  border: 1px solid #1AE800;
-  border-radius: 20px;
-  padding-left: 20px;
+  /*border: 1px solid #1AE800;
+  border-radius: 50px;*/
+  padding-left: 10px;
 }
+
+/* Personalizar el scroll */
+.user-row::-webkit-scrollbar {
+  width: 8px; 
+  height: 8px; 
+}
+
+.user-row::-webkit-scrollbar-thumb:hover {
+  background: #12b600;
+}
+
 
 .user-row>* {
   flex-shrink: 0;
@@ -89,18 +100,17 @@ export default {
   height: 45px;
 
   border-radius: 50%;
-  border: 2px solid #1AE800;
+  /*border: 2px solid #1AE800;*/
   object-fit: cover;
 }
 
 .user-row div>:first-child {
   font-weight: 500;
-  font-size: 22.5px;
+  font-size: 15px;
 }
 
 .user-row>div:first-of-type {
-  width: 150px;
-
+  width: 120px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

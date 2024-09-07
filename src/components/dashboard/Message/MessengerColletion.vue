@@ -1,5 +1,5 @@
 <template>
-  <div class="card-message p-2 d-flex flex-column bg-white">
+  <div class="card-message p-2 d-flex flex-column">
     
     <div class="header d-flex justify-content-between mb-2">
       <p style="font-size: 1em">Mensajes</p>

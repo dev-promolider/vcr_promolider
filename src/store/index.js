@@ -6,6 +6,7 @@ import lastmessage  from "./lastmessage";
 import sections from "./sections";
 import user from "./user";
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({

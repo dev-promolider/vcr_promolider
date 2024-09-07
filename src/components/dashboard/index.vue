@@ -1,9 +1,9 @@
 <template>
-  <div class="container-fluid pt-3">
+  <div class="main_container container-fluid pt-3">
     <!-- obtener los datos totales de cursos, ventas, tipo de plan, afiliacion -->
     <div
       class="container my-5"
-      style="box-shadow: 1px 1px 8px #131b1e; border-radius: 15px"
+      style="background-color: white; border-radius: 15px"
     >
       <DataPrimaryUser />
     </div>
@@ -16,13 +16,13 @@
       >
         <div
           class="col-12 col-md-5"
-          style="box-shadow: 1px 1px 8px #131b1e; border-radius: 15px"
+          style="background-color: white; border-radius: 15px"
         >
           <MessengerColletion />
         </div>
         <div
           class="col-12 col-md-5"
-          style="box-shadow: 1px 1px 8px #131b1e; border-radius: 15px"
+          style="background-color: white; border-radius: 15px"
         >
           <ClienteVenta />
         </div>
@@ -72,7 +72,7 @@ export default {
         hashtags: "vuejs,vite,javascript",
       },
 
-      networks: [
+      /*networks: [
         {
           network: "facebook",
           name: "Facebook",
@@ -115,13 +115,19 @@ export default {
           icon: "fab fah fa-lg fa-whatsapp",
           color: "#25d366",
         },
-      ],
+      ],*/
     };
   },
 };
 </script>
 
 <style scoped>
+
+.main_container{
+  background-color: #f2f5fa;
+  height: 700px;
+}
+
 @media (max-width: 1000px) {
   .v-application--wrap {
     background-color: none !important;

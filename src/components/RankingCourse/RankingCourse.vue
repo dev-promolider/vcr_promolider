@@ -22,10 +22,7 @@
 
         </div>
         <div class="top-container">
-
-            <div class="aux-container">
-
-
+            <div class="aux-container mt-5">
                 <RowRankingCourse v-for="(item, index) in users" :key="index" :user="item" :pos="index + 1">
                 </RowRankingCourse>
 
@@ -95,7 +92,7 @@ export default {
 </script>
 <style scoped>
 .top-container {
-    width: 58%;
+    width: 60%;
     max-width: 400px;
     height: 798px;
     padding: 5px;
@@ -103,8 +100,9 @@ export default {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    background-color: #35424A;
-    border: 3px solid #1AE800;
+    background-color: white;
+    /*border: 3px solid #1AE800;*/
+    /*box-shadow: 0 0 15px rgba(32, 228, 4, 0.5);*/
 }
 
 .aux-container {
@@ -122,9 +120,6 @@ export default {
 
 }
 
-
-
-
 .ranking-container {
     flex-grow: 1;
     min-width: 565px;
@@ -134,58 +129,63 @@ export default {
 }
 
 .user-rank {
-    width: 110px;
+    width: 70px;
     position: absolute;
     left: 0;
-    height: 110px;
+    height: 70px;
     border-radius: 50%;
-    color: black;
+    color: #434343;
     font-weight: bold;
-    font-size: 60px;
-
+    font-size: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 5px #33BA23 solid;
-    background-color: #1AE800;
+    /*border: 5px #33BA23 solid;*/
+    box-shadow: 0 0 5px rgba(32, 228, 4, 0.5) !important;
+    /*background-color: #1AE800;*/
+    background-color: white;
     z-index: 1;
+    margin-left: 90px;
 }
 
 .user-display {
-    width: 80%;
+    width: 86%;
     position: relative;
-
+    margin-bottom: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .user-data {
+    font-size: 50px;
     display: flex;
     position: relative;
-
-    width: 100%;
+    width: 70%;
     height: 90px;
     padding: 12.5px 2px;
     justify-content: space-between;
     align-items: center;
-    border: 2px #33BA23 solid;
-    background-color: #1AE800;
+    /*border: 2px #33BA23 solid;*/
+    color: #434343;
+    /*box-shadow: 0 0 5px rgba(32, 228, 4, 0.5);*/
+    /*background-color: #1AE800;*/
+    background-color: white;
     overflow-x: auto;
     overflow-y: hidden;
-    column-gap: 10px;
-    border-radius: 100px;
+    column-gap: 20px;
+    border-radius: 15px;
 }
 
 .main-text {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
     text-wrap: nowrap;
 
 }
 
 .main-text+span {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: lighter;
 }
 

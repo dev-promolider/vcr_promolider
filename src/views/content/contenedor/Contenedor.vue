@@ -10,7 +10,7 @@
         <router-view />
       </v-main>
       <img
-        src="@/assets/ruleta.png"
+        src="@/assets/ruletaVerde.png"
         class="btnflo"
         data-toggle="modal"
         data-target="#ruleta"
@@ -82,7 +82,13 @@ export default {
   bottom: 20px;
   right: 20px;
   cursor: pointer;
+  transition: transform 0.3s ease; /* Agrega una transición suave */
 }
+
+.btnflo:hover {
+  transform: scale(1.2) translateY(-10px); /* Aumenta el tamaño y mueve hacia arriba */
+}
+
 @media (max-width: 1000px) {
   .v-application--wrap {
     background-color: none !important;

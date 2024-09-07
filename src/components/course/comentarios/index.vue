@@ -2,8 +2,24 @@
   <div class="row ml-3" style="margin-right: 30px">
     <div class="col-md-12 col-lg-12">
       <p class="text-left bolder text-section">
-        {{ allComments.length }} Comentarios
+        {{ filteredComments.length }} Comentarios
       </p>
+    </div>
+
+    <!-- Selector Privados/Públicos -->
+    <div class="col-md-12 mb-3">
+      <div class="d-flex justify-content-center">
+        <v-btn-toggle v-model="commentType" mandatory class="custom-btn-toggle">
+          <v-btn :value="'private'" class="custom-btn">
+            <v-icon v-if="commentType === 'private'" right class="check-icon mr-1">mdi-check</v-icon>
+            Privados
+          </v-btn>
+          <v-btn :value="'public'" class="custom-btn">
+            <v-icon v-if="commentType === 'public'" right class="check-icon mr-1">mdi-check</v-icon>
+            Públicos
+          </v-btn>
+        </v-btn-toggle>
+      </div>
     </div>
 
     <!-- Publicar comentario -->
@@ -24,7 +40,7 @@
           <v-form @submit.prevent="sendComment()" ref="form" lazy-validation>
             <v-text-field
               class="mt-5"
-              label="Escribe un comentario..."
+              :label="commentType === 'public' ? 'Escribe un comentario...' : 'Escribe un comentario privado...'"
               v-model="newComment.comments"
               clearable
               required
@@ -44,7 +60,7 @@
         </div>
 
         <div
-          v-if="isLoadingComments === false && allComments.length === 0"
+          v-if="!isLoadingComments && filteredComments.length === 0"
           class="no-result center-element py-5"
         >
           <span>Aún no hay comentarios</span>
@@ -55,16 +71,12 @@
     <!-- Comentarios -->
     <div
       class="col-md-12 mb-5"
-      v-if="isLoadingComments === false && allComments.length > 0"
+      v-if="!isLoadingComments && filteredComments.length > 0"
     >
       <div class="row">
-        <v-list color="#e8e9ea" class="px-4">
-          <template v-for="(i, index) in comments">
-            <v-list-item
-              class="pt-1 bg-white mb-5"
-              :key="index"
-              style="border-radius: 35px"
-            >
+        <v-list color="#F2F5FA" class="px-4">
+          <template v-for="(i, index) in filteredComments">
+            <v-list-item class="pt-1 bg-white mb-5" :key="index" style="border-radius: 35px">
               <v-container style="padding: 10px 0 0 0px">
                 <v-row>
                   <v-col cols="1">
@@ -108,17 +120,13 @@
                               :lines="2"
                               more-text="Ver más.."
                               less-text="Ocultar"
-                              additional-container-css="padding: 8px 0  0 0; width: 100% !important ; text-align: justify;"
-                              additional-anchor-css="color: green; text-decoration: none; width: 80px; margin:  0  0 0 auto; padding: 0"
+                              additional-container-css="padding: 8px 0 0 0; width: 100% !important ; text-align: justify;"
+                              additional-anchor-css="color: green; text-decoration: none; width: 80px; margin: 0 0 0 auto; padding: 0"
                             />
                           </v-card-text>
                         </v-list-item-subtitle>
                       </v-col>
-                      <v-col
-                        cols="12"
-                        style="padding-top: 0px; margin-top: 0px"
-                      >
-                      </v-col>
+                      <v-col cols="12" style="padding-top: 0px; margin-top: 0px"></v-col>
                     </v-row>
                   </v-col>
                 </v-row>
@@ -142,13 +150,13 @@ export default {
   data() {
     return {
       img: localStorage.getItem("photo_user"),
-      useId: "",
-      comentarios: [],
+      commentType: "public", // Añade esta propiedad
       newComment: {
         issuing_user_id: "",
         receiving_user_id: "",
         class_id: "",
         comments: "",
+        type: "public", // Añade esta propiedad
       },
     };
   },
@@ -164,18 +172,27 @@ export default {
     comments() {
       return this.getComments;
     },
+    filteredComments() {
+      const userId = localStorage.getItem("id_user");
+      return this.comments.filter(
+        (comment) =>
+          comment.type === "public" ||
+          (comment.type === "private" &&
+            (comment.issuing_user_id === userId ||
+              comment.receiving_user_id === userId))
+      );
+    },
   },
   methods: {
     ...mapActions("course", ["setComments"]),
-    // Funcion para el envio de mensajes
     async sendComment() {
       if (this.newComment.comments === "") {
         return;
       } else {
         this.newComment.issuing_user_id = localStorage.getItem("id_user");
-        this.newComment.receiving_user_id =
-          this.course_active.user_id.toString();
+        this.newComment.receiving_user_id = this.course_active.user_id.toString();
         this.newComment.class_id = this.lesson.id.toString();
+        this.newComment.type = this.commentType; // Establece el tipo de comentario
 
         if (this.newComment.class_id != undefined) {
           await this.setComments(this.newComment);

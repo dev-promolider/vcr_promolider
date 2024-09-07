@@ -2,19 +2,38 @@
   <main>
     <vue-horizontal>
       <section class="item" v-for="course in courses" :key="course.id">
-        <Card :course="course" :cardType="cardType"/>
+        <Card :course="course" :cardType="cardType" :categories="categories" :viewMode="viewMode"/>
       </section>
     </vue-horizontal>
   </main>
 </template>
 
 <script>
+import axios from 'axios';
 import Card from "@/components/courses/cards/marketplace.vue";
 
 export default {
-  name: "CarrouselCourse",
+  name: "CarrouselCourseMarketplace",
   components: {
     Card,
+  },
+  async created() {
+    try {
+      const response = await axios.get('category/list');
+      this.categories = response.data.data;
+    } catch (error) {
+      console.error('Error al obtener las categorías:', error);
+    }
+  },
+  props: {
+    courses: {
+      type: Array,
+      default: () => []
+    },
+    viewMode: {
+      type: String,
+      default: 'marketplace'
+    }
   },
   data() {
     return {
@@ -22,12 +41,9 @@ export default {
       timeout: null,
       baseURL: "http://promolider.xyz/storage/",
       cardType: 1,
+      Allcourses: [],
+      categories: []
     };
-  },
-  props: {
-    courses: {
-      type: Array,
-    },
   },
   methods: {},
 };
@@ -40,7 +56,6 @@ export default {
 
 .item {
   width: 300px !important;
-
   padding: 20px 0px 0px 0px;
 }
 </style>

@@ -1,3 +1,4 @@
+/* Estilos existentes */
 ul {
   font-size: 1em;
 }
@@ -11,6 +12,60 @@ ul {
 .temario {
   background-color: #ffffff;
   border-radius: 30px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.search-container input {
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.search-input {
+  position: relative;
+  display: inline-block;
+}
+
+.search-input input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-input-hover input,
+.search-input-focus input {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-input-hover input:hover,
+.search-input-focus input:focus {
+  border-color: #1ad003;
+  box-shadow: 0 0 10px rgba(26, 208, 3, 0.5);
+  outline: none;
+}
+
+.search-input input::placeholder {
+  font-size: 0.9em;
+}
+
+.search-input-focus input::placeholder {
+  font-size: 0.8em;
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  background-color: white;
+  padding: 0 5px;
+  transform: translateY(-50%);
+  z-index: 1;
+  color: #1ad003;
 }
 
 @media only screen and (min-width: 1000px) {
@@ -27,6 +82,7 @@ ul {
   text-overflow: ellipsis !important;
   margin-right: 10px;
 }
+
 .nav-temario ul li {
   padding: 10px 0;
   white-space: nowrap;
@@ -37,6 +93,7 @@ ul {
 .nav-temario ul {
   list-style: none;
 }
+
 .nav-temario ul li a {
   text-decoration: none;
   position: relative;
@@ -51,6 +108,7 @@ ul {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -61,6 +119,7 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: center;
 }
+
 input[type="checkbox"]:after {
   font-family: "Font Awesome 5 Free";
   content: "\f058";
@@ -68,6 +127,7 @@ input[type="checkbox"]:after {
   font-size: 24px;
   background: #ffffff;
 }
+
 input[type="checkbox"]:checked {
   font-family: "Font Awesome 5 Free";
   content: "\f058";
@@ -87,18 +147,41 @@ input[type="checkbox"]:checked {
   padding-left: 2px;
   padding-right: 2px;
 }
+
 .progressBar {
   font-size: 12px;
 }
 
-.temario::-webkit-scrollbar { 
+.temario::-webkit-scrollbar {
   width: 15px;
   display: block;
   background: #131b1e;
   border-radius: 50px;
 }
-  ::-webkit-scrollbar-thumb {
+
+::-webkit-scrollbar-thumb {
   display: block;
   background: #60d950;
   border-radius: 50px;
+}
+
+/* Estilos adicionales para responsividad */
+@media (max-width: 768px) {
+  .title-container,
+  .search-container {
+    width: 100%;
+    text-align: center;
+  }
+
+  .title-container {
+    margin-bottom: 10px;
+  }
+
+  .search-container {
+    justify-content: center;
+  }
+
+  .search-container input {
+    width: 100%;
+  }
 }

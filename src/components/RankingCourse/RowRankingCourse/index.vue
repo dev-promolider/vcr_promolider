@@ -1,13 +1,13 @@
 <template>
     <div class="user-row">
   
-      <span class="user-pos" style="font-size: 32.5px; font-weight: 500; width: 41.5px; margin-left: 40px;">{{ pos }}</span>
+      <span class="user-pos">{{ pos }}</span>
   
       <img :src="amazonBaseURL + user.photo" alt="User's profile picture">
   
-      <div>
+      <div class="text-content">
         <span class="username">{{ user.username }}</span> 
-        <span class="time">Tiempo: {{ formattedTime }}</span>
+        <span class="time mt-1">Tiempo: {{ formattedTime }}</span>
          <span class="points">Puntos: {{ user.total_points }}</span>
       </div>
   
@@ -56,6 +56,7 @@
     align-items: center;
     justify-content: flex-start;
     border: none;
+    color: #434343;
   }
   
   .user-row>* {
@@ -71,9 +72,8 @@
   .user-row img {
     width: 42px;
     height: 42px;
-  
     border-radius: 50%;
-    border: 2px solid #1AE800;
+    /*border: 2px solid #1AE800;*/
     object-fit: cover;
   }
   
@@ -81,24 +81,23 @@
   .user-pos{
     width: 42px;
     height: 42px;
-    color: white;
+    color: #20E404;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid white;
-    border-radius: 50%;
+    border: 2px solid #20E404;
+    border-radius: 50%; 
+    margin-left: 40px;
   }
 
   .username{
-    color: white;
     font-weight:600;
     font-size: 15px;
   }
 
   .time,.points{
-    color: white;
     font-size: 10px;
   }
   </style>

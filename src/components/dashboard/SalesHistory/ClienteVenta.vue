@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="marco p-3 bg-white">
+    <div class="marco p-3">
       <div class="header d-flex justify-content-between mb-2">
         <p style="font-size: 1em">Ventas</p>
         <router-link
@@ -47,7 +47,7 @@
               </div>
             </div>
             <span
-              class="cursos col-5 text-capitalize"
+              class="cursos col-4 text-capitalize"
               style="
                 font-size: 12px;
                 margin-right: 0px;
@@ -121,6 +121,30 @@ export default {
   cursor: pointer;
 }
 
+.cliente .list-group-item {
+  border: 1px solid #1AE800; /* Cambia el color del borde */
+  padding: 0rem 0.5rem; /* Ajusta el relleno si es necesario */
+  display: flex !important;
+  align-items: center !important; /* Alinea los elementos verticalmente */
+  justify-content: space-between !important;
+}
+
+.cliente .list-group-item span.cursos {
+  margin-right: 0px !important;
+}
+
+.cliente .list-group-item span.cursos.col-5 {
+  margin-right: 0px !important;
+}
+
+.cliente .list-group-item span.cursos.col-2 {
+  margin-right: 5px !important;
+}
+
+.cliente .list-group-item span.cursos.col-3 {
+  margin-right: 0  !important;
+}
+
 .marco {
   border-radius: 15px;
   width: 100%;
@@ -161,8 +185,8 @@ export default {
 .cursos {
   font-size: 10px;
   color: #000000;
-  font-weight: 700;
-  margin-right: 15px;
+  font-weight: 500;
+  padding: 0%;
 }
 
 .cajita {

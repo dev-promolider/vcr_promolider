@@ -1,13 +1,7 @@
 <template>
   <div>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      :permanent="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
-      :expand-on-hover="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
-      :mini-variant="mini"
-      class="color-drawer"
-    >
+    <v-navigation-drawer v-model="drawer" app :permanent="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
+      :expand-on-hover="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm" :mini-variant="mini" class="color-drawer">
       <v-list>
         <v-list-item class="px-2" link :to="{ name: 'perfil' }">
           <v-list-item-avatar class="mr-1">
@@ -28,23 +22,28 @@
       <v-list nav dense>
         <template v-if="showNav">
           <template v-for="(link, index) in listNavBar">
-              <v-list-item v-if="!(role === 'Distributor' && link.nombre === 'Mis cursos')"
-                link
-                style="color: #ffffff; margin-bottom: 25px !important"
-                :key="index"
-                :to="{ name: link.path }"
-              >
-                  <v-list-item-icon class="mr-3">
-                    <v-icon style="color: #ffffff">{{ `mdi-${link.icon}` }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title>{{ link.nombre }}</v-list-item-title>
-              </v-list-item>  
+            <v-list-item v-if="!(role === 'Distributor' && link.nombre === 'Mis cursos')" link
+              style="color: #ffffff; margin-bottom: 25px !important" :key="index" :to="{ name: link.path }">
+              <!--<v-list-item-icon class="mr-3">
+                <v-icon style="color: #ffffff">{{ `mdi-${link.icon}` }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>{{ link.nombre }}</v-list-item-title>-->
+              <v-list-item-icon class="mr-3">
+                <v-icon :class="{ 'active-icon': $route.name === link.path, 'inactive-icon': $route.name !== link.path }">
+                  {{ `mdi-${link.icon}` }}
+                </v-icon>
+              </v-list-item-icon>
+              <v-list-item-title
+                :class="{ 'active-text': $route.name === link.path, 'inactive-text': $route.name !== link.path }">
+                {{ link.nombre }}
+              </v-list-item-title>
+            </v-list-item>
           </template>
         </template>
         <template v-else>
           <div class="myb-9 box animation">
-            </div>
-          <div v-for="qty in listNavBar.length-1" :key="qty">
+          </div>
+          <div v-for="qty in listNavBar.length - 1" :key="qty">
             <div class="my-9 box animation">
             </div>
           </div>
@@ -54,18 +53,12 @@
       <template v-slot:append>
         <div>
           <v-list nav dense>
-            <v-list-item
-              link
-              :to="{ name: 'preguntas-frecuentes' }"
-              style="color: #131b1e; font-size: 18px"
-              class="text-decoration-none list-item"
-            >
+            <v-list-item link :to="{ name: 'preguntas-frecuentes' }" style="color: #131b1e; font-size: 18px"
+              class="text-decoration-none list-item">
               <v-list-item-icon style="margin-right: 5px">
                 <v-icon class="" style="color: #ffffff">mdi-help</v-icon>
               </v-list-item-icon>
-              <v-list-item-title style="color: #ffffff; font-size: 14px"
-                >Preguntas frecuentes</v-list-item-title
-              >
+              <v-list-item-title style="color: #ffffff; font-size: 14px">Preguntas frecuentes</v-list-item-title>
             </v-list-item>
           </v-list>
         </div>
@@ -98,8 +91,8 @@ export default {
         { nombre: "Mi aprendizaje", icon: "book", path: "suscription-user" },
         { nombre: "Mis cursos", icon: "book-check", path: "myCourses" },
         { nombre: "Marketplace", icon: "store", path: "courses" },
-        { nombre: "Mis exámenes", icon: "file", path: "examenes"},
-        { nombre: "Mis certificaciones", icon: "school", path: "certificado-user"},
+        { nombre: "Mis exámenes", icon: "file", path: "examenes" },
+        { nombre: "Mis certificaciones", icon: "school", path: "certificado-user" },
         { nombre: "Mensajes", icon: "message-processing", path: "messages" },
         { nombre: "Logros", icon: "trophy", path: "logros" },
         { nombre: "Clasificación", icon: "star", path: "leaderBoard" },
@@ -121,7 +114,7 @@ export default {
     changeDrawer(drawer) {
       this.drawer = drawer;
     },
-    async getRole(){
+    async getRole() {
       this.axios.get('/user/get-rolename').then((response) => {
         this.role = response.data.data;
         this.showNav = true;
@@ -134,43 +127,68 @@ export default {
 };
 </script>
 <style lang="scss">
-.box{
+.box {
   height: 25px;
   border-radius: 5px;
   width: 80%;
   margin: auto;
 }
-.animation{
+
+.animation {
   animation: pulsos 1s infinite;
 }
+
 @keyframes pulsos {
   0% {
     background: #eee;
   }
+
   50% {
     background: #bfbfbf;
   }
+
   100% {
     background: #eee;
   }
 }
+
 .mod {
   padding-left: 20px;
   padding-right: 20px;
 }
+
 .list-item {
   height: 50px;
 }
+
 .color-drawer {
   // background: #35424a !important;
   background: #131b1e !important;
 }
+
 a:hover {
   text-decoration: none;
 }
+
 .v-list-item--active {
   background-color: #000000;
   color: #1ae800 !important;
+}
+
+.active-icon {
+  color: #1ae800 !important;
+}
+
+.inactive-icon {
+  color: #ffffff !important;
+}
+
+.active-text {
+  color: #1ae800 !important;
+}
+
+.inactive-text {
+  color: #ffffff !important;
 }
 
 .v-navigation-drawer__content::-webkit-scrollbar-track {
@@ -178,9 +196,11 @@ a:hover {
   -webkit-box-shadow: inset 0 0 6px #5d5d5d;
   background-color: #5d5d5d;
 }
+
 .v-navigation-drawer__content::-webkit-scrollbar {
   width: 0px;
 }
+
 .v-navigation-drawer__content::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px #424242;
   box-shadow: inset 0 0 6px #424242;

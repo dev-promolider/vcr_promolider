@@ -1,19 +1,18 @@
 <template>
     <div class="ranking-container">
-
-        <img :src="require(`@/assets/trophy.png`)" alt="trofeo">
+        <!--<img :src="require(`@/assets/trophy.png`)" alt="trofeo">-->
         <div class="user-display">
             <div class="user-rank">{{ currentUser.pos }}</div>
             <div class="user-data">
-                <div style="margin-left: 120px;">
+                <div style="margin-left: 110px; margin-right: 5px;">
                     <span class="main-text">{{ currentUser.username }}</span>
-                    <span>{{ formattedDate }}</span>
+                    <!--<span>{{ formattedDate }}</span>-->
                 </div>
                 <div>
                     <span class="main-text">{{ currentUser.completion_time }}</span>
                     <span>TIEMPO</span>
                 </div>
-                <div style="margin-right: 50px;">
+                <div style="margin-right: 35px;">
                     <span class="main-text">{{ currentUser.increment_points }}</span>
                     <span>PUNTOS</span>
                 </div>
@@ -23,10 +22,9 @@
 
         </div>
         <div class="top-container">
-            <h2 style="text-align: center; font-size: 45px; font-weight: bold; margin-bottom: 15px;">Los 10 primeros
+            <h2 style="text-align: center; font-size: 30px; font-weight: 650; margin-bottom: 15px; color: #434343;">Top 10
             </h2>
             <div class="aux-container">
-
                 <div class="topTen" v-for="(item, index) in topTen" :key="index">
                     <RankingRow :user="item" :pos="index + 1"></RankingRow>
                 </div>
@@ -101,31 +99,6 @@ export default {
 }
 </script>
 <style scoped>
-.top-container {
-    width: 73%;
-    max-width: 600px;
-    box-shadow: inset 0 0 10px #000000;
-    box-shadow: 0 0 10px #000000;
-    height: 60vh;
-    overflow-y: hidden;
-    border-radius: 35px;
-    display: flex;
-    flex-direction: column;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    padding-right: 25px;
-}
-
-.aux-container {
-    overflow-y: scroll;
-    width: 100%;
-    height: 100%;
-    display: flex;
-
-    flex-direction: column;
-    row-gap: 10px;
-}
-
 .topTen {
     display: flex;
     width: 100%;
@@ -141,54 +114,82 @@ export default {
 }
 
 .user-rank {
-    width: 110px;
+    width: 70px;
     position: absolute;
     left: 0;
-    height: 110px;
+    height: 70px;
     border-radius: 50%;
-    color: black;
+    color: #434343;
     font-weight: bold;
-    font-size: 60px;
-
+    font-size: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 5px #33BA23 solid;
-    background-color: #1AE800;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(32, 228, 4, 0.5);
     z-index: 1;
+    margin-bottom: 50px;
+    margin-left: 5%;
 }
 
 .user-display {
-    width: 65%;
+    width: 80%;
     position: relative;
     top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 700px;
 }
 
 .user-data {
     display: flex;
     position: relative;
-
     width: 100%;
     height: 90px;
     padding: 12.5px 2px;
     justify-content: space-between;
     align-items: center;
-    border: 2px #33BA23 solid;
-    background-color: #1AE800;
+    color: #434343;
+    background-color: white;
     overflow-x: auto;
     overflow-y: hidden;
     column-gap: 10px;
-    border-radius: 100px;
+    border-radius: 15px;
+    font-size: 50px;
+    margin-bottom: 50px;
+}
+
+.user-data::-webkit-scrollbar {
+    width: 8px; 
+    height: 8px; 
+}
+
+.top-container {
+    width: 80%;
+    max-width: 700px;
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-right: 5px;
+    top: 20px;
+}
+
+.aux-container {
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
 }
 
 .main-text {
-    font-size: 25px;
+    font-size: 15px !important;
     font-weight: 700;
     text-wrap: nowrap;
-
 }
 
 .main-text+span {
@@ -201,5 +202,9 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
 }
 </style>

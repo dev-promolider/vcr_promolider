@@ -10,12 +10,10 @@
       </button>
     </div>
     <div class="aux-comment-container">
-
       <div class="comments-container" v-if="!isLoadingDynamicComments">
         <Comment v-for="commentData in comments" :key="commentData.id" :commentData="commentData" />
       </div>
     </div>
-
   </div>
 </template>
 
@@ -92,46 +90,46 @@ export default {
 
 <style scoped>
 .comments-section {
-  width: 95%;
-  height: 933px;
-  background-color: white;
-  box-shadow: inset 0 0 10px #000000;
-  box-shadow: 0 0 10px #000000;
-
+  width: 80%;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 50px;
+  /*padding: 25px;*/
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
-  border-radius: 40px;
+  border-radius: 15px;
+  /*background-color: white;*/
 }
 
 .aux-comment-container {
   overflow-y: auto;
-
+  background-color: white;
+  border-radius: 15px;
+  margin-top: 20px;
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
 
 .total-comments {
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 25px;
+  font-weight: 650;
 }
 
 .comment-input {
-  width: 90%;
-  height: 130px;
+  margin-top: 15px;
+  width: 100%;
+  height: 100px;
   display: flex;
   align-items: center;
   padding: 20px;
   column-gap: 10px;
-  margin-left: 30px;
-  border: 2px solid #1EFF00;
-  border-radius: 25px;
+  border-radius: 15px;
+  background-color: white;
 }
 
 .comment-input img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 }
 
@@ -148,12 +146,11 @@ export default {
 .comments-container {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 15px;
   margin-left: 30px;
 }
 
 .input-textarea {
-  /* Styles for the textarea */
   border: none;
   resize: none;
   padding: 10px;
@@ -163,7 +160,6 @@ export default {
 }
 
 .send-button {
-  /* Styles for the send button */
   background: none;
   border: none;
   cursor: pointer;

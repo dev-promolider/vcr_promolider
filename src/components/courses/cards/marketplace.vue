@@ -1,65 +1,37 @@
 <template>
-  <div
-    :title="course.title"
-    class="course-card mb-5"
-    v-if="course"
-    @click="
-      cardType == 1
-        ? action(course.id,course.slug)
-        : cardType == 4
+  <div :title="course.title" class="course-card mb-5 ml-5" v-if="course" @click="
+    cardType == 1
+      ? action(course.id, course.slug)
+      : cardType == 4
         ? getCertificates(course)
         : goToCourse(course.id)
-    "
-  >
-
+    ">
     <div class="tarjeta-cursos">
-      <img :src="course.url_portada" alt="no image" class="img-fluid img-cursos-portad">
-      <div class="text-primary-pl valoracion-curso">
-
-      <v-rating
-                style="display: inline"
-                color="warning"
-                hover
-                readonly
-                length="5"
-                size="15"
-                :value="parseFloat(course.ranking_by_user)"
-                half-increments
-              ></v-rating>
-      
+      <div>
+        <img :src="course.url_portada" alt="no image" class="img-fluid img-cursos-portad">
       </div>
-      <div class="fila-tarjeta-p1 bg-terciary-pl">
-        <p class="text-white">
+      <div class="valoracion-curso">
+        <v-rating style="display: inline" color="warning" hover readonly length="5" size="25"
+          :value="parseFloat(course.ranking_by_user)" half-increments></v-rating>
+      </div>
+      <div class="info-curso">
+        <p class="titulo-curso">
           {{ course.title }}
         </p>
       </div>
-
-      <div class="fila-tarjeta bg-terciary-pl">
-        <div class="colum-tarjeta text-white">
-          <span class="descuento-tarjeta"> %{{course.du}}</span>
+      <div class="row precios-comprar">
+        <div class="col precios-curso">
+          <p class="precio-descuento">${{ course.price_with_discount.toFixed(2) }}</p>
+          <p class="precio-original">${{ course.price }}</p>
         </div>
-
-        <p
-                class="fila-precio text-primary-pl"
-                v-if="course.price == 0"
-              >
-                <img src="@/assets/free.png" alt="" width="20" /> GRATIS
-        </p>
-
-        <div class="colum-tarjeta">
-          <div v-if="course.price > 0" class="fila-precio text-primary-pl">${{ course.price_with_discount }}</div>
-          <div v-if="course.price > 0" class="fila-precio-anterior text-white">${{ course.price }}</div>
+        <div class="col btn-col">
+          <button class="btn-comprar">
+            {{ viewMode === 'myCourses' ? 'Ver mi curso' : 'COMPRAR' }}
+          </button>
         </div>
-
-
-        <div class="colum-tarjeta">
-          <button class="btn bg-primary-pl text-white">COMPRAR</button>
-        </div>
+        <p class="categoria-curso">{{ getCategoryName(course.id_categories) }}</p>
       </div>
     </div>
-
-
-
   </div>
 </template>
 
@@ -70,71 +42,66 @@ export default {
     return {
       photo: null,
       certificateDisc: 0,
+      categoria: null,
     };
   },
   props: {
     course: {
       type: Object,
+      required: true
     },
-    cardType: Number,
+    cardType: {
+      type: Number,
+      required: true
+    },
     width: Number,
     height: {
       type: String,
       default: "100%",
     },
-    /* isMouseOverActive: {
-      type: Boolean,
-      default: false
-    } */
+    categories: {
+      type: Array,
+      default: () => []
+    },
+    viewMode: {
+      type: String,
+      default: 'marketplace' // Valor por defecto
+    },
   },
   methods: {
-    calcDiscount(price){
-      var disc = price*(this.certificateDisc/100);
-      return price-disc;
+    getCategoryName(id) {
+      const category = this.categories.find(cat => cat.id === id);
+      return category ? category.name : 'Categoría no encontrada';
+    },
+    calcDiscount(price) {
+      var disc = price * (this.certificateDisc / 100);
+      return price - disc;
     },
     getDiscount() {
       this.spin = true;
       this.axios.get("/course/certificate-discount").then((datos) => {
         this.certificateDisc = datos.data;
         this.spin = false;
-      }).catch( ()=>{
+      }).catch(() => {
         this.spin = false;
       });
     },
-    // Evento hover para cambiar el background del aula virtual
-    /* mouseOver(course){
-       this.$store.commit("course/COURSE_HOVER", course);
-    }, */
-
-    // Evento cuando se quita el cursor de la card para quitar el background
-    /*  mouseleave(){
-      this.$store.commit("course/COURSE_HOVER", []);
-    }, */
-
-    // Accion para la card de tipo 1
-    action(id,slug) {
-      /* this.mouseleave() */
+    action(id, slug) {
       this.$router
-        .push({ name: "buy-cursos", params: { ide: id,slug:slug } })
-        .catch(() => {});
+        .push({ name: "buy-cursos", params: { ide: id, slug: slug } })
+        .catch(() => { });
     },
     getCertificates(course) {
       this.$emit("selectedCertificate", course);
     },
-    // Accion par el tipo de card 2 y 3 que redirecciona a ver el curso
     async goToCourse(id) {
-      /* this.mouseleave() */
       let dataRequest;
-
-      // Verificamos la ultima clase vista del curso y el tiempo de reproduccion de dicha clase
       await this.axios
         .get(`purchased/show-class-seen?course_id=${id}`)
         .then((res) => {
           dataRequest = res.data.data;
           this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
         });
-
-      // Verificamos si el usuario ya vio alguna clase, de otro modo le redireccionamos a la primera clase
       if (!dataRequest.name) {
         await this.axios
           .get("course/temary/get-all-class/" + id)
@@ -149,11 +116,7 @@ export default {
                   rate: this.course.ranking_by_user,
                 },
               })
-              .catch(() => {});
-            // this.$router
-            //   .push(`course-user?course=${id}&class=${fistClass}`)
-            //   .catch(() => {});
-            //this.$router.push({ name: 'foo', params: {title: 'test title' }})
+              .catch(() => { });
           });
       } else {
         this.$router
@@ -165,238 +128,117 @@ export default {
               rate: this.course.ranking_by_user,
             },
           })
-          .catch(() => {});
-
-        /*   this.$router
-          .push(`course-user?course=${id}&class=${dataRequest.name}`)
-          .catch(() => {});   */
+          .catch(() => { });
       }
     },
   },
-
   created() {
     this.getDiscount();
   },
-
-  /* destroyed(){
-    this.mouseleave()
-  } */
 };
 </script>
 
 <style scoped>
-.border-radius-image {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
-.border-radius-2 {
-  border-bottom-left-radius: 15px !important;
-  border-bottom-right-radius: 15px !important;
-}
-.card-img-top {
-  min-height: 210px;
-  max-height: 210px;
-}
-
-.name{
-  min-height: 45px;
-  max-height: 45px;
-}
-
-.cert{
-  min-height: 45px;
-  max-height: 45px;
-}
-
-.course-title {
-  font-size: 1.2em;
-  display: inline;
-
-  font-weight: 500;
-}
-
-.lesson-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.course-productor {
-  font-size: 1em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .course-card {
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-
-  transition: 0.5s;
-  max-width: 265px;
-  min-width: 265px;
-}
-.course-card:hover {
-  transform: scale(1.1);
-  transition: 0.8s;
-  cursor: pointer;
-}
-
-.image {
-  min-height: 150px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  background-position: center !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  cursor: pointer;
-  height: 100%;
-}
-
-.content {
-  background: #EBEBEC;
-  transition: 1s;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
-.name {
-  margin-left: 4px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 15px;
-}
-
-.producer {
-  font-size: 1.1rem;
-  font-style: normal;
-  font-weight: 300;
-  line-height: 2rem;
-  margin-bottom: 8px;
-  color: #6b6b6b;
-  line-clamp: 2;
-}
-
-/* .date {
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.5;
-} */
-
-/* .stars,
-.stars h5 {
-  font-size: 12px;
-} */
-.money {
-  font-size: 1.1rem;
-  font-weight: 700;
-  line-height: 1.5;
-  color: #131b1e;
-}
-.btn-play {
-  position: relative;
-  background: #ffffff;
-}
-
-.image:hover {
-  transition: 0.8s;
-}
-
-.btn-play:after {
-  font-family: "Font Awesome 5 Free";
-  content: "\f144";
-  color: rgba(25, 232, 0, 0.561);
-  font-size: 80px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -60px;
-  margin-left: -40px;
-  filter: inherit;
-}
-
-.content-overflow {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
-/* Colores de fondo promolíder */
-.bg-primary-pl {
-  background-color: #303330;
-}
-.bg-secondary-pl {
-  background-color: #35424a;
-}
-.bg-terciary-pl {
-  background-color: #166b6b;
-}
-.bg-aux-pl {
-  background-color: #e6e6e6;
-}
-/* Colores de texto promolíder */
-.text-primary-pl {
-  color: #1ae600;
-}
-.text-secondary-pl {
-  color: #35424a;
-}
-.text-terciary-pl {
-  color: #131b1e;
-}
-.tarjeta-cursos{
+  border-radius: 10px;
+  transition: 0.3s;
   width: 235px;
-
 }
-.img-cursos-portad{
-  border-radius: 10px 10px 0px 0px;
+
+.course-card:hover {
+  transform: scale(1.05);
+}
+
+.tarjeta-cursos {
+  width: 235px;
+  height: 330px;
+  border-radius: 10px;
+  border-color: #7F7F7F;
+  box-shadow: 0 0 15px rgba(75, 75, 75, 0.577);
+}
+
+.img-cursos-portad {
+  border-radius: 15px;
+  padding: 5px;
   height: 154px;
+  width: 100%;
+  object-fit: cover;
 }
 
-.fila-tarjeta {
+.valoracion-curso {
   display: flex;
-  flex-direction: row;
-  border-radius: 0px 0px 10px 10px;
-  justify-content: space-around;
-  align-items: center;
-  padding: 5px 0px;
+  justify-content: left;
+  align-items: left;
+  padding: 0px;
 }
 
-.fila-tarjeta-p1 {
+.info-curso {
+  margin-left: 10px;
+  text-align: left;
+}
+
+.titulo-curso {
+  font-size: 1em;
+  font-weight: 480;
+  margin: 0;
+}
+
+.precios-comprar {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  padding: 5px 0px;
+  justify-content: space-between;
+  margin: 0;
 }
 
-.colum-tarjeta {
+.precios-curso {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.descuento-tarjeta {
-  border: 1px solid white;
-  border-radius: 8px;
-  padding: 9px 6px;
-  font-weight: 600;
+
+.precio-descuento {
+  color: #20E404;
+  font-size: 1em;
+  font-weight: 490;
+  margin: 0;
 }
-.valoracion-curso {
-  padding: 5px;
-  font-weight: 600;
-  text-align: right;
-  background-color:white;
+
+.precio-original {
+  color: #ff0000;
+  font-size: 0.7em;
+  font-weight: 500;
+  text-decoration: line-through;
+  margin: 0;
 }
-.colum-tarjeta button {
-  font-size: 14px;
-  font-weight: 700;
-  padding: 5px 5px;
-  border-radius: 8px;
+
+.btn-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
 }
-.fila-precio {
-  font-size: 18px;
-  font-weight: 600;
+
+.btn-comprar {
+  background: linear-gradient(to right, #20E404, #1CAC0B);
+  color: white;
+  border: none;
+  font-size: 0.8em;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  width: 100px;
+  height: 25px;
 }
-.fila-precio-anterior {
-  font-size: 14px;
-  text-decoration-line: line-through;
+
+.btn-comprar:hover {
+  transform: scale(1.1);
+}
+
+.categoria-curso {
+  font-size: 0.75em;
+  color: #757575;
+  margin-left: 15px;
 }
 </style>
