@@ -18,7 +18,9 @@
                         <span class="current-price">{{ course.price_with_discount.toFixed(2) }}$</span>
                         <span class="original-price">{{ course.price }}$</span>
                     </div>
-                    <button class="btn btn-primary">COMPRAR</button>
+                    <button class="btn btn-primary" @click="handleBuy(course)">
+                        COMPRAR
+                    </button>
                 </div>
             </div>
         </div>
@@ -33,6 +35,7 @@ export default {
     data() {
         return {
             categories: [],
+            cardType: 1,  // Asigna el valor adecuado según tu lógica
         };
     },
     props: {
@@ -45,26 +48,74 @@ export default {
         try {
             const response = await axios.get('category/list');
             this.categories = response.data.data;
-            console.log("categorias:", response.data.data);
         } catch (error) {
             console.error('Error al obtener las categorías:', error);
         }
     },
     methods: {
-        truncateDescription(description) {
-            const maxLength = 100;
-            if (description.length > maxLength) {
-                return description.substring(0, maxLength) + '...';
-            }
-            return description;
-        },
         getCategoryName(id) {
             const category = this.categories.find(cat => cat.id === id);
             return category ? category.name : 'Categoría no encontrada';
-        }
+        },
+        handleBuy(course) {
+            switch (this.cardType) {
+                case 1:
+                    this.action(course.id, course.slug);
+                    break;
+                case 4:
+                    this.getCertificates(course);
+                    break;
+                default:
+                    this.goToCourse(course.id);
+                    break;
+            }
+        },
+        action(id, slug) {
+            this.$router
+                .push({ name: "buy-cursos", params: { ide: id, slug: slug } })
+                .catch(error => {
+                    console.error('Error al redirigir a buy-cursos:', error);
+                });
+        },
+        getCertificates(course) {
+            this.$emit("selectedCertificate", course);
+        },
+        async goToCourse(id) {
+            let dataRequest;
+            try {
+                const res = await this.axios.get(`purchased/show-class-seen?course_id=${id}`);
+                dataRequest = res.data.data;
+                this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
+
+                if (!dataRequest.name) {
+                    const resClass = await this.axios.get("course/temary/get-all-class/" + id);
+                    let firstClass = resClass.data.data.modules[0].lessons[0].name;
+                    await this.$router.push({
+                        name: "curso",
+                        query: {
+                            course: id,
+                            class: firstClass,
+                            rate: this.course.ranking_by_user,
+                        },
+                    });
+                } else {
+                    await this.$router.push({
+                        name: "curso",
+                        query: {
+                            course: id,
+                            class: dataRequest.name,
+                            rate: this.course.ranking_by_user,
+                        },
+                    });
+                }
+            } catch (error) {
+                console.error('Error al redirigir a curso:', error);
+            }
+        },
     }
 }
 </script>
+
  
 <style scoped>
 .card-list {

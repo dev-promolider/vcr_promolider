@@ -1,6 +1,6 @@
 <template>
-  <div style="margin-bottom: 90px">
-    <v-app-bar app elevation="5" class="custom-app-bar">
+  <div style="margin-bottom: 0px">
+    <v-app-bar scroll-behavior="hide" class="custom-app-bar"> 
       <v-app-bar-nav-icon color="#4ff70d" @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"></v-app-bar-nav-icon>
 
@@ -493,11 +493,11 @@ export default {
 .custom-app-bar {
   margin: 30px;
   margin-top: 30px !important;
+  margin-left: 80px;
   padding: 0px;
   border-radius: 15px !important;
   background-color: white !important;
 }
-
 
 .custom-progress {
   background-color: white !important;

@@ -2,7 +2,8 @@
   <div class="mb-3 px-4" style="border-radius: 20px; margin-top: 40px; margin-right: 10px">
     <div class="temario pb-3">
       <div class="row">
-        <div class="col-lg-6 col-md-6">
+        <!-- Div para el título -->
+        <div class="col-lg-4 col-md-4 mr-2">
           <p class="text-left" style="
               font-size: 1.3em;
               font-weight: 600;
@@ -12,34 +13,28 @@
             {{ title }}
           </p>
         </div>
-        <div class="col-lg-6 col-md-6 text-right">
-          <div class="search-container">
-            <div :class="['search-input', { 'search-input-hover': isHover, 'search-input-focus': isFocus }]">
-              <input
-                v-model="searchQuery"
-                type="text"
-                placeholder="Buscar un tema"
-                @keyup.enter="performSearch"
-                @focus="handleFocus(true)"
-                @blur="handleFocus(false)"
-                @mouseover="handleHover(true)"
-                @mouseleave="handleHover(false)"
-                style="height: 32px; width: 200px; font-size: 0.8em;"
-              />
-            </div>
-            <v-menu>
-              <template v-slot:activator="{ on: menu, attrs }">
-                <v-btn color="#1ad003" text small depressed plain v-bind="attrs" v-on="{ ...menu }">
-                  <v-icon dark> mdi-dots-vertical </v-icon>
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item v-for="(item, index) in items" :key="index" link @click="menuActionClick(item.action)">
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+        <!-- Div para el input de búsqueda -->
+        <div class="col-lg-5 col-md-5 mr-2 text-right search-container">
+          <div :class="['search-input', { 'search-input-hover': isHover, 'search-input-focus': isFocus }]">
+            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Buscar un tema"
+              @keyup.enter="performSearch" @focus="handleFocus(true)" @blur="handleFocus(false)"
+              @mouseover="handleHover(true)" @mouseleave="handleHover(false)" />
           </div>
+        </div>
+        <!-- Div para el menú de puntos -->
+        <div class="col-lg-1 col-md-1 text-right">
+          <v-menu>
+            <template v-slot:activator="{ on: menu, attrs }">
+              <v-btn color="#1ad003" text small depressed plain v-bind="attrs" v-on="{ ...menu }">
+                <v-icon dark> mdi-dots-vertical </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item v-for="(item, index) in items" :key="index" link @click="menuActionClick(item.action)">
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
       </div>
 
@@ -49,26 +44,32 @@
 
       <div v-else>
         <div v-if="content == 'temary'" style=" max-height: 300px; overflow-y: auto; ">
-          <ul v-for="(model, index) in filteredModules" :key="index" class="mt-3">
-            <li class="nav-temario" :title="model.name">
-              <p class="module-text" v-b-toggle="model.name.replace(/ /g, '')">
-                {{ index + 1 }}. {{ model.name }}
+          <ul v-for="(module, moduleIndex) in filteredModules" :key="moduleIndex" class="mt-3">
+            <li class="nav-temario" :title="module.name">
+              <p class="module-text" v-b-toggle="module.name.replace(/ /g, '')">
+                {{ moduleIndex + 1 }}. {{ module.name }}
               </p>
 
-              <b-collapse visible :id="model.name.replace(/ /g, 'AAAAA')">
+              <b-collapse visible :id="module.name.replace(/ /g, 'AAAAA')">
                 <ul style="overflow: auto; max-height: 200px;">
-                  <li v-for="(less, index) in course.modules[index].lessons" :key="index">
+                  <!-- Aquí accedemos correctamente a las lecciones filtradas dentro de cada módulo -->
+                  <li v-for="(lesson, lessonIndex) in module.lessons" :key="lessonIndex">
                     <div style="display: flex; align-items: center;">
-                      <input style="margin-right: 0px; position: relative;" type="checkbox" v-model="completedLessons"
-                        :value="less.id" @click="checkClass(less.id)" />
-                      <a style="margin-left: 10px;" @click="changeClass(less)" :class="{ 'activo': less.name === clase }"
-                        :title="less.name">{{ less.name }}</a>
+                      <!--<input style="margin-right: 0px; position: relative;" type="checkbox" v-model="completedLessons"
+                        :value="lesson.id" @click="checkClass(lesson.id)" />-->
+                      <input style="margin-right: 0px; position: relative;" type="checkbox"
+                        :checked="completedLessons.includes(lesson.id)" @change="checkClass(lesson.id)" />
+                      <a style="margin-left: 10px;" @click="changeClass(lesson)"
+                        :class="{ 'activo': lesson.name === clase }" :title="lesson.name">
+                        {{ lesson.name }}
+                      </a>
                     </div>
                   </li>
                 </ul>
               </b-collapse>
             </li>
           </ul>
+
         </div>
 
         <div v-else-if="content == 'tests'">
@@ -157,19 +158,29 @@ export default {
       "moduleExamen",
       "moduleDinamic",
     ]),
+
     filteredModules() {
-      /*return this.course.modules.filter((module) =>
-        module.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );*/
-      return this.course.modules.filter((module) => {
-        const moduleMatch = module.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const lessonMatch = module.lessons.some((lesson) =>
-          lesson.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-        );
-        return moduleMatch || lessonMatch;
-      });
-    },
-  },
+      const query = this.searchQuery.toLowerCase();
+
+      return this.course.modules
+        .map((module) => {
+          const filteredLessons = module.lessons.filter((lesson) =>
+            lesson.name.toLowerCase().includes(query)
+          );
+
+          if (filteredLessons.length > 0) {
+            return {
+              ...module,
+              lessons: filteredLessons,
+            };
+          }
+
+          return null;
+        })
+        .filter((module) => module !== null);
+    }
+  }
+  ,
   methods: {
     ...mapActions("course", {
       getCourse: "getCourse",
@@ -189,23 +200,13 @@ export default {
     ]),
 
     performSearch() {
-      // Enter Busqueda
       this.filteredModules();
     },
-
-    /*filteredLessons(lessons) {
-      return lessons.filter((lesson) =>
-        lesson.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    },*/
-
-    filteredLessons() {
-      return this.course.modules.reduce((lessons, module) => {
-        const filteredLessons = module.lessons.filter((lesson) =>
-          lesson.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-        );
-        return lessons.concat(filteredLessons);
-      }, []);
+    handleLessonComplete(lessonId) {
+      if (!this.completedLessons.includes(lessonId)) {
+        this.completedLessons.push(lessonId);
+        this.getProgress(); // Actualiza el progreso del curso
+      }
     },
 
     menuActionClick(action) {
@@ -220,7 +221,7 @@ export default {
         this.title = "Dinámicas";
       }
     },
-    //Ir al Examen Modulo
+
     goToExam(id) {
       this.$router.push({
         name: "test",
@@ -239,7 +240,7 @@ export default {
       });
     },
     // Funcion para calcular el progreso del curso
-    async getProgress() {
+    /*async getProgress() {
       const completed = await Object.keys(this.completedLessons).length;
       const progress = await Math.round((completed / this.allLessons) * 100);
       if (isNaN(progress)) {
@@ -249,6 +250,14 @@ export default {
         this.progress = progress;
         this.UPDATE_PROGRESS_COURSE(progress);
       }
+    },*/
+    async getProgress() {
+      const totalLessons = this.allLessons.length;
+      const completed = this.completedLessons.length;
+      const progress = Math.round((completed / totalLessons) * 100);
+
+      this.progress = isNaN(progress) ? 0 : progress;
+      this.UPDATE_PROGRESS_COURSE(this.progress);
     },
     // Cambiar de clase
     changeClass(less) {
@@ -299,10 +308,15 @@ export default {
     },
 
     // Enviando nueva clase vista
-    checkClass(idClass) {
-      this.axios.put(
-        `purchased/update?course_id=${this.$route.query.course}&class_id=${idClass}`
-      );
+    async checkClass(lessonId) {
+      try {
+        await this.axios.put(
+          `purchased/update?course_id=${this.$route.query.course}&class_id=${lessonId}`
+        );
+        this.handleLessonComplete(lessonId);
+      } catch (error) {
+        console.error("Error updating class:", error);
+      }
     },
 
     handleFocus(focus) {

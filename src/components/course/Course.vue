@@ -13,7 +13,8 @@
           <strong>{{ this.courseInfo.title }}</strong>
         </div>
 
-        <Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>
+        <!--<Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course"></Video>-->
+        <Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course" @markLessonComplete="handleLessonComplete"></Video>
 
         <!-- <div v-else class="center-spinner">
           <b-spinner
@@ -30,7 +31,8 @@
       </div>
       <div class="col-lg-4" style="background-color: #F2F5FA">
         <Docente></Docente>
-        <Temario></Temario>
+        <!--<Temario></Temario>-->
+        <Temario :completedLessons="completedLessons" @updateCompletedLessons="handleCompletedLessons" />
         <div class="text-center mb-3">
           <v-btn
             depressed
@@ -60,6 +62,7 @@ export default {
       error: false,
       lessonId: "",
       courseInfo: [],
+      completedLessons: [],
     };
   },
   components: {
@@ -93,6 +96,16 @@ export default {
       "DESTROY_PROGRESS",
       "CLEAR_ALL_DATA",
     ]),
+
+    handleLessonComplete(lessonId) {
+      if (!this.completedLessons.includes(lessonId)) {
+        this.completedLessons.push(lessonId); // Agrega la lección completada si no está ya en la lista
+      }
+    },
+
+    handleCompletedLessons(updatedLessons) {
+      this.completedLessons = updatedLessons; // Actualiza la lista de lecciones completadas
+    },
     async getCourseInfo(){
       await this.axios.get('course/details/' + this.$route.query.course).then((response) => {
         console.log(response)

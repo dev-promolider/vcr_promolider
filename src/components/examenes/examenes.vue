@@ -1,7 +1,7 @@
 <template>
     <div class="row px-3 py-5">
         <!-- Columna de Cursos -->
-        <div class="col-12 col-md-4 ml-5">
+        <div class="col-12 col-md-4 ps-5">
             <div v-if="products.length == 0" class="text-center py-5">
                 <strong>Aún no ha adquirido un curso</strong>
             </div>
@@ -24,7 +24,7 @@
         </div>
 
         <!-- Columna de Detalles del Curso Seleccionado -->
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8 pe-5">
             <div v-if="waitSelection">
                 <div class="text-center py-10">
                     <strong>Seleccione un curso</strong>

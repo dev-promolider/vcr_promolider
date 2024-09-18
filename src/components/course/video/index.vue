@@ -1,22 +1,11 @@
 <template>
   <div class="player">
-    <video-player
-      class="video vjs-custom-skin vjs-big-play-centered"
-      ref="videoPlayer"
-      :options="playerOptions"
-      :playsinline="true"
-      @play="onPlayerPlay($event)"
-      @pause="onPlayerPause($event)"
-      @ended="onPlayerEnded($event)"
-      @loadeddata="onPlayerLoadeddata($event)"
-      @waiting="onPlayerWaiting($event)"
-      @playing="onPlayerPlaying($event)"
-      @timeupdate="onPlayerTimeupdate($event)"
-      @canplay="onPlayerCanplay($event)"
-      @canplaythrough="onPlayerCanplaythrough($event)"
-      @ready="playerReadied"
-      @statechanged="playerStateChanged($event)"
-    >
+    <video-player class="video vjs-custom-skin vjs-big-play-centered" ref="videoPlayer" :options="playerOptions"
+      :playsinline="true" @play="onPlayerPlay($event)" @pause="onPlayerPause($event)" @ended="onPlayerEnded($event)"
+      @loadeddata="onPlayerLoadeddata($event)" @waiting="onPlayerWaiting($event)" @playing="onPlayerPlaying($event)"
+      @timeupdate="onPlayerTimeupdate($event)" @canplay="onPlayerCanplay($event)"
+      @canplaythrough="onPlayerCanplaythrough($event)" @ready="playerReadied" @statechanged="playerStateChanged($event)"
+      @markLessonComplete="handleLessonComplete">
     </video-player>
   </div>
 </template>
@@ -35,9 +24,10 @@ export default {
     return {
       playerOptions: {},
       idCourse: this.$route.query.course,
+      videoMarkedComplete: false,
     };
   },
-  props:{
+  props: {
     courseId: String,
     classId: Number
   },
@@ -46,14 +36,11 @@ export default {
     this.playerOptions = {
       responsive: true,
       fluid: true,
-      // width: "500px",
-      // height: "100px",
       preload: "auto",
       autoplay: false,
       muted: false,
       language: "es",
       playbackRates: [0.7, 1.0, 1.5, 2.0],
-      //techOrder: ["youtube"],
       sources: [
         {
           type: "Video/mp4",
@@ -77,52 +64,73 @@ export default {
       return this.$refs.videoPlayer.player;
     },
     ...mapGetters("course", ["urlVideo", "timeReady"]),
-
     ...mapState("course", ["lesson"]),
   },
   methods: {
     ...mapMutations("course", ["CLEAR_VIDEO"]),
     ...mapActions('course', ['updateTime']),
-    // Eventos del reproductor que podemos usar
-    onPlayerPlay() {},
-    // Caundo el usaruario ponga pause se actualizara el tiempo en que se esta quedando
+    onPlayerPlay() { },
     onPlayerPause(player) {
       this.actualizarTiempo(player.currentTime());
     },
-    onPlayerEnded() {},
-    onPlayerLoadeddata() {},
-    onPlayerWaiting() {},
-    onPlayerPlaying() {},
-    onPlayerTimeupdate() {},
-    onPlayerCanplay() {},
-    onPlayerCanplaythrough() {},
-    playerStateChanged() {},
+    onPlayerLoadeddata() { },
+    onPlayerWaiting() { },
+    onPlayerPlaying() { },
+    onPlayerCanplay() { },
+    onPlayerCanplaythrough() { },
+    playerStateChanged() { },
 
-    // Función para inciar la reproducción
     async playerReadied(player) {
-      //  Iniciamos la reproducción en el tiempo que el usuario se quedo
-      // player.currentTime(this.timeReady);
       await this.axios.get(`/purchased/get-time?courseId=${this.courseId}&classId=${this.classId}`).then((response) => {
-        this.timeReprod = response.data.time
-      })
+        this.timeReprod = response.data.time;
+      });
       player.currentTime(this.timeReprod);
     },
 
-    // Función para actualizar el tiempo de reproduccion de la clase
-    actualizarTiempo( time ) {
-      this.updateTime({ course: this.$route.query.course,  time , lessonId: this.lesson.id })
+    actualizarTiempo(time) {
+      this.updateTime({ course: this.$route.query.course, time, lessonId: this.lesson.id });
+    },
+
+    onPlayerTimeupdate() {
+      const player = this.player;
+      const currentTime = player.currentTime();
+      const duration = player.duration();
+
+      console.log(`Current Time: ${currentTime}, Duration: ${duration}`);
+
+      // Verificar si estamos en el final del video
+      if (currentTime >= duration - 1 && !this.videoMarkedComplete) {
+        console.log('Video está finalizando. Marcando lección como completa.');
+        this.markLessonComplete();
+        this.videoMarkedComplete = true;
+      }
+    },
+    markLessonComplete() {
+      console.log('Emitir evento de lección completada.');
+      this.$emit('markLessonComplete', this.lesson.id);
+    },
+    handleLessonComplete(lessonId) {
+      if (!this.completedLessons.includes(lessonId)) {
+        console.log(`Marcando lección ${lessonId} como completada.`);
+        this.completedLessons.push(lessonId);
+        this.getProgress(); // Actualiza el progreso del curso
+      }
+    },
+    onPlayerEnded() {
+      console.log('Video ha finalizado.');
+      this.markLessonComplete();
     },
     someMethod(player) {
       this.actualizarTiempo(player.currentTime());
     }
   },
   beforeDestroy() {
-    window.removeEventListener('unload', this.someMethod);  
+    window.removeEventListener('unload', this.someMethod);
     // Cuando el componente se destruya o cierre por casualidad actualizaremos el tiempo en el que se esta quedando
-    this.updateTime({ course: this.idCourse,  time: this.player.currentTime() , lessonId: this.lesson.id });
+    this.updateTime({ course: this.idCourse, time: this.player.currentTime(), lessonId: this.lesson.id });
 
     // Actualizaremos la variable global de vuex para no generar conflicto con otra clase
-    
+
     //this.$store.commit("course/UPDATE_TIME", 0);
   },
   destroyed() {

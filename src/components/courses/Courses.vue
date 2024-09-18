@@ -190,12 +190,11 @@ export default {
     },
   },
   methods: {
-    async getAttributes() {
+    /*async getAttributes() {
       // await this.axios.get("course/last-courses-rep").then((datos) => {
       //   this.lastCourses = this.filterCourseInactive(datos.data.data);
       // });
       await this.axios.get("category/list").then((res) => {
-        console.log("CATEGORIAAAAS:(", res.data.data)
         this.Allcategories = res.data.data;
       });
 
@@ -230,7 +229,46 @@ export default {
       ) {
         this.notCourses = true;
       }
-    },
+    },*/
+
+    async getAttributes() {
+  await this.axios.get("category/list").then((res) => {
+    this.Allcategories = res.data.data;
+  });
+
+  await this.axios.get("course/released-courses").then((datos) => {
+    this.relatedCourses = datos.data.data;
+  });
+
+  await this.axios.get("course/related-courses").then((datos) => {
+    const cursos = datos.data.data;
+
+    // Filtra solo los cursos que no han sido comprados
+    this.courses = cursos.filter(course => !course.isPurchased); // Cambia `isPurchased` por el campo correcto
+
+    if (this.courses.length > 0) {
+      this.descuento = this.courses[0].du; // Asumiendo que quieres el descuento del primer curso no comprado
+    }
+
+    const idCategories = this.courses.map(curso => curso.id_categories);
+    this.getCategoryName(idCategories);
+  });
+
+  await this.axios.get("course/interesting-courses").then((datos) => {
+    this.interesCourses = datos.data.data;
+  });
+
+  this.loading = false;
+
+  if (
+    this.courses.length === 0 &&
+    this.interesCourses.length === 0 &&
+    this.relatedCourses.length === 0
+  ) {
+    this.notCourses = true;
+  }
+},
+
 
     getCategoryName(idCategories) {
       // Mapa para almacenar nombres únicos
@@ -304,6 +342,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .sad-face {
   width: 100%;

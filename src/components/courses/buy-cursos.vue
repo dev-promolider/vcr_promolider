@@ -1,9 +1,7 @@
 <template>
   <div class="bg-light">
     <div class="container-fluid">
-      <!-- Primera sección -->
       <div class="row py-5">
-        <!-- Detalles del curso -->
         <div class="col-lg-4 col-md-12 pr-5 detailsCourse">
           <h3 class="mb-4 font-weight-bold" :class="{ loader: !titulo, 'loader-titles': !titulo }">
             {{ titulo }}
@@ -51,19 +49,7 @@
             </button>
             <button @click="shareURL" style="color: #28a745;"><img :src="require('@/assets/share-icon.png')" width="20" alt="share">Compartir curso</button>
           </div>
-          <!--<div v-if="isOwner" style="display: flex; flex-direction: column; align-items: flex-start;">
-             Botón para ver el curso 
-            <button class="btn-custom" @click="viewMyCourse()" style="
-              font-size: 18px;
-              color: black;
-              font-weight: 600;
-              line-height: 1.5rem;
-            " :class="{ loader: !titulo }">
-              Ver mi curso
-            </button>
-          </div>-->
           <div v-if="isOwner" style="display: flex; flex-direction: column; align-items: flex-start;">
-            <!-- Botón para ver el curso -->
             <button class="btn-custom" @click="goToCourse(pao_id)" style="
               font-size: 18px;
               color: black;
@@ -81,7 +67,6 @@
             </button>
           </div>
         </div>
-        <!-- Imagen del curso -->
         <div class="col-lg-8 pr-0 pl-4" :class="{ loader: !videoimg, 'loader-img-course': !videoimg }"
           v-if="tymedia == 1">
 
@@ -96,7 +81,6 @@
         </div>
       </div>
 
-      <!-- Seccion inferior -->
       <div class="row">
         <div class="col-lg-9 col-md-12 mt-4">
           <div class="border-box">
@@ -423,7 +407,6 @@ export default {
         });
     },
 
-    // listen event
     onPlayerPlay(player) {
       console.log('player play!', player)
     },
@@ -432,13 +415,9 @@ export default {
     },
 
     onPlayerLoadeddata() { },
-
-    // or listen state event
     playerStateChanged(playerCurrentState) {
       console.log('player current update state', playerCurrentState)
     },
-
-    // player is ready
     playerReadied(player) {
       console.log('the player is readied', player)
     },
@@ -480,13 +459,11 @@ export default {
       let dataRequest;
 
       try {
-        // Obtener el tiempo de visualización del curso
         const response = await this.axios.get(`purchased/show-class-seen?course_id=${id}`);
         dataRequest = response.data.data;
         this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
 
         if (!dataRequest.name) {
-          // Si no hay nombre, obtener la primera clase del temario
           const responseTemary = await this.axios.get(`course/temary/get-all-class/${id}`);
           let firstClass = responseTemary.data.data.modules[0].lessons[0].name;
           this.$router.push({
@@ -498,7 +475,6 @@ export default {
             }
           }).catch(() => {});
         } else {
-          // Si hay nombre, redirigir a esa clase
           this.$router.push({
             name: "curso",
             query: {
@@ -542,31 +518,13 @@ export default {
       }
     },
 
-    // Redirección a la vista para comprar el curso
     async BuyCourse() {
-
-      // if (this.precio === 0) {
-      //   const { ok } = await this.buyCourse(this.pao_id);
-      //   if (!ok) return;
-      //   this.$router.push({ name: "suscription-user" });
-      // } else {
-      //   const form = {
-      //     'course_id': this.pao_id,
-      //     'price': this.price_with_discount
-      //   }
-      //   this.axios.post("/pay/course-openpay", form).then((r) => {
-      //     this.openpayData = r.data;
-      //     this.processPay = true;
-      //   })
-      // }
 
       const form = {
           'course_id': this.pao_id
         }
         this.axios.post("/pay/course-openpay", form).then((r) => {
           window.location.href = r.data.payment_url;
-          // this.openpayData = r.data;
-          // this.processPay = true;
         })
     },
 
@@ -586,11 +544,8 @@ export default {
       this.$router.push("/suscription-user");
     },
 
-    // Obtenemos todos lo atributos necesarios para mostrar del curso
     getAttributes() {
       this.pao_id = this.$route.params.ide;
-
-      // API para obtener los detalles
       this.axios.get("course/details/" + this.pao_id).then((datos) => {
 
         this.items = datos.data.data;
@@ -600,8 +555,6 @@ export default {
         this.isOwner = this.items.owner;
 
         console.log("AAAA:", datos.data.data);
-
-        // Obtenemos el nivel del curso
         switch (this.items.course_level_id) {
           case 1:
             this.level = "Básico";
@@ -616,7 +569,6 @@ export default {
         this.videoimg = this.items.path_url;
 
         if (this.videoimg.toLowerCase().endsWith(".mp4")) {
-          // Es un video
           this.tymedia = 1;
           this.$set(this.playerOptions.sources, 0, {
             type: "video/mp4",
@@ -635,12 +587,10 @@ export default {
         this.dirigido = this.items.course_for;
         this.isDetailsLoading = true;
 
-        // Convertimos la fecha en formato (12 de mayo del 2022)
         const fecha = new Date(this.items.created_at);
         let options = { year: "numeric", month: "long", day: "numeric" };
         this.fecha_creacion = fecha.toLocaleDateString("es-ES", options);
 
-        // Obtenemos la categoria del curso que corresponde al id de la respuesta
         this.axios.get("category/list").then((res) => {
           console.log("CATEGORIAAAAS", res.data.data)
           for (const index in res.data.data) {
@@ -652,7 +602,6 @@ export default {
           }
         });
 
-        // Obtenemos los datos del productor
         this.axios.get(`user/show?id=${this.items.user_id}`).then((res) => {
           this.nameProductor = res.data.fullName;
           this.emailProductor = res.data.email;
@@ -662,7 +611,6 @@ export default {
         });
       });
 
-      // Obtenemos algunos cursos similares para recomendar
       this.axios.get("course/related-courses").then((datos) => {
         this.lord = false;
         this.guardar = true;
@@ -684,9 +632,7 @@ export default {
   created() {
 
 
-    // Llamamos a la funcion que trae los atributos
     this.getAttributes();
-    // Obtenemos el temario del curso
     this.getCourse(this.$route.params.ide);
 
     this.FilterBtn();
