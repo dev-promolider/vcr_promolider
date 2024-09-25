@@ -3,7 +3,7 @@
     <div class="temario pb-3">
       <div class="row">
         <!-- Div para el título -->
-        <div class="col-lg-4 col-md-4 mr-2">
+        <div class="col-lg-4 col-md-5 col-sm-6 mr-2">
           <p class="text-left" style="
               font-size: 1.3em;
               font-weight: 600;
@@ -14,7 +14,7 @@
           </p>
         </div>
         <!-- Div para el input de búsqueda -->
-        <div class="col-lg-5 col-md-5 mr-2 text-right search-container">
+        <div class="col-lg-5 col-md-4 col-sm-4 mr-2 text-right search-container">
           <div :class="['search-input', { 'search-input-hover': isHover, 'search-input-focus': isFocus }]">
             <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Buscar un tema"
               @keyup.enter="performSearch" @focus="handleFocus(true)" @blur="handleFocus(false)"
@@ -22,7 +22,7 @@
           </div>
         </div>
         <!-- Div para el menú de puntos -->
-        <div class="col-lg-1 col-md-1 text-right">
+        <div class="col-lg-1 text-right" >
           <v-menu>
             <template v-slot:activator="{ on: menu, attrs }">
               <v-btn color="#1ad003" text small depressed plain v-bind="attrs" v-on="{ ...menu }">
@@ -131,6 +131,12 @@ import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "Temario",
+  props: {
+  completedLessons: {
+    type: Array,
+    required: true
+  }
+},
   data() {
     return {
       content: "temary",
@@ -143,7 +149,7 @@ export default {
       ],
       progress: 0,
       clase: null,
-      completedLessons: [],
+      //completedLessons: [],
       loading: true,
       isHover: false,
       isFocus: false,
@@ -199,14 +205,16 @@ export default {
       "DESTROY_PROGRESS_COURSE",
     ]),
 
-    performSearch() {
-      this.filteredModules();
-    },
     handleLessonComplete(lessonId) {
       if (!this.completedLessons.includes(lessonId)) {
         this.completedLessons.push(lessonId);
-        this.getProgress(); // Actualiza el progreso del curso
+        this.getProgress();
       }
+    },
+
+
+    performSearch() {
+      this.filteredModules();
     },
 
     menuActionClick(action) {
@@ -240,7 +248,7 @@ export default {
       });
     },
     // Funcion para calcular el progreso del curso
-    /*async getProgress() {
+    async getProgress() {
       const completed = await Object.keys(this.completedLessons).length;
       const progress = await Math.round((completed / this.allLessons) * 100);
       if (isNaN(progress)) {
@@ -250,14 +258,6 @@ export default {
         this.progress = progress;
         this.UPDATE_PROGRESS_COURSE(progress);
       }
-    },*/
-    async getProgress() {
-      const totalLessons = this.allLessons.length;
-      const completed = this.completedLessons.length;
-      const progress = Math.round((completed / totalLessons) * 100);
-
-      this.progress = isNaN(progress) ? 0 : progress;
-      this.UPDATE_PROGRESS_COURSE(this.progress);
     },
     // Cambiar de clase
     changeClass(less) {

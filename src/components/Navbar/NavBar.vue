@@ -178,7 +178,7 @@
       <!--Peril USER-->
       <v-row align="center" style="margin-right: 0; flex: initial;">
         <!-- Nombre y correo -->
-        <v-col style="max-width: 200px;">
+        <v-col style="max-width: 200px;" v-if="!$vuetify.breakpoint.xs">
           <v-list-item-content class="text-right" style="padding-bottom: 15px;">
             <v-list-item-title style="font-size: 1rem; overflow: visible;">{{ userName }}</v-list-item-title>
             <v-list-item-subtitle style="font-size: 0.7rem; overflow: visible;">{{ userEmail }}</v-list-item-subtitle>
@@ -491,7 +491,7 @@ export default {
 }
 
 .custom-app-bar {
-  margin: 30px;
+  margin: 20px;
   margin-top: 30px !important;
   margin-left: 80px;
   padding: 0px;
@@ -584,6 +584,12 @@ a:hover {
 @media screen and (max-width: 900px) {
   .banner-text {
     display: none;
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .custom-app-bar {
+    margin-left: 15px;
   }
 }
 </style>

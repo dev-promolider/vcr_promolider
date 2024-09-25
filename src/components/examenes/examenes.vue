@@ -14,8 +14,7 @@
                         <div class="column info-column">
                             <h4 class="course-title">{{ product.title }}</h4>
                             <div class="valoracion-curso">
-                                <!-- Aquí puedes añadir una estrella o rating si es necesario -->
-                                <!-- Ejemplo: <v-rating color="warning" readonly length="5" :value="product.rating"></v-rating> -->
+                                <!-- Aquí añadimos la valoración -->
                             </div>
                         </div>
                     </div>
@@ -24,7 +23,7 @@
         </div>
 
         <!-- Columna de Detalles del Curso Seleccionado -->
-        <div class="col-12 col-md-8 pe-5">
+        <div class="col-12 col-md-8 pe-5" ref="courseDetails">
             <div v-if="waitSelection">
                 <div class="text-center py-10">
                     <strong>Seleccione un curso</strong>
@@ -36,87 +35,72 @@
                         <img class="selected-course-img" :src="productSelected.url_portada" alt="no image">
                         <div class="selected-course-info">
                             <h2>{{ productSelected.title }}</h2>
-                            <p v-if="exam_progress != 'empty'"><strong>Progreso actual: </strong>{{exam_progress}}%</p>
+                            <p v-if="exam_progress != 'empty'"><strong>Progreso actual: </strong>{{ exam_progress }}%</p>
                             <p v-else><strong>Progreso actual: </strong>0%</p>
-                            <v-progress-linear
-                                v-model="exam_progress"
-                                color="#1ae800"
-                            ></v-progress-linear>
+                            <v-progress-linear v-model="exam_progress" color="#1ae800"></v-progress-linear>
                         </div>
                     </div>
-        
-                <div>
-                    <p><strong>Lista de exámenes</strong></p>
-                    <div v-if="exam_progress == 'empty'">
-                        No hay exámenes para este curso
-                    </div>
-                    <div v-else>
-                        <div class="py-2">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                    <th>Examen</th>
-                                    <th>Estado/Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="exam in exams_class" :key="exam.id">
-                                        <template v-if="exam.exist">
-                                        <td>{{exam.name}}</td>
-                                        <td v-if="exam.approved" class="text-success">
-                                            Examen aprobado
-                                        </td>
-                                        <td v-else>
-                                            <v-btn
-                                            depressed
-                                            color="#1ae800"
-                                            class="text-white"
-                                            @click="Testing(exam)"
-                                            >Realizar examen
-                                            </v-btn>
-                                        </td>
-                                        </template>
-                                    </tr>
-                                    <tr v-for="exam in exams_module" :key="exam.id">
-                                        <template v-if="exam.exist">
-                                        <td>{{exam.name}}</td>
-                                        <td v-if="exam.approved" class="text-success">
-                                            Examen aprobado
-                                        </td>
-                                        <td v-else>
-                                            <v-btn
-                                            depressed
-                                            color="#1ae800"
-                                            class="text-white"
-                                            @click="Testing(exam)"
-                                            >Realizar examen
-                                            </v-btn>
-                                        </td>
-                                        </template>
-                                    </tr>
-                                    <tr>
-                                        <template v-if="exam_course.exist">
-                                        <td>{{exam_course.title}}</td>
-                                        <td v-if="exam_course.approved" class="text-success">
-                                            Examen aprobado
-                                        </td>
-                                        <td v-else>
-                                            <v-btn
-                                            depressed
-                                            color="#1ae800"
-                                            class="text-white"
-                                            @click="Testing(exam_course)"
-                                            >Realizar examen
-                                            </v-btn>
-                                        </td>
-                                        </template>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                    <div>
+                        <p><strong>Lista de exámenes</strong></p>
+                        <div v-if="exam_progress == 'empty'">
+                            No hay exámenes para este curso
+                        </div>
+                        <div v-else>
+                            <div class="py-2">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Examen</th>
+                                            <th>Estado/Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="exam in exams_class" :key="exam.id">
+                                            <template v-if="exam.exist">
+                                                <td>{{ exam.name }}</td>
+                                                <td v-if="exam.approved" class="text-success">
+                                                    Examen aprobado
+                                                </td>
+                                                <td v-else>
+                                                    <v-btn depressed color="#1ae800" class="text-white"
+                                                        @click="Testing(exam)">Realizar examen
+                                                    </v-btn>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                        <tr v-for="exam in exams_module" :key="exam.id">
+                                            <template v-if="exam.exist">
+                                                <td>{{ exam.name }}</td>
+                                                <td v-if="exam.approved" class="text-success">
+                                                    Examen aprobado
+                                                </td>
+                                                <td v-else>
+                                                    <v-btn depressed color="#1ae800" class="text-white"
+                                                        @click="Testing(exam)">Realizar examen
+                                                    </v-btn>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                        <tr>
+                                            <template v-if="exam_course.exist">
+                                                <td>{{ exam_course.title }}</td>
+                                                <td v-if="exam_course.approved" class="text-success">
+                                                    Examen aprobado
+                                                </td>
+                                                <td v-else>
+                                                    <v-btn depressed color="#1ae800" class="text-white"
+                                                        @click="Testing(exam_course)">Realizar examen
+                                                    </v-btn>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -141,9 +125,9 @@ export default {
             this.loading = true;
             const { data } = await this.axios.get(
                 `/course/purchased-courses`
-                );
-                this.products = data.data;
-                this.loading = false;
+            );
+            this.products = data.data;
+            this.loading = false;
             // try {
             //     const { data } = await this.$axios.get(
             //     `/course/purchased-courses`
@@ -156,7 +140,7 @@ export default {
             //     window.location.reload();
             // }
         },
-        async examList(product){
+        async examList(product) {
             this.productSelected = product;
             await this.axios.get(`/course/exam/list?id=${product.id}`).then((response) => {
                 this.exam_course = response.data.exam_course
@@ -165,96 +149,102 @@ export default {
                 this.exams_data = response.data
                 this.exam_progress = response.data.exam_progress
                 this.waitSelection = false
+
+                this.$nextTick(() => {
+                    this.$refs.courseDetails.scrollIntoView({ behavior: 'smooth' });
+                });
             })
         },
         Testing(dataEx) {
-          this.$router.push({
-            name: "test",
-            params: { id: dataEx.exam_id },
-            query: {
-                class: dataEx.slug,
-                course: this.productSelected.id,
-            },
-          });
+            this.$router.push({
+                name: "test",
+                params: { id: dataEx.exam_id },
+                query: {
+                    class: dataEx.slug,
+                    course: this.productSelected.id,
+                },
+            });
         },
     },
-    mounted(){
+    mounted() {
         this.getcourses();
     }
 }
 </script>
 <style scoped>
 .course-card {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  transition: 0.5s;
-  cursor: pointer;
-  max-width: 100%;
-  background-color: white !important;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    transition: 0.5s;
+    cursor: pointer;
+    max-width: 100%;
+    background-color: white !important;
 }
 
 .course-card:hover {
-  transform: scale(1.05);
-  transition: 0.8s;
+    transform: scale(1.05);
+    transition: 0.8s;
 }
 
 .tarjeta-cursos {
-  display: flex;
-  flex-direction: row;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(75, 75, 75, 0.5);
-  overflow: hidden;
-  height: 100px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(75, 75, 75, 0.5);
+    overflow: hidden;
+    height: 100px;
+    /*height: auto;*/
 }
 
 .column {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
 }
 
 .image-column {
-  flex: 1;
+    flex: 1;
 }
 
 .curso-imagen {
-  padding: 5px;
+    padding: 5px;
 }
 
 .img-cursos-portad {
-  width: 100%;
-  height: 100%; 
-  object-fit: cover;
-  border-radius: 10px; 
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .info-column {
-  flex: 2;
-  padding-left: 10px;
+    flex: 2;
+    padding-left: 10px;
 }
 
 .course-title {
-  font-size: 1em;
-  font-weight: 480;
-  margin: 0;
+    font-size: 1em;
+    font-weight: 480;
+    margin: 0;
 }
 
 .valoracion-curso {
-  margin: 10px 0;
+    margin: 10px 0;
 }
 
 .fila-tarjeta {
-  font-size: 1em;
-  color: #131b1e;
+    font-size: 1em;
+    color: #131b1e;
 }
 
+/*
 @media (max-width: 767px) {
-  .tarjeta-cursos {
-    flex-direction: column;
-  }
+    .tarjeta-cursos {
+        flex-direction: column;
+    }
 }
-
+*/
 .selected-course-details {
     background-color: white !important;
     border-radius: 15px;
@@ -294,6 +284,7 @@ export default {
     margin: 5px 0;
 }
 
+/*
 @media (max-width: 767px) {
     .selected-course-card {
         flex-direction: column;
@@ -304,9 +295,34 @@ export default {
         width: 100%;
         height: auto;
     }
+}*/
+
+@media (max-width: 767px) {
+    .selected-course-card {
+        display: flex;
+        flex-direction: column;
+        /* Cambia a columna */
+        align-items: stretch;
+        /* Alinea los elementos para ocupar todo el ancho */
+    }
+
+    .selected-course-img {
+        width: auto;
+        /* Ocupa todo el ancho */
+        height: 100%;
+        /* Asegúrate de que la altura se ajuste */
+    }
+
+    .selected-course-info {
+        flex: 1;
+        padding: 10px;
+    }
+
+    .img-cursos-portad {
+        width: 100%;
+        height: 100%;
+    }
 }
-
-
 </style>
 
 

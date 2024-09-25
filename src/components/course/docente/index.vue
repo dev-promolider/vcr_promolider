@@ -26,9 +26,9 @@
               </p>
             </div>
 
-            <!-- Fila 2 -->
-            <div class="d-flex justify-content-between flex-grow-1">
-              <!-- Columna 1 en Fila 2 -->
+            <!-- Fila 2 para el nombre y el correo -->
+            <div class="d-flex flex-column flex-lg-row justify-content-between flex-grow-1">
+              <!-- Nombre -->
               <div class="d-flex align-items-center">
                 <p class="text-left" style="
                     font-size: 0.9em;
@@ -40,11 +40,12 @@
                 </p>
               </div>
 
-              <!-- Columna 2 en Fila 2 -->
-              <div class="d-flex align-items-center">
+              <!-- Correo -->
+              <div class="d-flex align-items-center mt-2 mt-md-0">
                 <p class="text-left" style="
                     font-size: 0.9em;
                     font-weight: 400;
+                    margin-left: 20px;
                     margin-right: 20px;
                     margin-top: 10px;
                   ">
@@ -87,14 +88,11 @@ export default {
       await this.axios.get('course/details/' + this.$route.query.course).then((response) => {
         console.log(response)
         this.courseInfo = response.data.data
-        console.log("AAAAA:",response.data.data)
 
         this.axios.get(`user/show?id=${this.courseInfo.user_id}`).then((res) => {
           this.nameProductor = res.data.fullName;
           this.emailProductor = res.data.email;
           this.imgProductor = res.data.photo;
-
-          console.log("EEEEEE: ", res.data.fullName);
         })
       })
     },
@@ -108,9 +106,9 @@ export default {
 
 <style scoped>
 .docente {
-  background-color: #ffffff;
+  background-color: white;
   border-radius: 30px;
-  height: 85px;
+  height: auto; /* Permitir que el contenedor crezca */
 }
 
 .row {
@@ -144,10 +142,6 @@ export default {
   flex-grow: 1;
 }
 
-.justify-content-between {
-  justify-content: space-between;
-}
-
 .align-items-center {
   align-items: center;
 }
@@ -163,6 +157,4 @@ export default {
   border-radius: 50%;
   object-fit: cover;
 }
-
-
 </style>

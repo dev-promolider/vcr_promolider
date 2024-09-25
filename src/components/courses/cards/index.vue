@@ -64,7 +64,7 @@ export default {
       })
     },
     logCourseData() {
-      console.log("Course Data:", this.course);
+      //console.log("Course Data:", this.course);
     },
     calcDiscount(price){
       var disc = price*(this.certificateDisc/100);

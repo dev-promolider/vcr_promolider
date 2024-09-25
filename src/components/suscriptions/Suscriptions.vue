@@ -105,7 +105,6 @@ export default {
     ...mapState("course", ["course"]),
 
     filteredCourses() {
-      console.log('Filtering with:', this.searchQuery, this.selectedCategory);
       let filtered = this.informacion;
 
       if (this.searchQuery) {
@@ -120,7 +119,6 @@ export default {
         console.log('After category filter:', filtered);
       }
 
-      console.log('Filtered courses:', filtered);
       return filtered;
     },
 
@@ -149,7 +147,6 @@ export default {
       this.axios.get("course/purchased-courses").then((datos) => {
         this.loading = false;
         this.informacion = datos.data.data;
-        console.log("EEEEEEE", datos.data.data);
 
         if (this.informacion.length == 0) {
           this.carita = true;

@@ -606,8 +606,6 @@ export default {
           this.nameProductor = res.data.fullName;
           this.emailProductor = res.data.email;
           this.imgProductor = res.data.photo;
-
-          console.log("EEEEEE: ", res.data.fullName);
         });
       });
 

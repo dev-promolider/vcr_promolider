@@ -1,7 +1,7 @@
 <template>
   <div class="player">
     <video-player class="video vjs-custom-skin vjs-big-play-centered" ref="videoPlayer" :options="playerOptions"
-      :playsinline="true" @play="onPlayerPlay($event)" @pause="onPlayerPause($event)" @ended="onPlayerEnded($event)"
+      :playsinline="true" @play="onPlayerPlay($event)" @pause="onPlayerPause($event)"
       @loadeddata="onPlayerLoadeddata($event)" @waiting="onPlayerWaiting($event)" @playing="onPlayerPlaying($event)"
       @timeupdate="onPlayerTimeupdate($event)" @canplay="onPlayerCanplay($event)"
       @canplaythrough="onPlayerCanplaythrough($event)" @ready="playerReadied" @statechanged="playerStateChanged($event)"
@@ -96,17 +96,13 @@ export default {
       const currentTime = player.currentTime();
       const duration = player.duration();
 
-      console.log(`Current Time: ${currentTime}, Duration: ${duration}`);
-
-      // Verificar si estamos en el final del video
-      if (currentTime >= duration - 1 && !this.videoMarkedComplete) {
-        console.log('Video está finalizando. Marcando lección como completa.');
+      if (currentTime >= duration * 0.8 && !this.videoMarkedComplete) {
+        console.log('Video ha sido visto en un 80%. Marcando lección como completa.');
         this.markLessonComplete();
         this.videoMarkedComplete = true;
       }
     },
     markLessonComplete() {
-      console.log('Emitir evento de lección completada.');
       this.$emit('markLessonComplete', this.lesson.id);
     },
     handleLessonComplete(lessonId) {
@@ -115,10 +111,6 @@ export default {
         this.completedLessons.push(lessonId);
         this.getProgress(); // Actualiza el progreso del curso
       }
-    },
-    onPlayerEnded() {
-      console.log('Video ha finalizado.');
-      this.markLessonComplete();
     },
     someMethod(player) {
       this.actualizarTiempo(player.currentTime());

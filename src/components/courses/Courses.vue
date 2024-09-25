@@ -170,7 +170,6 @@ export default {
     },
     //busqueda
     filteredCourses() {
-      console.log('Filtering with:', this.searchQuery, this.selectedCategory);
       let filtered = this.courses;
 
       if (this.searchQuery) {
@@ -185,7 +184,6 @@ export default {
         console.log('After category filter:', filtered);
       }
 
-      console.log('Filtered courses:', filtered);
       return filtered;
     },
   },
