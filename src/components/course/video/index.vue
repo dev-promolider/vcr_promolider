@@ -1,11 +1,22 @@
 <template>
   <div class="player">
-    <video-player class="video vjs-custom-skin vjs-big-play-centered" ref="videoPlayer" :options="playerOptions"
-      :playsinline="true" @play="onPlayerPlay($event)" @pause="onPlayerPause($event)"
-      @loadeddata="onPlayerLoadeddata($event)" @waiting="onPlayerWaiting($event)" @playing="onPlayerPlaying($event)"
-      @timeupdate="onPlayerTimeupdate($event)" @canplay="onPlayerCanplay($event)"
-      @canplaythrough="onPlayerCanplaythrough($event)" @ready="playerReadied" @statechanged="playerStateChanged($event)"
-      @markLessonComplete="handleLessonComplete">
+    <video-player
+      class="video vjs-custom-skin vjs-big-play-centered"
+      ref="videoPlayer"
+      :options="playerOptions"
+      :playsinline="true"
+      @play="onPlayerPlay($event)"
+      @pause="onPlayerPause($event)"
+      @loadeddata="onPlayerLoadeddata($event)"
+      @waiting="onPlayerWaiting($event)"
+      @playing="onPlayerPlaying($event)"
+      @timeupdate="onPlayerTimeupdate($event)"
+      @canplay="onPlayerCanplay($event)"
+      @canplaythrough="onPlayerCanplaythrough($event)"
+      @ready="playerReadied"
+      @statechanged="playerStateChanged($event)"
+      @markLessonComplete="handleLessonComplete"
+    >
     </video-player>
   </div>
 </template>
@@ -28,11 +39,14 @@ export default {
     };
   },
   props: {
-    courseId: String,
-    classId: Number
+    courseId: {
+      type: [String, Number],
+      required: true,
+    },
+    classId: Number,
   },
   mounted() {
-    window.addEventListener('unload', this.someMethod);
+    window.addEventListener("unload", this.someMethod);
     this.playerOptions = {
       responsive: true,
       fluid: true,
@@ -44,7 +58,6 @@ export default {
       sources: [
         {
           type: "Video/mp4",
-          //baseHost: "https://crm-storage-user.s3.eu-west-1.amazonaws.com/video.mp4",
           // MP4
           src: this.urlVideo,
         },
@@ -64,31 +77,39 @@ export default {
       return this.$refs.videoPlayer.player;
     },
     ...mapGetters("course", ["urlVideo", "timeReady"]),
-    ...mapState("course", ["lesson"]),
+    ...mapState("course", ["lesson", "completedLessons"]),
   },
   methods: {
     ...mapMutations("course", ["CLEAR_VIDEO"]),
-    ...mapActions('course', ['updateTime']),
-    onPlayerPlay() { },
+    ...mapActions("course", ["updateTime", "updateCompletedLessons"]),
+    onPlayerPlay() {},
     onPlayerPause(player) {
       this.actualizarTiempo(player.currentTime());
     },
-    onPlayerLoadeddata() { },
-    onPlayerWaiting() { },
-    onPlayerPlaying() { },
-    onPlayerCanplay() { },
-    onPlayerCanplaythrough() { },
-    playerStateChanged() { },
+    onPlayerLoadeddata() {},
+    onPlayerWaiting() {},
+    onPlayerPlaying() {},
+    onPlayerCanplay() {},
+    onPlayerCanplaythrough() {},
+    playerStateChanged() {},
 
     async playerReadied(player) {
-      await this.axios.get(`/purchased/get-time?courseId=${this.courseId}&classId=${this.classId}`).then((response) => {
-        this.timeReprod = response.data.time;
-      });
+      await this.axios
+        .get(
+          `/purchased/get-time?courseId=${this.courseId}&classId=${this.classId}`
+        )
+        .then((response) => {
+          this.timeReprod = response.data.time;
+        });
       player.currentTime(this.timeReprod);
     },
 
     actualizarTiempo(time) {
-      this.updateTime({ course: this.$route.query.course, time, lessonId: this.lesson.id });
+      this.updateTime({
+        course: this.$route.query.course,
+        time,
+        lessonId: this.lesson.id,
+      });
     },
 
     onPlayerTimeupdate() {
@@ -102,9 +123,15 @@ export default {
         this.videoMarkedComplete = true;
       }
     },
+
     markLessonComplete() {
-      this.$emit('markLessonComplete', this.lesson.id);
+      if (!this.completedLessons.includes(this.lesson.id)) {
+        console.log(`Marking lesson ${this.lesson.id} as completed.`);
+        this.updateCompletedLessons(this.lesson.id);
+        this.$emit('markLessonComplete', this.lesson.id);
+      }
     },
+    
     handleLessonComplete(lessonId) {
       if (!this.completedLessons.includes(lessonId)) {
         console.log(`Marcando lección ${lessonId} como completada.`);
@@ -112,18 +139,28 @@ export default {
         this.getProgress(); // Actualiza el progreso del curso
       }
     },
+    
     someMethod(player) {
       this.actualizarTiempo(player.currentTime());
+    },
+  },
+  watch: {
+    lesson: {
+      immediate: true,
+      handler(newLesson) {
+        this.videoMarkedComplete = this.completedLessons.includes(newLesson.id);
+      }
     }
   },
   beforeDestroy() {
-    window.removeEventListener('unload', this.someMethod);
+    window.removeEventListener("unload", this.someMethod);
     // Cuando el componente se destruya o cierre por casualidad actualizaremos el tiempo en el que se esta quedando
-    this.updateTime({ course: this.idCourse, time: this.player.currentTime(), lessonId: this.lesson.id });
+    this.updateTime({
+      course: this.idCourse,
+      time: this.player.currentTime(),
+      lessonId: this.lesson.id,
+    });
 
-    // Actualizaremos la variable global de vuex para no generar conflicto con otra clase
-
-    //this.$store.commit("course/UPDATE_TIME", 0);
   },
   destroyed() {
     // Borramos datos del video al destruir el componente para no generar conflictos

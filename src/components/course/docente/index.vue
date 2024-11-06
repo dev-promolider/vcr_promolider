@@ -4,11 +4,7 @@
       <div class="row no-gutters h-100">
         <!-- Primera columna -->
         <div class="col-2 col-md-2 mt-3 justify-content-center align-items-center">
-          <v-img 
-            :src="imgProductor"
-            alt="Imagen del docente"
-            class="imagen-docente"
-          />
+          <v-img :src="imgProductor" alt="Imagen del docente" class="imagen-docente" />
         </div>
 
         <!-- Segunda columna -->
@@ -61,45 +57,45 @@
 </template>
 
 <script>
-import { mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "Docente",
-  data(){
+  data() {
     return {
       error: false,
       lessonId: "",
       courseInfo: [],
 
-
       imgProductor: null,
       nameProductor: "",
       emailProductor: "",
-    }
+    };
   },
-  components: {
-
-  },
+  components: {},
   computed: {
-    ...mapState("course", ["lesson", "renderVideo","courseSelect"]),
+    ...mapState("course", ["lesson", "renderVideo", "courseSelect"]),
   },
   methods: {
-    async getCourseInfo(){
-      await this.axios.get('course/details/' + this.$route.query.course).then((response) => {
-        console.log(response)
-        this.courseInfo = response.data.data
+    async getCourseInfo() {
+      await this.axios
+        .get("course/details/" + this.$route.query.course)
+        .then((response) => {
+          console.log(response);
+          this.courseInfo = response.data.data;
 
-        this.axios.get(`user/show?id=${this.courseInfo.user_id}`).then((res) => {
-          this.nameProductor = res.data.fullName;
-          this.emailProductor = res.data.email;
-          this.imgProductor = res.data.photo;
-        })
-      })
+          this.axios
+            .get(`user/show?id=${this.courseInfo.user_id}`)
+            .then((res) => {
+              this.nameProductor = res.data.fullName;
+              this.emailProductor = res.data.email;
+              this.imgProductor = res.data.photo;
+            });
+        });
     },
   },
   mounted() {
     this.getCourseInfo();
-
   },
 };
 </script>
@@ -108,7 +104,8 @@ export default {
 .docente {
   background-color: white;
   border-radius: 30px;
-  height: auto; /* Permitir que el contenedor crezca */
+  height: auto;
+  /* Permitir que el contenedor crezca */
 }
 
 .row {
@@ -127,7 +124,7 @@ export default {
 }
 
 .docente-header {
-  height: 35px; 
+  height: 35px;
 }
 
 .d-flex {

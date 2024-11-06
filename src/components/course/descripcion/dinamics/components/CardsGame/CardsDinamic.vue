@@ -94,6 +94,7 @@ export default {
             course_game_id: this.$route.params.id
         }
     },
+    
     computed:{
         ...mapState('course', ['sumPoints']),
         sumPoint(){
@@ -113,6 +114,7 @@ export default {
             return this.totalTime.minutes;
         }
     },
+
     async created(){
         console.log('here')
         await this.createCards()

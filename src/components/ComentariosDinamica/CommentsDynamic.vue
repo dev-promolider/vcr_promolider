@@ -2,11 +2,11 @@
   <div class="comments-section">
     <div class="total-comments">{{ comments.length + " COMENTARIOS" }}</div>
     <div class="comment-input">
-      <img :src="userPic" alt="User's Profile Image" class="input-avatar">
-      <textarea placeholder="Escribe un comentario..." class="input-textarea" ref="commentInput" @click="setFocus" minlength="3" maxlength="255"
-        v-model="commentContent"></textarea>
+      <img :src="userPic" alt="User's Profile Image" class="input-avatar" />
+      <textarea placeholder="Escribe un comentario..." class="input-textarea" ref="commentInput" @click="setFocus"
+        minlength="3" maxlength="255" v-model="commentContent"></textarea>
       <button class="send-button" @click="sendComment">
-        <img :src="require('@/assets/SendComment.svg')" alt="Send Comment">
+        <img :src="require('@/assets/SendComment.svg')" alt="Send Comment" />
       </button>
     </div>
     <div class="aux-comment-container">
@@ -18,16 +18,16 @@
 </template>
 
 <script>
-import Comment from './Comment/Comment.vue';
+import Comment from "./Comment/Comment.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   components: {
-    Comment
+    Comment,
   },
   data() {
     return {
-      userPic: localStorage.getItem('photo_user'),
-      commentContent: '',
+      userPic: localStorage.getItem("photo_user"),
+      commentContent: "",
       // comments: [
       // //   { id: 1, avatar: 'avatar1.png', name: 'Dayana', text: 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.', date: '18 de Diciembre de 2023 08:52' },
       // //   { id: 2, avatar: 'avatar2.png', name: 'Carlos', text: 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.', date: '18 de Diciembre de 2023 09:30' },
@@ -46,11 +46,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("course", [
-      "allDynamicComments",
-      "isLoadingDynamicComments"
-
-    ]),
+    ...mapState("course", ["allDynamicComments", "isLoadingDynamicComments"]),
     ...mapGetters("course", ["getDynamicComments"]),
     comments() {
       return this.getDynamicComments;
@@ -61,30 +57,25 @@ export default {
     ...mapActions("course", ["setDynamicComments", "fetchDynamicComments"]),
     async sendComment() {
       const trimmedComment = this.commentContent.trim();
-      if (trimmedComment !== '' && trimmedComment.length <= 368) {
+      if (trimmedComment !== "" && trimmedComment.length <= 368) {
         this.setDynamicComments({
           id_user: localStorage.getItem("id_user"),
           id_course_games: this.$route.params.id,
-          content: trimmedComment
-
+          content: trimmedComment,
         });
-        this.commentContent='';
-
+        this.commentContent = "";
       } else {
-        console.log('error al enviar commentario', trimmedComment)
-        this.commentContent='';
+        console.log("error al enviar commentario", trimmedComment);
+        this.commentContent = "";
       }
-
-
     },
-    setFocus(){
+    setFocus() {
       this.$refs.commentInput.focus();
-    }
+    },
   },
   created() {
-    this.fetchDynamicComments(this.$route.params.id)
-  }
-
+    this.fetchDynamicComments(this.$route.params.id);
+  },
 };
 </script>
 

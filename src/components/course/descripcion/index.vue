@@ -12,8 +12,8 @@
                 Días restantes del curso: {{ date.daysUntil }}
               </v-btn>
             </template>
-            <span>Fecha de inicio: {{ date.fechaInicio }}<br>Fecha de finalización:
-              {{ date.fechaVencimiento }}</span>
+            <span>Fecha de inicio: {{ date.fechaInicio }}<br />Fecha de
+              finalización: {{ date.fechaVencimiento }}</span>
           </v-tooltip>
         </v-tabs>
 
@@ -51,11 +51,12 @@
             </v-card>
             <!-- Examen -->
             <v-card flat v-if="item.tab === 'Examen'" color="white" outlined rounded="xl" tag="div">
-              <div v-if="dataEx &&
+              <div v-if="
+                dataEx &&
                 rate && // 👈 null and undefined check
                 Object.keys(rate).length === 0 &&
                 Object.getPrototypeOf(rate) === Object.prototype
-                ">
+              ">
                 <div class="text-white p-3">
                   <button @click="examList()" class="test">Resultados</button>
                 </div>
@@ -115,8 +116,11 @@
                               @click="goToDinamics(item.id)">
                               {{ item.buttonText }}
                             </v-btn>-->
-                            <v-btn class="mx-2" :style="{ backgroundColor: getButtonColor(item.buttonText) }"
-                              @click="goToDinamics(item.id)">
+                            <v-btn class="mx-2" :style="{
+                              backgroundColor: getButtonColor(
+                                item.buttonText
+                              ),
+                            }" @click="goToDinamics(item.id)">
                               {{ item.buttonText }}
                             </v-btn>
                           </td>
@@ -133,9 +137,6 @@
                 </v-card-text>
               </template>
             </v-card>
-
-
-
 
             <v-card flat v-if="item.tab === 'Valoraciones'" color="#131b1e" outlined rounded="xl" tag="div">
               <Valoraciones />
@@ -194,9 +195,7 @@
                     <template v-if="exam.exist">
                       <td>{{ exam.name }}</td>
                       <template v-if="exam.approved === 'Approved'">
-                        <td class="text-success">
-                          Examen Aprobado
-                        </td>
+                        <td class="text-success">Examen Aprobado</td>
                         <td>
                           <button class="btn btn-primary" @click="showExamResultsModal(exam.exam_id)">
                             Ver Resultado
@@ -215,16 +214,13 @@
                         </td>
                       </template>
                       <template v-else>
-                        <td>
-                          --
-                        </td>
+                        <td>--</td>
                         <td>
                           <button class="btn btn-primary" @click="Testing(exam.exam_id)">
                             Realizar Examen
                           </button>
                         </td>
                       </template>
-
                     </template>
                   </tr>
                 </template>
@@ -249,9 +245,7 @@
                     <template v-if="exam.exist">
                       <td>{{ exam.name }}</td>
                       <template v-if="exam.approved === 'Approved'">
-                        <td class="text-success">
-                          Examen Aprobado
-                        </td>
+                        <td class="text-success">Examen Aprobado</td>
                         <td>
                           <button class="btn btn-primary" @click="showExamResultsModal(exam.exam_id)">
                             Ver Resultado
@@ -270,18 +264,14 @@
                         </td>
                       </template>
                       <template v-else>
-                        <td>
-                          --
-                        </td>
+                        <td>--</td>
                         <td>
                           <button class="btn btn-primary" @click="Testing(exam.exam_id)">
                             Realizar Examen
                           </button>
                         </td>
                       </template>
-
                     </template>
-
                   </tr>
                 </template>
                 <template v-else>
@@ -305,9 +295,7 @@
                     <template v-if="exam_course.exist">
                       <td>{{ exam_course.name }}</td>
                       <template v-if="exam_course.approved === 'Approved'">
-                        <td class="text-success">
-                          Examen Aprobado
-                        </td>
+                        <td class="text-success">Examen Aprobado</td>
                         <td>
                           <button class="btn btn-primary" @click="showExamResultsModal(exam_course.exam_id)">
                             Ver Resultado
@@ -326,18 +314,14 @@
                         </td>
                       </template>
                       <template v-else>
-                        <td>
-                          --
-                        </td>
+                        <td>--</td>
                         <td>
                           <button class="btn btn-primary" @click="Testing(exam_course.exam_id)">
                             Realizar Examen
                           </button>
                         </td>
                       </template>
-
                     </template>
-
                   </tr>
                 </template>
                 <template v-else>
@@ -365,26 +349,29 @@
         </v-card-title>
 
         <v-card-text class="text-black respuestas">
-          <template v-if="examResults.respuestas &&
-            examResults.respuestas.length > 0
-            ">
+          <template v-if="examResults.respuestas && examResults.respuestas.length > 0">
             <div v-for="(answer, index) in examResults.respuestas" :key="index">
               <p>
                 <span>Pregunta {{ index + 1 }}</span> :
-                <span
-                  v-bind:class="[answer.respuestaSeleccionada === answer.respuestaCorrecta ? 'text-success' : 'text-danger']">{{
-                    answer.pregunta }}</span>
+                <span v-bind:class="[
+                  answer.respuestaSeleccionada === answer.respuestaCorrecta
+                    ? 'text-success'
+                    : 'text-danger',
+                ]">{{ answer.pregunta }}</span>
                 <br />
                 <span>Respuesta seleccionada</span>:
-                <span
-                  v-bind:class="[answer.respuestaSeleccionada === answer.respuestaCorrecta ? 'text-success' : 'text-danger']">{{
-                    answer.respuestaSeleccionada }}</span>
+                <span v-bind:class="[
+                  answer.respuestaSeleccionada === answer.respuestaCorrecta
+                    ? 'text-success'
+                    : 'text-danger',
+                ]">{{ answer.respuestaSeleccionada }}</span>
                 <br />
                 <span>Respuesta correcta</span>:
-                <span
-                  v-bind:class="[answer.respuestaSeleccionada === answer.respuestaCorrecta ? 'text-success' : 'text-danger']">{{
-                    answer.respuestaCorrecta }}</span>
-
+                <span v-bind:class="[
+                  answer.respuestaSeleccionada === answer.respuestaCorrecta
+                    ? 'text-success'
+                    : 'text-danger',
+                ]">{{ answer.respuestaCorrecta }}</span>
               </p>
             </div>
           </template>
@@ -408,10 +395,7 @@
 </template>
 
 <script>
-import {
-  mapState,
-  mapActions
-} from "vuex";
+import { mapState, mapActions } from "vuex";
 import Valoraciones from "@/components/course/comentarios/valoraciones.vue";
 
 export default {
@@ -441,18 +425,19 @@ export default {
       model: "tab-2",
       text: "Lorem ipsum dolor sit amet",
       tab: null,
-      items: [{
-        tab: "Resumen"
-      },
-      {
-        tab: "Recursos"
-      },
-      {
-        tab: "Examen"
-      },
-      {
-        tab: "Dinámicas"
-      },
+      items: [
+        {
+          tab: "Resumen",
+        },
+        {
+          tab: "Recursos",
+        },
+        {
+          tab: "Examen",
+        },
+        {
+          tab: "Dinámicas",
+        },
         // { tab: "Valoraciones" },
       ],
       exam_course: [],
@@ -469,15 +454,20 @@ export default {
     };
   },
   computed: {
-    ...mapState("course", ["lesson", "resources", "isResources", "dataEx", "dinamicClass"]),
+    ...mapState("course", [
+      "lesson",
+      "resources",
+      "isResources",
+      "dataEx",
+      "dinamicClass",
+    ]),
     queryDinamic() {
       return this.$route.query.class;
     },
   },
   methods: {
-
     getButtonColor(buttonText) {
-      return buttonText === 'Ver Resultados' ? '#00bb2d'  : '#2CEA14'; 
+      return buttonText === "Ver Resultados" ? "#00bb2d" : "#2CEA14";
     },
 
     async examList() {
@@ -485,7 +475,7 @@ export default {
       await this.axios
         .get(`/course/exam/list?id=${this.$route.query.course}`)
         .then((response) => {
-          console.log(response)
+          console.log(response);
           this.exam_course = response.data.exam_course;
           this.exams_class = response.data.exams_class;
           this.exams_module = response.data.exams_module;
@@ -495,7 +485,9 @@ export default {
 
     async listDinamicas() {
       try {
-        const response = await this.axios.get(`/course/dinamicas/list/${this.$route.query.course}`);
+        const response = await this.axios.get(
+          `/course/dinamicas/list/${this.$route.query.course}`
+        );
         const data = response.data;
 
         if (data.length === 0) {
@@ -503,8 +495,7 @@ export default {
           this.isLoadingDinamic = true;
           this.dinamicas = [];
         } else {
-
-          this.dinamicas = data.map(dynamic => {
+          this.dinamicas = data.map((dynamic) => {
             const isNoCompleted = this.idDinamicGame.includes(dynamic.id);
 
             return {
@@ -517,16 +508,16 @@ export default {
           this.isLoadingDinamic = true;
         }
       } catch (error) {
-        console.error('Error fetching dynamics:', error);
+        console.error("Error fetching dynamics:", error);
       }
-    }
-    ,
-
-
+    },
+    
     async expirationDate() {
-      this.axios.get(`/course/expiration-date?course_id=${this.$route.query.course}`).then((r) => {
-        this.date = r.data;
-      })
+      this.axios
+        .get(`/course/expiration-date?course_id=${this.$route.query.course}`)
+        .then((r) => {
+          this.date = r.data;
+        });
     },
 
     ...mapActions("course", {
@@ -539,6 +530,7 @@ export default {
     changeTab(el) {
       this.isActive = el;
     },
+    
     download(resource) {
       this.snackbar = true;
       this.carga = true;
@@ -547,15 +539,14 @@ export default {
           responseType: "blob",
         })
         .then((response) => {
-          console.log("ok")
-          const url = window.URL
-            .createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
+          console.log("ok");
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
           link.href = url;
-          link.setAttribute('download', resource.filename);
+          link.setAttribute("download", resource.filename);
           document.body.appendChild(link);
           link.click();
-          document.body.removeChild(link)
+          document.body.removeChild(link);
         });
     },
 
@@ -566,10 +557,8 @@ export default {
       });
     },
 
-
     Testing(dataEx) {
-
-      console.log(dataEx)
+      console.log(dataEx);
       if (this.$route.params.mode == "preview") {
         this.$router.push({
           name: "previewTest",
@@ -601,7 +590,9 @@ export default {
 
     async showExamResultsModal(examId) {
       try {
-        const resp = await this.axios.post("course/exam/results", { examId: examId })
+        const resp = await this.axios.post("course/exam/results", {
+          examId: examId,
+        });
         const resultados = resp.data;
         console.log(resultados);
         this.examResults = {
@@ -610,10 +601,9 @@ export default {
         };
         this.showResultsModal = true;
       } catch (error) {
-        alert('Error al recuperar resultados.')
-        return
+        alert("Error al recuperar resultados.");
+        return;
       }
-
     },
 
     // Extraer solo nombre del recurso y no toda la ruta
@@ -630,9 +620,7 @@ export default {
           courseId: this.$route.query.course,
           game_for: "class",
         };
-        let {
-          data
-        } = await this.getActiveDinamicClass(dataSend);
+        let { data } = await this.getActiveDinamicClass(dataSend);
         if (data.length === 0) {
           this.stateDinamic = false;
           this.isLoadingDinamic = true;
@@ -657,8 +645,8 @@ export default {
   },
   watch: {
     dinamicClass: {
-      handler: 'listDinamicas',
-      immediate: true
+      handler: "listDinamicas",
+      immediate: true,
     },
     async queryDinamic() {
       this.getActiveDinamics();

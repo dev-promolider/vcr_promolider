@@ -4,11 +4,9 @@
       <SectionTitle title="Marketplace" />
       <div class="col-md-6 text-right mr-5">
         <div class="d-flex align-items-center justify-content-end">
-          <span class="mr-3" style="color: #5E5873;">Buscar:</span>
-          <input type="text" placeholder="Buscar un curso" v-model="searchQuery" class="form-control form-select" style="
-              height: 32px; 
-              width: 250px; 
-              color: #636363;" />
+          <span class="mr-3" style="color: #5e5873">Buscar:</span>
+          <input type="text" placeholder="Buscar un curso" v-model="searchQuery" class="form-control form-select"
+            style="height: 32px; width: 250px; color: #636363" />
         </div>
       </div>
     </div>
@@ -21,7 +19,6 @@
             {{ descuento }}%
           </button>
         </div>
-
       </div>
 
       <div class="col-md-6 text-right">
@@ -31,7 +28,9 @@
             @click="toggleArrow">
             <option value="">Filtrar por categoría</option>
             <!--<option v-for="category in uniqueCategories" :key="category.id" :value="category.name">{{ category.name }} </option>-->
-            <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+            <option v-for="category in categories" :key="category.id" :value="category.id">
+              {{ category.name }}
+            </option>
           </select>
           <span class="custom-arrow" :class="{ up: isDropdownOpen }"></span>
         </div>
@@ -50,7 +49,6 @@
         <div class="mt-5" v-if="loading">
           <loadingCourses />
         </div>
-
 
         <div class="mb-4 ml-2" v-if="relatedCourses.length > 0 && !loading">
           <div class="d-flex justify-content-between">
@@ -74,11 +72,8 @@
               </v-btn-toggle>
             </div>
           </div>
-          <component :is="currentView" :courses="filteredCourses" />
-          <!--<CarrouselCourseMarketplace :courses="filteredCourses" />-->
+          <component :is="currentView" :courses="filteredRecentCourses" />
         </div>
-
-
         <!--<div class="col-md-12 mb-3">
       <v-btn-toggle v-model="commentType" mandatory class="custom-btn-toggle">
         <v-btn :value="'private'" class="custom-btn">
@@ -91,19 +86,14 @@
         </v-btn>
       </v-btn-toggle>
     </div>-->
-
         <div class="mb-4 ml-2" v-if="!loading">
           <h3 class="font-weight-normal mt-7 mb-5">Todos los cursos</h3>
-          <!--<CarrouselCourseMarketplace :courses="courses" />-->
-          <component :is="currentView" :courses="courses" />
+          <component :is="currentView" :courses="filteredAllCourses" />
         </div>
-
         <!-- <div class="mb-4" v-if="!loading">
           <h3 class="m-0 font-weight-normal">Cursos de interés</h3>
           <CarrouselCourseMarketplace :courses="interesCourses"/>
         </div> -->
-
-
       </div>
     </div>
   </div>
@@ -111,7 +101,7 @@
 
 <script>
 import CarrouselCourseMarketplace from "@/components/courses/CarrouselCourseMarketplace";
-import CardList from "./cards/cardList.vue"
+import CardList from "./cards/cardList.vue";
 import loadingCourses from "@/components/courses/loadingCourses";
 import SectionTitle from "../Navbar/SectionTitle.vue";
 import { mapState } from "vuex";
@@ -126,7 +116,6 @@ export default {
   },
   data() {
     return {
-      //nameUser: localStorage.getItem("name_user"),
       cuenta: localStorage.getItem("id_account_type") /* hice esto */,
       informacion: [],
       lord: true,
@@ -144,21 +133,23 @@ export default {
       movies: [],
       interesCourses: [],
       relatedCourses: [],
+      recentCourses: [],
+      lastRecentCourses: [],
       prueba: [],
       notCourses: false,
       coursView: null,
       certificateDisc: 0,
       courseDisc: 0,
       //busqueda
-      searchQuery: '',
+      searchQuery: "",
       isDropdownOpen: false,
-      selectedCategory: '',
-      categories: ['1'],
+      selectedCategory: "",
+      categories: ["1"],
       Allcategories: [],
-      selected: '',
+      selected: "",
       descuento: 0,
       //vista:
-      viewMode: 'grid',
+      viewMode: "grid",
     };
   },
   computed: {
@@ -166,52 +157,70 @@ export default {
     //vista
     currentView() {
       console.log(this.viewMode);
-      return this.viewMode === 'list' ? 'CardList' : 'CarrouselCourseMarketplace';
+      return this.viewMode === "list"
+        ? "CardList"
+        : "CarrouselCourseMarketplace";
     },
-    //busqueda
-    filteredCourses() {
-      let filtered = this.courses;
+    // Filtro para cursos recientes
+    filteredRecentCourses() {
+      let filtered = this.recentCourses;
 
       if (this.searchQuery) {
-        filtered = filtered.filter(course =>
+        filtered = filtered.filter((course) =>
           course.title.toLowerCase().includes(this.searchQuery.toLowerCase())
         );
-        console.log('After search filter:', filtered);
       }
 
       if (this.selectedCategory) {
-        filtered = filtered.filter(course => course.id_categories == (this.selectedCategory));
-        console.log('After category filter:', filtered);
+        filtered = filtered.filter(
+          (course) => course.id_categories == this.selectedCategory
+        );
+      }
+
+      return filtered;
+    },
+    // Filtro para todos los cursos
+    filteredAllCourses() {
+      let filtered = this.courses;
+
+      if (this.searchQuery) {
+        filtered = filtered.filter((course) =>
+          course.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
+
+      if (this.selectedCategory) {
+        filtered = filtered.filter(
+          (course) => course.id_categories == this.selectedCategory
+        );
       }
 
       return filtered;
     },
   },
   methods: {
-    /*async getAttributes() {
-      // await this.axios.get("course/last-courses-rep").then((datos) => {
-      //   this.lastCourses = this.filterCourseInactive(datos.data.data);
-      // });
+    async getAttributes() {
       await this.axios.get("category/list").then((res) => {
         this.Allcategories = res.data.data;
       });
 
       await this.axios.get("course/released-courses").then((datos) => {
-        console.log("releaSed-cursos:", datos.data.data)
-        this.relatedCourses = datos.data.data;
+        const allCourses = datos.data.data;
+        this.filterRecentCourses(allCourses);
       });
 
       await this.axios.get("course/related-courses").then((datos) => {
-        console.log("releated-cursos:", datos.data.data)
-        //this.courses = datos.data.data;
         const cursos = datos.data.data;
-        console.log("CURSO1:", cursos[0].du)
-        this.descuento = cursos[0].du;
-        const idCategories = cursos.map(curso => curso.id_categories);
-        console.log("id_categories:", idCategories);
-        this.getCategoryName(idCategories);
 
-        this.courses = cursos;
+        // Filtra solo los cursos que no han sido comprados
+        this.courses = cursos.filter((course) => !course.isPurchased); // Cambia `isPurchased` por el campo correcto
+
+        if (this.courses.length > 0) {
+          this.descuento = this.courses[0].du; // Asumiendo que quieres el descuento del primer curso no comprado
+        }
+
+        const idCategories = this.courses.map((curso) => curso.id_categories);
+        this.getCategoryName(idCategories);
       });
 
       await this.axios.get("course/interesting-courses").then((datos) => {
@@ -227,62 +236,49 @@ export default {
       ) {
         this.notCourses = true;
       }
-    },*/
+    },
 
-    async getAttributes() {
-  await this.axios.get("category/list").then((res) => {
-    this.Allcategories = res.data.data;
-  });
+    filterRecentCourses(courses) {
+      const fifteenDaysAgo = new Date();
+      fifteenDaysAgo.setDate(fifteenDaysAgo.getDate() - 15);
 
-  await this.axios.get("course/released-courses").then((datos) => {
-    this.relatedCourses = datos.data.data;
-  });
+      // Filter courses from last 15 days
+      const recentCourses = courses.filter((course) => {
+        const courseDate = new Date(course.created_at); // Adjust field name if needed
+        return courseDate >= fifteenDaysAgo;
+      });
 
-  await this.axios.get("course/related-courses").then((datos) => {
-    const cursos = datos.data.data;
+      // If we have recent courses, update both arrays
+      if (recentCourses.length > 0) {
+        this.recentCourses = recentCourses;
+        this.lastRecentCourses = recentCourses;
+      } else {
+        // If no recent courses, use the last known recent courses
+        this.recentCourses = this.lastRecentCourses;
+      }
 
-    // Filtra solo los cursos que no han sido comprados
-    this.courses = cursos.filter(course => !course.isPurchased); // Cambia `isPurchased` por el campo correcto
-
-    if (this.courses.length > 0) {
-      this.descuento = this.courses[0].du; // Asumiendo que quieres el descuento del primer curso no comprado
-    }
-
-    const idCategories = this.courses.map(curso => curso.id_categories);
-    this.getCategoryName(idCategories);
-  });
-
-  await this.axios.get("course/interesting-courses").then((datos) => {
-    this.interesCourses = datos.data.data;
-  });
-
-  this.loading = false;
-
-  if (
-    this.courses.length === 0 &&
-    this.interesCourses.length === 0 &&
-    this.relatedCourses.length === 0
-  ) {
-    this.notCourses = true;
-  }
-},
-
+      // Store relatedCourses for the template
+      this.relatedCourses = this.recentCourses;
+    },
 
     getCategoryName(idCategories) {
       // Mapa para almacenar nombres únicos
       const categoryMap = new Map();
 
       // Itera sobre Allcategories para construir el mapa de nombres
-      this.Allcategories.forEach(category => {
+      this.Allcategories.forEach((category) => {
         if (idCategories.includes(category.id)) {
           categoryMap.set(category.id, category.name);
         }
       });
 
       // Convierte el mapa en una lista única de nombres
-      //this.categories = Array.from(categoryNamesMap.values());
-      this.categories = Array.from(categoryMap.entries()).map(([id, name]) => ({ id, name }));
-      console.log("Category Names:", this.categories)
+      this.categories = Array.from(categoryMap.entries()).map(([id, name]) => ({
+        id,
+        name,
+      }));
+
+      console.log("Category Names:", this.categories);
     },
 
     filterCourseInactive(data) {
@@ -309,10 +305,6 @@ export default {
         this.lorde = false;
         this.noexis = true;
       }
-      // this.informacion.forEach(cursos=>{
-      //   this.age =cursos.id + 1
-      //   console.log(this.age)
-      // })
     },
 
     goToClass(courseId) {
@@ -324,6 +316,7 @@ export default {
         },
       });
     },
+
     toggleView(mode) {
       this.viewMode = mode;
     },
@@ -331,9 +324,10 @@ export default {
     onSelectChange() {
       this.selected = this.selectedCategory;
     },
+
     toggleArrow() {
       this.isDropdownOpen = !this.isDropdownOpen;
-    }
+    },
   },
   created() {
     this.getAttributes();
@@ -350,14 +344,13 @@ export default {
   align-items: center;
 }
 
-
 .descuento-text {
   font-size: 24px;
   margin-right: 10px;
 }
 
 .descuento-btn {
-  background-image: url('../../assets/Ticket.png');
+  background-image: url("../../assets/Ticket.png");
   /*background-color: aqua;*/
   background-size: contain;
   background-repeat: no-repeat;
@@ -370,7 +363,7 @@ export default {
   font-size: 24px;
   font-weight: bold;
   text-align: left;
-  color: #4A4A4A;
+  color: #4a4a4a;
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -380,8 +373,6 @@ export default {
 .descuento-btn:hover {
   transform: scale(1.1);
 }
-
-
 
 .form-select {
   width: 200px;
@@ -441,7 +432,6 @@ export default {
   border-bottom: 5px solid #ccc;
 }
 
-
 /* BTON TOGGLE*/
 /*.v-btn-toggle .v-btn {
   border: 1px solid #ccc; /* Estilo del borde 
@@ -468,10 +458,4 @@ export default {
   display: inline-block; /* Asegura que se alinee bien con el icono 
   line-height: 1; /* Asegura el alineamiento vertical 
 }*/
-
-.v-btn-toggle .v-btn.selected {
-  background-color: #C2E7FF;
-  color: #636363;
-}
-
 </style>

@@ -9,11 +9,7 @@
             <v-card-text class="h5">
               Tu compra ha sido realizada con exito.
             </v-card-text>
-            <v-btn
-              color="#000000"
-              class="text-white"
-              @click="$router.push({ name: 'certificado-user' })"
-            >
+            <v-btn color="#000000" class="text-white" @click="$router.push({ name: 'certificado-user' })">
               Ir a mis certificados
             </v-btn>
           </v-row>
@@ -29,31 +25,14 @@
             <p class="subt my-5 text-start">
               <strong>Dirección de facturación</strong>
             </p>
-            <div
-              class="d-flex m-0 pb-0 px-0"
-              :class="[!this.$vuetify.breakpoint.xs && 'col-5']"
-            >
+            <div class="d-flex m-0 pb-0 px-0" :class="[!this.$vuetify.breakpoint.xs && 'col-5']">
               <p class="text-start flex-grow-1 mb-3 font-weight-bold">País</p>
               <p class="mb-3 text-secondary">Necesario</p>
             </div>
-            <div
-              class="col-5 py-2 px-3 m-0 border border-dark"
-              :class="[this.$vuetify.breakpoint.xs && 'w-full']"
-            >
-              <v-select
-                solo
-                flat
-                background-color="transparent"
-                v-model="selectedPais"
-                :items="states"
-                item-text="state"
-                label="Select"
-                hide-details
-                prepend-icon="mdi-earth"
-                single-line
-                class="m-0 p-0"
-                outline
-              ></v-select>
+            <div class="col-5 py-2 px-3 m-0 border border-dark" :class="[this.$vuetify.breakpoint.xs && 'w-full']">
+              <v-select solo flat background-color="transparent" v-model="selectedPais" :items="states"
+                item-text="state" label="Select" hide-details prepend-icon="mdi-earth" single-line class="m-0 p-0"
+                outline></v-select>
             </div>
           </div>
 
@@ -64,31 +43,16 @@
               </p>
               <p class="mt-5" style="font-size: 0.74rem">
                 Conexión Segura
-                <img
-                  src="@/components/Buy/imagenes/candado.svg"
-                  width="20"
-                  alt=""
-                />
+                <img src="@/components/Buy/imagenes/candado.svg" width="20" alt="" />
               </p>
             </div>
             <div>
               <div>
                 <b-form-group v-slot="{ ariaDescribedby }">
-                  <b-form-radio
-                    style="padding: 15px 50px"
-                    v-model="selectedPago"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="A"
-                    class="border bg-white"
-                    checked="true"
-                  >
+                  <b-form-radio style="padding: 15px 50px" v-model="selectedPago" :aria-describedby="ariaDescribedby"
+                    name="some-radios" value="A" class="border bg-white" checked="true">
                     <p class="m-0">
-                      <img
-                        src="@/components/Buy/imagenes/paypal.svg"
-                        width="25"
-                        alt=""
-                      />
+                      <img src="@/components/Buy/imagenes/paypal.svg" width="25" alt="" />
                       <strong>Paypal</strong>
                     </p>
                   </b-form-radio>
@@ -100,14 +64,12 @@
                   </p>
                   <div class="d-flex align-items-center">
                     <v-avatar rounded="0" class="mr-5">
-                      <v-img :src="this.certificate.url_portada">
-                      </v-img>
+                      <v-img :src="this.certificate.url_portada"> </v-img>
                     </v-avatar>
                     <p class="text-start flex-grow-1 text-capitalize">
-                      <strong
-                        >Certificado de
+                      <strong>Certificado de
                         {{ this.certificate.title }}
-                        </strong>
+                      </strong>
                     </p>
                     <p class="">${{ finalPrice }}</p>
                   </div>
@@ -166,22 +128,26 @@ export default {
 
   methods: {
     getCertificate() {
-      this.axios.get(`/course/certificate/data?course_id=${this.$route.params.courseId}`).then((datos) => {
-        this.certificate = datos.data
-        this.certificatePrice = datos.data.data.certificate_price
-      });
+      this.axios
+        .get(
+          `/course/certificate/data?course_id=${this.$route.params.courseId}`
+        )
+        .then((datos) => {
+          this.certificate = datos.data;
+          this.certificatePrice = datos.data.data.certificate_price;
+        });
     },
     getDiscount() {
       this.spin = true;
       this.axios.get("/course/certificate-discount").then((datos) => {
         this.certificateDisc = datos.data;
-        this.calcDiscount(this.certificate.data.certificate_price)
+        this.calcDiscount(this.certificate.data.certificate_price);
       });
     },
 
-    calcDiscount(price){
-      var disc = price*(this.certificateDisc/100);
-      this.finalPrice = price-disc;
+    calcDiscount(price) {
+      var disc = price * (this.certificateDisc / 100);
+      this.finalPrice = price - disc;
     },
     setLoaded() {
       window.paypal
@@ -214,7 +180,7 @@ export default {
             return axios
               .post("/cart/buy-certificate", { id_course: id })
               .then(function () {
-                return actions.order.capture().then(function () {});
+                return actions.order.capture().then(function () { });
               })
               .catch((err) => {
                 console.log(err);
@@ -241,7 +207,8 @@ export default {
     this.getDiscount();
     const script = document.createElement("script");
     // script.src ="https://www.paypal.com/sdk/js?client-id=AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz&components=buttons"
-    const client_id = "AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz";
+    const client_id =
+      "AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz";
     script.src = `https://www.paypal.com/sdk/js?client-id=${client_id}&components=buttons`;
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
@@ -253,6 +220,7 @@ export default {
   padding: 10px 2% 20px 2%;
   border-radius: 15px;
 }
+
 .subt {
   font-size: 1.5em;
 }
@@ -262,10 +230,12 @@ export default {
     font-size: 1em;
   }
 }
+
 .w-full {
   max-width: 100% !important;
 }
-.paypal-buttons > iframe {
+
+.paypal-buttons>iframe {
   z-index: 10 !important;
 }
 </style>

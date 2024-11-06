@@ -1,21 +1,18 @@
 <template>
-  <div style="min-height: 100vh " class="mr-5">
+  <div style="min-height: 100vh" class="mr-5">
     <div class="row mt-5">
       <section-title title="Mi aprendizaje" />
       <div class="col-md-6 text-right mr-5">
         <div class="d-flex align-items-center justify-content-end">
-          <span class="mr-3" style="color: #5E5873;">Buscar:</span>
-          <input type="text" placeholder="Buscar un curso" v-model="searchQuery" class="form-control form-select" style="
-              height: 32px; 
-              width: 250px; 
-              color: #636363;" />
+          <span class="mr-3" style="color: #5e5873">Buscar:</span>
+          <input type="text" placeholder="Buscar un curso" v-model="searchQuery" class="form-control form-select"
+            style="height: 32px; width: 250px; color: #636363" />
         </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-6 text-right">
-      </div>
+      <div class="col-md-6 text-right"></div>
 
       <!--<div class="col-md-6 text-right">
         <span>Selected: {{ selected }}</span>
@@ -90,12 +87,12 @@ export default {
       cardType: 2,
       coursView: null,
       //Busqueda
-      searchQuery: '',
+      searchQuery: "",
       isDropdownOpen: false,
-      selectedCategory: '',
-      viewMode: 'grid', // 'list' o 'grid'
-      categories: ['Desarrollo personal', 'Idiomas', 'Ofimática'],
-      selected: '',
+      selectedCategory: "",
+      viewMode: "grid", // 'list' o 'grid'
+      categories: ["Desarrollo personal", "Idiomas", "Ofimática"],
+      selected: "",
     };
   },
 
@@ -108,25 +105,27 @@ export default {
       let filtered = this.informacion;
 
       if (this.searchQuery) {
-        filtered = filtered.filter(course =>
+        filtered = filtered.filter((course) =>
           course.title.toLowerCase().includes(this.searchQuery.toLowerCase())
         );
-        console.log('After search filter:', filtered);
+        console.log("After search filter:", filtered);
       }
 
       if (this.selectedCategory) {
-        filtered = filtered.filter(course => course.category === this.selectedCategory);
-        console.log('After category filter:', filtered);
+        filtered = filtered.filter(
+          (course) => course.category === this.selectedCategory
+        );
+        console.log("After category filter:", filtered);
       }
 
       return filtered;
     },
 
     viewClass() {
-      return this.viewMode === 'grid' 
-        ? 'col-md-4 col-lg-3 col-sm-6 col-xs-12 px-3'
-        : 'col-12';
-    }
+      return this.viewMode === "grid"
+        ? "col-md-4 col-lg-3 col-sm-6 col-xs-12 px-3"
+        : "col-12";
+    },
   },
 
   methods: {
@@ -164,7 +163,7 @@ export default {
     },
     toggleArrow() {
       this.isDropdownOpen = !this.isDropdownOpen;
-    }
+    },
   },
 
   created() {
@@ -175,7 +174,6 @@ export default {
 </script>
 
 <style scoped>
-
 .courses-container {
   display: flex;
   flex-wrap: wrap;
@@ -188,6 +186,7 @@ export default {
   flex-wrap: wrap;
   gap: 35px;
 }
+
 /* main {
   padding: 12px 0.5px !important;
 }
@@ -258,7 +257,6 @@ export default {
   color: #000;
 }
 
-
 .custom-select-wrapper {
   position: relative;
   display: inline-block;
@@ -286,5 +284,4 @@ export default {
   border-top: none;
   border-bottom: 5px solid #ccc;
 }
-
 </style>

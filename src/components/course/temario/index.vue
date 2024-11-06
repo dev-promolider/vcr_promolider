@@ -15,14 +15,17 @@
         </div>
         <!-- Div para el input de búsqueda -->
         <div class="col-lg-5 col-md-4 col-sm-4 mr-2 text-right search-container">
-          <div :class="['search-input', { 'search-input-hover': isHover, 'search-input-focus': isFocus }]">
+          <div :class="[
+            'search-input',
+            { 'search-input-hover': isHover, 'search-input-focus': isFocus },
+          ]">
             <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Buscar un tema"
               @keyup.enter="performSearch" @focus="handleFocus(true)" @blur="handleFocus(false)"
               @mouseover="handleHover(true)" @mouseleave="handleHover(false)" />
           </div>
         </div>
         <!-- Div para el menú de puntos -->
-        <div class="col-lg-1 text-right" >
+        <div class="col-lg-1 text-right">
           <v-menu>
             <template v-slot:activator="{ on: menu, attrs }">
               <v-btn color="#1ad003" text small depressed plain v-bind="attrs" v-on="{ ...menu }">
@@ -43,7 +46,7 @@
       </div>
 
       <div v-else>
-        <div v-if="content == 'temary'" style=" max-height: 300px; overflow-y: auto; ">
+        <div v-if="content == 'temary'" style="max-height: 300px; overflow-y: auto">
           <ul v-for="(module, moduleIndex) in filteredModules" :key="moduleIndex" class="mt-3">
             <li class="nav-temario" :title="module.name">
               <p class="module-text" v-b-toggle="module.name.replace(/ /g, '')">
@@ -51,16 +54,14 @@
               </p>
 
               <b-collapse visible :id="module.name.replace(/ /g, 'AAAAA')">
-                <ul style="overflow: auto; max-height: 200px;">
+                <ul style="overflow: auto; max-height: 200px">
                   <!-- Aquí accedemos correctamente a las lecciones filtradas dentro de cada módulo -->
                   <li v-for="(lesson, lessonIndex) in module.lessons" :key="lessonIndex">
-                    <div style="display: flex; align-items: center;">
-                      <!--<input style="margin-right: 0px; position: relative;" type="checkbox" v-model="completedLessons"
-                        :value="lesson.id" @click="checkClass(lesson.id)" />-->
-                      <input style="margin-right: 0px; position: relative;" type="checkbox"
-                        :checked="completedLessons.includes(lesson.id)" @change="checkClass(lesson.id)" />
-                      <a style="margin-left: 10px;" @click="changeClass(lesson)"
-                        :class="{ 'activo': lesson.name === clase }" :title="lesson.name">
+                    <div style="display: flex; align-items: center">
+                      <input style="margin-right: 0px; position: relative" type="checkbox"
+                        :checked="isLessonCompleted(lesson.id)" @change="toggleLessonCompletion(lesson.id)" />
+                      <a style="margin-left: 10px" @click="changeClass(lesson)"
+                        :class="{ activo: lesson.name === clase }" :title="lesson.name">
                         {{ lesson.name }}
                       </a>
                     </div>
@@ -69,13 +70,13 @@
               </b-collapse>
             </li>
           </ul>
-
         </div>
 
         <div v-else-if="content == 'tests'">
-          <v-card-text v-if="moduleExamen.course_exam === null &&
+          <v-card-text v-if="
+            moduleExamen.course_exam === null &&
             moduleExamen.module_exams.length === 0
-            " class="text-center subtitle-1 dark-text mt-4">
+          " class="text-center subtitle-1 dark-text mt-4">
             Ningún examen disponible
           </v-card-text>
           <div v-else>
@@ -99,18 +100,20 @@
         </div>
 
         <div v-else-if="content == 'games'">
-          <v-card-text v-if="moduleDinamic.module_games === `Ninguna dinámica disponible` &&
+          <v-card-text v-if="
+            moduleDinamic.module_games === `Ninguna dinámica disponible` &&
             moduleDinamic.course_game === `Ninguna dinámica disponible`
-            " class="text-center subtitle-1 dark-text mt-4">
+          " class="text-center subtitle-1 dark-text mt-4">
             Ninguna dinamica disponible
           </v-card-text>
           <v-row justify="start" class="m-2">
-            <template v-if="Array.isArray(moduleDinamic.module_games) &&
+            <template v-if="
+              Array.isArray(moduleDinamic.module_games) &&
               moduleDinamic.module_games.length > 0
-              ">
+            ">
               <v-col v-for="module_dinamic in moduleDinamic.module_games" :key="module_dinamic.id" cols="6">
                 <v-btn class="mx-1 success rounded-xl" @click="goToDinamics(module_dinamic.id)">{{ module_dinamic.title
-                }}</v-btn>
+                  }}</v-btn>
               </v-col>
             </template>
             <template v-if="typeof moduleDinamic.course_game === 'object'">
@@ -132,11 +135,11 @@ import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 export default {
   name: "Temario",
   props: {
-  completedLessons: {
-    type: Array,
-    required: true
-  }
-},
+    completedLessons: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       content: "temary",
@@ -157,6 +160,9 @@ export default {
   },
   computed: {
     ...mapGetters("course", ["course"]),
+    ...mapState("course", {
+      vuexCompletedLessons: "completedLessons",
+    }),
     ...mapState("course", [
       "allLessons",
       "lesson",
@@ -184,10 +190,13 @@ export default {
           return null;
         })
         .filter((module) => module !== null);
-    }
-  }
-  ,
+    },
+  },
   methods: {
+    ...mapActions("course", [
+      "initializeCompletedLessons",
+      "updateCompletedLesson",
+    ]),
     ...mapActions("course", {
       getCourse: "getCourse",
       getLesson: "getLesson",
@@ -205,13 +214,21 @@ export default {
       "DESTROY_PROGRESS_COURSE",
     ]),
 
+    isLessonCompleted(lessonId) {
+      return this.vuexCompletedLessons.includes(lessonId);
+    },
+
     handleLessonComplete(lessonId) {
-      if (!this.completedLessons.includes(lessonId)) {
-        this.completedLessons.push(lessonId);
+      if (!this.vuexCompletedLessons.includes(lessonId)) {
+        this.vuexCompletedLessons.push(lessonId);
         this.getProgress();
       }
     },
 
+    async toggleLessonCompletion(lessonId) {
+      await this.checkClass(lessonId);
+      this.updateCompletedLesson(lessonId);
+    },
 
     performSearch() {
       this.filteredModules();
@@ -240,6 +257,7 @@ export default {
         },
       });
     },
+
     goToDinamics(id) {
       this.$router.push({
         name: "dinamic",
@@ -247,18 +265,17 @@ export default {
         query: { c: this.$route.query.course },
       });
     },
+
     // Funcion para calcular el progreso del curso
     async getProgress() {
-      const completed = await Object.keys(this.completedLessons).length;
-      const progress = await Math.round((completed / this.allLessons) * 100);
-      if (isNaN(progress)) {
-        this.progress = 0;
-        this.UPDATE_PROGRESS_COURSE(0);
-      } else {
-        this.progress = progress;
-        this.UPDATE_PROGRESS_COURSE(progress);
+      if (this.$route.query.course) {
+        await this.$store.dispatch(
+          "course/updateCourseProgress",
+          this.$route.query.course
+        );
       }
     },
+
     // Cambiar de clase
     changeClass(less) {
       // Enviando informacion de la nueva clase
@@ -296,6 +313,7 @@ export default {
         });
       }
     },
+
     // Clases completadas
     getCompletedLessons(id) {
       this.axios.get(`purchased/show?course_id=${id}`).then((res) => {
@@ -309,11 +327,19 @@ export default {
 
     // Enviando nueva clase vista
     async checkClass(lessonId) {
+      if (!this.$route.query.course) {
+        console.error("Course ID not found in route");
+        return;
+      }
       try {
         await this.axios.put(
           `purchased/update?course_id=${this.$route.query.course}&class_id=${lessonId}`
         );
-        this.handleLessonComplete(lessonId);
+        await this.$store.dispatch("course/updateCompletedLessons", lessonId);
+        await this.$store.dispatch(
+          "course/updateCourseProgress",
+          this.$route.query.course
+        );
       } catch (error) {
         console.error("Error updating class:", error);
       }
@@ -322,15 +348,19 @@ export default {
     handleFocus(focus) {
       this.isFocus = focus;
     },
+    
     handleHover(hover) {
       this.isHover = hover;
     },
   },
   created() {
-    // Enviando inforamcion del curso para obtener temario
-    this.getCourse(this.$route.query.course);
-    // Recibiendo las clases completadas del curso
-    // this.getCompletedLessons(this.$route.query.course);
+    this.$store.dispatch("course/initializeState");
+    this.initializeCompletedLessons();
+    if (this.$route.query.course) {
+      this.getCourse(this.$route.query.course).then(() => {
+        this.getProgress();
+      });
+    }
   },
   updated() {
     // Actualizando la barra de progreso

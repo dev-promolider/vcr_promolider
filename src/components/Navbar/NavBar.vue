@@ -1,6 +1,6 @@
 <template>
   <div style="margin-bottom: 0px">
-    <v-app-bar scroll-behavior="hide" class="custom-app-bar"> 
+    <v-app-bar scroll-behavior="hide" class="custom-app-bar">
       <v-app-bar-nav-icon color="#4ff70d" @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"></v-app-bar-nav-icon>
 
@@ -43,28 +43,35 @@
       <!--Modal Certificate-->
       <v-tooltip v-if="courseSelected" bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" icon v-on="on" style="position: relative;">
-            <v-progress-circular :rotate="-90" :size="45" :width="4" :value="progressCourseSelect" color="#1ae800"
+          <v-btn v-bind="attrs" icon v-on="on" style="position: relative">
+            <v-progress-circular :rotate="-90" :size="45" :width="4" :value="currentCourseProgress" color="#1ae800"
               class="custom-progress">
-              <div
-                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; text-align: center;">
-                <div
-                  style="position: absolute; top: -5px; width: 100%; text-align: center; font-size: 11px; color: #1ae800;">
-                  {{ progressCourseSelect }}%
+              <div style="
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  width: 100%;
+                  text-align: center;
+                ">
+                <div style="
+                    position: absolute;
+                    top: -5px;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 11px;
+                    color: #1ae800;
+                  ">
+                  {{ currentCourseProgress }}%
                 </div>
-                <v-icon @click="showProgressModal = true" size="20" style="position: relative; top: 7px;">mdi-trophy</v-icon>
+                <v-icon @click="showProgressModal = true" size="20"
+                  style="position: relative; top: 7px">mdi-trophy</v-icon>
               </div>
-              <!--<div
-                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: calc(100% - 8px); height: calc(100% - 8px); border: 1px solid #1ae800; border-radius: 50%; background-color: transparent;">
-              </div>
-              <div
-                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: calc(100%); height: calc(100%); border: 1px solid #1ae800; border-radius: 50%; background-color: transparent;">
-              </div>-->
             </v-progress-circular>
           </v-btn>
         </template>
-        <span v-if="progressCourseSelect == 100">Completado</span>
-        <span v-else>{{ progressCourseSelect }}% de 100%</span>
+        <span v-if="currentCourseProgress == 100">Completado</span>
+        <span v-else>{{ currentCourseProgress }}% de 100%</span>
       </v-tooltip>
 
       <!-- Modal de progreso 
@@ -74,12 +81,6 @@
         <p class="mt-2">{{ progress }}% completado</p>
       </div>
     </b-modal>-->
-
-
-
-
-
-
       <!-- Pregunta diaria -->
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
@@ -120,7 +121,7 @@
           <v-subheader style="font-size: 1.1rem; font-weight: 600">Notificaciones</v-subheader>
           <v-divider class="my-1"></v-divider>
           <v-card-title class="py-1" v-if="items.length === 0 && !isLoading">
-            <span class="text-center subtitle text--secondary" style="font-size: 1.0rem; font-weight: 600">No existen
+            <span class="text-center subtitle text--secondary" style="font-size: 1rem; font-weight: 600">No existen
               notificaciones</span>
           </v-card-title>
           <template v-if="!isLoading">
@@ -131,10 +132,10 @@
               <v-list-item-content>
                 <v-list-item-title v-html="item.title" style="color: #4b4b4c; font-size: 0.9rem"
                   class="font-weight-bold"></v-list-item-title>
-                <v-list-item-subtitle style="color: #676767 ; font-size: 0.8rem"
+                <v-list-item-subtitle style="color: #676767; font-size: 0.8rem"
                   v-html="item.subtitle"></v-list-item-subtitle>
                 <v-list-item-subtitle>
-                  <timeago style="color: #4b4b4c; font-weight: bold ; font-size: 0.9rem" :datetime="item.created_at"
+                  <timeago style="color: #4b4b4c; font-weight: bold; font-size: 0.9rem" :datetime="item.created_at"
                     :auto-update="60"></timeago>
                 </v-list-item-subtitle>
               </v-list-item-content>
@@ -176,17 +177,19 @@
       </v-menu>-->
 
       <!--Peril USER-->
-      <v-row align="center" style="margin-right: 0; flex: initial;">
+      <v-row align="center" style="margin-right: 0; flex: initial">
         <!-- Nombre y correo -->
-        <v-col style="max-width: 200px;" v-if="!$vuetify.breakpoint.xs">
-          <v-list-item-content class="text-right" style="padding-bottom: 15px;">
-            <v-list-item-title style="font-size: 1rem; overflow: visible;">{{ userName }}</v-list-item-title>
-            <v-list-item-subtitle style="font-size: 0.7rem; overflow: visible;">{{ userEmail }}</v-list-item-subtitle>
+        <v-col style="max-width: 200px" v-if="!$vuetify.breakpoint.xs">
+          <v-list-item-content class="text-right" style="padding-bottom: 15px">
+            <v-list-item-title style="font-size: 1rem; overflow: visible">{{
+              userName
+            }}</v-list-item-title>
+            <v-list-item-subtitle style="font-size: 0.7rem; overflow: visible">{{ userEmail }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-col>
 
         <!-- Imagen del perfil -->
-        
+
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
@@ -231,7 +234,6 @@
 </template>
 
 <script>
-
 import { mapActions, mapGetters, mapState } from "vuex";
 import QuestionDaily from "../Student/questions/daily/index";
 
@@ -294,6 +296,13 @@ export default {
       titulo: (state) => state.topSection,
     }),
 
+    ...mapState("course", ["courseProgress"]),
+    currentCourseProgress() {
+      return this.$route.query.course
+        ? this.courseProgress[this.$route.query.course] || 0
+        : 0;
+    },
+
     ...mapState("course", [
       "progressCourseSelect",
       "courseSelect",
@@ -311,9 +320,8 @@ export default {
     ...mapState("userModule", ["userProfile"]),
   },
   methods: {
-
     submitAnswer() {
-      this.$emit('submit-answer');
+      this.$emit("submit-answer");
     },
 
     ...mapActions("course", ["getPoints"]),
@@ -322,9 +330,9 @@ export default {
       this.showPointsExam = true;
     },
     async buy() {
-      console.log(this.certificate)
+      console.log(this.certificate);
       this.$router.push({
-        name: 'buyCertificate',
+        name: "buyCertificate",
         params: {
           certificate: this.certificate.id_course,
           finalPrice: this.finalPrice,
@@ -335,7 +343,7 @@ export default {
     async calcDiscount(price) {
       await this.axios.get("/course/certificate-discount").then((datos) => {
         this.certificateDisc = datos.data;
-      })
+      });
       var disc = price * (this.certificateDisc / 100);
       return price - disc;
     },
@@ -411,14 +419,13 @@ export default {
           }
           this.showCertificateIcon = true;
           //           this.axios.get("/course/certificate/data").then((response) => {
-          // //corregir dato estatico en controlador
+          //corregir dato estatico en controlador
           //             this.certificateData = response.data[0];
           //           });
           //           await this.axios.get("/course/details/1").then((response) => {
           //             this.course = response;
           //           });
           //           this.finalPrice = await this.calcDiscount(this.certificateData.data.certificate_price);
-
         } else {
           this.stateCertificate = false;
         }
@@ -466,16 +473,12 @@ export default {
     },
     courseSelect: {
       handler(newVal) {
-
         this.courseSelected = newVal;
         this.$forceUpdate();
-        console.log('updated')
+        console.log("updated");
       },
-      immediate: true
-
+      immediate: true,
     },
-
-
   },
   beforRouteUpdate(to, from, next) {
     this.getCertificate(to.query.course);
@@ -503,7 +506,7 @@ export default {
   background-color: white !important;
 }
 
-.custom-progress .v-progress-circular__background {
+.custom-progress .v-background {
   fill: white !important;
 }
 

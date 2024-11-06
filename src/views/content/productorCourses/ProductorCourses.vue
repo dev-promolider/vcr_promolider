@@ -1,12 +1,12 @@
 <template>
   <div style="min-height: 100vh">
-    <SectionTitle title="Mis cursos" class="mt-5"/>
+    <SectionTitle title="Mis cursos" class="mt-5" />
     <div class="row px-4">
       <div class="col-md-12 col-sm-12">
         <div v-if="notCourses" class="mb-4">
           <div class="text-center">
             <div class="no-result sad-face"></div>
-            <span>Lo sentimos, aún no hay cursos disponibles.</span>  
+            <span>Lo sentimos, aún no hay cursos disponibles.</span>
           </div>
         </div>
 
@@ -14,8 +14,8 @@
           <loadingCourses />
         </div>
 
-        <div class="mb-4 ml-2" v-if="data.length > 0 && !loading">
-          <CarrouselCourseMarketplace :courses="data" viewMode="myCourses"/>
+        <div class="mb-4 ml-2 cursor-pointer"  v-if="data.length > 0 && !loading">
+          <CarrouselCourseMarketplace :courses="data" viewMode="myCourses" />
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     async getData() {
-      await this.axios.get('/course/list-actives/producer').then((response) => {
+      await this.axios.get("/course/list-actives/producer").then((response) => {
         if (response.data.data.length === 0) {
           this.notCourses = true;
         } else {
@@ -53,7 +53,13 @@ export default {
         }
       });
       this.loading = false;
-    }
-  }
-}
+    },
+  },
+};
 </script>
+
+<style>
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>

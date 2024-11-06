@@ -1,16 +1,11 @@
 <template>
   <div style="min-height: 100vh">
-    
+
     <section-title title="Mis preferencias" />
 
     <div class="row p-5" v-if="isLoading">
-      <div
-        class="col-md-2 text-center preference"
-        :class="[{ opacity: preference.selected }]"
-        v-for="preference in preferences"
-        :key="preference.id"
-        @click="editPreference(preference)"
-      >
+      <div class="col-md-2 text-center preference" :class="[{ opacity: preference.selected }]"
+        v-for="preference in preferences" :key="preference.id" @click="editPreference(preference)">
         <i :class="preference.icon" style="font-size: 2.5em"></i>
         <p>{{ preference.name }}</p>
       </div>
@@ -22,62 +17,30 @@
       <v-container>
         <v-row>
           <v-col cols="12" md="3">
-            <v-skeleton-loader
-              type="card"
-              class="mx-auto"
-              max-width="300"
-            ></v-skeleton-loader>
+            <v-skeleton-loader type="card" class="mx-auto" max-width="300"></v-skeleton-loader>
           </v-col>
           <v-col cols="12" md="3">
-            <v-skeleton-loader
-              type="card"
-              class="mx-auto"
-              max-width="300"
-            ></v-skeleton-loader>
+            <v-skeleton-loader type="card" class="mx-auto" max-width="300"></v-skeleton-loader>
           </v-col>
           <v-col cols="12" md="3">
-            <v-skeleton-loader
-              type="card"
-              class="mx-auto"
-              max-width="300"
-            ></v-skeleton-loader>
+            <v-skeleton-loader type="card" class="mx-auto" max-width="300"></v-skeleton-loader>
           </v-col>
           <v-col cols="12" md="3">
-            <v-skeleton-loader
-              type="card"
-              class="mx-auto"
-              max-width="300"
-            ></v-skeleton-loader>
+            <v-skeleton-loader type="card" class="mx-auto" max-width="300"></v-skeleton-loader>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" md="3">
-            <v-skeleton-loader
-              type="card"
-              class="mx-auto"
-              max-width="300"
-            ></v-skeleton-loader>
+            <v-skeleton-loader type="card" class="mx-auto" max-width="300"></v-skeleton-loader>
           </v-col>
           <v-col cols="12" md="3">
-            <v-skeleton-loader
-              type="card"
-              class="mx-auto"
-              max-width="300"
-            ></v-skeleton-loader>
+            <v-skeleton-loader type="card" class="mx-auto" max-width="300"></v-skeleton-loader>
           </v-col>
           <v-col cols="12" md="3">
-            <v-skeleton-loader
-              type="card"
-              class="mx-auto"
-              max-width="300"
-            ></v-skeleton-loader>
+            <v-skeleton-loader type="card" class="mx-auto" max-width="300"></v-skeleton-loader>
           </v-col>
           <v-col cols="12" md="3">
-            <v-skeleton-loader
-              type="card"
-              class="mx-auto"
-              max-width="300"
-            ></v-skeleton-loader>
+            <v-skeleton-loader type="card" class="mx-auto" max-width="300"></v-skeleton-loader>
           </v-col>
         </v-row>
       </v-container>
@@ -103,7 +66,7 @@ export default {
       isLoading: false,
     };
   },
-  updated() {},
+  updated() { },
   created() {
     this.setPreferencesList();
     this.listPreferences();
@@ -222,13 +185,16 @@ export default {
 .v-skeleton-loader__image {
   height: 100px;
 }
+
 .pointer {
   cursor: pointer;
 }
+
 .preference {
   color: #28c76f;
   cursor: pointer;
 }
+
 .preference:hover {
   animation: temblar 3s 3.5 alternate;
 }
@@ -242,21 +208,26 @@ export default {
   .preferences i {
     font-size: 30px;
   }
+
   .contenedor {
     width: 95%;
   }
 }
+
 @keyframes temblar {
   0% {
     transform: rotate(-15deg);
   }
+
   50% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(15deg);
   }
 }
+
 /* .tooltip {
   position: relative;
   height: 100px;

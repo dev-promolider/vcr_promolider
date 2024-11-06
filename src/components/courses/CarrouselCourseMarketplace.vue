@@ -1,7 +1,7 @@
 <template>
   <main>
     <vue-horizontal>
-      <section class="item" v-for="course in courses" :key="course.id">
+      <section class="item" v-for="course in courses" :key="`${course.id}-${course.title}`">
         <Card :course="course" :cardType="cardType" :categories="categories" :viewMode="viewMode"/>
       </section>
     </vue-horizontal>

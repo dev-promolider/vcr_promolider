@@ -8,7 +8,7 @@
     ">
     <div class="tarjeta-cursos">
       <div>
-        <img :src="course.url_portada" alt="no image" class="img-fluid img-cursos-portad">
+        <img :src="course.url_portada" alt="no image" class="img-fluid img-cursos-portad" />
       </div>
       <div class="valoracion-curso">
         <v-rating style="display: inline" color="warning" hover readonly length="5" size="25"
@@ -21,15 +21,19 @@
       </div>
       <div class="row precios-comprar">
         <div class="col precios-curso">
-          <p class="precio-descuento">${{ course.price_with_discount.toFixed(2) }}</p>
+          <p class="precio-descuento">
+            ${{ course.price_with_discount.toFixed(2) }}
+          </p>
           <p class="precio-original">${{ course.price }}</p>
         </div>
         <div class="col btn-col">
           <button class="btn-comprar">
-            {{ viewMode === 'myCourses' ? 'Ver mi curso' : 'COMPRAR' }}
+            {{ viewMode === "myCourses" ? "Ver mi curso" : "COMPRAR" }}
           </button>
         </div>
-        <p class="categoria-curso">{{ getCategoryName(course.id_categories) }}</p>
+        <p class="categoria-curso">
+          {{ getCategoryName(course.id_categories) }}
+        </p>
       </div>
     </div>
   </div>
@@ -48,11 +52,11 @@ export default {
   props: {
     course: {
       type: Object,
-      required: true
+      required: true,
     },
     cardType: {
       type: Number,
-      required: true
+      required: true,
     },
     width: Number,
     height: {
@@ -61,17 +65,17 @@ export default {
     },
     categories: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     viewMode: {
       type: String,
-      default: 'marketplace' // Valor por defecto
+      default: "marketplace", // Valor por defecto
     },
   },
   methods: {
     getCategoryName(id) {
-      const category = this.categories.find(cat => cat.id === id);
-      return category ? category.name : 'Categoría no encontrada';
+      const category = this.categories.find((cat) => cat.id === id);
+      return category ? category.name : "Categoría no encontrada";
     },
     calcDiscount(price) {
       var disc = price * (this.certificateDisc / 100);
@@ -79,12 +83,15 @@ export default {
     },
     getDiscount() {
       this.spin = true;
-      this.axios.get("/course/certificate-discount").then((datos) => {
-        this.certificateDisc = datos.data;
-        this.spin = false;
-      }).catch(() => {
-        this.spin = false;
-      });
+      this.axios
+        .get("/course/certificate-discount")
+        .then((datos) => {
+          this.certificateDisc = datos.data;
+          this.spin = false;
+        })
+        .catch(() => {
+          this.spin = false;
+        });
     },
     action(id, slug) {
       this.$router
@@ -143,18 +150,24 @@ export default {
   border-radius: 10px;
   transition: 0.3s;
   width: 235px;
+  cursor: pointer;
 }
 
 .course-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
 }
 
 .tarjeta-cursos {
   width: 235px;
-  height: 330px;
+  height: auto;
+  min-height: 330px;
+  max-height: 380px;
   border-radius: 10px;
-  border-color: #7F7F7F;
-  box-shadow: 0 0 15px rgba(75, 75, 75, 0.577);
+  background: white;
+  box-shadow: 0 0 15px rgba(75, 75, 75, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .img-cursos-portad {
@@ -163,41 +176,59 @@ export default {
   height: 154px;
   width: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.tarjeta-cursos:hover .img-cursos-portad {
+  transform: scale(1.05);
 }
 
 .valoracion-curso {
   display: flex;
   justify-content: left;
   align-items: left;
-  padding: 0px;
+  padding: 0 10px;
+  margin: 8px 0;
 }
 
 .info-curso {
-  margin-left: 10px;
+  margin: 0 10px;
   text-align: left;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .titulo-curso {
   font-size: 1em;
   font-weight: 480;
   margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 2.6em;
+  color: #2c3e50;
 }
 
 .precios-comprar {
   display: flex;
   justify-content: space-between;
-  margin: 0;
+  margin: 10px;
+  margin-top: auto;
+  position: relative;
+  padding-bottom: 25px;
 }
 
 .precios-curso {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
 .precio-descuento {
-  color: #20E404;
+  color: #20e404;
   font-size: 1em;
   font-weight: 490;
   margin: 0;
@@ -219,26 +250,35 @@ export default {
 }
 
 .btn-comprar {
-  background: linear-gradient(to right, #20E404, #1CAC0B);
+  background: linear-gradient(to right, #20e404, #1cac0b);
   color: white;
   border: none;
   font-size: 0.8em;
   font-weight: 500;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.2s ease;
   text-align: center;
   width: 100px;
   height: 25px;
 }
 
 .btn-comprar:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(32, 228, 4, 0.3);
 }
 
 .categoria-curso {
   font-size: 0.75em;
   color: #757575;
-  margin-left: 15px;
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

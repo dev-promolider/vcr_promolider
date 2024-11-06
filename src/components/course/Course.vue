@@ -1,6 +1,9 @@
 <template>
   <div class="background pb-5">
-    <div v-if="$route.params.mode == 'preview'" class="bg-danger text-white py-1 ajuste z-index-2 px-4">
+    <div
+      v-if="$route.params.mode == 'preview'"
+      class="bg-danger text-white py-1 ajuste z-index-2 px-4"
+    >
       Usted se encuentra en un entorno de pre-visualización
     </div>
     <div v-if="error" class="no-result center-element">
@@ -13,8 +16,12 @@
           <strong>{{ this.courseInfo.title }}</strong>
         </div>
 
-        <Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course"
-          @markLessonComplete="handleLessonComplete"></Video>
+        <Video
+          v-if="renderVideo"
+          :classId="lessonId"
+          :courseId="this.$route.query.course"
+          @markLessonComplete="handleLessonComplete"
+        ></Video>
 
         <!-- <div v-else class="center-spinner">
           <b-spinner
@@ -29,14 +36,18 @@
           <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
         </div>
       </div>
-      <div class="col-lg-4" style="background-color: #F2F5FA">
+      <div class="col-lg-4" style="background-color: #f2f5fa">
         <Docente></Docente>
 
-        <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
-
+        <Temario
+          :completedLessons="completedLessons"
+          @markLessonAsCompleted="handleLessonComplete"
+        />
 
         <div class="text-center mb-3">
-          <v-btn depressed color="#1ae800" class="text-white">Invitar a otra persona</v-btn>
+          <v-btn depressed color="#1ae800" class="text-white"
+            >Invitar a otra persona</v-btn
+          >
         </div>
         <Comentarios></Comentarios>
       </div>
@@ -96,23 +107,29 @@ export default {
     ]),
 
     handleLessonComplete(lessonId) {
-      console.log('Emitir evento de lección completada con lessonId: ', lessonId);
-      this.$emit('markLessonAsCompleted', lessonId);
+      console.log(
+        "Emitir evento de lección completada con lessonId: ",
+        lessonId
+      );
+      this.$emit("markLessonAsCompleted", lessonId);
       this.completedLessons.push(lessonId);
     },
+
     async getCourseInfo() {
-      await this.axios.get('course/details/' + this.$route.query.course).then((response) => {
-        console.log(response)
-        this.courseInfo = response.data.data
-      })
+      await this.axios
+        .get("course/details/" + this.$route.query.course)
+        .then((response) => {
+          console.log(response);
+          this.courseInfo = response.data.data;
+        });
     },
+    
     // Leccion activa al momento de renderizar el componente
     async activeLesson() {
       const courseId = this.$route.query.course;
       await this.axios
         .get(`class/show-class/${courseId}?name=${this.$route.query.class}`)
         .then((res) => {
-
           let lessonId = res.data.id;
           this.lessonId = lessonId;
           this.getLesson(res.data);
@@ -122,18 +139,13 @@ export default {
           this.getTest({ exam_type: "class", id_type: res.data.id });
           this.getModuleExam(this.$route.query.course);
           this.getActiveDinamicModule(this.$route.query.course);
-
         });
-
     },
-
   },
   mounted() {
-
     this.courseSelectedStatus(true);
 
     this.getCourseInfo();
-
   },
   created() {
     this.activeLesson();
@@ -143,7 +155,6 @@ export default {
     this.$root.$refs.Course = this;
   },
   beforeMount() {
-
     // Verificamos que en la URL venga el curso y clase, en caso contrario se le mostrara un error
     if (!this.$route.query.class && !this.$route.query.course) {
       this.error = true;

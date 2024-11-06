@@ -100,56 +100,33 @@
           </v-col>
 
           <v-col sm="mr-auto">
-            <v-card
-              class="mb-2 text-decoration-none"
-              v-for="(course, index) in courses"
-              :key="index"
-              elevation="0"
-              :to="{ name: 'buy-cursos', params: { ide: course.id } }"
-            >
+            <v-card class="mb-2 text-decoration-none" v-for="(course, index) in courses" :key="index" elevation="0"
+              :to="{ name: 'buy-cursos', params: { ide: course.id } }">
               <v-row no-gutters>
                 <v-col sm="auto" cols="3">
-                  <v-img
-                    class="m-2"
-                    :src="course.url_portada"
-                    max-width="260px"
-                    max-height="145px"
-                  >
+                  <v-img class="m-2" :src="course.url_portada" max-width="260px" max-height="145px">
                   </v-img>
                 </v-col>
                 <v-col sm="mr-auto">
                   <div class="m-1">
-                    <div
-                      class="font-weight-bold text-capitalize"
-                      :class="[$vuetify.breakpoint.xs && 'text-mobile']"
-                    >
+                    <div class="font-weight-bold text-capitalize" :class="[$vuetify.breakpoint.xs && 'text-mobile']">
                       {{ course.title }}
                     </div>
 
-                    <div
-                      class="caption text-capitalize"
-                      v-if="!$vuetify.breakpoint.xs"
-                    >
+                    <div class="caption text-capitalize" v-if="!$vuetify.breakpoint.xs">
                       {{ course.description }}
                     </div>
 
-                    <div
-                      class="text--secondary text-uppercase"
-                      :class="[
-                        $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
-                      ]"
-                    >
+                    <div class="text--secondary text-uppercase" :class="[
+                      $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
+                    ]">
                       {{ course.name || "Administrador" }}
                     </div>
 
                     <div class="d-flex align-center">
-                      <div
-                        class="font-weight-bold"
-                        :class="[
-                          $vuetify.breakpoint.xs ? 'text-mobile' : 'subtitle-1',
-                        ]"
-                        style="color: #b4690e"
-                      >
+                      <div class="font-weight-bold" :class="[
+                        $vuetify.breakpoint.xs ? 'text-mobile' : 'subtitle-1',
+                      ]" style="color: #b4690e">
                         {{ course.ranking_by_user }}
                       </div>
                       <!-- <v-rating
@@ -163,24 +140,19 @@
                     ></v-rating> -->
                     </div>
                     <!-- <div class="d-flex">
-                                        <div class="text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]" >79 horas totales - 800 clases - Principante </div>
-                                    </div> -->
-                    <div
-                      class="text-start d-flex"
-                      v-if="$vuetify.breakpoint.xs"
-                    >
-                      <div
-                        class="font-weight-bold mr-1"
-                        :class="[$vuetify.breakpoint.xs && 'text-mobile']"
-                      >
+                      <div class="text--secondary" :class="[
+                        $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
+                      ]">
+                        79 horas totales - 800 clases - Principante
+                      </div>
+                    </div> -->
+                    <div class="text-start d-flex" v-if="$vuetify.breakpoint.xs">
+                      <div class="font-weight-bold mr-1" :class="[$vuetify.breakpoint.xs && 'text-mobile']">
                         ${{ course.price_with_discount }}
                       </div>
-                      <div
-                        class="text-decoration-line-through text--secondary"
-                        :class="[
-                          $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
-                        ]"
-                      >
+                      <div class="text-decoration-line-through text--secondary" :class="[
+                        $vuetify.breakpoint.xs ? 'text-mobile' : 'caption',
+                      ]">
                         $299.99
                       </div>
                     </div>
@@ -189,11 +161,12 @@
 
                 <v-col sm="mr-auto" cols="2" v-if="!$vuetify.breakpoint.xs">
                   <div class="ma-2 text-end">
-                    <div
-                      class="font-weight-bold"
-                      :class="[$vuetify.breakpoint.xs && 'text-mobile']"
-                    >
-                      {{ course.price === 0 ? "GRATIS" : `$${course.price_with_discount}` }}
+                    <div class="font-weight-bold" :class="[$vuetify.breakpoint.xs && 'text-mobile']">
+                      {{
+                        course.price === 0
+                          ? "GRATIS"
+                          : `$${course.price_with_discount}`
+                      }}
                     </div>
                     <!-- <div class="text-decoration-line-through text--secondary" :class="[$vuetify.breakpoint.xs ? 'text-mobile' : 'caption' ]">S/.299.99</div> -->
                   </div>
@@ -203,21 +176,11 @@
             </v-card>
           </v-col>
           <v-overlay :value="overlay" color="white" opacity="0.3" z-index="9">
-            <v-progress-circular
-              color="green"
-              indeterminate
-              size="64"
-            ></v-progress-circular>
+            <v-progress-circular color="green" indeterminate size="64"></v-progress-circular>
           </v-overlay>
         </v-row>
         <div class="text-center py-5" v-if="!stateCoursesSearch">
-          <v-pagination
-            circle
-            v-model="page"
-            :length="15"
-            :total-visible="5"
-            color="green"
-          ></v-pagination>
+          <v-pagination circle v-model="page" :length="15" :total-visible="5" color="green"></v-pagination>
         </div>
       </div>
     </div>
@@ -289,11 +252,13 @@ export default {
 .text-mobile {
   font-size: 10px;
 }
+
 .slide-filter {
   overflow-x: hidden;
   width: 0px;
   transition: width 0.4s linear;
 }
+
 .slide-filter.expanded {
   width: 300px;
 }

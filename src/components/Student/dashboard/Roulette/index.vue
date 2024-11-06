@@ -1,29 +1,31 @@
 <template>
-		<section class="vue-winwheel">
-			<div class="mobile-container">
-				<h1>Gana tu recompensa diaria</h1>
-				<div class="wheel-wrapper">
-					<div class="canvas-wrapper">
-						<canvas id="canvas" width="310" height="310">
-							<p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try Google Chrome.</p>
-						</canvas>
-					</div>
-					<div class="button-wrapper">
-						<a class="btn btn-play" href="#" @click.prevent="startSpin()" v-if="!loadingPrize && !wheelSpinning">Girar</a>
-					</div>
-				</div>
-			</div>
-			<div class="custom-modal modal-mask" id="modalSpinwheel" v-if="modalPrize">
-				<div slot="body">
-					<a href="" @click.prevent="hidePrize()" class="modal-dismiss">
-						<i class="icon_close"></i>
-					</a>
-					<h2>
-						Felicidades ganaste <strong> {{prizeName}} </strong>
-					</h2>
-				</div>
-			</div>
-		</section>
+  <section class="vue-winwheel">
+    <div class="mobile-container">
+      <h1>Gana tu recompensa diaria</h1>
+      <div class="wheel-wrapper">
+        <div class="canvas-wrapper">
+          <canvas id="canvas" width="310" height="310">
+            <p style="color: white; text-align: center;">
+              Sorry, your browser doesn't support canvas. Please try Google Chrome.
+            </p>
+          </canvas>
+        </div>
+        <div class="button-wrapper">
+          <a class="btn btn-play" href="#" @click.prevent="startSpin()" v-if="!loadingPrize && !wheelSpinning">Girar</a>
+        </div>
+      </div>
+    </div>
+    <div class="custom-modal modal-mask" id="modalSpinwheel" v-if="modalPrize">
+      <div slot="body">
+        <a href="" @click.prevent="hidePrize()" class="modal-dismiss">
+          <i class="icon_close"></i>
+        </a>
+        <h2>
+          Felicidades ganaste <strong> {{ prizeName }} </strong>
+        </h2>
+      </div>
+    </div>
+  </section>
 </template>
 
 
@@ -32,45 +34,45 @@ import * as Winwheel from 'vue-winwheel/Winwheel'
 
 export default {
   name: 'VueWinWheel',
-  props:{
-		segments:{
-			default(){
-				return [
-					{
-						textFillStyle: '#fff',
-						fillStyle: '#35424A',
-						text:'Premio 1'
-					},
-					{
-						textFillStyle: '#000',
-						fillStyle: '#78ff66',
-						text:'Premio 2'
-					},
-					{
-						textFillStyle: '#fff',
-						fillStyle: '#35424A',
-						text:'Premio 3'
-					},
-					{
-						textFillStyle: '#000',
-						fillStyle: '#78ff66',
-						text:'Premio 4'
-					},
-					{
-						textFillStyle: '#fff',
-						fillStyle: '#35424A',
-						text:'Premio 5'
-					},
-					{
-						textFillStyle: '#000',
-						fillStyle: '#78ff66',
-						text:'Premio 6'
-					}
-				]
-			}
-		}
+  props: {
+    segments: {
+      default() {
+        return [
+          {
+            textFillStyle: '#fff',
+            fillStyle: '#35424A',
+            text: 'Premio 1'
+          },
+          {
+            textFillStyle: '#000',
+            fillStyle: '#78ff66',
+            text: 'Premio 2'
+          },
+          {
+            textFillStyle: '#fff',
+            fillStyle: '#35424A',
+            text: 'Premio 3'
+          },
+          {
+            textFillStyle: '#000',
+            fillStyle: '#78ff66',
+            text: 'Premio 4'
+          },
+          {
+            textFillStyle: '#fff',
+            fillStyle: '#35424A',
+            text: 'Premio 5'
+          },
+          {
+            textFillStyle: '#000',
+            fillStyle: '#78ff66',
+            text: 'Premio 6'
+          }
+        ]
+      }
+    }
   },
-  data () {
+  data() {
     return {
       loadingPrize: false,
       theWheel: null,
@@ -91,13 +93,13 @@ export default {
     }
   },
   methods: {
-    showPrize () {
+    showPrize() {
       this.modalPrize = true
     },
-    hidePrize () {
+    hidePrize() {
       this.modalPrize = false
     },
-    startSpin () {
+    startSpin() {
       if (this.wheelSpinning === false) {
         this.theWheel.startAnimation()
         this.wheelSpinning = true
@@ -124,7 +126,7 @@ export default {
         this.wheelSpinning = false
       }
     },
-    resetWheel () {
+    resetWheel() {
       this.theWheel = new Winwheel.Winwheel({
         ...this.WinWheelOptions,
         numSegments: this.segments.length,
@@ -139,23 +141,23 @@ export default {
       this.theWheel.draw() // Call draw to render changes to the wheel.
       this.wheelSpinning = false // Reset to false to power buttons and spin can be clicked again.
     },
-    initSpin () {
+    initSpin() {
       this.loadingPrize = true
-            this.resetWheel()
-            this.loadingPrize = false
+      this.resetWheel()
+      this.loadingPrize = false
     },
-    onFinishSpin (indicatedSegment) {
+    onFinishSpin(indicatedSegment) {
       this.prizeName = indicatedSegment.text
       this.showPrize()
     }
   },
   computed: {},
-  updated () {},
-  mounted () {
+  updated() { },
+  mounted() {
     this.initSpin()
     // this.resetWheel()
   },
-  created () {}
+  created() { }
 }
 
 </script>

@@ -9,12 +9,12 @@
           </v-list-item-avatar>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title style="color: #ffffff">
+              <v-list-item-title class="user-name">
                 {{ name }}
               </v-list-item-title>
-              <v-list-item-subtitle style="color: #ffffff">{{
-                email
-              }}</v-list-item-subtitle>
+              <v-list-item-subtitle class="user-email">
+                {{ email }}
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list-item>
@@ -29,7 +29,8 @@
               </v-list-item-icon>
               <v-list-item-title>{{ link.nombre }}</v-list-item-title>-->
               <v-list-item-icon class="mr-3">
-                <v-icon :class="{ 'active-icon': $route.name === link.path, 'inactive-icon': $route.name !== link.path }">
+                <v-icon
+                  :class="{ 'active-icon': $route.name === link.path, 'inactive-icon': $route.name !== link.path }">
                   {{ `mdi-${link.icon}` }}
                 </v-icon>
               </v-list-item-icon>
@@ -161,8 +162,48 @@ export default {
   height: 50px;
 }
 
+.user-name {
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.user-email {
+  color: #ffffff !important;
+  ;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+// Para mostrar el texto completo en hover
+.user-email:hover {
+  white-space: normal;
+  word-break: break-all;
+  position: relative;
+  z-index: 1;
+  background-color: #131b1e;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+// Ajustar el contenedor para emails largos
+.v-list-item__content {
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+// Asegurar que el avatar mantiene su tamaño
+.v-list-item__avatar {
+  flex-shrink: 0;
+}
+
 .color-drawer {
-  // background: #35424a !important;
   background: #131b1e !important;
 }
 
