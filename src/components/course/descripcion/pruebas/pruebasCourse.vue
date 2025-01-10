@@ -1,59 +1,29 @@
 <template>
   <div style="height: 78.5vh; background: white; width: 99%">
-    <div
-      v-if="isLoadingQuestions"
-      class="text-center"
-      style="margin-top: 100px"
-    >
+    <div v-if="isLoadingQuestions" class="text-center" style="margin-top: 100px">
       <b-spinner type="grow" label="Spinning"></b-spinner>
     </div>
 
     <div v-else>
       <Transition name="bounce">
-        <card-alert
-          v-if="mostrar && typeExamem === 1"
-          color="#009ED0"
-          class="mx-auto"
-          style="margin: 150px"
-          title="Su examen se revisará pronto"
-          :img="require('@/assets/icon-coin.png')"
-        >
+        <card-alert v-if="mostrar && typeExamem === 1" color="#009ED0" class="mx-auto" style="margin: 150px"
+          title="Su examen se revisará pronto" :img="require('@/assets/icon-coin.png')">
         </card-alert>
-        <card-alert
-          v-if="mostrar && typeExamem === 2"
-          :color="status === 'Aprobado' ? '#00A876' : '#D0004B' "
-          class="mx-auto"
-          style="margin: 150px"
-          :rank="`Rank: ${rank}`"
-          :rate="`Rate: ${rate}`"
-          :title="`Has ${status} el examen`"  
-          
-          :img="require('@/assets/icon-coin.png')"
-        >
-        <!-- :subtitle="`Has ganado ${points} puntos. Sigue acumulando puntos para obtener recompenzas.`" -->
-        <!-- :subtitle="`Sigue acumulando puntos para obtener recompenzas.`" -->
+        <card-alert v-if="mostrar && typeExamem === 2" :color="status === 'Aprobado' ? '#00A876' : '#D0004B'"
+          class="mx-auto" style="margin: 150px" :rank="`Rank: ${rank}`" :rate="`Rate: ${rate}`"
+          :title="`Has ${status} el examen`" :img="require('@/assets/icon-coin.png')">
         </card-alert>
-          <card-alert
-          v-if="mostrar && typeExamem === 3"
-          color="#076579"
-          class="mx-auto"
-          style="margin: 150px"
-          :title="`Has ${status} el examen`"
-          :img="require('@/assets/icon-coin.png')"
-        >
+        <card-alert v-if="mostrar && typeExamem === 3" color="#076579" class="mx-auto" style="margin: 150px"
+          :title="`Has ${status} el examen`" :img="require('@/assets/icon-coin.png')">
         </card-alert>
       </Transition>
       <div class="wrapper-stepper mx-5" v-if="!mostrar">
-        <div
-          class="d-flex align-center"
-          :class="[
-            $vuetify.breakpoint.xs ? 'flex-column mb-10' : 'justify-center',
-          ]"
-        >
+        <div class="d-flex align-center" :class="[
+          $vuetify.breakpoint.xs ? 'flex-column mb-10' : 'justify-center',
+        ]">
           <h3 class="text-center ma-7 pb-0 text-capitalize">
-            {{ datos.title }} 
+            {{ datos.title }}
           </h3>
-          
 
           <v-chip color="black" text-color="white" v-if="examWithoutTime2">
             Time: {{ timeLeft }}
@@ -62,8 +32,6 @@
           <v-chip color="black" text-color="white" v-if="examWithoutTime">
             Examen sin tiempo
           </v-chip>
-
-
         </div>
         <template v-if="isTimeActive">
           <div class="text-center">
@@ -73,24 +41,14 @@
         <template v-if="!isTimeActive">
           <div class="stepper">
             <div class="stepper-progress">
-              <div
-                class="stepper-progress-bar"
-                :style="'width:' + stepperProgress"
-              ></div>
+              <div class="stepper-progress-bar" :style="'width:' + stepperProgress"></div>
             </div>
 
-            <div
-              class="stepper-item"
-              :class="{ current: step == index, succes: step > index }"
-              v-for="(question, index) in questions"
-              :key="index"
-            >
+            <div class="stepper-item" :class="{ current: step == index, succes: step > index }"
+              v-for="(question, index) in questions" :key="index">
               <div class="stepper-item-counter">
-                <img
-                  class="icon-success"
-                  src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png"
-                  alt=""
-                />
+                <img class="icon-success"
+                  src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png" alt="" />
                 <span class="number white--text">
                   {{ index + 1 }}
                 </span>
@@ -98,12 +56,7 @@
             </div>
           </div>
 
-          <div
-            class="stepper-content"
-            v-for="(question, index) in questions"
-            :key="index"
-          >
-        
+          <div class="stepper-content" v-for="(question, index) in questions" :key="index">
             <div class="stepper-pane" v-if="step == index">
               <div class="contenedor d-flex justify-content-around">
                 <div class="title-question text-capitalize">
@@ -114,74 +67,35 @@
                 </div>
               </div>
               <div v-for="(q, i) in question.options" :key="i">
-                <div
-                  class="options-questions"
-                  v-if="question.question_type_id == 1"
-                >
-                  <input
-                    :id="i"
-                    type="radio"
-                    class="input-opciones"
-                    :checked="checked"
-                    @click="selectOption"
-                    :value="i"
-                    v-model="form[index].option"
-                  />
+                <div class="options-questions" v-if="question.question_type_id == 1">
+                  <input :id="i" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i"
+                    v-model="form[index].option" />
                   <label :for="i" class="opciones"> {{ q }} </label>
                 </div>
 
-                <div
-                  class="options-questions"
-                  v-if="question.question_type_id == 2"
-                >
-                  <input
-                    type="checkbox"
-                    :id="i"
-                    :value="i"
-                    v-model="form[index].option"
-                  />
-                  <label :for="i" class="opciones"> {{ q }} </label>
+                <div class="options-questions" v-if="question.question_type_id == 2">
+                  <input type="checkbox" :id="i" :value="i" v-model="form[index].option" @change="selectOption" />
+                  <label :for="i" class="opciones">{{ q }}</label>
                 </div>
 
-                <div
-                  class="options-questions"
-                  v-else-if="question.question_type_id == 3"
-                >
-                  <input
-                    :id="i"
-                    type="radio"
-                    class="input-opciones"
-                    :checked="checked"
-                    @click="selectOption"
-                    :value="i"
-                    v-model="form[index].option"
-                  />
+                <div class="options-questions" v-else-if="question.question_type_id == 3">
+                  <input :id="i" type="radio" class="input-opciones" :checked="checked" @click="selectOption" :value="i"
+                    v-model="form[index].option" />
                   <label :for="i" class="opciones"> {{ q }} </label>
                 </div>
               </div>
               <div v-if="question.question_type_id == 4" class="textarea">
                 <v-row justify="center">
                   <v-col cols="12" sm="9">
-                    <v-textarea
-                      @change="selectOption"
-                      color="dark"
-                      placeholder="Responda aquí..."
-                      maxlength="200"
-                      cols="30"
-                      rows="3"
-                      v-model="form[index].option"
-                      outlined
-                    >
+                    <v-textarea @change="selectOption" color="dark" placeholder="Responda aquí..." maxlength="200"
+                      cols="30" rows="3" v-model="form[index].option" outlined>
                     </v-textarea>
                   </v-col>
                 </v-row>
               </div>
             </div>
           </div>
-          <div
-            v-if="step === Object.keys(this.questions).length"
-            class="sendAnswers stepper-pane"
-          >
+          <div v-if="step === Object.keys(this.questions).length" class="sendAnswers stepper-pane">
             Has llegado al final del examén, si está seguro de sus respuestas
             seleccione enviar.
           </div>
@@ -190,12 +104,8 @@
             <button class="btn" @click="sustractStep" :disabled="step == 0">
               Anterior
             </button>
-            <button
-              class="btn btn--green-1"
-              @click="addStep"
-              :disabled="isDisabled"
-              v-if="step !== Object.keys(questions).length"
-            >
+            <button class="btn btn--green-1" @click="addStep" :disabled="isDisabled"
+              v-if="step !== Object.keys(questions).length">
               Siguiente
             </button>
 
@@ -213,6 +123,7 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 import moment from "moment";
 import CardAlert from "./components/CardAlert.vue";
+
 export default {
   components: { CardAlert },
   data() {
@@ -220,11 +131,9 @@ export default {
       isTimeActive: false,
       points: 0,
       typeExamem: 0,
-
       status: null,
       rank: null,
       rate: null,
-
       step: 0,
       questions: [],
       options: [],
@@ -242,6 +151,7 @@ export default {
       time: 0,
       examWithoutTime: false,
       examWithoutTime2: true,
+      isSubmitting: false,
     };
   },
   computed: {
@@ -290,18 +200,21 @@ export default {
     },
     addStep() {
       if (this.form[this.step].option.length <= 0) {
-        this.isDisabled = false;
+        this.isDisabled = true;
         return false;
       } else {
+        this.isDisabled = false;
         this.step++;
       }
     },
+
     sustractStep() {
       this.checked ? (this.isDisabled = false) : (this.isDisabled = true);
       this.step--;
     },
+
     selectOption() {
-      this.isDisabled = false;
+      this.isDisabled = this.form[this.step].option.length <= 0;
     },
     enviarText() {
       if (this.text != null) {
@@ -310,46 +223,85 @@ export default {
     },
 
     async sendAnswers() {
+      if (this.isSubmitting) return;
+      this.isSubmitting = true;
+
       var course_id = +this.$route.query.course;
-      if(course_id == undefined){
-        course_id = this.$route.query.id
+      if (!course_id) {
+        course_id = this.$route.query.id;
       }
 
       this.enviarText();
 
       if (this.form.length < this.options.length) {
         return false;
-      } else {
-        const { ok, resp } = await this.sendAnswersExamen({
+      }
+
+      try {
+        const payload = {
           id_exam: +this.exam_id,
           answers: this.form,
-          course_id: +this.$route.query.course,
+          course_id: +course_id,
           seconds_used: this.time,
-        });
-        if (!ok) return;
-        const { message = '', points = 0, rank = 0, rate = 0  } = resp.data
+        };
 
-        if (resp.data === "Waiting") {
-          this.typeExamem = 1;
-          this.mostrar = true;
-        } else if ( message === "Desaprobado" || message === 'Aprobado' ) {
-          this.clearTime();
-          this.points = points;
-          this.status = message;
-          this.rank = rank;
-          this.rate = rate;
-          this.typeExamem = 2;
-          this.mostrar = true;
-        } else {
-          this.clearTime();
-          this.points = resp.data.points_gained || points;
-          this.status = message;
-          this.rank = rank;
-          this.rate = rate;
-          this.typeExamem = 3;
-          this.mostrar = true;
+        console.log("Payload:", payload); // Para debug
+
+        const { ok, resp } = await this.sendAnswersExamen(payload);
+
+        if (!ok || !resp || !resp.data) {
+          throw new Error("Respuesta inválida del servidor");
         }
+
+        // Procesar respuesta exitosa
+        this.processExamResponse(resp.data);
+
+        // Redirección
+        this.$router.push({
+          path: "/course",
+          query: {
+            course: course_id,
+            class: this.$route.query.class,
+          },
+        });
+      } catch (error) {
+        console.error("Error completo:", error);
+        this.mostrar = true;
+        this.typeExamem = 3; // Mostrar error
+      } finally {
+        this.isSubmitting = false;
       }
+    },
+
+    processExamResponse(data) {
+      if (data === "Waiting") {
+        this.typeExamem = 1;
+      } else if (
+        data.message === "Desaprobado" ||
+        data.message === "Aprobado"
+      ) {
+        this.updateExamStatus(data);
+      } else {
+        this.updateExamPoints(data);
+      }
+      this.mostrar = true;
+      this.clearTime();
+    },
+
+    updateExamStatus(data) {
+      this.status = data.message;
+      this.points = data.points;
+      this.rank = data.rank;
+      this.rate = data.rate;
+      this.typeExamem = 2;
+    },
+
+    updateExamPoints(data) {
+      this.points = data.points_gained || data.points;
+      this.status = data.message;
+      this.rank = data.rank;
+      this.rate = data.rate;
+      this.typeExamem = 3;
     },
     setTime() {
       this.intervaltime = setInterval(() => {
@@ -374,7 +326,6 @@ export default {
   },
   created() {
     this.setExam();
-    //Validación si tiene comprado el curso
   },
   beforeDestroy() {
     this.clearTime();
@@ -401,10 +352,12 @@ $font-anksans-regular: fon;
   color: $black-1;
   height: 200px;
 }
+
 .opciones {
   text-align: left;
   margin-left: 10px !important;
 }
+
 .contenedor {
   display: grid;
   grid-template-columns: 20% 60% 20%;
@@ -425,13 +378,16 @@ $font-anksans-regular: fon;
   font-size: 18px;
   padding: 0 auto;
 }
+
 .options-questions {
   margin-bottom: 10px;
 }
+
 label {
   margin: 0 !important;
   padding: 0;
 }
+
 .tx-green-1 {
   color: $green-1;
   font-weight: 600;
@@ -509,6 +465,7 @@ label {
     bottom: -24px;
   }
 }
+
 .stepper-item {
   .stepper-item-counter {
     border-color: $green-1;
@@ -531,6 +488,7 @@ label {
     color: $green-1;
   }
 }
+
 //items-title - Paso 1 - Paso 2 - Paso 3
 .stepper-item.current {
   .stepper-item-counter {
@@ -544,6 +502,7 @@ label {
     color: #818181;
   }
 }
+
 //Panel donde se muestra el contenido
 .stepper-pane {
   background: rgba(255, 255, 255, 0.555);
@@ -596,10 +555,12 @@ input[type="checkbox"] {
   position: initial;
   height: 40px;
 }
+
 .options-questions input[type="radio"],
 input[type="checkbox"] {
   display: none;
 }
+
 .options-questions label {
   color: #ffffff;
   background: #38b322;
@@ -611,9 +572,11 @@ input[type="checkbox"] {
   cursor: pointer;
   font-weight: 500;
 }
+
 .options-questions label:hover {
   background: #31c916;
 }
+
 .options-questions label::before {
   content: "";
   width: 17px;
@@ -626,18 +589,21 @@ input[type="checkbox"] {
   left: 17px;
   top: 8px;
 }
-.options-questions input[type="radio"]:checked + label,
-.options-questions input[type="checkbox"]:checked + label {
+
+.options-questions input[type="radio"]:checked+label,
+.options-questions input[type="checkbox"]:checked+label {
   padding: 2px 10px 5px 40px;
   background: #3bc023;
   border-radius: 10px;
   color: #fff;
 }
-.options-questions input[type="radio"]:checked + label:before,
-.options-questions input[type="checkbox"]:checked + label:before {
+
+.options-questions input[type="radio"]:checked+label:before,
+.options-questions input[type="checkbox"]:checked+label:before {
   display: none;
   border-radius: 10px;
 }
+
 textarea {
   color: #000000;
   border-radius: 5px;
@@ -650,16 +616,20 @@ textarea {
   .title-question {
     font-size: 17px;
   }
+
   .puntos {
     font-size: 15px;
   }
+
   .wrapper-stepper {
     padding: 1em;
   }
+
   .stepper-pane {
     margin: 50px 15px 30px;
   }
 }
+
 .caja-texto {
   display: flex;
   justify-content: center;
@@ -669,27 +639,32 @@ textarea {
   min-width: 100px;
   max-width: 440px;
 }
+
 .success-texto {
   background: $green-2;
 }
+
 .danger-texto {
   background: $red-1;
 }
 
-/*************** Animation message*/
 .bounce-enter-active {
   animation: bounce-in 0.5s;
 }
+
 .bounce-leave-active {
   animation: bounce-in 0.5s reverse;
 }
+
 @keyframes bounce-in {
   0% {
     transform: scale(0);
   }
+
   50% {
     transform: scale(1.25);
   }
+
   100% {
     transform: scale(1);
   }

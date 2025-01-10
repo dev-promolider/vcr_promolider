@@ -1,41 +1,27 @@
 <template>
-  <div
-    class="container-fluid py-3 border border-secondary"
-    style="
+  <div class="container-fluid py-3 border border-secondary" style="
       box-shadow: -3px 3px 4px rgb(108, 108, 108);
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-    "
-  >
+    ">
     <div class="row">
-      <div
-        class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left"
-        style="margin-top: 0px !important; margin-bottom: 0px !important"
-      >
-        <p
-          class="text-capitalize text-left"
-          style="
+      <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left"
+        style="margin-top: 0px !important; margin-bottom: 0px !important">
+        <p class="text-capitalize text-left" style="
             font-weight: 700;
             font-size: 1.2em;
             margin-top: 0px !important;
             margin-bottom: 0px !important;
-          "
-        >
+          ">
           {{ $route.query.class }}
         </p>
       </div>
 
       <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-right">
         <b-button-group size="sm" class="btn-group" v-if="!endClass">
-          <b-button class="btn-back px-4" @click="previusClass()"
-            ><i class="fas fa-backward"></i
-          ></b-button>
-          <b-button
-            class="btn-next px-4"
-            @click="nextClass()"
-            v-if="this.Lecciones[this.index + 1]"
-            ><i class="fas fa-forward ml-1"></i
-          ></b-button>
+          <b-button class="btn-back px-4" @click="previusClass()"><i class="fas fa-backward"></i></b-button>
+          <b-button class="btn-next px-4" @click="nextClass()" v-if="this.Lecciones[this.index + 1]"><i
+              class="fas fa-forward ml-1"></i></b-button>
         </b-button-group>
         <button v-else type="button" class="btn btn-warning text-light">
           Comprar una membresía <i class="fas fa-certificate"></i>
@@ -46,59 +32,27 @@
         <img :src="this.photo" class="rounded-circle" style="width: 40px" />
       </div>
 
-      <div
-        class="col-auto text-left"
-        style="font-size: 1em"
-        v-if="courseActive[0]"
-      >
-        <p
-          class="text-uppercase text-left"
-          style="margin-top: 0px !important; margin-bottom: 0px !important"
-        >
+      <div class="col-auto text-left" style="font-size: 1em" v-if="courseActive[0]">
+        <p class="text-uppercase text-left" style="margin-top: 0px !important; margin-bottom: 0px !important">
           {{ courseActive[0].title }}
         </p>
-        <p
-          class="text-uppercase text-left"
-          style="margin-top: 0px !important; margin-bottom: 0px !important"
-        >
+        <p class="text-uppercase text-left" style="margin-top: 0px !important; margin-bottom: 0px !important">
           {{ nombre }}
         </p>
       </div>
-      <div
-        class="col-xs-1 col-md-1 col-lg-1 text-left"
-        v-if="idUser != idProductor"
-      >
+      <div class="col-xs-1 col-md-1 col-lg-1 text-left" v-if="idUser != idProductor">
         <v-icon @click="openMessageDialog" class="text-left" color="green">
           mdi-message-text-outline
         </v-icon>
       </div>
     </div>
-    <v-dialog
-      transition="dialog-bottom-transition"
-      max-width="600"
-      v-model="dialog"
-    >
+    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="dialog">
       <template>
         <v-card>
-          <v-toolbar class="font-weight-bold text-h6" elevation="0" dark
-            >Enviar mensaje al productor</v-toolbar
-          >
-          <v-form
-            ref="form"
-            @submit.prevent="sendMessage(idUser)"
-            v-if="!loading && !isMessageLoading"
-            v-model="valid"
-          >
-            <v-textarea
-              :rules="messageRules"
-              v-model.trim="formMessage.message"
-              placeholder="Escribe una sugerencia o duda."
-              color="black"
-              rows="4"
-              outlined
-              class="pa-5"
-              required
-            >
+          <v-toolbar class="font-weight-bold text-h6" elevation="0" dark>Enviar mensaje al productor</v-toolbar>
+          <v-form ref="form" @submit.prevent="sendMessage(idUser)" v-if="!loading && !isMessageLoading" v-model="valid">
+            <v-textarea :rules="messageRules" v-model.trim="formMessage.message"
+              placeholder="Escribe una sugerencia o duda." color="black" rows="4" outlined class="pa-5" required>
             </v-textarea>
             <v-card-actions class="justify-end">
               <v-btn text @click="dialog = !dialog">Cancelar</v-btn>
@@ -106,32 +60,17 @@
             </v-card-actions>
           </v-form>
           <div class="text-center p-5" v-if="loading">
-            <v-progress-circular
-              :size="50"
-              :width="5"
-              indeterminate
-            ></v-progress-circular>
+            <v-progress-circular :size="50" :width="5" indeterminate></v-progress-circular>
           </div>
           <v-slide-y-transition>
-            <div
-              class="mt-5 mx-5 pt-5 d-flex justify-center"
-              v-if="!loading && isMessageLoading"
-            >
-              <v-alert
-                dense
-                prominent
-                elevation="1"
-                :type="alertMessage.statusMessage ? 'success' : 'error'"
-                class="text-h6 rounded-lg mx-auto"
-              >
+            <div class="mt-5 mx-5 pt-5 d-flex justify-center" v-if="!loading && isMessageLoading">
+              <v-alert dense prominent elevation="1" :type="alertMessage.statusMessage ? 'success' : 'error'"
+                class="text-h6 rounded-lg mx-auto">
                 {{ alertMessage.message }}
               </v-alert>
             </div>
           </v-slide-y-transition>
-          <v-card-actions
-            class="justify-end"
-            v-if="!loading && isMessageLoading"
-          >
+          <v-card-actions class="justify-end" v-if="!loading && isMessageLoading">
             <v-btn text @click="dialog = !dialog">Cerrar</v-btn>
           </v-card-actions>
         </v-card>
@@ -207,7 +146,6 @@ export default {
     }),
 
     //Abir el modal message - Productor
-
     async sendMessage(id) {
       if (!this.validateMessage(this.formMessage.message)) return;
       this.loading = true;

@@ -4,8 +4,6 @@
     <div class="container my-5" style="background-color: white; border-radius: 15px">
       <DataPrimaryUser />
     </div>
-    <!-- //importe atributos para verificar datos del api -->
-    <!-- <Attribute /> -->
     <!-- Coleccion de mensajes para el productor -->
     <div class="container pt-5">
       <div class="row row-end d-flex align-items-center justify-content-between">
@@ -28,8 +26,8 @@
     </div>
   </div>
 </template>
+
 <script>
-//import Attribute from "@/components/dashboard/Attribute/Attribute.vue";
 import DataPrimaryUser from "@/components/dashboard/DataPrimary/DataPrimaryUser.vue";
 import MessengerColletion from "@/components/dashboard/Message/MessengerColletion.vue";
 import ClienteVenta from "@/components/dashboard/SalesHistory/ClienteVenta.vue";
@@ -38,7 +36,6 @@ export default {
   components: {
     DataPrimaryUser,
     MessengerColletion,
-    //Attribute,
     ClienteVenta,
   },
   data() {
@@ -54,51 +51,6 @@ export default {
       },
 
       networks: [],
-
-      /*networks: [
-        {
-          network: "facebook",
-          name: "Facebook",
-          icon: "fab fah fa-lg fa-facebook-f",
-          color: "#1877f2",
-        },
-        {
-          network: "linkedin",
-          name: "LinkedIn",
-          icon: "fab fah fa-lg fa-linkedin",
-          color: "#007bb5",
-        },
-        {
-          network: "pinterest",
-          name: "Pinterest",
-          icon: "fab fah fa-lg fa-pinterest",
-          color: "#bd081c",
-        },
-        {
-          network: "skype",
-          name: "Skype",
-          icon: "fab fah fa-lg fa-skype",
-          color: "#00aff0",
-        },
-        {
-          network: "telegram",
-          name: "Telegram",
-          icon: "fab fah fa-lg fa-telegram-plane",
-          color: "#0088cc",
-        },
-        {
-          network: "twitter",
-          name: "Twitter",
-          icon: "fab fah fa-lg fa-twitter",
-          color: "#1da1f2",
-        },
-        {
-          network: "whatsapp",
-          name: "Whatsapp",
-          icon: "fab fah fa-lg fa-whatsapp",
-          color: "#25d366",
-        },
-      ],*/
     };
   },
 };
@@ -161,12 +113,4 @@ a[class^="share-network-"] span {
   flex: 1 1;
   font-weight: 500;
 }
-
-/* .container-fluid {
-  overflow: auto !important;
-}
-
-.container-fluid::-webkit-scrollbar {
-  display: none;
-} */
 </style>

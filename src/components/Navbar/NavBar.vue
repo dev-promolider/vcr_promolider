@@ -1,46 +1,19 @@
 <template>
   <div style="margin-bottom: 0px">
     <v-app-bar scroll-behavior="hide" class="custom-app-bar">
+      <!-- Icono de menú para dispositivos móviles -->
       <v-app-bar-nav-icon color="#4ff70d" @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"></v-app-bar-nav-icon>
-
-      <!-- Mensaje de Bienvenida -->
-      <!--<div class="text-white text-bold banner-text" style="font-weight: 700">
-        Bienvenido a Promolíder, tu academia digital
-      </div>-->
       <v-spacer></v-spacer>
 
-      <!-- Barra de búsqueda -->
-      <!--<div class="mx-2" style="min-width: 25%" v-if="!$vuetify.breakpoint.xs">
-        <v-autocomplete
-          style="border-radius: 12px"
-          @keypress.enter="onSearchCourse"
-          hide-no-data
-          :search-input.sync="search"
-          color="dark"
-          solo
-          dense
-          append-icon=""
-          prepend-inner-icon="mdi-magnify"
-          clearable
-          hide-details
-          hide-selected
-          item-text="name"
-          item-value="symbol"
-          return-object
-          label="Buscar un curso"
-          >.
-        </v-autocomplete>
-      </div>-->
-
-      <!-- Puntos -->
+      <!-- Puntos del usuario -->
       <v-chip v-if="!$vuetify.breakpoint.xs && points >= 0" class="mx-2" label outlined text-color="#1ae800"
         color="#1ae800">
         <v-icon left color="#1ae800"> mdi-trophy-award </v-icon>
         {{ points }} Pts
       </v-chip>
 
-      <!--Modal Certificate-->
+      <!-- Modal de progreso de curso -->
       <v-tooltip v-if="courseSelected" bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" icon v-on="on" style="position: relative">
@@ -74,14 +47,7 @@
         <span v-else>{{ currentCourseProgress }}% de 100%</span>
       </v-tooltip>
 
-      <!-- Modal de progreso 
-    <b-modal v-model="showProgressModal" title="Progreso del Curso">
-      <div>
-        <b-progress :value="progress" max="100" show-progress animated></b-progress>
-        <p class="mt-2">{{ progress }}% completado</p>
-      </div>
-    </b-modal>-->
-      <!-- Pregunta diaria -->
+      <!-- Botón de pregunta diaria -->
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" icon v-if="examDaily" data-toggle="modal" data-target="#question">
@@ -91,7 +57,7 @@
         <span> Gana puntos contestando preguntas</span>
       </v-tooltip>
 
-      <!-- Certificado  -->
+      <!-- Botón de certificado -->
       <template v-if="showCertificateIcon">
         <v-tooltip bottom v-if="stateCertificate" v-model="dialogCertificate">
           <template v-slot:activator="{ on }">
@@ -107,7 +73,7 @@
         </v-tooltip>
       </template>
 
-      <!--Notificaciones -->
+      <!-- Notificaciones -->
       <v-menu style="z-index: 201" left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
@@ -153,30 +119,7 @@
         </v-list>
       </v-menu>
 
-      <!--Opciones
-      <v-menu left bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
-            <v-icon size="25" style="color: #e80400">mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item class="mb-0 pl-2" style="min-height: 35px" v-if="$vuetify.breakpoint.xs">
-            <v-list-item-icon class="m-1 ml-0 pl-0">
-              <v-icon> mdi-trophy-award </v-icon>
-            </v-list-item-icon>
-            <v-list-item-title> {{ points }} Pts </v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-for="(link, index) in links" :key="index" link :to="{ name: link.nameRouter }"
-            @click="optionAction(link.action, link.nameRouter)">
-            <v-list-item-title>{{ link.nombre }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>-->
-
-      <!--Peril USER-->
+      <!-- Perfil de usuario -->
       <v-row align="center" style="margin-right: 0; flex: initial">
         <!-- Nombre y correo -->
         <v-col style="max-width: 200px" v-if="!$vuetify.breakpoint.xs">
@@ -189,7 +132,6 @@
         </v-col>
 
         <!-- Imagen del perfil -->
-
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
@@ -207,14 +149,7 @@
       </v-row>
     </v-app-bar>
 
-    <!-- <div class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-body"></div>
-        </div>
-      </div>
-    </div> -->
-
+    <!-- Modal de pregunta diaria -->
     <div class="modal" tabindex="-1" role="dialog" id="question">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -244,15 +179,10 @@ export default {
   data() {
     return {
       courseSelected: false,
-      //showProgressModal: false,
-
-      attrs: {
-        class: "pa-2",
-      },
+      attrs: { class: "pa-2" },
       sheet: false,
       search: null,
       numberItems: 0,
-      // tooltip: false,
       isBadgeActive: false,
       drawer: false,
       dialogCertificate: false,
@@ -265,14 +195,12 @@ export default {
       ],
       items: [],
       certificate: null,
-      certificateData: {
-        data: {},
-      },
+      certificateData: { data: {} },
       course: [],
       finalPrice: null,
       certificateBought: false,
       showCertificateIcon: false,
-      //USER
+      // Datos de usuario
       userName: "",
       userEmail: "",
       profileImg: "",
@@ -285,7 +213,7 @@ export default {
     },
     mini: {
       get() {
-        return !this.$vuetify.breakpoint.xs ? true : false;
+        return !this.$vuetify.breakpoint.xs;
       },
       set(value) {
         return value;
@@ -316,9 +244,10 @@ export default {
       vuexTitle: "title",
     }),
 
-    //USER
+    // Información del usuario
     ...mapState("userModule", ["userProfile"]),
   },
+
   methods: {
     submitAnswer() {
       this.$emit("submit-answer");
@@ -330,7 +259,6 @@ export default {
       this.showPointsExam = true;
     },
     async buy() {
-      console.log(this.certificate);
       this.$router.push({
         name: "buyCertificate",
         params: {
@@ -344,8 +272,7 @@ export default {
       await this.axios.get("/course/certificate-discount").then((datos) => {
         this.certificateDisc = datos.data;
       });
-      var disc = price * (this.certificateDisc / 100);
-      return price - disc;
+      return price - price * (this.certificateDisc / 100);
     },
     optionAction(action, link) {
       if (action === "closeSesion") {
@@ -365,38 +292,22 @@ export default {
     changeDrawer() {
       this.$emit("click", !this.drawer);
     },
-    // hideToolTip() {
-    //   if (this.item == 0) {
-    //     this.tooltip = false;
-    //     localStorage.setItem("item", 1);
-    //   }
-    // },
-    // showToolTip() {
-    //   this.item = localStorage.getItem("item") || 0;
-
-    //   if (this.item == 0) {
-    //     this.tooltip = true;
-    //   }
-    // },
     async getNotifications() {
       this.isLoading = true;
       const data = await this.axios.get("/notifications/list");
 
-      const noti = data.data.map((e) => {
-        return {
-          title: e.title,
-          subtitle: e.body,
-          avatar: e.photo,
-          created_at: e.created_at,
-        };
-      });
+      const noti = data.data.map((e) => ({
+        title: e.title,
+        subtitle: e.body,
+        avatar: e.photo,
+        created_at: e.created_at,
+      }));
 
       if (Object.keys(noti).length > 0) {
         this.isBadgeActive = true;
         this.numberItems = Object.keys(noti).length;
       }
       this.items = noti;
-
       this.isLoading = false;
     },
     async getCertificate(course) {
@@ -409,23 +320,12 @@ export default {
         const { data } = await this.axios.get(
           `/course/certificate/check/${course}`
         );
-
         if (data) {
           const { data } = await this.axios.get(
             `/course/certificate/${course}`
           );
-          if (data.is_paid == 1) {
-            this.certificateBought = true;
-          }
+          this.certificateBought = data.is_paid == 1;
           this.showCertificateIcon = true;
-          //           this.axios.get("/course/certificate/data").then((response) => {
-          //corregir dato estatico en controlador
-          //             this.certificateData = response.data[0];
-          //           });
-          //           await this.axios.get("/course/details/1").then((response) => {
-          //             this.course = response;
-          //           });
-          //           this.finalPrice = await this.calcDiscount(this.certificateData.data.certificate_price);
         } else {
           this.stateCertificate = false;
         }
@@ -433,41 +333,24 @@ export default {
         throw new Error(error);
       }
     },
-    // async printCertificate( course_id ){
-    //   try {
-
-    //    await this.axios.get('/course/certificate/', { course_id })
-    //   } catch (error) {
-    //     throw new Error( error )
-    //   }
-    // }
     getUserProfileData() {
-      // Aquí debes implementar la lógica para obtener los datos del usuario y la imagen de perfil
-      // Puedes usar Vuex, localStorage, o cualquier otra fuente de datos
-      // Por ejemplo, podrías obtenerlos como en NavBarV.vue
-      this.userName = localStorage.getItem("name_user"); // Cambia según donde obtengas el nombre del usuario
-      this.userEmail = localStorage.getItem("email_user"); // Cambia según donde obtengas el correo del usuario
-      this.profileImg = localStorage.getItem("photo_user"); // Cambia según donde obtengas la imagen del usuario
+      // Obtiene datos del usuario de localStorage
+      this.userName = localStorage.getItem("name_user");
+      this.userEmail = localStorage.getItem("email_user");
+      this.profileImg = localStorage.getItem("photo_user");
     },
   },
 
   mounted() {
-    // this.showToolTip();
-
     this.getpoints();
   },
 
   created() {
-    // this.printCertificate( this.$route.query.course )
     this.getNotifications();
     this.getCertificate(this.$route.query.course);
-    //USER
     this.getUserProfileData();
   },
   watch: {
-    search() {
-      //console.log(value);
-    },
     idCourse() {
       this.getCertificate(this.$route.query.course);
     },
@@ -475,7 +358,6 @@ export default {
       handler(newVal) {
         this.courseSelected = newVal;
         this.$forceUpdate();
-        console.log("updated");
       },
       immediate: true,
     },

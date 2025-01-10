@@ -1,6 +1,7 @@
 <template>
-    <Suscriptions />
+  <Suscriptions />
 </template>
+
 <script>
 import Suscriptions from "@/components/suscriptions/Suscriptions.vue";
 export default {

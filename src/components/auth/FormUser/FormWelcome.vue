@@ -1,90 +1,44 @@
 <template>
-  <!-- <div class="row w-100 h-100" style="min-height: 100 vh">
-    <div class="col-md-8"> -->
-  <img class="background" src="@/assets/background-login.webp" />
-  <!-- <transition name="fade">
-        <div class="welcome-text mx-5" v-if="show">
-          Bienvenido a <span>Promolíder</span>
-          <transition name="fade">
-            <div class="paragraph-welcome" v-if="showName">
-              Por favor inicie sesión en su cuenta y comience la aventura.
-            </div>
-          </transition>
-        </div>
-      </transition> -->
-  <!-- </div>
-  </div> -->
+  <div class="welcome-container">
+    <img class="background-image" src="@/assets/background-login.webp" alt="Background" />
+    <div class="overlay"></div>
+  </div>
 </template>
+
 <script>
 export default {
   name: "FormWelcome",
-  data() {
-    return {
-      show: false,
-      showName: false,
-    };
-  },
-  methods: {
-    fadeMe() {
-      setTimeout(() => {
-        this.show = !this.show;
-        setTimeout(() => {
-          this.showName = !this.showName;
-        }, 500);
-      }, 450);
-    },
-  },
-  created() {
-    this.fadeMe();
-  },
 };
 </script>
-<style lang="scss" scoped>
-.welcome {
+
+<style scoped>
+.welcome-container {
   position: relative;
-  display: block;
-}
-.welcome img {
-  object-fit: cover;
+  height: 100%;
   width: 100%;
-  //   height: 100vh;
 }
 
-.welcome-text {
-  font-size: 65px;
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 300px auto;
-  text-align: center;
-  color: white;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1.5s;
+  background: rgba(0, 0, 0, 0.3);
 }
 
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.paragraph-welcome {
-  font-size: 20px;
-}
-@media (max-width: 783px) {
-  .welcome-text {
-    font-size: 56px;
+@media (max-width: 768px) {
+  .welcome-container {
+    height: 100vh;
   }
-}
-.background {
-  opacity: 0.8;
-  background-position: center;
-  background-size: cover;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  padding: 0px !important;
 }
 </style>

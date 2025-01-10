@@ -1,14 +1,8 @@
 <template>
   <div class="card-message p-2 d-flex flex-column">
-    
     <div class="header d-flex justify-content-between mb-2">
       <p style="font-size: 1em">Mensajes</p>
-      <router-link
-        to="/messages"
-        class="text-decoration-none"
-        style="font-size: 1em"
-        >Todos los mensajes</router-link
-      >
+      <router-link to="/messages" class="text-decoration-none" style="font-size: 1em">Todos los mensajes</router-link>
     </div>
 
     <div>
@@ -28,16 +22,8 @@
         <span>Sin resultados</span>
       </div>
 
-      <div
-        v-else
-        class="message d-flex px-5 mb-3"
-        v-for="user in getLastMessages"
-        :key="user.id"
-      >
-        <b-avatar
-          variant="info"
-          src="https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240"
-        ></b-avatar>
+      <div v-else class="message d-flex px-5 mb-3" v-for="user in getLastMessages" :key="user.id">
+        <b-avatar variant="info" src="https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240"></b-avatar>
         <div class="card-body text-message p-2">
           <p class="card-title mb-1">
             <b>{{ user.fullname }}</b>
@@ -50,6 +36,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -67,26 +54,29 @@ export default {
   },
   created() {
     this.actionLastMessages();
-    //this.$store.dispatch('lastMessage/actionLastMessages')
   },
 };
 </script>
+
 <style scoped>
-.header > a {
+.header>a {
   color: #111111;
   font-size: 15px;
 }
+
 .card-message {
   border-radius: 15px;
   width: 100%;
   height: 350px;
   margin: auto;
 }
+
 .message {
-  background-color: #1AE800;
+  background-color: #1ae800;
   border-radius: 15px;
   align-items: center;
 }
+
 .text-message p {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -95,6 +85,7 @@ export default {
   overflow: hidden;
   font-size: 15px;
 }
+
 .card-text {
   color: rgb(0, 0, 0);
 }
@@ -112,9 +103,11 @@ export default {
   0% {
     background: #eee;
   }
+
   50% {
     background: #bfbfbf;
   }
+
   100% {
     background: #eee;
   }

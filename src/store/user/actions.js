@@ -2,52 +2,53 @@ import axios from "axios";
 import router from "../../router";
 
 export const actionUser = async (context, body) => {
-  const res = await axios.post("auth/login", body).catch((error) => {
-    context.commit("SET_STATUS_REQUEST_LOGIN", error.response.status);
-  });
+  try {
+    const res = await axios.post("auth/login", body);
 
-  //let fullName = res.data.data.user.fullName
-  let last_name = res.data.data.user.last_name;
-  let photo = res.data.data.user.photo;
-  let date_birth = res.data.data.user.date_birth;
-  let email = res.data.data.user.email;
-  let id_country = res.data.data.user.id_country;
-  let name = res.data.data.user.name;
-  let biography = res.data.data.user.biography;
-  let status_preference = res.data.data.user.status_preference;
-  let city = res.data.data.user.city;
-  let id_user = res.data.data.user.id;
-  let rol = res.data.data.user.roles[0].id;
+    // Verificar si res y res.data existen
+    if (res && res.data) {
+      const userData = res.data.data.user;
+      const authToken = res.data.data.access_token;
 
-  let id_account_type = res.data.data.user.id_account_type; /* hice esto */
+      // Guardar en localStorage
+      localStorage.setItem("rol_user", userData.roles[0].id);
+      localStorage.setItem("id_user", userData.id);
+      localStorage.setItem("access_token", authToken);
+      localStorage.setItem("status_preference", userData.status_preference);
+      localStorage.setItem("name_user", userData.name);
+      localStorage.setItem("last_name_user", userData.last_name);
+      localStorage.setItem("photo_user", userData.photo);
+      localStorage.setItem("date_birth_user", userData.date_birth);
+      localStorage.setItem("email_user", userData.email);
+      localStorage.setItem("country_user", userData.id_country);
+      localStorage.setItem("biography_user", userData.biography);
+      localStorage.setItem("city", userData.city);
+      localStorage.setItem("id_account_type", userData.id_account_type);
 
-  //context.commit("SET_NAME",fullName)
+      router.push("/home");
+    } else {
+      // Manejar caso donde la respuesta no tiene los datos esperados
+      context.commit("SET_STATUS_REQUEST_LOGIN", 400);
+      console.error("Respuesta inválida del servidor");
+    }
+  } catch (error) {
+    // Manejar cualquier error de red o de servidor
+    console.error("Error en el inicio de sesión:", error);
 
-  let authToken = res.data.data.access_token;
+    if (error.response) {
+      // El servidor respondió con un código de estado fuera del rango 2xx
+      context.commit("SET_STATUS_REQUEST_LOGIN", error.response.status);
 
-  localStorage.setItem("rol_user", rol);
-  localStorage.setItem("id_user", id_user);
-  localStorage.setItem("access_token", authToken);
-  localStorage.setItem("status_preference", status_preference);
-  //localStorage.setItem("fullName_user", fullName);
-  localStorage.setItem("name_user", name);
-  localStorage.setItem("last_name_user", last_name);
-  localStorage.setItem("photo_user", photo);
-  localStorage.setItem("date_birth_user", date_birth);
-  localStorage.setItem("email_user", email);
-  localStorage.setItem("country_user", id_country);
-  localStorage.setItem("biography_user", biography);
-  localStorage.setItem("city", city);
-
-  localStorage.setItem("id_account_type", id_account_type); /* hice esto */
-
-  // if (statususer == 1) {
-  //     this.$router.push('/preferences')
-
-  // } else if(statususer == 0) {
-  //     window.location.reload(true);
-  router.push("/home");
-  // }
-
-  // window.location.reload(true);
+      // Loguea el error completo para debug
+      console.error("Detalles del error:", error.response.data);
+    } else if (error.request) {
+      // La solicitud fue hecha pero no se recibió respuesta
+      console.error("No se recibió respuesta del servidor");
+      context.commit("SET_STATUS_REQUEST_LOGIN", 500);
+    } else {
+      // Algo sucedió al configurar la solicitud
+      console.error("Error al configurar la solicitud:", error.message);
+      context.commit("SET_STATUS_REQUEST_LOGIN", 500);
+    }
+  }
 };

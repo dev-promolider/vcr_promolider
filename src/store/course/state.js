@@ -13,7 +13,7 @@ export default () => ({
   dinamicClass: [],
   examDaily: true,
   gameData: {},
-  isLoading: true,
+  isLoading: false,
   isLoadingComments: true,
   isLoadingDynamicComments: true,
   isLoadingRating: true,

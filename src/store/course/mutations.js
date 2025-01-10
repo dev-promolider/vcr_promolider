@@ -1,9 +1,13 @@
 import Vue from "vue";
 
+export const SET_LOADING = (state, value) => {
+  state.isLoading = value;
+};
+
 export const SET_COURSE = (state, course) => {
   state.course = course;
 
-  // Calculando el numero total de lecciones con el fin de obtener el progreso
+  // Calculamos el número total de lecciones para obtener el progreso
   for (let i = 0; i < state.course.modules.length; i++) {
     state.allLessons += state.course.modules[i].lessons.length;
   }
@@ -11,7 +15,6 @@ export const SET_COURSE = (state, course) => {
   state.isLoading = false;
 };
 
-// Definimos que curso esta activo o siendo visto en el momento
 export const SET_COURSE_ACTIVE = (state, course) => {
   state.course_active = course;
 };
@@ -20,8 +23,8 @@ export const SET_COURSE_PROGRESS = (state, { courseId, progress }) => {
   Vue.set(state.courseProgress, courseId, progress);
 };
 
-// Generamos un array de todos las clases para poder navegar en ellas (botones atras y adelante)
 export const listId_NameClass = (state, course) => {
+  // Generamos un array con todas las clases para navegación
   for (let i = 0; i < course.modules.length; i++) {
     for (let j = 0; j < course.modules[i].lessons.length; j++) {
       state.allLessonsId.push(course.modules[i].lessons[j]);
@@ -29,34 +32,27 @@ export const listId_NameClass = (state, course) => {
   }
 };
 
-// Cambiamos de lección
 export const SET_LESSON = (state, lesson) => {
   state.renderVideo = false;
   state.lesson = lesson;
 };
 
-// Definimos los recursos de la clase
 export const SET_RESOURCES = (state, resources) => {
   state.resources = resources;
 
-  // Verificamos que la clase tenga recursos que mostrar
-  if (resources.length != 0) {
-    state.isResources = true;
-  } else {
-    state.isResources = false;
-  }
+  // Verificamos si hay recursos para mostrar
+  state.isResources = resources.length !== 0;
 };
 
-// Verificamos que clases fueron vistas anteriormente
 export const SET_COMPLETED_LESSONS = (state, lessons) => {
   state.completedLessons = lessons;
   localStorage.setItem("completedLessons", JSON.stringify(lessons));
 };
 
 export const ADD_COMPLETED_LESSON = (state, lessonId) => {
+  // Añadimos una lección completada si no está ya en la lista
   if (!state.completedLessons.includes(lessonId)) {
     state.completedLessons.push(lessonId);
-    // Update localStorage
     localStorage.setItem(
       "completedLessons",
       JSON.stringify(state.completedLessons)
@@ -64,29 +60,24 @@ export const ADD_COMPLETED_LESSON = (state, lessonId) => {
   }
 };
 
-// Definimos el origen del video de la clase
 export const SET_VIDEO = (state, url) => {
   state.urlVideo = url;
   state.renderVideo = true;
 };
 
-// Actualizamos el tiempo de reproduccion de la ultima clase
 export const UPDATE_TIME = (state, time) => {
   state.timeReady = time;
 };
 
-// Definimos los datos del productor del curso activo
 export const SET_PRODUCTOR = (state, productor) => {
   state.productor = productor;
 };
 
-// Actualizamos el progreso del curso segun el usuario avance
 export const UPDATE_PROGRESS_COURSE = (state, progressCourseSelect) => {
   state.progressCourseSelect = progressCourseSelect;
   localStorage.setItem("progressCourseSelect", progressCourseSelect);
 };
 
-// Elimanos los datos del progreso del curso cuando el usuario cierre la ventana
 export const DESTROY_PROGRESS_COURSE = (state) => {
   state.progressCourseSelect = 0;
 };
@@ -95,22 +86,23 @@ export const GET_PROGRESS = (state, payload = true) => {
   state.courseSelect = payload;
 };
 
-// Destruimos algunos estados cuando el usuario cierre la ventana para
-// no generar conflictos con otro curso.
 export const DESTROY_PROGRESS = (state) => {
+  // Limpiamos ciertos estados para evitar conflictos con otros cursos
   state.courseSelect = false;
-  (state.allComments = []), (state.allRating = []), (state.lesson = []);
+  state.allComments = [];
+  state.allRating = [];
+  state.lesson = [];
   state.allLessonsId = [];
   state.allLessons = 0;
   state.courseRating = 0;
 };
 
-// Limpiar todos los estados
 export const CLEAR_VIDEO = (state) => {
-  (state.renderVideo = false), (state.urlVideo = null);
+  // Limpiamos los datos del video
+  state.renderVideo = false;
+  state.urlVideo = null;
 };
 
-// Llenamos los comentarios de la clase activa
 export const GET_COMMENTS = (state, allComments) => {
   if (allComments.data === "No hay comentarios") {
     state.isLoadingComments = false;
@@ -120,6 +112,7 @@ export const GET_COMMENTS = (state, allComments) => {
     state.isLoadingComments = false;
   }
 };
+
 export const GET_DYNAMIC_COMMENTS = (state, allDynamicComments) => {
   if (allDynamicComments.data === "No hay comentarios") {
     state.isLoadingDynamicComments = false;
@@ -130,35 +123,24 @@ export const GET_DYNAMIC_COMMENTS = (state, allDynamicComments) => {
   }
 };
 
-// Llenamos la valoracion de un curso
 export const GET_RATING = (state, allRating) => {
-  /* if(allRating.data === undefined){
-        state.isLoadingRating = false
-        state.allRating = []
-    }else{ */
-
-  //state.allRating = allRating
   Vue.set(state, "allRating", allRating);
   state.isLoadingRating = false;
-  /* } */
 };
 
 export const GET_COURSE_RATING = (state, courseRating) => {
   state.courseRating = courseRating;
 };
 
-// Lenamos datos del examen de la clase activa
 export const DATA_EX = (state, dataEx) => {
   if (!dataEx) return;
   state.dataEx = dataEx;
 };
 
-// Cargarmos la informacióm del examen de cada modulo
 export const setModuleExam = (state, payload) => {
   state.moduleExamen = payload;
 };
 
-// Escuchamos el evento hover sobre algun curso para hacer un cambio de fondo
 export const COURSE_HOVER = (state, courseHover) => {
   state.courseHover = courseHover;
 };

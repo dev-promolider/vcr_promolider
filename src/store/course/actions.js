@@ -1,21 +1,19 @@
 import axios from "axios";
 import moment from "moment";
 
-// Curso Activo
+// Obtener detalles del curso activo
 export const getCourseActive = async (context, id) => {
   try {
     const res = await axios.get("course/details/" + id);
-
     const { data } = res.data;
-
     context.commit("SET_COURSE_ACTIVE", data);
-
     return { ok: true, data };
   } catch (error) {
     return { ok: false };
   }
 };
 
+// Actualizar progreso del curso
 export const updateCourseProgress = ({ commit, state }, courseId) => {
   const course = state.course;
   if (!course || !course.modules) {
@@ -45,6 +43,7 @@ export const updateCourseProgress = ({ commit, state }, courseId) => {
   commit("SET_COURSE_PROGRESS", { courseId, progress });
 };
 
+// Inicializar lecciones completadas desde el almacenamiento local
 export const initializeCompletedLessons = ({ commit }) => {
   const storedLessons = localStorage.getItem("completedLessons");
   if (storedLessons) {
@@ -52,10 +51,12 @@ export const initializeCompletedLessons = ({ commit }) => {
   }
 };
 
+// Actualizar lección completada
 export const updateCompletedLesson = ({ commit }, lessonId) => {
   commit("ADD_COMPLETED_LESSON", lessonId);
 };
 
+// Inicializar estado (progreso y lecciones)
 export const initializeState = ({ commit }) => {
   // Cargar lecciones completadas
   const savedLessons = localStorage.getItem("completedLessons");
@@ -70,25 +71,27 @@ export const initializeState = ({ commit }) => {
   }
 };
 
+// Actualizar las lecciones completadas y recalcular el progreso
 export const updateCompletedLessons = ({ commit, state }, lessonId) => {
   if (!state.completedLessons.includes(lessonId)) {
     const updatedLessons = [...state.completedLessons, lessonId];
     commit("SET_COMPLETED_LESSONS", updatedLessons);
     localStorage.setItem("completedLessons", JSON.stringify(updatedLessons));
 
-    // Recalculate progress here
+    // Recalcular progreso
     const progress = Math.round(
       (updatedLessons.length / state.allLessons) * 100
     );
-    commit("UPDATE_PROGRESS_COURSE", Math.min(progress, 100)); // Ensure progress doesn't exceed 100%
+    commit("UPDATE_PROGRESS_COURSE", Math.min(progress, 100));
   }
 };
 
+// Establecer el estado del curso seleccionado
 export const courseSelectedStatus = (context, payload) => {
   context.commit("GET_PROGRESS", payload);
 };
 
-// Temario del curso
+// Obtener temario del curso
 export const getCourse = async (context, id) => {
   await axios.get("course/temary/get-all-class/" + id).then((res) => {
     context.commit("SET_COURSE", res.data.data);
@@ -96,12 +99,12 @@ export const getCourse = async (context, id) => {
   });
 };
 
-// Clase actual
+// Establecer la clase actual
 export const getLesson = (context, less) => {
   context.commit("SET_LESSON", less);
 };
 
-// Indicar que clase se esta viendo por ultima vez
+// Guardar última clase vista
 export const lastSeenLesson = async (_, { course_id, class_id }) => {
   if (!course_id || !class_id) return;
   try {
@@ -114,23 +117,14 @@ export const lastSeenLesson = async (_, { course_id, class_id }) => {
   }
 };
 
-// Recibimos las clases completadas de un determinado curso
-// export const getCompletedLessons = async (context, id) => {
-//     await axios.get(`purchased/show?course_id=${id}`).then(
-//         (res) => {
-//             context.commit("SET_COMPLETED_LESSONS", res.data)
-//         }
-//     );
-// }
-
-// Obtenemos los recursos de una clase
+// Obtener recursos de una clase
 export const getResources = async (context, less) => {
   await axios.get(`class-resource/show-resources?name=${less}`).then((res) => {
     context.commit("SET_RESOURCES", res.data);
   });
 };
 
-// Obtenemos el video de la clase
+// Obtener video de la clase
 export const getVideo = async (context, classId) => {
   await axios.get(`video/stream-video?class_id=${classId}`).then((res) => {
     const data = res.data.data;
@@ -138,31 +132,43 @@ export const getVideo = async (context, classId) => {
   });
 };
 
-// Enviar estado de reproduccion de video de la ultima clase vista
+// Enviar tiempo de reproducción del video
 export const getTimeReproduction = (context, time) => {
   context.commit("UPDATE_TIME", time);
 };
 
-// Obtenemos los comentarios de una clase
+// Actualizar tiempo de la clase vista
+export const updateTime = (_, { course, time, lessonId }) => {
+  try {
+    axios.patch(
+      `purchased/save-class-seen?course_id=${course}&display_time=${time}&class_id=${lessonId}`
+    );
+    return { ok: true };
+  } catch (error) {
+    return { ok: false };
+  }
+};
+
+// Obtener comentarios de la clase
 export const getComments = async (context, id) => {
   await axios.get(`comments/show-comments?class_id=${id}`).then((res) => {
     context.commit("GET_COMMENTS", res.data);
   });
 };
 
-// Obtenemos la valoracion de un curso
-//HAY UN ERROR
+// Obtener valoración del curso
 export const getRating = async (context, id) => {
   await axios.get(`course/rate/show/${id}`).then((res) => {
     context.commit("GET_RATING", res.data);
   });
 };
 
+// Obtener valoración del curso
 export const getCourseRating = (context, courseRating) => {
   context.commit("GET_COURSE_RATING", courseRating);
 };
 
-// Obtenemos el examen de una clase
+// Obtener examen de la clase
 export const getTest = async (context, data) => {
   await axios
     .post(`course/exam/active`, data)
@@ -174,7 +180,7 @@ export const getTest = async (context, data) => {
     });
 };
 
-// Obtenemos el examen del modulo
+// Obtener examen del módulo
 export const getModuleExam = async ({ commit }, payload) => {
   try {
     const resp = await axios.post(`course/exam/module/active`, {
@@ -189,26 +195,25 @@ export const getModuleExam = async ({ commit }, payload) => {
   }
 };
 
-//Obtenemos los datos del exam
+// Obtener datos del examen
 export const getExam = async (_, data) => {
   const respuesta = await axios.post(`course/exam`, { exam_id: data });
   return respuesta;
 };
 
-//Obtenemos los puntos
+// Obtener puntos del perfil
 export const getPoints = async ({ commit }, id) => {
   try {
     const data = await axios.get(`profile/points/${id}`);
-
     const { total } = data.data;
-
     commit("setPoints", total);
     return { ok: true };
   } catch (error) {
     return { ok: false };
   }
 };
-//Enviamos el comentario
+
+// Enviar comentario
 export const setComments = async ({ commit }, comment) => {
   try {
     const { comments } = comment;
@@ -233,7 +238,8 @@ export const setComments = async ({ commit }, comment) => {
     throw new Error(error);
   }
 };
-//Enviamos el comentario
+
+// Enviar comentario dinámico
 export const setDynamicComments = async ({ commit }, commentData) => {
   try {
     const { content } = commentData;
@@ -257,6 +263,8 @@ export const setDynamicComments = async ({ commit }, commentData) => {
     throw new Error(error);
   }
 };
+
+// Obtener comentarios dinámicos
 export const fetchDynamicComments = async ({ commit }, dynamic_id) => {
   try {
     const resp = await axios.get(`course/game/comments/list/${dynamic_id}`);
@@ -270,7 +278,7 @@ export const fetchDynamicComments = async ({ commit }, dynamic_id) => {
   }
 };
 
-//Enviamos el comentario
+// Enviar calificación del curso
 export const setRating = async ({ commit }, comment) => {
   try {
     const resp = await axios.post("course/rate/store", comment);
@@ -281,7 +289,8 @@ export const setRating = async ({ commit }, comment) => {
     throw new Error(error);
   }
 };
-//Obtemos la dinamica activa
+
+// Obtener dinámica activa de clase
 export const getActiveDinamicClass = async (
   { commit },
   { game_for, courseId, idClass }
@@ -294,10 +303,6 @@ export const getActiveDinamicClass = async (
       game_for,
       id_type: dataClass.id,
     });
-    // const {  data:moduleDynamics  } = await axios.post( '/course/game/active', { game_for:'module', id_type: dataClass[0].id_modules } )
-
-    // if( !classDynamics && !moduleDynamics ) return
-    // const dynamics=[...classDynamics,...moduleDynamics]
     if (!classDynamics) return;
     const dynamics = [...classDynamics];
     commit("setDataDinamic", dynamics);
@@ -307,7 +312,8 @@ export const getActiveDinamicClass = async (
     return { ok: false };
   }
 };
-//Obtenemos los datos de las dinamicas dependiendo el id
+
+// Obtener datos de dinámica por ID
 export const getDataDinamic = async ({ commit }, id) => {
   try {
     const { data } = await axios.post("/course/game", { game_id: id });
@@ -318,7 +324,8 @@ export const getDataDinamic = async ({ commit }, id) => {
     return { ok: false };
   }
 };
-//Enviamos las respuestas de la dinamica de cartas
+
+// Enviar respuestas de la dinámica de cartas
 export const sendAnswersCards = async (
   { commit },
   {
@@ -330,10 +337,6 @@ export const sendAnswersCards = async (
     course_game_id,
   }
 ) => {
-  // let segundos = 0;
-
-  // segundos = ( tiempo.minutes * 60 ) + tiempo.seconds
-
   try {
     const resp = await axios.post("/course/game/add-points", {
       game_type,
@@ -354,8 +357,7 @@ export const sendAnswersCards = async (
   }
 };
 
-//Enviar las respuestas del examen
-
+// Enviar respuestas del examen
 export const sendAnswersExamen = async (
   _,
   { id_exam, answers, course_id, seconds_used }
@@ -367,27 +369,29 @@ export const sendAnswersExamen = async (
       course_id,
       seconds_used,
     });
-    console.log(resp);
-    return { ok: true, resp };
+
+    return {
+      ok: true,
+      resp,
+      error: null,
+    };
   } catch (error) {
-    return { ok: false };
+    console.error("Error al enviar respuestas:", error);
+
+    const errorMessage =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      "Error al enviar las respuestas";
+
+    return {
+      ok: false,
+      resp: null,
+      error: errorMessage,
+    };
   }
 };
-// ??? Free course ???
-// export const buyCourse = async ( _ , id_course ) => {
-//     try {
-//           await axios.post('/cart/buy-course', { id_course } )
 
-//           return {ok: true}
-
-//     } catch (error) {
-
-//          return {ok: false}
-
-//     }
-
-// }
-
+// Enviar respuesta diaria del quiz
 export const sendRespDailyQuizz = async ({ commit }, isCorrect) => {
   try {
     const resp = await axios.post("course/exam/daily/points", { isCorrect });
@@ -402,7 +406,7 @@ export const sendRespDailyQuizz = async ({ commit }, isCorrect) => {
   }
 };
 
-//Enviar mensage al productor
+// Enviar mensaje al productor
 export const sendMessagePro = async (_, payload) => {
   try {
     await axios.post("/messages/add", payload);
@@ -412,6 +416,7 @@ export const sendMessagePro = async (_, payload) => {
   }
 };
 
+// Obtener tabla de líderes
 export const getLeaderBoard = async ({ commit }) => {
   try {
     const resp = await axios.get("classroom-points/ranking");
@@ -423,17 +428,7 @@ export const getLeaderBoard = async ({ commit }) => {
   }
 };
 
-export const updateTime = (_, { course, time, lessonId }) => {
-  try {
-    axios.patch(
-      `purchased/save-class-seen?course_id=${course}&display_time=${time}&class_id=${lessonId}`
-    );
-    return { ok: true };
-  } catch (error) {
-    return { ok: false };
-  }
-};
-
+// Obtener cursos relacionados
 export const getCourseRelated = async () => {
   try {
     const data = await axios.get("course/released-courses");
@@ -443,6 +438,8 @@ export const getCourseRelated = async () => {
     throw new Error(error);
   }
 };
+
+// Obtener módulo activo de la dinámica
 export const getActiveDinamicModule = async ({ commit }, payload) => {
   try {
     const { data } = await axios.post("/course/game/module/active", {

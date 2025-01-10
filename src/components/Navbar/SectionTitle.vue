@@ -1,33 +1,22 @@
-
-<!--<template>
-  <div class="row text-left px-3 mt-0 h-100 h2" style="background-color: #ff2b2b">
-      <div class="col-md-12 text-white px-5" style="font-weight: 400; font-size: 0.9em; color: aqua;">{{title}}</div>
-   </div>
-</template>-->
-
 <template>
-    <div class="row" style="width: 50%;">
+    <div class="row" style="width: 50%">
         <div class="text-left px-5 mt-0 h-100 h2 section-title">
             <div class="col-md-12 px-5">{{ title }}</div>
         </div>
     </div>
-    <!--<div class="row text-left px-3 mt-0 h-50 h2 section-title">
-        <div class="col-md-6 px-5">{{ title }}</div>
-        <div class="text-right col-md-6 px-5">{{ title }}</div>
-    </div>-->
 </template>
-  
+
 <script>
 export default {
     props: {
         title: {
             type: String,
-            default: 'Default-name'
-        }
-    }
-}
+            default: "Default-name",
+        },
+    },
+};
 </script>
- 
+
 <style scoped>
 .section-title {
     font-size: 2rem;
@@ -36,5 +25,21 @@ export default {
     margin-top: 30px;
     margin-left: 20px;
 }
+
+@media screen and (max-width: 768px) {
+    .row {
+        width: 100% !important;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin-top: 15px;
+        margin-left: 10px;
+    }
+
+    .section-title .col-md-12 {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+}
 </style>
-  

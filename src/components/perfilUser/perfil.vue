@@ -1,24 +1,12 @@
 <template>
-  
   <div style="min-height: 700px">
     <section-title title="Ajustes de perfil" />
     <v-row class="p-3">
       <v-col cols="12" sm="9" md="4">
         <v-card elevation="2">
-          <v-card
-            elevation="0"
-            class="d-flex flex-column justify-center align-center pt-5"
-          >
-            <v-badge
-              @click.native="modalImage = true"
-              bordered
-              icon="mdi-camera"
-              overlap
-              bottom
-              offset-x="30"
-              offset-y="30"
-              style="cursor: pointer"
-            >
+          <v-card elevation="0" class="d-flex flex-column justify-center align-center pt-5">
+            <v-badge @click.native="modalImage = true" bordered icon="mdi-camera" overlap bottom offset-x="30"
+              offset-y="30" style="cursor: pointer">
               <v-avatar size="140">
                 <v-img :src="this.picture"> </v-img>
               </v-avatar>
@@ -29,10 +17,8 @@
             </v-card-title>
             <v-chip-group>
               <v-chip color="green" outlined>Rol : {{ userUp.rol }}</v-chip>
- 
             </v-chip-group>
             <v-chip-group>
-         
               <v-chip color="green" outlined>Membresia : {{ userUp.plan }}</v-chip>
             </v-chip-group>
           </v-card>
@@ -43,15 +29,13 @@
             <v-divider style="margin: 5px 15px"></v-divider>
             <v-list-item style="min-height: 30px">
               <v-list-item-content>
-                <v-list-item-title
-                  ><span>Nombre:</span> {{ name }}
+                <v-list-item-title><span>Nombre:</span> {{ name }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item style="min-height: 30px">
               <v-list-item-content>
-                <v-list-item-title
-                  ><span>Correo:</span> {{ email }}
+                <v-list-item-title><span>Correo:</span> {{ email }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -61,11 +45,7 @@
 
       <v-col cols="12" sm="12" md="8">
         <v-card elevation="2">
-          <v-tabs
-            show-arrows
-            v-model="tab"
-            dark
-          >
+          <v-tabs show-arrows v-model="tab" dark>
             <v-tab v-for="(ltab, index) in listTabs" :key="index">
               <v-icon left> mdi-{{ ltab.icon }} </v-icon>
               {{ ltab.title }}
@@ -79,106 +59,24 @@
                 <v-form class="mx-5" @submit.prevent="userUpdate">
                   <v-row>
                     <v-col cols="12" sm="6">
-                      <v-text-field
-                        class="mt-5"
-                        label="Usuario"
-                        outlined
-                        dense
-                        v-model="dataUser.name"
-                      ></v-text-field>
-                      
-                      <v-text-field
-                        class="mt-5"
-                        label="Teléfono"
-                        outlined
-                        dense
-                        v-model="dataUser.phone"
-                      ></v-text-field>
-                      <!-- <v-text-field
-                        class="mt-5"
-                        label="Ciudad"
-                        outlined
-                        dense
-                        v-model="userUp.city"
-                      ></v-text-field> -->
-                      <!-- <v-menu
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="userUp.date_birth"
-                            label="Fecha de Nacimiento"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-bind="attrs"
-                            v-on="on"
-                            type="date"
-                            disabled
-                          ></v-text-field>
-                        </template>
-                        <v-date-picker
-                          locale="es"
-                          v-model="userUp.date_birth"
-                          @input="menu = false"
-                        ></v-date-picker>
-                      </v-menu> -->
-                      <v-text-field
-                        class="mt-5"
-                        label="Nro. de documento"
-                        outlined
-                        dense
-                        v-model="dataUser.nro_document"
-                      ></v-text-field>
+                      <v-text-field class="mt-5" label="Usuario" outlined dense v-model="dataUser.name"></v-text-field>
+
+                      <v-text-field class="mt-5" label="Teléfono" outlined dense
+                        v-model="dataUser.phone"></v-text-field>
+                      <v-text-field class="mt-5" label="Nro. de documento" outlined dense
+                        v-model="dataUser.nro_document"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
-                      <v-text-field
-                        class="mt-5"
-                        label="Correo electrónico"
-                        outlined
-                        dense
-                        v-model="dataUser.email"
-                      ></v-text-field>
-                      <!-- <v-text-field
-                        class="mt-5"
-                        label="Apellido"
-                        outlined
-                        dense
-                        v-model="userUp.last_name"
-                      ></v-text-field> -->
-
-                      <v-select
-                        v-model="dataUser.id_document_type"
-                        :items="docTypes"
-                        item-value="id"
-                        item-text="document"
-                        label="Tipo de documento"
-                        outlined
-                        dense
-                        class="mt-5"
-                        no-data-text="No hay datos"
-                      ></v-select>
+                      <v-text-field class="mt-5" label="Correo electrónico" outlined dense
+                        v-model="dataUser.email"></v-text-field>
+                      <v-select v-model="dataUser.id_document_type" :items="docTypes" item-value="id"
+                        item-text="document" label="Tipo de documento" outlined dense class="mt-5"
+                        no-data-text="No hay datos"></v-select>
                     </v-col>
-                    <!-- <v-textarea
-                      class="px-3"
-                      outlined
-                      name="input-7-4"
-                      label="Biografia"
-                      v-model="userUp.biography"
-                    ></v-textarea> -->
                   </v-row>
                   <div class="text-end">
-                    <v-btn
-                      style="text-transform: capitalize; font-size: 1rem"
-                      color="success"
-                      class="my-3"
-                      type="submit"
-                      :loading="isLoadingUpdateUser"
-                    >
+                    <v-btn style="text-transform: capitalize; font-size: 1rem" color="success" class="my-3"
+                      type="submit" :loading="isLoadingUpdateUser">
                       Guardar Cambios
                     </v-btn>
                   </div>
@@ -189,55 +87,26 @@
                 <v-form class="mx-5" @submit.prevent="changePassword()">
                   <v-row>
                     <v-col cols="12" sm="6">
-                      <v-text-field
-                        class="mt-5"
-                        label="Contraseña actual"
-                        outlined
-                        dense
-                        v-model="actual_pass"
-                        name="actual_password"
-                        :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="() => (value = !value)"
-                        :type="value ? 'password' : 'text'"
-                      >
+                      <v-text-field class="mt-5" label="Contraseña actual" outlined dense v-model="actual_pass"
+                        name="actual_password" :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="() => (value = !value)" :type="value ? 'password' : 'text'">
                       </v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
-                      <v-text-field
-                        class="mt-5"
-                        label="Nueva contraseña"
-                        outlined
-                        dense
-                        v-model="new_pass"
-                        name="new_password"
-                        :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="() => (value = !value)"
-                        :type="value ? 'password' : 'text'"
-                      >
+                      <v-text-field class="mt-5" label="Nueva contraseña" outlined dense v-model="new_pass"
+                        name="new_password" :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="() => (value = !value)" :type="value ? 'password' : 'text'">
                       </v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
-                      <v-text-field
-                        class="mt-5"
-                        label="Repetir nueva contraseña"
-                        outlined
-                        dense
-                        v-model="repeat_pass"
-                        name="repeat_password"
-                        :append-icon="value2 ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="() => (value2 = !value2)"
-                        :type="value2 ? 'password' : 'text'"
-                      >
+                      <v-text-field class="mt-5" label="Repetir nueva contraseña" outlined dense v-model="repeat_pass"
+                        name="repeat_password" :append-icon="value2 ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="() => (value2 = !value2)" :type="value2 ? 'password' : 'text'">
                       </v-text-field>
                     </v-col>
                   </v-row>
                   <div>Mínimo 8 caracteres de largo, mayúsculas y símbolos</div>
-                  <v-btn
-                    style="text-transform: capitalize; font-size: 1rem"
-                    color="success"
-                    class="my-4"
-                    type="submit"
-                  >
+                  <v-btn style="text-transform: capitalize; font-size: 1rem" color="success" class="my-4" type="submit">
                     Cambiar contraseña
                   </v-btn>
                 </v-form>
@@ -247,25 +116,6 @@
         </v-card>
       </v-col>
     </v-row>
-
-    <!-- <div
-      class="d-grid"
-      :class="[
-        this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
-          ? 'flex-column'
-          : 'contenedor-profile',
-      ]"
-    >
-      <div class="profile mx-1">
-        <div class="h2 py-3 text-secondary mx-1">Ajustes de Perfil</div>
-
-
-      </div>
-
-      <div class="profile-tabs mx-2" style="width: 90%">
-    
-      </div>
-    </div> -->
 
     <!-- Modals -->
     <v-dialog @click:outside="onCancel" v-model="modalImage" max-width="490">
@@ -279,15 +129,8 @@
         </div>
 
         <template>
-          <v-file-input
-            label="Buscar Imagen"
-            v-model="file"
-            type="file"
-            @change="onFileSelected"
-            class="px-1"
-            prepend-icon="mdi-camera"
-            accept="image/*"
-          ></v-file-input>
+          <v-file-input label="Buscar Imagen" v-model="file" type="file" @change="onFileSelected" class="px-1"
+            prepend-icon="mdi-camera" accept="image/*"></v-file-input>
         </template>
 
         <v-card-actions>
@@ -297,46 +140,27 @@
             Cancelar
           </v-btn>
 
-          <v-btn
-            :loading="loadingSaveImage"
-            color="success"
-            outlined
-            @click="onUpload"
-          >
+          <v-btn :loading="loadingSaveImage" color="success" outlined @click="onUpload">
             Guardar
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar
-      v-model="alertUpdateUser"
-    >
+    <v-snackbar v-model="alertUpdateUser">
       Datos actualizados correctamente
 
       <template v-slot:action="{ attrs }">
-        <v-btn
-          color="red"
-          text
-          v-bind="attrs"
-          @click="alertUpdateUser = false"
-        >
+        <v-btn color="red" text v-bind="attrs" @click="alertUpdateUser = false">
           Cerrar
         </v-btn>
       </template>
     </v-snackbar>
-    <v-snackbar
-      v-model="snackbar"
-    >
+    <v-snackbar v-model="snackbar">
       {{ message }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn
-          color="red"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
+        <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
           Cerrar
         </v-btn>
       </template>
@@ -345,14 +169,13 @@
 </template>
 
 <script>
-// import { response } from "express";
 import { mapState } from "vuex";
-// import SectionTitle from '../Navbar/SectionTitle.vue';
+import SectionTitle from "../Navbar/SectionTitle.vue";
 
 export default {
   name: "perfil",
   components: {
-    // SectionTitle,
+    SectionTitle,
   },
   data() {
     return {
@@ -398,7 +221,7 @@ export default {
       varCountryInit: [],
       actual_pass: "",
       new_pass: "",
-      repeat_pass: "", 
+      repeat_pass: "",
       snackbar: false,
       dataUser: [],
       docTypes: [],
@@ -418,58 +241,66 @@ export default {
     ...mapState("user", ["id_user"]),
   },
   methods: {
-    async getDocumentTypes(){
-      await this.axios.get('/listDocumentType').then((response) => {
+    async getDocumentTypes() {
+      await this.axios.get("/listDocumentType").then((response) => {
         this.docTypes = response.data;
-      })
+      });
     },
-    async getUserInfo(){
-      await this.axios.get('/profile/info').then((response) => {
+
+    async getUserInfo() {
+      await this.axios.get("/profile/info").then((response) => {
         this.dataUser = response.data;
         this.name = response.data.name;
         this.email = response.data.email;
-      })
+      });
     },
-    async changePassword(){
-      if(this.validatePass()){
+
+    async changePassword() {
+      if (this.validatePass()) {
         const form = {
-          "actual_pass": this.actual_pass,
-          "new_pass": this.new_pass,
-          "repeat_pass": this.repeat_pass
-        }
-        await this.axios.post('/profile/change-pass', form).then((response) => {
-          this.message = response.data
-          this.snackbar = true
-          this.actual_pass = ""
-          this.new_pass = ""
-          this.repeat_pass = ""
-        })
+          actual_pass: this.actual_pass,
+          new_pass: this.new_pass,
+          repeat_pass: this.repeat_pass,
+        };
+        await this.axios.post("/profile/change-pass", form).then((response) => {
+          this.message = response.data;
+          this.snackbar = true;
+          this.actual_pass = "";
+          this.new_pass = "";
+          this.repeat_pass = "";
+        });
       }
     },
-    validatePass(){
-      if(this.actual_pass == ""){
-        this.message = "Todos los campos son requeridos"
-        this.snackbar = true
-        return false
-      }else if(this.new_pass == ""){
-        this.message = "Todos los campos son requeridos"
-        this.snackbar = true
-        return false
-      }else if(this.repeat_pass == ""){
-        this.message = "Todos los campos son requeridos"
-        this.snackbar = true
-        return false
-      }else if(this.new_pass.length < 8 || this.actual_pass < 8 || this.repeat_pass < 8){
-        this.message = "La contraseña debe tener como mínimo 8 caracteres"
-        this.snackbar = true
-        return false
-      }else if(this.new_pass != this.repeat_pass){
-        this.message = "Las contraseñas no coinciden"
-        this.snackbar = true
-        return false
+
+    validatePass() {
+      if (this.actual_pass == "") {
+        this.message = "Todos los campos son requeridos";
+        this.snackbar = true;
+        return false;
+      } else if (this.new_pass == "") {
+        this.message = "Todos los campos son requeridos";
+        this.snackbar = true;
+        return false;
+      } else if (this.repeat_pass == "") {
+        this.message = "Todos los campos son requeridos";
+        this.snackbar = true;
+        return false;
+      } else if (
+        this.new_pass.length < 8 ||
+        this.actual_pass < 8 ||
+        this.repeat_pass < 8
+      ) {
+        this.message = "La contraseña debe tener como mínimo 8 caracteres";
+        this.snackbar = true;
+        return false;
+      } else if (this.new_pass != this.repeat_pass) {
+        this.message = "Las contraseñas no coinciden";
+        this.snackbar = true;
+        return false;
       }
       return true;
     },
+
     userUpdate() {
       if (this.validateForm()) {
         this.isLoadingUpdateUser = true;
@@ -493,18 +324,23 @@ export default {
         const formdata = new FormData();
         formdata.append("new_email", this.dataUser.email);
 
-        this.axios
-          .post("/user/verify-unique-email", formdata)
-          .then((res) => {
-            if (res.data) {
-              this.message = "El correo ingresado ya fue registrado anteriormente"
-              this.snackbar = true;
-              return false;
-            }
-          });
+        this.axios.post("/user/verify-unique-email", formdata).then((res) => {
+          if (res.data) {
+            this.message =
+              "El correo ingresado ya fue registrado anteriormente";
+            this.snackbar = true;
+            return false;
+          }
+        });
       }
-      if(this.dataUser.email == "" || this.dataUser.name == "" || this.dataUser.phone == "" || this.dataUser.doc_type_id == "" || this.dataUser.number_doc == ""){
-        this.message = "Todos los campos son requeridos"
+      if (
+        this.dataUser.email == "" ||
+        this.dataUser.name == "" ||
+        this.dataUser.phone == "" ||
+        this.dataUser.doc_type_id == "" ||
+        this.dataUser.number_doc == ""
+      ) {
+        this.message = "Todos los campos son requeridos";
         this.snackbar = true;
         return false;
       }
@@ -533,11 +369,13 @@ export default {
       fr.onload = () => (this.pictureModal = fr.result);
       fr.readAsDataURL(this.selectedFile);
     },
+
     onCancel() {
       this.pictureModal = null;
       this.modalImage = false;
       this.file = null;
     },
+
     onUpload() {
       if (this.selectedFile != null) {
         this.loadingSaveImage = true;
@@ -551,7 +389,7 @@ export default {
           .then(() => {
             this.list();
           })
-          .catch(() => {});
+          .catch(() => { });
       }
     },
 
@@ -591,6 +429,7 @@ export default {
   grid-template-columns: 30% 70%;
   padding: 15px 30px;
 }
+
 .profile-tabs {
   margin-top: 68px;
 }
@@ -598,6 +437,7 @@ export default {
 .userico {
   width: 35px;
 }
+
 .editImg {
   z-index: 100;
   position: absolute;
@@ -605,12 +445,15 @@ export default {
   border-radius: 15px;
   box-shadow: 1px 1px 2px 4px rgb(116, 177, 104);
 }
+
 .imagen {
   border-radius: 50%;
 }
+
 .img-edit {
   border-radius: 50%;
 }
+
 .subiendo {
   background: rgba(110, 181, 108, 0.602);
   position: absolute;
@@ -635,6 +478,7 @@ export default {
   -webkit-transition: all 0.7s;
   transition: all 0.7s;
 }
+
 /* Modal container gets target and it is shown and background modal too*/
 .modal:target,
 .modal:target .modal-bg {
@@ -643,6 +487,7 @@ export default {
   opacity: 1;
   visibility: visible;
 }
+
 /* Background modal*/
 .modal-bg:active,
 .modal-bg:hover,
@@ -660,10 +505,12 @@ export default {
   -webkit-transition: all 0.7s;
   transition: all 0.7s;
 }
+
 /* Background modal overlaps to container*/
 .modal:target .modal-bg {
   z-index: 200;
 }
+
 /* Modal content or body*/
 .modal-content {
   position: absolute;

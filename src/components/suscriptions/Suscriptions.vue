@@ -1,45 +1,16 @@
 <template>
-  <div style="min-height: 100vh" class="mr-5">
+  <div style="min-height: 100vh; overflow: hidden" class="mr-5">
     <div class="row mt-5">
       <section-title title="Mi aprendizaje" />
-      <div class="col-md-6 text-right mr-5">
-        <div class="d-flex align-items-center justify-content-end">
-          <span class="mr-3" style="color: #5e5873">Buscar:</span>
-          <input type="text" placeholder="Buscar un curso" v-model="searchQuery" class="form-control form-select"
-            style="height: 32px; width: 250px; color: #636363" />
+      <div class="col-md-6 search-container">
+        <div class="search-wrapper">
+          <span class="search-label" style="color: #5e5873">Buscar:</span>
+          <input type="text" placeholder="Buscar un curso" v-model="searchQuery"
+            class="form-control form-select search-input" />
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-6 text-right"></div>
-
-      <!--<div class="col-md-6 text-right">
-        <span>Selected: {{ selected }}</span>
-        <div class="custom-select-wrapper mr-5">
-          <select v-model="selectedCategory" class="form-control form-select" @change="onSelectChange"
-            @click="toggleArrow">
-            <option value="">Filtrar por categoría</option>
-            <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-          </select>
-          <span class="custom-arrow" :class="{ up: isDropdownOpen }"></span>
-        </div>
-      </div>-->
-    </div>
-
-    <!--<div class="row mt-5 ml-10" style="background-color: aqua;">
-      <div class="col-md-12" v-if="loading">
-        <loadingCourses />
-      </div>
-      <div v-if="caritas" class="text-center m-auto">
-        <div class="no-result sad-face">
-        </div>
-        <span>Sin resultados</span>
-      </div>
-      <div v-else :class="viewClass" v-for="(item, index) in filteredCourses" :key="index">
-        <Card :course="item" :cardType="cardType" />
-      </div>
-    </div>-->
     <div class="row mt-5">
       <div class="courses-container">
         <div v-if="loading">
@@ -54,12 +25,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="row mt-5 ml-1">
-      <div v-if="this.coursView > 0 && !loading">
-          <CarrouselCourseViewed />
-      </div>
-    </div>   -->
   </div>
 </template>
 
@@ -68,12 +33,10 @@ import Card from "@/components/courses/cards";
 import loadingCourses from "@/components/courses/loadingCourses";
 import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
 import SectionTitle from "../Navbar/SectionTitle.vue";
-// import CarrouselCourseViewed from "@/components/courses/CarrouselCourseViewed";
 
 export default {
   name: "Suscription",
   components: {
-    // CarrouselCourseViewed,
     loadingCourses,
     Card,
     SectionTitle,
@@ -86,11 +49,10 @@ export default {
       caritas: false,
       cardType: 2,
       coursView: null,
-      //Busqueda
       searchQuery: "",
       isDropdownOpen: false,
       selectedCategory: "",
-      viewMode: "grid", // 'list' o 'grid'
+      viewMode: "grid",
       categories: ["Desarrollo personal", "Idiomas", "Ofimática"],
       selected: "",
     };
@@ -108,23 +70,15 @@ export default {
         filtered = filtered.filter((course) =>
           course.title.toLowerCase().includes(this.searchQuery.toLowerCase())
         );
-        console.log("After search filter:", filtered);
       }
 
       if (this.selectedCategory) {
         filtered = filtered.filter(
           (course) => course.category === this.selectedCategory
         );
-        console.log("After category filter:", filtered);
       }
 
       return filtered;
-    },
-
-    viewClass() {
-      return this.viewMode === "grid"
-        ? "col-md-4 col-lg-3 col-sm-6 col-xs-12 px-3"
-        : "col-12";
     },
   },
 
@@ -133,42 +87,21 @@ export default {
       getCourse: "getCourse",
     }),
 
-    mostrarAprendiendo() {
-      let datos = null;
-      this.axios.get("course/last-courses-rep").then((res) => {
-        datos = res.data.data;
-        this.coursView = datos.length;
-        console.log("AAAAAA", res.data.data);
-      });
-    },
-
     getAttributes() {
       this.axios.get("course/purchased-courses").then((datos) => {
         this.loading = false;
         this.informacion = datos.data.data;
 
-        if (this.informacion.length == 0) {
+        if (this.informacion.length === 0) {
           this.carita = true;
           this.caritas = true;
         }
       });
     },
-
-    toggleView(mode) {
-      this.viewMode = mode;
-    },
-
-    onSelectChange() {
-      this.selected = this.selectedCategory;
-    },
-    toggleArrow() {
-      this.isDropdownOpen = !this.isDropdownOpen;
-    },
   },
 
   created() {
     this.getAttributes();
-    // this.mostrarAprendiendo();
   },
 };
 </script>
@@ -177,7 +110,6 @@ export default {
 .courses-container {
   display: flex;
   flex-wrap: wrap;
-
   margin-left: 50px;
 }
 
@@ -187,45 +119,63 @@ export default {
   gap: 35px;
 }
 
-/* main {
-  padding: 12px 0.5px !important;
-}
-.row {
-  height: 100%;
-}
-
-.titulo {
-  color: white;
-  font-size: 2.2rem;
-  font-weight: 700;
-  text-align: left;
-} */
-
-/* .bordeas {
-  border-radius: 20px 20px 0px 0px;
-  background-position: center !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-}
-.bordea {
-  border-radius: 20px 20px 20px 20px;
-  transition: 1s;
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-right: 20px;
 }
 
-.bordea:hover {
-  transform: scale(1.05);
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  max-width: 350px;
+  width: 100%;
 }
 
-.carita {
-  position: absolute;
-  top: 0;
-  height: 50%;
-} */
+.search-label {
+  margin-right: 10px;
+  white-space: nowrap;
+}
 
-/*
-.btn {
-  margin-left: 5px;
-}*/
+.search-input {
+  flex-grow: 1;
+  height: 32px;
+  color: #636363;
+}
+
+/* Estilos responsivos */
+@media screen and (max-width: 768px) {
+  .mr-5 {
+    margin-right: 0 !important;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .search-container {
+    margin-top: 15px;
+    margin-right: 0;
+    justify-content: center;
+  }
+
+  .search-wrapper {
+    width: 90%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .search-label {
+    margin-right: 10px;
+    font-size: 0.9em;
+  }
+
+  .search-input {
+    width: 100%;
+    font-size: 0.9em;
+  }
+}
 
 .form-select {
   width: 200px;

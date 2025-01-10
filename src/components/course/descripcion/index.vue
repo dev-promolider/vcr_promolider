@@ -53,7 +53,7 @@
             <v-card flat v-if="item.tab === 'Examen'" color="white" outlined rounded="xl" tag="div">
               <div v-if="
                 dataEx &&
-                rate && // 👈 null and undefined check
+                rate &&
                 Object.keys(rate).length === 0 &&
                 Object.getPrototypeOf(rate) === Object.prototype
               ">
@@ -72,13 +72,11 @@
                     </div>
                   </template>
                   <div class="mx-4 mt-4" v-else>
-                    <!-- <div v-for="[data, index] in dataEx" :key="index"> -->
                     <p class="text-justify">
                       <button @click="Testing(dataEx)" class="test">
                         Examen de esta clase
                       </button>
                     </p>
-                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -112,10 +110,6 @@
                           <td v-if="item.type2 == 2">Módulo</td>
                           <td v-if="item.type2 == 3">Clase</td>
                           <td>
-                            <!--<v-btn class="mx-2" :color="item.buttonText === 'Ver Resultados' ? 'primary' : 'success'"
-                              @click="goToDinamics(item.id)">
-                              {{ item.buttonText }}
-                            </v-btn>-->
                             <v-btn class="mx-2" :style="{
                               backgroundColor: getButtonColor(
                                 item.buttonText
@@ -438,7 +432,6 @@ export default {
         {
           tab: "Dinámicas",
         },
-        // { tab: "Valoraciones" },
       ],
       exam_course: [],
       exams_class: [],
@@ -511,7 +504,7 @@ export default {
         console.error("Error fetching dynamics:", error);
       }
     },
-    
+
     async expirationDate() {
       this.axios
         .get(`/course/expiration-date?course_id=${this.$route.query.course}`)
@@ -530,7 +523,7 @@ export default {
     changeTab(el) {
       this.isActive = el;
     },
-    
+
     download(resource) {
       this.snackbar = true;
       this.carga = true;
@@ -581,10 +574,10 @@ export default {
       // Lógica para mostrar los resultados del examen
       if (dataEx === "No existe el examen") {
         this.mostrar = true;
-        this.typeExamem = 1; // Cambiar al tipo de resultado deseado
+        this.typeExamem = 1;
       } else {
         this.mostrar = true;
-        this.typeExamem = 3; // Cambiar al tipo de resultado deseado
+        this.typeExamem = 3;
       }
     },
 
@@ -596,7 +589,7 @@ export default {
         const resultados = resp.data;
         console.log(resultados);
         this.examResults = {
-          respuestas: resultados.detail, // Utiliza resultadosPreguntas en lugar de examResults.respuestas
+          respuestas: resultados.detail,
           passed: resultados.result,
         };
         this.showResultsModal = true;
@@ -651,8 +644,6 @@ export default {
     async queryDinamic() {
       this.getActiveDinamics();
       this.getExam();
-      // this.getRateExam();
-      // this.getResources();
     },
 
     $route() {
@@ -666,8 +657,6 @@ export default {
     this.isLoadingDinamic = true;
     this.getActiveDinamics();
     this.expirationDate();
-    // this.listDinamicas();
-    // this.getRateExam();
   },
 };
 </script>
@@ -774,13 +763,10 @@ export default {
 .nav-tabs li a:before {
   width: 20px;
   height: 20px;
-  /* Circles are circular */
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
   background: var(--bg-content);
-
-  /* Circles over squares */
   z-index: 2;
 }
 
@@ -790,8 +776,6 @@ export default {
   z-index: 3;
 }
 
-/* First and last tabs have different
-   outside color needs */
 .nav-tabs li a:before {
   left: -20px;
 }
@@ -822,7 +806,6 @@ export default {
   transition: all 0.7s;
 }
 
-/* Modal container gets target and it is shown and background modal too*/
 .modal:target,
 .modal:target .modal-bg {
   display: block;
@@ -849,7 +832,6 @@ export default {
   transition: all 0.7s;
 }
 
-/* Background modal overlaps to container*/
 .modal:target .modal-bg {
   z-index: 200;
 }

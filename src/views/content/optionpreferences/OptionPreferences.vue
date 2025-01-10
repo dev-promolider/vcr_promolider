@@ -1,6 +1,5 @@
 <template>
   <div style="min-height: 100vh">
-
     <section-title title="Mis preferencias" />
 
     <div class="row p-5" v-if="isLoading">
@@ -50,7 +49,7 @@
 
 <script>
 import Vue from "vue";
-import SectionTitle from '../../../components/Navbar/SectionTitle.vue';
+import SectionTitle from "../../../components/Navbar/SectionTitle.vue";
 export default {
   name: "Preferences",
   components: {
@@ -227,9 +226,4 @@ export default {
     transform: rotate(15deg);
   }
 }
-
-/* .tooltip {
-  position: relative;
-  height: 100px;
-} */
 </style>

@@ -24,29 +24,27 @@
           <template v-for="(link, index) in listNavBar">
             <v-list-item v-if="!(role === 'Distributor' && link.nombre === 'Mis cursos')" link
               style="color: #ffffff; margin-bottom: 25px !important" :key="index" :to="{ name: link.path }">
-              <!--<v-list-item-icon class="mr-3">
-                <v-icon style="color: #ffffff">{{ `mdi-${link.icon}` }}</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>{{ link.nombre }}</v-list-item-title>-->
               <v-list-item-icon class="mr-3">
-                <v-icon
-                  :class="{ 'active-icon': $route.name === link.path, 'inactive-icon': $route.name !== link.path }">
+                <v-icon :class="{
+                  'active-icon': $route.name === link.path,
+                  'inactive-icon': $route.name !== link.path,
+                }">
                   {{ `mdi-${link.icon}` }}
                 </v-icon>
               </v-list-item-icon>
-              <v-list-item-title
-                :class="{ 'active-text': $route.name === link.path, 'inactive-text': $route.name !== link.path }">
+              <v-list-item-title :class="{
+                'active-text': $route.name === link.path,
+                'inactive-text': $route.name !== link.path,
+              }">
                 {{ link.nombre }}
               </v-list-item-title>
             </v-list-item>
           </template>
         </template>
         <template v-else>
-          <div class="myb-9 box animation">
-          </div>
+          <div class="myb-9 box animation"></div>
           <div v-for="qty in listNavBar.length - 1" :key="qty">
-            <div class="my-9 box animation">
-            </div>
+            <div class="my-9 box animation"></div>
           </div>
         </template>
       </v-list>
@@ -69,6 +67,7 @@
     <NavBar @click="changeDrawer" />
   </div>
 </template>
+
 <script>
 import { mapState } from "vuex";
 import NavBar from "@/components/Navbar/NavBar.vue";
@@ -93,7 +92,11 @@ export default {
         { nombre: "Mis cursos", icon: "book-check", path: "myCourses" },
         { nombre: "Marketplace", icon: "store", path: "courses" },
         { nombre: "Mis exámenes", icon: "file", path: "examenes" },
-        { nombre: "Mis certificaciones", icon: "school", path: "certificado-user" },
+        {
+          nombre: "Mis certificaciones",
+          icon: "school",
+          path: "certificado-user",
+        },
         { nombre: "Mensajes", icon: "message-processing", path: "messages" },
         { nombre: "Logros", icon: "trophy", path: "logros" },
         { nombre: "Clasificación", icon: "star", path: "leaderBoard" },
@@ -116,17 +119,18 @@ export default {
       this.drawer = drawer;
     },
     async getRole() {
-      this.axios.get('/user/get-rolename').then((response) => {
+      this.axios.get("/user/get-rolename").then((response) => {
         this.role = response.data.data;
         this.showNav = true;
-      })
-    }
+      });
+    },
   },
   mounted() {
     this.getRole();
   },
 };
 </script>
+
 <style lang="scss">
 .box {
   height: 25px;
@@ -172,7 +176,6 @@ export default {
 
 .user-email {
   color: #ffffff !important;
-  ;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

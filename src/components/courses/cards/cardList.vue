@@ -1,28 +1,23 @@
 <template>
     <div class="card-list-container">
         <div class="card-list">
-            <div v-for="course in courses" 
-                 :key="course.id" 
-                 class="course-card"
-                 @click="handleBuy(course)">
+            <!-- Iteración de la lista de cursos -->
+            <div v-for="course in courses" :key="course.id" class="course-card" @click="handleBuy(course)">
                 <div class="tarjeta-cursos">
                     <div class="column image-column">
+                        <!-- Etiqueta de "Gratis" si el curso es gratuito -->
+                        <div v-if="course.price === 0" class="free-tag-wrapper">
+                            <div class="free-tag">GRATIS</div>
+                        </div>
                         <img :src="course.url_portada" alt="no image" class="img-cursos-portad" />
                     </div>
                     <div class="column info-column">
                         <div class="course-info">
                             <h4 class="course-title">{{ course.title }}</h4>
                             <div class="text-primary-pl valoracion-curso">
-                                <v-rating
-                                    class="custom-rating"
-                                    color="warning"
-                                    hover
-                                    readonly
-                                    length="5"
-                                    size="20"
-                                    :value="parseFloat(course.ranking_by_user)"
-                                    half-increments
-                                ></v-rating>
+                                <!-- Calificación de usuarios -->
+                                <v-rating class="custom-rating" color="warning" hover readonly length="5" size="20"
+                                    :value="parseFloat(course.ranking_by_user)" half-increments></v-rating>
                             </div>
                             <p class="course-category">
                                 {{ getCategoryName(course.id_categories) }}
@@ -34,8 +29,9 @@
                             <span class="current-price">${{ course.price_with_discount.toFixed(2) }}</span>
                             <span class="original-price">${{ course.price }}</span>
                         </div>
+                        <!-- Botón de compra o inscripción -->
                         <button class="btn-primary" @click.stop="handleBuy(course)">
-                            COMPRAR
+                            {{ course.price === 0 ? "INSCRIBIRSE" : "COMPRAR" }}
                         </button>
                     </div>
                 </div>
@@ -63,6 +59,7 @@ export default {
     },
     async created() {
         try {
+            // Obtiene la lista de categorías desde el servidor
             const response = await axios.get("category/list");
             this.categories = response.data.data;
         } catch (error) {
@@ -70,10 +67,12 @@ export default {
         }
     },
     methods: {
+        // Devuelve el nombre de la categoría basándose en el id
         getCategoryName(id) {
             const category = this.categories.find((cat) => cat.id === id);
             return category ? category.name : "Categoría no encontrada";
         },
+        // Maneja la acción al hacer clic en un curso
         handleBuy(course) {
             switch (this.cardType) {
                 case 1:
@@ -87,20 +86,26 @@ export default {
                     break;
             }
         },
+        // Redirige al usuario a la página de compra del curso
         action(id, slug) {
-            this.$router.push({ 
-                name: "buy-cursos", 
-                params: { ide: id, slug: slug } 
-            }).catch((error) => {
-                console.error("Error al redirigir a buy-cursos:", error);
-            });
+            this.$router
+                .push({
+                    name: "buy-cursos",
+                    params: { ide: id, slug: slug },
+                })
+                .catch((error) => {
+                    console.error("Error al redirigir a buy-cursos:", error);
+                });
         },
+        // Emite un evento para seleccionar un certificado
         getCertificates(course) {
             this.$emit("selectedCertificate", course);
         },
+        // Redirige al usuario al curso, mostrando la clase correspondiente
         async goToCourse(id) {
             let dataRequest;
             try {
+                // Verifica si el usuario ya ha visto clases del curso
                 const res = await this.axios.get(
                     `purchased/show-class-seen?course_id=${id}`
                 );
@@ -108,6 +113,7 @@ export default {
                 this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
 
                 if (!dataRequest.name) {
+                    // Si no hay clase vista, redirige a la primera clase
                     const resClass = await this.axios.get(
                         "course/temary/get-all-class/" + id
                     );
@@ -121,6 +127,7 @@ export default {
                         },
                     });
                 } else {
+                    // Si hay clase vista, redirige a la clase correspondiente
                     await this.$router.push({
                         name: "curso",
                         query: {
@@ -196,8 +203,10 @@ export default {
 }
 
 .image-column {
+    position: relative;
     width: 100%;
     height: 160px;
+    overflow: hidden;
 }
 
 @media (min-width: 768px) {
@@ -215,6 +224,46 @@ export default {
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.free-tag-wrapper {
+    position: absolute;
+    top: 10px;
+    right: -50px;
+    width: 150px;
+    height: 25px;
+    transform: rotate(45deg);
+    transform-origin: center;
+    z-index: 2;
+}
+
+.free-tag {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #20e404, #1cac0b);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajustes para la etiqueta en vista móvil */
+@media (max-width: 767px) {
+    .free-tag-wrapper {
+        top: -5px;
+        right: -35px;
+        width: 120px;
+        height: 22px;
+    }
+
+    .free-tag {
+        font-size: 0.65rem;
+    }
 }
 
 .info-column {
@@ -313,7 +362,7 @@ export default {
     .course-price {
         align-items: flex-start;
     }
-    
+
     .price-column {
         border-top: 1px solid rgba(0, 0, 0, 0.1);
     }

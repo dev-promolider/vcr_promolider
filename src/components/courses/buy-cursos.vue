@@ -2,11 +2,12 @@
   <div class="bg-light">
     <div class="container-fluid">
       <div class="row py-5">
-        <!-- Course Details Column -->
+        <!-- Columna de detalles del curso -->
         <div class="col-12 col-lg-4 course-details">
           <h3 class="mb-4 font-weight-bold" :class="{ loader: !titulo, 'loader-titles': !titulo }">
             {{ titulo }}
           </h3>
+          <!-- Componente de pago -->
           <template v-if="processPay">
             <Openpay :openpayData="openpayData"></Openpay>
           </template>
@@ -21,23 +22,23 @@
             </li>
           </ul>
 
+          <!-- Botones de acción -->
           <div class="action-buttons" :class="{ 'text-center': $vuetify.breakpoint.smAndDown }">
             <template v-if="!isOwner">
-              <button v-if="courseFilter == false && precio == 0" 
-                      class="btn-custom" 
-                      @click="BuyCourse()"
-                      :class="{ loader: !titulo }">
-                {{ price_with_discount > 0 ? `Comprar ahora $${price_with_discount}` : "Inscribete ahora" }}
+              <button v-if="courseFilter == false && precio == 0" class="btn-custom" @click="inscribirCursoGratis()"
+                :class="{ loader: !titulo }">
+                Inscribirse Gratis
               </button>
 
-              <button v-if="courseFilter == false && precio > 0" 
-                      class="btn-custom" 
-                      data-toggle="modal"
-                      data-target="#paymentModal"
-                      :class="{ loader: !titulo }">
-                {{ price_with_discount > 0 ? `Comprar ahora $${price_with_discount}` : "Inscribete ahora" }}
+              <button v-if="courseFilter == false && precio > 0" class="btn-custom" data-toggle="modal"
+                data-target="#paymentModal" :class="{ loader: !titulo }">
+                {{
+                  price_with_discount > 0
+                    ? `Comprar ahora $${price_with_discount}`
+                    : "Inscribete ahora"
+                }}
               </button>
-              
+
               <button @click="shareURL" class="share-button">
                 <img :src="require('@/assets/share-icon.png')" width="20" alt="share" />
                 Compartir curso
@@ -52,31 +53,22 @@
 
             <template v-if="courseFilter">
               <button class="btn-custom" @click="GoCourse()">
-                <span>Curso ya adquirido<br/>Ir a Aprendisaje</span>
+                <span>Curso ya adquirido<br />Ir a Aprendisaje</span>
               </button>
             </template>
           </div>
         </div>
 
-        <!-- Course Image/Video Column -->
+        <!-- Columna de imagen/video del curso -->
         <div class="col-12 col-lg-8 course-media">
-          <div v-if="tymedia == 1" 
-               class="video-container" 
-               :class="{ loader: !videoimg, 'loader-img-course': !videoimg }">
-            <video-player class="video-player-box" 
-                         ref="videoPlayer" 
-                         :options="playerOptions" 
-                         :playsinline="true"
-                         @play="onPlayerPlay($event)"
-                         @pause="onPlayerPause($event)"
-                         @loadeddata="onPlayerLoadeddata($event)"
-                         @statechanged="playerStateChanged($event)"
-                         @ready="playerReadied">
+          <div v-if="tymedia == 1" class="video-container cursor-pointer"
+            :class="{ loader: !videoimg, 'loader-img-course': !videoimg }">
+            <video-player class="video-player-box" ref="videoPlayer" :options="playerOptions" :playsinline="true"
+              @play="onPlayerPlay($event)" @pause="onPlayerPause($event)" @loadeddata="onPlayerLoadeddata($event)"
+              @statechanged="playerStateChanged($event)" @ready="playerReadied">
             </video-player>
           </div>
-          <div v-else 
-               class="image-container" 
-               :class="{ loader: !img, 'loader-img-course': !img }">
+          <div v-else class="image-container" :class="{ loader: !img, 'loader-img-course': !img }">
             <img :src="img" class="course-image" :alt="titulo" />
           </div>
         </div>
@@ -86,6 +78,7 @@
         <div class="col-lg-9 col-md-12 mt-4">
           <div class="border-box">
             <v-expansion-panels accordion v-if="isDetailsLoading">
+              <!-- Paneles de información del curso -->
               <v-expansion-panel>
                 <v-expansion-panel-header style="font-weight: bold">
                   Descripción del curso
@@ -135,7 +128,7 @@
             <v-skeleton-loader v-else type="sentences@5"></v-skeleton-loader>
           </div>
 
-          <!-- Lista -->
+          <!-- Lista del temario del curso -->
           <div>
             <h4 class="font-weight-bold my-5" :class="{ loader: isLoading, 'loader-text-small': isLoading }">
               Temario del curso
@@ -164,8 +157,8 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-12 mt-4 pr-0">
-          <!-- Productor -->
+        <div class="col-lg-3 col-md-12 mt-4">
+          <!-- Información del productor -->
           <v-card v-if="isDetailsLoading" elevation="1" class="rounded-lg" :class="[
             this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
               ? ''
@@ -189,7 +182,7 @@
           </v-card>
           <v-skeleton-loader v-else type="list-item-avatar-two-line"></v-skeleton-loader>
           <!-- Recomendaciones -->
-          <div class="mt-4">
+          <div v-if="shouldShowRecommendations" class="mt-4">
             <h5 class="font-weight-bold my-3" :class="{
               loader: loadingRelated,
               'loader-text-small': loadingRelated,
@@ -202,8 +195,7 @@
               <div class="loader loader-card my-4"></div>
             </div>
             <div class="card-container">
-              <!-- card course -->
-              <div class="mb-4 cursor-pointer" v-for="course in courses1" :key="course.id">
+              <div class="mb-4 cursor-pointer" v-for="course in filteredRecommendations" :key="course.id">
                 <Card :course="course" :cardType="1" :isMouseOverActive="true" />
               </div>
             </div>
@@ -211,7 +203,7 @@
         </div>
       </div>
 
-      <!-- Video-Modal -->
+      <!-- Modal para video -->
       <div class="modal fade" id="video" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
           <div class="modal-content bg-dark">
@@ -231,7 +223,8 @@
           </div>
         </div>
       </div>
-      <!-- Modal payment -->
+
+      <!-- Modal de pago -->
       <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
         data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
@@ -283,7 +276,6 @@ import Openpay from "@/components/Buy/openpay.vue";
 import "video.js/dist/video-js.css";
 import { videoPlayer } from "vue-video-player";
 import "vue-video-player/src/custom-theme.css";
-
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -320,7 +312,6 @@ export default {
       descripcion: "",
       level: "",
       img: "",
-
       titulo: "",
       curso_detalle: "",
       aprendera: "",
@@ -335,6 +326,7 @@ export default {
       courses: [],
       courses1: [],
       loadingRelated: true,
+      showRecommendations: true,
       fecha_creacion: null,
       categoria: null,
       isDetailsLoading: false,
@@ -381,6 +373,7 @@ export default {
     videoPlayer,
   },
   computed: {
+    // Muestra el botón de compra si el método de pago es válido
     shouldDisplayBuyButton() {
       if (
         this.payment_method_id === 1 ||
@@ -394,15 +387,28 @@ export default {
       return this.$refs.videoPlayer.player;
     },
     ...mapState("course", ["course", "renderVideo", "isLoading"]),
+
+    filteredRecommendations() {
+      if (!this.courses || !this.pao_id) return [];
+
+      return this.courses
+        .filter((course) => course.id !== parseInt(this.pao_id))
+        .slice(0, 3);
+    },
+
+    // Determina si debe mostrar recomendaciones
+    shouldShowRecommendations() {
+      return !this.isOwner && !this.courseFilter && this.showRecommendations;
+    },
   },
 
   methods: {
     ...mapActions("course", {
       getCourse: "getCourse",
       getVideo: "getVideo",
-      // buyCourse: "buyCourse",
     }),
 
+    // Copia la URL al portapapeles
     shareURL() {
       const url = window.location.href;
       navigator.clipboard
@@ -424,7 +430,7 @@ export default {
     },
 
     onPlayerLoadeddata() { },
-    
+
     playerStateChanged(playerCurrentState) {
       console.log("player current update state", playerCurrentState);
     },
@@ -437,6 +443,7 @@ export default {
       this.payment_method_id = 1;
     },
 
+    // Obtiene el saldo de la cuenta del usuario
     getWalletUser() {
       this.axios
         .get(`/reports/mymovements/${this.user_id}`)
@@ -539,6 +546,54 @@ export default {
       }
     },
 
+    async inscribirCursoGratis() {
+      try {
+        this.$store.commit("course/SET_LOADING", true);
+
+        const form = {
+          id_course: this.pao_id,
+          type_purchase: 3,
+          user_id: this.user_id,
+        };
+
+        const response = await this.axios.post(
+          "course/buy-purchased-course",
+          form
+        );
+
+        if (response.data.status === "ok") {
+          this.$message.success("Te has inscrito exitosamente al curso");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } else {
+          // Agregar más detalles de depuración
+          console.error("Respuesta del servidor:", response);
+          throw new Error(
+            response.data.message || "Error al inscribirse al curso"
+          );
+        }
+      } catch (error) {
+        console.error("Error completo al inscribirse al curso:", error);
+
+        // Imprimir más detalles del error
+        if (error.response) {
+          // El error viene de una respuesta del servidor
+          console.error("Datos del error del servidor:", error.response.data);
+          console.error("Estado del error:", error.response.status);
+        }
+
+        const errorMessage =
+          error.response?.data?.message ||
+          error.message ||
+          "Ocurrió un error al inscribirse al curso";
+
+        this.$message.error(errorMessage);
+      } finally {
+        this.$store.commit("course/SET_LOADING", false);
+      }
+    },
+
     async BuyCourse() {
       const form = {
         course_id: this.pao_id,
@@ -564,6 +619,7 @@ export default {
       this.$router.push("/suscription-user");
     },
 
+    // Obtiene los detalles del curso
     getAttributes() {
       this.pao_id = this.$route.params.ide;
       this.axios.get("course/details/" + this.pao_id).then((datos) => {
@@ -572,6 +628,7 @@ export default {
         this.price_with_discount = this.items.price_with_discount;
         this.importeCurso = this.items.price_with_discount;
         this.isOwner = this.items.owner;
+        this.showRecommendations = !this.items.owner;
 
         console.log("AAAA:", datos.data.data);
         switch (this.items.course_level_id) {
@@ -616,6 +673,7 @@ export default {
             if (res.data.data[index].id == this.items.id_categories) {
               this.categoria = res.data.data[index].name;
               this.user_id = res.data.status.id;
+              console.log("User ID establecido:", this.user_id);
               this.getWalletUser();
             }
           }
@@ -634,7 +692,7 @@ export default {
         this.loading = false;
         this.mostrar = true;
         this.courses = datos.data.data;
-        this.courses1 = this.courses.slice(0, 3);
+        this.courses1 = this.filteredRecommendations;
         this.loadingRelated = false;
       });
     },
@@ -668,7 +726,6 @@ export default {
   background-image: none !important;
 }
 
-/* Course Details Styling */
 .course-details {
   padding: 1rem;
 }
@@ -703,12 +760,45 @@ export default {
   cursor: pointer;
 }
 
-/* Course Media Styling */
 .course-media {
   padding: 1rem;
 }
 
-.video-container,
+.video-container {
+  position: relative;
+  cursor: pointer;
+}
+
+:deep(.video-js .vjs-big-play-button) {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid white;
+  background-color: rgba(43, 51, 63, 0.7);
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  line-height: 75px;
+  font-size: 40px;
+  transition: all 0.3s ease;
+}
+
+:deep(.video-js:hover .vjs-big-play-button) {
+  background-color: rgba(43, 51, 63, 0.9);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+:deep(.video-js) {
+  cursor: pointer;
+}
+
+:deep(.video-js .vjs-big-play-button .vjs-icon-placeholder:before) {
+  line-height: 75px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .image-container {
   width: 100%;
   border-radius: 25px;
@@ -716,6 +806,11 @@ export default {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+:deep(.video-js:hover) {
+  cursor: pointer;
+}
+
+.video-container,
 .course-image {
   width: 100%;
   height: auto;
@@ -785,7 +880,7 @@ export default {
   .course-details {
     text-align: center;
   }
-  
+
   .action-buttons {
     align-items: center;
   }
@@ -793,7 +888,7 @@ export default {
 
 @media (max-width: 991px) {
   .course-media {
-    order: -1; /* Moves media above details on mobile */
+    order: -1;
     margin-bottom: 2rem;
   }
 
@@ -905,7 +1000,6 @@ export default {
   }
 }
 
-/* Animaciones de carga para cada elemento */
 .loader {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
@@ -927,8 +1021,13 @@ export default {
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .loader-descriptions {

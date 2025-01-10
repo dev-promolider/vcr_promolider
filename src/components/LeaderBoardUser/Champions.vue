@@ -1,28 +1,66 @@
 <template>
-  <div class="top-container">
-    <span class="podium-message">{{ podiumMessage }}</span>
-    <div class="card-container">
-      <div v-for="index in 3" :key="index" :class="'player-card _' + (index)">
+  <div class="container-fluid podium-wrapper py-4">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="podium-message text-center mb-4">{{ podiumMessage }}</h2>
+      </div>
+    </div>
 
-        <img
-          :src="require(`@/assets/${index === 1 ? 'copa_oro.png' : index === 2 ? 'copa_plata.png' : 'copa_bronce.png'}`)"
-          alt="trophy" class="trophy">
-        <div class="card-aux">
-          <v-avatar :size="avatarSize" class="mb-3 mt-5">
-            <img :src="getUserAvatar(index - 1)" :alt="getUserName(index - 1)">
-          </v-avatar>
-          <span class="player-name">{{ getUserName(index - 1) }}</span>
-          <img
-          :src="require(`@/assets/${index === 1 ? 'medalla1.png' : index === 2 ? 'medalla2.png' : 'medalla3.png'}`)"
-          alt="med" class="med">
-          <div class="score-time">
-            <span class="score">{{ getUserPoints(index - 1) }} pts.</span>
-            <span class="time">{{ formattedTime(index - 1) }} s</span>
+    <div class="row justify-content-center align-items-end podium-cards">
+      <!-- Second Place -->
+      <div class="col-md-4 col-sm-6 mb-3 order-md-1">
+        <div class="player-card silver">
+          <img :src="require('@/assets/copa_plata.png')" alt="trophy" class="trophy img-fluid mb-3" />
+          <div class="card-aux p-3">
+            <div class="avatar-wrapper mb-3">
+              <img :src="getUserAvatar(1)" :alt="getUserName(1)" class="rounded-circle avatar" />
+            </div>
+            <h3 class="player-name">{{ getUserName(1) }}</h3>
+            <img :src="require('@/assets/medalla2.png')" alt="med" class="medal mb-3" />
+            <div class="score-time">
+              <span class="score">{{ getUserPoints(1) }} pts.</span>
+              <span class="time">{{ formattedTime(1) }} s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- First Place -->
+      <div class="col-md-4 col-sm-6 mb-3 order-md-2">
+        <div class="player-card gold">
+          <img :src="require('@/assets/copa_oro.png')" alt="trophy" class="trophy img-fluid trophy-gold mb-3" />
+          <div class="card-aux p-3">
+            <div class="avatar-wrapper mb-3">
+              <img :src="getUserAvatar(0)" :alt="getUserName(0)" class="rounded-circle avatar" />
+            </div>
+            <h3 class="player-name">{{ getUserName(0) }}</h3>
+            <img :src="require('@/assets/medalla1.png')" alt="med" class="medal mb-3" />
+            <div class="score-time">
+              <span class="score">{{ getUserPoints(0) }} pts.</span>
+              <span class="time">{{ formattedTime(0) }} s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Third Place -->
+      <div class="col-md-4 col-sm-6 mb-3 order-md-3">
+        <div class="player-card bronze">
+          <img :src="require('@/assets/copa_bronce.png')" alt="trophy" class="trophy img-fluid mb-3" />
+          <div class="card-aux p-3">
+            <div class="avatar-wrapper mb-3">
+              <img :src="getUserAvatar(2)" :alt="getUserName(2)" class="rounded-circle avatar" />
+            </div>
+            <h3 class="player-name">{{ getUserName(2) }}</h3>
+            <img :src="require('@/assets/medalla3.png')" alt="med" class="medal mb-3" />
+            <div class="score-time">
+              <span class="score">{{ getUserPoints(2) }} pts.</span>
+              <span class="time">{{ formattedTime(2) }} s</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -31,17 +69,18 @@ export default {
   props: {
     podium: {
       type: Array,
-      required: true
+      required: true,
     },
     podiumPos: {
       type: [Number, String],
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       avatarSize: 60,
-      amazonBaseURL: "https://promolider-storage-user.s3-accelerate.amazonaws.com/"
+      amazonBaseURL:
+        "https://promolider-storage-user.s3-accelerate.amazonaws.com/",
     };
   },
   mounted() {
@@ -53,216 +92,228 @@ export default {
         const timeInSeconds = this.podium[index].avg_time;
         const minutes = Math.floor((timeInSeconds % 3600) / 60);
         const seconds = timeInSeconds % 60;
-        const minutesShown = minutes < 10 ? '0' + minutes : minutes;
-        const secondsShown = seconds < 10 ? '0' + seconds : seconds;
-        return minutesShown + ':' + secondsShown;
-      } else {
-        return '--:--'
+        const minutesShown = minutes < 10 ? "0" + minutes : minutes;
+        const secondsShown = seconds < 10 ? "0" + seconds : seconds;
+        return minutesShown + ":" + secondsShown;
       }
+      return "--:--";
     },
     getUserAvatar(index) {
-      return this.podium[index] ? this.amazonBaseURL + this.podium[index].photo : require('@/assets/no-image.jpg')
+      return this.podium[index]
+        ? this.amazonBaseURL + this.podium[index].photo
+        : require("@/assets/no-image.jpg");
     },
     getUserName(index) {
-      return this.podium[index] ? this.podium[index].username : '???'
+      return this.podium[index] ? this.podium[index].username : "???";
     },
     getUserPoints(index) {
-      return this.podium[index] ? this.podium[index].total_points : '--'
+      return this.podium[index] ? this.podium[index].total_points : "--";
     },
     startVibration() {
-      // Añadir la clase vibrate para iniciar la animación
-      const trophies = document.querySelectorAll('.trophy');
+      const trophies = document.querySelectorAll(".trophy");
       trophies.forEach((trophy, index) => {
         setTimeout(() => {
-          trophy.classList.add('vibrate');
-        }, index * 500); // Añadir un pequeño retraso entre las copas
+          trophy.classList.add("vibrate");
+        }, index * 500);
       });
 
-      // Quitar la clase vibrate después de 3 segundos
       setTimeout(() => {
-        trophies.forEach(trophy => {
-          trophy.classList.remove('vibrate');
+        trophies.forEach((trophy) => {
+          trophy.classList.remove("vibrate");
         });
-      }, 3000); // Detener la animación después de 3 segundos
-    }
+      }, 3000);
+    },
   },
   computed: {
     podiumMessage() {
-      if (this.podiumPos <= 3) {
-        return "¡Felicidades! ¡Estás en el podio!";
-      } else {
-        return "Casi... ¡La próxima vez lo harás mejor!";
-      }
-    }
-  }
-}
+      return this.podiumPos <= 3
+        ? "¡Felicidades! ¡Estás en el podio!"
+        : "Casi... ¡La próxima vez lo harás mejor!";
+    },
+  },
+};
 </script>
 
-<style scoped>
+<style>
+/* Animaciones */
 @keyframes vibrate {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  50% { transform: translateX(2px); }
-  75% { transform: translateX(-2px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-2px);
+  }
+
+  50% {
+    transform: translateX(2px);
+  }
+
+  75% {
+    transform: translateX(-2px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .vibrate {
   animation: vibrate 0.3s ease-in-out infinite;
 }
-.med {
-  width: 65px;
-}
 
-.trophy {
-  width: 120px; 
-}
-
-._1 .trophy {
-  width: 150px;
-}
-
-.top-container {
-  display: flex;
-  flex-direction: column;
-  /*justify-content: center;*/
-  min-width: 100%;
-  height: 798px;
-  /*background-color: #35424A;*/
-  row-gap: 1rem;
-  border-radius: 10px;
-}
-
-.card-container {
-  display: flex;
-  min-width: 100%;
-  align-items: flex-end;
-  justify-content: center;
-  column-gap: 1.5%;
+/* Estilos generales */
+.podium-wrapper {
+  min-height: 798px;
+  background-color: transparent;
 }
 
 .podium-message {
   color: #434343;
-  text-align: center;
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: lighter;
 }
 
-.card-aux {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  /*justify-content: space-around;*/
-  background-color: #64CB58;
-  /* Light green background */
-  border-radius: 19px;
-  /*padding: 1rem;*/
-}
-
+/* Cards y contenido */
 .player-card {
   display: flex;
-  width: 28%;
   flex-direction: column;
   align-items: center;
-  row-gap: 1rem;
-
 }
 
+.card-aux {
+  width: 100%;
+  background-color: #64cb58;
+  border-radius: 19px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-._1 .trophy {
+/* Imágenes y avatares */
+.trophy {
+  width: 120px;
+  max-width: 100%;
+  height: auto;
+}
+
+.trophy-gold {
   width: 150px;
 }
 
-._1 {
-  order: 2;
+.medal {
+  width: 65px;
+  max-width: 100%;
+  height: auto;
 }
 
-._2 {
-  order: 1;
+.avatar {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 3px solid #1ae800;
 }
 
-._3 {
-  order: 3;
-}
-/*
-._1 .card-aux {
-  height: 401px;
-  background-color: #ece140;
-  box-shadow: 0 0 15px rgba(205, 169, 72, 0.5);
-}
-
-._2 .card-aux {
-  background: none;
-  height: 337px;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(143, 143, 143);
-}
-
-._3 .card-aux {
-  height: 284px;
-  background: none;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(192, 117, 62);
-}*/
-._1 .card-aux {
-  height: 401px;
-  background-color: #42fe29;
-  box-shadow: 0 0 15px rgba(32, 228, 4, 0.5);
-}
-
-._2 .card-aux {
-  background: none;
-  height: 337px;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(32, 228, 4, 0.5);
-}
-
-._3 .card-aux {
-  height: 284px;
-  background: none;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(32, 228, 4, 0.5);
-}
-
-.v-avatar {
-  /*border: 3px solid #1AE800;*/
-}
-
+/* Texto y puntuaciones */
 .player-name {
   color: #434343;
-  font-weight: 450;
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-weight: 600;
+  margin: 0.5rem 0;
 }
 
 .score-time {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 20px;
-  font-weight: normal;
+  text-align: center;
+  font-size: 1.25rem;
 }
 
 .score,
 .time {
   color: #434343;
-  /*font-size: 30px;*/
   font-weight: 450;
+  display: block;
 }
 
-._1 .score,
-._1 .time {
-  color: #434343;
+/* Variantes de cards */
+.gold .card-aux {
+  height: 401px;
+  background-color: #42fe29;
+  box-shadow: 0 0 15px rgba(32, 228, 4, 0.5);
 }
 
-@media (max-width: 1440px) {
-  .top-container {
-    overflow-x: auto;
+.silver .card-aux {
+  height: 337px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(32, 228, 4, 0.5);
+}
+
+.bronze .card-aux {
+  height: 284px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(32, 228, 4, 0.5);
+}
+
+/* Media queries para responsividad */
+@media (max-width: 991px) {
+  .trophy {
+    width: 100px;
   }
 
-  .card-container {
-    min-width: 730px;
+  .trophy-gold {
+    width: 130px;
+  }
+
+  .medal {
+    width: 55px;
+  }
+
+  .player-name {
+    font-size: 1.25rem;
+  }
+
+  .score-time {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .podium-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .player-card {
+    width: 80%;
+    margin-bottom: 2rem;
+  }
+
+  .gold .card-aux,
+  .silver .card-aux,
+  .bronze .card-aux {
+    height: auto;
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .player-card {
+    width: 95%;
+  }
+
+  .podium-message {
+    font-size: 1.5rem;
+  }
+
+  .trophy {
+    width: 80px;
+  }
+
+  .trophy-gold {
+    width: 100px;
+  }
+
+  .medal {
+    width: 45px;
   }
 }
 </style>

@@ -1,10 +1,12 @@
 <template>
-  <div style="min-height: 100vh" class="mr-5">
+  <div style="min-height: 100vh; overflow: hidden" class="mr-5">
     <div class="row mt-5">
+      <!-- Título del Marketplace -->
       <SectionTitle title="Marketplace" />
       <div class="col-md-6 text-right mr-5">
         <div class="d-flex align-items-center justify-content-end">
           <span class="mr-3" style="color: #5e5873">Buscar:</span>
+          <!-- Campo de búsqueda de cursos -->
           <input type="text" placeholder="Buscar un curso" v-model="searchQuery" class="form-control form-select"
             style="height: 32px; width: 250px; color: #636363" />
         </div>
@@ -15,6 +17,7 @@
       <div class="col-md-6 text-left">
         <div class="row ml-10">
           <p class="descuento-text">Tu descuento:</p>
+          <!-- Botón que muestra el descuento actual -->
           <button class="descuento-btn" id="descuentoBtn">
             {{ descuento }}%
           </button>
@@ -22,12 +25,11 @@
       </div>
 
       <div class="col-md-6 text-right">
-        <!--<span>Selected: {{ selected }}</span>-->
         <div class="custom-select-wrapper mr-5">
+          <!-- Filtro por categoría -->
           <select v-model="selectedCategory" class="form-control form-select" @change="onSelectChange"
             @click="toggleArrow">
             <option value="">Filtrar por categoría</option>
-            <!--<option v-for="category in uniqueCategories" :key="category.id" :value="category.name">{{ category.name }} </option>-->
             <option v-for="category in categories" :key="category.id" :value="category.id">
               {{ category.name }}
             </option>
@@ -39,61 +41,50 @@
 
     <div class="row px-4">
       <div class="col-md-12 col-sm-12">
-        <div v-if="notCourses" class="mb-4">
-          <h3 class="m-0 font-weight-bold">Cursos</h3>
-          <div class="no-result sad-face">
-            <span>Lo sentimos, aún no hay cursos disponibles.</span>
-          </div>
-        </div>
-
+        <!-- Loader mientras los cursos están cargando -->
         <div class="mt-5" v-if="loading">
           <loadingCourses />
         </div>
 
-        <div class="mb-4 ml-2" v-if="relatedCourses.length > 0 && !loading">
+        <!-- Sección de cursos recientes -->
+        <div class="mb-4 ml-2" v-if="!loading">
           <div class="d-flex justify-content-between">
             <div class="text-left">
               <h3 class="mb-1 font-weight-normal ml-5">Más recientes</h3>
             </div>
             <div class="text-right">
-              <!--
-              <v-btn-toggle rounded="xl">
-                <v-btn icon="mdi-format-align-right"></v-btn>
-                <v-btn icon="mdi-format-align-justify"></v-btn>
-              </v-btn-toggle>
-              -->
               <v-btn-toggle v-model="viewMode" class="mb-3">
-                <v-btn :value="'list'" class="{ 'selected': viewMode === 'list' }" @click="toggleView('list')">
+                <v-btn :value="'list'" :class="{ selected: viewMode === 'list' }" @click="toggleView('list')">
                   <v-icon>mdi-format-list-bulleted</v-icon>
                 </v-btn>
-                <v-btn :value="'grid'" class="{ 'selected': viewMode === 'grid' }" @click="toggleView('grid')">
+                <v-btn :value="'grid'" :class="{ selected: viewMode === 'grid' }" @click="toggleView('grid')">
                   <v-icon>mdi-grid</v-icon>
                 </v-btn>
               </v-btn-toggle>
             </div>
           </div>
-          <component :is="currentView" :courses="filteredRecentCourses" />
+
+          <!-- Mensaje cuando no hay cursos recientes -->
+          <div v-if="!relatedCourses.length" class="text-center my-4">
+            <p>No hay cursos recientes disponibles.</p>
+          </div>
+
+          <!-- Componente para mostrar cursos recientes filtrados -->
+          <component v-if="relatedCourses.length > 0" :is="currentView" :courses="filteredRecentCourses" />
         </div>
-        <!--<div class="col-md-12 mb-3">
-      <v-btn-toggle v-model="commentType" mandatory class="custom-btn-toggle">
-        <v-btn :value="'private'" class="custom-btn">
-          <v-icon v-if="commentType === 'private'" right class="check-icon">mdi-check</v-icon>
-          Privados
-        </v-btn>
-        <v-btn :value="'public'" class="custom-btn">
-          <v-icon v-if="commentType === 'public'" right class="check-icon">mdi-check</v-icon>
-          Públicos
-        </v-btn>
-      </v-btn-toggle>
-    </div>-->
+
+        <!-- Sección para mostrar todos los cursos -->
         <div class="mb-4 ml-2" v-if="!loading">
           <h3 class="font-weight-normal mt-7 mb-5">Todos los cursos</h3>
-          <component :is="currentView" :courses="filteredAllCourses" />
+
+          <!-- Mensaje cuando no hay cursos -->
+          <div v-if="!courses.length" class="text-center my-4">
+            <p>No hay cursos disponibles.</p>
+          </div>
+
+          <!-- Componente para mostrar todos los cursos filtrados -->
+          <component v-if="courses.length > 0" :is="currentView" :courses="filteredAllCourses" />
         </div>
-        <!-- <div class="mb-4" v-if="!loading">
-          <h3 class="m-0 font-weight-normal">Cursos de interés</h3>
-          <CarrouselCourseMarketplace :courses="interesCourses"/>
-        </div> -->
       </div>
     </div>
   </div>
@@ -116,7 +107,7 @@ export default {
   },
   data() {
     return {
-      cuenta: localStorage.getItem("id_account_type") /* hice esto */,
+      cuenta: localStorage.getItem("id_account_type"),
       informacion: [],
       lord: true,
       limite: 5,
@@ -135,12 +126,13 @@ export default {
       relatedCourses: [],
       recentCourses: [],
       lastRecentCourses: [],
+      approvalDateField: "updated_at",
       prueba: [],
       notCourses: false,
       coursView: null,
       certificateDisc: 0,
       courseDisc: 0,
-      //busqueda
+      // Búsqueda
       searchQuery: "",
       isDropdownOpen: false,
       selectedCategory: "",
@@ -148,13 +140,13 @@ export default {
       Allcategories: [],
       selected: "",
       descuento: 0,
-      //vista:
+      // Vista
       viewMode: "grid",
     };
   },
   computed: {
     ...mapState("course", ["course"]),
-    //vista
+    // Componente de vista actual
     currentView() {
       console.log(this.viewMode);
       return this.viewMode === "list"
@@ -200,41 +192,47 @@ export default {
   },
   methods: {
     async getAttributes() {
-      await this.axios.get("category/list").then((res) => {
-        this.Allcategories = res.data.data;
-      });
+      try {
+        const [
+          categoriesRes,
+          releasedCoursesRes,
+          relatedCoursesRes,
+          interestingCoursesRes,
+        ] = await Promise.all([
+          this.axios.get("category/list"),
+          this.axios.get("course/released-courses"),
+          this.axios.get("course/related-courses"),
+          this.axios.get("course/interesting-courses"),
+        ]);
 
-      await this.axios.get("course/released-courses").then((datos) => {
-        const allCourses = datos.data.data;
+        this.Allcategories = categoriesRes.data.data;
+
+        // Procesar cursos publicados
+        const allCourses = releasedCoursesRes.data.data;
         this.filterRecentCourses(allCourses);
-      });
 
-      await this.axios.get("course/related-courses").then((datos) => {
-        const cursos = datos.data.data;
-
-        // Filtra solo los cursos que no han sido comprados
-        this.courses = cursos.filter((course) => !course.isPurchased); // Cambia `isPurchased` por el campo correcto
+        // Procesar cursos relacionados
+        const cursos = relatedCoursesRes.data.data;
+        this.courses = cursos.filter((course) => !course.isPurchased);
 
         if (this.courses.length > 0) {
-          this.descuento = this.courses[0].du; // Asumiendo que quieres el descuento del primer curso no comprado
+          this.descuento = this.courses[0].du;
         }
 
         const idCategories = this.courses.map((curso) => curso.id_categories);
         this.getCategoryName(idCategories);
-      });
 
-      await this.axios.get("course/interesting-courses").then((datos) => {
-        this.interesCourses = datos.data.data;
-      });
+        // Procesar cursos interesantes
+        this.interesCourses = interestingCoursesRes.data.data;
 
-      this.loading = false;
-
-      if (
-        this.courses.length === 0 &&
-        this.interesCourses.length === 0 &&
-        this.relatedCourses.length === 0
-      ) {
-        this.notCourses = true;
+        this.loading = false;
+        this.notCourses =
+          !this.courses.length &&
+          !this.interesCourses.length &&
+          !this.relatedCourses.length;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        this.loading = false;
       }
     },
 
@@ -242,59 +240,51 @@ export default {
       const fifteenDaysAgo = new Date();
       fifteenDaysAgo.setDate(fifteenDaysAgo.getDate() - 15);
 
-      // Filter courses from last 15 days
+      // Filtrar cursos recientes según fecha de aprobación
       const recentCourses = courses.filter((course) => {
-        const courseDate = new Date(course.created_at); // Adjust field name if needed
-        return courseDate >= fifteenDaysAgo;
+        if (!course[this.approvalDateField]) {
+          return false;
+        }
+
+        const approvalDate = new Date(course[this.approvalDateField]);
+        return approvalDate >= fifteenDaysAgo && !course.isPurchased;
       });
 
-      // If we have recent courses, update both arrays
+      // Ordenar por fecha, más recientes primero
+      recentCourses.sort((a, b) => {
+        const dateA = new Date(a[this.approvalDateField]);
+        const dateB = new Date(b[this.approvalDateField]);
+        return dateB - dateA;
+      });
+
       if (recentCourses.length > 0) {
         this.recentCourses = recentCourses;
         this.lastRecentCourses = recentCourses;
       } else {
-        // If no recent courses, use the last known recent courses
         this.recentCourses = this.lastRecentCourses;
       }
 
-      // Store relatedCourses for the template
       this.relatedCourses = this.recentCourses;
     },
 
     getCategoryName(idCategories) {
-      // Mapa para almacenar nombres únicos
+      // Crear mapa para nombres de categoría únicos
       const categoryMap = new Map();
 
-      // Itera sobre Allcategories para construir el mapa de nombres
+      // Construir lista de nombres basados en Allcategories
       this.Allcategories.forEach((category) => {
         if (idCategories.includes(category.id)) {
           categoryMap.set(category.id, category.name);
         }
       });
 
-      // Convierte el mapa en una lista única de nombres
+      // Convierte a lista de categorías únicas
       this.categories = Array.from(categoryMap.entries()).map(([id, name]) => ({
         id,
         name,
       }));
 
       console.log("Category Names:", this.categories);
-    },
-
-    filterCourseInactive(data) {
-      var courseFilter;
-      if (this.cuenta == 5) {
-        /* hice esto */
-        courseFilter = data.filter((course) => {
-          return course.status != 0 && course.course_level_id == 1;
-        });
-      } else {
-        courseFilter = data.filter((course) => {
-          return course.status != 0;
-        });
-      }
-
-      return courseFilter;
     },
 
     aumentar() {
@@ -351,7 +341,6 @@ export default {
 
 .descuento-btn {
   background-image: url("../../assets/Ticket.png");
-  /*background-color: aqua;*/
   background-size: contain;
   background-repeat: no-repeat;
   width: 200px;
@@ -431,31 +420,4 @@ export default {
   border-top: none;
   border-bottom: 5px solid #ccc;
 }
-
-/* BTON TOGGLE*/
-/*.v-btn-toggle .v-btn {
-  border: 1px solid #ccc; /* Estilo del borde 
-  background-color: transparent; /* Fondo transparente
-  color: #636363; /* Color del icono por defecto 
-  position: relative; /* Necesario para posicionar las cruces 
-}
-
-.v-btn-toggle .v-btn.selected {
-  background-color: #C2E7FF; /* Color de fondo del botón seleccionado 
-  color: #636363; /* Color del icono del botón seleccionado 
-}
-
-.v-btn-toggle .v-btn .v-icon {
-  color: inherit; /* Hereda el color del botón 
-}
-
-.v-btn-toggle .v-btn::before {
-  content: '✗'; /* Carácter de la cruz 
-  position: absolute;
-  left: -24px; /* Ajustar según sea necesario 
-  color: #636363; /* Color de la cruz 
-  font-size: 16px; /* Tamaño de la cruz 
-  display: inline-block; /* Asegura que se alinee bien con el icono 
-  line-height: 1; /* Asegura el alineamiento vertical 
-}*/
 </style>

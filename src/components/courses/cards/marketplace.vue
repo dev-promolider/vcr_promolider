@@ -1,4 +1,5 @@
 <template>
+  <!-- Tarjeta del curso con acciones según el tipo de tarjeta -->
   <div :title="course.title" class="course-card mb-5 ml-5" v-if="course" @click="
     cardType == 1
       ? action(course.id, course.slug)
@@ -7,7 +8,11 @@
         : goToCourse(course.id)
     ">
     <div class="tarjeta-cursos">
-      <div>
+      <div class="image-container">
+        <!-- Etiqueta "GRATIS" si el curso es gratuito -->
+        <div v-if="course.price === 0" class="free-tag-wrapper">
+          <div class="free-tag">GRATIS</div>
+        </div>
         <img :src="course.url_portada" alt="no image" class="img-fluid img-cursos-portad" />
       </div>
       <div class="valoracion-curso">
@@ -27,8 +32,15 @@
           <p class="precio-original">${{ course.price }}</p>
         </div>
         <div class="col btn-col">
+          <!-- Botón cambia según precio o modo de vista -->
           <button class="btn-comprar">
-            {{ viewMode === "myCourses" ? "Ver mi curso" : "COMPRAR" }}
+            {{
+              course.price === 0
+                ? "INSCRIBIRSE"
+                : viewMode === "myCourses"
+                  ? "Ver mi curso"
+                  : "COMPRAR"
+            }}
           </button>
         </div>
         <p class="categoria-curso">
@@ -69,15 +81,17 @@ export default {
     },
     viewMode: {
       type: String,
-      default: "marketplace", // Valor por defecto
+      default: "marketplace",
     },
   },
   methods: {
     getCategoryName(id) {
+      // Encuentra el nombre de la categoría por ID
       const category = this.categories.find((cat) => cat.id === id);
       return category ? category.name : "Categoría no encontrada";
     },
     calcDiscount(price) {
+      // Calcula el precio con descuento
       var disc = price * (this.certificateDisc / 100);
       return price - disc;
     },
@@ -94,14 +108,17 @@ export default {
         });
     },
     action(id, slug) {
+      // Navega a la página de compra de curso
       this.$router
         .push({ name: "buy-cursos", params: { ide: id, slug: slug } })
         .catch(() => { });
     },
     getCertificates(course) {
+      // Emite el evento de certificado seleccionado
       this.$emit("selectedCertificate", course);
     },
     async goToCourse(id) {
+      // Navega a la clase vista más reciente o a la primera clase
       let dataRequest;
       await this.axios
         .get(`purchased/show-class-seen?course_id=${id}`)
@@ -140,6 +157,7 @@ export default {
     },
   },
   created() {
+    // Obtiene el descuento de certificado al cargar el componente
     this.getDiscount();
   },
 };
@@ -280,5 +298,36 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.free-tag-wrapper {
+  position: absolute;
+  top: 20px;
+  right: -35px;
+  width: 150px;
+  height: 30px;
+  transform: rotate(45deg);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.free-tag {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #20e404, #1cac0b);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 </style>

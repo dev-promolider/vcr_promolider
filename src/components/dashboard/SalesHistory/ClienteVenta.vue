@@ -3,12 +3,8 @@
     <div class="marco p-3">
       <div class="header d-flex justify-content-between mb-2">
         <p style="font-size: 1em">Ventas</p>
-        <router-link
-          to="/attribute"
-          class="text-decoration-none"
-          style="font-size: 1em; color: #000000"
-          >Todos las ventas</router-link
-        >
+        <router-link to="/attribute" class="text-decoration-none" style="font-size: 1em; color: #000000">Todas las
+          ventas</router-link>
       </div>
 
       <div class="mover ml-2 mt-2 text-center">
@@ -28,13 +24,7 @@
           <span>Sin resultados</span>
         </div>
 
-        <div
-          v-else
-          class="cliente"
-          v-for="(item, index) in info"
-          :key="index"
-          v-on:click="mostrar(item.payment_id)"
-        >
+        <div v-else class="cliente" v-for="(item, index) in info" :key="index" v-on:click="mostrar(item.payment_id)">
           <b-list-group-item class="d-flex align-items-center color">
             <div class="containerImg col-2">
               <v-avatar size="40">
@@ -46,26 +36,14 @@
                 </p>
               </div>
             </div>
-            <span
-              class="cursos col-4 text-capitalize"
-              style="
+            <span class="cursos col-4 text-capitalize" style="
                 font-size: 12px;
                 margin-right: 0px;
                 text-overflow: ellipsis;
-              "
-              >{{ item.title }}</span
-            >
-            <span
-              class="cursos col-2"
-              style="font-size: 12px; margin-right: 0px"
-            >
-              ${{ item.price }}</span
-            >
-            <span
-              class="cursos col-3"
-              style="font-size: 12px; margin-right: 0px"
-              >{{ item.created_at }}</span
-            >
+              ">{{ item.title }}</span>
+            <span class="cursos col-2" style="font-size: 12px; margin-right: 0px">
+              ${{ item.price }}</span>
+            <span class="cursos col-3" style="font-size: 12px; margin-right: 0px">{{ item.created_at }}</span>
           </b-list-group-item>
         </div>
       </div>
@@ -85,7 +63,7 @@ export default {
   methods: {
     getAttributes() {
       this.axios.get("/reports/last-sells?n_sells=3").then((respuesta) => {
-        console.log(respuesta.data)
+        console.log(respuesta.data);
         this.info = respuesta.data.data;
 
         for (let index = 0; index < this.info.length; index++) {
@@ -108,24 +86,26 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .cliente {
   border-radius: 0.9rem;
   max-width: 95%;
   margin: auto;
 }
+
 .cliente .color {
-  background: #1AE800;
+  background: #1ae800;
   margin-bottom: 13px;
   height: 64px;
   cursor: pointer;
 }
 
 .cliente .list-group-item {
-  border: 1px solid #1AE800; /* Cambia el color del borde */
-  padding: 0rem 0.5rem; /* Ajusta el relleno si es necesario */
+  border: 1px solid #1ae800;
+  padding: 0rem 0.5rem;
   display: flex !important;
-  align-items: center !important; /* Alinea los elementos verticalmente */
+  align-items: center !important;
   justify-content: space-between !important;
 }
 
@@ -142,7 +122,7 @@ export default {
 }
 
 .cliente .list-group-item span.cursos.col-3 {
-  margin-right: 0  !important;
+  margin-right: 0 !important;
 }
 
 .marco {
@@ -150,11 +130,13 @@ export default {
   width: 100%;
   height: 350px;
 }
+
 .titulos {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .titulos .titulo_dentro {
   margin-left: 32px;
   margin-top: 25px;
@@ -165,6 +147,7 @@ export default {
   height: 21px;
   line-height: 21.09px;
 }
+
 .titulos .titulo_esquina {
   width: 180px;
   float: right;
@@ -182,6 +165,7 @@ export default {
   font-weight: 300px;
   margin-left: 20px;
 }
+
 .cursos {
   font-size: 10px;
   color: #000000;
@@ -202,9 +186,11 @@ export default {
   0% {
     background: #eee;
   }
+
   50% {
     background: #bfbfbf;
   }
+
   100% {
     background: #eee;
   }
@@ -218,36 +204,8 @@ export default {
 .image {
   width: 50px;
   height: 50px;
-  /* opacity: 1; */
   display: block;
-  height: auto;
-  /* transition: 0.5s ease;
-  transition: transform 0.2s; */
-  /* backface-visibility: hidden; */
 }
-
-/* .middle {
-  transition: 0.5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 30%;
-  left: 20%;
-  bottom: 50%;
-  right: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.containerImg:hover .image {
-  transform: scale(1.5);
-  opacity: 0.3;
-}
-
-.containerImg:hover .middle {
-  transform: 1s escale(1.2);
-  opacity: 1;
-} */
 
 .text {
   width: 65px;
@@ -256,33 +214,4 @@ export default {
   font-weight: bold;
   border-radius: 25%;
 }
-
-/* .img-chiqui{
-  width: 35px;
-  height: 35px;
-  background: #f92672;
-  transition: width 1s, height 1s,;
-    
-
-  &:hover {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    z-index: 1;
-    .cliente_user{
-      position: absolute;
-      z-index: 2;
-      display: inline;
-    }
-  }
-  
-}
-
-
-
-.cliente_user{
-  display: none;
-  font-size:15px;
-  margin-left: 0px;
-} */
 </style>

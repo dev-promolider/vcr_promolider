@@ -1,4 +1,5 @@
 <template>
+  <!-- Contenedor principal del componente -->
   <div class="mb-3 px-4" style="border-radius: 20px; margin-top: 40px; margin-right: 10px">
     <div class="temario pb-3">
       <div class="row">
@@ -13,6 +14,7 @@
             {{ title }}
           </p>
         </div>
+
         <!-- Div para el input de búsqueda -->
         <div class="col-lg-5 col-md-4 col-sm-4 mr-2 text-right search-container">
           <div :class="[
@@ -24,6 +26,7 @@
               @mouseover="handleHover(true)" @mouseleave="handleHover(false)" />
           </div>
         </div>
+
         <!-- Div para el menú de puntos -->
         <div class="col-lg-1 text-right">
           <v-menu>
@@ -41,11 +44,14 @@
         </div>
       </div>
 
+      <!-- Spinner de carga -->
       <div class="center-spinner" v-if="isLoading">
         <b-spinner variant="secondary"></b-spinner>
       </div>
 
+      <!-- Contenido principal del componente -->
       <div v-else>
+        <!-- Sección de temario -->
         <div v-if="content == 'temary'" style="max-height: 300px; overflow-y: auto">
           <ul v-for="(module, moduleIndex) in filteredModules" :key="moduleIndex" class="mt-3">
             <li class="nav-temario" :title="module.name">
@@ -55,7 +61,7 @@
 
               <b-collapse visible :id="module.name.replace(/ /g, 'AAAAA')">
                 <ul style="overflow: auto; max-height: 200px">
-                  <!-- Aquí accedemos correctamente a las lecciones filtradas dentro de cada módulo -->
+                  <!-- Listado de lecciones en cada módulo -->
                   <li v-for="(lesson, lessonIndex) in module.lessons" :key="lessonIndex">
                     <div style="display: flex; align-items: center">
                       <input style="margin-right: 0px; position: relative" type="checkbox"
@@ -72,6 +78,7 @@
           </ul>
         </div>
 
+        <!-- Sección de exámenes -->
         <div v-else-if="content == 'tests'">
           <v-card-text v-if="
             moduleExamen.course_exam === null &&
@@ -99,10 +106,11 @@
           </div>
         </div>
 
+        <!-- Sección de juegos -->
         <div v-else-if="content == 'games'">
           <v-card-text v-if="
-            moduleDinamic.module_games === `Ninguna dinámica disponible` &&
-            moduleDinamic.course_game === `Ninguna dinámica disponible`
+            moduleDinamic.module_games === 'Ninguna dinámica disponible' &&
+            moduleDinamic.course_game === 'Ninguna dinámica disponible'
           " class="text-center subtitle-1 dark-text mt-4">
             Ninguna dinamica disponible
           </v-card-text>
@@ -112,14 +120,16 @@
               moduleDinamic.module_games.length > 0
             ">
               <v-col v-for="module_dinamic in moduleDinamic.module_games" :key="module_dinamic.id" cols="6">
-                <v-btn class="mx-1 success rounded-xl" @click="goToDinamics(module_dinamic.id)">{{ module_dinamic.title
-                  }}</v-btn>
+                <v-btn class="mx-1 success rounded-xl" @click="goToDinamics(module_dinamic.id)">
+                  {{ module_dinamic.title }}
+                </v-btn>
               </v-col>
             </template>
             <template v-if="typeof moduleDinamic.course_game === 'object'">
               <v-col cols="6">
-                <v-btn class="mx-1 success rounded-xl" @click="goToDinamics(moduleDinamic.course_game.id)">{{
-                  moduleDinamic.course_game.title }}</v-btn>
+                <v-btn class="mx-1 success rounded-xl" @click="goToDinamics(moduleDinamic.course_game.id)">
+                  {{ moduleDinamic.course_game.title }}
+                </v-btn>
               </v-col>
             </template>
           </v-row>
@@ -152,7 +162,6 @@ export default {
       ],
       progress: 0,
       clase: null,
-      //completedLessons: [],
       loading: true,
       isHover: false,
       isFocus: false,
@@ -160,9 +169,11 @@ export default {
   },
   computed: {
     ...mapGetters("course", ["course"]),
+
     ...mapState("course", {
       vuexCompletedLessons: "completedLessons",
     }),
+
     ...mapState("course", [
       "allLessons",
       "lesson",
@@ -172,8 +183,14 @@ export default {
     ]),
 
     filteredModules() {
+      // Verifica si course o modules existen antes de procesar
+      if (!this.course || !this.course.modules) {
+        return [];
+      }
+
       const query = this.searchQuery.toLowerCase();
 
+      // Filtra las lecciones de los módulos según el término de búsqueda
       return this.course.modules
         .map((module) => {
           const filteredLessons = module.lessons.filter((lesson) =>
@@ -197,6 +214,7 @@ export default {
       "initializeCompletedLessons",
       "updateCompletedLesson",
     ]),
+
     ...mapActions("course", {
       getCourse: "getCourse",
       getLesson: "getLesson",
@@ -209,6 +227,7 @@ export default {
       getModuleExam: "getModuleExam",
       getActiveDinamicModule: "getActiveDinamicModule",
     }),
+
     ...mapMutations("course", [
       "UPDATE_PROGRESS_COURSE",
       "DESTROY_PROGRESS_COURSE",
@@ -266,7 +285,7 @@ export default {
       });
     },
 
-    // Funcion para calcular el progreso del curso
+    // Calcula el progreso del curso
     async getProgress() {
       if (this.$route.query.course) {
         await this.$store.dispatch(
@@ -276,34 +295,27 @@ export default {
       }
     },
 
-    // Cambiar de clase
+    // Cambiar la clase actual
     changeClass(less) {
-      // Enviando informacion de la nueva clase
       this.getLesson(less);
-      //Buscando el recurso de la clase
       this.getResources(this.lesson.name);
-      // Cambiando video de la clase
       this.getVideo(less.id);
-      // Solicitar los comentarios de la nueva clase
       this.getComments(less.id);
-      // Solicitar las valoraciones del Curso
       this.getRating(this.$route.query.course);
-      // Solicitar los nuevos examenes si es necesario
       this.getTest({
         exam_type: "class",
         id_type: this.lesson.id,
       });
-      // Solicitar los nuevos examenes si es necesario
       this.getModuleExam(this.$route.query.course);
-      //Solicitar DinamicaActivas
       this.getActiveDinamicModule(this.$route.query.course);
-      // Enviando la ultima clase que esta visualizando
+
+      // Enviar la última clase vista
       let sendData = {
         course_id: this.$route.query.course,
         class_id: less.id,
       };
       this.lastSeenLesson(sendData);
-      // Cambiando de ruta
+
       if (less.name != this.$route.query.class) {
         this.$router.push({
           query: {
@@ -314,7 +326,7 @@ export default {
       }
     },
 
-    // Clases completadas
+    // Cargar lecciones completadas
     getCompletedLessons(id) {
       this.axios.get(`purchased/show?course_id=${id}`).then((res) => {
         for (const index in res.data.data) {
@@ -325,7 +337,7 @@ export default {
       });
     },
 
-    // Enviando nueva clase vista
+    // Actualizar la lección vista
     async checkClass(lessonId) {
       if (!this.$route.query.course) {
         console.error("Course ID not found in route");
@@ -348,7 +360,7 @@ export default {
     handleFocus(focus) {
       this.isFocus = focus;
     },
-    
+
     handleHover(hover) {
       this.isHover = hover;
     },
@@ -356,17 +368,33 @@ export default {
   created() {
     this.$store.dispatch("course/initializeState");
     this.initializeCompletedLessons();
+
+    // Asegúrate de que el curso se cargue antes de continuar
     if (this.$route.query.course) {
-      this.getCourse(this.$route.query.course).then(() => {
-        this.getProgress();
-      });
+      this.getCourse(this.$route.query.course)
+        .then(() => {
+          // Forzar actualización del componente después de cargar los datos
+          this.$forceUpdate();
+          this.getProgress();
+        })
+        .catch((error) => {
+          console.error("Error al cargar el curso:", error);
+        });
     }
   },
   updated() {
-    // Actualizando la barra de progreso
+    // Actualiza la barra de progreso
     this.getProgress();
   },
   watch: {
+    course: {
+      deep: true,
+      handler(newCourse) {
+        if (newCourse) {
+          this.$forceUpdate();
+        }
+      },
+    },
     "$route.query.class": {
       immediate: true,
       handler(titleClass) {

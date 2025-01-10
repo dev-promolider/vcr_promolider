@@ -21,9 +21,10 @@ import "element-ui/lib/theme-chalk/index.css";
 
 Vue.config.productionTip = false;
 
-//get token localstorage
-// const token = localStorage.getItem('access_token');
+// Usa trim() para eliminar cualquier comilla adicional
 axios.defaults.baseURL = process.env.VUE_APP_API_URL + "/api/v1";
+// axios.defaults.baseURL =
+//   (process.env.VUE_APP_API_URL || "http://127.0.0.1:8000") + "/api/v1";
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
   config.headers.Authorization = token ? `Bearer ${token}` : "";
@@ -60,8 +61,8 @@ Vue.use(Vuetify);
 
 Vue.use(VueSocialSharing);
 Vue.use(vueTimeago, {
-  name: "Timeago", // Component name, `Timeago` by default
-  locale: "es", // Default locale
+  name: "Timeago",
+  locale: "es",
   // We use `date-fns` under the hood
   // So you can use all locales from it
   locales: {
@@ -76,20 +77,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "vuetify/dist/vuetify.min.css";
 import vueTimeago from "vue-timeago";
-// import Echo from 'laravel-echo'
-// window.Pusher = require('pusher-js')
-
-// window.Echo = new Echo({
-//   broadcaster: 'pusher',
-//   key: 'PROMOLIDER2021',
-//   wsHost:'localhost',
-//   wsPort: 6001,
-//   disableStats: true,
-//   enableTransports: ['ws','wss'],
-//   forceTLS: false,
-//   cluster:'mt1',
-//   encrypted:true
-// })
 
 new Vue({
   router,
