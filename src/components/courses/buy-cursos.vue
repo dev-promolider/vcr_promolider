@@ -2,12 +2,10 @@
   <div class="bg-light">
     <div class="container-fluid">
       <div class="row py-5">
-        <!-- Columna de detalles del curso -->
         <div class="col-12 col-lg-4 course-details">
           <h3 class="mb-4 font-weight-bold" :class="{ loader: !titulo, 'loader-titles': !titulo }">
             {{ titulo }}
           </h3>
-          <!-- Componente de pago -->
           <template v-if="processPay">
             <Openpay :openpayData="openpayData"></Openpay>
           </template>
@@ -22,7 +20,6 @@
             </li>
           </ul>
 
-          <!-- Botones de acción -->
           <div class="action-buttons" :class="{ 'text-center': $vuetify.breakpoint.smAndDown }">
             <template v-if="!isOwner">
               <button v-if="courseFilter == false && precio == 0" class="btn-custom" @click="inscribirCursoGratis()"
@@ -59,7 +56,6 @@
           </div>
         </div>
 
-        <!-- Columna de imagen/video del curso -->
         <div class="col-12 col-lg-8 course-media">
           <div v-if="tymedia == 1" class="video-container cursor-pointer"
             :class="{ loader: !videoimg, 'loader-img-course': !videoimg }">
@@ -78,7 +74,6 @@
         <div class="col-lg-9 col-md-12 mt-4">
           <div class="border-box">
             <v-expansion-panels accordion v-if="isDetailsLoading">
-              <!-- Paneles de información del curso -->
               <v-expansion-panel>
                 <v-expansion-panel-header style="font-weight: bold">
                   Descripción del curso
@@ -128,7 +123,6 @@
             <v-skeleton-loader v-else type="sentences@5"></v-skeleton-loader>
           </div>
 
-          <!-- Lista del temario del curso -->
           <div>
             <h4 class="font-weight-bold my-5" :class="{ loader: isLoading, 'loader-text-small': isLoading }">
               Temario del curso
@@ -158,7 +152,6 @@
         </div>
 
         <div class="col-lg-3 col-md-12 mt-4">
-          <!-- Información del productor -->
           <v-card v-if="isDetailsLoading" elevation="1" class="rounded-lg" :class="[
             this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
               ? ''
@@ -181,7 +174,6 @@
             </v-list>
           </v-card>
           <v-skeleton-loader v-else type="list-item-avatar-two-line"></v-skeleton-loader>
-          <!-- Recomendaciones -->
           <div v-if="shouldShowRecommendations" class="mt-4">
             <h5 class="font-weight-bold my-3" :class="{
               loader: loadingRelated,
@@ -203,7 +195,6 @@
         </div>
       </div>
 
-      <!-- Modal para video -->
       <div class="modal fade" id="video" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
           <div class="modal-content bg-dark">
@@ -224,41 +215,41 @@
         </div>
       </div>
 
-      <!-- Modal de pago -->
-      <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-        data-backdrop="static" data-keyboard="false">
+      <div class="modal fade" id="paymentModal" ref="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
-                METODOS DE PAGO
+                MÉTODOS DE PAGO
               </h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click.prevent="closeModal()">
+              <button type="button" class="close" @click="closePaymentModal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               <select class="custom-select" v-model="payment_method_id">
-                <option v-for="item in paymentMethod" :label="item.name" :value="item.id" :key="item.id">
+                <option v-for="item in paymentMethod" :key="item.id" :value="item.id">
                   {{ item.name }}
                 </option>
               </select>
 
               <div class="form-group col-12 mb-0" v-if="payment_method_id == 5">
-                <p style="font-weight: bold">
+                <p class="font-weight-bold">
                   Saldo Billetera: $/ {{ saldoTotal }}
                 </p>
-                <p style="font-weight: bold">
+                <p class="font-weight-bold">
                   Precio Curso: $/ {{ importeCurso }}
                 </p>
               </div>
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" @click.prevent="closeModal()">
+              <button type="button" class="btn btn-secondary" @click="closePaymentModal">
                 Salir
               </button>
-              <button type="button" v-show="shouldDisplayBuyButton" @click="setBuyCourse()" class="btn btn-success">
+              <button type="button" v-show="shouldDisplayBuyButton" @click="setBuyCourse" class="btn btn-success"
+                :disabled="loadingCourse">
                 {{ loadingCourse ? "Procesando..." : "Comprar" }}
               </button>
             </div>
@@ -277,6 +268,7 @@ import "video.js/dist/video-js.css";
 import { videoPlayer } from "vue-video-player";
 import "vue-video-player/src/custom-theme.css";
 import { mapState, mapActions } from "vuex";
+import $ from "jquery";
 
 export default {
   name: "VirtualClassroomBuyCursos",
@@ -362,6 +354,7 @@ export default {
       paymentMethod: [],
       payment_method_id: 1,
       precio: 0,
+      showModal: false,
       user_id: null,
       loadingCourse: false,
     };
@@ -373,7 +366,6 @@ export default {
     videoPlayer,
   },
   computed: {
-    // Muestra el botón de compra si el método de pago es válido
     shouldDisplayBuyButton() {
       if (
         this.payment_method_id === 1 ||
@@ -396,7 +388,6 @@ export default {
         .slice(0, 3);
     },
 
-    // Determina si debe mostrar recomendaciones
     shouldShowRecommendations() {
       return !this.isOwner && !this.courseFilter && this.showRecommendations;
     },
@@ -408,7 +399,6 @@ export default {
       getVideo: "getVideo",
     }),
 
-    // Copia la URL al portapapeles
     shareURL() {
       const url = window.location.href;
       navigator.clipboard
@@ -443,24 +433,40 @@ export default {
       this.payment_method_id = 1;
     },
 
-    // Obtiene el saldo de la cuenta del usuario
     getWalletUser() {
       this.axios
         .get(`/reports/mymovements/${this.user_id}`)
         .then((response) => {
-          this.saldoTotal = response.data.data.reduce((saldo, transaction) => {
-            if (transaction.type == 1) {
-              return saldo + transaction.amount;
-            } else if (transaction.type == 0) {
-              if (transaction.id_receiver === this.user_id) {
-                return saldo + transaction.amount;
-              } else {
-                return saldo - transaction.amount;
-              }
-            }
-
-            return saldo;
-          }, 0);
+          try {
+            this.saldoTotal = response.data.data.reduce(
+              (saldo, transaction) => {
+                if (transaction.status === 1 || transaction.status === 0) {
+                  if (transaction.type === 1) {
+                    return saldo + transaction.amount;
+                  } else if (transaction.type === 0) {
+                    if (transaction.id_receiver === this.user_id) {
+                      return saldo + transaction.amount;
+                    } else {
+                      return saldo - transaction.amount;
+                    }
+                  }
+                }
+                return saldo;
+              },
+              0
+            );
+          } catch (error) {
+            console.error("Error al calcular el saldo:", error);
+            this.saldoTotal = 0;
+            this.$message.error("Error al calcular el saldo de la billetera");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al obtener movimientos:", error);
+          this.saldoTotal = 0;
+          this.$message.error(
+            "Error al obtener los movimientos de la billetera"
+          );
         });
     },
 
@@ -515,34 +521,113 @@ export default {
     },
 
     async setBuyCourse() {
-      this.loadingCourse = true;
+      try {
+        this.loadingCourse = true;
+        console.log("Iniciando proceso de compra...");
 
-      if (this.payment_method_id === 1) {
-        await this.BuyCourse();
-      } else if (this.payment_method_id === 5) {
-        const form = {
-          id_course: this.pao_id,
-          user_id: this.user_id,
-          type_purchase: 2,
-        };
-        this.axios
-          .post("course/buy-purchased-course", form)
-          .then((r) => {
-            if (r.data.status === "ok") {
-              this.$message.success("La compra se ha realizado con éxito");
-              setTimeout(() => {
-                window.location.reload();
-              }, 1000);
-            } else {
-              console.log(r);
-            }
-          })
-          .catch((error) => {
-            console.log("Ocurrio un error", error);
-          })
-          .finally(() => {
-            this.loadingCourse = false;
-          });
+        if (this.payment_method_id === 1) {
+          await this.BuyCourse();
+        } else if (this.payment_method_id === 5) {
+          if (this.saldoTotal < this.importeCurso) {
+            this.closePaymentModal();
+            this.$message.error("Saldo insuficiente en la billetera");
+            return;
+          }
+
+          const form = {
+            id_course: this.pao_id,
+            user_id: this.user_id,
+            type_purchase: 2,
+          };
+
+          console.log("Enviando solicitud de compra:", form);
+
+          const response = await this.axios.post(
+            "course/buy-purchased-course",
+            form
+          );
+          console.log("Respuesta recibida:", response.data);
+
+          const verificacionCurso = await this.axios.get(
+            "course/purchased-courses"
+          );
+          const cursosComprados = verificacionCurso.data.data;
+          const cursoYaComprado = cursosComprados.some(
+            (curso) => curso.id === this.pao_id
+          );
+
+          if (cursoYaComprado) {
+            this.closePaymentModal();
+            this.courseFilter = true;
+            this.$message.success("El curso ya está en tu biblioteca");
+            setTimeout(() => {
+              this.$router.push("/suscription-user");
+            }, 1500);
+            return;
+          }
+
+          if (response.data && response.data.status === "ok") {
+            await this.getWalletUser();
+            this.closePaymentModal();
+            this.courseFilter = true;
+            this.$message.success("La compra se ha realizado con éxito");
+
+            setTimeout(() => {
+              this.$router.push("/suscription-user");
+            }, 1500);
+          } else {
+            throw new Error(
+              response.data?.message || "Error desconocido en la compra"
+            );
+          }
+        }
+      } catch (error) {
+        console.error("Error completo:", error);
+        console.error("Detalles de la respuesta:", error.response?.data);
+
+        if (
+          error.response?.status === 200 ||
+          (error.response?.data?.message &&
+            error.response?.data?.message.includes("ya adquirido"))
+        ) {
+          this.closePaymentModal();
+          this.courseFilter = true;
+          await this.FilterBtn();
+          this.$message.info("El curso ya ha sido adquirido");
+          setTimeout(() => {
+            this.$router.push("/suscription-user");
+          }, 1500);
+        } else {
+          this.$message.error(
+            error.response?.data?.message ||
+            error.message ||
+            "Ocurrió un error al procesar la compra"
+          );
+        }
+      } finally {
+        this.loadingCourse = false;
+      }
+    },
+
+    closePaymentModal() {
+      try {
+        if (this.$refs.paymentModal) {
+          $(this.$refs.paymentModal).modal("hide");
+          $(".modal-backdrop").remove();
+          $("body").removeClass("modal-open").css("padding-right", "");
+        }
+      } catch (error) {
+        console.error("Error al cerrar el modal:", error);
+      }
+    },
+
+    openPaymentModal() {
+      try {
+        if (this.$refs.paymentModal) {
+          $(this.$refs.paymentModal).modal("show");
+        }
+      } catch (error) {
+        console.error("Error al abrir el modal:", error);
       }
     },
 
@@ -564,43 +649,57 @@ export default {
         if (response.data.status === "ok") {
           this.$message.success("Te has inscrito exitosamente al curso");
           setTimeout(() => {
-            window.location.reload();
+            this.$router.push("/suscription-user");
           }, 1500);
         } else {
-          // Agregar más detalles de depuración
-          console.error("Respuesta del servidor:", response);
-          throw new Error(
-            response.data.message || "Error al inscribirse al curso"
-          );
+          if (response.status === 200) {
+            this.$message.info("Ya estás inscrito en este curso");
+            setTimeout(() => {
+              this.$router.push("/suscription-user");
+            }, 1500);
+          } else {
+            throw new Error(
+              response.data.message || "Error al inscribirse al curso"
+            );
+          }
         }
       } catch (error) {
         console.error("Error completo al inscribirse al curso:", error);
 
-        // Imprimir más detalles del error
-        if (error.response) {
-          // El error viene de una respuesta del servidor
-          console.error("Datos del error del servidor:", error.response.data);
-          console.error("Estado del error:", error.response.status);
+        if (error.response?.status === 200) {
+          this.$message.info("Ya estás inscrito en este curso");
+          setTimeout(() => {
+            this.$router.push("/suscription-user");
+          }, 1500);
+        } else {
+          const errorMessage =
+            error.response?.data?.message ||
+            error.message ||
+            "Ocurrió un error al inscribirse al curso";
+          this.$message.error(errorMessage);
         }
-
-        const errorMessage =
-          error.response?.data?.message ||
-          error.message ||
-          "Ocurrió un error al inscribirse al curso";
-
-        this.$message.error(errorMessage);
       } finally {
         this.$store.commit("course/SET_LOADING", false);
       }
     },
 
     async BuyCourse() {
-      const form = {
-        course_id: this.pao_id,
-      };
-      this.axios.post("/pay/course-openpay", form).then((r) => {
-        window.location.href = r.data.payment_url;
-      });
+      try {
+        const form = {
+          course_id: this.pao_id,
+        };
+        const response = await this.axios.post("/pay/course-openpay", form);
+        if (response.data.payment_url) {
+          window.location.href = response.data.payment_url;
+        } else {
+          throw new Error("No se recibió la URL de pago");
+        }
+      } catch (error) {
+        console.error("Error al procesar el pago:", error);
+        this.$message.error(
+          "Ocurrió un error al procesar el pago. Por favor, intente nuevamente."
+        );
+      }
     },
 
     FilterBtn() {
@@ -619,7 +718,6 @@ export default {
       this.$router.push("/suscription-user");
     },
 
-    // Obtiene los detalles del curso
     getAttributes() {
       this.pao_id = this.$route.params.ide;
       this.axios.get("course/details/" + this.pao_id).then((datos) => {

@@ -1,61 +1,75 @@
 <template>
-  <div class="container-fluid podium-wrapper py-4">
-    <div class="row">
-      <div class="col-12">
-        <h2 class="podium-message text-center mb-4">{{ podiumMessage }}</h2>
-      </div>
-    </div>
+  <div class="champions-wrapper">
+    <h2 class="text-center h3 mb-5">{{ podiumMessage }}</h2>
 
-    <div class="row justify-content-center align-items-end podium-cards">
-      <!-- Second Place -->
-      <div class="col-md-4 col-sm-6 mb-3 order-md-1">
-        <div class="player-card silver">
-          <img :src="require('@/assets/copa_plata.png')" alt="trophy" class="trophy img-fluid mb-3" />
-          <div class="card-aux p-3">
-            <div class="avatar-wrapper mb-3">
-              <img :src="getUserAvatar(1)" :alt="getUserName(1)" class="rounded-circle avatar" />
-            </div>
-            <h3 class="player-name">{{ getUserName(1) }}</h3>
-            <img :src="require('@/assets/medalla2.png')" alt="med" class="medal mb-3" />
-            <div class="score-time">
-              <span class="score">{{ getUserPoints(1) }} pts.</span>
-              <span class="time">{{ formattedTime(1) }} s</span>
+    <div class="row justify-content-center align-items-end g-4">
+      <!-- Segundo lugar -->
+      <div class="col-md-4 order-md-1">
+        <div class="player-card silver h-100">
+          <div class="trophy-wrapper mb-3">
+            <img :src="require('@/assets/copa_plata.png')" alt="Trofeo plata" class="trophy img-fluid" />
+          </div>
+          <div class="card shadow-sm border-0 p-4">
+            <div class="text-center">
+              <div class="avatar-wrapper mb-3 mx-auto">
+                <img :src="getUserAvatar(1)" :alt="getUserName(1)" class="rounded-circle border-success" />
+              </div>
+              <h3 class="player-name h5">{{ getUserName(1) }}</h3>
+              <div class="medal-wrapper my-3">
+                <img :src="require('@/assets/medalla2.png')" alt="Medalla plata" class="medal" />
+              </div>
+              <div class="stats">
+                <div class="score fw-bold">{{ getUserPoints(1) }} pts.</div>
+                <div class="time text-muted">{{ formattedTime(1) }} s</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- First Place -->
-      <div class="col-md-4 col-sm-6 mb-3 order-md-2">
-        <div class="player-card gold">
-          <img :src="require('@/assets/copa_oro.png')" alt="trophy" class="trophy img-fluid trophy-gold mb-3" />
-          <div class="card-aux p-3">
-            <div class="avatar-wrapper mb-3">
-              <img :src="getUserAvatar(0)" :alt="getUserName(0)" class="rounded-circle avatar" />
-            </div>
-            <h3 class="player-name">{{ getUserName(0) }}</h3>
-            <img :src="require('@/assets/medalla1.png')" alt="med" class="medal mb-3" />
-            <div class="score-time">
-              <span class="score">{{ getUserPoints(0) }} pts.</span>
-              <span class="time">{{ formattedTime(0) }} s</span>
+      <!-- Primer lugar -->
+      <div class="col-md-4 order-md-0">
+        <div class="player-card gold h-100">
+          <div class="trophy-wrapper mb-3">
+            <img :src="require('@/assets/copa_oro.png')" alt="Trofeo oro" class="trophy trophy-gold img-fluid" />
+          </div>
+          <div class="card shadow border-0 p-4 bg-success bg-opacity-10">
+            <div class="text-center">
+              <div class="avatar-wrapper mb-3 mx-auto">
+                <img :src="getUserAvatar(0)" :alt="getUserName(0)" class="rounded-circle border-success" />
+              </div>
+              <h3 class="player-name h4">{{ getUserName(0) }}</h3>
+              <div class="medal-wrapper my-3">
+                <img :src="require('@/assets/medalla1.png')" alt="Medalla oro" class="medal" />
+              </div>
+              <div class="stats">
+                <div class="score fw-bold">{{ getUserPoints(0) }} pts.</div>
+                <div class="time text-muted">{{ formattedTime(0) }} s</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Third Place -->
-      <div class="col-md-4 col-sm-6 mb-3 order-md-3">
-        <div class="player-card bronze">
-          <img :src="require('@/assets/copa_bronce.png')" alt="trophy" class="trophy img-fluid mb-3" />
-          <div class="card-aux p-3">
-            <div class="avatar-wrapper mb-3">
-              <img :src="getUserAvatar(2)" :alt="getUserName(2)" class="rounded-circle avatar" />
-            </div>
-            <h3 class="player-name">{{ getUserName(2) }}</h3>
-            <img :src="require('@/assets/medalla3.png')" alt="med" class="medal mb-3" />
-            <div class="score-time">
-              <span class="score">{{ getUserPoints(2) }} pts.</span>
-              <span class="time">{{ formattedTime(2) }} s</span>
+      <!-- Tercer lugar -->
+      <div class="col-md-4 order-md-2">
+        <div class="player-card bronze h-100">
+          <div class="trophy-wrapper mb-3">
+            <img :src="require('@/assets/copa_bronce.png')" alt="Trofeo bronce" class="trophy img-fluid" />
+          </div>
+          <div class="card shadow-sm border-0 p-4">
+            <div class="text-center">
+              <div class="avatar-wrapper mb-3 mx-auto">
+                <img :src="getUserAvatar(2)" :alt="getUserName(2)" class="rounded-circle border-success" />
+              </div>
+              <h3 class="player-name h5">{{ getUserName(2) }}</h3>
+              <div class="medal-wrapper my-3">
+                <img :src="require('@/assets/medalla3.png')" alt="Medalla bronce" class="medal" />
+              </div>
+              <div class="stats">
+                <div class="score fw-bold">{{ getUserPoints(2) }} pts.</div>
+                <div class="time text-muted">{{ formattedTime(2) }} s</div>
+              </div>
             </div>
           </div>
         </div>
@@ -134,176 +148,68 @@ export default {
 };
 </script>
 
-<style>
-/* Animaciones */
-@keyframes vibrate {
-  0% {
-    transform: translateX(0);
-  }
-
-  25% {
-    transform: translateX(-2px);
-  }
-
-  50% {
-    transform: translateX(2px);
-  }
-
-  75% {
-    transform: translateX(-2px);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
+<style scoped>
+.champions-wrapper {
+  padding: 2rem 0;
 }
 
-.vibrate {
-  animation: vibrate 0.3s ease-in-out infinite;
-}
-
-/* Estilos generales */
-.podium-wrapper {
-  min-height: 798px;
-  background-color: transparent;
-}
-
-.podium-message {
-  color: #434343;
-  font-size: 1.875rem;
-  font-weight: lighter;
-}
-
-/* Cards y contenido */
-.player-card {
+.trophy-wrapper {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.card-aux {
-  width: 100%;
-  background-color: #64cb58;
-  border-radius: 19px;
+.avatar-wrapper {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-/* Imágenes y avatares */
+.medal-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .trophy {
-  width: 120px;
-  max-width: 100%;
+  width: 100px;
   height: auto;
+  transition: transform 0.3s ease;
 }
 
 .trophy-gold {
-  width: 150px;
+  width: 120px;
 }
 
-.medal {
-  width: 65px;
-  max-width: 100%;
-  height: auto;
+.trophy:hover {
+  transform: translateY(-5px);
 }
 
-.avatar {
-  width: 60px;
-  height: 60px;
+.avatar-wrapper img {
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border: 3px solid #1ae800;
 }
 
-/* Texto y puntuaciones */
-.player-name {
-  color: #434343;
-  font-size: 1.5625rem;
-  font-weight: 600;
-  margin: 0.5rem 0;
+.medal {
+  width: 50px;
+  height: auto;
 }
 
-.score-time {
-  text-align: center;
-  font-size: 1.25rem;
+.stats {
+  font-size: 1.1rem;
 }
 
-.score,
-.time {
-  color: #434343;
-  font-weight: 450;
-  display: block;
+.player-card {
+  transition: transform 0.3s ease;
 }
 
-/* Variantes de cards */
-.gold .card-aux {
-  height: 401px;
-  background-color: #42fe29;
-  box-shadow: 0 0 15px rgba(32, 228, 4, 0.5);
+.player-card:hover {
+  transform: translateY(-10px);
 }
 
-.silver .card-aux {
-  height: 337px;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(32, 228, 4, 0.5);
-}
-
-.bronze .card-aux {
-  height: 284px;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(32, 228, 4, 0.5);
-}
-
-/* Media queries para responsividad */
-@media (max-width: 991px) {
-  .trophy {
-    width: 100px;
-  }
-
-  .trophy-gold {
-    width: 130px;
-  }
-
-  .medal {
-    width: 55px;
-  }
-
-  .player-name {
-    font-size: 1.25rem;
-  }
-
-  .score-time {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .podium-cards {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .player-card {
-    width: 80%;
-    margin-bottom: 2rem;
-  }
-
-  .gold .card-aux,
-  .silver .card-aux,
-  .bronze .card-aux {
-    height: auto;
-    min-height: 250px;
-  }
-}
-
-@media (max-width: 480px) {
-  .player-card {
-    width: 95%;
-  }
-
-  .podium-message {
-    font-size: 1.5rem;
-  }
-
+@media (max-width: 768px) {
   .trophy {
     width: 80px;
   }
@@ -312,8 +218,13 @@ export default {
     width: 100px;
   }
 
+  .avatar-wrapper img {
+    width: 60px;
+    height: 60px;
+  }
+
   .medal {
-    width: 45px;
+    width: 40px;
   }
 }
 </style>

@@ -1,12 +1,10 @@
 <template>
   <div style="min-height: 100vh; overflow: hidden" class="mr-5">
-    <div class="row mt-5">
-      <!-- Título del Marketplace -->
+    <div class="row mt-1">
       <SectionTitle title="Marketplace" />
       <div class="col-md-6 text-right mr-5">
         <div class="d-flex align-items-center justify-content-end">
           <span class="mr-3" style="color: #5e5873">Buscar:</span>
-          <!-- Campo de búsqueda de cursos -->
           <input type="text" placeholder="Buscar un curso" v-model="searchQuery" class="form-control form-select"
             style="height: 32px; width: 250px; color: #636363" />
         </div>
@@ -15,9 +13,8 @@
 
     <div class="row">
       <div class="col-md-6 text-left">
-        <div class="row ml-10">
-          <p class="descuento-text">Tu descuento:</p>
-          <!-- Botón que muestra el descuento actual -->
+        <div class="descuento-container ml-10">
+          <p class="descuento-text mb-0">Tu descuento:</p>
           <button class="descuento-btn" id="descuentoBtn">
             {{ descuento }}%
           </button>
@@ -26,7 +23,6 @@
 
       <div class="col-md-6 text-right">
         <div class="custom-select-wrapper mr-5">
-          <!-- Filtro por categoría -->
           <select v-model="selectedCategory" class="form-control form-select" @change="onSelectChange"
             @click="toggleArrow">
             <option value="">Filtrar por categoría</option>
@@ -41,12 +37,10 @@
 
     <div class="row px-4">
       <div class="col-md-12 col-sm-12">
-        <!-- Loader mientras los cursos están cargando -->
         <div class="mt-5" v-if="loading">
           <loadingCourses />
         </div>
 
-        <!-- Sección de cursos recientes -->
         <div class="mb-4 ml-2" v-if="!loading">
           <div class="d-flex justify-content-between">
             <div class="text-left">
@@ -64,25 +58,20 @@
             </div>
           </div>
 
-          <!-- Mensaje cuando no hay cursos recientes -->
           <div v-if="!relatedCourses.length" class="text-center my-4">
             <p>No hay cursos recientes disponibles.</p>
           </div>
 
-          <!-- Componente para mostrar cursos recientes filtrados -->
           <component v-if="relatedCourses.length > 0" :is="currentView" :courses="filteredRecentCourses" />
         </div>
 
-        <!-- Sección para mostrar todos los cursos -->
         <div class="mb-4 ml-2" v-if="!loading">
           <h3 class="font-weight-normal mt-7 mb-5">Todos los cursos</h3>
 
-          <!-- Mensaje cuando no hay cursos -->
           <div v-if="!courses.length" class="text-center my-4">
             <p>No hay cursos disponibles.</p>
           </div>
 
-          <!-- Componente para mostrar todos los cursos filtrados -->
           <component v-if="courses.length > 0" :is="currentView" :courses="filteredAllCourses" />
         </div>
       </div>
@@ -132,7 +121,6 @@ export default {
       coursView: null,
       certificateDisc: 0,
       courseDisc: 0,
-      // Búsqueda
       searchQuery: "",
       isDropdownOpen: false,
       selectedCategory: "",
@@ -140,20 +128,17 @@ export default {
       Allcategories: [],
       selected: "",
       descuento: 0,
-      // Vista
       viewMode: "grid",
     };
   },
   computed: {
     ...mapState("course", ["course"]),
-    // Componente de vista actual
     currentView() {
       console.log(this.viewMode);
       return this.viewMode === "list"
         ? "CardList"
         : "CarrouselCourseMarketplace";
     },
-    // Filtro para cursos recientes
     filteredRecentCourses() {
       let filtered = this.recentCourses;
 
@@ -171,7 +156,6 @@ export default {
 
       return filtered;
     },
-    // Filtro para todos los cursos
     filteredAllCourses() {
       let filtered = this.courses;
 
@@ -202,16 +186,13 @@ export default {
           this.axios.get("category/list"),
           this.axios.get("course/released-courses"),
           this.axios.get("course/related-courses"),
-          this.axios.get("course/interesting-courses"),
         ]);
 
         this.Allcategories = categoriesRes.data.data;
 
-        // Procesar cursos publicados
         const allCourses = releasedCoursesRes.data.data;
         this.filterRecentCourses(allCourses);
 
-        // Procesar cursos relacionados
         const cursos = relatedCoursesRes.data.data;
         this.courses = cursos.filter((course) => !course.isPurchased);
 
@@ -222,7 +203,6 @@ export default {
         const idCategories = this.courses.map((curso) => curso.id_categories);
         this.getCategoryName(idCategories);
 
-        // Procesar cursos interesantes
         this.interesCourses = interestingCoursesRes.data.data;
 
         this.loading = false;
@@ -240,7 +220,6 @@ export default {
       const fifteenDaysAgo = new Date();
       fifteenDaysAgo.setDate(fifteenDaysAgo.getDate() - 15);
 
-      // Filtrar cursos recientes según fecha de aprobación
       const recentCourses = courses.filter((course) => {
         if (!course[this.approvalDateField]) {
           return false;
@@ -250,7 +229,6 @@ export default {
         return approvalDate >= fifteenDaysAgo && !course.isPurchased;
       });
 
-      // Ordenar por fecha, más recientes primero
       recentCourses.sort((a, b) => {
         const dateA = new Date(a[this.approvalDateField]);
         const dateB = new Date(b[this.approvalDateField]);
@@ -268,17 +246,14 @@ export default {
     },
 
     getCategoryName(idCategories) {
-      // Crear mapa para nombres de categoría únicos
       const categoryMap = new Map();
 
-      // Construir lista de nombres basados en Allcategories
       this.Allcategories.forEach((category) => {
         if (idCategories.includes(category.id)) {
           categoryMap.set(category.id, category.name);
         }
       });
 
-      // Convierte a lista de categorías únicas
       this.categories = Array.from(categoryMap.entries()).map(([id, name]) => ({
         id,
         name,
@@ -334,9 +309,17 @@ export default {
   align-items: center;
 }
 
+.descuento-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
 .descuento-text {
   font-size: 24px;
   margin-right: 10px;
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 
 .descuento-btn {
@@ -356,7 +339,24 @@ export default {
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease;
-  margin-left: 5px;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .descuento-container {
+    justify-content: center;
+    margin-left: 0;
+  }
+
+  .descuento-text {
+    font-size: 20px;
+  }
+
+  .descuento-btn {
+    width: 160px;
+    height: 40px;
+    font-size: 20px;
+  }
 }
 
 .descuento-btn:hover {

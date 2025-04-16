@@ -376,8 +376,8 @@ export default {
 }
 
 .custom-app-bar {
-  margin: 20px;
-  margin-top: 30px !important;
+  margin: 10px;
+  margin-top: 15px !important;
   margin-left: 80px;
   padding: 0px;
   border-radius: 15px !important;

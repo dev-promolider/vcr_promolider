@@ -1,116 +1,192 @@
 <template>
-  <div class="row px-3 py-5">
-    <!-- Courses Column -->
-    <div class="col-12 col-md-4 ps-5">
-      <div v-if="products.length == 0" class="text-center py-5">
-        <strong>Aún no ha adquirido un curso</strong>
+  <div class="container-fluid certificate-container py-5">
+    <div class="row">
+      <!-- Sidebar de cursos -->
+      <div class="col-12 col-lg-4 courses-sidebar">
+        <div class="courses-wrapper p-4">
+          <!-- Estado sin cursos -->
+          <div v-if="products.length == 0" class="empty-state text-center py-5">
+            <i class="bi bi-journal-x fs-1 text-muted mb-3"></i>
+            <h5 class="fw-bold">Aún no ha adquirido un curso</h5>
+          </div>
+
+          <!-- Lista de cursos -->
+          <template v-else>
+            <h4 class="mb-4 border-bottom pb-2">Mis Cursos</h4>
+            <div class="courses-list">
+              <div v-for="product in products" :key="product.id" class="course-card"
+                @click="getCertificateInfo(product)" :class="{
+                  active: productSelected && productSelected.id === product.id,
+                }">
+                <div class="card h-100">
+                  <div class="row g-0">
+                    <div class="col-4">
+                      <img :src="product.url_portada" class="course-image" alt="Portada del curso" />
+                    </div>
+                    <div class="col-8">
+                      <div class="card-body">
+                        <h6 class="card-title text-truncate mb-0">
+                          {{ product.title }}
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
       </div>
-      <template v-else>
-        <div
-          v-for="product in products"
-          :key="product.id"
-          class="course-card mb-3"
-          @click="getCertificateInfo(product)"
-        >
-          <div class="tarjeta-cursos">
-            <div class="column image-column">
-              <img
-                class="img-cursos-portad"
-                :src="product.url_portada"
-                alt="Course cover"
-              />
-            </div>
-            <div class="column info-column">
-              <h4 class="course-title">{{ product.title }}</h4>
-            </div>
-          </div>
-        </div>
-      </template>
-    </div>
 
-    <!-- Certificate Details Column -->
-    <div class="col-12 col-md-8 pe-5">
-      <div v-if="waitSelection" class="text-center py-10">
-        <strong>Seleccione un curso para ver la información del certificado</strong>
-      </div>
-      <div v-else class="certificate-details">
-        <div class="selected-course-card">
-          <img
-            class="selected-course-img"
-            :src="productSelected.url_portada"
-            alt="Selected course cover"
-          />
-          <div class="selected-course-info">
-            <h2>{{ productSelected.title }}</h2>
-          </div>
-        </div>
-
-        <div v-if="certificateInfo" class="certificate-info">
-          <h3>Información del Certificado</h3>
-          <div class="info-grid">
-            <div class="info-item">
-              <strong>Condición:</strong>
-              <span>{{ getConditionText(certificateInfo.condition_to_certificate) }}</span>
-            </div>
-            <div class="info-item">
-              <strong>Tipo:</strong>
-              <span>{{ certificateInfo.type_certificate === 1 ? "Gratuito" : "De pago" }}</span>
-            </div>
-            <div class="info-item">
-              <strong>Validado por:</strong>
-              <span>{{ getValidatedByText(certificateInfo.validated_by) }}</span>
-            </div>
-            <div v-if="certificateInfo.validated_by === 'module'" class="info-item">
-              <strong>Módulo:</strong>
-              <span>{{ certificateInfo.module_name }}</span>
-            </div>
-            <div v-if="certificateInfo.validated_by === 'lesson'" class="info-item">
-              <strong>Clase:</strong>
-              <span>{{ certificateInfo.lesson_name }}</span>
-            </div>
-            <div v-if="certificateInfo.type_certificate === 0" class="info-item">
-              <strong>Precio:</strong>
-              <span>${{ certificateInfo.certificate_price }}</span>
-            </div>
+      <!-- Contenido principal -->
+      <div class="col-12 col-lg-8">
+        <div class="certificate-content p-4">
+          <!-- Estado de espera -->
+          <div v-if="waitSelection" class="text-center py-5">
+            <i class="bi bi-arrow-left-circle fs-1 text-muted mb-3"></i>
+            <h5 class="fw-bold">
+              Seleccione un curso para ver la información del certificado
+            </h5>
           </div>
 
-          <div class="progress-section">
-            <h4>Progreso del Curso</h4>
-            <div class="progress-info">
-              <span>Progreso total: {{ combinedProgress }}%</span>
-              <v-progress-linear
-                :value="combinedProgress"
-                color="#1ae800"
-                height="10"
-                rounded
-              ></v-progress-linear>
+          <!-- Detalles del certificado -->
+          <div v-else class="certificate-details">
+            <!-- Cabecera del curso seleccionado -->
+            <div class="selected-course mb-5">
+              <div class="card">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img :src="productSelected.url_portada" class="selected-course-image"
+                      alt="Portada del curso seleccionado" />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h3 class="card-title">{{ productSelected.title }}</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="additional-progress-info">
-              <p v-if="showVideoProgress">Progreso de videos: {{ currentCourseProgress }}%</p>
-              <p v-if="showExamProgress">Progreso de exámenes: {{ certificate_exam_progress }}%</p>
-            </div>
-          </div>
 
-          <div class="claim-certificate">
-            <v-btn
-              :disabled="!canClaimCertificate"
-              depressed
-              color="#1ae800"
-              class="text-white"
-              @click="claimCertificate"
-            >
-              Reclamar Certificado
-            </v-btn>
-            <v-tooltip v-if="!canClaimCertificate" bottom>
-              <template v-slot:activator="{ on }">
-                <span v-on="on" class="tooltip-trigger">¿Por qué no puedo reclamar el certificado?</span>
-              </template>
-              <span>Aún no cumple los requisitos para reclamar el certificado.</span>
-            </v-tooltip>
+            <!-- Información del certificado -->
+            <div v-if="certificateInfo" class="certificate-info">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title mb-4">Información del Certificado</h4>
+
+                  <!-- Grid de información -->
+                  <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <label class="text-muted mb-1">Condición</label>
+                        <p class="mb-0 fw-bold">
+                          {{
+                            getConditionText(
+                              certificateInfo.condition_to_certificate
+                            )
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <label class="text-muted mb-1">Tipo</label>
+                        <p class="mb-0 fw-bold">
+                          {{
+                            certificateInfo.type_certificate === 1
+                              ? "Gratuito"
+                              : "De pago"
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="info-item">
+                        <label class="text-muted mb-1">Validado por</label>
+                        <p class="mb-0 fw-bold">
+                          {{ getValidatedByText(certificateInfo.validated_by) }}
+                        </p>
+                      </div>
+                    </div>
+                    <div v-if="certificateInfo.validated_by === 'module'" class="col-md-6">
+                      <div class="info-item">
+                        <label class="text-muted mb-1">Módulo</label>
+                        <p class="mb-0 fw-bold">
+                          {{ certificateInfo.module_name }}
+                        </p>
+                      </div>
+                    </div>
+                    <div v-if="certificateInfo.validated_by === 'lesson'" class="col-md-6">
+                      <div class="info-item">
+                        <label class="text-muted mb-1">Clase</label>
+                        <p class="mb-0 fw-bold">
+                          {{ certificateInfo.lesson_name }}
+                        </p>
+                      </div>
+                    </div>
+                    <div v-if="certificateInfo.type_certificate === 0" class="col-md-6">
+                      <div class="info-item">
+                        <label class="text-muted mb-1">Precio</label>
+                        <p class="mb-0 fw-bold">
+                          ${{ certificateInfo.certificate_price }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Sección de progreso -->
+                  <div class="progress-section">
+                    <h5 class="mb-4">Progreso del Curso</h5>
+                    <div class="progress-wrapper mb-4">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold">Progreso total</span>
+                        <span class="badge bg-success">{{ combinedProgress }}%</span>
+                      </div>
+                      <div class="progress" style="height: 10px">
+                        <div class="progress-bar bg-success" role="progressbar"
+                          :style="{ width: combinedProgress + '%' }" :aria-valuenow="combinedProgress" aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <div class="additional-progress small text-muted">
+                      <p v-if="showVideoProgress" class="mb-1">
+                        <i class="bi bi-play-circle me-2"></i>
+                        Progreso de videos: {{ currentCourseProgress }}%
+                      </p>
+                      <p v-if="showExamProgress" class="mb-1">
+                        <i class="bi bi-pencil-square me-2"></i>
+                        Progreso de exámenes: {{ certificate_exam_progress }}%
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Botón de reclamar certificado -->
+                  <div class="claim-certificate mt-5">
+                    <div class="d-flex align-items-center gap-3">
+                      <button class="btn btn-success" :disabled="!canClaimCertificate" @click="claimCertificate">
+                        <i class="bi bi-award me-2"></i>
+                        Reclamar Certificado
+                      </button>
+
+                      <div v-if="!canClaimCertificate" class="tooltip-wrapper">
+                        <span class="text-success text-decoration-underline cursor-pointer" data-bs-toggle="tooltip"
+                          data-bs-placement="bottom" title="Aún no cumple los requisitos para reclamar el certificado.">
+                          ¿Por qué no puedo reclamar el certificado?
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Estado sin información de certificado -->
+            <div v-else class="alert alert-warning">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              No hay información de certificado disponible para este curso.
+            </div>
           </div>
-        </div>
-        <div v-else>
-          <p>No hay información de certificado disponible para este curso.</p>
         </div>
       </div>
     </div>
@@ -142,11 +218,18 @@ export default {
     },
 
     showVideoProgress() {
-      return this.certificateInfo && this.certificateInfo.condition_to_certificate !== 1;
+      return (
+        this.certificateInfo &&
+        this.certificateInfo.condition_to_certificate !== 1
+      );
     },
 
     showExamProgress() {
-      return this.certificateInfo && (this.certificateInfo.condition_to_certificate === 1 || this.certificateInfo.condition_to_certificate === 2);
+      return (
+        this.certificateInfo &&
+        (this.certificateInfo.condition_to_certificate === 1 ||
+          this.certificateInfo.condition_to_certificate === 2)
+      );
     },
 
     combinedProgress() {
@@ -158,7 +241,9 @@ export default {
         case 1:
           return this.certificate_exam_progress;
         case 2:
-          return (this.currentCourseProgress + this.certificate_exam_progress) / 2;
+          return (
+            (this.currentCourseProgress + this.certificate_exam_progress) / 2
+          );
         default:
           return 0;
       }
@@ -187,7 +272,6 @@ export default {
         this.certificateInfo = certificateRes.data;
         this.certificate_exam_progress = examRes.data.exam_progress || 0;
 
-        // Update the course progress
         await this.$store.dispatch("course/updateCourseProgress", product.id);
 
         this.checkCertificateEligibility();
@@ -199,7 +283,9 @@ export default {
 
     async checkCertificateEligibility() {
       try {
-        const response = await this.axios.get(`/course/certificate/check/${this.productSelected.id}`);
+        const response = await this.axios.get(
+          `/course/certificate/check/${this.productSelected.id}`
+        );
         this.canClaimCertificate = response.data.canClaim;
       } catch (error) {
         console.error("Error checking certificate eligibility:", error);
@@ -244,145 +330,160 @@ export default {
 </script>
 
 <style scoped>
+/* Contenedor principal */
+.certificate-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Sidebar de cursos */
+.courses-sidebar {
+  background-color: #fff;
+  border-right: 1px solid #e9ecef;
+}
+
+.courses-wrapper {
+  height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+
+.courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Tarjetas de curso */
 .course-card {
-  border-radius: 15px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
   cursor: pointer;
-  max-width: 100%;
-  background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
-.tarjeta-cursos {
-  display: flex;
-  flex-direction: row;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 100px;
+.course-card.active {
+  border-left: 4px solid #1ae800;
 }
 
-.image-column {
-  flex: 1;
-}
-
-.img-cursos-portad {
+.course-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  aspect-ratio: 16/9;
 }
 
-.info-column {
-  flex: 2;
-  padding-left: 10px;
+/* Contenido principal */
+.certificate-content {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.course-title {
-  font-size: 1em;
-  font-weight: 500;
-  margin: 0;
-}
-
-.certificate-details {
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
-.selected-course-card {
-  display: flex;
-  border-radius: 15px;
-  overflow: hidden;
-  background-color: #f5f5f5;
-  margin-bottom: 20px;
-}
-
-.selected-course-img {
-  width: 150px;
-  height: 100px;
+/* Curso seleccionado */
+.selected-course-image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  aspect-ratio: 16/9;
 }
 
-.selected-course-info {
-  padding: 15px;
-  flex: 1;
-}
-
-.selected-course-info h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-
-.certificate-info h3 {
-  margin-bottom: 15px;
-  border-bottom: 2px solid #1ae800;
-  padding-bottom: 5px;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
+/* Información del certificado */
+.certificate-info .card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .info-item {
-  display: flex;
-  flex-direction: column;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  height: 100%;
 }
 
-.info-item strong {
-  margin-bottom: 5px;
-  color: #555;
+/* Sección de progreso */
+.progress-wrapper {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
 }
 
-.progress-section {
-  margin-top: 20px;
+.progress {
+  background-color: #e9ecef;
+  overflow: hidden;
 }
 
-.progress-section h4 {
-  margin-bottom: 10px;
+.progress-bar {
+  background-color: #1ae800;
+  transition: width 0.6s ease;
 }
 
-.progress-info {
-  margin-bottom: 10px;
+/* Botón de reclamar */
+.btn-success {
+  background-color: #1ae800;
+  border-color: #1ae800;
 }
 
-.additional-progress-info {
-  font-size: 0.9em;
-  color: #666;
+.btn-success:hover {
+  background-color: #15cc00;
+  border-color: #15cc00;
 }
 
-.claim-certificate {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
+.btn-success:disabled {
+  background-color: #8df380;
+  border-color: #8df380;
 }
 
-.tooltip-trigger {
-  margin-left: 10px;
-  color: #1ae800;
-  text-decoration: underline;
+/* Tooltip */
+.tooltip-wrapper {
   cursor: pointer;
 }
 
-@media (max-width: 767px) {
-  .selected-course-card {
-    flex-direction: column;
+/* Responsive */
+@media (max-width: 991.98px) {
+  .courses-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #e9ecef;
   }
 
-  .selected-course-img {
-    width: 100%;
-    height: 150px;
+  .courses-wrapper {
+    height: auto;
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .certificate-content {
+    padding: 1rem !important;
   }
 
-  .info-grid {
-    grid-template-columns: 1fr;
+  .selected-course-image {
+    aspect-ratio: 21/9;
   }
+
+  .info-item {
+    padding: 0.75rem;
+  }
+
+  .progress-wrapper {
+    padding: 1rem;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.certificate-details {
+  animation: fadeIn 0.3s ease-out;
 }
 </style>

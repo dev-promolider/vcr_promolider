@@ -1,11 +1,9 @@
 <template>
     <div class="card-list-container">
         <div class="card-list">
-            <!-- Iteración de la lista de cursos -->
             <div v-for="course in courses" :key="course.id" class="course-card" @click="handleBuy(course)">
                 <div class="tarjeta-cursos">
                     <div class="column image-column">
-                        <!-- Etiqueta de "Gratis" si el curso es gratuito -->
                         <div v-if="course.price === 0" class="free-tag-wrapper">
                             <div class="free-tag">GRATIS</div>
                         </div>
@@ -15,13 +13,17 @@
                         <div class="course-info">
                             <h4 class="course-title">{{ course.title }}</h4>
                             <div class="text-primary-pl valoracion-curso">
-                                <!-- Calificación de usuarios -->
                                 <v-rating class="custom-rating" color="warning" hover readonly length="5" size="20"
                                     :value="parseFloat(course.ranking_by_user)" half-increments></v-rating>
                             </div>
-                            <p class="course-category">
-                                {{ getCategoryName(course.id_categories) }}
-                            </p>
+                            <div class="course-details">
+                                <p class="course-category">
+                                    {{ getCategoryName(course.id_categories) }}
+                                </p>
+                                <span class="level-badge" :class="getLevelClass(course.course_level_id)">
+                                    {{ getLevelText(course.course_level_id) }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="column price-column">
@@ -29,7 +31,6 @@
                             <span class="current-price">${{ course.price_with_discount.toFixed(2) }}</span>
                             <span class="original-price">${{ course.price }}</span>
                         </div>
-                        <!-- Botón de compra o inscripción -->
                         <button class="btn-primary" @click.stop="handleBuy(course)">
                             {{ course.price === 0 ? "INSCRIBIRSE" : "COMPRAR" }}
                         </button>
@@ -59,21 +60,42 @@ export default {
     },
     async created() {
         try {
-            // Obtiene la lista de categorías desde el servidor
             const response = await axios.get("category/list");
-            this.categories = response.data.data;
+            if (response?.data?.data) {
+                this.categories = response.data.data;
+            } else {
+                console.error("No se encontraron categorías en la respuesta");
+                this.categories = [];
+            }
         } catch (error) {
             console.error("Error al obtener las categorías:", error);
+            this.categories = [];
         }
     },
     methods: {
-        // Devuelve el nombre de la categoría basándose en el id
         getCategoryName(id) {
             const category = this.categories.find((cat) => cat.id === id);
             return category ? category.name : "Categoría no encontrada";
         },
-        // Maneja la acción al hacer clic en un curso
+        getLevelText(levelId) {
+            const levels = {
+                1: "Básico",
+                2: "Intermedio",
+                3: "Avanzado",
+            };
+            return levels[levelId] || "Básico";
+        },
+        getLevelClass(levelId) {
+            const levelClasses = {
+                1: "level-beginner",
+                2: "level-intermediate",
+                3: "level-advanced",
+            };
+            return levelClasses[levelId] || "level-beginner";
+        },
         handleBuy(course) {
+            if (!course) return;
+
             switch (this.cardType) {
                 case 1:
                     this.action(course.id, course.slug);
@@ -86,8 +108,9 @@ export default {
                     break;
             }
         },
-        // Redirige al usuario a la página de compra del curso
         action(id, slug) {
+            if (!id || !slug) return;
+
             this.$router
                 .push({
                     name: "buy-cursos",
@@ -97,43 +120,49 @@ export default {
                     console.error("Error al redirigir a buy-cursos:", error);
                 });
         },
-        // Emite un evento para seleccionar un certificado
         getCertificates(course) {
+            if (!course) return;
             this.$emit("selectedCertificate", course);
         },
-        // Redirige al usuario al curso, mostrando la clase correspondiente
         async goToCourse(id) {
+            if (!id) return;
+
             let dataRequest;
             try {
-                // Verifica si el usuario ya ha visto clases del curso
                 const res = await this.axios.get(
                     `purchased/show-class-seen?course_id=${id}`
                 );
+                if (!res?.data?.data) {
+                    throw new Error("No se encontraron datos del curso");
+                }
+
                 dataRequest = res.data.data;
                 this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
 
                 if (!dataRequest.name) {
-                    // Si no hay clase vista, redirige a la primera clase
                     const resClass = await this.axios.get(
                         "course/temary/get-all-class/" + id
                     );
+                    if (!resClass?.data?.data?.modules?.[0]?.lessons?.[0]?.name) {
+                        throw new Error("No se encontró la primera lección");
+                    }
+
                     let firstClass = resClass.data.data.modules[0].lessons[0].name;
                     await this.$router.push({
                         name: "curso",
                         query: {
                             course: id,
                             class: firstClass,
-                            rate: this.course.ranking_by_user,
+                            rate: this.course?.ranking_by_user,
                         },
                     });
                 } else {
-                    // Si hay clase vista, redirige a la clase correspondiente
                     await this.$router.push({
                         name: "curso",
                         query: {
                             course: id,
                             class: dataRequest.name,
-                            rate: this.course.ranking_by_user,
+                            rate: this.course?.ranking_by_user,
                         },
                     });
                 }
@@ -146,6 +175,39 @@ export default {
 </script>
 
 <style scoped>
+.course-details {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.level-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.level-beginner {
+    background-color: #e6f4ea;
+    color: #1e8e3e;
+}
+
+.level-intermediate {
+    background-color: #fef7e0;
+    color: #f9a825;
+}
+
+.level-advanced {
+    background-color: #fce8e6;
+    color: #d93025;
+}
+
 .card-list-container {
     width: 100%;
     max-width: 1500px;
@@ -252,7 +314,6 @@ export default {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Ajustes para la etiqueta en vista móvil */
 @media (max-width: 767px) {
     .free-tag-wrapper {
         top: -5px;

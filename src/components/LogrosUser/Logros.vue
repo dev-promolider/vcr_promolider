@@ -1,38 +1,17 @@
 <template>
-  <div style="min-height: 100vh; overflow: hidden">
+  <div class="achievements-container">
     <section-title title="Mis logros" />
 
-    <div v-if="!isLoading" class="row p-4">
-      <div class="col-md-12 col-lg-12">
-        <div class="row">
-          <div class="col-md-3 col-sm-4" v-for="(logro, index) in logros" :key="index">
-            <div v-if="logro.obtained == true">
-              <div class="card text-center justify-content-center obtained bg-white" :title="logro.description">
-                <img style="
-                    max-height: 150px;
-                    display: block;
-                    margin-left: auto;
-                    margin-right: auto;
-                  " :alt="logro.name" :src="logro.icon" />
-                <div class="card-body">
-                  <h5 class="card-title" style="font-size: 1em">
-                    {{ logro.name }}
-                  </h5>
-                </div>
+    <div v-if="!isLoading" class="container py-4">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="(logro, index) in logros" :key="index">
+          <div :class="['achievement-card', { obtained: logro.obtained }]" :title="logro.description">
+            <div class="card h-100">
+              <div class="card-img-wrapper">
+                <img class="card-img-top achievement-icon" :alt="logro.name" :src="logro.icon" />
               </div>
-            </div>
-
-            <div v-else class="card text-center justify-content-center opacar">
-              <img style="
-                  max-height: 150px;
-                  display: block;
-                  margin-left: auto;
-                  margin-right: auto;
-                " :alt="logro.name" :src="logro.icon" />
               <div class="card-body">
-                <h5 class="card-title" style="font-size: 1em">
-                  {{ logro.name }}
-                </h5>
+                <h5 class="card-title">{{ logro.name }}</h5>
               </div>
             </div>
           </div>
@@ -41,11 +20,13 @@
     </div>
 
     <template v-if="isLoading">
-      <v-row class="mx-10">
-        <v-col cols="12" xs="1" sm="6" md="4" lg="3" v-for="i in 12" :key="i">
-          <v-skeleton-loader class="m-1" max-width="500" type="image"></v-skeleton-loader>
-        </v-col>
-      </v-row>
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="i in 12" :key="i">
+            <v-skeleton-loader class="skeleton-card" type="image"></v-skeleton-loader>
+          </div>
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -76,58 +57,89 @@ export default {
 };
 </script>
 
-<style scoped>
-.card {
-  background-color: transparent;
-  border: 0px;
-  border-radius: 20px;
+<style>
+.achievements-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px 0;
+}
+
+.achievement-card {
   height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.obtained {
-  flex: 0 1 250px;
-  box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.459);
-  border-radius: 5px;
-  cursor: pointer;
-  transition: transform 0.5s;
+.achievement-card .card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: transparent;
 }
 
-.obtained:hover {
-  transform: scale(1.1, 1.1);
+.achievement-card.obtained .card {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.opacar {
+.achievement-card.obtained:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-wrapper {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+}
+
+.achievement-icon {
+  max-height: 150px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #343a40;
+  text-align: center;
+}
+
+/* Estilos para logros no obtenidos */
+.achievement-card:not(.obtained) .card {
   background-color: #808080;
 }
 
-.opacar img {
+.achievement-card:not(.obtained) img {
   opacity: 0.4;
 }
 
-.opacar h5 {
-  opacity: 0.4;
+.achievement-card:not(.obtained) .card-title {
   color: #afafaf;
+  opacity: 0.4;
 }
 
-.backgro {
-  background: #131b1e;
-  opacity: 0.9;
-  z-index: 10;
+.skeleton-card {
+  height: 300px;
+  border-radius: 12px;
+  background-color: #f0f0f0;
 }
 
-.titulo {
-  color: white;
-  font-size: 2.2rem;
-  font-weight: 700;
-  text-align: left;
-}
+@media (max-width: 576px) {
+  .achievements-container {
+    padding: 10px;
+  }
 
-.row {
-  margin: 0;
-  height: 100%;
-}
+  .card-img-wrapper {
+    height: 180px;
+    padding: 1rem;
+  }
 
-.col-md-3 {
-  margin-bottom: 20px;
+  .achievement-icon {
+    max-height: 120px;
+  }
 }
 </style>
