@@ -186,15 +186,28 @@ export default {
           this.axios.get("category/list"),
           this.axios.get("course/released-courses"),
           this.axios.get("course/related-courses"),
+          this.axios.get("course/interesting-courses"), // ← el que faltaba
         ]);
+
+        console.log("📦 Respuestas recibidas:");
 
         this.Allcategories = categoriesRes.data.data;
 
-        const allCourses = releasedCoursesRes.data.data;
-        this.filterRecentCourses(allCourses);
+        if (
+          releasedCoursesRes &&
+          releasedCoursesRes.data &&
+          Array.isArray(releasedCoursesRes.data.data)
+        ) {
+          const allCourses = releasedCoursesRes.data.data;
+          this.filterRecentCourses(allCourses);
+        } else {
+          console.warn("⚠️ Respuesta inesperada de released-courses:", releasedCoursesRes);
+          this.recentCourses = [];
+        }
 
-        const cursos = relatedCoursesRes.data.data;
-        this.courses = cursos.filter((course) => !course.isPurchased);
+        this.courses = Array.isArray(relatedCoursesRes.data?.data)
+          ? relatedCoursesRes.data.data.filter((course) => !course.isPurchased)
+          : [];
 
         if (this.courses.length > 0) {
           this.descuento = this.courses[0].du;
@@ -203,7 +216,9 @@ export default {
         const idCategories = this.courses.map((curso) => curso.id_categories);
         this.getCategoryName(idCategories);
 
-        this.interesCourses = interestingCoursesRes.data.data;
+        this.interesCourses = Array.isArray(interestingCoursesRes.data?.data)
+          ? interestingCoursesRes.data.data
+          : [];
 
         this.loading = false;
         this.notCourses =

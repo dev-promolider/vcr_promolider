@@ -467,6 +467,7 @@ export default {
           this.$message.error(
             "Error al obtener los movimientos de la billetera"
           );
+          console.error("Detalles completos:", JSON.stringify(error, null, 2));
         });
     },
 
@@ -770,9 +771,20 @@ export default {
           for (const index in res.data.data) {
             if (res.data.data[index].id == this.items.id_categories) {
               this.categoria = res.data.data[index].name;
-              this.user_id = res.data.status.id;
-              console.log("User ID establecido:", this.user_id);
-              this.getWalletUser();
+            
+              // Aquí probablemente está mal el acceso a user_id
+              // Esto depende de la estructura de `res.data`, que parece incorrecta
+              this.user_id = res.data.status?.id || null;
+            
+              // ✅ Agrega este log justo antes de llamar getWalletUser
+              console.log("🧪 User ID que se usará para billetera:", this.user_id);
+            
+              // Verifica que user_id sea válido antes de continuar
+              if (this.user_id) {
+                this.getWalletUser();
+              } else {
+                console.warn("⚠️ No se pudo obtener el user_id. No se llamó getWalletUser.");
+              }
             }
           }
         });
