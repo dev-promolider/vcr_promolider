@@ -1,10 +1,10 @@
 <template>
   <div :title="course.title" class="course-card" v-if="course" @click="
-    cardType == 1
-      ? action(course.id, course.slug)
-      : cardType == 4
-        ? getCertificates(course)
-        : goToCourse(course.id)
+      cardType == 1
+        ? action(course.id, course.slug)
+        : cardType == 4
+          ? getCertificates(course)
+          : goToCourse(course)
     ">
     <div class="tarjeta-cursos">
       <div class="image-container">
@@ -112,66 +112,140 @@ export default {
       return price - disc;
     },
     getDiscount() {
+      console.log("🚀 Iniciando petición: GET /course/certificate-discount");
       this.spin = true;
+      
       this.axios
         .get("/course/certificate-discount")
-        .then((datos) => {
-          this.certificateDisc = datos.data;
+        .then((response) => {
+          console.group("✅ Respuesta exitosa: GET /course/certificate-discount");
+          console.log("📊 Status:", response.status);
+          console.log("📋 Headers:", response.headers);
+          console.log("💾 Data completa:", response.data);
+          console.log("🔢 Certificate discount:", response.data);
+          console.groupEnd();
+          
+          this.certificateDisc = response.data;
           this.spin = false;
         })
-        .catch(() => {
+        .catch((error) => {
+          console.group("❌ Error en: GET /course/certificate-discount");
+          console.log("🚫 Error completo:", error);
+          console.log("📊 Status:", error.response?.status);
+          console.log("💾 Data del error:", error.response?.data);
+          console.log("📝 Mensaje:", error.message);
+          console.groupEnd();
+          
           this.spin = false;
         });
     },
     action(id, slug) {
+      console.log("🔄 Navegando a compra de curso:", { id, slug });
       this.$router
         .push({ name: "buy-cursos", params: { ide: id, slug: slug } })
-        .catch(() => { });
+        .catch((error) => {
+          console.log("⚠️ Error en navegación:", error);
+        });
     },
     getCertificates(course) {
+      console.log("🎓 Emitiendo evento selectedCertificate:", course);
       this.$emit("selectedCertificate", course);
     },
-    async goToCourse(id) {
-      let dataRequest;
-      await this.axios
-        .get(`purchased/show-class-seen?course_id=${id}`)
-        .then((res) => {
-          dataRequest = res.data.data;
-          this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
-        });
-      if (!dataRequest.name) {
-        await this.axios
-          .get("course/temary/get-all-class/" + id)
-          .then((res) => {
-            let fistClass = res.data.data.modules[0].lessons[0].name;
-            this.$router
-              .push({
-                name: "curso",
-                query: {
-                  course: id,
-                  class: fistClass,
-                  rate: this.course.ranking_by_user,
-                },
-              })
-              .catch(() => { });
+    async goToCourse(course) {
+      try {
+        const { id, ranking_by_user } = course;
+        console.log("🚀 Iniciando navegación a curso:", { id, ranking_by_user });
+        
+        // Primera petición: obtener clase vista
+        console.log(`🚀 Petición 1: GET purchased/show-class-seen?course_id=${id}`);
+        const res = await this.axios.get(`purchased/show-class-seen?course_id=${id}`);
+        
+        console.group("✅ Respuesta exitosa: GET purchased/show-class-seen");
+        console.log("📊 Status:", res.status);
+        console.log("📋 Headers:", res.headers);
+        console.log("💾 Data completa:", res.data);
+        console.log("🎯 Data específica:", res.data.data);
+        console.groupEnd();
+        
+        const dataRequest = res.data.data;
+        
+        this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
+        console.log("🔄 Store actualizado con display_time:", dataRequest.display_time);
+        
+        if (!dataRequest.name) {
+          // Segunda petición: obtener temario completo
+          console.log(`🚀 Petición 2: GET course/temary/get-all-class/${id}`);
+          const temaryRes = await this.axios.get("course/temary/get-all-class/" + id);
+          
+          console.group("✅ Respuesta exitosa: GET course/temary/get-all-class");
+          console.log("📊 Status:", temaryRes.status);
+          console.log("📋 Headers:", temaryRes.headers);
+          console.log("💾 Data completa:", temaryRes.data);
+          console.log("🎯 Data específica:", temaryRes.data.data);
+          console.log("📚 Módulos:", temaryRes.data.data.modules);
+          if (temaryRes.data.data.modules && temaryRes.data.data.modules.length > 0) {
+            console.log("📖 Primer módulo:", temaryRes.data.data.modules[0]);
+            console.log("📝 Lecciones del primer módulo:", temaryRes.data.data.modules[0]?.lessons);
+          }
+          console.groupEnd();
+          
+          const fistClass = temaryRes.data.data.modules[0]?.lessons[0]?.name;
+          console.log("🎯 Primera clase obtenida:", fistClass);
+          
+          const routeParams = {
+            name: "curso",
+            query: {
+              course: id,
+              class: fistClass,
+              rate: ranking_by_user,
+            },
+          };
+          console.log("🔄 Navegando con parámetros:", routeParams);
+          
+          this.$router.push(routeParams).catch((error) => {
+            console.log("⚠️ Error en navegación:", error);
           });
-      } else {
-        this.$router
-          .push({
+        } else {
+          const routeParams = {
             name: "curso",
             query: {
               course: id,
               class: dataRequest.name,
-              rate: this.course.ranking_by_user,
+              rate: ranking_by_user,
             },
-          })
-          .catch(() => { });
+          };
+          console.log("🔄 Navegando con clase existente:", routeParams);
+          
+          this.$router.push(routeParams).catch((error) => {
+            console.log("⚠️ Error en navegación:", error);
+          });
+        }
+      } catch (error) {
+        console.group("❌ Error general en goToCourse");
+        console.error("🚫 Error completo:", error);
+        console.log("📊 Status:", error.response?.status);
+        console.log("💾 Data del error:", error.response?.data);
+        console.log("📝 Mensaje:", error.message);
+        console.log("🔗 URL:", error.config?.url);
+        console.log("🎯 Curso ID:", course.id);
+        console.groupEnd();
       }
     },
   },
   created() {
+    console.log("🎬 Componente Card creado con curso:", this.course);
+    console.log("🔧 Props recibidas:", {
+      cardType: this.cardType,
+      width: this.width,
+      height: this.height,
+      categories: this.categories,
+      viewMode: this.viewMode
+    });
     this.getDiscount();
   },
+  mounted() {
+    console.log("🔌 Componente Card montado");
+  }
 };
 </script>
 
