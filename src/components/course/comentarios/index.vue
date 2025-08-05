@@ -1,5 +1,6 @@
 <template>
   <div class="row ml-3" style="margin-right: 30px">
+    <!-- Comentarios -->
     <div class="col-md-12 col-lg-12">
       <p class="text-left bolder text-section">
         {{ filteredComments.length }} Comentarios
@@ -52,88 +53,99 @@
       </div>
     </div>
 
+    <!-- Debug Info (Solo en desarrollo) -->
+    <div class="col-md-12 mb-3" v-if="showDebugInfo">
+      <div class="debug-panel p-3" style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px;">
+        <h5>Debug Info:</h5>
+        <p><strong>Comment Type:</strong> {{ commentType }}</p>
+        <p><strong>All Comments Length:</strong> {{ comments.length }}</p>
+        <p><strong>Filtered Comments Length:</strong> {{ filteredComments.length }}</p>
+        <p><strong>User ID:</strong> {{ localStorage.getItem('id_user') }}</p>
+        <p><strong>Course Active User ID:</strong> {{ course_active?.user_id }}</p>
+        <p><strong>Lesson ID:</strong> {{ lesson?.id }}</p>
+        <p><strong>⚠️ ISSUE DETECTADO:</strong> El backend no envía información sobre el tipo de comentario (público/privado) ni IDs de usuario. Mostrando todos los comentarios.</p>
+        <button @click="showDebugInfo = false" class="btn btn-sm btn-secondary">Ocultar Debug</button>
+      </div>
+    </div>
+
     <!-- Cargando y Comentarios -->
     <div class="col-md-12" v-if="isLoadingComments">
       <div class="row bg-white remove-p-m text-center align-items-center">
         <div class="col-md-12">
           <v-progress-circular indeterminate color="grey"></v-progress-circular>
         </div>
-
-        <div
-          v-if="!isLoadingComments && filteredComments.length === 0"
-          class="no-result center-element py-5"
-        >
-          <span>Aún no hay comentarios</span>
-        </div>
       </div>
     </div>
 
-    <!-- Comentarios -->
+    <div
+      v-if="!isLoadingComments && filteredComments.length === 0"
+      class="no-result center-element py-5"
+    >
+      <span>Aún no hay comentarios</span>
+    </div>
+
+    <!-- Comentarios con altura fija y scroll -->
     <div
       class="col-md-12 mb-5"
       v-if="!isLoadingComments && filteredComments.length > 0"
     >
       <div class="row">
-        <v-list color="#F2F5FA" class="px-4">
-          <template v-for="(i, index) in filteredComments">
-            <v-list-item class="pt-1 bg-white mb-5" :key="index" style="border-radius: 35px">
-              <v-container style="padding: 10px 0 0 0px">
-                <v-row>
-                  <v-col cols="1">
-                    <v-list-item-avatar>
-                      <v-img :src="i.user_photo"></v-img>
-                    </v-list-item-avatar>
-                  </v-col>
+        <!-- Contenedor con scroll y altura máxima -->
+        <div class="comments-container">
+          <v-list color="#F2F5FA" class="px-4">
+            <template v-for="(i, index) in filteredComments">
+              <v-list-item 
+                class="pt-1 bg-white mb-3 comment-item" 
+                :key="index" 
+                style="border-radius: 20px; transition: all 0.3s ease;"
+              >
+                <v-container style="padding: 15px">
+                  <v-row no-gutters>
+                    <!-- Avatar -->
+                    <v-col cols="auto" class="mr-3">
+                      <v-list-item-avatar size="45">
+                        <v-img :src="i.user_photo" style="border: 2px solid #e0e0e0;"></v-img>
+                      </v-list-item-avatar>
+                    </v-col>
 
-                  <v-col cols="10" class="pt-5">
-                    <v-row>
-                      <!-- Nombre y Fecha -->
-                      <v-col cols="12" class="pt-3">
-                        <p
-                          style="
-                            display: inline;
-                            font-weight: 600;
-                            font-size: 1em;
-                            padding-left: 20px;
-                          "
-                        >
+                    <!-- Contenido del comentario -->
+                    <v-col>
+                      <!-- Header: Nombre y fecha -->
+                      <div class="d-flex align-items-center mb-2">
+                        <span class="font-weight-bold comment-username">
                           {{ i.username }}
-                        </p>
-                        <p
-                          style="
-                            display: inline;
-                            font-weight: 500;
-                            margin-left: 20px;
-                            color: #7a7d86;
-                            font-size: 1em;
-                          "
-                        >
+                        </span>
+                        <span class="comment-date ml-2">
                           {{ i.fecha }}
-                        </p>
-                      </v-col>
-                      <!-- Comentario -->
-                      <v-col cols="12" style="padding: 10px 0 15px 0">
-                        <v-list-item-subtitle>
-                          <v-card-text style="padding: 0">
-                            <vue-show-more-text
-                              :text="i.comments"
-                              :lines="2"
-                              more-text="Ver más.."
-                              less-text="Ocultar"
-                              additional-container-css="padding: 8px 0 0 0; width: 100% !important ; text-align: justify;"
-                              additional-anchor-css="color: green; text-decoration: none; width: 80px; margin: 0 0 0 auto; padding: 0"
-                            />
-                          </v-card-text>
-                        </v-list-item-subtitle>
-                      </v-col>
-                      <v-col cols="12" style="padding-top: 0px; margin-top: 0px"></v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-list-item>
-          </template>
-        </v-list>
+                        </span>
+                      </div>
+                      
+                      <!-- Texto del comentario -->
+                      <div class="comment-text">
+                        <vue-show-more-text
+                          :text="i.comments"
+                          :lines="3"
+                          more-text="Ver más"
+                          less-text="Ver menos"
+                          additional-container-css="line-height: 1.4; color: #333;"
+                          additional-anchor-css="color: #1976d2; text-decoration: none; font-weight: 500;"
+                        />
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-list-item>
+            </template>
+            
+            <!-- Indicador de final -->
+            <div class="text-center py-3">
+              <small class="text-muted">
+                <v-icon small class="mr-1">mdi-comment-text-outline</v-icon>
+                {{ filteredComments.length }} comentario{{ filteredComments.length !== 1 ? 's' : '' }} en total
+              </small>
+            </div>
+          </v-list>
+        </div>
       </div>
     </div>
   </div>
@@ -142,6 +154,7 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 import vueShowMoreText from "vue-show-more-text";
+
 export default {
   name: "Comentarios",
   components: {
@@ -150,13 +163,14 @@ export default {
   data() {
     return {
       img: localStorage.getItem("photo_user"),
-      commentType: "public", // Añade esta propiedad
+      commentType: "public",
+      showDebugInfo: false,
       newComment: {
         issuing_user_id: "",
         receiving_user_id: "",
         class_id: "",
         comments: "",
-        type: "public", // Añade esta propiedad
+        type: "public",
       },
     };
   },
@@ -170,37 +184,114 @@ export default {
     ...mapGetters("course", ["getComments"]),
 
     comments() {
+      console.log("🔍 [DEBUG] All comments:", this.getComments);
       return this.getComments;
     },
     filteredComments() {
+      // TEMPORAL: Mostrar todos los comentarios hasta que el backend tenga los campos necesarios
+      console.log("🔍 [DEBUG] Mostrando TODOS los comentarios (backend sin filtros)");
+      
+      // Ordenar comentarios: más recientes primero
+      const sortedComments = [...this.comments].sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+      
+      return sortedComments;
+      
+      /* CÓDIGO ORIGINAL (para cuando el backend esté completo):
       const userId = localStorage.getItem("id_user");
-      return this.comments.filter(
-        (comment) =>
-          comment.type === "public" ||
-          (comment.type === "private" &&
+      
+      return this.comments.filter((comment) => {
+        if (this.commentType === "public") {
+          return comment.type === "public";
+        } else {
+          return comment.type === "private" &&
             (comment.issuing_user_id === userId ||
-              comment.receiving_user_id === userId))
-      );
+              comment.receiving_user_id === userId);
+        }
+      });
+      */
     },
+  },
+  watch: {
+    // Watch para detectar cambios en commentType
+    commentType(newVal) {
+      console.log("🔍 [DEBUG] Comment type changed to:", newVal);
+    },
+    // Watch para detectar cambios en los comentarios
+    comments: {
+      handler(newComments) {
+        console.log("🔍 [DEBUG] Comments updated:", newComments);
+      },
+      deep: true
+    }
   },
   methods: {
     ...mapActions("course", ["setComments"]),
+    
     async sendComment() {
+      console.log("🚀 [DEBUG] sendComment() called");
+      console.log("🚀 [DEBUG] Current comment text:", this.newComment.comments);
+      
       if (this.newComment.comments === "") {
+        console.log("❌ [DEBUG] Comment is empty, not sending");
         return;
-      } else {
-        this.newComment.issuing_user_id = localStorage.getItem("id_user");
-        this.newComment.receiving_user_id = this.course_active.user_id.toString();
-        this.newComment.class_id = this.lesson.id.toString();
-        this.newComment.type = this.commentType; // Establece el tipo de comentario
-
-        if (this.newComment.class_id != undefined) {
-          await this.setComments(this.newComment);
-          this.newComment.comments = "";
-        }
+      }
+      
+      // Preparar el comentario
+      this.newComment.issuing_user_id = localStorage.getItem("id_user");
+      this.newComment.receiving_user_id = this.course_active?.user_id?.toString();
+      this.newComment.class_id = this.lesson?.id?.toString();
+      this.newComment.type = this.commentType;
+      
+      console.log("🚀 [DEBUG] Comment data to send:", {
+        issuing_user_id: this.newComment.issuing_user_id,
+        receiving_user_id: this.newComment.receiving_user_id,
+        class_id: this.newComment.class_id,
+        type: this.newComment.type,
+        comments: this.newComment.comments
+      });
+      
+      // Verificar datos requeridos
+      if (!this.newComment.class_id) {
+        console.log("❌ [DEBUG] class_id is undefined, cannot send comment");
+        return;
+      }
+      
+      if (!this.newComment.issuing_user_id) {
+        console.log("❌ [DEBUG] issuing_user_id is missing");
+        return;
+      }
+      
+      if (!this.newComment.receiving_user_id) {
+        console.log("❌ [DEBUG] receiving_user_id is missing");
+        return;
+      }
+      
+      try {
+        console.log("🚀 [DEBUG] Calling setComments action...");
+        const result = await this.setComments(this.newComment);
+        console.log("✅ [DEBUG] setComments result:", result);
+        
+        // Limpiar el comentario
+        this.newComment.comments = "";
+        console.log("✅ [DEBUG] Comment sent successfully and form cleared");
+        
+      } catch (error) {
+        console.error("❌ [DEBUG] Error sending comment:", error);
       }
     },
   },
+  
+  mounted() {
+    console.log("🔍 [DEBUG] Component mounted");
+    console.log("🔍 [DEBUG] Initial state:", {
+      lesson: this.lesson,
+      course_active: this.course_active,
+      allComments: this.allComments,
+      isLoadingComments: this.isLoadingComments
+    });
+  }
 };
 </script>
 
@@ -227,9 +318,11 @@ export default {
   border-radius: 30px;
 }
 
-/*Container text vueShowMoreText */
-/* .container {
-  max-width: 100% !important;
-  margin: 0;
-} */
+.debug-panel {
+  font-size: 0.9em;
+}
+
+.debug-panel p {
+  margin: 5px 0;
+}
 </style>
