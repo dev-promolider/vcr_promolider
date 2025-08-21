@@ -67,7 +67,7 @@ const routes = [
         component: Courses,
       },
       {
-        path: "buy-cursos/:ide/:slug",
+        path: "buy-cursos/:ide/:slug", // El ? hace que title sea opcional
         name: "buy-cursos",
         component: buycursos,
         props: true,
