@@ -169,6 +169,12 @@ export default {
     cambiarChat(transmitter_id, receiver_id) {
       window.Echo.leave("chat." + this.usersID());
       this.listActualContentMessage(transmitter_id, receiver_id);
+
+      // Actualizar el contacto actual basado en el ID
+      const selectedContact = this.contacts.find(contact => contact.id === receiver_id);
+      if (selectedContact) {
+        this.actualContact = selectedContact;
+      }
     },
 
     listActualContentMessage(transmitter_id, receiver_id) {
@@ -178,9 +184,10 @@ export default {
           receiver_id: receiver_id,
         })
         .then((r) => {
-          this.actualMessageContent = r.data;
+          // ✅ CAMBIO: Acceder a r.data.data en lugar de r.data
+          this.actualMessageContent = r.data.data;
           this.idTwo = receiver_id;
-
+        
           window.Echo = new Echo({
             broadcaster: "pusher",
             key: "PROMOLIDER2021",
@@ -201,7 +208,7 @@ export default {
               },
             },
           });
-
+        
           window.Echo.channel("chat." + this.usersID()).listen(
             "MessageSentEvent",
             (e) => {
@@ -209,13 +216,13 @@ export default {
               this.actualMessageContent.push(e.message);
             }
           );
-
+          
           for (let i = 0; i < this.contacts.length; i++) {
             if (this.contacts[i].id == receiver_id) {
               this.actualContact = this.contacts[i];
             }
           }
-
+        
           if (transmitter_id > receiver_id) {
             this.cod1 = receiver_id;
             this.cod2 = transmitter_id;
@@ -224,24 +231,45 @@ export default {
             this.cod1 = transmitter_id;
           }
         })
-        .catch(() => {
-          console.log("Error");
+        .catch((error) => {
+          console.log("Error al cargar mensajes:", error);
+          // ✅ MEJORA: Manejo de errores más específico
+          if (error.response && error.response.status === 403) {
+            console.error("No tienes permiso para ver estos mensajes");
+          }
         });
     },
 
     async listContacts() {
-      await this.axios
-        .get(`messages/listContacts/${this.idOne}`)
-        .then((response) => {
-          let first_row = response.data[0];
-          this.contacts = response.data;
-          this.actualContact = first_row;
-          this.loading = false;
+      try {
+        const response = await this.axios.get(`messages/listContacts`);
 
-          if (first_row != undefined && first_row != null) {
-            this.listActualContentMessage(this.idOne, first_row.id);
-          }
-        });
+        // La nueva API devuelve un objeto con 'data' y 'total'
+        const contactsData = response.data.data || [];
+
+        this.contacts = contactsData;
+        this.loading = false;
+
+        // Seleccionar el primer contacto si existe
+        if (contactsData.length > 0) {
+          const firstContact = contactsData[0];
+          this.actualContact = firstContact;
+          this.listActualContentMessage(this.idOne, firstContact.id);
+        }
+
+        console.log('Contactos cargados:', contactsData.length);
+
+      } catch (error) {
+        console.error('Error al cargar contactos:', error);
+
+        // Si no hay contactos (404), manejarlo graciosamente
+        if (error.response && error.response.status === 404) {
+          this.contacts = [];
+          this.actualContact = null;
+        }
+
+        this.loading = false;
+      }
     },
 
     listContacts2() {
