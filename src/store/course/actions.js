@@ -392,17 +392,22 @@ export const sendAnswersExamen = async (
 };
 
 // Enviar respuesta diaria del quiz
-export const sendRespDailyQuizz = async ({ commit }, isCorrect) => {
+export const sendRespDailyQuizz = async ({ commit }, payload) => {
   try {
-    const resp = await axios.post("course/exam/daily/points", { isCorrect });
-
-    const { earned_points } = resp.data;
-
+    const resp = await axios.post("course/exam/daily/points", {
+      userAnswer: payload.userAnswer,
+      questionId: payload.questionId
+    });
+    
+    const { earned_points, correct } = resp.data;
+    
     commit("sumPoints", Number(earned_points));
-
-    return { ok: true };
+    
+    // Retornar si la respuesta fue correcta para actualizar la UI
+    return { ok: true, isCorrect: correct };
   } catch (error) {
-    return { ok: false };
+    console.error('Error sending daily quiz response:', error);
+    return { ok: false, error: error.response?.data?.error || 'Unknown error' };
   }
 };
 

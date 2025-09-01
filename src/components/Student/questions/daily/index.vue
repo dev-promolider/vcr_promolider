@@ -61,9 +61,7 @@
         <h1 class="text-center" v-if="!isCorrect">
           Buen intento, puede intentarlo de nuevo el día siguiente
         </h1>
-        <span class="mt-4" v-if="!isCorrect"
-          >La respuesta correcta es: {{ data.correctAnswer }}</span
-        >
+        <!-- Eliminamos la visualización de la respuesta correcta ya que el frontend no la conoce -->
       </div>
     </div>
   </div>
@@ -79,10 +77,11 @@ export default {
       question: true,
       isCorrect: false,
       select: true,
+      questionId: '', // AGREGADO: Para almacenar el ID de la pregunta
       data: {
         question: "",
         answer: [],
-        correctAnswer: "",
+        correctAnswer: "", // Ya no se usa, pero se mantiene para evitar errores
       },
       picked: "",
     };
@@ -98,41 +97,53 @@ export default {
         if (res.data.message) {
           this.$store.commit("course/NO_EXAM_DAILY", false);
         } else {
-          this.data.question = res.data[0].question;
-          this.data.correctAnswer = res.data[0].correctAnswer;
-          array = res.data[0].incorrectAnswers.concat(
-            res.data[0].correctAnswer
-          );
-          this.data.answer = array.sort(() => {
+          // MODIFICADO: Acceder directamente al objeto, no al array
+          this.data.question = res.data.question;
+          // AGREGADO: Guardar el questionId para enviarlo al backend
+          this.questionId = res.data.id;
+          
+          // MODIFICADO: Manejar correctAnswer que puede ser null
+          const correctAnswer = res.data.correctAnswer || '';
+          array = res.data.incorrectAnswers.concat(correctAnswer);
+          this.data.answer = array.filter(ans => ans !== '').sort(() => {
             return Math.random() - 0.5;
           });
         }
+      }).catch((error) => {
+        console.error('Error fetching daily question:', error);
+        this.$store.commit("course/NO_EXAM_DAILY", false);
       });
     },
 
-    // Verificamos la respuesta del usuario
+    // MODIFICADO: Verificamos la respuesta del usuario
     check() {
       // Si no selecciona una opcion le pedimos que lo haga
       if (this.picked === "") {
         this.select = false;
       } else {
-        // Si selecciona verificamos
-
-        // Si la respuesta es correcta o incorrecta enviamos la respuesta al back
-        if (this.picked === this.data.correctAnswer) {
-          this.sendResponse(1);
-          this.isCorrect = true;
-        } else {
-          this.sendResponse(0);
-          this.isCorrect = false;
-        }
+        // MODIFICADO: Enviar la respuesta del usuario
+        this.sendResponse(this.picked);
         // Bloquemos la opcion para que no vuelva intentarlo
         this.question = false;
       }
     },
 
-    sendResponse(response) {
-      this.sendRespDailyQuizz(response);
+    // MODIFICADO: Enviar respuesta del usuario y questionId
+    sendResponse(userAnswer) {
+      this.sendRespDailyQuizz({
+        userAnswer: userAnswer,
+        questionId: this.questionId
+      }).then(result => {
+        if (result.ok) {
+          this.isCorrect = result.isCorrect;
+        } else {
+          // Manejar error
+          console.error('Error:', result.error);
+          // Opcional: mostrar mensaje de error al usuario
+          alert('Error al enviar la respuesta. Inténtalo de nuevo.');
+          this.question = true; // Permitir intentar nuevamente en caso de error
+        }
+      });
     },
   },
   created() {
