@@ -216,13 +216,23 @@ export const getPoints = async ({ commit }, id) => {
 // Enviar comentario
 export const setComments = async ({ commit }, comment) => {
   try {
-    const { comments } = comment;
+    const { comments, receiving_user_id, class_id } = comment;
 
-    const resp = await axios.post("comments/send-comments", comment);
+    // ✅ CRÍTICO: NO enviar issuing_user_id - el backend debe tomarlo del usuario autenticado
+    // ✅ Eliminamos completamente issuing_user_id del payload
+    const commentPayload = {
+      receiving_user_id,
+      class_id,
+      comments
+      // ❌ NO ENVIAR: issuing_user_id (esto causaba el IDOR)
+    };
+
+    console.log('🚀 Sending secure comment payload:', commentPayload);
+
+    const resp = await axios.post("comments/send-comments", commentPayload);
 
     if (resp.data.status === 200) {
-      const { user_photo, username, created_at } = resp.data.data[0];
-
+      const { user_photo, username, created_at, comment_id } = resp.data.data[0];
       const fecha = moment(created_at).format("DD-MM-YYYY");
 
       const payload = {
@@ -230,15 +240,17 @@ export const setComments = async ({ commit }, comment) => {
         user_photo,
         username,
         fecha,
+        created_at,
+        comment_id // Incluir el ID del comentario que regresa tu backend
       };
 
       commit("setComments", payload);
     }
   } catch (error) {
-    throw new Error(error);
+    console.error('❌ Error sending comment:', error);
+    throw new Error(error?.response?.data?.message || 'Error al enviar comentario');
   }
 };
-
 // Enviar comentario dinámico
 export const setDynamicComments = async ({ commit }, commentData) => {
   try {

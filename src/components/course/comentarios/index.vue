@@ -166,7 +166,7 @@ export default {
       commentType: "public",
       showDebugInfo: false,
       newComment: {
-        issuing_user_id: "",
+        // ✅ Eliminamos issuing_user_id - ya no se necesita
         receiving_user_id: "",
         class_id: "",
         comments: "",
@@ -184,16 +184,34 @@ export default {
     ...mapGetters("course", ["getComments"]),
 
     comments() {
-      console.log("🔍 [DEBUG] All comments:", this.getComments);
-      return this.getComments;
+      // ✅ FIX: Asegurar que siempre retorne un array
+      const commentsData = this.getComments;
+      console.log("🔍 [DEBUG] All comments:", commentsData);
+      
+      // Si getComments es undefined, null o no es array, retornar array vacío
+      if (!Array.isArray(commentsData)) {
+        console.log("⚠️ [DEBUG] getComments is not an array:", commentsData);
+        return [];
+      }
+      
+      return commentsData;
     },
+    
     filteredComments() {
+      // ✅ FIX: Verificar que comments sea un array antes de usar spread operator
+      if (!Array.isArray(this.comments)) {
+        console.log("⚠️ [DEBUG] this.comments is not an array:", this.comments);
+        return [];
+      }
+
       // TEMPORAL: Mostrar todos los comentarios hasta que el backend tenga los campos necesarios
       console.log("🔍 [DEBUG] Mostrando TODOS los comentarios (backend sin filtros)");
       
       // Ordenar comentarios: más recientes primero
       const sortedComments = [...this.comments].sort((a, b) => {
-        return new Date(b.created_at) - new Date(a.created_at);
+        const dateA = new Date(a.created_at || 0);
+        const dateB = new Date(b.created_at || 0);
+        return dateB - dateA;
       });
       
       return sortedComments;
@@ -213,6 +231,7 @@ export default {
       */
     },
   },
+  
   watch: {
     // Watch para detectar cambios en commentType
     commentType(newVal) {
@@ -226,6 +245,7 @@ export default {
       deep: true
     }
   },
+  
   methods: {
     ...mapActions("course", ["setComments"]),
     
@@ -238,39 +258,31 @@ export default {
         return;
       }
       
-      // Preparar el comentario
-      this.newComment.issuing_user_id = localStorage.getItem("id_user");
-      this.newComment.receiving_user_id = this.course_active?.user_id?.toString();
-      this.newComment.class_id = this.lesson?.id?.toString();
-      this.newComment.type = this.commentType;
-      
-      console.log("🚀 [DEBUG] Comment data to send:", {
-        issuing_user_id: this.newComment.issuing_user_id,
-        receiving_user_id: this.newComment.receiving_user_id,
-        class_id: this.newComment.class_id,
-        type: this.newComment.type,
+      // ✅ CRÍTICO: Preparar SOLO los datos necesarios (SIN issuing_user_id)
+      const commentData = {
+        receiving_user_id: this.course_active?.user_id?.toString(),
+        class_id: this.lesson?.id?.toString(),
         comments: this.newComment.comments
-      });
+        // ❌ NO ENVIAR: issuing_user_id (eliminado para prevenir IDOR)
+        // ❌ NO ENVIAR: type (hasta que el backend lo soporte)
+      };
+      
+      console.log("🚀 [DEBUG] Secure comment data to send:", commentData);
       
       // Verificar datos requeridos
-      if (!this.newComment.class_id) {
+      if (!commentData.class_id) {
         console.log("❌ [DEBUG] class_id is undefined, cannot send comment");
         return;
       }
       
-      if (!this.newComment.issuing_user_id) {
-        console.log("❌ [DEBUG] issuing_user_id is missing");
-        return;
-      }
-      
-      if (!this.newComment.receiving_user_id) {
+      if (!commentData.receiving_user_id) {
         console.log("❌ [DEBUG] receiving_user_id is missing");
         return;
       }
       
       try {
         console.log("🚀 [DEBUG] Calling setComments action...");
-        const result = await this.setComments(this.newComment);
+        const result = await this.setComments(commentData);
         console.log("✅ [DEBUG] setComments result:", result);
         
         // Limpiar el comentario
@@ -279,6 +291,8 @@ export default {
         
       } catch (error) {
         console.error("❌ [DEBUG] Error sending comment:", error);
+        // Opcional: Mostrar mensaje de error al usuario
+        // this.$toast.error('Error al enviar comentario');
       }
     },
   },
@@ -289,7 +303,8 @@ export default {
       lesson: this.lesson,
       course_active: this.course_active,
       allComments: this.allComments,
-      isLoadingComments: this.isLoadingComments
+      isLoadingComments: this.isLoadingComments,
+      getComments: this.getComments
     });
   }
 };
