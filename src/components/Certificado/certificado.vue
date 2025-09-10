@@ -262,18 +262,29 @@ export default {
     async getCertificateInfo(product) {
       this.productSelected = product;
       this.waitSelection = false;
-
+    
       try {
         const [certificateRes, examRes] = await Promise.all([
           this.axios.get(`/course/certificate/data?course_id=${product.id}`),
           this.axios.get(`/course/exam/list?id=${product.id}`),
         ]);
-
+      
         this.certificateInfo = certificateRes.data;
         this.certificate_exam_progress = examRes.data.exam_progress || 0;
-
+      
+        // Actualizar progreso de videos
         await this.$store.dispatch("course/updateCourseProgress", product.id);
-
+      
+        // AGREGAR ESTOS CONSOLE.LOG PARA VER LA INFORMACIÓN:
+        console.log("=== INFORMACIÓN DE PROGRESO ===");
+        console.log("Curso seleccionado:", product);
+        console.log("Estado completo courseProgress:", this.courseProgress);
+        console.log("Progreso del curso actual:", this.currentCourseProgress);
+        console.log("Progreso de exámenes:", this.certificate_exam_progress);
+        console.log("Progreso combinado:", this.combinedProgress);
+        console.log("Información del certificado:", this.certificateInfo);
+        console.log("================================");
+      
         this.checkCertificateEligibility();
       } catch (error) {
         console.error("Error fetching certificate info:", error);
@@ -286,7 +297,14 @@ export default {
         const response = await this.axios.get(
           `/course/certificate/check/${this.productSelected.id}`
         );
-        this.canClaimCertificate = response.data.canClaim;
+      
+        console.log("=== INFORMACIÓN DE CERTIFICADO (CHECK) ===");
+        console.log("Respuesta cruda del endpoint:", response);
+        console.log("Datos del endpoint:", response.data);
+        console.log("==========================================");
+      
+        // Si devuelve 1 => true, si devuelve 0 => false
+        this.canClaimCertificate = response.data === 1;
       } catch (error) {
         console.error("Error checking certificate eligibility:", error);
         this.canClaimCertificate = false;
@@ -311,16 +329,80 @@ export default {
       return validationMap[validatedBy] || "No especificado";
     },
 
-    claimCertificate() {
-      this.axios
-        .post(`/course/certificate/claim/${this.productSelected.id}`)
-        .then(() => {
-          alert("Certificado reclamado con éxito");
-        })
-        .catch((error) => {
-          console.error("Error al reclamar el certificado:", error);
+    async claimCertificate() {
+      try {
+        // 1. Verificar si puede reclamar el certificado
+        const readyResponse = await this.axios.get(`/course/certificate/check/${this.productSelected.id}`);
+      
+        console.log("=== RESPUESTA DEL ENDPOINT /course/certificate/check ===");
+        console.log("Respuesta cruda:", readyResponse);
+        console.log("Datos (readyResponse.data):", readyResponse.data);
+        console.log("========================================================");
+      
+        if (!readyResponse.data) {
+          alert("Aún no cumples los requisitos para obtener el certificado");
+          return;
+        }
+      
+        // 2. Obtener la URL del certificado
+        const downloadResponse = await this.axios.get(`/certificate/download/${this.productSelected.id}`);
+      
+        console.log("=== RESPUESTA DEL ENDPOINT DE DESCARGA ===");
+        console.log(downloadResponse.data);
+        console.log("==========================================");
+      
+        if (downloadResponse.data.success) {
+          // 3. Descargar el archivo usando fetch para convertirlo a blob
+          console.log("Descargando archivo desde:", downloadResponse.data.download_url);
+          
+          const response = await fetch(downloadResponse.data.download_url, {
+            method: 'GET',
+            headers: {
+              'Accept': 'image/png',
+            },
+          });
+        
+          if (!response.ok) {
+            throw new Error(`Error al descargar: ${response.status}`);
+          }
+        
+          // 4. Convertir a blob
+          const blob = await response.blob();
+          console.log("Blob creado:", blob.type, blob.size, "bytes");
+        
+          // 5. Crear URL del blob y descargar
+          const blobUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = downloadResponse.data.filename;
+          
+          // 6. Ejecutar la descarga
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          // 7. Limpiar el blob URL
+          window.URL.revokeObjectURL(blobUrl);
+        
+          console.log("✅ Certificado descargado exitosamente");
+          alert("¡Certificado descargado exitosamente!");
+        
+        } else {
+          alert("No se pudo obtener la URL del certificado");
+        }
+      
+      } catch (error) {
+        console.error("Error al reclamar el certificado:", error);
+      
+        // Manejo específico de errores
+        if (error.response?.status === 404) {
+          alert("Certificado no disponible. Asegúrate de haber completado el curso.");
+        } else if (error.response?.status === 403) {
+          alert("No tienes permisos para descargar este certificado.");
+        } else {
           alert("No se pudo reclamar el certificado. Intente nuevamente.");
-        });
+        }
+      }
     },
   },
   mounted() {

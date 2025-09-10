@@ -15,11 +15,24 @@ export const getCourseActive = async (context, id) => {
 
 // Actualizar progreso del curso
 export const updateCourseProgress = ({ commit, state }, courseId) => {
+  console.log("🔄 updateCourseProgress llamado para courseId:", courseId);
+  console.log("📚 state.course:", state.course);
+  console.log("✅ state.completedLessons:", state.completedLessons);
+  
   const course = state.course;
   if (!course || !course.modules) {
-    console.warn("Course data not loaded yet");
+    console.warn("❌ Course data not loaded yet");
+    console.log("state.course:", course);
     return;
   }
+
+  // Verificar si el curso en el estado coincide con el courseId solicitado
+  if (course.id !== courseId) {
+    console.warn(`⚠️ Course ID mismatch: estado=${course.id}, solicitado=${courseId}`);
+    // Aquí deberías cargar el curso correcto o hacer una llamada HTTP
+  }
+
+  console.log("📖 course.modules:", course.modules);
 
   const completedLessons = state.completedLessons.filter((lessonId) =>
     course.modules.some(
@@ -29,18 +42,27 @@ export const updateCourseProgress = ({ commit, state }, courseId) => {
     )
   );
 
+  console.log("✅ completedLessons filtradas:", completedLessons);
+
   const totalLessons = course.modules.reduce(
     (total, module) => total + (module.lessons ? module.lessons.length : 0),
     0
   );
 
+  console.log("📊 totalLessons:", totalLessons);
+
   if (totalLessons === 0) {
-    console.warn("No lessons found in the course");
+    console.warn("❌ No lessons found in the course");
     return;
   }
 
   const progress = Math.round((completedLessons.length / totalLessons) * 100);
+  
+  console.log(`📈 Progreso calculado: ${completedLessons.length}/${totalLessons} = ${progress}%`);
+  
   commit("SET_COURSE_PROGRESS", { courseId, progress });
+  
+  console.log("✅ Estado después del commit:", state.courseProgress);
 };
 
 // Inicializar lecciones completadas desde el almacenamiento local
