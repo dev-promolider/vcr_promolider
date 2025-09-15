@@ -66,18 +66,72 @@ export const updateCourseProgress = ({ commit, state }, courseId) => {
 };
 
 // Inicializar lecciones completadas desde el almacenamiento local
-export const initializeCompletedLessons = ({ commit }) => {
-  const storedLessons = localStorage.getItem("completedLessons");
-  if (storedLessons) {
-    commit("SET_COMPLETED_LESSONS", JSON.parse(storedLessons));
+export const initializeCompletedLessons = async ({ commit }, courseId) => {
+  try {
+    // Obtener lecciones completadas del servidor
+    const response = await axios.get(`/course/${courseId}/completed-lessons`);
+    const completedLessons = response.data.completed_lessons || [];
+    
+    commit("SET_COMPLETED_LESSONS", completedLessons);
+    
+    // También obtener el progreso del curso
+    const progressResponse = await axios.get(`/course/${courseId}/progress`);
+    const progress = progressResponse.data.progress || 0;
+    commit("UPDATE_PROGRESS_COURSE", progress);
+    
+    return { ok: true, completedLessons, progress };
+  } catch (error) {
+    console.error("Error loading completed lessons:", error);
+    // Fallback a localStorage si falla la API
+    const storedLessons = localStorage.getItem(`completedLessons_${courseId}`);
+    if (storedLessons) {
+      commit("SET_COMPLETED_LESSONS", JSON.parse(storedLessons));
+    }
+    return { ok: false };
   }
 };
 
 // Actualizar lección completada
-export const updateCompletedLesson = ({ commit }, lessonId) => {
-  commit("ADD_COMPLETED_LESSON", lessonId);
+export const updateCompletedLesson = async ({ commit }, { lessonId, courseId }) => {
+  try {
+    // Actualizar en el servidor
+    const response = await axios.post(`/course/${courseId}/complete-lesson`, {
+      lesson_id: lessonId
+    });
+    
+    if (response.data.success) {
+      // Actualizar estado local
+      commit("ADD_COMPLETED_LESSON", lessonId);
+      
+      // Obtener progreso actualizado del servidor
+      const progressResponse = await axios.get(`/course/${courseId}/progress`);
+      const newProgress = progressResponse.data.progress || 0;
+      commit("UPDATE_PROGRESS_COURSE", newProgress);
+      
+      return { ok: true, progress: newProgress };
+    }
+  } catch (error) {
+    console.error("Error updating completed lesson:", error);
+    // Fallback: actualizar solo localmente
+    commit("ADD_COMPLETED_LESSON", lessonId);
+    return { ok: false };
+  }
 };
 
+export const syncProgressWithServer = async ({ commit }, courseId) => {
+  try {
+    const response = await axios.get(`/course/${courseId}/sync-progress`);
+    const { completed_lessons, progress } = response.data;
+    
+    commit("SET_COMPLETED_LESSONS", completed_lessons);
+    commit("UPDATE_PROGRESS_COURSE", progress);
+    
+    return { ok: true };
+  } catch (error) {
+    console.error("Error syncing progress:", error);
+    return { ok: false };
+  }
+};
 // Inicializar estado (progreso y lecciones)
 export const initializeState = ({ commit }) => {
   // Cargar lecciones completadas

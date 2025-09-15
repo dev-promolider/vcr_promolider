@@ -135,18 +135,9 @@ export default {
         const courseId = this.$route.query.course;
         const className = this.$route.query.class;
         
-        //console.log("🚀 Iniciando activeLesson:", { courseId, className });
-        //console.log(`🚀 Petición: GET class/show-class/${courseId}?name=${className}`);
         
         const res = await this.axios.get(`class/show-class/${courseId}?name=${className}`);
-        
-        //console.group("✅ Respuesta exitosa: GET class/show-class");
-        //console.log("📊 Status:", res.status);
-        //console.log("📋 Headers:", res.headers);
-        //console.log("💾 Data completa:", res.data);
-        //console.log("🎯 Lesson data:", res.data);
-        //console.log("🆔 Lesson ID:", res.data.id);
-        //console.groupEnd();
+      
         
         let lessonId = res.data.id;
         this.lessonId = lessonId;
@@ -160,7 +151,7 @@ export default {
         }
         
         try {
-          console.log("🔄 Ejecutando getVideo con ID:", res.data.id);
+          console.log("🔄 Ejecutando  con ID:", res.data.id);
           await this.getVideo(res.data.id);
         } catch (error) {
           console.group("❌ Error en getVideo");

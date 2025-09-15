@@ -32,6 +32,76 @@ ul {
   
 }
 
+.progress-bar-mini {
+  width: 150px;
+  height: 4px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1ae800, #2bff00);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Spinner mini para checkboxes */
+.mini-spinner {
+  width: 16px;
+  height: 16px;
+}
+
+.spinner-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #1ae800;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* Checkbox deshabilitado */
+input[type="checkbox"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Indicador de progreso */
+.progress-indicator {
+  font-size: 12px;
+}
+
+.progress-indicator small {
+  font-weight: 500;
+  color: #666;
+}
+
+/* Animación suave para las transiciones de progreso */
+.progress-fill {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Toast personalizado para completar curso */
+.course-completed-toast {
+  background: linear-gradient(135deg, #1ae800, #2bff00);
+  color: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
 .search-input input {
   padding: 10px;
   font-size: 1em;

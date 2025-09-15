@@ -13,6 +13,16 @@
             ">
             {{ title }}
           </p>
+          <!-- Mostrar progreso -->
+          <div v-if="content === 'temary'" class="progress-indicator mt-2" style="margin-left: 20px;">
+            <small class="text-muted">Progreso: {{ progress }}%</small>
+            <div class="progress-bar-mini">
+              <div 
+                class="progress-fill" 
+                :style="{ width: progress + '%' }"
+              ></div>
+            </div>
+          </div>
         </div>
 
         <!-- Div para el input de búsqueda -->
@@ -64,8 +74,23 @@
                   <!-- Listado de lecciones en cada módulo -->
                   <li v-for="(lesson, lessonIndex) in module.lessons" :key="lessonIndex">
                     <div style="display: flex; align-items: center">
-                      <input style="margin-right: 0px; position: relative" type="checkbox"
-                        :checked="isLessonCompleted(lesson.id)" @change="toggleLessonCompletion(lesson.id)" />
+                      <div style="position: relative; margin-right: 0px;">
+                        <input 
+                          style="position: relative" 
+                          type="checkbox"
+                          :checked="isLessonCompleted(lesson.id)" 
+                          @change="toggleLessonCompletion(lesson.id)"
+                          :disabled="isUpdatingProgress"
+                        />
+                        <!-- Spinner pequeño para mostrar carga -->
+                        <div 
+                          v-if="isUpdatingProgress" 
+                          class="mini-spinner"
+                          style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center;"
+                        >
+                          <div class="spinner-dot"></div>
+                        </div>
+                      </div>
                       <a style="margin-left: 10px" @click="changeClass(lesson)"
                         :class="{ activo: lesson.name === clase }" :title="lesson.name">
                         {{ lesson.name }}
@@ -165,6 +190,7 @@ export default {
       loading: true,
       isHover: false,
       isFocus: false,
+      isUpdatingProgress: false, // Nuevo estado para evitar múltiples llamadas
     };
   },
   computed: {
@@ -245,8 +271,92 @@ export default {
     },
 
     async toggleLessonCompletion(lessonId) {
-      await this.checkClass(lessonId);
-      this.updateCompletedLesson(lessonId);
+      if (this.isUpdatingProgress) return;
+
+      this.isUpdatingProgress = true;
+
+      try {
+        const courseId = this.$route.query.course;
+
+        // Llamar a la action que maneja BD y estado local
+        const result = await this.$store.dispatch("course/updateCompletedLesson", {
+          lessonId,
+          courseId
+        });
+
+        if (result.ok) {
+          // Mostrar mensaje de éxito
+          this.$toast.success('Progreso actualizado');
+        } else {
+          this.$toast.warning('Progreso guardado localmente');
+        }
+
+      } catch (error) {
+        console.error("Error al actualizar progreso:", error);
+        this.$toast.error('Error al actualizar progreso');
+        this.$forceUpdate();
+      } finally {
+        this.isUpdatingProgress = false;
+      }
+    },
+
+    // Nuevo método para calcular y actualizar el progreso del curso
+    async updateCourseProgress() {
+      try {
+        const courseId = this.$route.query.course;
+        if (!courseId) return;
+
+        // Calcular progreso basado en lecciones completadas
+        const totalLessons = this.getTotalLessons();
+        const completedLessons = this.vuexCompletedLessons.length;
+        const progressPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+        // Enviar progreso al backend
+        const response = await this.axios.post(`/class/${courseId}/progress`, {
+          progress: progressPercentage
+        });
+
+        console.log("Progreso actualizado:", response.data);
+        
+        // Actualizar estado local del progreso
+        this.progress = progressPercentage;
+        
+        // Emitir evento si el curso se completó
+        if (response.data.completed) {
+          this.$emit('courseCompleted', courseId);
+          this.$toast.success('¡Felicitaciones! Has completado el curso');
+        }
+
+      } catch (error) {
+        console.error("Error al actualizar progreso del curso:", error);
+        this.$toast.error('Error al actualizar el progreso');
+      }
+    },
+
+    // Método actualizado para cargar progreso inicial
+    async loadCourseProgress() {
+      try {
+        const courseId = this.$route.query.course;
+        if (!courseId) return;
+
+        const response = await this.axios.get(`/class/${courseId}/progress`);
+        this.progress = response.data.progress;
+        
+        console.log("Progreso cargado:", response.data);
+        
+      } catch (error) {
+        console.error("Error al cargar progreso:", error);
+        this.progress = 0;
+      }
+    },
+
+    // Método para obtener el total de lecciones
+    getTotalLessons() {
+      if (!this.course || !this.course.modules) return 0;
+      
+      return this.course.modules.reduce((total, module) => {
+        return total + (module.lessons ? module.lessons.length : 0);
+      }, 0);
     },
 
     performSearch() {
@@ -292,6 +402,8 @@ export default {
           "course/updateCourseProgress",
           this.$route.query.course
         );
+        // También actualizar el progreso en el backend
+        await this.updateCourseProgress();
       }
     },
 
@@ -343,20 +455,19 @@ export default {
         console.error("Course ID not found in route");
         return;
       }
+      
       try {
         await this.axios.put(
           `purchased/update?course_id=${this.$route.query.course}&class_id=${lessonId}`
         );
+        
         await this.$store.dispatch("course/updateCompletedLessons", lessonId);
-        await this.$store.dispatch(
-          "course/updateCourseProgress",
-          this.$route.query.course
-        );
+        
       } catch (error) {
         console.error("Error updating class:", error);
+        throw error; // Re-lanzar el error para manejarlo en toggleLessonCompletion
       }
     },
-
     handleFocus(focus) {
       this.isFocus = focus;
     },
@@ -365,21 +476,18 @@ export default {
       this.isHover = hover;
     },
   },
-  created() {
+  async created() {
     this.$store.dispatch("course/initializeState");
-    this.initializeCompletedLessons();
-
-    // Asegúrate de que el curso se cargue antes de continuar
+    
     if (this.$route.query.course) {
-      this.getCourse(this.$route.query.course)
-        .then(() => {
-          // Forzar actualización del componente después de cargar los datos
-          this.$forceUpdate();
-          this.getProgress();
-        })
-        .catch((error) => {
-          console.error("Error al cargar el curso:", error);
-        });
+      // Cargar datos del curso
+      await this.getCourse(this.$route.query.course);
+      
+      // Inicializar progreso desde la base de datos
+      await this.$store.dispatch("course/initializeCompletedLessons", this.$route.query.course);
+      
+      // Sincronizar con servidor si hay diferencias
+      await this.$store.dispatch("course/syncProgressWithServer", this.$route.query.course);
     }
   },
   updated() {

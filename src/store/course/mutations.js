@@ -46,17 +46,18 @@ export const SET_RESOURCES = (state, resources) => {
 
 export const SET_COMPLETED_LESSONS = (state, lessons) => {
   state.completedLessons = lessons;
-  localStorage.setItem("completedLessons", JSON.stringify(lessons));
+  // Mantener backup local pero con identificador por curso
+  const courseId = state.course?.id || 'default';
+  localStorage.setItem(`completedLessons_${courseId}`, JSON.stringify(lessons));
 };
 
 export const ADD_COMPLETED_LESSON = (state, lessonId) => {
-  // Añadimos una lección completada si no está ya en la lista
   if (!state.completedLessons.includes(lessonId)) {
     state.completedLessons.push(lessonId);
-    localStorage.setItem(
-      "completedLessons",
-      JSON.stringify(state.completedLessons)
-    );
+    
+    // Backup local con identificador de curso
+    const courseId = state.course?.id || 'default';
+    localStorage.setItem(`completedLessons_${courseId}`, JSON.stringify(state.completedLessons));
   }
 };
 
@@ -73,9 +74,12 @@ export const SET_PRODUCTOR = (state, productor) => {
   state.productor = productor;
 };
 
-export const UPDATE_PROGRESS_COURSE = (state, progressCourseSelect) => {
-  state.progressCourseSelect = progressCourseSelect;
-  localStorage.setItem("progressCourseSelect", progressCourseSelect);
+export const UPDATE_PROGRESS_COURSE = (state, progressValue) => {
+  state.progressCourseSelect = progressValue;
+  
+  // Backup local con identificador de curso
+  const courseId = state.course?.id || 'default';
+  localStorage.setItem(`progressCourse_${courseId}`, progressValue);
 };
 
 export const DESTROY_PROGRESS_COURSE = (state) => {
