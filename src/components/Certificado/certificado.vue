@@ -13,8 +13,12 @@
           <!-- Lista de cursos -->
           <template v-else>
             <h4 class="mb-4 border-bottom pb-2">Mis Cursos</h4>
-            <div class="courses-list">
-              <div v-for="product in products" :key="product.id" class="course-card"
+            <div v-if="coursesWithCertificate.length === 0" class="alert alert-info">
+              <i class="bi bi-info-circle me-2"></i>
+              No tiene cursos con certificado disponible.
+            </div>
+            <div v-else class="courses-list">
+              <div v-for="product in coursesWithCertificate" :key="product.id" class="course-card"
                 @click="getCertificateInfo(product)" :class="{
                   active: productSelected && productSelected.id === product.id,
                 }">
@@ -28,6 +32,10 @@
                         <h6 class="card-title text-truncate mb-0">
                           {{ product.title }}
                         </h6>
+                        <small class="text-success">
+                          <i class="bi bi-award me-1"></i>
+                          Con certificado
+                        </small>
                       </div>
                     </div>
                   </div>
@@ -69,7 +77,7 @@
             </div>
 
             <!-- Información del certificado -->
-            <div v-if="certificateInfo" class="certificate-info">
+            <div v-if="certificateInfo && !certificateInfo.noCertificate" class="certificate-info">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title mb-4">Información del Certificado</h4>
@@ -181,6 +189,12 @@
               </div>
             </div>
 
+            <!-- Estado cuando el curso no tiene certificado disponible -->
+            <div v-else-if="certificateInfo && certificateInfo.noCertificate" class="alert alert-info">
+              <i class="bi bi-info-circle me-2"></i>
+              Este curso no tiene certificado disponible.
+            </div>
+
             <!-- Estado sin información de certificado -->
             <div v-else class="alert alert-warning">
               <i class="bi bi-exclamation-triangle me-2"></i>
@@ -200,22 +214,18 @@ export default {
   data() {
     return {
       products: [],
+      coursesWithCertificate: [], // Nueva propiedad para cursos filtrados
       waitSelection: true,
       productSelected: null,
       certificateInfo: null,
       canClaimCertificate: false,
       certificate_exam_progress: 0,
+      currentCourseProgress: 0, // Ahora es una variable de estado local
     };
   },
   computed: {
     ...mapState("course", ["courseProgress"]),
     ...mapGetters("course", ["course"]),
-
-    currentCourseProgress() {
-      return this.productSelected
-        ? this.courseProgress[this.productSelected.id] || 0
-        : 0;
-    },
 
     showVideoProgress() {
       return (
@@ -241,7 +251,7 @@ export default {
         case 1:
           return this.certificate_exam_progress;
         case 2:
-          return (
+          return Math.round(
             (this.currentCourseProgress + this.certificate_exam_progress) / 2
           );
         default:
@@ -254,36 +264,107 @@ export default {
       try {
         const { data } = await this.axios.get("/course/purchased-courses");
         this.products = data.data;
+        
+        // Filtrar solo los cursos que tienen certificado disponible
+        await this.filterCoursesWithCertificate();
       } catch (error) {
         console.error("Error fetching courses:", error);
+      }
+    },
+
+    async filterCoursesWithCertificate() {
+      this.coursesWithCertificate = [];
+      
+      console.log("=== FILTRANDO CURSOS CON CERTIFICADO ===");
+      console.log("Total de cursos:", this.products.length);
+      
+      for (const course of this.products) {
+        try {
+          const response = await this.axios.get(`/course/details/${course.id}`);
+          const courseDetails = response.data.data;
+          
+          // El certificate puede venir como boolean true/false o como number 1/0
+          const hasCertificate = courseDetails.certificate === true || courseDetails.certificate === 1;
+          
+          console.log(`Curso ${course.title}:`, {
+            id: course.id,
+            certificate: courseDetails.certificate,
+            certificateType: typeof courseDetails.certificate,
+            hasCertificate: hasCertificate
+          });
+          
+          if (hasCertificate) {
+            this.coursesWithCertificate.push(course);
+          }
+        } catch (error) {
+          console.error(`Error checking certificate for course ${course.id}:`, error);
+        }
+      }
+      
+      console.log("Cursos con certificado:", this.coursesWithCertificate.length);
+      console.log("=====================================");
+    },
+
+    async getCourseProgress(courseId) {
+      try {
+        const response = await this.axios.get(`/course/${courseId}/progress`);
+        
+        console.log("=== PROGRESO DEL CURSO ===");
+        console.log("Curso ID:", courseId);
+        console.log("Respuesta del endpoint:", response.data);
+        console.log("Progreso obtenido:", response.data.progress);
+        console.log("========================");
+        
+        return response.data.progress || 0;
+      } catch (error) {
+        console.error("Error fetching course progress:", error);
+        return 0;
       }
     },
 
     async getCertificateInfo(product) {
       this.productSelected = product;
       this.waitSelection = false;
+      
+      // Resetear valores
+      this.certificateInfo = null;
+      this.currentCourseProgress = 0;
+      this.certificate_exam_progress = 0;
+      this.canClaimCertificate = false;
     
       try {
-        const [certificateRes, examRes] = await Promise.all([
+        // Primero verificar si el curso tiene certificado disponible
+        const courseDetailsRes = await this.axios.get(`/course/details/${product.id}`);
+        const courseDetails = courseDetailsRes.data.data;
+        
+        console.log("=== VERIFICACIÓN DE CERTIFICADO ===");
+        console.log("Detalles del curso:", courseDetails);
+        console.log("Certificado disponible:", courseDetails.certificate);
+        console.log("==================================");
+        
+        // Si el curso no tiene certificado disponible, mostrar mensaje
+        if (courseDetails.certificate !== true && courseDetails.certificate !== 1) {
+          this.certificateInfo = { noCertificate: true };
+          return;
+        }
+
+        const [certificateRes, examRes, progressRes] = await Promise.all([
           this.axios.get(`/course/certificate/data?course_id=${product.id}`),
           this.axios.get(`/course/exam/list?id=${product.id}`),
+          this.getCourseProgress(product.id)
         ]);
       
         this.certificateInfo = certificateRes.data;
         this.certificate_exam_progress = examRes.data.exam_progress || 0;
+        this.currentCourseProgress = progressRes;
       
-        // Actualizar progreso de videos
-        await this.$store.dispatch("course/updateCourseProgress", product.id);
-      
-        // AGREGAR ESTOS CONSOLE.LOG PARA VER LA INFORMACIÓN:
-        console.log("=== INFORMACIÓN DE PROGRESO ===");
+        console.log("=== INFORMACIÓN COMPLETA DE PROGRESO ===");
         console.log("Curso seleccionado:", product);
-        console.log("Estado completo courseProgress:", this.courseProgress);
-        console.log("Progreso del curso actual:", this.currentCourseProgress);
+        console.log("Progreso de videos:", this.currentCourseProgress);
         console.log("Progreso de exámenes:", this.certificate_exam_progress);
         console.log("Progreso combinado:", this.combinedProgress);
         console.log("Información del certificado:", this.certificateInfo);
-        console.log("================================");
+        console.log("======================================");
       
         this.checkCertificateEligibility();
       } catch (error) {
@@ -330,78 +411,31 @@ export default {
     },
 
     async claimCertificate() {
+      this.downloading = true;
+      
       try {
-        // 1. Verificar si puede reclamar el certificado
-        const readyResponse = await this.axios.get(`/course/certificate/check/${this.productSelected.id}`);
-      
-        console.log("=== RESPUESTA DEL ENDPOINT /course/certificate/check ===");
-        console.log("Respuesta cruda:", readyResponse);
-        console.log("Datos (readyResponse.data):", readyResponse.data);
-        console.log("========================================================");
-      
-        if (!readyResponse.data) {
-          alert("Aún no cumples los requisitos para obtener el certificado");
-          return;
-        }
-      
-        // 2. Obtener la URL del certificado
-        const downloadResponse = await this.axios.get(`/certificate/download/${this.productSelected.id}`);
-      
-        console.log("=== RESPUESTA DEL ENDPOINT DE DESCARGA ===");
-        console.log(downloadResponse.data);
-        console.log("==========================================");
-      
-        if (downloadResponse.data.success) {
-          // 3. Descargar el archivo usando fetch para convertirlo a blob
-          console.log("Descargando archivo desde:", downloadResponse.data.download_url);
+          const response = await this.axios.get(
+            `/my-courses/${this.productSelected.id}/certificate/download`,
+            { responseType: 'blob' }
+          );
           
-          const response = await fetch(downloadResponse.data.download_url, {
-            method: 'GET',
-            headers: {
-              'Accept': 'image/png',
-            },
-          });
-        
-          if (!response.ok) {
-            throw new Error(`Error al descargar: ${response.status}`);
-          }
-        
-          // 4. Convertir a blob
-          const blob = await response.blob();
-          console.log("Blob creado:", blob.type, blob.size, "bytes");
-        
-          // 5. Crear URL del blob y descargar
-          const blobUrl = window.URL.createObjectURL(blob);
+          const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
-          link.href = blobUrl;
-          link.download = downloadResponse.data.filename;
-          
-          // 6. Ejecutar la descarga
+          link.href = url;
+          link.setAttribute('download', `certificado_${this.course.slug}.pdf`);
           document.body.appendChild(link);
           link.click();
-          document.body.removeChild(link);
           
-          // 7. Limpiar el blob URL
-          window.URL.revokeObjectURL(blobUrl);
-        
-          console.log("✅ Certificado descargado exitosamente");
-          alert("¡Certificado descargado exitosamente!");
-        
-        } else {
-          alert("No se pudo obtener la URL del certificado");
-        }
-      
+          link.remove();
+          window.URL.revokeObjectURL(url);
+          
+          this.$message.success('Certificado descargado exitosamente');
+          
       } catch (error) {
-        console.error("Error al reclamar el certificado:", error);
-      
-        // Manejo específico de errores
-        if (error.response?.status === 404) {
-          alert("Certificado no disponible. Asegúrate de haber completado el curso.");
-        } else if (error.response?.status === 403) {
-          alert("No tienes permisos para descargar este certificado.");
-        } else {
-          alert("No se pudo reclamar el certificado. Intente nuevamente.");
-        }
+          this.$message.error('Error al descargar el certificado');
+          console.error(error);
+      } finally {
+          this.downloading = false;
       }
     },
   },
