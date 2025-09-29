@@ -65,9 +65,30 @@
         <div v-if="content == 'temary'" style="max-height: 300px; overflow-y: auto">
           <ul v-for="(module, moduleIndex) in filteredModules" :key="moduleIndex" class="mt-3">
             <li class="nav-temario" :title="module.name">
-              <p class="module-text" v-b-toggle="module.name.replace(/ /g, '')">
-                {{ moduleIndex + 1 }}. {{ module.name }}
-              </p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p class="module-text" v-b-toggle="module.name.replace(/ /g, '')">
+                  {{ moduleIndex + 1 }}. {{ module.name }}
+                </p>
+                <!-- Indicador de completitud del módulo -->
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span 
+                    v-if="moduleCompletionStatus[module.id]" 
+                    :class="moduleCompletionStatus[module.id].is_completed ? 'badge badge-success' : 'badge badge-warning'"
+                    style="font-size: 0.7em;"
+                  >
+                    {{ moduleCompletionStatus[module.id].is_completed ? 'Completado' : `${moduleCompletionStatus[module.id].completion_percentage}%` }}
+                  </span>
+                  <!-- Botón para verificar módulo específico -->
+                  <button 
+                    @click="checkSpecificModule(module.id)" 
+                    class="btn btn-xs btn-outline-primary"
+                    style="font-size: 0.7em; padding: 2px 6px;"
+                    title="Verificar este módulo"
+                  >
+                    ✓
+                  </button>
+                </div>
+              </div>
 
               <b-collapse visible :id="module.name.replace(/ /g, 'AAAAA')">
                 <ul style="overflow: auto; max-height: 200px">
@@ -190,7 +211,8 @@ export default {
       loading: true,
       isHover: false,
       isFocus: false,
-      isUpdatingProgress: false, // Nuevo estado para evitar múltiples llamadas
+      isUpdatingProgress: false,
+      moduleCompletionStatus: {}, // Nuevo: estado de completitud de módulos
     };
   },
   computed: {
@@ -259,6 +281,144 @@ export default {
       "DESTROY_PROGRESS_COURSE",
     ]),
 
+    // NUEVOS MÉTODOS PARA LOS ENDPOINTS DE MÓDULOS
+
+    /**
+     * Verificar el estado de completitud de todos los módulos del curso
+     */
+    async checkModuleCompletion() {
+      try {
+        const courseId = this.$route.query.course;
+        if (!courseId) {
+          console.error("❌ No se encontró course_id en la ruta");
+          return;
+        }
+
+        console.log("🚀 Verificando completitud de módulos para el curso:", courseId);
+
+        const response = await this.axios.get(`/course/${courseId}/modules-completion`);
+        
+        console.log("✅ RESPUESTA ENDPOINT - Estado de todos los módulos:");
+        console.log("📊 Datos completos:", response.data);
+        
+        if (response.data.success) {
+          console.log("📈 RESUMEN GENERAL:");
+          console.log(`- Total de módulos: ${response.data.summary.total_modules}`);
+          console.log(`- Módulos completados: ${response.data.summary.completed_modules}`);
+          
+          console.log("\n📚 DETALLE POR MÓDULO:");
+          response.data.modules.forEach((module, index) => {
+            console.log(`\n${index + 1}. Módulo: ${module.module_name} (ID: ${module.module_id})`);
+            console.log(`   - Estado: ${module.is_completed ? '✅ COMPLETADO' : '⚠️ INCOMPLETO'}`);
+            console.log(`   - Progreso: ${module.completion_percentage}%`);
+            console.log(`   - Clases totales: ${module.total_classes}`);
+            console.log(`   - Clases completadas: ${module.completed_classes}`);
+            
+            if (module.completed_class_ids.length > 0) {
+              console.log(`   - IDs clases completadas: [${module.completed_class_ids.join(', ')}]`);
+            }
+            
+            if (module.pending_class_ids.length > 0) {
+              console.log(`   - IDs clases pendientes: [${module.pending_class_ids.join(', ')}]`);
+            }
+          });
+
+          // Actualizar el estado local para mostrar en la UI
+          const statusMap = {};
+          response.data.modules.forEach(module => {
+            statusMap[module.module_id] = {
+              is_completed: module.is_completed,
+              completion_percentage: module.completion_percentage,
+              total_classes: module.total_classes,
+              completed_classes: module.completed_classes
+            };
+          });
+          this.moduleCompletionStatus = statusMap;
+
+          // Mostrar toast con el resumen
+          if (response.data.summary.completed_modules === response.data.summary.total_modules) {
+            this.$toast.success(`🎉 ¡Todos los módulos completados! (${response.data.summary.completed_modules}/${response.data.summary.total_modules})`);
+          } else {
+            this.$toast.info(`📊 Progreso: ${response.data.summary.completed_modules}/${response.data.summary.total_modules} módulos completados`);
+          }
+        }
+
+      } catch (error) {
+        console.error("❌ ERROR al verificar módulos:", error);
+        if (error.response) {
+          console.error("📋 Respuesta del servidor:", error.response.data);
+          console.error("🔢 Status:", error.response.status);
+        }
+        this.$toast.error('Error al verificar estado de módulos');
+      }
+    },
+
+    /**
+     * Verificar el estado de un módulo específico
+     */
+    async checkSpecificModule(moduleId) {
+      try {
+        const courseId = this.$route.query.course;
+        if (!courseId) {
+          console.error("❌ No se encontró course_id en la ruta");
+          return;
+        }
+
+        console.log(`🎯 Verificando módulo específico: ${moduleId} del curso: ${courseId}`);
+
+        const response = await this.axios.get(`/course/${courseId}/module/${moduleId}/completion`);
+        
+        console.log("✅ RESPUESTA ENDPOINT - Módulo específico:");
+        console.log("📊 Datos completos:", response.data);
+        
+        if (response.data.success) {
+          const module = response.data;
+          console.log("\n📚 DETALLE DEL MÓDULO:");
+          console.log(`- Nombre: ${module.module_name}`);
+          console.log(`- ID: ${module.module_id}`);
+          console.log(`- Estado: ${module.is_completed ? '✅ COMPLETADO' : '⚠️ INCOMPLETO'}`);
+          console.log(`- Progreso: ${module.completion_percentage}%`);
+          console.log(`- Clases totales: ${module.total_classes}`);
+          console.log(`- Clases completadas: ${module.completed_classes}`);
+          
+          if (module.completed_class_ids.length > 0) {
+            console.log(`- IDs clases completadas: [${module.completed_class_ids.join(', ')}]`);
+          }
+          
+          if (module.pending_class_ids.length > 0) {
+            console.log(`- IDs clases pendientes: [${module.pending_class_ids.join(', ')}]`);
+          }
+          
+          console.log(`- Mensaje: ${module.message}`);
+
+          // Actualizar el estado local para este módulo específico
+          this.$set(this.moduleCompletionStatus, moduleId, {
+            is_completed: module.is_completed,
+            completion_percentage: module.completion_percentage,
+            total_classes: module.total_classes,
+            completed_classes: module.completed_classes
+          });
+
+          // Mostrar toast con el resultado
+          if (module.is_completed) {
+            this.$toast.success(`✅ Módulo "${module.module_name}" completado`);
+          } else {
+            this.$toast.warning(`⚠️ Módulo "${module.module_name}" incompleto (${module.completion_percentage}%)`);
+          }
+        }
+
+      } catch (error) {
+        console.error(`❌ ERROR al verificar módulo ${moduleId}:`, error);
+        if (error.response) {
+          console.error("📋 Respuesta del servidor:", error.response.data);
+          console.error("🔢 Status:", error.response.status);
+        }
+        this.$toast.error('Error al verificar estado del módulo');
+      }
+    },
+
+    // MÉTODOS EXISTENTES (sin cambios)
+
     isLessonCompleted(lessonId) {
       return this.vuexCompletedLessons.includes(lessonId);
     },
@@ -287,6 +447,11 @@ export default {
         if (result.ok) {
           // Mostrar mensaje de éxito
           this.$toast.success('Progreso actualizado');
+          
+          // Verificar automáticamente los módulos después de completar una lección
+          setTimeout(() => {
+            this.checkModuleCompletion();
+          }, 1000);
         } else {
           this.$toast.warning('Progreso guardado localmente');
         }
@@ -468,6 +633,7 @@ export default {
         throw error; // Re-lanzar el error para manejarlo en toggleLessonCompletion
       }
     },
+    
     handleFocus(focus) {
       this.isFocus = focus;
     },
@@ -488,6 +654,11 @@ export default {
       
       // Sincronizar con servidor si hay diferencias
       await this.$store.dispatch("course/syncProgressWithServer", this.$route.query.course);
+      
+      // Verificar estado inicial de módulos después de cargar el curso
+      setTimeout(() => {
+        this.checkModuleCompletion();
+      }, 2000);
     }
   },
   updated() {
@@ -518,4 +689,48 @@ export default {
 
 <style scoped>
 @import "./style.css";
+
+/* Estilos adicionales para los nuevos elementos */
+.badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.badge-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.btn-xs {
+  padding: 2px 6px;
+  font-size: 0.7em;
+  line-height: 1.2;
+}
+
+.progress-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.progress-bar-mini {
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #28a745;
+  transition: width 0.3s ease;
+}
 </style>
