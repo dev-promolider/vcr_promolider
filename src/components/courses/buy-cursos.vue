@@ -536,7 +536,7 @@ export default {
           }
 
           const form = {
-            id_course: this.pao_id,
+            course_id: this.pao_id,
             user_id: this.user_id,
             type_purchase: 2,
           };
@@ -637,7 +637,7 @@ export default {
         this.$store.commit("course/SET_LOADING", true);
 
         const form = {
-          id_course: this.pao_id,
+          course_id: this.pao_id,
           type_purchase: 3,
           user_id: this.user_id,
         };
