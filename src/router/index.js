@@ -19,6 +19,7 @@ const CursoUser = () => import("../views/content/course/Course.vue");
 const Login = () => import("../views/auth/Login.vue");
 const Perfil = () => import("../views/content/perfil/Perfil.vue");
 const buycursos = () => import("../components/courses/buy-cursos.vue");
+const buybooks = () => import("../components/courses/buy-books.vue");
 const Certificado = () => import("../components/Certificado/certificado.vue");
 const detalleCertificado = () =>
   import("../components/Certificado/detalleCertificado.vue");
@@ -70,6 +71,12 @@ const routes = [
         path: "buy-cursos/:ide/:slug", // El ? hace que title sea opcional
         name: "buy-cursos",
         component: buycursos,
+        props: true,
+      },
+      {
+        path: "buy-books/:ide/:slug",
+        name: "buy-books",
+        component: buybooks,
         props: true,
       },
       {

@@ -1,7 +1,7 @@
 <template>
   <div :title="course.title" class="course-card" v-if="course" @click="
       cardType == 1
-        ? action(course.id, course.slug)
+        ? action(course.id, course.slug, course.product_type_id)
         : cardType == 4
           ? getCertificates(course)
           : goToCourse(course)
@@ -124,9 +124,17 @@ export default {
           this.spin = false;
         });
     },
-    action(id, slug) {
+    action(id, slug, productTypeId) {
+      let routeName;
+
+      if (productTypeId === 1) {
+        routeName = "buy-cursos";
+      } else {
+        routeName = "buy-books";
+      }
+      
       this.$router
-        .push({ name: "buy-cursos", params: { ide: id, slug: slug } })
+        .push({ name: routeName, params: { ide: id, slug: slug } })
         .catch(() => {
           // Handle navigation error silently
         });

@@ -74,6 +74,16 @@
 
           <component v-if="courses.length > 0" :is="currentView" :courses="filteredAllCourses" />
         </div>
+
+        <div class="mb-4 ml-2" v-if="!loading">
+          <h3 class="font-weight-normal mt-7 mb-5">Todos los Libros</h3>
+
+          <div v-if="!releasedBooks.length" class="text-center my-4">
+            <p>No hay libros disponibles.</p>
+          </div>
+
+          <component v-if="releasedBooks.length > 0" :is="currentView" :courses="filteredReleasedBooks" />
+        </div>
       </div>
     </div>
   </div>
@@ -115,6 +125,7 @@ export default {
       relatedCourses: [],
       recentCourses: [],
       lastRecentCourses: [],
+      releasedBooks: [],
       approvalDateField: "updated_at",
       prueba: [],
       notCourses: false,
@@ -173,6 +184,17 @@ export default {
 
       return filtered;
     },
+    filteredReleasedBooks() {
+      let filtered = this.releasedBooks;
+
+      if (this.searchQuery) {
+        filtered = filtered.filter((book) =>
+          book.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
+
+      return filtered;
+    },
   },
   methods: {
     async getAttributes() {
@@ -182,11 +204,13 @@ export default {
           releasedCoursesRes,
           relatedCoursesRes,
           interestingCoursesRes,
+          releasedBooksRes,
         ] = await Promise.all([
           this.axios.get("category/list"),
           this.axios.get("course/released-courses"),
           this.axios.get("course/related-courses"),
           this.axios.get("course/interesting-courses"), // ← el que faltaba
+          this.axios.get("course/list-available-books"),
         ]);
 
         console.log("📦 Respuestas recibidas:");
@@ -218,6 +242,10 @@ export default {
 
         this.interesCourses = Array.isArray(interestingCoursesRes.data?.data)
           ? interestingCoursesRes.data.data
+          : [];
+
+        this.releasedBooks = Array.isArray(releasedBooksRes.data?.data)
+          ? releasedBooksRes.data.data
           : [];
 
         this.loading = false;
