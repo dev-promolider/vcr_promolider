@@ -89,7 +89,7 @@ export default {
       listNavBar: [
         { nombre: "Inicio", icon: "home", path: "home" },
         { nombre: "Mi aprendizaje", icon: "book", path: "suscription-user" },
-        { nombre: "Mis cursos", icon: "book-check", path: "myCourses" },
+        { nombre: "Mis infoproductos", icon: "book-check", path: "myCourses" },
         { nombre: "Marketplace", icon: "store", path: "courses" },
         { nombre: "Mis exámenes", icon: "file", path: "examenes" },
         {

@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@videojs/http-streaming": "^2.13.1",
-    "@vue/composition-api": "^1.7.1",
     "axios": "^0.24.0",
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.21.2",
@@ -29,6 +28,7 @@
     "vue-axios": "^3.3.7",
     "vue-carousel": "^0.18.0",
     "vue-dynamic-star-rating": "^1.0.8",
+    "vue-feather-icons": "^5.1.0",
     "vue-horizontal": "^0.8.12",
     "vue-meta": "^2.4.0",
     "vue-router": "^3.2.0",

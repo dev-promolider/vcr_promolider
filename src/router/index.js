@@ -16,6 +16,7 @@ const ProductorCourses = () =>
   import("../views/content/productorCourses/ProductorCourses.vue");
 const Messages = () => import("../views/content/message/Messages.vue");
 const CursoUser = () => import("../views/content/course/Course.vue");
+const ViewBook = () => import("../views/content/book/ViewBook.vue");
 const Login = () => import("../views/auth/Login.vue");
 const Perfil = () => import("../views/content/perfil/Perfil.vue");
 const buycursos = () => import("../components/courses/buy-cursos.vue");
@@ -83,6 +84,12 @@ const routes = [
         path: "/course-user",
         component: CursoUser,
         name: "curso",
+        props: true,
+      },
+      {
+        path: "/book/:id",
+        component: ViewBook,
+        name: "book",
         props: true,
       },
       { path: "/test/:id", component: pruebasCourse, name: "test" },
