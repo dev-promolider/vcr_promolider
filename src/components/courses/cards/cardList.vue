@@ -7,7 +7,7 @@
                         <div v-if="course.price === 0" class="free-tag-wrapper">
                             <div class="free-tag">GRATIS</div>
                         </div>
-                        <img :src="course.url_portada" alt="no image" class="img-cursos-portad" />
+                        <img :src="course.url_portada ? (course.url_portada.startsWith('http') ? course.url_portada.replace('s3.sa-east-1', 's3-accelerate') : 'https://promolider-storage-user.s3-accelerate.amazonaws.com/' + course.url_portada) : ''" alt="no image" class="img-cursos-portad" />
                     </div>
                     <div class="column info-column">
                         <div class="course-info">

@@ -9,7 +9,7 @@
   ">
     <div class="tarjeta-cursos">
       <div>
-        <img :src="course.url_portada" alt="no image" class="img-fluid img-cursos-portad" />
+        <img :src="course.url_portada ? (course.url_portada.startsWith('http') ? course.url_portada.replace('s3.sa-east-1', 's3-accelerate') : 'https://promolider-storage-user.s3-accelerate.amazonaws.com/' + course.url_portada) : ''" alt="no image" class="img-fluid img-cursos-portad" />
       </div>
       <div class="card-content">
         <div class="text-primary-pl valoracion-curso">

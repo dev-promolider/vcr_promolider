@@ -374,7 +374,8 @@ export default {
     },
 
     getImage(item) {
-      return item.url_portada || 'https://placehold.co/600x360?text=Contenido'
+      if (!item.url_portada) return 'https://placehold.co/600x360?text=Contenido';
+      return item.url_portada.startsWith('http') ? item.url_portada.replace('s3.sa-east-1', 's3-accelerate') : 'https://promolider-storage-user.s3-accelerate.amazonaws.com/' + item.url_portada;
     },
 
     formatPrice(value, currency) {
