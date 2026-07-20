@@ -1,4 +1,4 @@
-name: Deploy VCR via SSH
+name: Deploy VCR
 
 on:
   push:
@@ -10,37 +10,32 @@ concurrency:
   group: deploy-${{ github.ref_name }}
   cancel-in-progress: true
 
-env:
-  DEPLOY_BRANCH: ${{ github.ref_name }}
-
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy en servidor
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # o la versión de Node que uses
+
+      - name: Instalar dependencias
+        run: npm ci --legacy-peer-deps
+
+      - name: Compilar aplicación (Build)
+        run: npm run build
+
+      - name: Desplegar a servidor por SCP
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: |
-            set -e
-
-            cd ${{ secrets.PROJECT_PATH }}
-
-            echo "==> Rama de despliegue: ${{ env.DEPLOY_BRANCH }}"
-            
-            echo "==> Actualizando código"
-            git fetch origin ${{ env.DEPLOY_BRANCH }}
-            git checkout ${{ env.DEPLOY_BRANCH }} || git checkout -b ${{ env.DEPLOY_BRANCH }} origin/${{ env.DEPLOY_BRANCH }}
-            git reset --hard origin/${{ env.DEPLOY_BRANCH }}
-
-            echo "==> Instalando dependencias de Node"
-            npm ci --legacy-peer-deps
-
-            echo "==> Compilando aplicación Vue"
-            npm run build
-
-            echo "==> Despliegue de VCR completado"
+          source: "dist/*"
+          target: ${{ secrets.PROJECT_PATH }}
+          strip_components: 1
