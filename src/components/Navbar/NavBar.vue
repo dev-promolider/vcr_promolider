@@ -1,23 +1,28 @@
 <template>
   <div style="margin-bottom: 0px">
-    <v-app-bar scroll-behavior="hide" class="custom-app-bar">
+    <v-app-bar app scroll-behavior="hide" class="custom-app-bar">
       <!-- Icono de menú para dispositivos móviles -->
-      <v-app-bar-nav-icon color="#4ff70d" @click="changeDrawer"
+      <v-app-bar-nav-icon color="#10B981" @click="changeDrawer"
         v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"></v-app-bar-nav-icon>
+
+      <!-- Título de la sección activa -->
+      <div v-if="titulo" class="d-flex align-center ml-3">
+        <span class="header-section-title">{{ titulo }}</span>
+      </div>
+
       <v-spacer></v-spacer>
 
-      <!-- Puntos del usuario -->
-      <v-chip v-if="!$vuetify.breakpoint.xs && points >= 0" class="mx-2" label outlined text-color="#1ae800"
-        color="#1ae800">
-        <v-icon left color="#1ae800"> mdi-trophy-award </v-icon>
-        {{ points }} Pts
-      </v-chip>
+      <!-- Puntos del usuario (Bubble Pill Badge) -->
+      <div v-if="!$vuetify.breakpoint.xs && points >= 0" class="header-points-pill mx-2">
+        <v-icon left size="18" color="#10B981"> mdi-trophy-award </v-icon>
+        <span>{{ points }} Pts</span>
+      </div>
 
       <!-- Modal de progreso de curso -->
       <v-tooltip v-if="courseSelected" bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" icon v-on="on" style="position: relative">
-            <v-progress-circular :rotate="-90" :size="45" :width="4" :value="currentCourseProgress" color="#1ae800"
+            <v-progress-circular :rotate="-90" :size="45" :width="4" :value="currentCourseProgress" color="#10B981"
               class="custom-progress">
               <div style="
                   position: absolute;
@@ -33,11 +38,12 @@
                     width: 100%;
                     text-align: center;
                     font-size: 11px;
-                    color: #1ae800;
+                    color: #10B981;
+                    font-weight: 700;
                   ">
                   {{ currentCourseProgress }}%
                 </div>
-                <v-icon @click="showProgressModal = true" size="20"
+                <v-icon @click="showProgressModal = true" size="20" color="#10B981"
                   style="position: relative; top: 7px">mdi-trophy</v-icon>
               </div>
             </v-progress-circular>
@@ -51,7 +57,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" icon v-if="examDaily" data-toggle="modal" data-target="#question">
-            <v-icon size="20" color="#1ae800">mdi-help</v-icon>
+            <v-icon size="20" color="#10B981">mdi-help</v-icon>
           </v-btn>
         </template>
         <span> Gana puntos contestando preguntas</span>
@@ -62,10 +68,10 @@
         <v-tooltip bottom v-if="stateCertificate" v-model="dialogCertificate">
           <template v-slot:activator="{ on }">
             <v-btn v-if="certificateBought" x-large icon v-bind="attrs" v-on="on">
-              <v-icon size="20" style="color: #1ae800">mdi-school</v-icon>
+              <v-icon size="20" style="color: #10B981">mdi-school</v-icon>
             </v-btn>
             <v-btn v-else x-large icon v-bind="attrs" v-on="on" @click="buy()">
-              <v-icon size="20" style="color: #1ae800">mdi-school</v-icon>
+              <v-icon size="20" style="color: #10B981">mdi-school</v-icon>
             </v-btn>
           </template>
           <span v-if="certificateBought">Su certificado ya fue adquirido</span>
@@ -77,8 +83,8 @@
       <v-menu style="z-index: 201" left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
-            <v-badge overlap color="#d54338" :value="isBadgeActive" :content="numberItems">
-              <v-icon size="25" style="color: #1ae800"> mdi-bell </v-icon>
+            <v-badge overlap color="#F43F5E" :value="isBadgeActive" :content="numberItems">
+              <v-icon size="24" style="color: #10B981"> mdi-bell </v-icon>
             </v-badge>
           </v-btn>
         </template>
@@ -114,7 +120,7 @@
           </template>
           <v-divider class="my-1"></v-divider>
           <v-card-text v-if="items.length > 0">
-            <v-btn block color="#60d950" deep class="text-white" height="35px">Ver todo</v-btn>
+            <v-btn block color="#10B981" deep class="text-white" height="35px">Ver todo</v-btn>
           </v-card-text>
         </v-list>
       </v-menu>
@@ -123,26 +129,27 @@
       <v-row align="center" style="margin-right: 0; flex: initial">
         <!-- Nombre y correo -->
         <v-col style="max-width: 200px" v-if="!$vuetify.breakpoint.xs">
-          <v-list-item-content class="text-right" style="padding-bottom: 15px">
-            <v-list-item-title style="font-size: 1rem; overflow: visible">{{
-              userName
+          <v-list-item-content class="text-right" style="padding-bottom: 0px">
+            <v-list-item-title style="font-size: 0.92rem; font-weight: 700; color: #1C1917; overflow: visible">{{
+              userName || 'Usuario'
             }}</v-list-item-title>
-            <v-list-item-subtitle style="font-size: 0.7rem; overflow: visible">{{ userEmail }}</v-list-item-subtitle>
+            <v-list-item-subtitle style="font-size: 0.75rem; color: #78716C; overflow: visible">{{ userEmail }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-col>
 
         <!-- Imagen del perfil -->
-        <v-menu offset-y>
+        <v-menu offset-y left>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn class="mx-1" x-large icon v-bind="attrs" v-on="on">
-              <v-img :src="profileImg" max-width="30" max-height="30" v-on="on" v-bind="attrs"></v-img>
-            </v-btn>
+            <v-avatar size="38" class="mx-2 cursor-pointer header-avatar" v-bind="attrs" v-on="on">
+              <v-img v-if="profileImg" :src="profileImg" alt="Perfil"></v-img>
+              <v-icon v-else color="#10B981" size="22">mdi-account</v-icon>
+            </v-avatar>
           </template>
 
-          <v-list>
+          <v-list class="hallmark-card py-2">
             <v-list-item v-for="(link, index) in links" :key="index" link :to="{ name: link.nameRouter }"
               @click="optionAction(link.action, link.nameRouter)">
-              <v-list-item-title>{{ link.nombre }}</v-list-item-title>
+              <v-list-item-title class="font-weight-medium" style="color: #1C1917">{{ link.nombre }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -255,8 +262,16 @@ export default {
 
     ...mapActions("course", ["getPoints"]),
     async getpoints() {
-      await this.getPoints(localStorage.getItem("id_user"));
-      this.showPointsExam = true;
+      try {
+        const userId = localStorage.getItem("id_user");
+        if (userId) {
+          await this.getPoints(userId);
+        }
+      } catch (error) {
+        console.warn("Could not fetch user points:", error);
+      } finally {
+        this.showPointsExam = true;
+      }
     },
     async buy() {
       this.$router.push({
@@ -294,21 +309,30 @@ export default {
     },
     async getNotifications() {
       this.isLoading = true;
-      const data = await this.axios.get("/notifications/list");
+      try {
+        const data = await this.axios.get("/notifications/list");
+        if (data && data.data && Array.isArray(data.data)) {
+          const noti = data.data.map((e) => ({
+            title: e.title,
+            subtitle: e.body,
+            avatar: e.photo,
+            created_at: e.created_at,
+          }));
 
-      const noti = data.data.map((e) => ({
-        title: e.title,
-        subtitle: e.body,
-        avatar: e.photo,
-        created_at: e.created_at,
-      }));
-
-      if (Object.keys(noti).length > 0) {
-        this.isBadgeActive = true;
-        this.numberItems = Object.keys(noti).length;
+          if (noti.length > 0) {
+            this.isBadgeActive = true;
+            this.numberItems = noti.length;
+          }
+          this.items = noti;
+        } else {
+          this.items = [];
+        }
+      } catch (error) {
+        this.items = [];
+        this.isBadgeActive = false;
+      } finally {
+        this.isLoading = false;
       }
-      this.items = noti;
-      this.isLoading = false;
     },
     async getCertificate(course) {
       try {
@@ -376,20 +400,33 @@ export default {
 }
 
 .custom-app-bar {
-  margin: 10px;
-  margin-top: 15px !important;
-  margin-left: 80px;
-  padding: 0px;
-  border-radius: 15px !important;
-  background-color: white !important;
+  margin-top: 14px !important;
+  margin-bottom: 14px !important;
+  margin-right: 18px !important;
+  border-radius: 18px !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  box-shadow: 0 4px 16px -4px rgba(28, 25, 23, 0.06) !important;
+  overflow: hidden !important;
+}
+
+.header-avatar {
+  background: rgba(16, 185, 129, 0.12) !important;
+  border: 1.5px solid rgba(16, 185, 129, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+
+.header-avatar:hover {
+  transform: scale(1.06) !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
 }
 
 .custom-progress {
-  background-color: white !important;
+  background-color: transparent !important;
 }
 
 .custom-progress .v-background {
-  fill: white !important;
+  fill: transparent !important;
 }
 
 s .v-label {
@@ -464,6 +501,33 @@ a:hover {
     color: rgb(0, 0, 0);
     box-shadow: 2px 2px 2px #131b1e;
   }
+}
+
+.header-section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #18181B;
+}
+
+.header-points-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #10B981;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.header-points-pill:hover {
+  background: rgba(16, 185, 129, 0.15);
+  transform: translateY(-1px);
 }
 
 @media screen and (max-width: 900px) {

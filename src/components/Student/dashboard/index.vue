@@ -58,17 +58,24 @@ export default {
     methods: {
     ...mapActions('course', ['getCourseRelated']),
       mostrarAprendiendo(){
-        let datos = null
         this.axios.get('course/last-courses-rep')
         .then((res) =>{
-          datos = res.data.data;
-          this.coursView = datos.length
+          const datos = (res && res.data && res.data.data) ? res.data.data : [];
+          this.coursView = Array.isArray(datos) ? datos.length : 0;
         })
+        .catch(() => {
+          this.coursView = 0;
+        });
       },
       async getAttributes() {
-        let datos = await this.getCourseRelated()
-        this.relatedCourses = datos
-        this.isLoading = false
+        try {
+          let datos = await this.getCourseRelated();
+          this.relatedCourses = Array.isArray(datos) ? datos : [];
+        } catch (error) {
+          this.relatedCourses = [];
+        } finally {
+          this.isLoading = false;
+        }
       },
     },
     created() {
@@ -78,24 +85,25 @@ export default {
 }
 </script>
 <style scoped>
-.content-student{
+.content-student {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
-.section-main{
+.section-main {
   display: grid;
-  grid-template-rows: 400px;
   grid-template-columns: repeat(2, 1fr);
-  grid-column: span 2;
-  gap: 10px;
-  padding: 30px 70px 10px 50px;
+  gap: 24px;
+  padding: 8px 8px 24px 8px;
+  align-items: stretch;
 }
-@media (max-width:860px){
-  .section-main{
-    grid-template-columns: repeat(1,1fr);
-    padding: 30px 20px;
-    gap: 20px;
+
+@media (max-width: 960px) {
+  .section-main {
+    grid-template-columns: 1fr;
+    padding: 8px;
+    gap: 16px;
   }
 }
 </style>

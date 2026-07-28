@@ -6,8 +6,10 @@
 
     <div v-if="!mostrar">
       <NavBarV />
-      <v-main app style="background-color: #ffffff !important">
-        <router-view />
+      <v-main app class="main-viewport-wrapper">
+        <div class="main-viewport-card">
+          <router-view />
+        </div>
       </v-main>
       <img
         src="@/assets/ruletaVerde.png"
@@ -75,6 +77,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main-viewport-wrapper {
+  background-color: #0F1311 !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+  padding-right: 20px !important;
+  min-height: 100vh;
+  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.main-viewport-card {
+  background-color: var(--hm-bg, #F5F4EE) !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  min-height: calc(100vh - 32px);
+  margin-left: 16px !important;
+  padding: 28px 32px;
+  overflow-y: auto;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 960px) {
+  .main-viewport-wrapper {
+    padding: 12px !important;
+  }
+  .main-viewport-card {
+    border-radius: 16px !important;
+    padding: 16px;
+    min-height: calc(100vh - 24px);
+  }
+}
+
 .btnflo {
   height: 60px;
   width: 60px;

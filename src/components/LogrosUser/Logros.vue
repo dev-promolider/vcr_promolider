@@ -48,10 +48,16 @@ export default {
   },
   methods: {
     getLogros() {
-      this.axios("badges/my-progress").then((res) => {
-        this.logros = res.data;
-        this.isLoading = false;
-      });
+      this.axios("badges/my-progress")
+        .then((res) => {
+          this.logros = res.data;
+        })
+        .catch(() => {
+          this.logros = [];
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 };

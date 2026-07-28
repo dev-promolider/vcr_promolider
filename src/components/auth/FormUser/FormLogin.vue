@@ -16,44 +16,50 @@
       </div>
     </div>
 
-    <!-- Logo -->
-    <div class="logo-container">
-      <img src="@/assets/logo-inicial.png" alt="Logo" class="logo-image" />
-      <div class="text-logo">Promolíder</div>
-    </div>
-
-    <!-- Login Form -->
-    <b-form @submit.prevent="signin" class="login-form">
-      <b-form-group class="form-group" label="Usuario *">
-        <b-form-input class="form-input" type="text" v-model="form.username" placeholder="Ingrese su usuario"
-          required></b-form-input>
-      </b-form-group>
-
-      <b-form-group class="form-group" label="Contraseña *">
-        <div class="password-input-container">
-          <b-form-input class="form-input" :type="showPassword ? 'text' : 'password'" v-model="form.password"
-            placeholder="Ingrese su contraseña" required></b-form-input>
-          <button type="button" class="password-toggle" @click="showPassword = !showPassword">
-            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-          </button>
+    <div class="form-inner">
+      <!-- Logo & Header (Idéntico a SignInPageDemo) -->
+      <div class="login-header mb-4">
+        <div class="brand-row mb-3">
+          <img src="@/assets/logo-inicial.png" alt="Logo" class="logo-image mr-2" />
+          <span class="brand-name">Promolíder</span>
         </div>
-      </b-form-group>
-
-      <div class="form-options">
-        <b-form-checkbox v-model="rememberMe"> Recuérdame </b-form-checkbox>
-        <button type="button" class="forgot-password" @click="dialog2 = true">
-          ¿Olvidaste tu contraseña?
-        </button>
+        <h1 class="welcome-title">Bienvenido</h1>
+        <p class="welcome-subtitle">Accede a tu cuenta y continúa tu aprendizaje con nosotros</p>
       </div>
 
-      <b-button type="submit" class="submit-button"> Ingresar </b-button>
-    </b-form>
+      <!-- Login Form (Idéntico a SignInPageDemo) -->
+      <b-form @submit.prevent="signin" class="login-form">
+        <b-form-group class="form-group" label="Usuario / Correo">
+          <b-form-input class="form-input" type="text" v-model="form.username" placeholder="Ingresa tu usuario o correo"
+            required></b-form-input>
+        </b-form-group>
 
-    <!-- Footer -->
-    <div class="footer">
-      <h5>
-        Copyright © {{ year }}. Todos los derechos reservados para Promolíder
-      </h5>
+        <b-form-group class="form-group" label="Contraseña">
+          <div class="password-input-container">
+            <b-form-input class="form-input" :type="showPassword ? 'text' : 'password'" v-model="form.password"
+              placeholder="••••••••" required></b-form-input>
+            <button type="button" class="password-toggle" @click="showPassword = !showPassword">
+              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+        </b-form-group>
+
+        <div class="form-options">
+          <b-form-checkbox v-model="rememberMe" switch class="remember-switch"> Recuérdame </b-form-checkbox>
+          <button type="button" class="forgot-password" @click="dialog2 = true">
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
+
+        <b-button type="submit" class="submit-button"> Ingresar </b-button>
+      </b-form>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p class="copyright-text">
+          © {{ year }} Promolíder. Todos los derechos reservados.
+        </p>
+      </div>
     </div>
 
     <!-- Password Recovery Dialog -->
@@ -144,29 +150,54 @@ export default {
 <style scoped>
 .form-container {
   height: 100%;
-  padding: 2rem;
+  width: 100%;
+  padding: 3rem 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  background: rgba(14, 20, 17, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
 }
 
-.logo-container {
+.form-inner {
+  width: 100%;
+  max-width: 100%;
+}
+
+.brand-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 2rem;
 }
 
 .logo-image {
-  height: 50px;
+  height: 36px;
   width: auto;
 }
 
-.text-logo {
-  color: white;
-  font-size: 1.5rem;
-  margin-left: 1rem;
-  letter-spacing: 0.2em;
+.brand-name {
+  font-family: 'Outfit', sans-serif;
+  color: #10B981;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+}
+
+.welcome-title {
+  font-family: 'Outfit', sans-serif !important;
+  color: #FFFFFF !important;
+  font-size: 2.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  margin-bottom: 8px !important;
+}
+
+.welcome-subtitle {
+  color: #A1A1AA;
+  font-size: 1.02rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.4;
 }
 
 .login-form {
@@ -177,17 +208,50 @@ export default {
   margin-bottom: 1.5rem;
 }
 
-.form-group label {
-  color: white;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+/* Corregido: Labels y Legends 100% visibles en blanco brillante */
+.form-group /deep/ label,
+.form-group /deep/ legend,
+.form-group /deep/ .col-form-label,
+label {
+  color: #F4F4F5 !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
 }
 
-.form-input {
-  border-radius: 25px;
-  padding: 0.75rem 1rem;
-  background: white;
-  border: none;
+/* Corregido: Inputs oscuros refinados en tono #1F2923 */
+.form-input,
+.form-control,
+input.form-control,
+input.form-input {
+  border-radius: 12px !important;
+  padding: 0.85rem 1.25rem !important;
+  height: 54px !important;
+  background-color: #1F2923 !important;
+  border: 1.5px solid rgba(16, 185, 129, 0.3) !important;
+  color: #FFFFFF !important;
+  font-size: 1rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.form-input:focus,
+.form-control:focus,
+input.form-control:focus {
+  background-color: #24322A !important;
+  border-color: #10B981 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
+  outline: none !important;
+}
+
+/* Evitar el fondo azul/blanco predeterminado de autofill de Chrome/Edge */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1F2923 inset !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .password-input-container {
@@ -196,54 +260,116 @@ export default {
 
 .password-toggle {
   position: absolute;
-  right: 1rem;
+  right: 1.25rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #666;
+  color: #A1A1AA;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: #10B981;
 }
 
 .form-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 0;
-  color: white;
+  margin: 1.5rem 0 2.2rem 0;
+  color: #A1A1AA;
+  font-size: 0.92rem;
+}
+
+.remember-switch /deep/ label {
+  color: #E4E4E7 !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  padding-left: 0.5rem !important;
+}
+
+.remember-switch /deep/ .custom-control-label::before {
+  background-color: #27272A !important;
+  border-color: #3F3F46 !important;
+  border-radius: 9999px !important;
+  width: 2.3rem !important;
+  height: 1.3rem !important;
+  top: 0.1rem !important;
+}
+
+.remember-switch /deep/ .custom-control-label::after {
+  background-color: #A1A1AA !important;
+  border-radius: 50% !important;
+  width: calc(1.3rem - 4px) !important;
+  height: calc(1.3rem - 4px) !important;
+  top: calc(0.1rem + 2px) !important;
+  left: calc(-2.3rem + 2px) !important;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease !important;
+}
+
+.remember-switch /deep/ .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #10B981 !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4) !important;
+}
+
+.remember-switch /deep/ .custom-control-input:checked ~ .custom-control-label::after {
+  background-color: #FFFFFF !important;
+  transform: translateX(1rem) !important;
 }
 
 .forgot-password {
-  color: #1ae800;
+  color: #10B981;
   background: none;
   border: none;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+  color: #34D399;
+  text-decoration: underline;
 }
 
 .submit-button {
   width: 100%;
-  padding: 0.75rem;
-  border-radius: 25px;
-  background: #1ae800;
-  border: none;
-  color: white;
-  font-weight: 500;
-  margin-top: 1rem;
-  transition: background-color 0.3s ease;
+  height: 54px !important;
+  padding: 0 1.5rem !important;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #34D399 0%, #10B981 100%) !important;
+  border: none !important;
+  color: #FFFFFF !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.08rem !important;
+  box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.3) !important;
+  transition: all 0.25s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .submit-button:hover {
-  background: #15cc00;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px 0 rgba(16, 185, 129, 0.4) !important;
 }
 
 .footer {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
 
-.footer h5 {
-  color: #989898;
-  font-size: 0.7rem;
+.copyright-text {
+  color: #71717A;
+  font-size: 0.8rem;
+  margin: 0;
 }
 
 .alerts-container {

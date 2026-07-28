@@ -1,25 +1,27 @@
 <template>
-  <div style="min-height: 100vh; width: 100%">
+  <div class="keep-learning-wrapper">
     <v-fade-transition>
-      <v-card v-if="isWelcomeActive" elevation="0" color="transparent" style="margin: 100px auto"
-        class="d-flex justify-center align-center flex-column">
-        <v-card-title class="d-flex justify-center align-center">
-          <v-icon large left> mdi-home </v-icon>
-          <span class="text-h5 font-weight-light">Bienvenido {{ user }}.</span>
-        </v-card-title>
-
-        <v-btn color="success" :to="{ name: 'courses' }" style="text-decoration: none">
-          MarketPlace
-        </v-btn>
-        <v-card-text>
-          <div class="subtitle text--primary text-h6 text-center">
-            En está sección podrás visualizar tus cursos y alcanzar tus logros.
+      <div v-if="isWelcomeActive" class="welcome-banner-card hallmark-card">
+        <div class="d-flex align-center mb-3">
+          <div class="welcome-icon-badge mr-3">
+            <v-icon color="#10B981" size="24">mdi-sparkles</v-icon>
           </div>
-        </v-card-text>
-      </v-card>
+          <div>
+            <h2 class="welcome-banner-title">¡Bienvenido de nuevo, {{ user || 'Estudiante' }}!</h2>
+            <p class="welcome-banner-subtitle">En esta sección podrás visualizar tus cursos activos y alcanzar tus logros.</p>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <v-btn color="#10B981" dark class="marketplace-pill-btn" :to="{ name: 'courses' }">
+            <span>Explorar Marketplace</span>
+            <v-icon right size="18">mdi-store</v-icon>
+          </v-btn>
+        </div>
+      </div>
     </v-fade-transition>
 
-    <Card :course="lastCourses" :cardType="3" :width="100" />
+    <Card v-if="!isWelcomeActive && lastCourses" :course="lastCourses" :cardType="3" :width="100" />
 
     <v-skeleton-loader v-if="isLoadingCourses && !isWelcomeActive" type="image, image"></v-skeleton-loader>
   </div>
@@ -43,29 +45,41 @@ export default {
   },
   methods: {
     async getAttributes() {
-      let lastCourse;
-      const resp = await this.axios.get("course/last-courses-rep");
+      try {
+        let lastCourse;
+        const resp = await this.axios.get("course/last-courses-rep");
 
-      if (resp.data.status === 200) {
-        this.isWelcomeActive = true;
-        if (Object.keys(resp.data.data).length > 0) {
-          this.isLoadingCourses = false;
+        if (resp && resp.data && (resp.data.status === 200 || resp.data.data)) {
+          const coursesData = resp.data.data || [];
+          if (Array.isArray(coursesData) && coursesData.length > 0) {
+            this.isLoadingCourses = false;
+            this.isWelcomeActive = false;
 
-          this.isWelcomeActive = false;
-
-          lastCourse = this.filterCourseInactive(resp.data.data);
-
-          const { data } = await this.axios.get(
-            `purchased/show-class-seen?course_id=${lastCourse.id}`
-          );
-
-          const { name } = data.data;
-          if (!name) lastCourse.last_class_reprod = "";
-
-          lastCourse.last_class_reprod = name;
-
-          this.lastCourses = lastCourse;
+            lastCourse = this.filterCourseInactive(coursesData);
+            if (lastCourse && lastCourse.id) {
+              try {
+                const { data } = await this.axios.get(
+                  `purchased/show-class-seen?course_id=${lastCourse.id}`
+                );
+                const { name } = (data && data.data) ? data.data : {};
+                lastCourse.last_class_reprod = name || "";
+              } catch (e) {
+                lastCourse.last_class_reprod = "";
+              }
+              this.lastCourses = lastCourse;
+            } else {
+              this.isWelcomeActive = true;
+            }
+          } else {
+            this.isWelcomeActive = true;
+          }
+        } else {
+          this.isWelcomeActive = true;
         }
+      } catch (error) {
+        this.isWelcomeActive = true;
+      } finally {
+        this.isLoadingCourses = false;
       }
     },
     filterCourseInactive(data) {
@@ -85,7 +99,61 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.keep-learning-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.welcome-banner-card {
+  background: #FAF9F5 !important;
+  border-radius: 20px !important;
+  border: 1px solid #E5E3DC !important;
+  padding: 32px 36px !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+.welcome-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-banner-title {
+  font-family: 'Outfit', sans-serif !important;
+  color: #18181B !important;
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 4px 0 !important;
+}
+
+.welcome-banner-subtitle {
+  color: #71717A !important;
+  font-size: 0.92rem !important;
+  margin: 0 !important;
+  line-height: 1.4;
+}
+
+.marketplace-pill-btn {
+  border-radius: 9999px !important;
+  background: linear-gradient(135deg, #34D399 0%, #10B981 100%) !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  padding: 0 24px !important;
+  height: 44px !important;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.28) !important;
+}
+
 .learning {
   background: #fff;
   border-radius: 15px;

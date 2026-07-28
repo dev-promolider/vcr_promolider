@@ -94,23 +94,21 @@ export default {
     getQuestion() {
       let array;
       this.axios.get(`course/exam/daily`).then((res) => {
-        if (res.data.message) {
+        if (res.data && res.data.message) {
           this.$store.commit("course/NO_EXAM_DAILY", false);
-        } else {
-          // MODIFICADO: Acceder directamente al objeto, no al array
+        } else if (res.data && res.data.question) {
           this.data.question = res.data.question;
-          // AGREGADO: Guardar el questionId para enviarlo al backend
           this.questionId = res.data.id;
           
-          // MODIFICADO: Manejar correctAnswer que puede ser null
           const correctAnswer = res.data.correctAnswer || '';
-          array = res.data.incorrectAnswers.concat(correctAnswer);
+          array = (res.data.incorrectAnswers || []).concat(correctAnswer);
           this.data.answer = array.filter(ans => ans !== '').sort(() => {
             return Math.random() - 0.5;
           });
+        } else {
+          this.$store.commit("course/NO_EXAM_DAILY", false);
         }
-      }).catch((error) => {
-        console.error('Error fetching daily question:', error);
+      }).catch(() => {
         this.$store.commit("course/NO_EXAM_DAILY", false);
       });
     },

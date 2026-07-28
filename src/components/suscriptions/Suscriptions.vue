@@ -88,15 +88,24 @@ export default {
     }),
 
     getAttributes() {
-      this.axios.get("course/purchased-courses").then((datos) => {
-        this.loading = false;
-        this.informacion = datos.data.data;
+      this.axios
+        .get("course/purchased-courses")
+        .then((datos) => {
+          this.informacion = (datos && datos.data && datos.data.data) ? datos.data.data : [];
 
-        if (this.informacion.length === 0) {
+          if (this.informacion.length === 0) {
+            this.carita = true;
+            this.caritas = true;
+          }
+        })
+        .catch(() => {
+          this.informacion = [];
           this.carita = true;
           this.caritas = true;
-        }
-      });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
   },
 

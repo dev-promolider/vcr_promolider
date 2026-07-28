@@ -463,12 +463,12 @@ export default {
     async getCourses() {
       try {
         const { data } = await this.axios.get("/course/purchased-courses");
-        this.products = data.data;
-        
-        // Filtrar solo los cursos que tienen certificado disponible
+        this.products = (data && Array.isArray(data.data)) ? data.data : [];
         await this.filterCoursesWithCertificate();
       } catch (error) {
         console.error("Error fetching courses:", error);
+        this.products = [];
+        this.coursesWithCertificate = [];
       }
     },
 

@@ -199,39 +199,49 @@ export default {
   methods: {
     async getAttributes() {
       try {
-        const [
-          categoriesRes,
-          releasedCoursesRes,
-          relatedCoursesRes,
-          interestingCoursesRes,
-          releasedBooksRes,
-        ] = await Promise.all([
+        const results = await Promise.allSettled([
           this.axios.get("category/list"),
           this.axios.get("course/released-courses"),
           this.axios.get("course/related-courses"),
-          this.axios.get("course/interesting-courses"), // ← el que faltaba
+          this.axios.get("course/interesting-courses"),
           this.axios.get("course/list-available-books"),
         ]);
 
-        console.log("📦 Respuestas recibidas:");
+        const [
+          categoriesResult,
+          releasedCoursesResult,
+          relatedCoursesResult,
+          interestingCoursesResult,
+          releasedBooksResult,
+        ] = results;
 
-        this.Allcategories = categoriesRes.data.data;
+        if (categoriesResult.status === "fulfilled" && categoriesResult.value?.data?.data) {
+          this.Allcategories = categoriesResult.value.data.data;
+        } else {
+          this.Allcategories = [];
+        }
 
         if (
-          releasedCoursesRes &&
-          releasedCoursesRes.data &&
-          Array.isArray(releasedCoursesRes.data.data)
+          releasedCoursesResult.status === "fulfilled" &&
+          releasedCoursesResult.value?.data?.data &&
+          Array.isArray(releasedCoursesResult.value.data.data)
         ) {
-          const allCourses = releasedCoursesRes.data.data;
+          const allCourses = releasedCoursesResult.value.data.data;
           this.filterRecentCourses(allCourses);
         } else {
-          console.warn("⚠️ Respuesta inesperada de released-courses:", releasedCoursesRes);
           this.recentCourses = [];
         }
 
-        this.courses = Array.isArray(relatedCoursesRes.data?.data)
-          ? relatedCoursesRes.data.data.filter((course) => !course.isPurchased)
-          : [];
+        if (
+          relatedCoursesResult.status === "fulfilled" &&
+          Array.isArray(relatedCoursesResult.value?.data?.data)
+        ) {
+          this.courses = relatedCoursesResult.value.data.data.filter(
+            (course) => !course.isPurchased
+          );
+        } else {
+          this.courses = [];
+        }
 
         if (this.courses.length > 0) {
           this.descuento = this.courses[0].du;
@@ -240,21 +250,31 @@ export default {
         const idCategories = this.courses.map((curso) => curso.id_categories);
         this.getCategoryName(idCategories);
 
-        this.interesCourses = Array.isArray(interestingCoursesRes.data?.data)
-          ? interestingCoursesRes.data.data
-          : [];
+        if (
+          interestingCoursesResult.status === "fulfilled" &&
+          Array.isArray(interestingCoursesResult.value?.data?.data)
+        ) {
+          this.interesCourses = interestingCoursesResult.value.data.data;
+        } else {
+          this.interesCourses = [];
+        }
 
-        this.releasedBooks = Array.isArray(releasedBooksRes.data?.data)
-          ? releasedBooksRes.data.data
-          : [];
+        if (
+          releasedBooksResult.status === "fulfilled" &&
+          Array.isArray(releasedBooksResult.value?.data?.data)
+        ) {
+          this.releasedBooks = releasedBooksResult.value.data.data;
+        } else {
+          this.releasedBooks = [];
+        }
 
-        this.loading = false;
         this.notCourses =
           !this.courses.length &&
           !this.interesCourses.length &&
-          !this.relatedCourses.length;
+          !this.recentCourses.length;
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
         this.loading = false;
       }
     },

@@ -167,9 +167,10 @@ export default {
       try {
         this.loading = true;
         const { data } = await this.axios.get("/course/purchased-courses");
-        this.products = data.data;
+        this.products = (data && Array.isArray(data.data)) ? data.data : [];
       } catch (error) {
         console.error("Error al obtener los cursos:", error);
+        this.products = [];
       } finally {
         this.loading = false;
       }

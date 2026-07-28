@@ -34,7 +34,14 @@ export default {
                         access_token,
                         user
                     } = await data;
-                    localStorage.setItem("rol_user", user.roles[0].id)
+                    const roleId =
+                        (user?.roles && user.roles[0]?.id) ||
+                        (user?.roles && user.roles[0]) ||
+                        (data?.role && data.role[0]?.id) ||
+                        (data?.role && data.role[0]) ||
+                        user?.id_account_type ||
+                        "";
+                    localStorage.setItem("rol_user", roleId);
                     localStorage.setItem("id_user", user.id);
                     localStorage.setItem("access_token", access_token);
                     localStorage.setItem("name_user", user.name);

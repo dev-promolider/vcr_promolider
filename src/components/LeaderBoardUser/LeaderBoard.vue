@@ -64,9 +64,14 @@ export default {
   },
   methods: {
     getAttributes() {
-      this.axios.get("course/purchased-courses").then((datos) => {
-        this.courses = datos.data.data;
-      });
+      this.axios
+        .get("course/purchased-courses")
+        .then((datos) => {
+          this.courses = (datos && datos.data && datos.data.data) ? datos.data.data : [];
+        })
+        .catch(() => {
+          this.courses = [];
+        });
     },
     async retrieveTop() {
       if (this.selectedCourse !== "") {

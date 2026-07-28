@@ -35,7 +35,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       localStorage.removeItem("access_token");
       router.push("/login");
     }
@@ -66,7 +66,7 @@ Vue.use(vueTimeago, {
   // We use `date-fns` under the hood
   // So you can use all locales from it
   locales: {
-    "zh-CN": require("date-fns/locale/zh_cn"),
+    "zh-CN": require("date-fns/locale/zh-CN"),
     ja: require("date-fns/locale/ja"),
     es: require("date-fns/locale/es"),
   },
@@ -76,6 +76,7 @@ Vue.use(vueTimeago, {
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "vuetify/dist/vuetify.min.css";
+import "./assets/styles/hallmark-theme.css";
 import vueTimeago from "vue-timeago";
 
 new Vue({

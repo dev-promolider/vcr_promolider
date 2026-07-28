@@ -1,16 +1,16 @@
 <template>
   <div class="main_container container-fluid pt-3">
     <!-- obtener los datos totales de cursos, ventas, tipo de plan, afiliacion -->
-    <div class="container my-5" style="background-color: white; border-radius: 15px">
+    <div class="container my-5 hallmark-card p-4">
       <DataPrimaryUser />
     </div>
     <!-- Coleccion de mensajes para el productor -->
-    <div class="container pt-5">
+    <div class="container pt-3">
       <div class="row row-end d-flex align-items-center justify-content-between">
-        <div class="col-12 col-md-5" style="background-color: white; border-radius: 15px">
+        <div class="col-12 col-md-5 hallmark-card p-4">
           <MessengerColletion />
         </div>
-        <div class="col-12 col-md-5" style="background-color: white; border-radius: 15px">
+        <div class="col-12 col-md-5 hallmark-card p-4">
           <ClienteVenta />
         </div>
       </div>

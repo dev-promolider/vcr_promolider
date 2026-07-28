@@ -623,7 +623,7 @@ export default {
       
       try {
         await this.axios.put(
-          `purchased/update?course_id=${this.$route.query.course}&class_id=${lessonId}`
+          `purchased/show?course_id=${this.$route.query.course}&class_id=${lessonId}`
         );
         
         await this.$store.dispatch("course/updateCompletedLessons", lessonId);

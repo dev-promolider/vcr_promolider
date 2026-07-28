@@ -277,6 +277,11 @@ export default {
         .get(`messages/listNewContacts/${this.idOne}`)
         .then((response) => {
           this.contacts2 = response.data;
+        })
+        .catch(() => {
+          this.contacts2 = [];
+        })
+        .finally(() => {
           this.loading = false;
         });
     },

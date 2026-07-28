@@ -23,3 +23,9 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# AI tool directories
+.claude
+.codex
+.gemini
+

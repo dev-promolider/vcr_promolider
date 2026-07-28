@@ -164,43 +164,58 @@ export default {
 }
 
 .titulo-curso {
-  flex: 1;
-  padding: 0 5px 10px 5px;
-  font-size: 0.9em;
-  color: #131b1e;
-  line-height: 1.2;
-  max-height: 2.4em;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--hm-text-heading, #0F172A);
+  line-height: 1.35;
+  max-height: 2.7em;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   word-break: break-word;
-  margin-bottom: 10px;
+  margin-top: 6px;
+  margin-bottom: 8px;
 }
 
-.custom-rating .v-rating-icon {
-  color: #ffd700 !important;
-  margin-right: 2px;
-}
-
-.custom-rating .v-rating-icon--empty,
-.custom-rating .v-rating-icon--full,
-.custom-rating .v-rating-icon--half {
-  color: #ffd700 !important;
+.custom-rating .v-icon {
+  padding: 0 !important;
 }
 
 .course-card {
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  transition: transform 0.5s ease;
-  max-width: 230px;
+  background: var(--hm-surface, #FFFFFF);
+  border: 1px solid var(--hm-border, #E2E8F0);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--hm-shadow-sm, 0 1px 3px rgba(0,0,0,0.05));
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 240px;
   min-width: 230px;
 }
 
 .course-card:hover {
-  transform: scale(1.1);
-  transition: transform 0.8s ease;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.12);
+  border-color: rgba(16, 185, 129, 0.4);
   cursor: pointer;
+}
+
+.img-cursos-portad {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.course-card:hover .img-cursos-portad {
+  transform: scale(1.03);
+}
+
+.card-content {
+  padding: 14px 16px;
 }
 
 /* Tooltip para títulos largos */

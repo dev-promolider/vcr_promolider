@@ -10,8 +10,17 @@ export const actionUser = async (context, body) => {
       const userData = res.data.data.user;
       const authToken = res.data.data.access_token;
 
+      // Obtener rol con fallback seguro
+      const roleId =
+        (userData?.roles && userData.roles[0]?.id) ||
+        (userData?.roles && userData.roles[0]) ||
+        (res.data?.data?.role && res.data.data.role[0]?.id) ||
+        (res.data?.data?.role && res.data.data.role[0]) ||
+        userData?.id_account_type ||
+        "";
+
       // Guardar en localStorage
-      localStorage.setItem("rol_user", userData.roles[0].id);
+      localStorage.setItem("rol_user", roleId);
       localStorage.setItem("id_user", userData.id);
       localStorage.setItem("access_token", authToken);
       localStorage.setItem("status_preference", userData.status_preference);

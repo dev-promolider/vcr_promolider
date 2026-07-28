@@ -410,31 +410,29 @@ export default {
         const { id, ranking_by_user } = course;
         
         if (course.type === 'Libro') {
-          this.$router.push({ name: 'book', params: { id } })
-          return
+          this.$router.push({ name: 'book', params: { id } });
+          return;
         }
 
         const res = await this.axios.get(`purchased/show-class-seen?course_id=${id}`);
-        const dataRequest = res.data.data;
-        
-        this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
-        
+        const dataRequest = (res && res.data && res.data.data) ? res.data.data : {};
+          
+        this.$store.commit("course/UPDATE_TIME", dataRequest.display_time || 0);
+          
         if (!dataRequest.name) {
           const temaryRes = await this.axios.get("course/temary/get-all-class/" + id);
-          const fistClass = temaryRes.data.data.modules[0]?.lessons[0]?.name;
-          
+          const fistClass = temaryRes?.data?.data?.modules?.[0]?.lessons?.[0]?.name;
+            
           const routeParams = {
             name: "curso",
             query: {
               course: id,
-              class: fistClass,
+              class: fistClass || "",
               rate: ranking_by_user,
             },
           };
-          
-          this.$router.push(routeParams).catch(() => {
-            // Handle navigation error silently
-          });
+            
+          this.$router.push(routeParams).catch(() => { });
         } else {
           const routeParams = {
             name: "curso",
@@ -444,13 +442,14 @@ export default {
               rate: ranking_by_user,
             },
           };
-          
-          this.$router.push(routeParams).catch(() => {
-            // Handle navigation error silently
-          });
+
+          this.$router.push(routeParams).catch(() => { });
         }
       } catch (error) {
-        // Handle error silently
+        console.error("Error al obtener información del curso:", error);
+        if (course && course.id) {
+          this.$router.push({ name: "curso", query: { course: course.id } }).catch(() => {});
+        }
       }
     }
   }
@@ -503,17 +502,23 @@ export default {
 .search-box {
   width: 280px;
   height: 48px;
-  background: #ffffff;
-  border: 1px solid #d9dee8;
-  border-radius: 8px;
+  background: var(--hm-surface-cream, #FAF9F5);
+  border: 1px solid var(--hm-border, #E5E3DC);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 0 14px;
+  transition: var(--hm-transition);
+}
+
+.search-box:focus-within {
+  border-color: var(--hm-primary, #10B981);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
 }
 
 .search-box span {
-  color: #475467;
+  color: #78716C;
 }
 
 .search-box input {
@@ -522,19 +527,26 @@ export default {
   width: 100%;
   font-size: 14px;
   background: transparent;
-  color: #344054;
+  color: #1C1917;
 }
 
 .filter-btn,
 .sort-select {
   height: 48px;
-  border: 1px solid #d9dee8;
-  background: #ffffff;
-  border-radius: 8px;
+  border: 1px solid var(--hm-border, #E5E3DC);
+  background: var(--hm-surface-cream, #FAF9F5);
+  border-radius: 12px;
   padding: 0 18px;
   font-weight: 600;
-  color: #111827;
+  color: #1C1917;
   cursor: pointer;
+  transition: var(--hm-transition);
+}
+
+.filter-btn:hover,
+.sort-select:hover {
+  background: var(--hm-surface-hover, #EFECE4);
+  border-color: var(--hm-primary-border);
 }
 
 .filter-btn {

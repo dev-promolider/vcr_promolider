@@ -15,7 +15,7 @@ export default {
 
 <style>
 main {
-  padding-top: 0px !important;
+  padding-top: 0px;
 }
 
 .v-main__wrap {
@@ -26,26 +26,25 @@ main {
 }
 
 :root {
-  --bg-color: #f8f8f8;
-  --color-white: #464040;
-  --first-color-gray: #ecf0f3;
-  --second-color-gray: #9d9d9d;
+  --bg-color: #F5F4EE;
+  --color-white: #FFFFFF;
+  --first-color-gray: #EFECE4;
+  --second-color-gray: #78716C;
   --purple-color: #9fbdf8;
-  --first-color-green: #1ae800;
-  --second-color-green: #59a350;
-  --third-color-green: #448f3c;
-  --fourth-color-green: #20421c;
-  --fifth-color-green: #324230;
-  --sixth-color-green: #35424a;
-  --bg-btn: linear-gradient(180deg, #69ea58 -166.98%, #31bd1f 143.4%);
-  --seventh-color-green: #1d2528;
-  --eighth-color-green: #29343a;
-  --bg-btn: linear-gradient(180deg, #1eff00 -166.98%, #54af47 143.4%);
-  --bg-content: #ffffff;
+  --first-color-green: #10B981;
+  --second-color-green: #059669;
+  --third-color-green: #047857;
+  --fourth-color-green: #064E3B;
+  --fifth-color-green: #065F46;
+  --sixth-color-green: #1C1917;
+  --seventh-color-green: #18181B;
+  --eighth-color-green: #27272A;
+  --bg-btn: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+  --bg-content: #F5F4EE;
 }
 
 * {
-  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;

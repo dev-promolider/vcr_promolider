@@ -28,33 +28,37 @@ export default {
   },
   methods: {
     async getAttributes() {
-      // Obtenemos los cursos ya reproducidos
-      await this.axios.get("course/last-courses-rep").then((datos) => {
-        // Filtramos todos los cursos inactivos
-        this.lastCourses = this.filterCourseInactive(datos.data.data);
-        // Recorremos los cursos con la finalidad de obtener la ultima clase vista
+      try {
+        const datos = await this.axios.get("course/last-courses-rep");
+        const list = (datos && datos.data && datos.data.data) ? datos.data.data : [];
+        if (!Array.isArray(list)) return;
+        this.lastCourses = this.filterCourseInactive(list);
         for (let i = 0; i < this.lastCourses.length; i++) {
-          // Por cada curso obtenemos su ultima clase vista
           this.axios
             .get(
               `purchased/show-class-seen?course_id=${this.lastCourses[i].id}`
             )
             .then((res) => {
-              // Si no tiene clase vista enviamos a la primera clase del curso
-              if (!res.data.data.name) {
+              const name = res.data && res.data.data ? res.data.data.name : null;
+              if (!name) {
                 this.axios
                   .get("course/temary/get-all-class/" + this.lastCourses[i].id)
                   .then((res) => {
-                    this.lastCourses[i].last_class_reprod =
-                      res.data.data.modules[0].lessons[0].name;
-                  });
+                    if (res.data && res.data.data && res.data.data.modules && res.data.data.modules[0]) {
+                      this.lastCourses[i].last_class_reprod =
+                        res.data.data.modules[0].lessons[0].name;
+                    }
+                  })
+                  .catch(() => {});
               } else {
-                // Si tiene clase vista remplazamos el atributo "last_class_reprod" por el nombre de la clase
-                this.lastCourses[i].last_class_reprod = res.data.data.name;
+                this.lastCourses[i].last_class_reprod = name;
               }
-            });
+            })
+            .catch(() => {});
         }
-      });
+      } catch (error) {
+        this.lastCourses = [];
+      }
     },
 
     // Filtramos si los cursos tiene estado activo o inactivo
