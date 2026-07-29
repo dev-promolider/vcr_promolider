@@ -1,27 +1,55 @@
 <template>
-  <div class="container-fluid py-5">
-    <div class="row">
-      <!-- Lista de Cursos -->
-      <div class="col-12 col-lg-4 mb-4">
-        <div class="courses-container">
-          <div v-if="products.length === 0" class="text-center py-5">
-            <h5 class="text-muted">Aún no ha adquirido un curso</h5>
+  <div class="container-fluid exam-container py-4">
+    <div class="row g-4">
+      <!-- Lista de Cursos Sidebar -->
+      <div class="col-12 col-lg-4 courses-sidebar">
+        <div class="courses-wrapper p-4">
+          <h4 class="sidebar-main-title mb-4 pb-2 border-bottom-subtle">Mis Exámenes</h4>
+
+          <!-- State: Loading skeleton -->
+          <div v-if="loading" class="skeleton-list">
+            <div v-for="i in 4" :key="i" class="skeleton-course-item p-3 mb-3">
+              <div class="d-flex align-center">
+                <div class="skeleton-box mr-3" style="width: 52px; height: 52px; border-radius: 12px;"></div>
+                <div class="flex-grow-1">
+                  <div class="skeleton-box mb-2" style="width: 80%; height: 16px; border-radius: 4px;"></div>
+                  <div class="skeleton-box" style="width: 40%; height: 12px; border-radius: 4px;"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div v-else v-for="product in products" :key="product.id" class="course-card" @click="examList(product)">
-            <div class="card shadow-sm h-100">
-              <div class="row g-0">
-                <div class="col-4">
-                  <img :src="product.url_portada" class="img-fluid h-100 w-100 object-fit-cover"
-                    alt="Portada del curso" />
+          <!-- State: No courses -->
+          <div v-else-if="products.length === 0" class="empty-state text-center py-5">
+            <v-icon color="#A1A1AA" size="48" class="mb-3">mdi-folder-open-outline</v-icon>
+            <h5 class="empty-title mb-0">Aún no ha adquirido un curso</h5>
+          </div>
+
+          <!-- State: Course list -->
+          <div v-else class="courses-list">
+            <div
+              v-for="product in products"
+              :key="product.id"
+              :class="['course-card-item', { active: productSelected && productSelected.id === product.id }]"
+              @click="examList(product)"
+            >
+              <div class="d-flex align-items-center">
+                <div class="course-img-wrapper mr-3 flex-shrink-0">
+                  <img
+                    :src="product.url_portada"
+                    class="course-image"
+                    alt="Portada del curso"
+                    @error="onImgError"
+                  />
                 </div>
-                <div class="col-8">
-                  <div class="card-body">
-                    <h5 class="card-title text-truncate">
-                      {{ product.title }}
-                    </h5>
-                    <div class="course-rating mt-2"></div>
-                  </div>
+                <div class="course-info-content overflow-hidden">
+                  <h6 class="course-card-title text-truncate mb-1">
+                    {{ product.title }}
+                  </h6>
+                  <span class="exam-badge">
+                    <v-icon color="#10B981" size="14" class="mr-1">mdi-file-document-edit-outline</v-icon>
+                    Exámenes disponibles
+                  </span>
                 </div>
               </div>
             </div>
@@ -29,100 +57,137 @@
         </div>
       </div>
 
-      <!-- Detalles del Curso -->
+      <!-- Detalles del Curso y Lista de Exámenes -->
       <div class="col-12 col-lg-8" ref="courseDetails">
-        <div v-if="waitSelection" class="text-center py-5">
-          <h4 class="text-muted">Seleccione un curso</h4>
-        </div>
+        <div class="exam-content p-4">
+          <!-- State: Wait selection -->
+          <div v-if="waitSelection" class="empty-exam-selection text-center py-5 my-auto">
+            <div class="empty-icon-circle mb-3 mx-auto">
+              <v-icon color="#10B981" size="48">mdi-file-certificate-outline</v-icon>
+            </div>
+            <h4 class="empty-title mb-2">Selecciona un curso</h4>
+            <p class="empty-subtitle mb-0">
+              Elige un curso de la lista lateral para rendir o consultar el progreso de tus exámenes.
+            </p>
+          </div>
 
-        <div v-else class="course-details">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <!-- Cabecera del curso seleccionado -->
-              <div class="selected-course mb-4">
-                <div class="row g-0">
-                  <div class="col-md-3">
-                    <img :src="productSelected.url_portada" class="img-fluid rounded" alt="Portada del curso" />
-                  </div>
-                  <div class="col-md-9 ps-md-4">
-                    <h3 class="mb-3">{{ productSelected.title }}</h3>
-                    <div class="progress-section">
-                      <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="fw-bold">Progreso actual:</span>
-                        <span>{{
-                          exam_progress !== "empty" ? exam_progress : 0
-                        }}%</span>
-                      </div>
-                      <div class="progress" style="height: 10px">
-                        <div class="progress-bar bg-success" role="progressbar" :style="{
-                          width:
-                            exam_progress !== 'empty'
-                              ? exam_progress + '%'
-                              : '0%',
-                        }" :aria-valuenow="exam_progress !== 'empty' ? exam_progress : 0
-                            " aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
+          <!-- State: Course selected details & exams table -->
+          <div v-else class="course-details">
+            <!-- Header del curso seleccionado -->
+            <div class="selected-course-header p-3 mb-4">
+              <div class="d-flex align-items-center">
+                <div class="selected-img-wrapper mr-3 flex-shrink-0">
+                  <img
+                    :src="productSelected.url_portada"
+                    class="selected-course-image"
+                    alt="Portada del curso seleccionado"
+                    @error="onImgError"
+                  />
+                </div>
+                <div class="overflow-hidden flex-grow-1">
+                  <h3 class="selected-course-title mb-2 text-truncate">{{ productSelected.title }}</h3>
+                  
+                  <!-- Barra de Progreso del Curso -->
+                  <div class="progress-section">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="progress-label">Progreso de exámenes:</span>
+                      <span class="progress-value">{{ exam_progress !== 'empty' ? exam_progress : 0 }}%</span>
+                    </div>
+                    <div class="progress custom-progress" style="height: 8px">
+                      <div
+                        class="progress-bar bg-emerald"
+                        role="progressbar"
+                        :style="{ width: (exam_progress !== 'empty' ? exam_progress : 0) + '%' }"
+                        :aria-valuenow="exam_progress !== 'empty' ? exam_progress : 0"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!-- Lista de exámenes -->
-              <div class="exams-list">
-                <h4 class="mb-3">Lista de exámenes</h4>
-                <div v-if="exam_progress === 'empty'" class="alert alert-info">
-                  No hay exámenes para este curso
-                </div>
-                <div v-else class="table-responsive">
-                  <table class="table table-hover">
-                    <thead class="table-light">
-                      <tr>
-                        <th>Examen</th>
-                        <th class="text-end">Estado/Acción</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- Exámenes de clase -->
-                      <tr v-for="exam in filteredClassExams" :key="'class-' + exam.id">
-                        <td>{{ exam.name }}</td>
-                        <td class="text-end">
-                          <span v-if="exam.approved" class="badge bg-success">
-                            Examen aprobado
-                          </span>
-                          <button v-else class="btn btn-success btn-sm" @click="Testing(exam)">
-                            Realizar examen
-                          </button>
-                        </td>
-                      </tr>
+            <!-- Tabla / Lista de Exámenes -->
+            <div class="exams-list-card p-4">
+              <h5 class="section-card-title mb-3">Evaluaciones del curso</h5>
+              
+              <div v-if="exam_progress === 'empty'" class="alert-no-exams p-4 text-center">
+                <v-icon color="#F59E0B" size="32" class="mb-2">mdi-information-outline</v-icon>
+                <h6 class="alert-title mb-1">Sin evaluaciones asignadas</h6>
+                <p class="alert-desc mb-0">Este curso no tiene exámenes registrados actualmente.</p>
+              </div>
 
-                      <!-- Exámenes de módulo -->
-                      <tr v-for="exam in filteredModuleExams" :key="'module-' + exam.id">
-                        <td>{{ exam.name }}</td>
-                        <td class="text-end">
-                          <span v-if="exam.approved" class="badge bg-success">
-                            Examen aprobado
-                          </span>
-                          <button v-else class="btn btn-success btn-sm" @click="Testing(exam)">
-                            Realizar examen
-                          </button>
-                        </td>
-                      </tr>
+              <div v-else class="table-responsive">
+                <table class="table custom-table align-middle">
+                  <thead>
+                    <tr>
+                      <th>Evaluación / Examen</th>
+                      <th class="text-end">Estado / Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Exámenes de clase -->
+                    <tr v-for="exam in filteredClassExams" :key="'class-' + exam.id">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <v-icon color="#71717A" size="20" class="mr-2">mdi-checkbox-blank-circle-outline</v-icon>
+                          <span class="exam-name-text">{{ exam.name }}</span>
+                        </div>
+                      </td>
+                      <td class="text-end">
+                        <span v-if="exam.approved" class="status-badge-approved">
+                          <v-icon color="#10B981" size="16" class="mr-1">mdi-check-circle</v-icon>
+                          Aprobado
+                        </span>
+                        <button v-else class="btn btn-take-exam btn-sm" @click="Testing(exam)">
+                          <span>Realizar examen</span>
+                          <v-icon color="#FFFFFF" size="16" class="ml-1">mdi-arrow-right</v-icon>
+                        </button>
+                      </td>
+                    </tr>
 
-                      <!-- Examen del curso -->
-                      <tr v-if="showCourseExam">
-                        <td>{{ exam_course.title }}</td>
-                        <td class="text-end">
-                          <span v-if="exam_course.approved" class="badge bg-success">
-                            Examen aprobado
-                          </span>
-                          <button v-else class="btn btn-success btn-sm" @click="Testing(exam_course)">
-                            Realizar examen
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                    <!-- Exámenes de módulo -->
+                    <tr v-for="exam in filteredModuleExams" :key="'module-' + exam.id">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <v-icon color="#71717A" size="20" class="mr-2">mdi-folder-outline</v-icon>
+                          <span class="exam-name-text">{{ exam.name }}</span>
+                        </div>
+                      </td>
+                      <td class="text-end">
+                        <span v-if="exam.approved" class="status-badge-approved">
+                          <v-icon color="#10B981" size="16" class="mr-1">mdi-check-circle</v-icon>
+                          Aprobado
+                        </span>
+                        <button v-else class="btn btn-take-exam btn-sm" @click="Testing(exam)">
+                          <span>Realizar examen</span>
+                          <v-icon color="#FFFFFF" size="16" class="ml-1">mdi-arrow-right</v-icon>
+                        </button>
+                      </td>
+                    </tr>
+
+                    <!-- Examen del curso -->
+                    <tr v-if="showCourseExam">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <v-icon color="#10B981" size="20" class="mr-2">mdi-school-outline</v-icon>
+                          <span class="exam-name-text font-weight-bold">{{ exam_course.title }}</span>
+                        </div>
+                      </td>
+                      <td class="text-end">
+                        <span v-if="exam_course.approved" class="status-badge-approved">
+                          <v-icon color="#10B981" size="16" class="mr-1">mdi-check-circle</v-icon>
+                          Aprobado
+                        </span>
+                        <button v-else class="btn btn-take-exam btn-sm" @click="Testing(exam_course)">
+                          <span>Realizar examen final</span>
+                          <v-icon color="#FFFFFF" size="16" class="ml-1">mdi-arrow-right</v-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -149,20 +214,22 @@ export default {
     };
   },
   computed: {
-    // Filtrar exámenes de clase existentes
     filteredClassExams() {
       return this.exams_class.filter((exam) => exam && exam.name);
     },
-    // Filtrar exámenes de módulo existentes
     filteredModuleExams() {
       return this.exams_module.filter((exam) => exam && exam.name);
     },
-    // Verificar si hay examen de curso para mostrar
     showCourseExam() {
       return this.exam_course && this.exam_course.title;
     },
   },
   methods: {
+    onImgError(e) {
+      if (e && e.target) {
+        e.target.src = require("@/assets/background-login.webp");
+      }
+    },
     async getcourses() {
       try {
         this.loading = true;
@@ -183,7 +250,6 @@ export default {
           `/course/exam/list?id=${product.id}`
         );
 
-        // Asegurarnos de que los arrays estén inicializados correctamente
         this.exam_course = response.data.exam_course || {};
         this.exams_class = response.data.exams_class || [];
         this.exams_module = response.data.exams_module || [];
@@ -192,10 +258,12 @@ export default {
         this.waitSelection = false;
 
         this.$nextTick(() => {
-          this.$refs.courseDetails.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
+          if (this.$refs.courseDetails && this.$refs.courseDetails.scrollIntoView) {
+            this.$refs.courseDetails.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
         });
       } catch (error) {
         console.error("Error al obtener la lista de exámenes:", error);
@@ -220,115 +288,291 @@ export default {
 </script>
 
 <style scoped>
-.courses-container {
-  max-height: 80vh;
+/* Contenedor Principal */
+.exam-container {
+  min-height: 85vh;
+}
+
+/* Sidebar de Cursos */
+.courses-wrapper {
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+  height: calc(100vh - 120px);
   overflow-y: auto;
-  padding-right: 10px;
 }
 
-.course-card {
+.sidebar-main-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  color: #18181B !important;
+  font-size: 1.15rem !important;
+}
+
+.border-bottom-subtle {
+  border-bottom: 1px solid #E5E3DC !important;
+}
+
+.courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.course-card-item {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 16px !important;
+  padding: 12px 14px !important;
   cursor: pointer;
-  margin-bottom: 1rem;
-  transition: transform 0.2s ease-in-out;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.course-card:hover {
-  transform: translateY(-3px);
+.course-card-item:hover {
+  transform: translateY(-2px);
+  border-color: #10B981 !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.12) !important;
 }
 
-.course-card .card {
-  border: none;
-  background-color: white;
+.course-card-item.active {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border: 2px solid #10B981 !important;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.18) !important;
 }
 
-.course-card .card-body {
-  padding: 1rem;
+.course-img-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #E5E3DC;
 }
 
-.course-card .card-title {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.progress {
-  background-color: #e9ecef;
-  border-radius: 0.5rem;
-}
-
-.progress-bar {
-  background-color: #1ae800;
-  border-radius: 0.5rem;
-}
-
-.course-details .card {
-  border: none;
-  background-color: white;
-}
-
-.selected-course img {
-  max-height: 150px;
+.course-image {
   width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
-.table th {
-  font-weight: 600;
-  color: #495057;
+.course-card-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.92rem !important;
+  color: #18181B !important;
 }
 
-.table td {
-  vertical-align: middle;
+.exam-badge {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  color: #10B981 !important;
+  display: inline-flex;
+  align-items: center;
 }
 
-.btn-success {
-  background-color: #1ae800;
-  border-color: #1ae800;
+/* Panel Principal de Exámenes */
+.exam-content {
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
 }
 
-.btn-success:hover {
-  background-color: #15cc00;
-  border-color: #15cc00;
+.empty-icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #E5E3DC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
-.badge.bg-success {
-  background-color: #1ae800 !important;
+.empty-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+  color: #18181B !important;
 }
 
-@media (max-width: 768px) {
-  .courses-container {
-    max-height: none;
-    overflow-y: visible;
-    margin-bottom: 2rem;
+.empty-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.9rem !important;
+  color: #71717A !important;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Header del Curso Seleccionado */
+.selected-course-header {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 18px !important;
+}
+
+.selected-img-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #E5E3DC;
+}
+
+.selected-course-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.selected-course-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
+  color: #18181B !important;
+}
+
+.progress-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #71717A;
+}
+
+.progress-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #10B981;
+}
+
+.custom-progress {
+  background-color: #E5E3DC !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+
+.bg-emerald {
+  background-color: #10B981 !important;
+}
+
+/* Card de Lista de Exámenes */
+.exams-list-card {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 18px !important;
+}
+
+.section-card-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  color: #18181B !important;
+}
+
+.alert-no-exams {
+  background: #FEF3C7 !important;
+  border: 1px solid #FCD34D !important;
+  border-radius: 14px !important;
+}
+
+.alert-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  color: #92400E !important;
+}
+
+.alert-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: #B45309 !important;
+  font-size: 0.88rem !important;
+}
+
+/* Tabla de Exámenes */
+.custom-table {
+  margin-bottom: 0 !important;
+}
+
+.custom-table thead th {
+  background-color: #FAF9F5 !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  color: #18181B !important;
+  border-bottom: 1px solid #E5E3DC !important;
+  padding: 12px 16px !important;
+}
+
+.custom-table tbody td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid #E5E3DC !important;
+}
+
+.exam-name-text {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.92rem !important;
+  color: #18181B !important;
+}
+
+.status-badge-approved {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #10B981 !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+}
+
+.btn-take-exam {
+  background-color: #10B981 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 6px 16px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-take-exam:hover {
+  background-color: #059669 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+}
+
+/* Skeleton Loading Item */
+.skeleton-course-item {
+  background: #FFFFFF;
+  border: 1px solid #E5E3DC;
+  border-radius: 16px;
+}
+
+.skeleton-box {
+  background-color: #E5E3DC;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.5) 20%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  background-position: -150px 0;
+  animation: skeleton-shimmer 1.6s infinite ease-in-out;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: calc(100% + 150px) 0;
   }
-
-  .selected-course {
-    text-align: center;
-  }
-
-  .selected-course img {
-    margin-bottom: 1rem;
-    max-height: 200px;
-  }
-}
-
-/* Personalización de la barra de desplazamiento */
-.courses-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.courses-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.courses-container::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 3px;
-}
-
-.courses-container::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }
 </style>

@@ -1,110 +1,143 @@
 <template>
   <div class="chat-wrapper">
-    <div class="container-fluid h-100">
-      <div class="row h-100">
+    <div class="chat-main-card">
+      <div class="row g-0 h-100">
         <!-- Sidebar de contactos -->
-        <div class="col-md-4 col-lg-3 sidebar-contacts p-0">
-          <!-- Perfil del usuario -->
-          <div class="user-profile p-3 border-bottom">
-            <div class="d-flex align-items-center">
-              <div class="position-relative me-3">
-                <img :src="user.photo_user" class="avatar" :alt="session_user_name" />
-                <span class="status-badge"></span>
-              </div>
-              <div class="user-info">
-                <h6 class="mb-0">{{ session_user_name }}</h6>
-              </div>
+        <div class="col-12 col-md-4 col-lg-3 sidebar-contacts">
+          <!-- Perfil del usuario actual -->
+          <div class="user-profile p-3 border-bottom-subtle d-flex align-items-center">
+            <div class="position-relative mr-3 flex-shrink-0">
+              <img :src="user && user.photo_user ? user.photo_user : defaultAvatar" class="avatar" :alt="session_user_name" @error="onAvatarError" />
+              <span class="status-badge"></span>
+            </div>
+            <div class="user-info overflow-hidden">
+              <h6 class="user-name mb-0 text-truncate">{{ session_user_name }}</h6>
+              <span class="user-status-text">En línea</span>
             </div>
           </div>
 
-          <!-- Lista de chats -->
+          <!-- Lista de chats activos -->
           <div class="chat-list-section p-3">
             <h6 class="section-title mb-3">Chats</h6>
             <div v-if="contacts.length > 0" class="chat-list">
-              <div v-for="contact in contacts" :key="contact.id" class="chat-item"
-                @click="cambiarChat(idOne, contact.id)">
+              <div
+                v-for="contact in contacts"
+                :key="contact.id"
+                :class="['chat-item', { active: actualContact && actualContact.id === contact.id }]"
+                @click="cambiarChat(idOne, contact.id)"
+              >
                 <div class="d-flex align-items-center">
-                  <div class="position-relative">
-                    <img :src="contact.photo" class="avatar-sm me-3" :alt="contact.name" />
+                  <div class="position-relative mr-3 flex-shrink-0">
+                    <img :src="contact.photo || defaultAvatar" class="avatar-sm" :alt="contact.name" @error="onAvatarError" />
                     <span class="status-badge-sm"></span>
                   </div>
-                  <div class="chat-item-info">
-                    <h6 class="mb-1">{{ contact.name }}</h6>
-                    <p class="last-message mb-0">{{ contact.last_message }}</p>
+                  <div class="chat-item-info overflow-hidden">
+                    <h6 class="contact-name mb-1 text-truncate">{{ contact.name }}</h6>
+                    <p class="last-message mb-0 text-truncate">{{ contact.last_message || 'Sin mensajes anteriores' }}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div v-else class="empty-state">
-              <p>¡Comunícate con tus profesores y suscriptores!</p>
+            <div v-else class="empty-state py-4 text-center">
+              <v-icon color="#A1A1AA" size="28" class="mb-1">mdi-message-text-outline</v-icon>
+              <p class="empty-text mb-0">Comunícate con tus profesores y suscriptores</p>
             </div>
           </div>
 
           <!-- Nuevos contactos -->
-          <div class="new-contacts-section p-3">
-            <h6 class="section-title mb-3">Nuevos contactos</h6>
+          <div class="new-contacts-section p-3 border-top-subtle">
+            <h6 class="section-title mb-2">Nuevos contactos</h6>
             <div v-if="contacts2.length > 0" class="new-contacts-list">
-              <div v-for="contact in contacts2" :key="contact.id" class="contact-item"
-                @click="sendMessage2(contact.id)">
+              <div v-for="contact in contacts2" :key="contact.id" class="contact-item" @click="sendMessage2(contact.id)">
                 <div class="d-flex align-items-center">
-                  <img :src="contact.photo" class="avatar-sm me-3" :alt="contact.name" />
-                  <h6 class="mb-0">{{ contact.name }}</h6>
+                  <img :src="contact.photo || defaultAvatar" class="avatar-sm mr-3 flex-shrink-0" :alt="contact.name" @error="onAvatarError" />
+                  <h6 class="contact-name mb-0 text-truncate">{{ contact.name }}</h6>
                 </div>
               </div>
             </div>
-            <div v-else class="empty-state">
-              <p>Necesitas estar inscrito en un curso.</p>
+            <div v-else class="empty-state py-2 text-center">
+              <p class="empty-text mb-0">Necesitas estar inscrito en un curso</p>
             </div>
           </div>
         </div>
 
         <!-- Área principal del chat -->
-        <div class="col-md-8 col-lg-9 main-chat p-0">
-          <div v-if="actualContact != null">
+        <div class="col-12 col-md-8 col-lg-9 main-chat">
+          <div v-if="actualContact && actualContact.id" class="h-100 d-flex flex-column">
             <!-- Encabezado del chat -->
-            <div class="chat-header p-3 border-bottom">
+            <div class="chat-header p-3 border-bottom-subtle d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-center">
-                <img :src="actualContact.photo" class="avatar-sm me-3" :alt="actualContact.name" />
-                <h6 class="mb-0">
-                  {{ actualContact.name + " " + actualContact.lastname }}
-                </h6>
+                <img :src="actualContact.photo || defaultAvatar" class="avatar-sm mr-3 flex-shrink-0" :alt="actualContact.name" @error="onAvatarError" />
+                <div>
+                  <h6 class="chat-header-name mb-0">
+                    {{ actualContact.name }} {{ actualContact.lastname || '' }}
+                  </h6>
+                  <span class="chat-header-status">
+                    <span class="status-dot mr-1"></span> Activo ahora
+                  </span>
+                </div>
               </div>
             </div>
 
             <!-- Contenido del chat -->
-            <div class="chat-content p-3">
-              <div v-if="actualMessageContent.length == 0" class="empty-chat">
-                <p>Saluda a {{ actualContact.name }}</p>
+            <div class="chat-content p-4">
+              <div v-if="actualMessageContent.length == 0" class="empty-chat text-center my-auto py-5">
+                <v-icon color="#10B981" size="48" class="mb-2">mdi-hand-wave-outline</v-icon>
+                <h5 class="empty-chat-title mb-1">¡Saluda a {{ actualContact.name }}!</h5>
+                <p class="empty-chat-sub mb-0">Envía un mensaje para iniciar la conversación</p>
               </div>
+
               <div v-else class="messages-container">
-                <div v-for="message in actualMessageContent" :key="message.id" :class="[
-                  'message',
-                  message.transmitter_id == user.id
-                    ? 'message-outgoing'
-                    : 'message-incoming',
-                ]">
-                  <div class="message-content">
-                    {{ message.message }}
+                <div
+                  v-for="message in actualMessageContent"
+                  :key="message.id"
+                  :class="[
+                    'message-group d-flex flex-column',
+                    message.transmitter_id == user.id ? 'message-outgoing' : 'message-incoming'
+                  ]"
+                >
+                  <!-- Nombre del remitente -->
+                  <span class="sender-name mb-1">
+                    {{ message.transmitter_id == user.id ? 'Tú' : actualContact.name }}
+                  </span>
+
+                  <!-- Burbuja de mensaje -->
+                  <div class="message-bubble shadow-sm">
+                    <div class="message-text">
+                      {{ message.message }}
+                    </div>
                   </div>
-                  <div class="message-time">
-                    {{
-                      moment(message.created_at).format("DD/MM/YYYY hh:mm A")
-                    }}
-                  </div>
+
+                  <!-- Estampa de tiempo -->
+                  <span class="message-time mt-1">
+                    {{ moment(message.created_at).format("hh:mm A") }}
+                  </span>
                 </div>
               </div>
             </div>
 
             <!-- Input del mensaje -->
-            <div class="message-input-wrapper p-3 border-top">
-              <div class="input-group">
-                <input type="text" class="form-control" v-model="message_input"
-                  @keyup.enter="sendMessage(actualContact.id)" placeholder="Escribe un mensaje..." />
-                <button class="btn btn-primary" @click="sendMessage(actualContact.id)">
-                  <i class="bi bi-send"></i>
+            <div class="message-input-wrapper p-3 border-top-subtle">
+              <div class="input-group d-flex align-items-center">
+                <input
+                  type="text"
+                  class="form-control chat-input"
+                  v-model="message_input"
+                  @keyup.enter="sendMessage(actualContact.id)"
+                  placeholder="Escribe un mensaje..."
+                />
+                <button class="btn send-btn ml-2" @click="sendMessage(actualContact.id)">
+                  <v-icon color="#FFFFFF" size="20">mdi-send</v-icon>
                 </button>
               </div>
             </div>
+          </div>
+
+          <!-- Estado inicial sin chat seleccionado -->
+          <div v-else class="h-100 d-flex flex-column align-items-center justify-content-center p-5 text-center">
+            <v-icon color="#A1A1AA" size="56" class="mb-3">mdi-forum-outline</v-icon>
+            <h5 class="empty-chat-title mb-2">Selecciona una conversación</h5>
+            <p class="empty-chat-sub">Elige un contacto de la lista para empezar a chatear</p>
           </div>
         </div>
       </div>
@@ -126,6 +159,7 @@ export default {
   data() {
     return {
       moment: moment,
+      defaultAvatar: "https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240",
       actualContact: {
         photo: null,
       },
@@ -137,7 +171,7 @@ export default {
       idOne: localStorage.getItem("id_user"),
       session_user_name: `${localStorage.getItem(
         "name_user"
-      )}  ${localStorage.getItem("last_name_user")}`,
+      )} ${localStorage.getItem("last_name_user")}`,
       idTwo: null,
       message_input: null,
       mensaje: "",
@@ -151,6 +185,11 @@ export default {
     };
   },
   methods: {
+    onAvatarError(e) {
+      if (e && e.target) {
+        e.target.src = this.defaultAvatar;
+      }
+    },
     sendMessage(receiver_id) {
       this.axios
         .post("messages/add", {

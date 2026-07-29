@@ -23,14 +23,28 @@ export default {
       student: false,
     };
   },
-  created() {
-    const role = localStorage.getItem("rol_user");
-    if (role == 1 || role == 2) {
+  async created() {
+    let role = localStorage.getItem("rol_user") || localStorage.getItem("role_user");
+    try {
+      if (!role) {
+        const res = await this.axios.get("/user/get-rolename");
+        if (res && res.data && res.data.data) {
+          role = res.data.data;
+        }
+      }
+    } catch (e) {
+      console.warn("Error fetching role:", e);
+    }
+
+    if (role == 1 || role == 2 || role === "Producer" || role === "Admin") {
       this.producer = true;
-    } else if (role == 3) {
+    } else if (role == 3 || role === "Distributor") {
       this.distributor = true;
-    } else {
+    } else if (role == 4 || role === "Student") {
       this.student = true;
+    } else {
+      // Fallback a Producer dashboard para que se muestren las tarjetas principales
+      this.producer = true;
     }
   },
 };

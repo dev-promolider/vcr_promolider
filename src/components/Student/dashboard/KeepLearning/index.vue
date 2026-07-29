@@ -1,29 +1,44 @@
 <template>
   <div class="keep-learning-wrapper">
-    <v-fade-transition>
-      <div v-if="isWelcomeActive" class="welcome-banner-card hallmark-card">
-        <div class="d-flex align-center mb-3">
-          <div class="welcome-icon-badge mr-3">
-            <v-icon color="#10B981" size="24">mdi-sparkles</v-icon>
-          </div>
-          <div>
-            <h2 class="welcome-banner-title">¡Bienvenido de nuevo, {{ user || 'Estudiante' }}!</h2>
-            <p class="welcome-banner-subtitle">En esta sección podrás visualizar tus cursos activos y alcanzar tus logros.</p>
-          </div>
-        </div>
-
-        <div class="mt-4">
-          <v-btn color="#10B981" dark class="marketplace-pill-btn" :to="{ name: 'courses' }">
-            <span>Explorar Marketplace</span>
-            <v-icon right size="18">mdi-store</v-icon>
-          </v-btn>
+    <!-- Skeleton Screen mientras carga el endpoint -->
+    <div v-if="isLoadingCourses" class="welcome-banner-card hallmark-card skeleton-card">
+      <div class="d-flex align-center mb-3">
+        <div class="skeleton-box skeleton-badge mr-3"></div>
+        <div class="flex-grow-1">
+          <div class="skeleton-box skeleton-line-title mb-2"></div>
+          <div class="skeleton-box skeleton-line-sub"></div>
         </div>
       </div>
-    </v-fade-transition>
+      <div class="mt-4">
+        <div class="skeleton-box skeleton-btn"></div>
+      </div>
+    </div>
 
-    <Card v-if="!isWelcomeActive && lastCourses" :course="lastCourses" :cardType="3" :width="100" />
+    <!-- Contenido Real al finalizar la llamada JSON del endpoint -->
+    <template v-else>
+      <v-fade-transition>
+        <div v-if="isWelcomeActive" class="welcome-banner-card hallmark-card">
+          <div class="d-flex align-center mb-3">
+            <div class="welcome-icon-badge mr-3">
+              <v-icon color="#10B981" size="24">mdi-sparkles</v-icon>
+            </div>
+            <div>
+              <h2 class="welcome-banner-title">¡Bienvenido de nuevo, {{ user || 'Estudiante' }}!</h2>
+              <p class="welcome-banner-subtitle">En esta sección podrás visualizar tus cursos activos y alcanzar tus logros.</p>
+            </div>
+          </div>
 
-    <v-skeleton-loader v-if="isLoadingCourses && !isWelcomeActive" type="image, image"></v-skeleton-loader>
+          <div class="mt-4">
+            <v-btn color="#10B981" dark class="marketplace-pill-btn" :to="{ name: 'courses' }">
+              <span>Explorar Marketplace</span>
+              <v-icon right size="18">mdi-store</v-icon>
+            </v-btn>
+          </div>
+        </div>
+      </v-fade-transition>
+
+      <Card v-if="!isWelcomeActive && lastCourses" :course="lastCourses" :cardType="3" :width="100" />
+    </template>
   </div>
 </template>
 
@@ -152,6 +167,52 @@ export default {
   padding: 0 24px !important;
   height: 44px !important;
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.28) !important;
+}
+
+/* Skeleton Loader Box & Animations */
+.skeleton-box {
+  background-color: #E5E3DC;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.5) 20%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  background-position: -150px 0;
+  border-radius: 8px;
+  animation: skeleton-shimmer 1.6s infinite ease-in-out;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: calc(100% + 150px) 0;
+  }
+}
+
+.skeleton-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+}
+
+.skeleton-line-title {
+  width: 60%;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.skeleton-line-sub {
+  width: 85%;
+  height: 16px;
+  border-radius: 6px;
+}
+
+.skeleton-btn {
+  width: 170px;
+  height: 44px;
+  border-radius: 9999px;
 }
 
 .learning {

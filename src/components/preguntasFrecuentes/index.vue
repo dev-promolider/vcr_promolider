@@ -1,22 +1,66 @@
 <template>
-  <div class="faq-container container-fluid py-5">
-    <section-title title="Preguntas frecuentes" />
+  <div class="faq-page-wrapper container-fluid py-4">
     <div class="row justify-content-center">
-      <div class="col-lg-10 col-md-11 col-sm-12">
-        <div class="accordion" role="tablist">
-          <div class="faq-item" v-for="(preg, index) in preguntasF" :key="index">
-            <div class="faq-header d-flex align-items-center justify-content-between" v-b-toggle="'accordion-' + index"
-              @click="rotate === index ? (rotate = null) : (rotate = index)">
-              <h5 class="faq-question mb-0">{{ preg.question }}</h5>
-              <button :class="['btn-toggle', { rotated: rotate === index }]">
-                <i class="fas fa-plus"></i>
-              </button>
-            </div>
-            <b-collapse :id="'accordion-' + index" accordion="faq-accordion">
-              <div class="faq-answer">
-                {{ preg.answer }}
+      <div class="col-12 col-xl-9 col-lg-10">
+        <div class="faq-card p-4 p-md-5">
+          <!-- Header Centrado -->
+          <div class="faq-header-text text-center mb-4">
+            <span class="faq-subtitle d-block mb-1">Resolvemos tus dudas</span>
+            <h2 class="faq-main-title">Preguntas Frecuentes</h2>
+          </div>
+
+          <!-- Filtros por Categoría (Pills) -->
+          <div class="faq-categories-wrapper d-flex flex-wrap justify-content-center gap-2 mb-4 pb-2">
+            <button
+              v-for="cat in categories"
+              :key="cat.id"
+              :class="['faq-category-btn', { active: activeCategory === cat.id }]"
+              @click="activeCategory = cat.id"
+            >
+              {{ cat.name }}
+            </button>
+          </div>
+
+          <!-- Skeleton Loading -->
+          <div v-if="loading || preguntasF === null" class="faq-skeleton-list">
+            <div v-for="i in 5" :key="i" class="faq-skeleton-item p-4 mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="skeleton-box" style="width: 70%; height: 20px; border-radius: 6px;"></div>
+                <div class="skeleton-box" style="width: 24px; height: 24px; border-radius: 50%;"></div>
               </div>
-            </b-collapse>
+            </div>
+          </div>
+
+          <!-- Estado Vacío -->
+          <div v-else-if="filteredQuestions.length === 0" class="empty-faq text-center py-5">
+            <v-icon color="#A1A1AA" size="48" class="mb-3">mdi-help-circle-outline</v-icon>
+            <h5 class="empty-title mb-1">No hay preguntas registradas</h5>
+            <p class="empty-desc text-muted mb-0">No se encontraron preguntas frecuentes en esta categoría.</p>
+          </div>
+
+          <!-- Lista de Preguntas (Acordeón) -->
+          <div v-else class="faq-accordion-list">
+            <div
+              v-for="(preg, index) in filteredQuestions"
+              :key="index"
+              :class="['faq-accordion-item', { open: openIndex === index }]"
+            >
+              <div
+                class="faq-item-header p-4 d-flex align-items-center justify-content-between"
+                @click="toggleAccordion(index)"
+              >
+                <h5 class="faq-question-text mb-0">{{ preg.question || preg.titulo || preg.name }}</h5>
+                <button :class="['faq-toggle-icon', { active: openIndex === index }]">
+                  <v-icon :color="openIndex === index ? '#10B981' : '#71717A'" size="22">
+                    {{ openIndex === index ? 'mdi-close' : 'mdi-plus' }}
+                  </v-icon>
+                </button>
+              </div>
+
+              <div v-show="openIndex === index" class="faq-item-body px-4 pb-4">
+                <p class="faq-answer-text mb-0">{{ preg.answer || preg.respuesta || preg.description }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -25,24 +69,55 @@
 </template>
 
 <script>
-import SectionTitle from "../Navbar/SectionTitle.vue";
-
 export default {
   name: "preguntas-frecuentes",
-  components: {
-    SectionTitle,
-  },
   data() {
     return {
       preguntasF: null,
-      rotate: null,
+      openIndex: null,
+      loading: false,
+      activeCategory: "all",
+      categories: [
+        { id: "all", name: "Todas" },
+        { id: "courses", name: "Cursos" },
+        { id: "platform", name: "Plataforma" },
+        { id: "certificates", name: "Certificados" },
+        { id: "payments", name: "Pagos" },
+      ],
     };
   },
-  methods: {
-    getPreguntas() {
-      this.axios.get("frequent-questions").then((res) => {
-        this.preguntasF = res.data;
+  computed: {
+    filteredQuestions() {
+      if (!this.preguntasF || !Array.isArray(this.preguntasF)) {
+        return [];
+      }
+      if (this.activeCategory === "all") {
+        return this.preguntasF;
+      }
+      return this.preguntasF.filter((item) => {
+        if (!item.category) return true;
+        return (
+          item.category.toLowerCase().includes(this.activeCategory.toLowerCase()) ||
+          this.activeCategory === "all"
+        );
       });
+    },
+  },
+  methods: {
+    toggleAccordion(index) {
+      this.openIndex = this.openIndex === index ? null : index;
+    },
+    async getPreguntas() {
+      try {
+        this.loading = true;
+        const res = await this.axios.get("frequent-questions");
+        this.preguntasF = (res && Array.isArray(res.data)) ? res.data : (res.data ? [res.data] : []);
+      } catch (error) {
+        console.error("Error al cargar preguntas frecuentes:", error);
+        this.preguntasF = [];
+      } finally {
+        this.loading = false;
+      }
     },
   },
   created() {
@@ -52,88 +127,148 @@ export default {
 </script>
 
 <style scoped>
-.faq-container {
-  background-color: #fff;
-  min-height: 100vh;
+.faq-page-wrapper {
+  min-height: 85vh;
 }
 
-.faq-item {
-  border-bottom: 1px solid rgba(29, 29, 29, 0.1);
-  margin-bottom: 0.5rem;
+/* Tarjeta Principal */
+.faq-card {
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
 }
 
-.faq-header {
-  padding: 1.25rem 0;
+.faq-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.9rem !important;
+  color: #71717A !important;
+  font-weight: 600 !important;
+}
+
+.faq-main-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 2.1rem !important;
+  color: #18181B !important;
+}
+
+/* Pills de Categorías */
+.faq-category-btn {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  color: #71717A !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  padding: 8px 20px !important;
+  border-radius: 24px !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.faq-header:hover {
-  background-color: rgba(0, 128, 0, 0.05);
+.faq-category-btn:hover {
+  border-color: #10B981 !important;
+  color: #10B981 !important;
 }
 
-.faq-question {
-  font-weight: 400;
-  font-size: 1.1rem;
-  color: #333;
-  padding-right: 1rem;
-  margin: 0;
-  flex: 1;
+.faq-category-btn.active {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3) !important;
 }
 
-.btn-toggle {
-  background: none;
+/* Items del Acordeón */
+.faq-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-accordion-item {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 18px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: hidden;
+}
+
+.faq-accordion-item:hover {
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+.faq-accordion-item.open {
+  border: 2px solid #10B981 !important;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.03) 0%, #FFFFFF 100%) !important;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.12) !important;
+}
+
+.faq-item-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+.faq-question-text {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  color: #18181B !important;
+  line-height: 1.4;
+}
+
+.faq-toggle-icon {
+  background: transparent;
   border: none;
-  color: #008000;
-  width: 32px;
-  height: 32px;
-  padding: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  margin-left: 16px;
 }
 
-.btn-toggle.rotated {
-  transform: rotate(135deg);
+.faq-accordion-item.open .faq-toggle-icon {
+  background: rgba(16, 185, 129, 0.1);
 }
 
-.btn-toggle:focus {
-  outline: none;
-}
-
-.faq-answer {
-  padding: 1rem 0 1.5rem;
-  color: #666;
+.faq-answer-text {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.95rem !important;
+  color: #71717A !important;
   line-height: 1.6;
+  border-top: 1px dashed #E5E3DC;
+  padding-top: 14px;
 }
 
-@media (max-width: 768px) {
-  .faq-question {
-    font-size: 1rem;
-  }
-
-  .faq-header {
-    padding: 1rem 0;
-  }
-
-  .btn-toggle {
-    width: 28px;
-    height: 28px;
-  }
-
-  .faq-answer {
-    padding: 0.75rem 0 1.25rem;
-  }
+/* Skeleton Loading */
+.faq-skeleton-item {
+  background: #FFFFFF;
+  border: 1px solid #E5E3DC;
+  border-radius: 18px;
 }
 
-@media (max-width: 576px) {
-  .faq-container {
-    padding: 2rem 1rem;
-  }
+.skeleton-box {
+  background-color: #E5E3DC;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.5) 20%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  background-position: -150px 0;
+  animation: skeleton-shimmer 1.6s infinite ease-in-out;
+}
 
-  .faq-question {
-    font-size: 0.95rem;
+@keyframes skeleton-shimmer {
+  to {
+    background-position: calc(100% + 150px) 0;
   }
 }
 </style>

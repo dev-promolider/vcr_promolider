@@ -1,36 +1,38 @@
 <template>
-  <div class="card-message p-2 d-flex flex-column">
-    <div class="header d-flex justify-content-between mb-2">
-      <p style="font-size: 1em">Mensajes</p>
-      <router-link to="/messages" class="text-decoration-none" style="font-size: 1em">Todos los mensajes</router-link>
+  <div class="card-message p-3 d-flex flex-column">
+    <!-- Encabezado del contenedor (Siempre visible de forma instantánea) -->
+    <div class="header d-flex align-center justify-space-between mb-3">
+      <h3 class="header-title m-0">Mensajes</h3>
+      <router-link to="/messages" class="header-link text-decoration-none">Todos los mensajes</router-link>
     </div>
 
-    <div>
-      <span v-if="getLastMessages == null" class="text-center">
-        <div class="cajita d-flex align-items-center justify-content-center">
-          cargando datos...
+    <!-- Contenido dinámico dependiente de la respuesta JSON del endpoint -->
+    <div class="messages-content-area flex-grow-1">
+      <!-- 1. SKELETON SCREEN: Se muestra ÚNICAMENTE mientras el endpoint está consultando datos -->
+      <div v-if="getLastMessages == null" class="skeleton-messages-wrapper py-1">
+        <div v-for="i in 3" :key="i" class="skeleton-message-item d-flex align-items-center mb-2 p-2">
+          <div class="skeleton-box mr-3" style="width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;"></div>
+          <div class="flex-grow-1">
+            <div class="skeleton-box mb-2" style="width: 55%; height: 16px; border-radius: 6px;"></div>
+            <div class="skeleton-box" style="width: 85%; height: 14px; border-radius: 6px;"></div>
+          </div>
         </div>
-        <div class="cajita d-flex align-items-center justify-content-center">
-          cargando datos...
-        </div>
-        <div class="cajita d-flex align-items-center justify-content-center">
-          cargando datos...
-        </div>
-      </span>
-
-      <div v-if="getLastMessages == 0" class="center-element no-result mt-5">
-        <span>Sin resultados</span>
       </div>
 
-      <div v-else class="message d-flex px-5 mb-3" v-for="user in getLastMessages" :key="user.id">
-        <b-avatar variant="info" src="https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240"></b-avatar>
-        <div class="card-body text-message p-2">
-          <p class="card-title mb-1">
-            <b>{{ user.fullname }}</b>
-          </p>
-          <p class="card-text">
-            {{ user.message }}
-          </p>
+      <!-- 2. ESTADO VACÍO: Si el endpoint retorna 0 mensajes -->
+      <div v-else-if="getLastMessages.length === 0 || getLastMessages == 0" class="center-element no-result my-4 text-center">
+        <v-icon color="#A1A1AA" size="32" class="mb-1">mdi-message-off-outline</v-icon>
+        <p class="text-muted m-0" style="font-size: 0.88rem;">No existen mensajes pendientes</p>
+      </div>
+
+      <!-- 3. RENDERIZADO DE MENSAJES REALES: Al retornar el JSON funcional -->
+      <div v-else class="messages-list">
+        <div class="message-item d-flex align-center p-3 mb-2" v-for="user in getLastMessages" :key="user.id">
+          <b-avatar variant="info" :src="user.photo || 'https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240'" size="42" class="mr-3 flex-shrink-0"></b-avatar>
+          <div class="message-info flex-grow-1 overflow-hidden">
+            <span class="message-user font-weight-bold d-block">{{ user.fullname }}</span>
+            <span class="message-body text-truncate d-block">{{ user.message }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -59,57 +61,70 @@ export default {
 </script>
 
 <style scoped>
-.header>a {
-  color: #111111;
-  font-size: 15px;
-}
-
 .card-message {
-  border-radius: 15px;
-  width: 100%;
-  height: 350px;
-  margin: auto;
+  background: #FAF9F5 !important;
+  border-radius: 20px !important;
+  border: 1px solid #E5E3DC !important;
+  min-height: 280px;
 }
 
-.message {
-  background-color: #1ae800;
-  border-radius: 15px;
-  align-items: center;
+.header-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  color: #18181B !important;
 }
 
-.text-message p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  overflow: hidden;
-  font-size: 15px;
+.header-link {
+  font-family: 'Outfit', sans-serif !important;
+  color: #10B981 !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
 }
 
-.card-text {
-  color: rgb(0, 0, 0);
+.message-item {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 14px !important;
+  transition: all 0.2s ease !important;
 }
 
-.cajita {
-  width: 100%;
-  height: 70px;
-  border-radius: 0.9rem;
-  max-width: 95%;
-  margin: 10px;
-  animation: pulsos 1s infinite;
+.message-item:hover {
+  border-color: #10B981 !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12) !important;
 }
 
-@keyframes pulsos {
-  0% {
-    background: #eee;
-  }
+.message-user {
+  font-family: 'Outfit', sans-serif !important;
+  color: #18181B !important;
+  font-size: 0.92rem !important;
+}
 
-  50% {
-    background: #bfbfbf;
-  }
+.message-body {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: #71717A !important;
+  font-size: 0.82rem !important;
+}
 
-  100% {
-    background: #eee;
+/* Skeleton Loader Box & Animations */
+.skeleton-box {
+  background-color: #E5E3DC;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.5) 20%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  background-position: -150px 0;
+  border-radius: 8px;
+  animation: skeleton-shimmer 1.6s infinite ease-in-out;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: calc(100% + 150px) 0;
   }
 }
 </style>

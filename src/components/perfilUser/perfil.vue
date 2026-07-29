@@ -1,119 +1,170 @@
 <template>
-  <div style="min-height: 700px">
+  <div class="profile-page-wrapper p-4">
     <section-title title="Ajustes de perfil" />
-    <v-row class="p-3">
-      <v-col cols="12" sm="9" md="4">
-        <v-card elevation="2">
-          <v-card elevation="0" class="d-flex flex-column justify-center align-center pt-5">
-            <v-badge @click.native="modalImage = true" bordered icon="mdi-camera" overlap bottom offset-x="30"
-              offset-y="30" style="cursor: pointer">
-              <v-avatar size="140">
-                <v-img :src="this.picture"> </v-img>
-              </v-avatar>
-            </v-badge>
 
-            <v-card-title>
-              {{ this.userUp.name }}
-            </v-card-title>
-            <v-chip-group>
-              <v-chip color="green" outlined>Rol : {{ userUp.rol }}</v-chip>
-            </v-chip-group>
-            <v-chip-group>
-              <v-chip color="green" outlined>Membresia : {{ userUp.plan }}</v-chip>
-            </v-chip-group>
-          </v-card>
+    <v-row class="mt-2">
+      <!-- Tarjeta Resumen de Perfil Izquierda -->
+      <v-col cols="12" md="4">
+        <div class="profile-card p-4">
+          <div class="d-flex flex-column align-center text-center">
+            <!-- Avatar con botón de cámara flotante -->
+            <div class="avatar-container mb-3 position-relative">
+              <img
+                :src="picture || defaultAvatar"
+                class="profile-avatar-img"
+                alt="Foto de perfil"
+                @error="onAvatarError"
+              />
+              <button class="avatar-edit-badge" @click="modalImage = true" title="Cambiar foto">
+                <v-icon color="#FFFFFF" size="18">mdi-camera</v-icon>
+              </button>
+            </div>
 
-          <v-list class="flex-start justify-start">
-            <v-subheader class="h5">Detalles</v-subheader>
+            <!-- Nombre de usuario -->
+            <h3 class="user-display-name mb-2">{{ userUp.name || name || 'Usuario' }}</h3>
 
-            <v-divider style="margin: 5px 15px"></v-divider>
-            <v-list-item style="min-height: 30px">
-              <v-list-item-content>
-                <v-list-item-title><span>Nombre:</span> {{ name }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item style="min-height: 30px">
-              <v-list-item-content>
-                <v-list-item-title><span>Correo:</span> {{ email }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-card>
+            <!-- Chips de Rol y Membresía -->
+            <div class="d-flex flex-wrap justify-center gap-2 mb-4">
+              <span v-if="userUp.rol" class="profile-chip">
+                <v-icon color="#10B981" size="14" class="mr-1">mdi-shield-account-outline</v-icon>
+                Rol: {{ userUp.rol }}
+              </span>
+              <span v-if="userUp.plan" class="profile-chip">
+                <v-icon color="#10B981" size="14" class="mr-1">mdi-crown-outline</v-icon>
+                Membresía: {{ userUp.plan }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Detalles adicionales del usuario -->
+          <div class="profile-details-section pt-3 border-top-subtle">
+            <h5 class="details-section-title mb-3">Detalles</h5>
+
+            <div class="detail-item d-flex align-center mb-3">
+              <v-icon color="#71717A" size="20" class="mr-3">mdi-account-outline</v-icon>
+              <div>
+                <span class="detail-label">Nombre completo</span>
+                <p class="detail-value mb-0">{{ name || userUp.name || '---' }}</p>
+              </div>
+            </div>
+
+            <div class="detail-item d-flex align-center">
+              <v-icon color="#71717A" size="20" class="mr-3">mdi-email-outline</v-icon>
+              <div>
+                <span class="detail-label">Correo electrónico</span>
+                <p class="detail-value mb-0">{{ email || userUp.email || '---' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </v-col>
 
-      <v-col cols="12" sm="12" md="8">
-        <v-card elevation="2">
-          <v-tabs show-arrows v-model="tab" dark>
-            <v-tab v-for="(ltab, index) in listTabs" :key="index">
-              <v-icon left> mdi-{{ ltab.icon }} </v-icon>
+      <!-- Panel Derecha de Ajustes (Cuenta y Seguridad) -->
+      <v-col cols="12" md="8">
+        <div class="profile-form-card overflow-hidden">
+          <v-tabs v-model="tab" color="#10B981" background-color="#FFFFFF" slider-color="#10B981" class="custom-profile-tabs border-bottom-subtle">
+            <v-tab v-for="(ltab, index) in listTabs" :key="index" class="profile-tab-btn">
+              <v-icon left size="20"> mdi-{{ ltab.icon }} </v-icon>
               {{ ltab.title }}
             </v-tab>
           </v-tabs>
 
-          <v-tabs-items v-model="tab">
+          <v-tabs-items v-model="tab" class="profile-tabs-content p-4">
             <v-tab-item v-for="(item, index) in listTabs" :key="index">
-              <v-card v-if="item.title === 'Cuenta'">
-                <v-card-title class="pb-0"> Editar Perfil </v-card-title>
-                <v-form class="mx-5" @submit.prevent="userUpdate">
+              <!-- Tab: Cuenta -->
+              <div v-if="item.title === 'Cuenta'" class="form-tab-container">
+                <h4 class="form-section-title mb-4">Editar Perfil</h4>
+                <v-form @submit.prevent="userUpdate">
                   <v-row>
                     <v-col cols="12" sm="6">
-                      <v-text-field class="mt-5" label="Usuario" outlined dense v-model="dataUser.name"></v-text-field>
-
-                      <v-text-field class="mt-5" label="Teléfono" outlined dense
-                        v-model="dataUser.phone"></v-text-field>
-                      <v-text-field class="mt-5" label="Nro. de documento" outlined dense
-                        v-model="dataUser.nro_document"></v-text-field>
+                      <v-text-field label="Usuario" outlined dense v-model="dataUser.name" class="custom-input"></v-text-field>
+                      <v-text-field label="Teléfono" outlined dense v-model="dataUser.phone" class="custom-input"></v-text-field>
+                      <v-text-field label="Nro. de documento" outlined dense v-model="dataUser.nro_document" class="custom-input"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
-                      <v-text-field class="mt-5" label="Correo electrónico" outlined dense
-                        v-model="dataUser.email"></v-text-field>
-                      <v-select v-model="dataUser.id_document_type" :items="docTypes" item-value="id"
-                        item-text="document" label="Tipo de documento" outlined dense class="mt-5"
-                        no-data-text="No hay datos"></v-select>
+                      <v-text-field label="Correo electrónico" outlined dense v-model="dataUser.email" class="custom-input"></v-text-field>
+                      <v-select
+                        v-model="dataUser.id_document_type"
+                        :items="docTypes"
+                        item-value="id"
+                        item-text="document"
+                        label="Tipo de documento"
+                        outlined
+                        dense
+                        class="custom-input"
+                        no-data-text="No hay datos"
+                      ></v-select>
                     </v-col>
                   </v-row>
-                  <div class="text-end">
-                    <v-btn style="text-transform: capitalize; font-size: 1rem" color="success" class="my-3"
-                      type="submit" :loading="isLoadingUpdateUser">
-                      Guardar Cambios
-                    </v-btn>
+                  <div class="d-flex justify-end mt-2">
+                    <button class="save-profile-btn d-flex align-center" type="submit" :disabled="isLoadingUpdateUser">
+                      <v-icon color="#FFFFFF" size="18" class="mr-2">mdi-check</v-icon>
+                      <span>{{ isLoadingUpdateUser ? 'Guardando...' : 'Guardar Cambios' }}</span>
+                    </button>
                   </div>
                 </v-form>
-              </v-card>
-              <v-card v-if="item.title === 'Seguridad'">
-                <v-card-title class="pb-0"> Cambiar Contraseña </v-card-title>
-                <v-form class="mx-5" @submit.prevent="changePassword()">
+              </div>
+
+              <!-- Tab: Seguridad -->
+              <div v-if="item.title === 'Seguridad'" class="form-tab-container">
+                <h4 class="form-section-title mb-4">Cambiar Contraseña</h4>
+                <v-form @submit.prevent="changePassword()">
                   <v-row>
                     <v-col cols="12" sm="6">
-                      <v-text-field class="mt-5" label="Contraseña actual" outlined dense v-model="actual_pass"
-                        name="actual_password" :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="() => (value = !value)" :type="value ? 'password' : 'text'">
-                      </v-text-field>
+                      <v-text-field
+                        label="Contraseña actual"
+                        outlined
+                        dense
+                        v-model="actual_pass"
+                        name="actual_password"
+                        :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="() => (value = !value)"
+                        :type="value ? 'password' : 'text'"
+                        class="custom-input"
+                      ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
-                      <v-text-field class="mt-5" label="Nueva contraseña" outlined dense v-model="new_pass"
-                        name="new_password" :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="() => (value = !value)" :type="value ? 'password' : 'text'">
-                      </v-text-field>
+                      <v-text-field
+                        label="Nueva contraseña"
+                        outlined
+                        dense
+                        v-model="new_pass"
+                        name="new_password"
+                        :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="() => (value = !value)"
+                        :type="value ? 'password' : 'text'"
+                        class="custom-input"
+                      ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
-                      <v-text-field class="mt-5" label="Repetir nueva contraseña" outlined dense v-model="repeat_pass"
-                        name="repeat_password" :append-icon="value2 ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="() => (value2 = !value2)" :type="value2 ? 'password' : 'text'">
-                      </v-text-field>
+                      <v-text-field
+                        label="Repetir nueva contraseña"
+                        outlined
+                        dense
+                        v-model="repeat_pass"
+                        name="repeat_password"
+                        :append-icon="value2 ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="() => (value2 = !value2)"
+                        :type="value2 ? 'password' : 'text'"
+                        class="custom-input"
+                      ></v-text-field>
                     </v-col>
                   </v-row>
-                  <div>Mínimo 8 caracteres de largo, mayúsculas y símbolos</div>
-                  <v-btn style="text-transform: capitalize; font-size: 1rem" color="success" class="my-4" type="submit">
-                    Cambiar contraseña
-                  </v-btn>
+                  <p class="pass-info-text text-muted mb-4">
+                    <v-icon color="#71717A" size="16" class="mr-1">mdi-information-outline</v-icon>
+                    Mínimo 8 caracteres de largo, mayúsculas y símbolos
+                  </p>
+                  <div class="d-flex justify-start">
+                    <button class="save-profile-btn d-flex align-center" type="submit">
+                      <v-icon color="#FFFFFF" size="18" class="mr-2">mdi-lock-reset</v-icon>
+                      <span>Cambiar contraseña</span>
+                    </button>
+                  </div>
                 </v-form>
-              </v-card>
+              </div>
             </v-tab-item>
           </v-tabs-items>
-        </v-card>
+        </div>
       </v-col>
     </v-row>
 
@@ -226,6 +277,7 @@ export default {
       dataUser: [],
       docTypes: [],
       name: "",
+      defaultAvatar: "https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240",
       email: "",
     };
   },
@@ -241,6 +293,11 @@ export default {
     ...mapState("user", ["id_user"]),
   },
   methods: {
+    onAvatarError(e) {
+      if (e && e.target) {
+        e.target.src = this.defaultAvatar;
+      }
+    },
     async getDocumentTypes() {
       await this.axios.get("/listDocumentType").then((response) => {
         this.docTypes = response.data;
@@ -422,7 +479,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .contenedor-profile {
   display: grid;
   gap: 20px;
@@ -440,110 +497,170 @@ export default {
 
 .editImg {
   z-index: 100;
-  position: absolute;
-  background: rgba(103, 99, 99, 0.676);
-  border-radius: 15px;
-  box-shadow: 1px 1px 2px 4px rgb(116, 177, 104);
 }
 
-.imagen {
+.profile-page-wrapper {
+  min-height: 85vh;
+}
+
+/* Tarjeta izquierda de perfil */
+.profile-card {
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+}
+
+.avatar-container {
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
+  padding: 4px;
+  background: #FFFFFF;
+  border: 2px solid #E5E3DC;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
-.img-edit {
-  border-radius: 50%;
-}
-
-.subiendo {
-  background: rgba(110, 181, 108, 0.602);
-  position: absolute;
-  top: 0x;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 1000;
-  height: 100%;
-  width: 100%;
-}
-
-/* Modal container*/
-.modal {
-  visibility: hidden;
-  opacity: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
+.profile-avatar-img {
   width: 100%;
   height: 100%;
-  -webkit-transition: all 0.7s;
-  transition: all 0.7s;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-/* Modal container gets target and it is shown and background modal too*/
-.modal:target,
-.modal:target .modal-bg {
+.avatar-edit-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #10B981;
+  border: 3px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.avatar-edit-badge:hover {
+  transform: scale(1.1);
+  background: #059669;
+}
+
+.user-display-name {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+  color: #18181B !important;
+}
+
+.profile-chip {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.border-top-subtle {
+  border-top: 1px solid #E5E3DC !important;
+}
+
+.border-bottom-subtle {
+  border-bottom: 1px solid #E5E3DC !important;
+}
+
+.details-section-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  color: #18181B !important;
+}
+
+.detail-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  color: #71717A;
   display: block;
-  z-index: 100;
-  opacity: 1;
-  visibility: visible;
 }
 
-/* Background modal*/
-.modal-bg:active,
-.modal-bg:hover,
-.modal-bg:visited,
-.modal-bg:link {
-  text-decoration: none;
-  visibility: hidden;
-  opacity: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  -webkit-transition: all 0.7s;
-  transition: all 0.7s;
+.detail-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #18181B;
 }
 
-/* Background modal overlaps to container*/
-.modal:target .modal-bg {
-  z-index: 200;
+/* Tarjeta derecha de formulario */
+.profile-form-card {
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
 }
 
-/* Modal content or body*/
-.modal-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  background-color: white;
-  width: 60%;
-  height: auto;
-  border-radius: 2rem;
-  text-align: center;
-  z-index: 300;
+.custom-profile-tabs {
+  background-color: #FFFFFF !important;
 }
 
-/* Modal is closed at lose target*/
-.modal-exit:link,
-.modal-exit:active,
-.modal-exit:visited,
-.modal-exit:hover {
-  position: absolute;
-  top: 5%;
-  right: 5%;
-  font-size: 1.5rem;
-  text-decoration: none;
-  color: #d20000;
-  background: #198754;
-  padding: 0 15px 0 15px;
-  border-radius: 5px;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+.profile-tab-btn {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  text-transform: capitalize !important;
+  letter-spacing: normal !important;
+}
+
+.profile-tabs-content {
+  background: transparent !important;
+}
+
+.form-section-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.15rem !important;
+  color: #18181B !important;
+}
+
+.save-profile-btn {
+  background-color: #10B981 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 10px 24px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer;
+}
+
+.save-profile-btn:hover {
+  background-color: #059669 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+}
+
+.save-profile-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pass-info-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #71717A !important;
 }
 
 .v-dialog {
-  background-color: white !important;
+  background-color: #FFFFFF !important;
+  border-radius: 20px !important;
 }
 </style>

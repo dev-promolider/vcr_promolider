@@ -162,9 +162,9 @@ main {
 <!-- Responsive Breakpoints -->
 <style scoped>
 .horizontal {
-  --fixed: 260px;
+  --fixed: 300px;
   --count: 1;
-  --gap: 12px;
+  --gap: 20px;
   --margin: 24px;
 }
 
@@ -172,7 +172,7 @@ main {
   .horizontal {
     --count: 2.2;
     --margin: 0;
-    max-width: 80vw;
+    max-width: 100%;
   }
 }
 

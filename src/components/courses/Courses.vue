@@ -1,88 +1,128 @@
 <template>
-  <div style="min-height: 100vh; overflow: hidden" class="mr-5">
-    <div class="row mt-1">
-      <SectionTitle title="Marketplace" />
-      <div class="col-md-6 text-right mr-5">
-        <div class="d-flex align-items-center justify-content-end">
-          <span class="mr-3" style="color: #5e5873">Buscar:</span>
-          <input type="text" placeholder="Buscar un curso" v-model="searchQuery" class="form-control form-select"
-            style="height: 32px; width: 250px; color: #636363" />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6 text-left">
-        <div class="descuento-container ml-10">
-          <p class="descuento-text mb-0">Tu descuento:</p>
-          <button class="descuento-btn" id="descuentoBtn">
-            {{ descuento }}%
-          </button>
-        </div>
-      </div>
-
-      <div class="col-md-6 text-right">
-        <div class="custom-select-wrapper mr-5">
-          <select v-model="selectedCategory" class="form-control form-select" @change="onSelectChange"
-            @click="toggleArrow">
-            <option value="">Filtrar por categoría</option>
-            <option v-for="category in categories" :key="category.id" :value="category.id">
-              {{ category.name }}
-            </option>
-          </select>
-          <span class="custom-arrow" :class="{ up: isDropdownOpen }"></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="row px-4">
-      <div class="col-md-12 col-sm-12">
-        <div class="mt-5" v-if="loading">
-          <loadingCourses />
-        </div>
-
-        <div class="mb-4 ml-2" v-if="!loading">
-          <div class="d-flex justify-content-between">
-            <div class="text-left">
-              <h3 class="mb-1 font-weight-normal ml-5">Más recientes</h3>
+  <div class="marketplace-page-wrapper container-fluid py-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-11">
+        <div class="marketplace-card p-4 p-md-5">
+          <!-- Banner Hero / Encabezado de Marketplace -->
+          <div class="row align-items-center mb-4 g-3">
+            <div class="col-12 col-md-6">
+              <span class="marketplace-subtitle d-block mb-1">Catálogo de Cursos & Libros</span>
+              <h1 class="marketplace-main-title">Marketplace</h1>
             </div>
-            <div class="text-right">
-              <v-btn-toggle v-model="viewMode" class="mb-3">
-                <v-btn :value="'list'" :class="{ selected: viewMode === 'list' }" @click="toggleView('list')">
-                  <v-icon>mdi-format-list-bulleted</v-icon>
-                </v-btn>
-                <v-btn :value="'grid'" :class="{ selected: viewMode === 'grid' }" @click="toggleView('grid')">
-                  <v-icon>mdi-grid</v-icon>
-                </v-btn>
-              </v-btn-toggle>
+
+            <!-- Buscador Integrado -->
+            <div class="col-12 col-md-6">
+              <div class="d-flex align-items-center justify-content-md-end gap-3">
+                <div class="marketplace-search-box flex-grow-1 flex-md-grow-0">
+                  <v-icon color="#71717A" size="20" class="search-icon">mdi-magnify</v-icon>
+                  <input
+                    type="text"
+                    placeholder="Buscar cursos o libros..."
+                    v-model="searchQuery"
+                    class="marketplace-search-input"
+                  />
+                </div>
+
+                <!-- Cupón de Descuento Especial -->
+                <div v-if="descuento" class="discount-badge-pill flex-shrink-0" title="Tu descuento exclusivo">
+                  <v-icon color="#FFFFFF" size="18" class="mr-1">mdi-ticket-percent-outline</v-icon>
+                  <span>{{ descuento }}% OFF</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div v-if="!relatedCourses.length" class="text-center my-4">
-            <p>No hay cursos recientes disponibles.</p>
+          <!-- Filtro de Categorías Estilo Preline Marketplace (Pill Chips) -->
+          <div class="categories-pills-bar d-flex align-items-center gap-2 mb-5 pb-2 overflow-x-auto">
+            <button
+              :class="['cat-pill-btn', { active: !selectedCategory }]"
+              @click="selectedCategory = ''"
+            >
+              Todas las categorías
+            </button>
+            <button
+              v-for="cat in Allcategories"
+              :key="cat.id"
+              :class="['cat-pill-btn', { active: selectedCategory == cat.id }]"
+              @click="selectedCategory = cat.id"
+            >
+              {{ cat.name }}
+            </button>
           </div>
 
-          <component v-if="relatedCourses.length > 0" :is="currentView" :courses="filteredRecentCourses" />
-        </div>
-
-        <div class="mb-4 ml-2" v-if="!loading">
-          <h3 class="font-weight-normal mt-7 mb-5">Todos los cursos</h3>
-
-          <div v-if="!courses.length" class="text-center my-4">
-            <p>No hay cursos disponibles.</p>
+          <!-- Contenido Principal -->
+          <div v-if="loading" class="mt-4">
+            <loadingCourses />
           </div>
 
-          <component v-if="courses.length > 0" :is="currentView" :courses="filteredAllCourses" />
-        </div>
+          <div v-else>
+            <!-- Sección: Más recientes -->
+            <div class="marketplace-section mb-5" v-if="recentCourses.length">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 class="section-title mb-0">
+                  <v-icon color="#10B981" size="24" class="mr-2">mdi-sparkles</v-icon>
+                  Más Recientes
+                </h3>
+                
+                <!-- Selector de Vista (Grid / Lista) -->
+                <div class="view-mode-toggle d-flex">
+                  <button
+                    :class="['toggle-btn', { active: viewMode === 'grid' }]"
+                    @click="viewMode = 'grid'"
+                    title="Vista en Cuadrícula"
+                  >
+                    <v-icon :color="viewMode === 'grid' ? '#FFFFFF' : '#71717A'" size="18">mdi-grid</v-icon>
+                  </button>
+                  <button
+                    :class="['toggle-btn', { active: viewMode === 'list' }]"
+                    @click="viewMode = 'list'"
+                    title="Vista en Lista"
+                  >
+                    <v-icon :color="viewMode === 'list' ? '#FFFFFF' : '#71717A'" size="18">mdi-format-list-bulleted</v-icon>
+                  </button>
+                </div>
+              </div>
 
-        <div class="mb-4 ml-2" v-if="!loading">
-          <h3 class="font-weight-normal mt-7 mb-5">Todos los Libros</h3>
+              <div v-if="!filteredRecentCourses.length" class="empty-section text-center py-4">
+                <p class="text-muted mb-0">No hay cursos recientes que coincidan con la búsqueda.</p>
+              </div>
 
-          <div v-if="!releasedBooks.length" class="text-center my-4">
-            <p>No hay libros disponibles.</p>
+              <component v-else :is="currentView" :courses="filteredRecentCourses" />
+            </div>
+
+            <!-- Sección: Todos los cursos -->
+            <div class="marketplace-section mb-5">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 class="section-title mb-0">
+                  <v-icon color="#10B981" size="24" class="mr-2">mdi-school-outline</v-icon>
+                  Todos los Cursos
+                </h3>
+              </div>
+
+              <div v-if="!filteredAllCourses.length" class="empty-section text-center py-5">
+                <v-icon color="#A1A1AA" size="48" class="mb-3">mdi-folder-open-outline</v-icon>
+                <p class="text-muted mb-0">No hay cursos disponibles actualmente en esta selección.</p>
+              </div>
+
+              <component v-else :is="currentView" :courses="filteredAllCourses" />
+            </div>
+
+            <!-- Sección: Todos los Libros -->
+            <div class="marketplace-section mb-4" v-if="releasedBooks.length">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 class="section-title mb-0">
+                  <v-icon color="#10B981" size="24" class="mr-2">mdi-book-open-page-variant-outline</v-icon>
+                  Todos los Libros
+                </h3>
+              </div>
+
+              <div v-if="!filteredReleasedBooks.length" class="empty-section text-center py-4">
+                <p class="text-muted mb-0">No hay libros disponibles en esta categoría.</p>
+              </div>
+
+              <component v-else :is="currentView" :courses="filteredReleasedBooks" />
+            </div>
           </div>
-
-          <component v-if="releasedBooks.length > 0" :is="currentView" :courses="filteredReleasedBooks" />
         </div>
       </div>
     </div>
@@ -363,124 +403,151 @@ export default {
 };
 </script>
 
-<style>
-.sad-face {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+<style scoped>
+.marketplace-page-wrapper {
+  min-height: 85vh;
 }
 
-.descuento-container {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
+/* Tarjeta Principal */
+.marketplace-card {
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
 }
 
-.descuento-text {
-  font-size: 24px;
-  margin-right: 10px;
-  margin-bottom: 0;
-  white-space: nowrap;
+.marketplace-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.9rem !important;
+  color: #71717A !important;
+  font-weight: 600 !important;
 }
 
-.descuento-btn {
-  background-image: url("../../assets/Ticket.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 15px;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: left;
-  color: #4a4a4a;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+.marketplace-main-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 2.1rem !important;
+  color: #18181B !important;
 }
 
-/* Media query para pantallas pequeñas */
-@media (max-width: 768px) {
-  .descuento-container {
-    justify-content: center;
-    margin-left: 0;
-  }
-
-  .descuento-text {
-    font-size: 20px;
-  }
-
-  .descuento-btn {
-    width: 160px;
-    height: 40px;
-    font-size: 20px;
-  }
-}
-
-.descuento-btn:hover {
-  transform: scale(1.1);
-}
-
-.form-select {
-  width: 200px;
-  font-size: 0.8em;
-  color: #ccc;
-  background-color: #fff;
-  border-radius: 10px;
-  cursor: pointer;
-  appearance: none;
-  padding-right: 30px;
-}
-
-.form-select::placeholder {
-  color: #ccc;
-}
-
-.form-select:hover,
-.form-select:focus {
-  border-color: #1bd0033d;
-  box-shadow: 0 0 15px rgba(26, 208, 3, 0.5);
-}
-
-.form-select option {
-  color: #000;
-}
-
-.form-select option:hover {
-  background-color: #1bd003e0;
-  color: #000;
-}
-
-.custom-select-wrapper {
+/* Caja de Búsqueda */
+.marketplace-search-box {
   position: relative;
-  display: inline-block;
+  width: 100%;
+  max-width: 320px;
 }
 
-.custom-arrow {
+.search-icon {
   position: absolute;
+  left: 14px;
   top: 50%;
-  right: 10px;
   transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #ccc;
   pointer-events: none;
 }
 
-.custom-arrow.up {
-  border-top: none;
-  border-bottom: 5px solid #ccc;
+.marketplace-search-input {
+  width: 100%;
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 16px !important;
+  padding: 10px 16px 10px 42px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.92rem !important;
+  color: #18181B !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
 }
 
-.form-select:focus+.custom-arrow {
-  border-top: none;
-  border-bottom: 5px solid #ccc;
+.marketplace-search-input:focus {
+  outline: none;
+  border-color: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* Cupón de Descuento */
+.discount-badge-pill {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+/* Pills de Categorías Estilo Preline Marketplace */
+.categories-pills-bar {
+  scrollbar-width: thin;
+}
+
+.cat-pill-btn {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  color: #71717A !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
+  padding: 8px 18px !important;
+  border-radius: 20px !important;
+  white-space: nowrap;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer;
+}
+
+.cat-pill-btn:hover {
+  border-color: #10B981 !important;
+  color: #10B981 !important;
+}
+
+.cat-pill-btn.active {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25) !important;
+}
+
+/* Títulos de Sección */
+.section-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.3rem !important;
+  color: #18181B !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Selector de Vista (Grid / List) */
+.view-mode-toggle {
+  background: #FFFFFF;
+  border: 1px solid #E5E3DC;
+  border-radius: 14px;
+  padding: 3px;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-btn.active {
+  background: #10B981 !important;
+}
+
+.empty-section {
+  background: #FFFFFF;
+  border: 1px solid #E5E3DC;
+  border-radius: 18px;
+  padding: 2rem;
 }
 </style>

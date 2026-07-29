@@ -1,50 +1,50 @@
 <template>
-  <div>
-    <div class="marco p-3">
-      <div class="header d-flex justify-content-between mb-2">
-        <p style="font-size: 1em">Ventas</p>
-        <router-link to="/attribute" class="text-decoration-none" style="font-size: 1em; color: #000000">Todas las
-          ventas</router-link>
+  <div class="card-sales p-3 d-flex flex-column">
+    <!-- Encabezado del contenedor (Siempre visible de forma instantánea) -->
+    <div class="header d-flex align-center justify-space-between mb-3">
+      <h3 class="header-title m-0">Ventas</h3>
+      <router-link to="/attribute" class="header-link text-decoration-none">Todas las ventas</router-link>
+    </div>
+
+    <!-- Contenido dinámico dependiente de la respuesta JSON del endpoint -->
+    <div class="sales-content-area flex-grow-1">
+      <!-- 1. SKELETON SCREEN: Se muestra ÚNICAMENTE mientras el endpoint está cargando -->
+      <div v-if="info == null" class="skeleton-sales-wrapper py-1">
+        <div v-for="i in 3" :key="i" class="skeleton-sale-item d-flex align-items-center mb-2 p-2">
+          <div class="skeleton-box mr-3" style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;"></div>
+          <div class="flex-grow-1">
+            <div class="skeleton-box mb-2" style="width: 65%; height: 16px; border-radius: 6px;"></div>
+            <div class="skeleton-box" style="width: 40%; height: 14px; border-radius: 6px;"></div>
+          </div>
+        </div>
       </div>
 
-      <div class="mover ml-2 mt-2 text-center">
-        <span v-if="info == null">
-          <div class="cajita d-flex align-items-center justify-content-center">
-            cargando datos...
-          </div>
-          <div class="cajita d-flex align-items-center justify-content-center">
-            cargando datos...
-          </div>
-          <div class="cajita d-flex align-items-center justify-content-center">
-            cargando datos...
-          </div>
-        </span>
+      <!-- 2. ESTADO VACÍO: Si el endpoint retorna 0 ventas -->
+      <div v-else-if="info.length === 0 || info == 0" class="center-element no-result my-4 text-center">
+        <v-icon color="#A1A1AA" size="32" class="mb-1">mdi-chart-line-variant</v-icon>
+        <p class="text-muted m-0" style="font-size: 0.88rem;">No existen ventas registradas</p>
+      </div>
 
-        <div v-if="info == 0" class="center-element no-result mt-3">
-          <span>Sin resultados</span>
-        </div>
-
-        <div v-else class="cliente" v-for="(item, index) in info" :key="index" v-on:click="mostrar(item.payment_id)">
-          <b-list-group-item class="d-flex align-items-center color">
-            <div class="containerImg col-2">
-              <v-avatar size="40">
-                <img :src="item.photo" alt="Avatar" class="image" />
-              </v-avatar>
-              <div class="middle">
-                <p class="text">
-                  {{ item.client }} {{ item.client_last_name }}
-                </p>
-              </div>
+      <!-- 3. RENDERIZADO DE VENTAS REALES: Al retornar el JSON funcional -->
+      <div v-else class="sales-list">
+        <div
+          v-for="(item, index) in info"
+          :key="index"
+          class="sale-item d-flex align-center justify-space-between p-3 mb-2"
+          @click="mostrar(item.payment_id)"
+        >
+          <div class="d-flex align-center overflow-hidden mr-2">
+            <b-avatar variant="success" :src="item.photo || 'https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240'" size="40" class="mr-3 flex-shrink-0"></b-avatar>
+            <div class="sale-info overflow-hidden">
+              <span class="sale-client font-weight-bold d-block text-truncate">{{ item.client }} {{ item.client_last_name }}</span>
+              <span class="sale-title text-muted text-truncate d-block">{{ item.title }}</span>
             </div>
-            <span class="cursos col-4 text-capitalize" style="
-                font-size: 12px;
-                margin-right: 0px;
-                text-overflow: ellipsis;
-              ">{{ item.title }}</span>
-            <span class="cursos col-2" style="font-size: 12px; margin-right: 0px">
-              ${{ item.price }}</span>
-            <span class="cursos col-3" style="font-size: 12px; margin-right: 0px">{{ item.created_at }}</span>
-          </b-list-group-item>
+          </div>
+
+          <div class="text-right flex-shrink-0">
+            <span class="sale-price font-weight-bold d-block" style="color: #10B981">${{ item.price }}</span>
+            <span class="sale-date text-muted d-block" style="font-size: 0.78rem">{{ item.created_at }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +53,7 @@
 
 <script>
 export default {
+  name: "ClienteVenta",
   components: {},
   data() {
     return {
@@ -63,22 +64,33 @@ export default {
   methods: {
     getAttributes() {
       this.axios.get("/reports/last-sells?n_sells=3").then((respuesta) => {
-        console.log(respuesta.data);
-        this.info = respuesta.data.data;
+        const data = respuesta && respuesta.data && respuesta.data.data ? respuesta.data.data : [];
+        this.info = data;
 
         for (let index = 0; index < this.info.length; index++) {
-          const fecha = new Date(this.info[index].created_at);
-          let options = { year: "numeric", month: "numeric", day: "numeric" };
-          this.info[index].created_at = fecha.toLocaleDateString(
-            "es-ES",
-            options
-          );
+          const rawDate = this.info[index].created_at;
+          if (!rawDate) {
+            this.info[index].created_at = "Reciente";
+          } else {
+            const fecha = new Date(rawDate);
+            if (isNaN(fecha.getTime())) {
+              this.info[index].created_at = "Reciente";
+            } else {
+              let options = { year: "numeric", month: "numeric", day: "numeric" };
+              this.info[index].created_at = fecha.toLocaleDateString("es-ES", options);
+            }
+          }
         }
+      }).catch(() => {
+        this.info = [];
       });
     },
 
     mostrar(id) {
-      this.$router.push("/attribute-user/ " + id);
+      this.$router.push({
+        name: "buy-details",
+        params: { id: id },
+      });
     },
   },
   created() {
@@ -88,25 +100,33 @@ export default {
 </script>
 
 <style scoped>
-.cliente {
-  border-radius: 0.9rem;
-  max-width: 95%;
-  margin: auto;
+.card-sales {
+  background: #FAF9F5 !important;
+  border-radius: 20px !important;
+  border: 1px solid #E5E3DC !important;
+  min-height: 280px;
 }
 
-.cliente .color {
-  background: #1ae800;
-  margin-bottom: 13px;
-  height: 64px;
+.header-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  color: #18181B !important;
+}
+
+.header-link {
+  font-family: 'Outfit', sans-serif !important;
+  color: #10B981 !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
+}
+
+.sale-item {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 14px !important;
+  transition: all 0.2s ease !important;
   cursor: pointer;
-}
-
-.cliente .list-group-item {
-  border: 1px solid #1ae800;
-  padding: 0rem 0.5rem;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
 }
 
 .cliente .list-group-item span.cursos {
@@ -180,6 +200,28 @@ export default {
   max-width: 95%;
   margin: 10px;
   animation: pulsos 1s infinite;
+}
+
+/* Skeleton Loader Box & Animations */
+.skeleton-box {
+  background-color: #E5E3DC;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.5) 20%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  background-position: -150px 0;
+  border-radius: 8px;
+  animation: skeleton-shimmer 1.6s infinite ease-in-out;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: calc(100% + 150px) 0;
+  }
 }
 
 @keyframes pulsos {

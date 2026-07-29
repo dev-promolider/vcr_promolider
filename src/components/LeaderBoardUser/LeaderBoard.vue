@@ -1,33 +1,39 @@
 <template>
-  <div class="container-fluid py-5 bg-light">
+  <div class="leaderboard-container container-fluid py-4">
     <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="card shadow-sm border-0">
-          <div class="card-body p-4">
-            <!-- Selector de curso -->
-            <div class="row mb-5">
-              <div class="col-md-8 mx-auto">
-                <div class="form-group position-relative">
-                  <select class="form-select form-select-lg custom-select border-0 shadow-sm" v-model="selectedCourse"
-                    @change="retrieveTop" @focus="toggleArrow(true)" @blur="toggleArrow(false)">
-                    <option value="" disabled>Seleccione un curso</option>
-                    <option v-for="(course, index) in courses" :key="index" :value="course.id">
-                      {{ course.title }}
-                    </option>
-                  </select>
-                  <i class="bi bi-chevron-down position-absolute top-50 end-0 translate-middle-y me-3"
-                    :class="{ 'rotate-180': isDropdownOpen }"></i>
-                </div>
+      <div class="col-12 col-xl-11">
+        <div class="leaderboard-card p-4">
+          <!-- Selector de curso estilizado -->
+          <div class="row mb-4">
+            <div class="col-md-6 mx-auto text-center">
+              <label class="select-label mb-2 d-block">Selecciona un curso para ver la tabla de clasificación</label>
+              <div class="form-group position-relative">
+                <select
+                  class="form-select custom-course-select"
+                  v-model="selectedCourse"
+                  @change="retrieveTop"
+                  @focus="toggleArrow(true)"
+                  @blur="toggleArrow(false)"
+                >
+                  <option value="" disabled>Seleccione un curso</option>
+                  <option v-for="(course, index) in courses" :key="index" :value="course.id">
+                    {{ course.title }}
+                  </option>
+                </select>
+                <i
+                  class="bi bi-chevron-down select-arrow-icon"
+                  :class="{ 'rotate-180': isDropdownOpen }"
+                ></i>
               </div>
             </div>
+          </div>
 
-            <div class="row">
-              <div class="col-lg-8">
-                <Champions :podium="podium" :podiumPos="currentUser.pos" />
-              </div>
-              <div class="col-lg-4">
-                <RankingCourse :users="users" :currentUser="currentUser" />
-              </div>
+          <div class="row g-4">
+            <div class="col-lg-8">
+              <Champions :podium="podium" :podiumPos="currentUser.pos" />
+            </div>
+            <div class="col-lg-4">
+              <RankingCourse :users="users" :currentUser="currentUser" />
             </div>
           </div>
         </div>
@@ -150,34 +156,52 @@ export default {
 </script>
 
 <style scoped>
-.custom-select {
-  background-color: #fdfeff;
-  color: #636363;
-  font-size: 1rem;
-  padding: 1rem;
-  border-radius: 10px;
-  transition: all 0.3s ease;
+.leaderboard-container {
+  min-height: 85vh;
 }
 
-.custom-select:hover,
-.custom-select:focus {
-  border-color: rgba(26, 208, 3, 0.24);
-  box-shadow: 0 0 15px rgba(26, 208, 3, 0.2);
-  background-color: #fff;
+.leaderboard-card {
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
 }
 
-.rotate-180 {
-  transform: rotate(180deg);
+.select-label {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.9rem !important;
+  color: #71717A !important;
 }
 
-/* Transiciones suaves */
-.bi {
+.custom-course-select {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  color: #18181B !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  padding: 0.75rem 1.25rem !important;
+  border-radius: 16px !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.custom-course-select:focus {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+}
+
+.select-arrow-icon {
+  position: absolute;
+  top: 50%;
+  right: 1.25rem;
+  transform: translateY(-50%);
+  color: #71717A;
+  pointer-events: none;
   transition: transform 0.3s ease;
 }
 
-@media (max-width: 992px) {
-  .card-body {
-    padding: 2rem 1rem !important;
-  }
+.rotate-180 {
+  transform: translateY(-50%) rotate(180deg) !important;
 }
 </style>

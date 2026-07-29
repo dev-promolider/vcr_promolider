@@ -1,43 +1,48 @@
 <template>
-  <div class="container-fluid certificate-container py-5">
-    <div class="row">
+  <div class="container-fluid certificate-container py-4">
+    <div class="row g-4">
       <!-- Sidebar de cursos -->
       <div class="col-12 col-lg-4 courses-sidebar">
         <div class="courses-wrapper p-4">
           <!-- Estado sin cursos -->
           <div v-if="products.length == 0" class="empty-state text-center py-5">
-            <i class="bi bi-journal-x fs-1 text-muted mb-3"></i>
-            <h5 class="fw-bold">Aún no ha adquirido un curso</h5>
+            <v-icon color="#A1A1AA" size="48" class="mb-3">mdi-journal-remove</v-icon>
+            <h5 class="empty-title mb-0">Aún no ha adquirido un curso</h5>
           </div>
 
           <!-- Lista de cursos -->
           <template v-else>
-            <h4 class="mb-4 border-bottom pb-2">Mis Cursos</h4>
-            <div v-if="coursesWithCertificate.length === 0" class="alert alert-info">
-              <i class="bi bi-info-circle me-2"></i>
-              No tiene cursos con certificado disponible.
+            <h4 class="sidebar-main-title mb-4 pb-2 border-bottom-subtle">Mis Certificaciones</h4>
+            <div v-if="coursesWithCertificate.length === 0" class="alert-no-certificate p-3">
+              <div class="d-flex align-center">
+                <v-icon color="#F59E0B" size="20" class="mr-2">mdi-information-outline</v-icon>
+                <span class="alert-desc">No tiene cursos con certificado disponible.</span>
+              </div>
             </div>
             <div v-else class="courses-list">
-              <div v-for="product in coursesWithCertificate" :key="product.id" class="course-card"
-                @click="getCertificateInfo(product)" :class="{
-                  active: productSelected && productSelected.id === product.id,
-                }">
-                <div class="card h-100">
-                  <div class="row g-0">
-                    <div class="col-4">
-                      <img :src="product.url_portada" class="course-image" alt="Portada del curso" />
-                    </div>
-                    <div class="col-8">
-                      <div class="card-body">
-                        <h6 class="card-title text-truncate mb-0">
-                          {{ product.title }}
-                        </h6>
-                        <small class="text-success">
-                          <i class="bi bi-award me-1"></i>
-                          Con certificado
-                        </small>
-                      </div>
-                    </div>
+              <div
+                v-for="product in coursesWithCertificate"
+                :key="product.id"
+                :class="['course-card-item', { active: productSelected && productSelected.id === product.id }]"
+                @click="getCertificateInfo(product)"
+              >
+                <div class="d-flex align-items-center">
+                  <div class="course-img-wrapper mr-3 flex-shrink-0">
+                    <img
+                      :src="product.url_portada"
+                      class="course-image"
+                      alt="Portada del curso"
+                      @error="onImgError"
+                    />
+                  </div>
+                  <div class="course-info-content overflow-hidden">
+                    <h6 class="course-card-title text-truncate mb-1">
+                      {{ product.title }}
+                    </h6>
+                    <span class="certificate-badge">
+                      <v-icon color="#10B981" size="14" class="mr-1">mdi-award</v-icon>
+                      Con certificado
+                    </span>
                   </div>
                 </div>
               </div>
@@ -49,29 +54,32 @@
       <!-- Contenido principal -->
       <div class="col-12 col-lg-8">
         <div class="certificate-content p-4">
-          <!-- Estado de espera -->
-          <div v-if="waitSelection" class="text-center py-5">
-            <i class="bi bi-arrow-left-circle fs-1 text-muted mb-3"></i>
-            <h5 class="fw-bold">
-              Seleccione un curso para ver la información del certificado
-            </h5>
+          <!-- Estado de espera sin curso seleccionado -->
+          <div v-if="waitSelection" class="empty-certificate-selection text-center py-5 my-auto">
+            <div class="empty-icon-circle mb-3 mx-auto">
+              <v-icon color="#10B981" size="48">mdi-certificate-outline</v-icon>
+            </div>
+            <h4 class="empty-title mb-2">Selecciona un curso</h4>
+            <p class="empty-subtitle mb-0">
+              Elige una de las certificaciones de la lista lateral para consultar los requisitos y descargar tu certificado digital.
+            </p>
           </div>
 
           <!-- Detalles del certificado -->
           <div v-else class="certificate-details">
             <!-- Cabecera del curso seleccionado -->
-            <div class="selected-course mb-5">
-              <div class="card">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img :src="productSelected.url_portada" class="selected-course-image"
-                      alt="Portada del curso seleccionado" />
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h3 class="card-title">{{ productSelected.title }}</h3>
-                    </div>
-                  </div>
+            <div class="selected-course-header p-3 mb-4">
+              <div class="d-flex align-items-center">
+                <div class="selected-img-wrapper mr-3 flex-shrink-0">
+                  <img
+                    :src="productSelected.url_portada"
+                    class="selected-course-image"
+                    alt="Portada del curso seleccionado"
+                    @error="onImgError"
+                  />
+                </div>
+                <div class="overflow-hidden">
+                  <h3 class="selected-course-title mb-0 text-truncate">{{ productSelected.title }}</h3>
                 </div>
               </div>
             </div>
@@ -382,15 +390,25 @@
             </div>
 
             <!-- Estado cuando el curso no tiene certificado disponible -->
-            <div v-else-if="certificateInfo && certificateInfo.noCertificate" class="alert alert-info">
-              <i class="bi bi-info-circle me-2"></i>
-              Este curso no tiene certificado disponible.
+            <div v-else-if="certificateInfo && certificateInfo.noCertificate" class="alert-no-certificate p-4">
+              <div class="d-flex align-items-center">
+                <v-icon color="#F59E0B" size="24" class="mr-3">mdi-information-outline</v-icon>
+                <div>
+                  <h6 class="alert-title mb-1">Sin certificado disponible</h6>
+                  <p class="alert-desc mb-0">Este curso no cuenta con emisión de certificado digital actualmente.</p>
+                </div>
+              </div>
             </div>
 
             <!-- Estado sin información de certificado -->
-            <div v-else class="alert alert-warning">
-              <i class="bi bi-exclamation-triangle me-2"></i>
-              No hay información de certificado disponible para este curso.
+            <div v-else class="alert-no-certificate p-4">
+              <div class="d-flex align-items-center">
+                <v-icon color="#F59E0B" size="24" class="mr-3">mdi-alert-circle-outline</v-icon>
+                <div>
+                  <h6 class="alert-title mb-1">Información no disponible</h6>
+                  <p class="alert-desc mb-0">No hay información de certificado disponible para este curso.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -460,6 +478,11 @@ export default {
     },
   },
   methods: {
+    onImgError(e) {
+      if (e && e.target) {
+        e.target.src = require("@/assets/background-login.webp");
+      }
+    },
     async getCourses() {
       try {
         const { data } = await this.axios.get("/course/purchased-courses");
@@ -806,163 +829,214 @@ export default {
   min-height: 100vh;
 }
 
-/* Sidebar de cursos */
-.courses-sidebar {
-  background-color: #fff;
-  border-right: 1px solid #e9ecef;
+/* Sidebar de cursos y contenedor principal */
+.certificate-container {
+  min-height: 85vh;
 }
 
 .courses-wrapper {
-  height: calc(100vh - 2rem);
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+  height: calc(100vh - 120px);
   overflow-y: auto;
 }
 
+.sidebar-main-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  color: #18181B !important;
+  font-size: 1.15rem !important;
+}
+
+.border-bottom-subtle {
+  border-bottom: 1px solid #E5E3DC !important;
+}
+
+/* Tarjetas de Cursos en Sidebar */
 .courses-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 12px;
 }
 
-/* Tarjetas de curso */
-.course-card {
-  transition: all 0.3s ease;
+.course-card-item {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 16px !important;
+  padding: 12px 14px !important;
   cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.course-card:hover {
+.course-card-item:hover {
   transform: translateY(-2px);
+  border-color: #10B981 !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.12) !important;
 }
 
-.course-card.active {
-  border-left: 4px solid #1ae800;
+.course-card-item.active {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border: 2px solid #10B981 !important;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.18) !important;
+}
+
+.course-img-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #E5E3DC;
 }
 
 .course-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  aspect-ratio: 16/9;
 }
 
-/* Contenido principal */
+.course-card-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.92rem !important;
+  color: #18181B !important;
+}
+
+.certificate-badge {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  color: #10B981 !important;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Panel Principal de Certificado */
 .certificate-content {
-  max-width: 1200px;
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 24px !important;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Estado Vacío de Selección */
+.empty-icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #E5E3DC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.empty-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+  color: #18181B !important;
+}
+
+.empty-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.9rem !important;
+  color: #71717A !important;
+  max-width: 420px;
   margin: 0 auto;
 }
 
-/* Curso seleccionado */
+/* Header del Curso Seleccionado */
+.selected-course-header {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 18px !important;
+}
+
+.selected-img-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #E5E3DC;
+}
+
 .selected-course-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  aspect-ratio: 16/9;
 }
 
-/* Información del certificado */
-.certificate-info .card {
-  border: none;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+.selected-course-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
+  color: #18181B !important;
+}
+
+/* Alerta de No Certificado / Info Warning */
+.alert-no-certificate {
+  background: #FEF3C7 !important;
+  border: 1px solid #FCD34D !important;
+  border-radius: 18px !important;
+}
+
+.alert-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  color: #92400E !important;
+  font-size: 0.98rem !important;
+}
+
+.alert-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: #B45309 !important;
+  font-size: 0.88rem !important;
 }
 
 .info-item {
-  background-color: #f8f9fa;
+  background-color: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 14px;
   height: 100%;
 }
 
-/* Sección de progreso */
 .progress-wrapper {
-  background-color: #f8f9fa;
+  background-color: #FFFFFF !important;
+  border: 1px solid #E5E3DC !important;
   padding: 1.5rem;
-  border-radius: 0.5rem;
-}
-
-.progress {
-  background-color: #e9ecef;
-  overflow: hidden;
+  border-radius: 14px;
 }
 
 .progress-bar {
-  background-color: #1ae800;
-  transition: width 0.6s ease;
+  background-color: #10B981 !important;
 }
 
-/* Estilos específicos para vista de módulos */
-.modules-progress-view {
-  min-height: 300px;
-}
-
-.summary-card {
-  transition: transform 0.2s ease;
-}
-
-.summary-card:hover {
-  transform: translateY(-2px);
-}
-
-.module-item {
-  transition: all 0.3s ease;
-}
-
-.module-item:hover {
-  transform: translateY(-1px);
-}
-
-.module-status-icon {
-  flex-shrink: 0;
-}
-
-/* Botones de descarga de certificado por módulo */
 .btn-outline-success {
-  border-color: #1ae800;
-  color: #1ae800;
-  transition: all 0.3s ease;
+  border-color: #10B981 !important;
+  color: #10B981 !important;
 }
 
 .btn-outline-success:hover {
-  background-color: #1ae800;
-  border-color: #1ae800;
-  color: white;
+  background-color: #10B981 !important;
+  color: #FFFFFF !important;
 }
 
-.btn-outline-success:disabled {
-  border-color: #8df380;
-  color: #8df380;
-  cursor: not-allowed;
-}
-
-/* Detalles expandibles */
-details {
-  cursor: pointer;
-}
-
-details summary {
-  outline: none;
-  user-select: none;
-}
-
-details summary::-webkit-details-marker {
-  display: none;
-}
-
-details[open] summary i {
-  transform: rotate(90deg);
-}
-
-details summary i {
-  transition: transform 0.2s ease;
-}
-
-/* Botón de reclamar */
 .btn-success {
-  background-color: #1ae800;
-  border-color: #1ae800;
+  background-color: #10B981 !important;
+  border-color: #10B981 !important;
 }
 
 .btn-success:hover {
-  background-color: #15cc00;
-  border-color: #15cc00;
+  background-color: #059669 !important;
+  border-color: #059669 !important;
 }
 
 .btn-success:disabled {
