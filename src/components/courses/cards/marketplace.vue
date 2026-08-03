@@ -12,7 +12,7 @@
           <div class="free-tag">GRATIS</div>
         </div>
         <img
-          :src="course.url_portada ? (course.url_portada.startsWith('http') ? course.url_portada.replace('s3.sa-east-1', 's3-accelerate') : 'https://promolider-storage-user.s3-accelerate.amazonaws.com/' + course.url_portada) : ''"
+          :src="coverUrl"
           alt="Portada del curso"
           class="img-cursos-portad"
           @error="onImgError"
@@ -23,7 +23,7 @@
           <div class="rating-level-container">
             <div class="valoracion-curso">
               <v-rating style="display: inline" color="#F59E0B" hover readonly length="5" size="18"
-                :value="parseFloat(course.ranking_by_user)" half-increments></v-rating>
+                :value="parseFloat(course.ranking_by_user || 5)" half-increments></v-rating>
             </div>
             <span class="level-badge" :class="getLevelClass(course.course_level_id)">
               {{ getLevelText(course.course_level_id) }}
@@ -89,6 +89,20 @@ export default {
     viewMode: {
       type: String,
       default: "marketplace",
+    },
+  },
+  computed: {
+    coverUrl() {
+      if (!this.course || !this.course.url_portada) {
+        return require("@/assets/background-login.webp");
+      }
+      if (this.course.url_portada.startsWith("http")) {
+        return this.course.url_portada.replace("s3.sa-east-1", "s3-accelerate");
+      }
+      return (
+        "https://promolider-storage-user.s3-accelerate.amazonaws.com/" +
+        this.course.url_portada
+      );
     },
   },
   methods: {

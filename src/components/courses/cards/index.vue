@@ -39,10 +39,24 @@
       </div>
 
       <!-- Action Button -->
-      <div class="card-action-footer mt-4">
-        <button class="read-more-btn">
+      <div class="card-action-footer tw-mt-4 tw-flex tw-items-center tw-gap-2">
+        <button class="read-more-btn tw-group tw-flex-1 tw-justify-center">
           <span>{{ actionText }}</span>
-          <v-icon right size="18" class="arrow-icon">mdi-arrow-right</v-icon>
+          <svg class="tw-w-4 tw-h-4 tw-ml-2 tw-text-gray-500 group-hover:tw-text-white tw-transition-transform group-hover:tw-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </button>
+
+        <button 
+          v-if="cardType === 1"
+          @click.stop="addToCart" 
+          class="cart-btn-icon tw-p-2.5 tw-rounded-xl tw-bg-[#10B981]/15 hover:tw-bg-[#10B981] tw-text-[#10B981] hover:tw-text-white tw-border tw-border-[#10B981]/40 tw-transition-all tw-shrink-0 tw-flex tw-items-center tw-justify-center"
+          title="Añadir al carrito"
+          style="background-color: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4);"
+        >
+          <svg class="tw-w-5 tw-h-5" style="stroke: #10B981; color: #10B981;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"></path>
+          </svg>
         </button>
       </div>
     </div>
@@ -107,6 +121,19 @@ export default {
     },
   },
   methods: {
+    addToCart() {
+      if (!this.course) return;
+      const item = {
+        id: this.course.id,
+        title: this.course.title,
+        price: parseFloat(this.course.price_with_discount > 0 ? this.course.price_with_discount : (this.course.price || this.course.precio || 0)),
+        precio: parseFloat(this.course.precio || this.course.price || 0),
+        url_portada: this.course.url_portada,
+        category: this.course.categoria || 'Curso',
+        slug: this.course.slug,
+      };
+      this.$store.dispatch('cart/addToCart', item);
+    },
     onImgError(e) {
       if (e && e.target) {
         e.target.src = require("@/assets/background-login.webp");
@@ -189,8 +216,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  max-width: 340px;
-  min-width: 270px;
+  max-width: 100%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   cursor: pointer;

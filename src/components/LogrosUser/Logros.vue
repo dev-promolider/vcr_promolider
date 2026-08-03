@@ -23,7 +23,7 @@
           <div :class="['achievement-card', { obtained: logro.obtained }]" :title="logro.description">
             <div class="card h-100">
               <div class="card-img-wrapper">
-                <img class="card-img-top achievement-icon" :alt="logro.name" :src="logro.icon" />
+                <img class="card-img-top achievement-icon" :alt="logro.name" :src="logro.icon" @error="onImgError" />
               </div>
               <div class="card-body text-center p-3">
                 <h5 class="card-title">{{ logro.name }}</h5>
@@ -46,12 +46,32 @@ export default {
     return {
       logros: [],
       isLoading: true,
+      defaultBadge: require("@/assets/medalla1.png"),
     };
   },
   mounted() {
     this.getLogros();
   },
   methods: {
+    onImgError(e) {
+      if (e && e.target) {
+        e.target.src = this.defaultBadge;
+      }
+    },
+
+    formatIconUrl(rawIcon) {
+      if (!rawIcon) return this.defaultBadge;
+      if (typeof rawIcon === "string") {
+        if (rawIcon.startsWith("http://") || rawIcon.startsWith("https://") || rawIcon.startsWith("data:")) {
+          return rawIcon;
+        }
+        const cleanPath = rawIcon.startsWith("/") ? rawIcon : `/${rawIcon}`;
+        const baseUrl = process.env.VUE_APP_API_URL_IMAGE || "https://api.promolider.org";
+        return `${baseUrl}${cleanPath}`;
+      }
+      return rawIcon;
+    },
+
     getLogros() {
       this.isLoading = true;
       this.axios("badges/my-progress")
@@ -68,12 +88,15 @@ export default {
           }
 
           if (list && list.length > 0) {
-            this.logros = list.map((item) => ({
-              name: item.name || item.title || item.nombre || "Logro",
-              icon: item.icon || item.image || item.photo || require("@/assets/medalla1.png"),
-              obtained: item.obtained !== undefined ? Boolean(item.obtained) : Boolean(item.unlocked || item.completed || item.is_obtained),
-              description: item.description || item.detalle || ""
-            }));
+            this.logros = list.map((item) => {
+              const iconRaw = item.icon || item.image || item.photo || item.url_icon || item.badge_icon || item.url;
+              return {
+                name: item.name || item.title || item.nombre || "Logro",
+                icon: this.formatIconUrl(iconRaw),
+                obtained: item.obtained !== undefined ? Boolean(item.obtained) : Boolean(item.unlocked || item.completed || item.is_obtained),
+                description: item.description || item.detalle || ""
+              };
+            });
           } else {
             this.logros = this.getDefaultLogros();
           }
@@ -146,42 +169,43 @@ export default {
   transition: all 0.3s ease;
 }
 
-/* Tarjetas de Logro Obtenido (Blanco crema con bordes limpios) */
+/* Tarjetas de Logro Obtenido */
 .achievement-card.obtained .card {
-  background-color: #FFFFFF !important;
-  border: 1px solid #E5E3DC !important;
+  background-color: var(--card-sub-bg, #FFFFFF) !important;
+  border: 1px solid var(--border-color, #E5E3DC) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
 }
 
 .achievement-card.obtained:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2) !important;
+  border-color: #10B981 !important;
 }
 
 .achievement-card.obtained .card-title {
   font-family: 'Outfit', sans-serif !important;
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  color: #18181B !important;
+  color: var(--text-bold, #18181B) !important;
 }
 
-/* Tarjetas de Logro Pendiente / No Obtenido (Gris oscuro carbón) */
+/* Tarjetas de Logro Pendiente / No Obtenido */
 .achievement-card:not(.obtained) .card {
-  background-color: #3F3F46 !important;
-  border: 1px solid #52525B !important;
+  background-color: var(--card-sub-bg, #27272A) !important;
+  border: 1px solid var(--border-color, #3F3F46) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  opacity: 0.85;
 }
 
 .achievement-card:not(.obtained) img {
-  opacity: 0.65 !important;
-  filter: grayscale(20%) !important;
+  opacity: 0.55 !important;
 }
 
 .achievement-card:not(.obtained) .card-title {
   font-family: 'Outfit', sans-serif !important;
   font-size: 0.92rem !important;
   font-weight: 600 !important;
-  color: #E4E4E7 !important;
+  color: var(--text-muted, #A1A1AA) !important;
 }
 
 .card-img-wrapper {
@@ -202,8 +226,8 @@ export default {
 .skeleton-achievement-card {
   height: 240px;
   border-radius: 20px;
-  background: #FAF9F5;
-  border: 1px solid #E5E3DC;
+  background: var(--card-sub-bg, #FAF9F5);
+  border: 1px solid var(--border-color, #E5E3DC);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -225,7 +249,7 @@ export default {
 
 /* Skeleton Loader Box & Animations */
 .skeleton-box {
-  background-color: #E5E3DC;
+  background-color: var(--border-color, #E5E3DC);
   background-image: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0,

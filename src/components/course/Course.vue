@@ -1,47 +1,71 @@
 <template>
-  <div class="background pb-5">
-    <div v-if="$route.params.mode == 'preview'" class="bg-danger text-white py-1 ajuste z-index-2 px-4">
-      Usted se encuentra en un entorno de pre-visualización
-    </div>
+  <v-app>
+    <div class="background pb-5">
+      <div v-if="$route.params.mode == 'preview'" class="bg-danger text-white py-1 ajuste z-index-2 px-4 text-center fw-bold">
+        Usted se encuentra en un entorno de pre-visualización
+      </div>
 
-    <div v-if="error" class="no-result center-element">
-      <span>Lo sentimos se produjo un error</span>
-    </div>
+      <!-- State 1: Loading State -->
+      <div v-if="loading" class="d-flex justify-content-center align-items-center py-5 my-5">
+        <v-progress-circular indeterminate color="#10B981" size="64" width="6"></v-progress-circular>
+      </div>
 
-    <div class="container-fluid px-2">
-      <div class="row">
-        <!-- Main content column -->
-        <div class="col-12 col-lg-8 mt-4">
-          <div class="pb-1">
-            <strong class="course-title">{{ this.courseInfo.title }}</strong>
+      <!-- State 2: Error State -->
+      <div v-else-if="error" class="container py-5">
+        <div class="card border-0 shadow-sm rounded-lg p-5 text-center my-4 bg-white" style="border-radius: 20px;">
+          <div class="mb-4">
+            <v-icon color="#EF4444" size="72">mdi-alert-circle-outline</v-icon>
           </div>
-
-          <Video v-if="renderVideo" :classId="lessonId" :courseId="this.$route.query.course"
-            @markLessonComplete="handleLessonComplete" class="video-container">
-          </Video>
-
-          <div class="mt-3">
-            <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
-          </div>
-        </div>
-
-        <!-- Sidebar content -->
-        <div class="col-12 col-lg-4 sidebar">
-          <Docente></Docente>
-
-          <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
-
-          <div class="text-center mb-3">
-            <v-btn depressed color="#1ae800" class="text-white invite-btn">
-              Invitar a otra persona
+          <h3 class="font-weight-bold mb-2 text-dark">No se pudo cargar el curso</h3>
+          <p class="text-muted mb-4 max-w-md mx-auto">
+            Es posible que el curso no exista, no tenga lecciones publicadas aún o no tengas acceso.
+          </p>
+          <div>
+            <v-btn color="#10B981" dark large rounded class="px-5 text-none font-weight-bold" @click="$router.push('/my-courses')">
+              <v-icon left>mdi-arrow-left</v-icon>
+              Volver a mis contenidos
             </v-btn>
           </div>
+        </div>
+      </div>
 
-          <Comentarios></Comentarios>
+      <!-- State 3: Course View -->
+      <div v-else class="container-fluid px-3 px-md-4 py-2">
+        <div class="row">
+          <!-- Main content column -->
+          <div class="col-12 col-lg-8 mt-3">
+            <div class="pb-2">
+              <h2 class="course-title text-dark font-weight-bold mb-3">{{ this.courseInfo.title || 'Cargando curso...' }}</h2>
+            </div>
+
+            <Video v-if="renderVideo && lessonId" :classId="lessonId" :courseId="this.$route.query.course"
+              @markLessonComplete="handleLessonComplete" class="video-container shadow-sm">
+            </Video>
+
+            <div class="mt-4">
+              <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
+            </div>
+          </div>
+
+          <!-- Sidebar content -->
+          <div class="col-12 col-lg-4 sidebar mt-3">
+            <Docente></Docente>
+
+            <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
+
+            <div class="text-center my-4">
+              <v-btn depressed color="#10B981" dark large rounded block class="text-none font-weight-bold shadow-sm invite-btn">
+                <v-icon left>mdi-account-plus</v-icon>
+                Invitar a otra persona
+              </v-btn>
+            </div>
+
+            <Comentarios></Comentarios>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -56,6 +80,7 @@ export default {
   name: "Course",
   data() {
     return {
+      loading: false,
       error: false,
       lessonId: "",
       courseInfo: [],
@@ -104,27 +129,15 @@ export default {
 
     async getCourseInfo() {
       try {
-        //console.log("🚀 Iniciando petición: GET course/details/" + this.$route.query.course);
-        
-        const response = await this.axios.get("course/details/" + this.$route.query.course);
-        
-        //console.group("✅ Respuesta exitosa: GET course/details");
-        //console.log("📊 Status:", response.status);
-        //console.log("📋 Headers:", response.headers);
-        //console.log("💾 Data completa:", response.data);
-        //console.log("🎯 Course info:", response.data.data);
-        //console.groupEnd();
-        
-        this.courseInfo = response.data.data;
+        const courseId = this.$route.query.course;
+        if (!courseId) {
+          this.error = true;
+          return;
+        }
+        const response = await this.axios.get("course/details/" + courseId);
+        this.courseInfo = (response && response.data && response.data.data) ? response.data.data : [];
       } catch (error) {
-        //console.group("❌ Error en: GET course/details");
-        //console.log("🚫 Error completo:", error);
-        //console.log("📊 Status:", error.response?.status);
-        //console.log("💾 Data del error:", error.response?.data);
-        //console.log("📝 Mensaje:", error.message);
-        //console.log("🔗 URL:", error.config?.url);
-        //console.groupEnd();
-        
+        console.error("Error al obtener detalles del curso:", error);
         this.error = true;
       }
     },
@@ -132,135 +145,120 @@ export default {
     // Carga la lección activa en la inicialización del componente
     async activeLesson() {
       try {
+        this.loading = true;
+        this.error = false;
         const courseId = this.$route.query.course;
-        const className = this.$route.query.class;
+        let className = this.$route.query.class;
+
+        if (!courseId) {
+          this.error = true;
+          return;
+        }
+
+        // Si className viene vacío o indefinido, intentamos obtener la lección por defecto o vista previamente
+        if (!className) {
+          try {
+            const seenRes = await this.axios.get(`purchased/show-class-seen?course_id=${courseId}`);
+            const dataRequest = (seenRes && seenRes.data && seenRes.data.data) ? seenRes.data.data : {};
+            if (dataRequest && dataRequest.name) {
+              className = dataRequest.name;
+              this.$router.replace({ query: { ...this.$route.query, class: className } }).catch(() => {});
+            }
+          } catch (err) {
+            console.warn("No se pudo obtener la lección vista previamente:", err);
+          }
+        }
+
+        const res = await this.axios.get(`class/show-class/${courseId}?name=${encodeURIComponent(className || '')}`);
         
-        
-        const res = await this.axios.get(`class/show-class/${courseId}?name=${className}`);
-      
-        
+        if (!res || !res.data || !res.data.id) {
+          this.error = true;
+          return;
+        }
+
         let lessonId = res.data.id;
         this.lessonId = lessonId;
         
         // Llamadas a las acciones con manejo de errores individual
         try {
-          console.log("🔄 Ejecutando getLesson...");
           await this.getLesson(res.data);
         } catch (error) {
-          console.error("❌ Error en getLesson:", error);
+          console.error("Error en getLesson:", error);
         }
         
         try {
-          console.log("🔄 Ejecutando  con ID:", res.data.id);
           await this.getVideo(res.data.id);
         } catch (error) {
-          console.group("❌ Error en getVideo");
-          console.error("🚫 Error completo:", error);
-          console.log("📊 Status:", error.response?.status);
-          console.log("💾 Data del error:", error.response?.data);
-          console.log("📝 Mensaje:", error.message);
-          console.log("🔗 URL:", error.config?.url);
-          console.log("🎯 Class ID intentado:", res.data.id);
-          console.groupEnd();
-          
-          // No detener la ejecución, continuar con las otras acciones
-          console.warn("⚠️ Video no disponible para esta lección, continuando...");
+          console.warn("Video no disponible para esta lección, continuando...");
         }
         
         try {
-          console.log("🔄 Ejecutando getComments...");
           await this.getComments(res.data.id);
         } catch (error) {
-          console.error("❌ Error en getComments:", error);
+          console.error("Error en getComments:", error);
         }
         
         try {
-          console.log("🔄 Ejecutando getRating...");
           await this.getRating(this.$route.query.course);
         } catch (error) {
-          console.error("❌ Error en getRating:", error);
+          console.error("Error en getRating:", error);
         }
         
         try {
-          console.log("🔄 Ejecutando getTest...");
           await this.getTest({ exam_type: "class", id_type: res.data.id });
         } catch (error) {
-          console.error("❌ Error en getTest:", error);
+          console.error("Error en getTest:", error);
         }
         
         try {
-          console.log("🔄 Ejecutando getModuleExam...");
           await this.getModuleExam(this.$route.query.course);
         } catch (error) {
-          console.error("❌ Error en getModuleExam:", error);
+          console.error("Error en getModuleExam:", error);
         }
         
         try {
-          console.log("🔄 Ejecutando getActiveDinamicModule...");
-          const dinamicResult = await this.getActiveDinamicModule(this.$route.query.course);
-          console.log("🎮 Resultado dinámicas:", dinamicResult);
+          await this.getActiveDinamicModule(this.$route.query.course);
         } catch (error) {
-          console.error("❌ Error en getActiveDinamicModule:", error);
+          console.error("Error en getActiveDinamicModule:", error);
         }
         
       } catch (error) {
-        //console.group("❌ Error general en activeLesson");
-        //console.error("🚫 Error completo:", error);
-        //console.log("📊 Status:", error.response?.status);
-        //console.log("💾 Data del error:", error.response?.data);
-        //console.log("📝 Mensaje:", error.message);
-        //console.log("🔗 URL:", error.config?.url);
-        //console.log("🎯 Course ID:", this.$route.query.course);
-        //console.log("🎯 Class name:", this.$route.query.class);
-        //console.groupEnd();
-        
+        console.error("Error general al cargar la lección activa:", error);
         this.error = true;
+      } finally {
+        this.loading = false;
       }
     },
   },
   mounted() {
-    //console.log("🔌 Componente Course montado");
-    //console.log("🎯 Route query:", this.$route.query);
     this.courseSelectedStatus(true);
     this.getCourseInfo();
   },
   created() {
-    //console.log("🎬 Componente Course creado");
-    //console.log("🎯 Route params:", this.$route.params);
-    //console.log("🎯 Route query:", this.$route.query);
-    
     this.activeLesson();
-    this.getCourseActive(this.$route.query.course);
-    this.getCourseRating(this.$route.query.rate);
+    if (this.$route.query.course) {
+      this.getCourseActive(this.$route.query.course);
+    }
+    if (this.$route.query.rate) {
+      this.getCourseRating(this.$route.query.rate);
+    }
     this.$root.$refs.Course = this;
   },
   beforeMount() {
-    //console.log("🔄 Validando parámetros de ruta...");
-    
-    // Verifica que los parámetros de curso y clase estén en la URL
-    if (!this.$route.query.class && !this.$route.query.course) {
-      //console.error("❌ Faltan parámetros de curso y clase en la URL");
+    if (!this.$route.query.course) {
       this.error = true;
-    } else if (!this.$route.query.class || !this.$route.query.course) {
-      //console.error("❌ Falta parámetro de curso o clase en la URL");
-      this.error = true;
-    } else {
-      //console.log("✅ Parámetros de ruta válidos");
     }
   },
   destroyed() {
-    //console.log("💀 Componente Course destruido");
-    
     this.DESTROY_PROGRESS();
 
-    // Enviar información de última lección visualizada
-    let sendData = {
-      course_id: this.$route.query.course,
-      class_id: this.lesson.id,
-    };
-
-    //console.log("📤 Enviando última lección vista:", sendData);
-    this.lastSeenLesson(sendData);
+    if (this.$route.query.course && this.lesson && this.lesson.id) {
+      let sendData = {
+        course_id: this.$route.query.course,
+        class_id: this.lesson.id,
+      };
+      this.lastSeenLesson(sendData);
+    }
   },
 };
 </script>

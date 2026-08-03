@@ -1,74 +1,58 @@
 <template>
-  <div class="kpi-container row text-center align-center">
+  <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-4 tw-gap-4 tw-w-full">
     <!-- 1. MIS CURSOS -->
-    <div class="col-12 col-sm-6 col-md-3 kpi-col">
-      <div class="kpi-card-item d-flex align-center justify-center p-2">
-        <div class="kpi-icon-badge badge-emerald mr-3">
-          <v-icon color="#10B981" size="22">mdi-school-outline</v-icon>
+    <div class="kpi-card tw-p-4 tw-rounded-2xl tw-border tw-shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:tw-shadow-md hover:tw--translate-y-0.5 tw-transition-all tw-flex tw-items-center tw-gap-4" style="background-color: var(--card-sub-bg); border-color: var(--border-color);">
+      <div class="kpi-icon-badge tw-w-12 tw-h-12 tw-rounded-xl tw-bg-[#18d600]/10 tw-text-[#18d600] tw-flex tw-items-center tw-justify-center tw-shrink-0">
+        <svg class="tw-w-6 tw-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+      </div>
+      <div class="tw-text-left tw-flex-1 tw-min-w-0">
+        <div v-if="loading" class="tw-w-12 tw-h-6 tw-bg-gray-200 dark:tw-bg-gray-800 tw-animate-pulse tw-rounded tw-mb-1"></div>
+        <div v-else class="tw-font-outfit tw-text-2xl tw-font-bold tw-leading-tight tw-truncate" style="color: var(--text-bold);">
+          {{ courses !== '' ? courses : 0 }}
         </div>
-        <div class="text-left">
-          <div v-if="loading" class="my-1">
-            <div class="skeleton-box" style="width: 50px; height: 24px; border-radius: 6px;"></div>
-          </div>
-          <div v-else class="kpi-value">
-            {{ courses !== '' ? courses : 0 }}
-          </div>
-          <span class="kpi-label d-block">Mis Cursos</span>
-        </div>
+        <span class="tw-font-jakarta tw-text-xs tw-font-semibold tw-block" style="color: var(--text-muted);">Mis Cursos</span>
       </div>
     </div>
 
     <!-- 2. MIS VENTAS -->
-    <div class="col-12 col-sm-6 col-md-3 kpi-col border-left-divider">
-      <div class="kpi-card-item d-flex align-center justify-center p-2">
-        <div class="kpi-icon-badge badge-emerald mr-3">
-          <v-icon color="#10B981" size="22">mdi-currency-usd</v-icon>
+    <div class="kpi-card tw-p-4 tw-rounded-2xl tw-border tw-shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:tw-shadow-md hover:tw--translate-y-0.5 tw-transition-all tw-flex tw-items-center tw-gap-4" style="background-color: var(--card-sub-bg); border-color: var(--border-color);">
+      <div class="kpi-icon-badge tw-w-12 tw-h-12 tw-rounded-xl tw-bg-amber-500/10 tw-text-amber-500 tw-flex tw-items-center tw-justify-center tw-shrink-0">
+        <svg class="tw-w-6 tw-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      </div>
+      <div class="tw-text-left tw-flex-1 tw-min-w-0">
+        <div v-if="loading" class="tw-w-16 tw-h-6 tw-bg-gray-200 dark:tw-bg-gray-800 tw-animate-pulse tw-rounded tw-mb-1"></div>
+        <div v-else class="tw-font-outfit tw-text-2xl tw-font-bold tw-leading-tight tw-truncate" style="color: var(--text-bold);">
+          {{ formattedPayment }}
         </div>
-        <div class="text-left">
-          <div v-if="loading" class="my-1">
-            <div class="skeleton-box" style="width: 75px; height: 24px; border-radius: 6px;"></div>
-          </div>
-          <div v-else class="kpi-value text-emerald">
-            {{ formattedPayment }}
-          </div>
-          <span class="kpi-label d-block">Mis Ventas</span>
-        </div>
+        <span class="tw-font-jakarta tw-text-xs tw-font-semibold tw-block" style="color: var(--text-muted);">Mis Ventas</span>
       </div>
     </div>
 
     <!-- 3. MIS MEMBRESÍA -->
-    <div class="col-12 col-sm-6 col-md-3 kpi-col border-left-divider">
-      <div class="kpi-card-item d-flex align-center justify-center p-2">
-        <div class="kpi-icon-badge badge-amber mr-3">
-          <v-icon color="#F59E0B" size="22">mdi-crown-outline</v-icon>
+    <div class="kpi-card tw-p-4 tw-rounded-2xl tw-border tw-shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:tw-shadow-md hover:tw--translate-y-0.5 tw-transition-all tw-flex tw-items-center tw-gap-4" style="background-color: var(--card-sub-bg); border-color: var(--border-color);">
+      <div class="kpi-icon-badge tw-w-12 tw-h-12 tw-rounded-xl tw-bg-indigo-500/10 tw-text-indigo-500 tw-flex tw-items-center tw-justify-center tw-shrink-0">
+        <svg class="tw-w-6 tw-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+      </div>
+      <div class="tw-text-left tw-flex-1 tw-min-w-0">
+        <div v-if="loading" class="tw-w-20 tw-h-6 tw-bg-gray-200 dark:tw-bg-gray-800 tw-animate-pulse tw-rounded tw-mb-1"></div>
+        <div v-else class="tw-font-outfit tw-text-2xl tw-font-bold tw-leading-tight tw-uppercase tw-truncate" style="color: var(--text-bold);">
+          {{ typePlans ? typePlans : 'BÁSICA' }}
         </div>
-        <div class="text-left">
-          <div v-if="loading" class="my-1">
-            <div class="skeleton-box" style="width: 85px; height: 24px; border-radius: 6px;"></div>
-          </div>
-          <div v-else class="kpi-value text-uppercase" style="font-size: 1.3rem;">
-            {{ typePlans ? typePlans : 'BÁSICA' }}
-          </div>
-          <span class="kpi-label d-block">Mis Membresía</span>
-        </div>
+        <span class="tw-font-jakarta tw-text-xs tw-font-semibold tw-block" style="color: var(--text-muted);">Mis Membresía</span>
       </div>
     </div>
 
     <!-- 4. MIS AFILIADOS -->
-    <div class="col-12 col-sm-6 col-md-3 kpi-col border-left-divider">
-      <div class="kpi-card-item d-flex align-center justify-center p-2">
-        <div class="kpi-icon-badge badge-indigo mr-3">
-          <v-icon color="#6366F1" size="22">mdi-account-group-outline</v-icon>
+    <div class="kpi-card tw-p-4 tw-rounded-2xl tw-border tw-shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:tw-shadow-md hover:tw--translate-y-0.5 tw-transition-all tw-flex tw-items-center tw-gap-4" style="background-color: var(--card-sub-bg); border-color: var(--border-color);">
+      <div class="kpi-icon-badge tw-w-12 tw-h-12 tw-rounded-xl tw-bg-sky-500/10 tw-text-sky-500 tw-flex tw-items-center tw-justify-center tw-shrink-0">
+        <svg class="tw-w-6 tw-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+      </div>
+      <div class="tw-text-left tw-flex-1 tw-min-w-0">
+        <div v-if="loading" class="tw-w-10 tw-h-6 tw-bg-gray-200 dark:tw-bg-gray-800 tw-animate-pulse tw-rounded tw-mb-1"></div>
+        <div v-else class="tw-font-outfit tw-text-2xl tw-font-bold tw-leading-tight tw-truncate" style="color: var(--text-bold);">
+          {{ affilates !== '' ? affilates : 0 }}
         </div>
-        <div class="text-left">
-          <div v-if="loading" class="my-1">
-            <div class="skeleton-box" style="width: 50px; height: 24px; border-radius: 6px;"></div>
-          </div>
-          <div v-else class="kpi-value">
-            {{ affilates !== '' ? affilates : 0 }}
-          </div>
-          <span class="kpi-label d-block">Mis Afiliados</span>
-        </div>
+        <span class="tw-font-jakarta tw-text-xs tw-font-semibold tw-block" style="color: var(--text-muted);">Mis Afiliados</span>
       </div>
     </div>
   </div>

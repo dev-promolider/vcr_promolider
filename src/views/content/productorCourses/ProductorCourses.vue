@@ -99,6 +99,7 @@
               :src="getImage(item)"
               :alt="item.title"
               class="card-image"
+              @error="onImgError"
             />
 
             <span
@@ -110,24 +111,28 @@
           </div>
 
           <div class="card-content">
-            <h3>{{ item.title }}</h3>
-
-            <!-- <p class="description">
-              {{ item.description || 'Sin descripción disponible.' }}
-            </p> -->
+            <h3 class="card-title">{{ item.title }}</h3>
 
             <!-- CARD DE CURSO -->
             <template v-if="isCourse(item)">
               <div class="rating-row">
-                <span class="stars">★★★★★</span>
-
-                <span class="rating-text">
-                  {{ item.ranking_by_user || '0.0' }}
+                <v-rating
+                  color="#F59E0B"
+                  background-color="#E5E7EB"
+                  dense
+                  readonly
+                  length="5"
+                  size="15"
+                  :value="parseFloat(item.ranking_by_user || 5)"
+                  half-increments
+                ></v-rating>
+                <span class="rating-text ml-1">
+                  {{ item.ranking_by_user || '5.0' }}
                 </span>
               </div>
 
               <div class="price-row">
-                <strong>
+                <strong class="price-current">
                   {{ formatPrice(item.price, item.currency) }}
                 </strong>
 
@@ -143,14 +148,22 @@
             <!-- CARD DE LIBRO -->
             <template v-else>
               <div class="rating-row">
-                <span class="stars">★★★★★</span>
-
-                <span class="rating-text">
-                  {{ item.ranking_by_user || '0.0' }}
+                <v-rating
+                  color="#F59E0B"
+                  background-color="#E5E7EB"
+                  dense
+                  readonly
+                  length="5"
+                  size="15"
+                  :value="parseFloat(item.ranking_by_user || 5)"
+                  half-increments
+                ></v-rating>
+                <span class="rating-text ml-1">
+                  {{ item.ranking_by_user || '5.0' }}
                 </span>
               </div>
 
-              <div class="book-price">
+              <div class="book-price price-current">
                 {{ formatPrice(item.price, item.currency) }}
               </div>
 
@@ -373,8 +386,14 @@ export default {
       return item.type === 'Curso' || item.type === 'course' || this.activeType === 'course'
     },
 
+    onImgError(e) {
+      if (e && e.target) {
+        e.target.src = require("@/assets/background-login.webp");
+      }
+    },
+
     getImage(item) {
-      if (!item.url_portada) return 'https://placehold.co/600x360?text=Contenido';
+      if (!item || !item.url_portada) return require("@/assets/background-login.webp");
       return item.url_portada.startsWith('http') ? item.url_portada.replace('s3.sa-east-1', 's3-accelerate') : 'https://promolider-storage-user.s3-accelerate.amazonaws.com/' + item.url_portada;
     },
 
@@ -615,73 +634,86 @@ export default {
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 24px;
 }
 
 .content-card {
-  background: #ffffff;
-  border: 1px solid #e4e7ec;
-  border-radius: 14px;
+  background: #FAF9F5 !important;
+  border: 1px solid #E5E3DC !important;
+  border-radius: 20px !important;
   overflow: hidden;
-  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
   display: flex;
   flex-direction: column;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .content-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 28px rgba(16, 24, 40, 0.1);
+  transform: translateY(-4px) !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.14) !important;
 }
 
 .card-image-wrapper {
   position: relative;
   height: 180px;
-  background: #f2f4f7;
+  background: #E5E3DC;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.content-card:hover .card-image {
+  transform: scale(1.05);
 }
 
 .level-badge {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: #fff2df;
-  color: #f97316;
+  top: 14px;
+  right: 14px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10B981;
+  font-family: 'Outfit', sans-serif;
   font-size: 11px;
   font-weight: 700;
   border-radius: 999px;
-  padding: 6px 10px;
+  padding: 5px 12px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .card-content {
-  padding: 20px 20px 12px;
+  padding: 18px 18px 10px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.card-content h3 {
-  margin: 0 0 12px;
-  color: #111827;
-  font-size: 17px;
+.card-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  color: #18181B !important;
+  font-size: 1.1rem !important;
   line-height: 1.35;
+  margin: 0 0 10px 0;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
 .description {
-  color: #667085;
+  color: #71717A;
   font-size: 14px;
   line-height: 1.6;
   margin: 0 0 18px;
@@ -690,87 +722,85 @@ export default {
 .rating-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.stars {
-  color: #f5b301;
-  font-size: 24px;
-  letter-spacing: 1px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .rating-text {
-  color: #475467;
-  font-size: 14px;
+  color: #71717A;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .price-row {
   display: flex;
-  align-items: center;
-  gap: 14px;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: auto;
 }
 
-.price-row strong,
-.book-price {
-  color: #059212;
-  font-size: 24px;
-  font-weight: 700;
+.price-current {
+  font-family: 'Outfit', sans-serif !important;
+  color: #10B981 !important;
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
 }
 
 .old-price {
-  color: #667085;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: #9CA3AF !important;
   text-decoration: line-through;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .format-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 18px;
+  margin-top: 10px;
 }
 
 .format-badge {
-  padding: 7px 14px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
 }
 
 .format-badge.pdf {
-  background: #fee4e2;
-  color: #d92d20;
+  background: #FEE2E2;
+  color: #EF4444;
 }
 
 .format-badge.epub {
-  background: #e7f0e7;
-  color: #475467;
+  background: #E0E7FF;
+  color: #4F46E5;
 }
 
 .card-footer {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 20px;
-  background: none;
+  padding: 12px 18px 18px;
 }
 
 .primary-action {
-  flex: 1;
-  height: 48px;
+  width: 100%;
+  height: 44px;
   border: none;
-  background: linear-gradient(to right, #20e404, #1cac0b);
-  color: white;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  border-radius: 12px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  transition: all 0.25s ease !important;
   cursor: pointer;
 }
 
 .primary-action:hover {
+  background: #059669 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(32, 228, 4, 0.3);
 }
 
 .options-btn {

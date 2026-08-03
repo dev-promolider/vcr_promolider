@@ -1,29 +1,66 @@
 <template>
-  <div style="min-height: 100vh; overflow: hidden" class="mr-5">
-    <div class="row mt-5">
-      <section-title title="Mi aprendizaje" />
-      <div class="col-md-6 search-container">
-        <div class="search-wrapper">
-          <span class="search-label" style="color: #5e5873">Buscar:</span>
-          <input type="text" placeholder="Buscar un curso" v-model="searchQuery"
-            class="form-control form-select search-input" />
+  <div class="tw-w-full tw-min-h-screen tw-py-6 tw-px-2 sm:tw-px-4">
+    <!-- Encabezado de Sección -->
+    <div class="tw-flex tw-flex-col md:tw-flex-row md:tw-items-center tw-justify-between tw-gap-4 tw-mb-8">
+      <div>
+        <h1 class="tw-font-outfit tw-text-3xl tw-font-extrabold tw-text-gray-900 dark:tw-text-white tw-tracking-tight">
+          Mi aprendizaje
+        </h1>
+        <p class="tw-font-jakarta tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mt-1">
+          Accede a tus cursos inscritos y continúa con tu desarrollo profesional.
+        </p>
+      </div>
+
+      <!-- Buscador de Cursos Estilizado -->
+      <div class="tw-relative tw-w-full md:tw-w-80">
+        <div class="tw-absolute tw-inset-y-0 tw-left-0 tw-pl-3.5 tw-flex tw-items-center tw-pointer-events-none">
+          <svg class="tw-w-5 tw-h-5 tw-text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
         </div>
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Buscar en mis cursos..."
+          class="mi-aprendizaje-search-input tw-w-full tw-pl-10 tw-pr-4 tw-py-2.5 tw-rounded-xl tw-text-sm placeholder:tw-text-gray-400 dark:placeholder:tw-text-gray-500 focus:tw-outline-none focus:tw-border-[#10B981] focus:tw-ring-2 focus:tw-ring-[#10B981]/20 tw-transition-all tw-shadow-sm"
+          style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);"
+        />
       </div>
     </div>
 
-    <div class="row mt-5">
-      <div class="courses-container">
-        <div v-if="loading">
-          <loadingCourses />
-        </div>
-        <div v-if="caritas" class="text-center m-auto">
-          <div class="no-result sad-face"></div>
-          <span>Sin resultados</span>
-        </div>
-        <div v-else class="courses-list">
-          <Card v-for="(item, index) in filteredCourses" :key="index" :course="item" :cardType="cardType" />
-        </div>
+    <!-- Contenedor Principal de Cursos -->
+    <div v-if="loading" class="tw-w-full">
+      <loadingCourses />
+    </div>
+
+    <div
+      v-else-if="filteredCourses.length === 0 || caritas"
+      class="tw-w-full tw-flex tw-flex-col tw-items-center tw-justify-center tw-py-16 tw-bg-white dark:tw-bg-[rgba(22,30,46,0.65)] tw-rounded-2xl tw-border tw-border-gray-200/80 dark:tw-border-[rgba(255,255,255,0.08)] tw-shadow-sm"
+    >
+      <div class="tw-w-16 tw-h-16 tw-rounded-full tw-bg-gray-100 dark:tw-bg-[#161e2e] tw-flex tw-items-center tw-justify-center tw-mb-4">
+        <svg class="tw-w-8 tw-h-8 tw-text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+        </svg>
       </div>
+      <h3 class="tw-font-outfit tw-text-lg tw-font-bold tw-text-gray-900 dark:tw-text-white tw-mb-1">
+        Sin cursos disponibles
+      </h3>
+      <p class="tw-font-jakarta tw-text-sm tw-text-gray-500 dark:tw-text-gray-400">
+        No hemos encontrado cursos activos que coincidan con tu búsqueda.
+      </p>
+    </div>
+
+    <!-- Grilla Adaptativa Responsive -->
+    <div
+      v-else
+      class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-gap-6"
+    >
+      <Card
+        v-for="(item, index) in filteredCourses"
+        :key="index"
+        :course="item"
+        :cardType="cardType"
+      />
     </div>
   </div>
 </template>
@@ -32,14 +69,12 @@
 import Card from "@/components/courses/cards";
 import loadingCourses from "@/components/courses/loadingCourses";
 import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
-import SectionTitle from "../Navbar/SectionTitle.vue";
 
 export default {
   name: "Suscription",
   components: {
     loadingCourses,
     Card,
-    SectionTitle,
   },
   data() {
     return {
@@ -116,131 +151,4 @@ export default {
 </script>
 
 <style scoped>
-.courses-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 50px;
-}
-
-.courses-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 35px;
-}
-
-.search-container {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin-right: 20px;
-}
-
-.search-wrapper {
-  display: flex;
-  align-items: center;
-  max-width: 350px;
-  width: 100%;
-}
-
-.search-label {
-  margin-right: 10px;
-  white-space: nowrap;
-}
-
-.search-input {
-  flex-grow: 1;
-  height: 32px;
-  color: #636363;
-}
-
-/* Estilos responsivos */
-@media screen and (max-width: 768px) {
-  .mr-5 {
-    margin-right: 0 !important;
-  }
-
-  .row {
-    flex-direction: column;
-  }
-
-  .search-container {
-    margin-top: 15px;
-    margin-right: 0;
-    justify-content: center;
-  }
-
-  .search-wrapper {
-    width: 90%;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-
-  .search-label {
-    margin-right: 10px;
-    font-size: 0.9em;
-  }
-
-  .search-input {
-    width: 100%;
-    font-size: 0.9em;
-  }
-}
-
-.form-select {
-  width: 200px;
-  font-size: 0.8em;
-  color: #ccc;
-  background-color: #fff;
-  border-radius: 10px;
-  cursor: pointer;
-  appearance: none;
-  padding-right: 30px;
-}
-
-.form-select::placeholder {
-  color: #ccc;
-}
-
-.form-select:hover,
-.form-select:focus {
-  border-color: #1bd0033d;
-  box-shadow: 0 0 15px rgba(26, 208, 3, 0.5);
-}
-
-.form-select option {
-  color: #000;
-}
-
-.form-select option:hover {
-  background-color: #1bd003e0;
-  color: #000;
-}
-
-.custom-select-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.custom-arrow {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #ccc;
-  pointer-events: none;
-}
-
-.custom-arrow.up {
-  border-top: none;
-  border-bottom: 5px solid #ccc;
-}
-
-.form-select:focus+.custom-arrow {
-  border-top: none;
-  border-bottom: 5px solid #ccc;
-}
 </style>

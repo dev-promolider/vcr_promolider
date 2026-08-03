@@ -14,7 +14,9 @@
             <div class="col-12 col-md-6">
               <div class="d-flex align-items-center justify-content-md-end gap-3">
                 <div class="marketplace-search-box flex-grow-1 flex-md-grow-0">
-                  <v-icon color="#71717A" size="20" class="search-icon">mdi-magnify</v-icon>
+                  <svg class="search-icon tw-w-5 tw-h-5 tw-text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
                   <input
                     type="text"
                     placeholder="Buscar cursos o libros..."
@@ -25,7 +27,9 @@
 
                 <!-- Cupón de Descuento Especial -->
                 <div v-if="descuento" class="discount-badge-pill flex-shrink-0" title="Tu descuento exclusivo">
-                  <v-icon color="#FFFFFF" size="18" class="mr-1">mdi-ticket-percent-outline</v-icon>
+                  <svg class="tw-w-4 tw-h-4 tw-mr-1.5 tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path>
+                  </svg>
                   <span>{{ descuento }}% OFF</span>
                 </div>
               </div>
@@ -60,7 +64,9 @@
             <div class="marketplace-section mb-5" v-if="recentCourses.length">
               <div class="d-flex align-items-center justify-content-between mb-4">
                 <h3 class="section-title mb-0">
-                  <v-icon color="#10B981" size="24" class="mr-2">mdi-sparkles</v-icon>
+                  <svg class="tw-w-6 tw-h-6 tw-mr-2 tw-text-[#10B981] tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                  </svg>
                   Más Recientes
                 </h3>
                 
@@ -71,14 +77,18 @@
                     @click="viewMode = 'grid'"
                     title="Vista en Cuadrícula"
                   >
-                    <v-icon :color="viewMode === 'grid' ? '#FFFFFF' : '#71717A'" size="18">mdi-grid</v-icon>
+                    <svg class="tw-w-4 tw-h-4" :class="viewMode === 'grid' ? 'tw-text-white' : 'tw-text-gray-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                    </svg>
                   </button>
                   <button
                     :class="['toggle-btn', { active: viewMode === 'list' }]"
                     @click="viewMode = 'list'"
                     title="Vista en Lista"
                   >
-                    <v-icon :color="viewMode === 'list' ? '#FFFFFF' : '#71717A'" size="18">mdi-format-list-bulleted</v-icon>
+                    <svg class="tw-w-4 tw-h-4" :class="viewMode === 'list' ? 'tw-text-white' : 'tw-text-gray-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -94,13 +104,18 @@
             <div class="marketplace-section mb-5">
               <div class="d-flex align-items-center justify-content-between mb-4">
                 <h3 class="section-title mb-0">
-                  <v-icon color="#10B981" size="24" class="mr-2">mdi-school-outline</v-icon>
+                  <svg class="tw-w-6 tw-h-6 tw-mr-2 tw-text-[#10B981] tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                  </svg>
                   Todos los Cursos
                 </h3>
               </div>
 
               <div v-if="!filteredAllCourses.length" class="empty-section text-center py-5">
-                <v-icon color="#A1A1AA" size="48" class="mb-3">mdi-folder-open-outline</v-icon>
+                <svg class="tw-w-12 tw-h-12 tw-mx-auto tw-mb-3 tw-text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
                 <p class="text-muted mb-0">No hay cursos disponibles actualmente en esta selección.</p>
               </div>
 
@@ -111,7 +126,9 @@
             <div class="marketplace-section mb-4" v-if="releasedBooks.length">
               <div class="d-flex align-items-center justify-content-between mb-4">
                 <h3 class="section-title mb-0">
-                  <v-icon color="#10B981" size="24" class="mr-2">mdi-book-open-page-variant-outline</v-icon>
+                  <svg class="tw-w-6 tw-h-6 tw-mr-2 tw-text-[#10B981] tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                  </svg>
                   Todos los Libros
                 </h3>
               </div>

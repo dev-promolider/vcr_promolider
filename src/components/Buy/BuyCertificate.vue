@@ -1,107 +1,83 @@
 <template>
-  <div class="bg-light">
+  <div class="tw-bg-gray-100 dark:tw-bg-transparent tw-min-h-screen tw-p-4 md:tw-p-8 lg:tw-p-12">
     <div v-if="paidFor">
-      <div style="padding: 150px 0">
-        <v-card class="elevation-0" color="transparent">
-          <v-row justify="center" class="text-center">
-            <v-icon color="green" size="200"> mdi-check-circle-outline </v-icon>
-            <v-card-text class="h1 text-success"> Gracias! </v-card-text>
-            <v-card-text class="h5">
-              Tu compra ha sido realizada con exito.
-            </v-card-text>
-            <v-btn color="#000000" class="text-white" @click="$router.push({ name: 'certificado-user' })">
-              Ir a mis certificados
-            </v-btn>
-          </v-row>
-        </v-card>
+      <div class="tw-py-36 tw-flex tw-justify-center">
+        <div class="tw-bg-transparent tw-shadow-none tw-text-center">
+          <svg class="tw-w-48 tw-h-48 tw-text-green-500 tw-mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h1 class="tw-text-4xl tw-text-green-500 tw-font-bold tw-mt-4">Gracias!</h1>
+          <p class="tw-text-xl tw-mt-2 tw-text-gray-700 dark:tw-text-gray-300">Tu compra ha sido realizada con exito.</p>
+          <button @click="$router.push({ name: 'certificado-user' })" class="tw-mt-6 tw-bg-black dark:tw-bg-emerald-600 tw-text-white tw-px-6 tw-py-2 tw-rounded-md hover:tw-bg-gray-800 dark:hover:tw-bg-emerald-700 tw-transition-colors">
+            Ir a mis certificados
+          </button>
+        </div>
       </div>
     </div>
-    <div v-else class="div-pagar">
-      <h2 class="mb-5"><strong>Pagar</strong></h2>
-
-      <div class="row">
-        <div class="col-md-8">
+    <div v-else class="tw-bg-white dark:tw-bg-[rgba(22,30,46,0.65)] dark:tw-border dark:tw-border-[rgba(255,255,255,0.08)] dark:tw-text-white tw-rounded-[15px] tw-p-4 md:tw-p-8 tw-shadow-sm">
+      <h2 class="tw-text-2xl tw-font-bold tw-mb-8">Pagar</h2>
+      <div class="tw-flex tw-flex-wrap tw--mx-4">
+        <div class="tw-w-full md:tw-w-2/3 tw-px-4">
           <div>
-            <p class="subt my-5 text-start">
-              <strong>Dirección de facturación</strong>
-            </p>
-            <div class="d-flex m-0 pb-0 px-0" :class="[!this.$vuetify.breakpoint.xs && 'col-5']">
-              <p class="text-start flex-grow-1 mb-3 font-weight-bold">País</p>
-              <p class="mb-3 text-secondary">Necesario</p>
+            <p class="tw-text-xl md:tw-text-2xl tw-font-bold tw-my-6 tw-text-left">Dirección de facturación</p>
+            <div class="tw-flex tw-items-center tw-justify-between tw-mb-3 lg:tw-w-5/12">
+              <p class="tw-font-bold">País</p>
+              <p class="tw-text-gray-500 dark:tw-text-gray-400">Necesario</p>
             </div>
-            <div class="col-5 py-2 px-3 m-0 border border-dark" :class="[this.$vuetify.breakpoint.xs && 'w-full']">
-              <v-select solo flat background-color="transparent" v-model="selectedPais" :items="states"
-                item-text="state" label="Select" hide-details prepend-icon="mdi-earth" single-line class="m-0 p-0"
-                outline></v-select>
+            <div class="tw-border tw-border-gray-900 dark:tw-border-gray-600 tw-py-2 tw-px-3 tw-w-full lg:tw-w-5/12 tw-rounded-lg">
+              <select v-model="selectedPais" class="tw-w-full tw-bg-transparent dark:tw-bg-[#161e2e] dark:tw-text-white tw-outline-none">
+                <option v-for="state in states" :key="state.state" :value="state.state" class="dark:tw-bg-[#161e2e] dark:tw-text-white">{{ state.state }}</option>
+              </select>
             </div>
           </div>
 
-          <div class="my-5">
-            <div class="d-flex">
-              <p class="subt text-start flex-grow-1 mt-5">
-                <strong>Método de pago</strong>
-              </p>
-              <p class="mt-5" style="font-size: 0.74rem">
+          <div class="tw-my-10">
+            <div class="tw-flex tw-justify-between tw-items-end tw-mt-10">
+              <p class="tw-text-xl md:tw-text-2xl tw-font-bold">Método de pago</p>
+              <p class="tw-text-[0.74rem] tw-flex tw-items-center tw-gap-1">
                 Conexión Segura
-                <img src="@/components/Buy/imagenes/candado.svg" width="20" alt="" />
+                <img src="@/components/Buy/imagenes/candado.svg" width="20" alt="Candado" />
               </p>
             </div>
-            <div>
-              <div>
-                <b-form-group v-slot="{ ariaDescribedby }">
-                  <b-form-radio style="padding: 15px 50px" v-model="selectedPago" :aria-describedby="ariaDescribedby"
-                    name="some-radios" value="A" class="border bg-white" checked="true">
-                    <p class="m-0">
-                      <img src="@/components/Buy/imagenes/paypal.svg" width="25" alt="" />
-                      <strong>Paypal</strong>
-                    </p>
-                  </b-form-radio>
-                </b-form-group>
-                <div class="col-md-12">
-                  <p class="subt text-start my-5">
-                    <strong>Resumen del pedido</strong>
-                    <!-- {{this.$route.params.course.data.data[0].title}} -->
-                  </p>
-                  <div class="d-flex align-items-center">
-                    <v-avatar rounded="0" class="mr-5">
-                      <v-img :src="this.certificate.url_portada"> </v-img>
-                    </v-avatar>
-                    <p class="text-start flex-grow-1 text-capitalize">
-                      <strong>Certificado de
-                        {{ this.certificate.title }}
-                      </strong>
-                    </p>
-                    <p class="">${{ finalPrice }}</p>
-                  </div>
+            <div class="tw-mt-4">
+              <div class="tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-[#161e2e] tw-px-4 tw-py-3 md:tw-px-12 md:tw-py-4 tw-rounded-md tw-flex tw-items-center tw-gap-3">
+                <input type="radio" v-model="selectedPago" value="A" class="tw-w-4 tw-h-4 tw-accent-green-500" checked />
+                <div class="tw-flex tw-items-center tw-gap-2">
+                  <img src="@/components/Buy/imagenes/paypal.svg" width="25" alt="Paypal" />
+                  <span class="tw-font-bold">Paypal</span>
+                </div>
+              </div>
+              <div class="tw-mt-10">
+                <p class="tw-text-xl md:tw-text-2xl tw-font-bold tw-my-6">Resumen del pedido</p>
+                <div class="tw-flex tw-items-center">
+                  <img :src="certificate.url_portada" class="tw-w-16 tw-h-16 tw-object-cover tw-mr-5 tw-rounded-lg" alt="Portada" />
+                  <p class="tw-flex-grow tw-font-bold tw-capitalize">Certificado de {{ certificate.title }}</p>
+                  <p class="tw-font-bold">${{ finalPrice }}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <p class="subt my-5 text-start"><strong>Resumen</strong></p>
-          <div class="d-flex">
-            <p class="text-start flex-grow-1">Precio original:</p>
-            <p class="">${{ certificatePrice }}</p>
+        <div class="tw-w-full md:tw-w-1/3 tw-px-4">
+          <p class="tw-text-xl md:tw-text-2xl tw-font-bold tw-my-6">Resumen</p>
+          <div class="tw-flex tw-justify-between">
+            <p>Precio original:</p>
+            <p>${{ certificatePrice }}</p>
           </div>
-          <hr />
-          <div class="d-flex">
-            <p class="text-start flex-grow-1"><strong>Total:</strong></p>
-            <p class="">
-              <strong>${{ finalPrice }}</strong>
-            </p>
+          <hr class="tw-my-4 tw-border-gray-300" />
+          <div class="tw-flex tw-justify-between tw-font-bold tw-text-lg">
+            <p>Total:</p>
+            <p>${{ finalPrice }}</p>
           </div>
-          <div>
+          <div class="tw-mt-6 tw-relative tw-z-10">
             <div ref="paypal"></div>
           </div>
-          <p class="text-start mt-1 subtitle-2 text-secondary">
+          <p class="tw-text-sm tw-text-gray-500 tw-mt-4">
             Al completar la compra, aceptas <span>Condiciones de uso.</span>
           </p>
-          <p class="text-start subtitle-2 text-secondary">
-            PROMOLIDER está obligado por ley a recaudar los impuestos sobre las
-            transacciones de las compras realizadas en determinadas
-            jurisdicciones discales.
+          <p class="tw-text-sm tw-text-gray-500 tw-mt-2">
+            PROMOLIDER está obligado por ley a recaudar los impuestos sobre las transacciones de las compras realizadas en determinadas jurisdicciones discales.
           </p>
         </div>
       </div>
@@ -206,7 +182,6 @@ export default {
     this.getCertificate();
     this.getDiscount();
     const script = document.createElement("script");
-    // script.src ="https://www.paypal.com/sdk/js?client-id=AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz&components=buttons"
     const client_id =
       "AYOK28eEHBZ3pPlAoSWcvUwO5ke7jzrpz4kteGxTz3bwM1yV21T9jZd4EEEt5KKHjgPjzFxxOXYDm6Fz";
     script.src = `https://www.paypal.com/sdk/js?client-id=${client_id}&components=buttons`;
@@ -215,27 +190,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.div-pagar {
-  padding: 10px 2% 20px 2%;
-  border-radius: 15px;
-}
-
-.subt {
-  font-size: 1.5em;
-}
-
-@media screen and (max-width: 400px) {
-  .subt {
-    font-size: 1em;
-  }
-}
-
-.w-full {
-  max-width: 100% !important;
-}
-
-.paypal-buttons>iframe {
-  z-index: 10 !important;
-}
-</style>

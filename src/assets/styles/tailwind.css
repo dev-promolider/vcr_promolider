@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand Colors — Paleta CRM */
+    --primary-color: #18d600;
+    --primary-hover: #119e00;
+
+    /* Sidebar (oscuro premium) */
+    --sidebar-bg: #0b1120;
+    --sidebar-logo-bg: #0f172a;
+    --sidebar-hover-bg: rgba(24, 214, 0, 0.1);
+    --sidebar-link: #d1d5db;
+    --sidebar-active: #18d600;
+
+    /* Fondo principal */
+    --bg-main: #e2e8f0;
+    --card-bg: #FAF9F5;
+    --text-bold: #18181B;
+    --text-main: #334155;
+    --text-muted: #71717A;
+    --border-color: #E5E3DC;
+    --input-bg: #FFFFFF;
+  }
+
+  .dark-mode, .dark {
+    --sidebar-bg: #06090e;
+    --sidebar-logo-bg: #0a0f18;
+    --sidebar-hover-bg: rgba(24, 214, 0, 0.08);
+    --sidebar-link: #94a3b8;
+    --bg-main: #0a0f18;
+    --card-bg: rgba(22, 30, 46, 0.65);
+    --text-bold: #f8fafc;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.06);
+    --input-bg: #161e2e;
+    --navbar-bg: rgba(10, 15, 24, 0.85);
+  }
+}
+

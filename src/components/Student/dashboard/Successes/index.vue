@@ -2,11 +2,11 @@
   <div>
     <!-- Skeleton Screen mientras se ejecuta la request del endpoint -->
     <div v-if="isLoading" class="logros-card hallmark-card skeleton-card">
-      <div class="d-flex align-center justify-space-between mb-4">
-        <div class="d-flex align-center">
-          <div class="skeleton-box skeleton-badge mr-3"></div>
+      <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+        <div class="tw-flex tw-items-center">
+          <div class="skeleton-box skeleton-badge tw-mr-3"></div>
           <div>
-            <div class="skeleton-box skeleton-line-title mb-2" style="width: 110px;"></div>
+            <div class="skeleton-box skeleton-line-title tw-mb-2" style="width: 110px;"></div>
             <div class="skeleton-box skeleton-line-sub" style="width: 140px;"></div>
           </div>
         </div>
@@ -14,12 +14,12 @@
       </div>
 
       <div class="stepper-container">
-        <div v-for="i in 3" :key="i" class="stepper-item mb-4">
+        <div v-for="i in 3" :key="i" class="stepper-item tw-mb-4">
           <div class="stepper-node-col">
             <div class="skeleton-box skeleton-node"></div>
           </div>
-          <div class="stepper-content-col flex-grow-1">
-            <div class="skeleton-box skeleton-line-title mb-2" style="width: 70%;"></div>
+          <div class="stepper-content-col tw-grow">
+            <div class="skeleton-box skeleton-line-title tw-mb-2" style="width: 70%;"></div>
             <div class="skeleton-box skeleton-line-sub" style="width: 45%;"></div>
           </div>
         </div>
@@ -29,20 +29,20 @@
     <!-- Contenido Real al recibir la respuesta JSON -->
     <div v-else class="logros-card hallmark-card">
       <!-- Header de la tarjeta -->
-      <div class="d-flex align-center justify-space-between mb-4">
-        <div class="d-flex align-center">
-          <div class="logros-icon-badge mr-3">
-            <v-icon color="#10B981" size="22">mdi-trophy-award</v-icon>
+      <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+        <div class="tw-flex tw-items-center">
+          <div class="logros-icon-badge tw-mr-3">
+            <svg class="tw-w-6 tw-h-6 tw-text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
           </div>
           <div>
             <h3 class="logros-card-title">Mis Logros</h3>
             <p class="logros-card-subtitle">Progreso de metas activas</p>
           </div>
         </div>
-        <v-btn text small color="#10B981" class="ver-logros-btn" @click="goLogros">
-          <span>Ver todos</span>
-          <v-icon right size="18">mdi-arrow-right</v-icon>
-        </v-btn>
+        <button class="ver-logros-btn tw-flex tw-items-center tw-text-[#10B981] hover:tw-bg-[#10B981]/10 tw-px-3 tw-py-1.5 tw-rounded-lg tw-transition-colors" @click="goLogros">
+          <span class="tw-text-sm">Ver todos</span>
+          <svg class="tw-w-5 tw-h-5 tw-ml-1 tw-text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </button>
       </div>
 
       <!-- Stepper estilo imagen de referencia -->
@@ -51,9 +51,9 @@
           <!-- Columna de Icono y Línea vertical -->
           <div class="stepper-node-col">
             <div class="stepper-icon-wrapper">
-              <v-icon v-if="logro.completed" color="#10B981" size="26">mdi-check-circle-outline</v-icon>
-              <v-icon v-else-if="logro.inProgress" color="#34D399" size="26">mdi-clock-outline</v-icon>
-              <v-icon v-else color="#A1A1AA" size="26">mdi-circle-outline</v-icon>
+              <svg v-if="logro.completed" class="tw-w-7 tw-h-7 tw-text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <svg v-else-if="logro.inProgress" class="tw-w-7 tw-h-7 tw-text-[#34D399]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <svg v-else class="tw-w-7 tw-h-7 tw-text-[#A1A1AA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"></path></svg>
             </div>
             <div v-if="index < listLogros.length - 1" class="stepper-line" :class="{ 'completed-line': logro.completed }"></div>
           </div>

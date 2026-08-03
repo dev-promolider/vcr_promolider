@@ -1,31 +1,29 @@
 <template>
-  <div class="main_container container-fluid pt-2">
+  <div class="main_container tw-w-full tw-pt-2">
     <!-- 1. Tarjeta de métricas KPI principales (Mis Cursos, Mis Ventas, Mis Membresía, Mis Afiliados) -->
-    <div class="container my-3 px-0">
-      <div class="hallmark-card p-4 shadow-sm">
-        <DataPrimaryUser />
-      </div>
+    <div class="tw-w-full tw-mb-4">
+      <DataPrimaryUser />
     </div>
 
     <!-- 2. Sección de Tarjetas de Bienvenido & Mis Logros (Aprendizaje) -->
-    <div class="container pt-2 px-0 mb-2">
-      <div class="row d-flex align-items-stretch justify-content-between">
-        <div class="col-12 col-md-6 mb-3">
+    <div class="tw-w-full tw-pt-2 tw-mb-2">
+      <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6">
+        <div>
           <KeepLearning />
         </div>
-        <div class="col-12 col-md-6 mb-3">
+        <div>
           <Successes />
         </div>
       </div>
     </div>
 
     <!-- 3. Sección de Tarjetas de Mensajes y Ventas -->
-    <div class="container pt-2 px-0 mb-4">
-      <div class="row d-flex align-items-stretch justify-content-between">
-        <div class="col-12 col-md-6 mb-3">
+    <div class="tw-w-full tw-pt-2 tw-mb-4">
+      <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6">
+        <div>
           <MessengerColletion />
         </div>
-        <div class="col-12 col-md-6 mb-3">
+        <div>
           <ClienteVenta />
         </div>
       </div>

@@ -1,28 +1,28 @@
 <template>
-  <div class="card-sales p-3 d-flex flex-column">
+  <div class="card-sales tw-p-3 tw-flex tw-flex-col">
     <!-- Encabezado del contenedor (Siempre visible de forma instantánea) -->
-    <div class="header d-flex align-center justify-space-between mb-3">
-      <h3 class="header-title m-0">Ventas</h3>
-      <router-link to="/attribute" class="header-link text-decoration-none">Todas las ventas</router-link>
+    <div class="header tw-flex tw-items-center tw-justify-between tw-mb-3">
+      <h3 class="header-title tw-m-0">Ventas</h3>
+      <router-link to="/attribute" class="header-link tw-no-underline">Todas las ventas</router-link>
     </div>
 
     <!-- Contenido dinámico dependiente de la respuesta JSON del endpoint -->
-    <div class="sales-content-area flex-grow-1">
+    <div class="sales-content-area tw-grow">
       <!-- 1. SKELETON SCREEN: Se muestra ÚNICAMENTE mientras el endpoint está cargando -->
-      <div v-if="info == null" class="skeleton-sales-wrapper py-1">
-        <div v-for="i in 3" :key="i" class="skeleton-sale-item d-flex align-items-center mb-2 p-2">
-          <div class="skeleton-box mr-3" style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;"></div>
-          <div class="flex-grow-1">
-            <div class="skeleton-box mb-2" style="width: 65%; height: 16px; border-radius: 6px;"></div>
+      <div v-if="info == null" class="skeleton-sales-wrapper tw-py-1">
+        <div v-for="i in 3" :key="i" class="skeleton-sale-item tw-flex tw-items-center tw-mb-2 tw-p-2">
+          <div class="skeleton-box tw-mr-3 tw-w-[40px] tw-h-[40px] tw-rounded-full tw-shrink-0" style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;"></div>
+          <div class="tw-grow">
+            <div class="skeleton-box tw-mb-2" style="width: 65%; height: 16px; border-radius: 6px;"></div>
             <div class="skeleton-box" style="width: 40%; height: 14px; border-radius: 6px;"></div>
           </div>
         </div>
       </div>
 
       <!-- 2. ESTADO VACÍO: Si el endpoint retorna 0 ventas -->
-      <div v-else-if="info.length === 0 || info == 0" class="center-element no-result my-4 text-center">
-        <v-icon color="#A1A1AA" size="32" class="mb-1">mdi-chart-line-variant</v-icon>
-        <p class="text-muted m-0" style="font-size: 0.88rem;">No existen ventas registradas</p>
+      <div v-else-if="info.length === 0 || info == 0" class="center-element no-result tw-my-4 tw-text-center">
+        <svg class="tw-w-8 tw-h-8 tw-text-[#A1A1AA] tw-mb-1 tw-mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+        <p class="tw-text-gray-500 tw-m-0" style="font-size: 0.88rem;">No existen ventas registradas</p>
       </div>
 
       <!-- 3. RENDERIZADO DE VENTAS REALES: Al retornar el JSON funcional -->
@@ -30,20 +30,22 @@
         <div
           v-for="(item, index) in info"
           :key="index"
-          class="sale-item d-flex align-center justify-space-between p-3 mb-2"
+          class="sale-item tw-flex tw-items-center tw-justify-between tw-p-3 tw-mb-2"
           @click="mostrar(item.payment_id)"
         >
-          <div class="d-flex align-center overflow-hidden mr-2">
-            <b-avatar variant="success" :src="item.photo || 'https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240'" size="40" class="mr-3 flex-shrink-0"></b-avatar>
-            <div class="sale-info overflow-hidden">
-              <span class="sale-client font-weight-bold d-block text-truncate">{{ item.client }} {{ item.client_last_name }}</span>
-              <span class="sale-title text-muted text-truncate d-block">{{ item.title }}</span>
+          <div class="tw-flex tw-items-center tw-overflow-hidden tw-mr-2">
+            <div class="tw-w-[40px] tw-h-[40px] tw-rounded-full tw-overflow-hidden tw-mr-3 tw-shrink-0">
+              <img :src="item.photo || 'https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240'" class="tw-w-full tw-h-full tw-object-cover" />
+            </div>
+            <div class="sale-info tw-overflow-hidden">
+              <span class="sale-client tw-font-bold tw-block tw-truncate">{{ item.client }} {{ item.client_last_name }}</span>
+              <span class="sale-title tw-text-gray-500 tw-truncate tw-block">{{ item.title }}</span>
             </div>
           </div>
 
-          <div class="text-right flex-shrink-0">
-            <span class="sale-price font-weight-bold d-block" style="color: #10B981">${{ item.price }}</span>
-            <span class="sale-date text-muted d-block" style="font-size: 0.78rem">{{ item.created_at }}</span>
+          <div class="tw-text-right tw-shrink-0">
+            <span class="sale-price tw-font-bold tw-block" style="color: #10B981">${{ item.price }}</span>
+            <span class="sale-date tw-text-gray-500 tw-block" style="font-size: 0.78rem">{{ item.created_at }}</span>
           </div>
         </div>
       </div>

@@ -1,37 +1,39 @@
 <template>
-  <div class="card-message p-3 d-flex flex-column">
+  <div class="card-message tw-p-3 tw-flex tw-flex-col">
     <!-- Encabezado del contenedor (Siempre visible de forma instantánea) -->
-    <div class="header d-flex align-center justify-space-between mb-3">
-      <h3 class="header-title m-0">Mensajes</h3>
-      <router-link to="/messages" class="header-link text-decoration-none">Todos los mensajes</router-link>
+    <div class="header tw-flex tw-items-center tw-justify-between tw-mb-3">
+      <h3 class="header-title tw-m-0">Mensajes</h3>
+      <router-link to="/messages" class="header-link tw-no-underline">Todos los mensajes</router-link>
     </div>
 
     <!-- Contenido dinámico dependiente de la respuesta JSON del endpoint -->
-    <div class="messages-content-area flex-grow-1">
+    <div class="messages-content-area tw-grow">
       <!-- 1. SKELETON SCREEN: Se muestra ÚNICAMENTE mientras el endpoint está consultando datos -->
-      <div v-if="getLastMessages == null" class="skeleton-messages-wrapper py-1">
-        <div v-for="i in 3" :key="i" class="skeleton-message-item d-flex align-items-center mb-2 p-2">
-          <div class="skeleton-box mr-3" style="width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;"></div>
-          <div class="flex-grow-1">
-            <div class="skeleton-box mb-2" style="width: 55%; height: 16px; border-radius: 6px;"></div>
+      <div v-if="getLastMessages == null" class="skeleton-messages-wrapper tw-py-1">
+        <div v-for="i in 3" :key="i" class="skeleton-message-item tw-flex tw-items-center tw-mb-2 tw-p-2">
+          <div class="skeleton-box tw-mr-3 tw-w-[42px] tw-h-[42px] tw-rounded-full tw-shrink-0"></div>
+          <div class="tw-grow">
+            <div class="skeleton-box tw-mb-2" style="width: 55%; height: 16px; border-radius: 6px;"></div>
             <div class="skeleton-box" style="width: 85%; height: 14px; border-radius: 6px;"></div>
           </div>
         </div>
       </div>
 
       <!-- 2. ESTADO VACÍO: Si el endpoint retorna 0 mensajes -->
-      <div v-else-if="getLastMessages.length === 0 || getLastMessages == 0" class="center-element no-result my-4 text-center">
-        <v-icon color="#A1A1AA" size="32" class="mb-1">mdi-message-off-outline</v-icon>
-        <p class="text-muted m-0" style="font-size: 0.88rem;">No existen mensajes pendientes</p>
+      <div v-else-if="getLastMessages.length === 0 || getLastMessages == 0" class="center-element no-result tw-my-4 tw-text-center">
+        <svg class="tw-w-8 tw-h-8 tw-text-[#A1A1AA] tw-mb-1 tw-mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+        <p class="tw-text-gray-500 tw-m-0" style="font-size: 0.88rem;">No existen mensajes pendientes</p>
       </div>
 
       <!-- 3. RENDERIZADO DE MENSAJES REALES: Al retornar el JSON funcional -->
       <div v-else class="messages-list">
-        <div class="message-item d-flex align-center p-3 mb-2" v-for="user in getLastMessages" :key="user.id">
-          <b-avatar variant="info" :src="user.photo || 'https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240'" size="42" class="mr-3 flex-shrink-0"></b-avatar>
-          <div class="message-info flex-grow-1 overflow-hidden">
-            <span class="message-user font-weight-bold d-block">{{ user.fullname }}</span>
-            <span class="message-body text-truncate d-block">{{ user.message }}</span>
+        <div class="message-item tw-flex tw-items-center tw-p-3 tw-mb-2" v-for="user in getLastMessages" :key="user.id">
+          <div class="tw-w-[42px] tw-h-[42px] tw-rounded-full tw-overflow-hidden tw-mr-3 tw-shrink-0">
+            <img :src="user.photo || 'https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240'" class="tw-w-full tw-h-full tw-object-cover" />
+          </div>
+          <div class="message-info tw-grow tw-overflow-hidden">
+            <span class="message-user tw-font-bold tw-block">{{ user.fullname }}</span>
+            <span class="message-body tw-truncate tw-block">{{ user.message }}</span>
           </div>
         </div>
       </div>

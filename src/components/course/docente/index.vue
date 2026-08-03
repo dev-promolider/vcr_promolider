@@ -1,55 +1,34 @@
 <template>
-  <div class="mb-3 px-4" style="border-radius: 20px; margin-top: 40px; margin-right: 10px">
-    <div class="docente">
-      <div class="row no-gutters h-100">
-        <!-- Primera columna -->
-        <div class="col-2 col-md-2 mt-3 justify-content-center align-items-center">
-          <v-img :src="imgProductor" alt="Imagen del docente" class="imagen-docente" />
+  <div class="docente-card-wrapper mb-4">
+    <div class="docente-card bg-white p-3 shadow-sm" style="border-radius: 20px;">
+      <div class="d-flex align-items-center">
+        <!-- Avatar del docente -->
+        <div class="avatar-container mr-3 flex-shrink-0">
+          <img 
+            :src="formattedAvatar" 
+            alt="Imagen del docente" 
+            class="docente-avatar" 
+            @error="onAvatarError"
+          />
         </div>
 
-        <!-- Segunda columna -->
-        <div class="col-10 col-md-10">
-          <div class="h-100 d-flex flex-column">
-            <!-- Fila 1 -->
-            <div class="docente-header d-flex align-items-center">
-              <p class="text-left" style="
-                  font-size: 1.2em;
-                  font-weight: 600;
-                  margin-left: 20px;
-                  margin-top: 30px;
-                ">
-                Docente
-              </p>
-            </div>
-
-            <!-- Fila 2 para el nombre y el correo -->
-            <div class="d-flex flex-column flex-lg-row justify-content-between flex-grow-1">
-              <!-- Nombre -->
-              <div class="d-flex align-items-center">
-                <p class="text-left" style="
-                    font-size: 0.9em;
-                    font-weight: 400;
-                    margin-left: 20px;
-                    margin-top: 10px;
-                  ">
-                  {{ nameProductor }}
-                </p>
-              </div>
-
-              <!-- Correo -->
-              <div class="d-flex align-items-center mt-2 mt-md-0">
-                <p class="text-left" style="
-                    font-size: 0.9em;
-                    font-weight: 400;
-                    margin-left: 20px;
-                    margin-right: 20px;
-                    margin-top: 10px;
-                  ">
-                  {{ emailProductor }}
-                </p>
-              </div>
-            </div>
+        <!-- Información del docente -->
+        <div class="docente-info overflow-hidden flex-grow-1">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <span class="badge badge-emerald-subtle">
+              <v-icon size="14" color="#10B981" class="mr-1">mdi-account-school-outline</v-icon>
+              Docente
+            </span>
           </div>
+
+          <h6 class="docente-name text-truncate mb-1 font-weight-bold text-dark">
+            {{ nameProductor || 'Cargando docente...' }}
+          </h6>
+
+          <p class="docente-email text-truncate mb-0 text-muted small" v-if="emailProductor">
+            <v-icon size="13" color="#6B7280" class="mr-1">mdi-email-outline</v-icon>
+            {{ emailProductor }}
+          </p>
         </div>
       </div>
     </div>
@@ -63,35 +42,48 @@ export default {
   name: "Docente",
   data() {
     return {
-      error: false,
-      lessonId: "",
       courseInfo: [],
-
       imgProductor: null,
       nameProductor: "",
       emailProductor: "",
+      defaultAvatar: require("@/assets/perfil-del-usuario.png"),
     };
   },
-  components: {},
   computed: {
     ...mapState("course", ["lesson", "renderVideo", "courseSelect"]),
+    formattedAvatar() {
+      if (!this.imgProductor) return this.defaultAvatar;
+      if (this.imgProductor.startsWith("http")) return this.imgProductor;
+      return "https://promolider-storage-user.s3-accelerate.amazonaws.com/" + this.imgProductor;
+    }
   },
   methods: {
+    onAvatarError(e) {
+      if (e && e.target) {
+        e.target.src = this.defaultAvatar;
+      }
+    },
     async getCourseInfo() {
-      await this.axios
-        .get("course/details/" + this.$route.query.course)
-        .then((response) => {
-          console.log(response);
+      const courseId = this.$route.query.course;
+      if (!courseId) return;
+      
+      try {
+        const response = await this.axios.get("course/details/" + courseId);
+        if (response && response.data && response.data.data) {
           this.courseInfo = response.data.data;
-
-          this.axios
-            .get(`user/show?id=${this.courseInfo.user_id}`)
-            .then((res) => {
-              this.nameProductor = res.data.fullName;
-              this.emailProductor = res.data.email;
-              this.imgProductor = res.data.photo;
-            });
-        });
+          
+          if (this.courseInfo.user_id) {
+            const res = await this.axios.get(`user/show?id=${this.courseInfo.user_id}`);
+            if (res && res.data) {
+              this.nameProductor = res.data.fullName || res.data.name || "Docente";
+              this.emailProductor = res.data.email || "";
+              this.imgProductor = res.data.photo || null;
+            }
+          }
+        }
+      } catch (error) {
+        console.warn("Error al cargar la información del docente:", error);
+      }
     },
   },
   mounted() {
@@ -101,57 +93,35 @@ export default {
 </script>
 
 <style scoped>
-.docente {
-  background-color: white;
-  border-radius: 30px;
-  height: auto;
-  /* Permitir que el contenedor crezca */
+.docente-card {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.row {
-  height: 100%;
+.docente-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #10B981;
 }
 
-.no-gutters {
-  margin-right: 0;
-  margin-left: 0;
-}
-
-.col-2,
-.col-10 {
-  padding-right: 0;
-  padding-left: 0;
-}
-
-.docente-header {
-  height: 35px;
-}
-
-.d-flex {
-  display: flex;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.flex-grow-1 {
-  flex-grow: 1;
-}
-
-.align-items-center {
+.badge-emerald-subtle {
+  background-color: #ECFDF5;
+  color: #059669;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  display: inline-flex;
   align-items: center;
 }
 
-.text-left {
-  text-align: left;
+.docente-name {
+  font-size: 0.95rem;
 }
 
-.imagen-docente {
-  margin-left: 15px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
+.docente-email {
+  font-size: 0.825rem;
 }
 </style>

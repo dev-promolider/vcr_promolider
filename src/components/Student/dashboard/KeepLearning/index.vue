@@ -2,25 +2,25 @@
   <div class="keep-learning-wrapper">
     <!-- Skeleton Screen mientras carga el endpoint -->
     <div v-if="isLoadingCourses" class="welcome-banner-card hallmark-card skeleton-card">
-      <div class="d-flex align-center mb-3">
-        <div class="skeleton-box skeleton-badge mr-3"></div>
-        <div class="flex-grow-1">
-          <div class="skeleton-box skeleton-line-title mb-2"></div>
+      <div class="tw-flex tw-items-center tw-mb-3">
+        <div class="skeleton-box skeleton-badge tw-mr-3"></div>
+        <div class="tw-grow">
+          <div class="skeleton-box skeleton-line-title tw-mb-2"></div>
           <div class="skeleton-box skeleton-line-sub"></div>
         </div>
       </div>
-      <div class="mt-4">
+      <div class="tw-mt-4">
         <div class="skeleton-box skeleton-btn"></div>
       </div>
     </div>
 
     <!-- Contenido Real al finalizar la llamada JSON del endpoint -->
     <template v-else>
-      <v-fade-transition>
+      <transition name="fade">
         <div v-if="isWelcomeActive" class="welcome-banner-card hallmark-card">
-          <div class="d-flex align-center mb-3">
-            <div class="welcome-icon-badge mr-3">
-              <v-icon color="#10B981" size="24">mdi-sparkles</v-icon>
+          <div class="tw-flex tw-items-center tw-mb-3">
+            <div class="welcome-icon-badge tw-mr-3">
+              <svg class="tw-w-6 tw-h-6 tw-text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
             </div>
             <div>
               <h2 class="welcome-banner-title">¡Bienvenido de nuevo, {{ user || 'Estudiante' }}!</h2>
@@ -28,14 +28,14 @@
             </div>
           </div>
 
-          <div class="mt-4">
-            <v-btn color="#10B981" dark class="marketplace-pill-btn" :to="{ name: 'courses' }">
+          <div class="tw-mt-4">
+            <router-link :to="{ name: 'courses' }" class="marketplace-pill-btn tw-inline-flex tw-items-center tw-gap-2 tw-bg-gradient-to-r tw-from-[#34D399] tw-to-[#10B981] tw-text-white tw-font-bold tw-px-6 tw-py-3 tw-rounded-full tw-shadow-lg tw-no-underline hover:tw-shadow-xl tw-transition-all">
               <span>Explorar Marketplace</span>
-              <v-icon right size="18">mdi-store</v-icon>
-            </v-btn>
+              <svg class="tw-w-[18px] tw-h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"></path></svg>
+            </router-link>
           </div>
         </div>
-      </v-fade-transition>
+      </transition>
 
       <Card v-if="!isWelcomeActive && lastCourses" :course="lastCourses" :cardType="3" :width="100" />
     </template>
@@ -115,6 +115,9 @@ export default {
 </script>
 
 <style scoped>
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+.fade-enter, .fade-leave-to { opacity: 0; }
+
 .keep-learning-wrapper {
   width: 100%;
   height: 100%;

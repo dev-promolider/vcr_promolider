@@ -7,7 +7,7 @@
                         <div v-if="course.price === 0" class="free-tag-wrapper">
                             <div class="free-tag">GRATIS</div>
                         </div>
-                        <img :src="course.url_portada ? (course.url_portada.startsWith('http') ? course.url_portada.replace('s3.sa-east-1', 's3-accelerate') : 'https://promolider-storage-user.s3-accelerate.amazonaws.com/' + course.url_portada) : ''" alt="no image" class="img-cursos-portad" />
+                        <img :src="getCoverUrl(course)" alt="Portada del curso" class="img-cursos-portad" @error="onImgError" />
                     </div>
                     <div class="column info-column">
                         <div class="course-info">
@@ -73,6 +73,23 @@ export default {
         }
     },
     methods: {
+        onImgError(e) {
+            if (e && e.target) {
+                e.target.src = require("@/assets/background-login.webp");
+            }
+        },
+        getCoverUrl(course) {
+            if (!course || !course.url_portada) {
+                return require("@/assets/background-login.webp");
+            }
+            if (course.url_portada.startsWith("http")) {
+                return course.url_portada.replace("s3.sa-east-1", "s3-accelerate");
+            }
+            return (
+                "https://promolider-storage-user.s3-accelerate.amazonaws.com/" +
+                course.url_portada
+            );
+        },
         getCategoryName(id) {
             const category = this.categories.find((cat) => cat.id === id);
             return category ? category.name : "Categoría no encontrada";
