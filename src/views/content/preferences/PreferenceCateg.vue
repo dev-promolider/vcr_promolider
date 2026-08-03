@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { authGet, authRemove } from "@/helpers/authStorage";
 export default {
   data() {
     return {
@@ -71,9 +72,9 @@ export default {
           .post("/preferences/add", this.preferences)
           .then((r) => {
             console.log(r.data);
-            const status_user = localStorage.getItem("status_preference");
+            const status_user = authGet("status_preference");
             if (status_user == 0) {
-              localStorage.removeItem("status_preference");
+              authRemove("status_preference");
               window.location.reload(true);
             }
           })

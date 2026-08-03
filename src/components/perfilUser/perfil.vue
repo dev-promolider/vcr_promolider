@@ -215,8 +215,9 @@
 
 <script>
 import { mapState } from "vuex";
-import SectionTitle from "../Navbar/SectionTitle.vue";
 
+import SectionTitle from "../Navbar/SectionTitle.vue";
+import { authGet, authSet } from "@/helpers/authStorage";
 export default {
   name: "perfil",
   components: {
@@ -244,24 +245,24 @@ export default {
       subido: null,
       mostrar: null,
       selectedFile: null,
-      picture: localStorage.getItem("photo_user"),
+      picture: authGet("photo_user"),
 
       photo: "",
       userUp: {
-        email: localStorage.getItem("email_user"),
-        name: localStorage.getItem("name_user"),
-        last_name: localStorage.getItem("last_name_user"),
-        date_birth: localStorage.getItem("date_birth_user"),
-        country: localStorage.getItem("country_user"),
-        biography: localStorage.getItem("biography_user"),
-        city: localStorage.getItem("city"),
+        email: authGet("email_user"),
+        name: authGet("name_user"),
+        last_name: authGet("last_name_user"),
+        date_birth: authGet("date_birth_user"),
+        country: authGet("country_user"),
+        biography: authGet("biography_user"),
+        city: authGet("city"),
         rol: "",
         plan: "",
       },
       cuaDetalles: "",
       pais: [],
       namePais: [],
-      compEmail: localStorage.getItem("email_user"),
+      compEmail: authGet("email_user"),
       varEmail: 0,
       varCountryInit: [],
       actual_pass: "",
@@ -276,9 +277,9 @@ export default {
     };
   },
   created() {
-    this.photo = localStorage.getItem("photo_user");
-    this.userUp.email = localStorage.getItem("email_user");
-    this.cuaDetalles = localStorage.getItem("name_user");
+    this.photo = authGet("photo_user");
+    this.userUp.email = authGet("email_user");
+    this.cuaDetalles = authGet("name_user");
     this.userAccountType();
     this.getUserInfo();
     this.getDocumentTypes();
@@ -446,7 +447,7 @@ export default {
 
     list() {
       this.axios.get(`/profile/info`).then((res) => {
-        localStorage.setItem("photo_user", res.data.photo);
+        authSet("photo_user", res.data.photo);
         this.subido = false;
         this.file = null;
         this.loadingSaveImage = false;

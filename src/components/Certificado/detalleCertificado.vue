@@ -16,7 +16,7 @@
            </div>-->
            <div class="row justify-content-center" >
                 <div id="template" >
-                    <div v-if="certificate" v-html="certificate.certificate" >                           
+                    <div v-if="certificate" v-html="sanitize(certificate.certificate)" >                           
                     </div>
                 </div>
            </div>
@@ -29,6 +29,7 @@
 
 <script>
 import html2pdf from "html2pdf.js";
+import { sanitizeHtml } from "@/helpers/sanitizeHtml";
 export default {
     name: 'VirtualClassroomDetallecertificado',
 
@@ -51,6 +52,7 @@ export default {
     mounted() {  
     },
     methods: {
+        sanitize: sanitizeHtml,
         async createPDF(){
             let template = document.getElementById('template');
             

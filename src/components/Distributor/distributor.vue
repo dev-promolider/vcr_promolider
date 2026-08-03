@@ -16,10 +16,11 @@
     </div>
 </template>
 <script>
+import { authGet } from "@/helpers/authStorage";
 export default {
     data(){
         return {
-            userName: localStorage.getItem("name_user")
+            userName: authGet("name_user")
         }
     } 
 }

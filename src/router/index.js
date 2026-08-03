@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import { authGet } from "../helpers/authStorage";
 
 const Dashboard = () => import("../views/content/contenedor/Contenedor.vue");
 const Home = () => import("../views/content/dashboard/Dashboard.vue");
@@ -192,8 +193,11 @@ const router = new VueRouter({
   routes,
 });
 
+// Nota de seguridad: esta guarda es solo UX, NO es un control de seguridad.
+// Cualquier valor en access_token la satisface. La autorización real debe
+// validarse en cada endpoint del backend (auth:sanctum + policies).
 router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem("access_token");
+  let token = authGet("access_token");
   let autenticado = to.matched.some((record) => record.meta.autenticado);
   let exception = to.matched.some(
     (record) => record.meta.autenticado === false

@@ -152,6 +152,7 @@ import CardList from "./cards/cardList.vue";
 import loadingCourses from "@/components/courses/loadingCourses";
 import SectionTitle from "../Navbar/SectionTitle.vue";
 import { mapState } from "vuex";
+import { authGet } from "@/helpers/authStorage";
 
 export default {
   name: "Courses",
@@ -163,7 +164,7 @@ export default {
   },
   data() {
     return {
-      cuenta: localStorage.getItem("id_account_type"),
+      cuenta: authGet("id_account_type"),
       informacion: [],
       lord: true,
       limite: 5,

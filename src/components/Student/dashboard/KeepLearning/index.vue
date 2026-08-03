@@ -45,6 +45,7 @@
 <script>
 // import { mapState } from 'vuex'
 import Card from "@/components/courses/cards";
+import { authGet } from "@/helpers/authStorage";
 export default {
   components: {
     Card,
@@ -55,7 +56,7 @@ export default {
       isLoadingCourses: true,
       isWelcomeActive: false,
       lastCourses: null,
-      user: localStorage.getItem("name_user"),
+      user: authGet("name_user"),
     };
   },
   methods: {

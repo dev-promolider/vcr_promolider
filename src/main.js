@@ -9,13 +9,26 @@ import vueTimeago from "vue-timeago";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import { authGet, authRemove } from "./helpers/authStorage";
 
 Vue.config.productionTip = false;
 
-axios.defaults.baseURL = process.env.VUE_APP_API_URL + "/api/v1";
+const apiUrl = process.env.VUE_APP_API_URL || "";
+axios.defaults.baseURL = apiUrl + "/api/v1";
+
+// En producción, exigir HTTPS en la API para evitar robo del bearer por HTTP
+if (process.env.NODE_ENV === "production") {
+  if (!/^https:\/\//i.test(apiUrl) && !/^\/\/[^/]+$/i.test(apiUrl)) {
+    console.error(
+      "[Seguridad] La API está configurada con HTTP en producción. " +
+        "El token se enviaría sin cifrado. Abortando arranque."
+    );
+    throw new Error("Configuración insegura: VUE_APP_API_URL debe usar HTTPS en producción.");
+  }
+}
 
 axios.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
+  const token = authGet("access_token");
   config.headers.Authorization = token ? `Bearer ${token}` : "";
   return config;
 });
@@ -26,7 +39,7 @@ axios.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem("access_token");
+      authRemove("access_token");
       router.push("/login");
     }
     return Promise.reject(error);

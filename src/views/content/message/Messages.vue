@@ -4,6 +4,7 @@
 
 <script>
 import Message from "@/components/message";
+import { authGet } from "@/helpers/authStorage";
 export default {
   name: "Messages",
   components: {
@@ -13,8 +14,8 @@ export default {
   data() {
     return {
       user: {
-        id: localStorage.getItem("id_user"),
-        photo_user: localStorage.getItem("photo_user"),
+        id: authGet("id_user"),
+        photo_user: authGet("photo_user"),
       },
     };
   },

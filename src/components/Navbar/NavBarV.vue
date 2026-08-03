@@ -247,10 +247,10 @@
 
               <div class="item-content-wrapper">
                 <div class="item-top-row tw-mb-1">
-                  <h4 class="item-title tw-text-sm tw-m-0" v-html="item.title"></h4>
+                  <h4 class="item-title tw-text-sm tw-m-0">{{ item.title }}</h4>
                   <span class="tw-text-[11px] tw-text-[#9CA3AF] tw-font-semibold tw-shrink-0">{{ formatDate(item.created_at) }}</span>
                 </div>
-                <p class="item-unit-price tw-text-xs tw-text-[#9CA3AF] tw-line-clamp-2" v-html="item.subtitle"></p>
+                <p class="item-unit-price tw-text-xs tw-text-[#9CA3AF] tw-line-clamp-2">{{ item.subtitle }}</p>
               </div>
             </div>
           </div>
@@ -270,6 +270,7 @@
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import QuestionDaily from "@/components/Student/questions/daily/index";
+import { authGet, clearAuth } from "@/helpers/authStorage";
 
 export default {
   name: "NavBarV",
@@ -392,7 +393,7 @@ export default {
     },
     async fetchUserPoints() {
       try {
-        const userId = localStorage.getItem("id_user");
+        const userId = authGet("id_user");
         if (userId) {
           await this.getPoints(userId);
         }
@@ -401,11 +402,7 @@ export default {
       }
     },
     closeSession() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("status_user");
-      localStorage.removeItem("name_user");
-      localStorage.removeItem("email_user");
-      localStorage.removeItem("id_user");
+      clearAuth();
       this.$router.push({ name: "Login" });
     },
     async getRole() {

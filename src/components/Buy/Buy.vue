@@ -153,13 +153,21 @@ export default {
           onApprove: (data, actions) => {
             const id = this.id_course;
             const axios = this.axios;
-            this.paidFor = true;
 
-            return axios
-              .post("/cart/buy-course", { id_course: id })
-              .then(function () {
-                return actions.order.capture().then(function () { });
+            return actions.order
+              .capture()
+              .then((details) => {
+                this.paidFor = true;
+                return axios.post("/cart/buy-course", {
+                  id_course: id,
+                  order_id: data.orderID,
+                  payer_id: data.payerID,
+                  payment_source: details
+                    ? details.payment_source
+                    : undefined,
+                });
               })
+              .then(function () {})
               .catch((err) => {
                 console.log(err);
               });

@@ -48,6 +48,7 @@ import DashboardProducer from "@/components/dashboard";
 import DashboardStudent from "@/components/Student/dashboard";
 import DashboardDistributor from "@/components/Distributor/distributor";
 import VueWinWheel from "@/components/Student/dashboard/Roulette";
+import { authGet } from "@/helpers/authStorage";
 
 export default {
   name: "Dashboard",
@@ -66,7 +67,7 @@ export default {
     };
   },
   async created() {
-    let role = localStorage.getItem("rol_user") || localStorage.getItem("role_user");
+    let role = authGet("rol_user") || authGet("role_user");
     try {
       if (!role) {
         const res = await this.axios.get("/user/get-rolename");

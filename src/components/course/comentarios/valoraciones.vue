@@ -138,6 +138,7 @@
 import { mapActions, mapGetters, mapState } from "vuex";
 import vueShowMoreText from "vue-show-more-text";
 import moment from "moment";
+import { authGet } from "@/helpers/authStorage";
 export default {
   components: {
     vueShowMoreText,
@@ -148,7 +149,7 @@ export default {
       alert2: false,
       alertMessage: "",
       cardRender: 0,
-      img: localStorage.getItem("photo_user"),
+      img: authGet("photo_user"),
       useId: "",
       comentarios: [],
       newRating: {

@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { authSet } from "../../helpers/authStorage";
+
 export default {
     data() {
         return {
@@ -41,23 +43,25 @@ export default {
                         (data?.role && data.role[0]) ||
                         user?.id_account_type ||
                         "";
-                    localStorage.setItem("rol_user", roleId);
-                    localStorage.setItem("id_user", user.id);
-                    localStorage.setItem("access_token", access_token);
-                    localStorage.setItem("name_user", user.name);
-                    localStorage.setItem("email_user", user.email);
+                    authSet("rol_user", roleId);
+                    authSet("id_user", user.id);
+                    authSet("access_token", access_token);
+                    authSet("name_user", user.name);
+                    authSet("email_user", user.email);
+                    authSet("id_account_type", user.id_account_type);
                     localStorage.setItem("mode", "private");
                     localStorage.setItem("showPrivateNavbar", true);
                     localStorage.setItem("showPublicNavbar", false);
                     localStorage.setItem("showPublicFooter", false);
-                    localStorage.setItem("id_account_type",user.id_account_type );
+
+                    // Limpiar credenciales de la URL inmediatamente para reducir exposición
+                    this.$router.replace({ name: "home" }).catch(() => {});
 
                     if (obj[2] == 'course_intro') {
                         this.$router.push(`/producto/${obj[3]}/${obj[4]}`);
                     } else if (obj[2] == 'purchased_courses') {
                         this.$router.push(`/mis-cursos/`);
                     } else if (obj[2] == 'preview') {
-                        //alert(user.email);
                         this.$router.push(`/buy-cursos/${id}`);
                         setTimeout(this.myFunction, 2000);
                         //window.location.reload();

@@ -36,6 +36,7 @@ import NavBarV from "@/components/Navbar/NavBarV.vue";
 import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
 import ShoppingCartModal from "@/components/Cart/ShoppingCartModal.vue";
 import { mapState } from "vuex";
+import { authGet } from "@/helpers/authStorage";
 
 export default {
   name: "Contenedor",
@@ -54,7 +55,7 @@ export default {
     ...mapState("course", ["courseHover"]),
   },
   created() {
-    this.status_user = localStorage.getItem("status_preference");
+    this.status_user = authGet("status_preference");
     if (this.status_user == 0) {
       this.mostrar = !this.mostrar;
     }

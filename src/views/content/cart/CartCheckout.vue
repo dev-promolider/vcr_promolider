@@ -248,6 +248,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { authGet } from '@/helpers/authStorage';
 
 export default {
   name: 'CartCheckout',
@@ -323,7 +324,7 @@ export default {
 
     async getWalletBalance() {
       try {
-        this.userId = localStorage.getItem('id_user');
+        this.userId = authGet('id_user');
         if (!this.userId) return;
         const res = await this.axios.get(`/reports/mymovements/${this.userId}`);
         if (res.data && res.data.data) {
@@ -419,11 +420,15 @@ export default {
             });
           },
           onApprove: async (data, actions) => {
+            await actions.order.capture();
             for (const item of this.cartItems) {
-              await this.axios.post('/cart/buy-course', { id_course: item.id });
+              await this.axios.post('/cart/buy-course', {
+                id_course: item.id,
+                order_id: data.orderID,
+                payer_id: data.payerID,
+              });
             }
             this.clearCart();
-            await actions.order.capture();
             if (this.$message) this.$message.success('¡Pago con PayPal realizado exitosamente!');
             this.$router.push({ name: 'suscription-user' }).catch(() => {});
           },

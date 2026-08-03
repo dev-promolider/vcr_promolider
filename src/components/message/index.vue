@@ -148,6 +148,7 @@
 <script>
 import Echo from "laravel-echo";
 import moment from "moment";
+import { authGet } from "@/helpers/authStorage";
 
 window.Pusher = require("pusher-js");
 
@@ -168,10 +169,10 @@ export default {
       general: [],
       name_user: null,
       email: null,
-      idOne: localStorage.getItem("id_user"),
-      session_user_name: `${localStorage.getItem(
+      idOne: authGet("id_user"),
+      session_user_name: `${authGet(
         "name_user"
-      )} ${localStorage.getItem("last_name_user")}`,
+      )} ${authGet("last_name_user")}`,
       idTwo: null,
       message_input: null,
       mensaje: "",
@@ -233,11 +234,11 @@ export default {
             cluster: "mt1",
             wsHost: "crm.promolider.org",
             wsPort: 6001,
-            wssPort: 6001,
-            forceTLS: false,
-            encrypted: false,
+            wssPort: 443,
+            forceTLS: true,
+            encrypted: true,
             disableStats: true,
-            enabledTransports: ["ws", "wss"],
+            enabledTransports: ["wss"],
             auth: {
               headers: {
                 "Access-Control-Allow-Origin": "*",

@@ -60,7 +60,7 @@
         <p><strong>Comment Type:</strong> {{ commentType }}</p>
         <p><strong>All Comments Length:</strong> {{ comments.length }}</p>
         <p><strong>Filtered Comments Length:</strong> {{ filteredComments.length }}</p>
-        <p><strong>User ID:</strong> {{ localStorage.getItem('id_user') }}</p>
+        <p><strong>User ID:</strong> {{ debugUserId }}</p>
         <p><strong>Course Active User ID:</strong> {{ course_active?.user_id }}</p>
         <p><strong>Lesson ID:</strong> {{ lesson?.id }}</p>
         <p><strong>⚠️ ISSUE DETECTADO:</strong> El backend no envía información sobre el tipo de comentario (público/privado) ni IDs de usuario. Mostrando todos los comentarios.</p>
@@ -154,6 +154,7 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 import vueShowMoreText from "vue-show-more-text";
+import { authGet } from "@/helpers/authStorage";
 
 export default {
   name: "Comentarios",
@@ -162,7 +163,8 @@ export default {
   },
   data() {
     return {
-      img: localStorage.getItem("photo_user"),
+      img: authGet("photo_user"),
+      debugUserId: authGet("id_user"),
       commentType: "public",
       showDebugInfo: false,
       newComment: {

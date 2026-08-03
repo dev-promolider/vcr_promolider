@@ -86,8 +86,8 @@
                 <img :src="item.avatar" class="tw-w-full tw-h-full tw-object-cover" />
               </div>
               <div class="tw-flex-1 tw-min-w-0">
-                <p class="tw-text-sm tw-font-bold tw-text-gray-700 dark:tw-text-[#e2e8f0] tw-truncate" v-html="item.title"></p>
-                <p class="tw-text-xs tw-text-gray-500 dark:tw-text-[#94a3b8] tw-line-clamp-2 tw-mb-1" v-html="item.subtitle"></p>
+                <p class="tw-text-sm tw-font-bold tw-text-gray-700 dark:tw-text-[#e2e8f0] tw-truncate">{{ item.title }}</p>
+                <p class="tw-text-xs tw-text-gray-500 dark:tw-text-[#94a3b8] tw-line-clamp-2 tw-mb-1">{{ item.subtitle }}</p>
                 <timeago class="tw-text-xs tw-font-bold tw-text-gray-600 dark:tw-text-[#94a3b8]" :datetime="item.created_at" :auto-update="60"></timeago>
               </div>
             </div>
@@ -152,6 +152,8 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 import QuestionDaily from "../Student/questions/daily/index";
+import { authGet } from "../../helpers/authStorage";
+import { clearAuth } from "../../helpers/authStorage";
 
 export default {
   components: {
@@ -231,9 +233,9 @@ export default {
     },
 
     ...mapActions("course", ["getPoints"]),
-    async getpoints() {
+    async     getpoints() {
       try {
-        const userId = localStorage.getItem("id_user");
+        const userId = authGet("id_user");
         if (userId) {
           await this.getPoints(userId);
         }
@@ -259,9 +261,7 @@ export default {
     },
     optionAction(action, link) {
       if (action === "closeSesion") {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("status_user");
-        localStorage.removeItem("name_user");
+        clearAuth();
         this.$router.push({ name: link });
       }
     },
@@ -326,9 +326,9 @@ export default {
       }
     },
     getUserProfileData() {
-      this.userName = localStorage.getItem("name_user");
-      this.userEmail = localStorage.getItem("email_user");
-      this.profileImg = localStorage.getItem("photo_user");
+      this.userName = authGet("name_user");
+      this.userEmail = authGet("email_user");
+      this.profileImg = authGet("photo_user");
     },
   },
 

@@ -20,13 +20,14 @@
 <script>
 import Comment from "./Comment/Comment.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
+import { authGet } from "@/helpers/authStorage";
 export default {
   components: {
     Comment,
   },
   data() {
     return {
-      userPic: localStorage.getItem("photo_user"),
+      userPic: authGet("photo_user"),
       commentContent: "",
       // comments: [
       // //   { id: 1, avatar: 'avatar1.png', name: 'Dayana', text: 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.', date: '18 de Diciembre de 2023 08:52' },
@@ -59,7 +60,7 @@ export default {
       const trimmedComment = this.commentContent.trim();
       if (trimmedComment !== "" && trimmedComment.length <= 368) {
         this.setDynamicComments({
-          id_user: localStorage.getItem("id_user"),
+          id_user: authGet("id_user"),
           id_course_games: this.$route.params.id,
           content: trimmedComment,
         });

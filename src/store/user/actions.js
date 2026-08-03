@@ -1,5 +1,6 @@
 import axios from "axios";
 import router from "../../router";
+import { authSet } from "../../helpers/authStorage";
 
 export const actionUser = async (context, body) => {
   try {
@@ -19,20 +20,20 @@ export const actionUser = async (context, body) => {
         userData?.id_account_type ||
         "";
 
-      // Guardar en localStorage
-      localStorage.setItem("rol_user", roleId);
-      localStorage.setItem("id_user", userData.id);
-      localStorage.setItem("access_token", authToken);
-      localStorage.setItem("status_preference", userData.status_preference);
-      localStorage.setItem("name_user", userData.name);
-      localStorage.setItem("last_name_user", userData.last_name);
-      localStorage.setItem("photo_user", userData.photo);
-      localStorage.setItem("date_birth_user", userData.date_birth);
-      localStorage.setItem("email_user", userData.email);
-      localStorage.setItem("country_user", userData.id_country);
-      localStorage.setItem("biography_user", userData.biography);
-      localStorage.setItem("city", userData.city);
-      localStorage.setItem("id_account_type", userData.id_account_type);
+      // Guardar datos sensibles en sessionStorage (no en localStorage)
+      authSet("rol_user", roleId);
+      authSet("id_user", userData.id);
+      authSet("access_token", authToken);
+      authSet("status_preference", userData.status_preference);
+      authSet("name_user", userData.name);
+      authSet("last_name_user", userData.last_name);
+      authSet("photo_user", userData.photo);
+      authSet("date_birth_user", userData.date_birth);
+      authSet("email_user", userData.email);
+      authSet("country_user", userData.id_country);
+      authSet("biography_user", userData.biography);
+      authSet("city", userData.city);
+      authSet("id_account_type", userData.id_account_type);
 
       router.push("/home");
     } else {

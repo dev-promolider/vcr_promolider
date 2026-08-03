@@ -81,6 +81,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import { authGet } from "@/helpers/authStorage";
 
 export default {
   name: "DatosCurso",
@@ -91,7 +92,7 @@ export default {
       index: null,
       endClass: false,
       firstClass: false,
-      cuenta: localStorage.getItem("id_account_type"),
+      cuenta: authGet("id_account_type"),
       nombre: "",
       photo: null,
       dialog: false,
@@ -105,7 +106,7 @@ export default {
       },
       loading: false,
       isMessageLoading: false,
-      idProductor: localStorage.getItem("id_user"),
+      idProductor: authGet("id_user"),
     };
   },
   computed: {

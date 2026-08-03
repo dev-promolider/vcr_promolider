@@ -11,6 +11,7 @@
 
 <script>
 import Card from "@/components/courses/cards/index.vue";
+import { authGet } from "@/helpers/authStorage";
 
 export default {
   name: "CarrouselCourseViewed",
@@ -19,7 +20,7 @@ export default {
   },
   data() {
     return {
-      username: localStorage.getItem("name_user"),
+      username: authGet("name_user"),
       lastCourses: [],
       peeked: false,
       timeout: null,
