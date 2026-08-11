@@ -66,7 +66,7 @@ export default {
           return rawIcon;
         }
         const cleanPath = rawIcon.startsWith("/") ? rawIcon : `/${rawIcon}`;
-        const baseUrl = process.env.VUE_APP_API_URL_IMAGE || "https://api.promolider.org";
+        const baseUrl = process.env.VUE_APP_API_URL_IMAGE || "https://api.promolider.email";
         return `${baseUrl}${cleanPath}`;
       }
       return rawIcon;

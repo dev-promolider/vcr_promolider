@@ -232,7 +232,7 @@ export default {
             broadcaster: "pusher",
             key: "PROMOLIDER2021",
             cluster: "mt1",
-            wsHost: "crm.promolider.org",
+            wsHost: "crm.promolider.email",
             wsPort: 6001,
             wssPort: 443,
             forceTLS: true,

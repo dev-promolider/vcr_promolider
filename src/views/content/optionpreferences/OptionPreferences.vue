@@ -128,7 +128,7 @@ export default {
         return icon;
       }
       const cleanPath = icon.startsWith("/") ? icon : `/${icon}`;
-      const baseUrl = process.env.VUE_APP_API_URL_IMAGE || "https://api.promolider.org";
+      const baseUrl = process.env.VUE_APP_API_URL_IMAGE || "https://api.promolider.email";
       return `${baseUrl}${cleanPath}`;
     },
     getCategorySvgD(preference) {
