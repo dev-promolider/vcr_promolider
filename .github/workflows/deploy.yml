@@ -35,7 +35,8 @@ jobs:
 
 
       - name: Compilar aplicación (Build)
-        run: npm run build
+        run: pnpm run build
+
         env:
           VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
           VUE_APP_FRONT_URL: ${{ secrets.VUE_APP_FRONT_URL }}
