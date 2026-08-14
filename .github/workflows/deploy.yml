@@ -18,17 +18,20 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
-        with:
-          node-version: '16' # o la versión de Node que uses
-          cache: 'pnpm'
-
       - name: Instalar pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
 
       - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
+
 
       - name: Compilar aplicación (Build)
         run: npm run build
