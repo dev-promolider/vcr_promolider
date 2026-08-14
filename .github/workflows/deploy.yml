@@ -32,6 +32,9 @@ jobs:
 
       - name: Compilar aplicación (Build)
         run: npm run build
+        env:
+          VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
+          VUE_APP_FRONT_URL: ${{ secrets.VUE_APP_FRONT_URL }}
 
       - name: Desplegar a servidor por SCP
         uses: appleboy/scp-action@8a92fcdb1eb4ffbf538b2fa286739760aac8a95b # v0.1.4
@@ -43,3 +46,4 @@ jobs:
           source: "dist/*"
           target: ${{ secrets.PROJECT_PATH }}
           strip_components: 1
+
