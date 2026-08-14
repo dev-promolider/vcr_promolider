@@ -1,3 +1,6 @@
+packages:
+  - '.'
+
 allowBuilds:
   '@parcel/watcher': true
   bootstrap-vue: true
@@ -5,3 +8,4 @@ allowBuilds:
   ejs: true
   vue-demi: true
   yorkie: true
+
