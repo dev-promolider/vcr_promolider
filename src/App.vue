@@ -1,6 +1,8 @@
 <template>
   <div id="app" class="tw-min-h-screen tw-bg-[#e2e8f0] dark:tw-bg-[#0a0f18] tw-font-jakarta-sans tw-text-gray-800 dark:tw-text-slate-200 tw-transition-colors tw-duration-300">
     <router-view />
+    <!-- Portal destino para popovers del Marketplace (escapa del overflow del carousel) -->
+    <portal-target name="marketplace-popovers" multiple />
   </div>
 </template>
 
@@ -20,8 +22,8 @@ export default {
 <style>
 /* Scrollbar personalizado */
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px #10B981;
-  box-shadow: inset 0 0 6px #10B981;
+  -webkit-box-shadow: inset 0 0 6px var(--primary-color);
+  box-shadow: inset 0 0 6px var(--primary-color);
   border-radius: 10px;
   background-color: #121614;
 }
@@ -33,9 +35,9 @@ export default {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px #10B981;
-  box-shadow: inset 0 0 6px #10B981;
-  background-color: #10B981;
+  -webkit-box-shadow: inset 0 0 6px var(--primary-color);
+  box-shadow: inset 0 0 6px var(--primary-color);
+  background-color: var(--primary-color);
 }
 
 /* Animacion esqueleto de pre-carga */
@@ -90,15 +92,15 @@ html.dark body .faq-category-btn {
 
 html.dark-mode body .faq-category-btn:hover,
 html.dark body .faq-category-btn:hover {
-  border-color: #10B981 !important;
-  color: #10B981 !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 html.dark-mode body .faq-category-btn.active,
 html.dark body .faq-category-btn.active {
-  background: #10B981 !important;
+  background: var(--primary-color) !important;
   color: #FFFFFF !important;
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4) !important;
 }
 
@@ -115,7 +117,7 @@ html.dark body .faq-accordion-item:hover {
 
 html.dark-mode body .faq-accordion-item.open,
 html.dark body .faq-accordion-item.open {
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   background: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 24, 38, 0.8) 100%) !important;
   box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2) !important;
 }
@@ -163,14 +165,14 @@ html.dark body .preference-card {
 
 html.dark-mode body .preference-card:hover,
 html.dark body .preference-card:hover {
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 12px 28px rgba(16, 185, 129, 0.2) !important;
 }
 
 html.dark-mode body .preference-card.active,
 html.dark body .preference-card.active {
   background: rgba(22, 30, 46, 0.85) !important;
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 10px 28px rgba(16, 185, 129, 0.25) !important;
 }
 
@@ -182,8 +184,8 @@ html.dark body .preference-badge-icon {
 
 html.dark-mode body .preference-card.active .preference-badge-icon,
 html.dark body .preference-card.active .preference-badge-icon {
-  background: #10B981 !important;
-  border-color: #10B981 !important;
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 
 html.dark-mode body .preference-title,
@@ -204,7 +206,7 @@ html.dark body .preference-status-tag {
 
 html.dark-mode body .preference-status-tag.tag-active,
 html.dark body .preference-status-tag.tag-active {
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   background: rgba(16, 185, 129, 0.18) !important;
 }
 
@@ -336,9 +338,9 @@ html.dark-mode body .toggle-btn.active,
 html.dark body .toggle-btn.active,
 html.dark-mode body .rating-pill.active,
 html.dark body .rating-pill.active {
-  background: #10B981 !important;
+  background: var(--primary-color) !important;
   color: #FFFFFF !important;
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
 }
 
 html.dark-mode body .image-container,
@@ -424,7 +426,7 @@ html.dark body .tab-btn {
 
 html.dark-mode body .tab-btn.active,
 html.dark body .tab-btn.active {
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
 }
 
 /* ======================================================
@@ -478,7 +480,7 @@ html.dark body .empty-icon-circle {
 html.dark-mode body .course-card-item.active,
 html.dark body .course-card-item.active {
   background: rgba(16, 185, 129, 0.15) !important;
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
 }
 
 html.dark-mode body .custom-table thead th,
@@ -867,7 +869,7 @@ html.dark body .book-tabs button {
 html.dark-mode body .download-file-btn,
 html.dark body .download-file-btn {
   background: #161e2e !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -925,8 +927,8 @@ html.dark body .read-more-btn span {
 
 html.dark-mode body .ecommerce-course-card:hover .read-more-btn,
 html.dark body .ecommerce-course-card:hover .read-more-btn {
-  background-color: #10B981 !important;
-  border-color: #10B981 !important;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
   color: #ffffff !important;
 }
 
@@ -961,13 +963,13 @@ html.dark-mode body .cart-btn-icon,
 html.dark body .cart-btn-icon {
   background-color: rgba(16, 185, 129, 0.15) !important;
   border-color: rgba(16, 185, 129, 0.4) !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
 }
 
 html.dark-mode body .cart-btn-icon svg,
 html.dark body .cart-btn-icon svg {
-  stroke: #10B981 !important;
-  color: #10B981 !important;
+  stroke: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 </style>
 

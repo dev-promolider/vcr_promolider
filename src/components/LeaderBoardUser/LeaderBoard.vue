@@ -187,7 +187,7 @@ export default {
 }
 
 .custom-course-select:focus {
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
 }
 

@@ -1,10 +1,12 @@
 import Vue from "vue";
+// Trigger HMR
 import axios from "axios";
 import VueAxios from "vue-axios";
 import VueHorizontal from "vue-horizontal";
 import VueMeta from "vue-meta";
 import VueSocialSharing from "vue-social-sharing";
 import vueTimeago from "vue-timeago";
+import PortalVue from "portal-vue";
 
 import App from "./App.vue";
 import router from "./router";
@@ -55,6 +57,7 @@ Vue.use(VueMeta, {
 Vue.use(VueAxios, axios);
 Vue.use(VueHorizontal);
 Vue.use(VueSocialSharing);
+Vue.use(PortalVue);
 
 Vue.use(vueTimeago, {
   name: "Timeago",

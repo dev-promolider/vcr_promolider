@@ -1,9 +1,9 @@
 <template>
   <header class="top-navbar" ref="topbar">
     <!-- Brand -->
-    <div class="topbar-brand">
-      <span class="topbar-title">Promolíder</span>
-      <span class="topbar-subtitle">Aula Virtual</span>
+    <div class="topbar-brand tw-flex tw-items-center">
+      <img v-show="!isDarkMode" src="@/assets/logos/navbar-b.webp" alt="Promolíder" class="tw-h-6 tw-w-auto" />
+      <img v-show="isDarkMode" src="@/assets/logos/navbar-w.webp" alt="Promolíder" class="tw-h-6 tw-w-auto" />
     </div>
 
     <!-- Actions -->
@@ -23,23 +23,120 @@
         <span class="topbar-icon-label">Pregunta</span>
       </button>
 
+      <!-- Wishlist -->
+      <div class="topbar-wishlist-menu tw-relative">
+        <button @click="openWishlistModal" class="topbar-icon-btn tw-relative" title="Lista de Deseos" id="topbar-btn-wishlist">
+          <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg>
+          <span v-if="wishlistCount > 0" class="topbar-badge badge-cart">{{ wishlistCount }}</span>
+          <span class="topbar-icon-label">Deseos</span>
+        </button>
+
+        <transition name="dropdown">
+          <WishlistModal />
+        </transition>
+      </div>
+
       <!-- Cart -->
-      <button @click="openCartModal" class="topbar-icon-btn tw-relative" title="Carrito" id="topbar-btn-cart">
-        <svg class="tw-w-5 tw-h-5 tw-text-[#18d600]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"></path>
-        </svg>
-        <span v-if="itemCount > 0" class="topbar-badge tw-bg-[#18d600] tw-text-slate-950">{{ itemCount }}</span>
-        <span class="topbar-icon-label">Carrito</span>
-      </button>
+      <div class="topbar-cart-menu tw-relative">
+        <button @click="openCartModal" class="topbar-icon-btn tw-relative" title="Carrito" id="topbar-btn-cart">
+          <svg class="tw-w-5 tw-h-5 tw-text-[#18d600]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"></path>
+          </svg>
+          <span v-if="itemCount > 0" class="topbar-badge badge-cart">{{ itemCount }}</span>
+          <span class="topbar-icon-label">Carrito</span>
+        </button>
+
+        <transition name="dropdown">
+          <ShoppingCartModal v-show="isCartOpen" />
+        </transition>
+      </div>
 
       <!-- Notifications -->
-      <button @click="openNotificationsPanel" class="topbar-icon-btn tw-relative" title="Notificaciones" id="topbar-btn-notifications">
-        <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-        </svg>
-        <span v-if="unreadCount > 0" class="topbar-badge tw-bg-rose-500 tw-text-white">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
-        <span class="topbar-icon-label">Notifs.</span>
-      </button>
+      <div class="topbar-notif-menu tw-relative">
+        <button @click="openNotificationsPanel" class="topbar-icon-btn tw-relative" title="Notificaciones" id="topbar-btn-notifications">
+          <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+          </svg>
+          <span v-if="unreadCount > 0" class="topbar-badge badge-notif">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
+          <span class="topbar-icon-label">Notifs.</span>
+        </button>
+
+        <transition name="dropdown">
+          <div v-if="isNotifPanelOpen" class="notif-flyout" id="topbar-notif-dropdown">
+            <div class="nf-header-top">
+              <h2 class="nf-title-main">Notificaciones</h2>
+              <router-link :to="{ name: 'option-preferences' }" class="nf-settings-link">Configuración</router-link>
+            </div>
+            <div class="nf-tabs">
+              <button 
+                class="nf-tab-btn" 
+                :class="{ 'active': activeNotifTab === 'aula' }"
+                @click="activeNotifTab = 'aula'"
+              >
+                Aula Virtual
+              </button>
+              <button 
+                class="nf-tab-btn" 
+                :class="{ 'active': activeNotifTab === 'crm' }"
+                @click="activeNotifTab = 'crm'"
+              >
+                CRM
+                <span v-if="notificationsList.length > 0" class="nf-tab-badge">{{ notificationsList.length }}</span>
+              </button>
+            </div>
+
+            <div class="nf-body">
+              <template v-if="activeNotifTab === 'crm'">
+                <div v-if="isLoadingNotifications" class="tw-space-y-3">
+                <div v-for="i in 3" :key="i" class="tw-animate-pulse tw-flex tw-items-center tw-gap-4 tw-p-4 tw-rounded-2xl" style="background-color: var(--card-sub-bg, #f8fafc);">
+                  <div class="tw-w-10 tw-h-10 tw-rounded-full" style="background-color: var(--border-color, #e5e7eb);"></div>
+                  <div class="tw-flex-1 tw-space-y-2">
+                    <div class="tw-h-3 tw-rounded tw-w-3/4" style="background-color: var(--border-color, #e5e7eb);"></div>
+                    <div class="tw-h-3 tw-rounded tw-w-1/2" style="background-color: var(--border-color, #e5e7eb);"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-else-if="notificationsList.length === 0" class="tw-flex tw-flex-col tw-items-center tw-py-10 tw-text-center">
+                <div class="tw-w-16 tw-h-16 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-mb-4" style="background-color: var(--card-sub-bg, #f8fafc);">
+                  <svg class="tw-w-8 tw-h-8" style="color: var(--text-muted, #6b7280);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                </div>
+                <h3 class="tw-font-bold tw-text-base tw-mb-2" style="color: var(--text-bold, #111827);">Sin notificaciones</h3>
+                <p class="tw-text-sm tw-max-w-[240px]" style="color: var(--text-muted, #6b7280);">Te avisaremos cuando haya novedades importantes.</p>
+              </div>
+
+              <div v-else class="tw-space-y-3">
+                <div v-for="(item, index) in notificationsList" :key="index" class="nf-item">
+                  <div class="nf-item-avatar">
+                    <img v-if="item.avatar && !item.avatar.includes('default')" :src="item.avatar" class="tw-w-full tw-h-full tw-object-cover" @error="onAvatarError" />
+                    <svg v-else class="tw-w-5 tw-h-5 tw-text-[#18d600]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                  </div>
+                  <div class="tw-flex-1 tw-min-w-0">
+                    <div class="tw-flex tw-justify-between tw-items-start tw-gap-2 tw-mb-1">
+                      <h4 class="tw-font-bold tw-text-sm tw-leading-snug" style="color: var(--text-bold, #111827);">{{ item.title }}</h4>
+                      <span class="tw-text-[11px] tw-font-semibold tw-shrink-0" style="color: var(--text-muted, #6b7280);">{{ formatDate(item.created_at) }}</span>
+                    </div>
+                    <p class="tw-text-xs tw-line-clamp-2" style="color: var(--text-muted, #6b7280);">{{ item.subtitle }}</p>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+              <template v-if="activeNotifTab === 'aula'">
+                <div class="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
+                  <p class="tw-text-base" style="color: var(--text-muted, #6b7280);">Sin notificaciones.</p>
+                </div>
+              </template>
+            </div>
+
+            <div class="nf-footer">
+              <button @click="isNotifPanelOpen = false" class="nf-close-all-btn">Entendido</button>
+            </div>
+          </div>
+        </transition>
+      </div>
 
       <!-- Dark Mode Toggle -->
       <button @click="toggleDarkMode" class="topbar-icon-btn" :title="isDarkMode ? 'Modo Claro' : 'Modo Oscuro'" id="topbar-btn-darkmode">
@@ -118,82 +215,27 @@
       </div>
     </div>
 
-    <!-- ======================== NOTIFICATIONS PANEL ======================== -->
-    <div v-if="isNotifPanelOpen">
-      <div class="tw-fixed tw-inset-0 tw-z-[9990]" @click="isNotifPanelOpen = false"></div>
-      <div class="notif-flyout">
-        <div class="nf-header">
-          <div class="nf-header-left">
-            <div class="nf-icon-badge">
-              <svg class="tw-w-5 tw-h-5 tw-text-[#18d600]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-            </div>
-            <h2 class="nf-title">Notificaciones</h2>
-          </div>
-          <div class="tw-flex tw-items-center tw-gap-3">
-            <span v-if="notificationsList.length > 0" class="nf-count">{{ notificationsList.length }} {{ notificationsList.length === 1 ? 'nueva' : 'nuevas' }}</span>
-            <button @click="isNotifPanelOpen = false" class="nf-close-btn">
-              <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="nf-body">
-          <div v-if="isLoadingNotifications" class="tw-space-y-3">
-            <div v-for="i in 3" :key="i" class="tw-animate-pulse tw-flex tw-items-center tw-gap-4 tw-p-4 tw-rounded-2xl tw-bg-white/5">
-              <div class="tw-w-10 tw-h-10 tw-rounded-full tw-bg-white/10"></div>
-              <div class="tw-flex-1 tw-space-y-2">
-                <div class="tw-h-3 tw-bg-white/10 tw-rounded tw-w-3/4"></div>
-                <div class="tw-h-3 tw-bg-white/10 tw-rounded tw-w-1/2"></div>
-              </div>
-            </div>
-          </div>
-
-          <div v-else-if="notificationsList.length === 0" class="tw-flex tw-flex-col tw-items-center tw-py-10 tw-text-center">
-            <div class="tw-w-16 tw-h-16 tw-rounded-full tw-bg-white/5 tw-flex tw-items-center tw-justify-center tw-mb-4">
-              <svg class="tw-w-8 tw-h-8 tw-text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-            </div>
-            <h3 class="tw-text-white tw-font-bold tw-text-base tw-mb-2">Sin notificaciones</h3>
-            <p class="tw-text-slate-400 tw-text-sm tw-max-w-[240px]">Te avisaremos cuando haya novedades importantes.</p>
-          </div>
-
-          <div v-else class="tw-space-y-3">
-            <div v-for="(item, index) in notificationsList" :key="index" class="nf-item">
-              <div class="nf-item-avatar">
-                <img v-if="item.avatar && !item.avatar.includes('default')" :src="item.avatar" class="tw-w-full tw-h-full tw-object-cover" @error="onAvatarError" />
-                <svg v-else class="tw-w-5 tw-h-5 tw-text-[#18d600]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-              </div>
-              <div class="tw-flex-1 tw-min-w-0">
-                <div class="tw-flex tw-justify-between tw-items-start tw-gap-2 tw-mb-1">
-                  <h4 class="tw-text-white tw-font-bold tw-text-sm tw-leading-snug">{{ item.title }}</h4>
-                  <span class="tw-text-slate-500 tw-text-[11px] tw-font-semibold tw-shrink-0">{{ formatDate(item.created_at) }}</span>
-                </div>
-                <p class="tw-text-slate-400 tw-text-xs tw-line-clamp-2">{{ item.subtitle }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="nf-footer">
-          <button @click="isNotifPanelOpen = false" class="nf-close-all-btn">Entendido</button>
-        </div>
-      </div>
-    </div>
+    <!-- Global click-away overlay -->
+    <div v-if="isNotifPanelOpen || isCartOpen || isWishlistOpen" class="tw-fixed tw-inset-0 tw-z-40" @click="isNotifPanelOpen = false; toggleCart(false); toggleWishlist(false);"></div>
   </header>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import QuestionDaily from "@/components/Student/questions/daily/index";
+import ShoppingCartModal from "@/components/Cart/ShoppingCartModal.vue";
+import WishlistModal from "@/components/Wishlist/WishlistModal.vue";
 import { authGet, clearAuth } from "@/helpers/authStorage";
 
 export default {
   name: "TopBar",
-  components: { QuestionDaily },
+  components: { QuestionDaily, ShoppingCartModal, WishlistModal },
   data() {
     return {
       isDarkMode: false,
       isQuestionModalOpen: false,
       isNotifPanelOpen: false,
+      activeNotifTab: 'crm',
       isUserMenuOpen: false,
       isLoadingNotifications: false,
       notificationsList: [],
@@ -205,7 +247,8 @@ export default {
   },
   computed: {
     ...mapState("course", ["examDaily"]),
-    ...mapGetters("cart", ["itemCount"]),
+    ...mapGetters("cart", ["itemCount", "isCartOpen"]),
+    ...mapGetters("wishlist", ["wishlistCount", "isWishlistOpen"]),
     userInitials() {
       const name = this.userName || "U";
       const parts = name.trim().split(" ");
@@ -215,14 +258,37 @@ export default {
   },
   methods: {
     ...mapActions("cart", ["toggleCart"]),
+    ...mapActions("wishlist", ["toggleWishlist", "fetchWishlist"]),
     openCartModal() {
-      this.isUserMenuOpen = false;
-      this.toggleCart(true);
+      if (this.isCartOpen) {
+        this.toggleCart(false);
+      } else {
+        this.isUserMenuOpen = false;
+        this.isNotifPanelOpen = false;
+        this.toggleWishlist(false);
+        this.toggleCart(true);
+      }
+    },
+    openWishlistModal() {
+      if (this.isWishlistOpen) {
+        this.toggleWishlist(false);
+      } else {
+        this.isUserMenuOpen = false;
+        this.isNotifPanelOpen = false;
+        this.toggleCart(false);
+        this.toggleWishlist(true);
+      }
     },
     openNotificationsPanel() {
-      this.isUserMenuOpen = false;
-      this.isNotifPanelOpen = true;
-      this.fetchNotifications();
+      if (this.isNotifPanelOpen) {
+        this.isNotifPanelOpen = false;
+      } else {
+        this.isUserMenuOpen = false;
+        this.toggleCart(false);
+        this.toggleWishlist(false);
+        this.isNotifPanelOpen = true;
+        this.fetchNotifications();
+      }
     },
     async fetchNotifications() {
       this.isLoadingNotifications = true;
@@ -263,18 +329,18 @@ export default {
       this.isDarkMode = !this.isDarkMode;
       localStorage.setItem("app_theme", this.isDarkMode ? "dark" : "light");
       if (this.isDarkMode) {
-        document.documentElement.classList.add("dark-mode", "dark");
-        document.body.classList.add("dark-mode", "dark");
+        document.documentElement.classList.add("dark-mode", "dark", "tw-dark");
+        document.body.classList.add("dark-mode", "dark", "tw-dark");
       } else {
-        document.documentElement.classList.remove("dark-mode", "dark");
-        document.body.classList.remove("dark-mode", "dark");
+        document.documentElement.classList.remove("dark-mode", "dark", "tw-dark");
+        document.body.classList.remove("dark-mode", "dark", "tw-dark");
       }
     },
     initDarkMode() {
       this.isDarkMode = localStorage.getItem("app_theme") === "dark";
       if (this.isDarkMode) {
-        document.documentElement.classList.add("dark-mode", "dark");
-        document.body.classList.add("dark-mode", "dark");
+        document.documentElement.classList.add("dark-mode", "dark", "tw-dark");
+        document.body.classList.add("dark-mode", "dark", "tw-dark");
       }
     },
     closeSession() {
@@ -336,6 +402,7 @@ export default {
     this.loadUserName();
     this.getRole();
     this.fetchNotifications();
+    this.fetchWishlist();
     document.addEventListener("click", this.handleOutsideClick);
   },
   beforeDestroy() {
@@ -352,7 +419,7 @@ export default {
   position: sticky;
   top: 0;
   z-index: 28;
-  height: 64px;
+  height: 56px;
   background-color: var(--card-bg, #ffffff);
   border-bottom: 1px solid var(--border-color, #e5e7eb);
   display: flex;
@@ -395,9 +462,9 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -406,15 +473,11 @@ export default {
   position: relative;
 }
 .topbar-icon-btn:hover {
-  background-color: var(--card-sub-bg, #f1f5f9);
+  background-color: var(--card-sub-bg, rgba(128, 128, 128, 0.15));
   color: var(--text-bold, #111827);
 }
 .topbar-icon-label {
-  font-size: 9px;
-  font-weight: 600;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  line-height: 1;
-  color: inherit;
+  display: none; /* Hide labels for a more delicate look */
 }
 
 /* Badge */
@@ -426,6 +489,14 @@ export default {
   font-size: 10px; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
   padding: 0 3px; line-height: 1;
+}
+.badge-cart {
+  background-color: #18d600 !important;
+  color: #0b1120 !important;
+}
+.badge-notif {
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
 }
 
 /* Divider */
@@ -453,10 +524,18 @@ export default {
   border-color: #18d600;
   background: rgba(24, 214, 0, 0.04);
 }
+.dark .topbar-avatar-btn {
+  background: transparent;
+  border-color: #374151; /* Tailwind gray-700 */
+}
+.dark .topbar-avatar-btn:hover {
+  background: #1f2937; /* Tailwind gray-800 */
+  border-color: #18d600;
+}
 
 .topbar-avatar {
-  width: 32px; height: 32px;
-  border-radius: 10px;
+  width: 28px; height: 28px;
+  border-radius: 8px;
   background: linear-gradient(135deg, #18d600, #0db800);
   display: flex; align-items: center; justify-content: center;
   color: #fff; font-size: 12px; font-weight: 700;
@@ -523,21 +602,21 @@ export default {
 }
 
 /* =============================================
-   NOTIFICATIONS FLYOUT
+   NOTIFICATIONS FLYOUT (NOW DROPDOWN)
 ============================================= */
 .notif-flyout {
-  position: fixed;
-  top: 78px; right: 16px; bottom: 24px;
+  position: absolute;
+  top: calc(100% + 12px); right: -100px;
   width: 400px;
   max-width: calc(100vw - 32px);
-  background-color: #0f172a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 22px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  background-color: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 20px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
   display: flex; flex-direction: column;
-  overflow: hidden; z-index: 9995;
-  animation: flyIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  color: #fff;
+  overflow: hidden; z-index: 9999;
+  transform-origin: top right;
+  color: var(--text-bold, #111827);
 }
 
 @keyframes flyIn {
@@ -545,48 +624,62 @@ export default {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.nf-header {
-  padding: 18px 20px;
-  background-color: #0b1120;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  display: flex; align-items: center; justify-content: space-between;
+.nf-header-top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 20px 10px 20px;
 }
-.nf-header-left { display: flex; align-items: center; gap: 10px; }
-.nf-icon-badge {
-  width: 36px; height: 36px; border-radius: 10px;
-  background-color: rgba(24, 214, 0, 0.12);
-  border: 1px solid rgba(24, 214, 0, 0.25);
-  display: flex; align-items: center; justify-content: center;
+.nf-title-main {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem; font-weight: 800;
+  color: var(--text-bold, #111827);
+  margin: 0;
 }
-.nf-title {
-  font-family: 'Outfit', sans-serif; font-size: 1.1rem;
-  font-weight: 700; color: #fff; margin: 0;
+.nf-settings-link {
+  font-size: 0.9rem; font-weight: 500;
+  color: #8b5cf6; text-decoration: none;
+  transition: opacity 0.2s;
 }
-.nf-count { font-size: 0.8rem; font-weight: 600; color: #9ca3af; }
-.nf-close-btn {
-  width: 30px; height: 30px; border-radius: 50%;
-  background-color: rgba(255,255,255,0.07); border: none;
-  color: #9ca3af; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s ease;
+.nf-settings-link:hover { opacity: 0.8; }
+
+.nf-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  padding: 0 10px;
 }
-.nf-close-btn:hover { background-color: rgba(255,255,255,0.12); color: #fff; }
+.nf-tab-btn {
+  flex: 1; padding: 12px 10px;
+  background: transparent; border: none;
+  font-size: 0.95rem; font-weight: 600;
+  color: var(--text-muted, #9ca3af);
+  border-bottom: 2px solid transparent;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; justify-content: center; align-items: center; gap: 6px;
+}
+.nf-tab-btn.active {
+  color: var(--text-bold, #111827);
+  border-bottom-color: var(--text-bold, #111827);
+}
+.nf-tab-badge {
+  background-color: #ef4444; color: white;
+  font-size: 0.7rem; font-weight: 700;
+  padding: 2px 6px; border-radius: 10px;
+}
 
 .nf-body {
-  flex: 1; overflow-y: auto; padding: 16px;
-  background-color: #0f172a;
+  max-height: 400px; overflow-y: auto; padding: 16px;
+  background-color: var(--card-bg, #ffffff);
 }
 .nf-body::-webkit-scrollbar { width: 4px; }
-.nf-body::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+.nf-body::-webkit-scrollbar-thumb { background: var(--border-color, #e5e7eb); border-radius: 4px; }
 
 .nf-item {
   display: flex; gap: 12px; align-items: flex-start;
   padding: 12px; border-radius: 14px;
-  background-color: #1e293b;
-  border: 1px solid rgba(255,255,255,0.06);
+  background-color: var(--card-sub-bg, #f8fafc);
+  border: 1px solid var(--border-color, transparent);
   margin-bottom: 10px; transition: border-color 0.15s ease;
 }
-.nf-item:hover { border-color: rgba(24,214,0,0.25); }
+.nf-item:hover { border-color: #18d600; }
 
 .nf-item-avatar {
   width: 40px; height: 40px; flex-shrink: 0;
@@ -597,19 +690,18 @@ export default {
 }
 
 .nf-footer {
-  padding: 16px; background-color: #0b1120;
-  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 16px 20px;
+  background-color: var(--card-bg, #ffffff);
+  border-top: 1px solid var(--border-color, #e5e7eb);
 }
 .nf-close-all-btn {
-  width: 100%; padding: 13px;
-  background-color: #18d600; color: #0f172a;
-  font-family: 'Outfit', sans-serif; font-weight: 800;
-  font-size: 0.95rem; border-radius: 12px; border: none;
-  cursor: pointer; transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(24,214,0,0.3);
+  width: 100%;
+  padding: 12px;
+  background-color: var(--text-bold, #111827);
+  color: var(--card-bg, #ffffff);
+  border: none; border-radius: 12px;
+  font-weight: 700; font-size: 0.95rem;
+  cursor: pointer; transition: opacity 0.2s;
 }
-.nf-close-all-btn:hover {
-  background-color: #119e00;
-  transform: translateY(-1px);
-}
+.nf-close-all-btn:hover { opacity: 0.9; }
 </style>

@@ -22,7 +22,7 @@
           type="text"
           v-model="searchQuery"
           placeholder="Buscar en mis cursos..."
-          class="mi-aprendizaje-search-input tw-w-full tw-pl-10 tw-pr-4 tw-py-2.5 tw-rounded-xl tw-text-sm placeholder:tw-text-gray-400 dark:placeholder:tw-text-gray-500 focus:tw-outline-none focus:tw-border-[#10B981] focus:tw-ring-2 focus:tw-ring-[#10B981]/20 tw-transition-all tw-shadow-sm"
+          class="mi-aprendizaje-search-input tw-w-full tw-pl-10 tw-pr-4 tw-py-2.5 tw-rounded-xl tw-text-sm placeholder:tw-text-gray-400 dark:placeholder:tw-text-gray-500 focus:tw-outline-none focus:tw-border-[var(--primary-color)] focus:tw-ring-2 focus:tw-ring-[var(--primary-color)]/20 tw-transition-all tw-shadow-sm"
           style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);"
         />
       </div>

@@ -32,16 +32,16 @@
       <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
         <div class="tw-flex tw-items-center">
           <div class="logros-icon-badge tw-mr-3">
-            <svg class="tw-w-6 tw-h-6 tw-text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+            <svg class="tw-w-6 tw-h-6 tw-text-[var(--primary-color)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
           </div>
           <div>
             <h3 class="logros-card-title">Mis Logros</h3>
             <p class="logros-card-subtitle">Progreso de metas activas</p>
           </div>
         </div>
-        <button class="ver-logros-btn tw-flex tw-items-center tw-text-[#10B981] hover:tw-bg-[#10B981]/10 tw-px-3 tw-py-1.5 tw-rounded-lg tw-transition-colors" @click="goLogros">
+        <button class="ver-logros-btn tw-flex tw-items-center tw-text-[var(--primary-color)] hover:tw-bg-[var(--primary-color)]/10 tw-px-3 tw-py-1.5 tw-rounded-lg tw-transition-colors" @click="goLogros">
           <span class="tw-text-sm">Ver todos</span>
-          <svg class="tw-w-5 tw-h-5 tw-ml-1 tw-text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          <svg class="tw-w-5 tw-h-5 tw-ml-1 tw-text-[var(--primary-color)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
 
@@ -51,8 +51,8 @@
           <!-- Columna de Icono y Línea vertical -->
           <div class="stepper-node-col">
             <div class="stepper-icon-wrapper">
-              <svg v-if="logro.completed" class="tw-w-7 tw-h-7 tw-text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              <svg v-else-if="logro.inProgress" class="tw-w-7 tw-h-7 tw-text-[#34D399]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <svg v-if="logro.completed" class="tw-w-7 tw-h-7 tw-text-[var(--primary-color)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <svg v-else-if="logro.inProgress" class="tw-w-7 tw-h-7 tw-text-[var(--primary-color)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               <svg v-else class="tw-w-7 tw-h-7 tw-text-[#A1A1AA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"></path></svg>
             </div>
             <div v-if="index < listLogros.length - 1" class="stepper-line" :class="{ 'completed-line': logro.completed }"></div>
@@ -249,7 +249,7 @@ export default {
 }
 
 .completed-line {
-  background: #10B981 !important;
+  background: var(--primary-color) !important;
 }
 
 .stepper-content-col {
@@ -271,7 +271,7 @@ export default {
 }
 
 .in-progress .stepper-title {
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
 }
 
 .stepper-subtitle {

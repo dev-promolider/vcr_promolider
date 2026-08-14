@@ -16,7 +16,7 @@
         <div class="docente-info overflow-hidden flex-grow-1">
           <div class="d-flex align-items-center justify-content-between mb-1">
             <span class="badge badge-emerald-subtle">
-              <v-icon size="14" color="#10B981" class="mr-1">mdi-account-school-outline</v-icon>
+              <v-icon size="14" color="var(--primary-color)" class="mr-1">mdi-account-school-outline</v-icon>
               Docente
             </span>
           </div>
@@ -103,12 +103,12 @@ export default {
   height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #10B981;
+  border: 2px solid var(--primary-color);
 }
 
 .badge-emerald-subtle {
   background-color: #ECFDF5;
-  color: #059669;
+  color: var(--primary-hover);
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 12px;

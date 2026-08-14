@@ -73,15 +73,6 @@
         </div>
       </div>
 
-      <!-- Botón de Guardar flotante/fijo -->
-      <div class="d-flex justify-content-end mt-4 mb-5">
-        <button class="save-preferences-btn d-flex align-items-center gap-2" @click="addPreferences">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-          </svg>
-          <span>Guardar mis preferencias</span>
-        </button>
-      </div>
     </div>
   </div>
 </template>
@@ -174,44 +165,19 @@ export default {
         this.isLoading = true;
       }
     },
-    editPreference(preference) {
+    async editPreference(preference) {
       if (this.list.includes(preference.id)) {
+        // Prevent deselecting if less than 3
+        if (this.list.length <= 3) {
+           this.makeToast("danger", "Debe mantener al menos 3 categorías seleccionadas");
+           return;
+        }
         const index = this.list.indexOf(preference.id);
         this.list.splice(index, 1);
+        await this.toRegister([preference.id], "delete");
       } else {
         this.list.push(preference.id);
-      }
-    },
-    async addPreferences() {
-      let array_save = [];
-      let array_delete = [];
-
-      this.list_init.forEach((preference) => {
-        if (!this.list.includes(preference)) {
-          array_delete.push(preference);
-        }
-      });
-
-      this.list.forEach((preference) => {
-        if (!this.list_init.includes(preference)) {
-          array_save.push(preference);
-        }
-      });
-
-      if (this.list.length >= 3) {
-        this.isLoading = false;
-        if (array_save.length != 0) {
-          await this.toRegister(array_save, "save");
-        }
-        if (array_delete.length != 0) {
-          await this.toRegister(array_delete, "delete");
-        }
-        if (array_delete.length == 0 && array_save.length == 0) {
-          this.makeToast("success", "No se ha realizado ningún cambio");
-          this.isLoading = true;
-        }
-      } else {
-        this.makeToast("danger", "Debe seleccionar como mínimo 3 categorías");
+        await this.toRegister([preference.id], "save");
       }
     },
     async toRegister(array, accion) {
@@ -287,7 +253,7 @@ export default {
 
 .counter-valid {
   background: rgba(16, 185, 129, 0.15) !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
@@ -315,13 +281,13 @@ export default {
 .preference-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 24px rgba(16, 185, 129, 0.15) !important;
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
 }
 
 /* Card Seleccionada */
 .preference-card.active {
   background: var(--card-sub-bg, #FFFFFF) !important;
-  border: 2px solid #10B981 !important;
+  border: 2px solid var(--primary-color) !important;
   box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2) !important;
 }
 
@@ -334,7 +300,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #10B981;
+  color: var(--primary-color);
   flex-shrink: 0;
 }
 
@@ -355,8 +321,8 @@ export default {
 
 .chip-active {
   background: rgba(16, 185, 129, 0.2) !important;
-  color: #10B981 !important;
-  border: 1px solid #10B981;
+  color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color);
 }
 
 .chip-inactive {
@@ -386,7 +352,7 @@ export default {
 
 /* Guardar Button */
 .save-preferences-btn {
-  background-color: #10B981 !important;
+  background-color: var(--primary-color) !important;
   color: #FFFFFF !important;
   border: none !important;
   border-radius: 14px !important;
@@ -400,7 +366,7 @@ export default {
 }
 
 .save-preferences-btn:hover {
-  background-color: #059669 !important;
+  background-color: var(--primary-hover) !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45) !important;
 }

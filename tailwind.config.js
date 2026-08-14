@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'jit',
   prefix: 'tw-',
   darkMode: 'class',
   purge: [

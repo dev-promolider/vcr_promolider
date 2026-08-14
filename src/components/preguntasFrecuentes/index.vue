@@ -51,7 +51,7 @@
               >
                 <h5 class="faq-question-text mb-0">{{ preg.question || preg.titulo || preg.name }}</h5>
                 <button :class="['faq-toggle-icon', { active: openIndex === index }]">
-                  <v-icon :color="openIndex === index ? '#10B981' : '#71717A'" size="22">
+                  <v-icon :color="openIndex === index ? 'var(--primary-color)' : '#71717A'" size="22">
                     {{ openIndex === index ? 'mdi-close' : 'mdi-plus' }}
                   </v-icon>
                 </button>
@@ -168,14 +168,14 @@ export default {
 }
 
 .faq-category-btn:hover {
-  border-color: #10B981 !important;
-  color: #10B981 !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 .faq-category-btn.active {
-  background: #10B981 !important;
+  background: var(--primary-color) !important;
   color: #FFFFFF !important;
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3) !important;
 }
 
@@ -200,7 +200,7 @@ export default {
 }
 
 .faq-accordion-item.open {
-  border: 2px solid #10B981 !important;
+  border: 2px solid var(--primary-color) !important;
   background: linear-gradient(180deg, rgba(16, 185, 129, 0.03) 0%, #FFFFFF 100%) !important;
   box-shadow: 0 6px 20px rgba(16, 185, 129, 0.12) !important;
 }

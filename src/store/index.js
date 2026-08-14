@@ -6,6 +6,7 @@ import lastmessage  from "./lastmessage";
 import sections from "./sections";
 import user from "./user";
 import cart from "./cart";
+import wishlist from "./wishlist";
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     attribute: attribute,
     sections,
     cart,
+    wishlist,
   }
 })
 

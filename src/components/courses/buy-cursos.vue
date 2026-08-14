@@ -1,119 +1,149 @@
 <template>
-  <div class="product-detail-wrapper container-fluid py-4">
-    <div class="row justify-content-center">
-      <div class="col-12 col-xl-11">
-        <!-- Breadcrumb Navigation -->
-        <nav aria-label="breadcrumb" class="mb-3">
-          <ol class="breadcrumb custom-breadcrumb bg-transparent p-0 mb-0">
-            <li class="breadcrumb-item"><router-link to="/courses">Cursos</router-link></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ categoria || 'General' }}</li>
-            <li class="breadcrumb-item active text-truncate max-w-200" aria-current="page">{{ titulo || 'Detalle' }}</li>
-          </ol>
-        </nav>
+  <div class="product-detail-wrapper w-100">
+    <!-- UDEMY STYLE DARK HEADER BANNER -->
+    <div class="udemy-dark-header udemy-bg-dark tw-text-white tw-pt-8 tw-pb-12">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-12 col-xl-11">
+            <div class="row">
+              <div class="col-12 col-lg-8">
+                <!-- Breadcrumb Navigation -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                  <ol class="breadcrumb custom-breadcrumb bg-transparent p-0 mb-0">
+                    <li class="breadcrumb-item"><router-link to="/courses" class="udemy-text-link hover:tw-text-white tw-font-bold tw-transition-colors">Cursos</router-link></li>
+                    <li class="breadcrumb-item active tw-text-gray-300" aria-current="page"><span class="tw-text-gray-500 tw-mx-2">></span>{{ categoria || 'General' }}</li>
+                    <li class="breadcrumb-item active text-truncate max-w-200 tw-text-gray-300" aria-current="page"><span class="tw-text-gray-500 tw-mx-2">></span>{{ titulo || 'Detalle' }}</li>
+                  </ol>
+                </nav>
+                
+                <h1 class="product-main-title mb-3 tw-text-3xl md:tw-text-4xl tw-font-bold tw-text-white tw-leading-tight" :class="{ loader: !titulo }">
+                  {{ titulo }}
+                </h1>
+                
+                <p class="product-description-subtitle mb-4 tw-text-lg tw-text-gray-200" v-if="descripcion">
+                  {{ descripcion.length > 200 ? descripcion.substring(0, 200) + '...' : descripcion }}
+                </p>
 
-        <template v-if="processPay">
-          <Openpay :openpayData="openpayData"></Openpay>
-        </template>
-
-        <div class="row g-4">
-          <!-- Columna Izquierda: Información Principal y Galería de Cursos -->
-          <div class="col-12 col-lg-8">
-            <!-- Título y Metadatos -->
-            <div class="product-header-box mb-4">
-              <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-                <span class="bestseller-badge">#1 MÁS VENDIDO</span>
-                <span class="category-badge-tag" v-if="categoria">{{ categoria }}</span>
-                <span class="level-badge-tag" v-if="level">Nivel: {{ level }}</span>
-              </div>
-
-              <h1 class="product-main-title mb-3" :class="{ loader: !titulo }">
-                {{ titulo }}
-              </h1>
-
-              <div class="d-flex align-items-center gap-2 rating-reviews-row">
-                <v-rating color="#F59E0B" hover readonly length="5" size="18" value="4.8" half-increments class="p-0"></v-rating>
-                <span class="rating-score-text font-weight-bold">4.8</span>
-                <span class="rating-count-text text-muted">· 112 valoraciones de estudiantes</span>
-              </div>
-            </div>
-
-            <!-- Contenedor Multimedia Principal (Video / Imagen) -->
-            <div class="product-media-container mb-4">
-              <div v-if="tymedia == 1" class="video-container rounded-20 overflow-hidden" :class="{ loader: !videoimg }">
-                <video-player
-                  class="video-player-box"
-                  ref="videoPlayer"
-                  :options="playerOptions"
-                  :playsinline="true"
-                  @play="onPlayerPlay($event)"
-                  @pause="onPlayerPause($event)"
-                  @loadeddata="onPlayerLoadeddata($event)"
-                  @statechanged="playerStateChanged($event)"
-                  @ready="playerReadied"
-                >
-                </video-player>
-              </div>
-              <div v-else class="image-container rounded-20 overflow-hidden" :class="{ loader: !img }">
-                <img :src="img || defaultCover" class="product-main-img" :alt="titulo" @error="onImgError" />
-              </div>
-            </div>
-
-            <!-- Ficha Técnica / Especificaciones del Curso (Estilo Preline Specs) -->
-            <div class="specs-grid-card p-4 mb-4">
-              <h5 class="specs-title mb-3">Ficha Técnica del Curso</h5>
-              <div class="row g-3">
-                <div class="col-6 col-md-4">
-                  <span class="spec-label">Categoría</span>
-                  <p class="spec-value mb-0">{{ categoria || 'General' }}</p>
+                <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+                  <span class="bestseller-badge udemy-bg-badge udemy-text-badge tw-font-bold tw-px-2 tw-py-1 tw-text-xs">LO MÁS VENDIDO</span>
+                  
+                  <div class="d-flex align-items-center rating-reviews-row">
+                    <span class="rating-score-text font-weight-bold udemy-text-rating tw-mr-1">4.8</span>
+                    <v-rating color="#F59E0B" hover readonly length="5" size="14" value="4.8" half-increments class="p-0 tw-mr-2"></v-rating>
+                    <a href="#" class="rating-count-text udemy-text-link hover:tw-text-white tw-underline tw-mr-3">(112 valoraciones)</a>
+                    <span class="tw-text-gray-200">10,665 estudiantes</span>
+                  </div>
                 </div>
-                <div class="col-6 col-md-4">
-                  <span class="spec-label">Nivel</span>
-                  <p class="spec-value mb-0">{{ level || 'Básico' }}</p>
+                
+                <div class="d-flex align-items-center gap-1 mb-2 tw-text-sm">
+                  <span class="tw-text-gray-200">Creado por</span>
+                  <a href="#" class="udemy-text-link hover:tw-text-white tw-underline">{{ nameProductor || 'Instructor Oficial' }}</a>
                 </div>
-                <div class="col-6 col-md-4">
-                  <span class="spec-label">Certificado</span>
-                  <p class="spec-value mb-0">Incluido al finalizar</p>
-                </div>
-                <div class="col-6 col-md-4">
-                  <span class="spec-label">Acceso</span>
-                  <p class="spec-value mb-0">De por vida</p>
-                </div>
-                <div class="col-6 col-md-4">
-                  <span class="spec-label">Idioma</span>
-                  <p class="spec-value mb-0">Español</p>
-                </div>
-                <div class="col-6 col-md-4">
-                  <span class="spec-label">Formato</span>
-                  <p class="spec-value mb-0">Online bajo demanda</p>
+                
+                <div class="d-flex flex-wrap align-items-center gap-4 tw-text-sm tw-text-gray-200 mt-3">
+                  <div class="d-flex align-items-center gap-1">
+                    <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Última actualización: {{ approvalDateField ? '8/2026' : 'Reciente' }}</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-1">
+                    <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                    <span>Español</span>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MAIN CONTENT AREA -->
+    <div class="container-fluid py-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-xl-11">
+          
+          <template v-if="processPay">
+            <Openpay :openpayData="openpayData"></Openpay>
+          </template>
 
-            <!-- Acordeón / Pestañas de Descripción y Temario -->
-            <div class="product-content-card p-4 mb-4">
-              <h4 class="section-card-heading mb-3">Descripción del Curso</h4>
-              <p class="product-description-text mb-4">{{ descripcion }}</p>
+          <div class="row position-relative">
+            <!-- Columna Izquierda: Contenido Principal -->
+            <div class="col-12 col-lg-8 pr-lg-5">
+              <!-- Lo que aprenderás (Estilo Udemy Box) -->
+              <div class="tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-p-6 tw-mb-8 tw-bg-white dark:udemy-bg-dark">
+                <h2 class="tw-text-2xl tw-font-bold tw-mb-4 tw-text-gray-900 dark:tw-text-white">Lo que aprenderás</h2>
+                <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
+                  <div class="d-flex align-items-start gap-2" v-if="aprendera">
+                    <svg class="tw-w-5 tw-h-5 tw-mt-0.5 tw-text-gray-900 dark:tw-text-gray-300 tw-flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">{{ aprendera }}</span>
+                  </div>
+                  <!-- Static fillers for layout demo if no real array exists -->
+                  <div class="d-flex align-items-start gap-2">
+                    <svg class="tw-w-5 tw-h-5 tw-mt-0.5 tw-text-gray-900 dark:tw-text-gray-300 tw-flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">Desarrollo práctico con ejemplos reales paso a paso.</span>
+                  </div>
+                  <div class="d-flex align-items-start gap-2">
+                    <svg class="tw-w-5 tw-h-5 tw-mt-0.5 tw-text-gray-900 dark:tw-text-gray-300 tw-flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">Habilidades altamente demandadas en el mercado laboral.</span>
+                  </div>
+                  <div class="d-flex align-items-start gap-2">
+                    <svg class="tw-w-5 tw-h-5 tw-mt-0.5 tw-text-gray-900 dark:tw-text-gray-300 tw-flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">Aplica buenas prácticas y patrones de diseño modernos.</span>
+                  </div>
+                </div>
+              </div>
 
-              <template v-if="curso_detalle">
-                <h5 class="section-sub-heading mb-2">Acerca de este curso</h5>
-                <p class="product-sub-text mb-4">{{ curso_detalle }}</p>
-              </template>
+              <!-- Este curso incluye (Tech Specs) -->
+              <div class="tw-mb-8">
+                <h2 class="tw-text-xl tw-font-bold tw-mb-4 tw-text-gray-900 dark:tw-text-white">Este curso incluye:</h2>
+                <div class="row g-3 tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">
+                  <div class="col-12 col-md-6 d-flex align-items-center gap-2">
+                    <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span>Video bajo demanda de nivel {{ level || 'Básico' }}</span>
+                  </div>
+                  <div class="col-12 col-md-6 d-flex align-items-center gap-2">
+                    <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Recursos descargables</span>
+                  </div>
+                  <div class="col-12 col-md-6 d-flex align-items-center gap-2">
+                    <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    <span>Acceso en dispositivos móviles y TV</span>
+                  </div>
+                  <div class="col-12 col-md-6 d-flex align-items-center gap-2">
+                    <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                    <span>Certificado de finalización</span>
+                  </div>
+                </div>
+              </div>
 
-              <template v-if="aprendera">
-                <h5 class="section-sub-heading mb-2">¿Qué aprenderás?</h5>
-                <p class="product-sub-text mb-4">{{ aprendera }}</p>
-              </template>
+              <!-- Requisitos -->
+              <div class="tw-mb-8">
+                <h2 class="tw-text-2xl tw-font-bold tw-mb-4 tw-text-gray-900 dark:tw-text-white">Requisitos</h2>
+                <ul class="tw-list-disc tw-pl-5 tw-mb-6 tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">
+                  <li v-if="previos" class="tw-mb-1">{{ previos }}</li>
+                  <li v-else class="tw-mb-1">Ganas de aprender y superarse.</li>
+                  <li class="tw-mb-1">Conexión a internet estable.</li>
+                </ul>
+              </div>
 
-              <template v-if="previos">
-                <h5 class="section-sub-heading mb-2">Requisitos previos</h5>
-                <p class="product-sub-text mb-4">{{ previos }}</p>
-              </template>
-
-              <template v-if="dirigido">
-                <h5 class="section-sub-heading mb-2">¿A quién está dirigido?</h5>
-                <p class="product-sub-text mb-4">{{ dirigido }}</p>
-              </template>
-            </div>
+              <!-- Descripción -->
+              <div class="tw-mb-10">
+                <h2 class="tw-text-2xl tw-font-bold tw-mb-4 tw-text-gray-900 dark:tw-text-white">Descripción</h2>
+                <div class="product-description-text tw-text-sm tw-text-gray-700 dark:tw-text-gray-300 tw-whitespace-pre-line tw-leading-relaxed">
+                  {{ descripcion }}
+                  
+                  <template v-if="curso_detalle">
+                    <br><br>
+                    <strong>Acerca de este curso:</strong>
+                    <br>{{ curso_detalle }}
+                  </template>
+                  
+                  <template v-if="dirigido">
+                    <br><br>
+                    <strong>¿A quién está dirigido?</strong>
+                    <br>{{ dirigido }}
+                  </template>
+                </div>
+              </div>
 
             <!-- Temario del Curso -->
             <div class="temary-card p-4 mb-4">
@@ -136,7 +166,7 @@
                     <ul class="lessons-list list-unstyled p-3 mb-0">
                       <li v-for="(less, lIndex) in model.lessons" :key="lIndex" class="lesson-item py-2 d-flex align-items-center justify-content-between border-bottom-subtle">
                         <div class="d-flex align-items-center cursor-pointer" v-if="model.lessons[0].id === less.id" @click="getVideo(less.id)" data-toggle="modal" data-target="#video">
-                          <svg class="tw-w-5 tw-h-5 tw-mr-2 tw-text-[#10B981] tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg class="tw-w-5 tw-h-5 tw-mr-2 udemy-text-primary tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                           </svg>
@@ -161,7 +191,7 @@
               <div class="d-flex align-items-center justify-content-between mb-4">
                 <h4 class="section-card-heading mb-0">Valoraciones de estudiantes</h4>
                 <span class="verified-purchases-badge" v-if="ratingsList && ratingsList.length">
-                  <svg class="tw-w-4 tw-h-4 tw-mr-1.5 tw-text-[#10B981] tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="tw-w-4 tw-h-4 tw-mr-1.5 udemy-text-primary tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                   </svg>
                   Reseñas verificadas
@@ -198,79 +228,87 @@
             </div>
           </div>
 
-          <!-- Columna Derecha: Tarjeta Estilizada de Compra (Sticky Card - Estilo Preline Sidebar) -->
-          <div class="col-12 col-lg-4">
-            <div class="sticky-buy-card p-4">
-              <!-- Tarjeta de Precio y Favorito -->
-              <div class="price-header-row d-flex align-items-baseline justify-content-between mb-2">
-                <div class="d-flex align-items-baseline gap-2">
-                  <span class="main-price">${{ price_with_discount > 0 ? price_with_discount : precio }}</span>
-                  <span class="currency-tag">USD</span>
-                  <span v-if="precio > price_with_discount && price_with_discount > 0" class="old-price">${{ precio }}</span>
+          <!-- Columna Derecha: Tarjeta Flotante (Udemy Sidebar Card) -->
+          <div class="col-12 col-lg-4 tw-relative tw-z-10 udemy-lg-mt-negative">
+            <div class="udemy-sticky-card tw-bg-white dark:tw-bg-gray-800 tw-shadow-2xl tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-top-8 tw-sticky tw-rounded-lg tw-overflow-hidden">
+              <!-- Contenedor Multimedia Principal (Video / Imagen) movido aquí -->
+              <div class="product-media-container tw-w-full tw-bg-black">
+                <div v-if="tymedia == 1" class="video-container" :class="{ loader: !videoimg }">
+                  <video-player
+                    class="video-player-box"
+                    ref="videoPlayer"
+                    :options="playerOptions"
+                    :playsinline="true"
+                    @play="onPlayerPlay($event)"
+                    @pause="onPlayerPause($event)"
+                    @loadeddata="onPlayerLoadeddata($event)"
+                    @statechanged="playerStateChanged($event)"
+                    @ready="playerReadied"
+                  >
+                  </video-player>
                 </div>
-                <button class="favorite-btn" title="Guardar en favoritos">
-                  <svg width="20" height="20" class="tw-w-5 tw-h-5 tw-text-gray-500 hover:tw-text-red-500 tw-transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.684a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                  </svg>
-                </button>
+                <div v-else class="image-container" :class="{ loader: !img }">
+                  <img :src="img || defaultCover" class="product-main-img tw-w-full tw-h-auto tw-object-cover" :alt="titulo" @error="onImgError" />
+                </div>
               </div>
 
-              <!-- Tag de Descuento -->
-              <div v-if="precio > price_with_discount && price_with_discount > 0" class="mb-3">
-                <span class="limited-discount-tag">-25% Tiempo limitado</span>
-              </div>
+              <div class="tw-p-6">
+                <!-- Tarjeta de Precio -->
+                <div class="d-flex flex-column mb-3">
+                  <div class="tw-text-3xl tw-font-extrabold tw-text-gray-900 dark:tw-text-white tw-flex tw-items-center tw-gap-2">
+                    <span>${{ price_with_discount > 0 ? price_with_discount : precio }}</span> <span class="tw-text-base tw-font-semibold tw-text-gray-500">USD</span>
+                  </div>
+                  <div v-if="precio > price_with_discount && price_with_discount > 0" class="tw-mt-1 tw-flex tw-items-center tw-gap-2">
+                    <span class="tw-line-through tw-text-gray-500 tw-text-sm">${{ precio }}</span>
+                    <span class="tw-text-sm tw-font-bold tw-text-red-500">83% de descuento</span>
+                  </div>
+                </div>
 
-              <!-- Disponibilidad -->
-              <div class="stock-status-row d-flex align-items-center mb-4">
-                <svg width="18" height="18" class="tw-w-4.5 tw-h-4.5 mr-2 text-emerald-500" style="color: #10B981;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-                <span class="stock-text">Acceso inmediato e ilimitado</span>
-              </div>
+                <div class="tw-flex tw-items-center tw-gap-2 tw-text-red-600 tw-text-sm tw-font-bold tw-mb-4">
+                  <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  <span>Quedan 5 horas a este precio.</span>
+                </div>
 
-              <!-- Botones de Acción de Compra -->
-              <div class="action-buttons-wrapper d-flex flex-column gap-2 mb-4">
-                <template v-if="!isOwner">
-                  <button v-if="courseFilter == false && precio == 0" class="btn-primary-buy" @click="inscribirCursoGratis()" :class="{ loader: !titulo }">
-                    Inscribirse Gratis
-                  </button>
 
-                  <button v-if="courseFilter == false && precio > 0" class="btn-primary-buy" data-toggle="modal" data-target="#paymentModal" :class="{ loader: !titulo }">
-                    {{ price_with_discount > 0 ? `Comprar ahora $${price_with_discount}` : "Inscribirte ahora" }}
-                  </button>
+              <div class="tw-px-6 tw-pb-6">
+                <!-- Botones de Acción de Compra -->
+                <div class="action-buttons-wrapper d-flex flex-column gap-3 mb-4">
+                  <template v-if="!isOwner">
+                    <button v-if="courseFilter == false && precio == 0" class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" @click="inscribirCursoGratis()" :class="{ loader: !titulo }">
+                      Inscribirse Gratis
+                    </button>
 
-                  <button v-if="courseFilter == false" @click="addCurrentCourseToCart" class="btn-secondary-share d-flex align-items-center justify-content-center tw-bg-[#18d600]/10 tw-text-[#18d600] tw-border-2 tw-border-[#18d600] hover:tw-bg-[#18d600] hover:tw-text-slate-950 tw-font-bold tw-transition-all">
-                    <svg class="tw-w-5 tw-h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"></path>
-                    </svg>
-                    Agregar al Carrito
-                  </button>
+                    <button v-if="courseFilter == false && precio > 0" class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" data-toggle="modal" data-target="#paymentModal" :class="{ loader: !titulo }">
+                      {{ price_with_discount > 0 ? `Comprar ahora` : "Inscribirte ahora" }}
+                    </button>
 
-                  <button @click="shareURL" class="btn-secondary-share d-flex align-items-center justify-content-center">
-                    <svg width="18" height="18" class="tw-w-4.5 tw-h-4.5 mr-2 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
-                    </svg>
-                    Compartir curso
-                  </button>
-                </template>
+                    <button v-if="courseFilter == false" @click="addCurrentCourseToCart" class="tw-w-full tw-bg-white hover:tw-bg-gray-100 dark:tw-bg-gray-700 dark:hover:tw-bg-gray-600 tw-border tw-border-gray-900 dark:tw-border-gray-500 tw-text-gray-900 dark:tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-cursor-pointer tw-transition-colors d-flex align-items-center justify-content-center">
+                      Añadir a la cesta
+                    </button>
+                    
+                    <button @click="shareURL" class="tw-w-full tw-bg-transparent hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700 tw-text-gray-900 dark:tw-text-white tw-font-bold tw-py-2 tw-px-4 tw-cursor-pointer tw-border-none tw-transition-colors tw-text-sm tw-mt-2 d-flex align-items-center justify-content-center">
+                      <svg width="18" height="18" class="tw-w-4.5 tw-h-4.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                      Compartir curso
+                    </button>
+                  </template>
 
-                <template v-else>
-                  <button class="btn-primary-buy" @click="goToCourse(pao_id)" :class="{ loader: !titulo }">
-                    Ver mi curso
-                  </button>
-                </template>
+                  <template v-else>
+                    <button class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" @click="goToCourse(pao_id)" :class="{ loader: !titulo }">
+                      Ir al curso
+                    </button>
+                  </template>
 
-                <template v-if="courseFilter">
-                  <button class="btn-primary-buy" @click="GoCourse()">
-                    <span>Curso ya adquirido - Ir a Aprendizaje</span>
-                  </button>
-                </template>
-              </div>
+                  <template v-if="courseFilter">
+                    <button class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" @click="GoCourse()">
+                      <span>Curso ya adquirido - Ir a Aprendizaje</span>
+                    </button>
+                  </template>
+                </div>
 
               <!-- Garantías y Características de Confianza (Trust Features) -->
               <div class="trust-features-list border-top-subtle pt-4 mb-4">
                 <div class="trust-feature-item d-flex align-items-start mb-3">
-                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: #10B981; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                   </svg>
                   <div>
@@ -280,17 +318,7 @@
                 </div>
 
                 <div class="trust-feature-item d-flex align-items-start mb-3">
-                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: #10B981; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                  </svg>
-                  <div>
-                    <span class="trust-title">Garantía de 30 días</span>
-                    <p class="trust-desc mb-0">Satisfacción garantizada o devolución de tu dinero.</p>
-                  </div>
-                </div>
-
-                <div class="trust-feature-item d-flex align-items-start mb-3">
-                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: #10B981; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
                   </svg>
                   <div>
@@ -300,7 +328,7 @@
                 </div>
 
                 <div class="trust-feature-item d-flex align-items-start">
-                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: #10B981; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                   </svg>
                   <div>
@@ -330,7 +358,7 @@
         <div v-if="shouldShowRecommendations" class="recommendations-section mt-5 pt-4 border-top-subtle">
           <div class="d-flex align-items-center justify-content-between mb-4">
             <h3 class="section-title mb-0">
-              <v-icon color="#10B981" size="24" class="mr-2">mdi-grid</v-icon>
+              <v-icon color="var(--primary-color)" size="24" class="mr-2">mdi-grid</v-icon>
               Cursos Recomendados
             </h3>
           </div>
@@ -347,6 +375,7 @@
         </div>
       </div>
     </div>
+  </div>
 
     <!-- Modal Video -->
     <div class="modal fade" id="video" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -412,6 +441,8 @@
       </div>
     </div>
   </div>
+</div>
+</div>
 </template>
 
 <script>
@@ -479,7 +510,8 @@ export default {
       fecha_creacion: null,
       categoria: null,
       isDetailsLoading: false,
-      courseFilter: null,
+      courseFilter: false,
+      approvalDateField: null,
       imgProductor: null,
       isOwner: false,
       openpayData: [],
@@ -567,6 +599,22 @@ export default {
   },
 
   methods: {
+    // ── Notificaciones internas (sin librería externa) ──────────────────
+    showMsg(type, text) {
+      const colors = { success: '#18d600', error: '#ef4444', info: '#3b82f6', warning: '#f59e0b' };
+      const icons = { success: '✔', error: '✖', info: 'ℹ', warning: '⚠' };
+      const toast = document.createElement('div');
+      toast.textContent = (icons[type] || 'ℹ') + '  ' + text;
+      Object.assign(toast.style, {
+        position: 'fixed', bottom: '24px', right: '24px', zIndex: 99999,
+        background: colors[type] || '#333', color: '#fff',
+        padding: '12px 20px', borderRadius: '10px', fontFamily: 'Outfit, sans-serif',
+        fontSize: '14px', fontWeight: '600', boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
+        maxWidth: '340px', transition: 'opacity 0.4s', opacity: '1',
+      });
+      document.body.appendChild(toast);
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3000);
+    },
     addCurrentCourseToCart() {
       const item = {
         id: this.pao_id || this.ide,
@@ -650,13 +698,13 @@ export default {
           } catch (error) {
             console.error("Error al calcular el saldo:", error);
             this.saldoTotal = 0;
-            this.$message.error("Error al calcular el saldo de la billetera");
+            this.showMsg('error',"Error al calcular el saldo de la billetera");
           }
         })
         .catch((error) => {
           console.error("Error al obtener movimientos:", error);
           this.saldoTotal = 0;
-          this.$message.error(
+          this.showMsg('error',
             "Error al obtener los movimientos de la billetera"
           );
           console.error("Detalles completos:", JSON.stringify(error, null, 2));
@@ -723,7 +771,7 @@ export default {
         } else if (this.payment_method_id === 5) {
           if (this.saldoTotal < this.importeCurso) {
             this.closePaymentModal();
-            this.$message.error("Saldo insuficiente en la billetera");
+            this.showMsg('error',"Saldo insuficiente en la billetera");
             return;
           }
 
@@ -752,7 +800,7 @@ export default {
           if (cursoYaComprado) {
             this.closePaymentModal();
             this.courseFilter = true;
-            this.$message.success("El curso ya está en tu biblioteca");
+            this.showMsg('success',"El curso ya está en tu biblioteca");
             setTimeout(() => {
               this.$router.push("/suscription-user");
             }, 1500);
@@ -763,7 +811,7 @@ export default {
             await this.getWalletUser();
             this.closePaymentModal();
             this.courseFilter = true;
-            this.$message.success("La compra se ha realizado con éxito");
+            this.showMsg('success',"La compra se ha realizado con éxito");
 
             setTimeout(() => {
               this.$router.push("/suscription-user");
@@ -786,12 +834,12 @@ export default {
           this.closePaymentModal();
           this.courseFilter = true;
           await this.FilterBtn();
-          this.$message.info("El curso ya ha sido adquirido");
+          this.showMsg('info',"El curso ya ha sido adquirido");
           setTimeout(() => {
             this.$router.push("/suscription-user");
           }, 1500);
         } else {
-          this.$message.error(
+          this.showMsg('error',
             error.response?.data?.message ||
             error.message ||
             "Ocurrió un error al procesar la compra"
@@ -839,28 +887,35 @@ export default {
           form
         );
 
-        if (response.data.status === "ok") {
-          this.$message.success("Te has inscrito exitosamente al curso");
+        // El backend nuevo responde con HTTP 201 y message:'saved data'
+        // El backend antiguo respondía con status:'ok'
+        const isSuccess =
+          response.data.status === "ok" ||
+          response.data.message === "saved data" ||
+          response.status === 201;
+
+        if (isSuccess) {
+          this.showMsg('success',"Te has inscrito exitosamente al curso");
+          this.courseFilter = true; // marcar como inscrito de inmediato
+          setTimeout(() => {
+            this.$router.push("/suscription-user");
+          }, 1500);
+        } else if (response.status === 200) {
+          this.showMsg('info',"Ya estás inscrito en este curso");
           setTimeout(() => {
             this.$router.push("/suscription-user");
           }, 1500);
         } else {
-          if (response.status === 200) {
-            this.$message.info("Ya estás inscrito en este curso");
-            setTimeout(() => {
-              this.$router.push("/suscription-user");
-            }, 1500);
-          } else {
-            throw new Error(
-              response.data.message || "Error al inscribirse al curso"
-            );
-          }
+          throw new Error(
+            response.data.message || "Error al inscribirse al curso"
+          );
         }
       } catch (error) {
         console.error("Error completo al inscribirse al curso:", error);
 
-        if (error.response?.status === 200) {
-          this.$message.info("Ya estás inscrito en este curso");
+        if (error.response?.status === 201 || error.response?.status === 200) {
+          this.showMsg('success',"Te has inscrito exitosamente al curso");
+          this.courseFilter = true;
           setTimeout(() => {
             this.$router.push("/suscription-user");
           }, 1500);
@@ -869,7 +924,7 @@ export default {
             error.response?.data?.message ||
             error.message ||
             "Ocurrió un error al inscribirse al curso";
-          this.$message.error(errorMessage);
+          this.showMsg('error',errorMessage);
         }
       } finally {
         this.$store.commit("course/SET_LOADING", false);
@@ -889,7 +944,7 @@ export default {
         }
       } catch (error) {
         console.error("Error al procesar el pago:", error);
-        this.$message.error(
+        this.showMsg('error',
           "Ocurrió un error al procesar el pago. Por favor, intente nuevamente."
         );
       }
@@ -898,12 +953,19 @@ export default {
     FilterBtn() {
       this.axios("course/purchased-courses").then((res) => {
         let idcourse = res.data.data;
+        if (!Array.isArray(idcourse)) {
+          this.courseFilter = false;
+          return;
+        }
         var id_course = idcourse.map(function (idcourse) {
           return idcourse.id;
         });
         this.courseFilter = id_course.some(
           (id_cours) => id_cours == this.$route.params.ide
         );
+      }).catch(() => {
+        // Si falla la petición, asumimos que el curso no está comprado
+        this.courseFilter = false;
       });
     },
 
@@ -913,7 +975,7 @@ export default {
 
     getAttributes() {
       this.pao_id = this.$route.params.ide;
-      this.axios.get("course/details/" + this.pao_id).then((datos) => {
+      this.axios.get("marketing/courses/" + this.pao_id).then((datos) => {
         this.items = datos.data.data;
         this.precio = this.items.price;
         this.price_with_discount = this.items.price_with_discount;
@@ -933,9 +995,9 @@ export default {
             this.level = "Avanzado";
             break;
         }
-        this.videoimg = this.items.path_url;
+        this.videoimg = this.items.path_url || "";
 
-        if (this.videoimg.toLowerCase().endsWith(".mp4")) {
+        if (this.videoimg && this.videoimg.toLowerCase().endsWith(".mp4")) {
           this.tymedia = 1;
           this.$set(this.playerOptions.sources, 0, {
             type: "video/mp4",
@@ -943,7 +1005,7 @@ export default {
           });
         } else {
           this.tymedia = 2;
-          this.img = this.items.path_url;
+          this.img = this.videoimg;
         }
 
         this.titulo = this.items.title;
@@ -1071,8 +1133,8 @@ export default {
   font-family: 'Outfit', sans-serif !important;
   font-weight: 800 !important;
   font-size: 1.85rem !important;
-  color: #18181B !important;
   line-height: 1.3 !important;
+  /* color se hereda del contexto: blanco en header oscuro, oscuro en el resto */
 }
 
 .rating-score-text {
@@ -1200,7 +1262,7 @@ export default {
   font-family: 'Outfit', sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
-  color: #10B981;
+  color: var(--primary-color);
   background: rgba(16, 185, 129, 0.1);
   padding: 2px 8px;
   border-radius: 10px;
@@ -1218,7 +1280,7 @@ export default {
 .verified-purchases-badge {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.8rem;
-  color: #10B981;
+  color: var(--primary-color);
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -1237,9 +1299,9 @@ export default {
 }
 
 .rating-pill.active {
-  background: #10B981;
+  background: var(--primary-color);
   color: #FFFFFF;
-  border-color: #10B981;
+  border-color: var(--primary-color);
 }
 
 .student-review-item {
@@ -1252,7 +1314,7 @@ export default {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #10B981;
+  background: var(--primary-color);
   color: #FFFFFF;
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
@@ -1295,7 +1357,7 @@ export default {
   font-family: 'Outfit', sans-serif !important;
   font-weight: 800 !important;
   font-size: 2rem !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
 }
 
 .currency-tag {
@@ -1344,12 +1406,12 @@ export default {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 0.88rem;
-  color: #10B981;
+  color: var(--primary-color);
 }
 
 .btn-primary-buy {
   width: 100%;
-  background: #10B981 !important;
+  background: var(--primary-color) !important;
   color: #FFFFFF !important;
   border: none !important;
   border-radius: 14px !important;
@@ -1362,7 +1424,7 @@ export default {
 }
 
 .btn-primary-buy:hover {
-  background: #059669 !important;
+  background: var(--primary-hover) !important;
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35) !important;
 }
 
@@ -1381,8 +1443,8 @@ export default {
 }
 
 .btn-secondary-share:hover {
-  border-color: #10B981 !important;
-  color: #10B981 !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 /* Trust features */
@@ -1432,7 +1494,10 @@ export default {
 }
 
 :deep(.video-js) {
-  border-radius: 20px !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 @media (max-width: 991px) {
@@ -1440,4 +1505,16 @@ export default {
     position: static;
   }
 }
+
+.udemy-bg-dark { background-color: #1c1d1f !important; }
+.udemy-text-link { color: #c0c4fc !important; }
+.udemy-text-rating { color: #f69c08 !important; }
+.udemy-bg-badge { background-color: #eceb98 !important; }
+.udemy-text-badge { color: #3d3c0a !important; }
+.udemy-bg-primary { background-color: #18d600 !important; }
+.udemy-text-primary { color: var(--primary-color) !important; }
+@media (min-width: 992px) {
+  .udemy-lg-mt-negative { margin-top: -450px !important; }
+}
 </style>
+

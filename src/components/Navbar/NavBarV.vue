@@ -3,7 +3,7 @@
     <!-- Mobile hamburger button -->
     <button
       @click="isMobileOpen = true"
-      class="lg:tw-hidden tw-fixed tw-top-4 tw-left-4 tw-z-50 tw-w-10 tw-h-10 tw-bg-[#0f172a] tw-text-white tw-rounded-xl tw-flex tw-items-center tw-justify-center tw-shadow-lg tw-border tw-border-white/10"
+      class="lg:tw-hidden tw-fixed tw-top-4 tw-left-4 tw-z-50 tw-w-10 tw-h-10 tw-bg-[var(--text-bold)] tw-text-white tw-rounded-xl tw-flex tw-items-center tw-justify-center tw-shadow-lg tw-border tw-border-white/10"
     >
       <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -28,14 +28,15 @@
       @mouseleave="isHovered = false"
     >
       <!-- Header Logo -->
-      <div class="sidebar-header">
-        <div class="tw-flex tw-items-center tw-overflow-hidden">
-          <div class="sidebar-logo-container tw-mr-3">
-            <img src="@/assets/logo-inicial.png" alt="Promolíder" class="tw-h-6 tw-w-auto" />
+      <div class="sidebar-header tw-px-4 tw-py-2">
+        <div class="tw-flex tw-items-center tw-justify-center tw-w-full tw-h-full">
+          <!-- Logo Colapsado (solo ícono) -->
+          <div v-if="!isHovered && !isMobileOpen" class="tw-flex tw-items-center tw-justify-center">
+            <img src="@/assets/logos/promolider_logo_collapse.png" alt="Promolíder" class="tw-h-7 tw-w-auto" />
           </div>
-          <div v-show="isHovered || isMobileOpen" class="tw-flex tw-flex-col tw-overflow-hidden tw-transition-opacity tw-duration-200">
-            <span class="tw-text-white tw-font-outfit tw-font-bold tw-text-base tw-leading-tight">Promolíder</span>
-            <span class="sidebar-subtitle tw-text-xs tw-font-semibold">Aula Virtual</span>
+          <!-- Logo Expandido (completo con texto, siempre blanco porque el sidebar es oscuro) -->
+          <div v-else class="tw-flex tw-items-center tw-justify-center tw-w-full tw-transition-opacity tw-duration-200">
+            <img src="@/assets/logos/PromoliderAulaW.webp" alt="Promolíder Aula Virtual" class="tw-h-10 tw-w-auto tw-object-contain" />
           </div>
         </div>
       </div>
@@ -189,7 +190,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 0 16px;
-  background-color: var(--sidebar-logo-bg, #0f172a);
+  background-color: var(--sidebar-logo-bg, var(--text-bold));
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
 }

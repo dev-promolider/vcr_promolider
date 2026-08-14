@@ -1,71 +1,130 @@
 <template>
-  <v-app>
-    <div class="background pb-5">
-      <div v-if="$route.params.mode == 'preview'" class="bg-danger text-white py-1 ajuste z-index-2 px-4 text-center fw-bold">
+  <div class="app-wrapper">
+    <div class="udemy-course-layout">
+      <!-- Env Warning -->
+      <div v-if="$route.params.mode == 'preview'" class="bg-danger text-white py-1 text-center fw-bold w-100 z-index-2">
         Usted se encuentra en un entorno de pre-visualización
       </div>
 
       <!-- State 1: Loading State -->
-      <div v-if="loading" class="d-flex justify-content-center align-items-center py-5 my-5">
-        <v-progress-circular indeterminate color="#10B981" size="64" width="6"></v-progress-circular>
+      <div v-if="loading" class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
       </div>
 
       <!-- State 2: Error State -->
       <div v-else-if="error" class="container py-5">
-        <div class="card border-0 shadow-sm rounded-lg p-5 text-center my-4 bg-white" style="border-radius: 20px;">
+        <div class="card border-0 shadow-sm p-5 text-center my-4 course-error-card" style="border-radius: 20px;">
           <div class="mb-4">
-            <v-icon color="#EF4444" size="72">mdi-alert-circle-outline</v-icon>
+            <i class="fas fa-exclamation-circle" style="color: #EF4444; font-size: 72px;"></i>
           </div>
           <h3 class="font-weight-bold mb-2 text-dark">No se pudo cargar el curso</h3>
-          <p class="text-muted mb-4 max-w-md mx-auto">
+          <p class="text-muted mb-4 mx-auto" style="max-width: 500px;">
             Es posible que el curso no exista, no tenga lecciones publicadas aún o no tengas acceso.
           </p>
           <div>
-            <v-btn color="#10B981" dark large rounded class="px-5 text-none font-weight-bold" @click="$router.push('/my-courses')">
-              <v-icon left>mdi-arrow-left</v-icon>
-              Volver a mis contenidos
-            </v-btn>
+            <button class="btn text-white px-5 py-2 fw-bold" style="background-color: var(--primary-color); border-radius: 50px;" @click="$router.push('/suscription-user')">
+              <i class="fas fa-arrow-left me-2"></i> Volver a mis contenidos
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- State 3: Course View -->
-      <div v-else class="container-fluid px-3 px-md-4 py-2">
-        <div class="row">
-          <!-- Main content column -->
-          <div class="col-12 col-lg-8 mt-3">
-            <div class="pb-2">
-              <h2 class="course-title text-dark font-weight-bold mb-3">{{ this.courseInfo.title || 'Cargando curso...' }}</h2>
-            </div>
-
-            <Video v-if="renderVideo && lessonId" :classId="lessonId" :courseId="this.$route.query.course"
-              @markLessonComplete="handleLessonComplete" class="video-container shadow-sm">
-            </Video>
-
-            <div class="mt-4">
-              <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
+      <!-- State 3: Udemy Course View -->
+      <div v-else class="udemy-course-container">
+        
+        <!-- Header Dark Bar -->
+        <header class="udemy-course-header">
+          <div class="tw-flex tw-items-center tw-justify-between tw-w-full tw-px-4 md:tw-px-6">
+            <h1 class="tw-text-white tw-text-lg md:tw-text-xl tw-font-bold tw-truncate tw-max-w-[60%]">
+              {{ this.courseInfo.title || 'Cargando curso...' }}
+            </h1>
+            <div class="tw-flex tw-items-center tw-gap-4">
+              <button class="tw-text-gray-300 hover:tw-text-white tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2">
+                <i class="fas fa-share-alt"></i>
+                <span class="d-none d-md-inline">Compartir</span>
+              </button>
             </div>
           </div>
+        </header>
 
-          <!-- Sidebar content -->
-          <div class="col-12 col-lg-4 sidebar mt-3">
-            <Docente></Docente>
-
-            <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
-
-            <div class="text-center my-4">
-              <v-btn depressed color="#10B981" dark large rounded block class="text-none font-weight-bold shadow-sm invite-btn">
-                <v-icon left>mdi-account-plus</v-icon>
-                Invitar a otra persona
-              </v-btn>
+        <!-- Main Workspace (Video + Sidebar) -->
+        <div class="udemy-workspace">
+          
+          <!-- LEFT AREA: Video & Details -->
+          <div class="udemy-main-content">
+            
+            <!-- Video Player Wrapper (Black background) -->
+            <div class="udemy-video-wrapper">
+              <Video v-if="renderVideo && lessonId" :classId="lessonId" :courseId="this.$route.query.course"
+                @markLessonComplete="handleLessonComplete" class="udemy-video-player">
+              </Video>
             </div>
 
-            <Comentarios></Comentarios>
+            <!-- Content Tabs under video -->
+            <div class="udemy-content-details tw-bg-white tw-px-4 tw-py-6 md:tw-px-8 md:tw-py-8">
+              
+              <!-- Tab Navigation (Mock visually, showing all below for now) -->
+              <div class="tw-border-b tw-border-gray-200 tw-mb-6">
+                <nav class="tw-flex tw-gap-6 tw-overflow-x-auto">
+                  <button class="tw-text-gray-900 tw-font-bold tw-border-b-2 tw-border-black tw-pb-3 tw-text-sm md:tw-text-base tw-whitespace-nowrap">Descripción general</button>
+                  <button class="tw-text-gray-500 hover:tw-text-gray-900 tw-font-bold tw-pb-3 tw-text-sm md:tw-text-base tw-whitespace-nowrap">Q&A</button>
+                  <button class="tw-text-gray-500 hover:tw-text-gray-900 tw-font-bold tw-pb-3 tw-text-sm md:tw-text-base tw-whitespace-nowrap">Notas</button>
+                  <button class="tw-text-gray-500 hover:tw-text-gray-900 tw-font-bold tw-pb-3 tw-text-sm md:tw-text-base tw-whitespace-nowrap">Avisos</button>
+                </nav>
+              </div>
+
+              <!-- Detailed Content -->
+              <div class="tw-max-w-4xl">
+                <!-- Description -->
+                <div class="tw-mb-10">
+                  <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
+                </div>
+
+                <hr class="tw-border-gray-200 tw-my-8" />
+
+                <!-- Instructor -->
+                <div class="tw-mb-10">
+                  <h3 class="tw-text-xl tw-font-bold tw-mb-4">Acerca del instructor</h3>
+                  <Docente></Docente>
+                </div>
+
+                <hr class="tw-border-gray-200 tw-my-8" />
+
+                <!-- Comments -->
+                <div>
+                  <h3 class="tw-text-xl tw-font-bold tw-mb-4">Comentarios y reseñas</h3>
+                  <Comentarios></Comentarios>
+                </div>
+
+              </div>
+            </div>
+
           </div>
+
+          <!-- RIGHT AREA: Sidebar Temario -->
+          <aside class="udemy-sidebar tw-bg-white">
+            <div class="udemy-sidebar-header tw-p-4 tw-border-b tw-border-gray-200">
+              <h2 class="tw-text-base tw-font-bold tw-text-gray-900">Contenido del curso</h2>
+            </div>
+            
+            <div class="udemy-sidebar-content">
+              <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
+              
+              <!-- Extra Actions in Sidebar -->
+              <div class="tw-p-4 tw-mt-4">
+                <button class="btn text-white w-100 py-2 fw-bold shadow-sm" style="background-color: var(--primary-color); border-radius: 50px;">
+                  <i class="fas fa-user-plus me-2"></i> Invitar a otra persona
+                </button>
+              </div>
+            </div>
+          </aside>
+
         </div>
       </div>
     </div>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -264,60 +323,113 @@ export default {
 </script>
 
 <style scoped>
-.background {
-  background-color: #f2f5fa !important;
+/* Dark Mode Support for Error Card */
+.course-error-card {
+  background-color: #ffffff;
+}
+:root.dark-mode .course-error-card,
+html.dark-mode .course-error-card {
+  background-color: #1f2937 !important;
+}
+html.dark-mode .course-error-card h3.text-dark {
+  color: #f9fafb !important;
+}
+html.dark-mode .course-error-card p.text-muted {
+  color: #d1d5db !important;
+}
+
+.udemy-course-layout {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  background-color: #ffffff;
+}
+html.dark-mode .udemy-course-layout {
+  background-color: transparent !important;
 }
 
-.course-title {
-  font-size: 1.5rem;
-  line-height: 1.2;
-  display: block;
-  margin-bottom: 1rem;
+.udemy-course-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-.video-container {
+/* Header */
+.udemy-course-header {
+  height: 56px;
+  background-color: #1C1D1F; /* Udemy Dark */
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #3E4143;
+}
+
+/* Main Workspace Flex */
+.udemy-workspace {
+  display: flex;
+  flex-direction: column; /* Stack on mobile */
+  flex: 1;
+}
+
+/* Large screens: Row layout */
+@media (min-width: 992px) {
+  .udemy-workspace {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  
+  .udemy-main-content {
+    flex: 1; /* Takes remaining space */
+    min-width: 0; /* Prevents flex blowout */
+  }
+
+  .udemy-sidebar {
+    width: 380px; /* Fixed sidebar width */
+    flex-shrink: 0;
+    border-left: 1px solid #D1D7DC;
+    display: flex;
+    flex-direction: column;
+    /* Fixed height relative to viewport minus header (approx) */
+    height: calc(100vh - 56px - 64px); /* Subtract top navs */
+    position: sticky;
+    top: 0;
+  }
+}
+
+/* Video Wrapper */
+.udemy-video-wrapper {
+  background-color: #1C1D1F; /* Blackish background for video */
   width: 100%;
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
 }
 
-.sidebar {
-  background-color: #f2f5fa;
-  padding: 1.5rem 1rem;
-}
-
-.invite-btn {
+.udemy-video-player {
   width: 100%;
-  max-width: 300px;
-  margin: 1rem auto;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-@media (max-width: 991px) {
-  .sidebar {
-    margin-top: 2rem;
-    padding: 1rem;
-    border-radius: 8px;
-  }
-
-  .course-title {
-    font-size: 1.25rem;
-    padding: 0 0.5rem;
-  }
+/* Sidebar Scrollable Area */
+.udemy-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
 }
 
-@media (max-width: 576px) {
-  .container-fluid {
-    padding: 0.5rem;
-  }
-
-  .video-container {
-    border-radius: 4px;
-  }
-
-  .invite-btn {
-    max-width: 100%;
-  }
+/* Custom Scrollbar for Sidebar */
+.udemy-sidebar-content::-webkit-scrollbar {
+  width: 8px;
 }
+.udemy-sidebar-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.udemy-sidebar-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+.udemy-sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
 </style>

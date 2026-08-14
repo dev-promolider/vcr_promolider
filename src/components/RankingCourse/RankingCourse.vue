@@ -99,7 +99,7 @@ export default {
   height: 56px;
   border-radius: 50%;
   background-color: rgba(16, 185, 129, 0.1) !important;
-  border: 2px solid #10B981 !important;
+  border: 2px solid var(--primary-color) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +111,7 @@ export default {
   font-family: 'Outfit', sans-serif;
   font-weight: 800;
   font-size: 1.25rem;
-  color: #10B981;
+  color: var(--primary-color);
 }
 
 .user-card-title {

@@ -8,7 +8,7 @@
       <div class="floating-info-card hallmark-glass">
         <div class="d-flex align-center">
           <div class="avatar-badge mr-3">
-            <v-icon color="#10B981" size="24">mdi-school</v-icon>
+            <v-icon color="var(--primary-color)" size="24">mdi-school</v-icon>
           </div>
           <div>
             <h4 class="info-title">Aula Virtual Promolíder</h4>

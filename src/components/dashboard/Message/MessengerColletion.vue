@@ -79,7 +79,7 @@ export default {
 
 .header-link {
   font-family: 'Outfit', sans-serif !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   font-weight: 600 !important;
   font-size: 0.88rem !important;
 }
@@ -92,7 +92,7 @@ export default {
 }
 
 .message-item:hover {
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12) !important;
 }
 

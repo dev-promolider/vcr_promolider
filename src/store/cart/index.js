@@ -31,13 +31,12 @@ export default {
     cartItems: (state) => state.items,
     isCartOpen: (state) => state.isCartOpen,
     itemCount: (state) => {
-      return state.items.reduce((total, item) => total + (parseInt(item.quantity) || 1), 0);
+      return state.items.length;
     },
     subtotal: (state) => {
       return state.items.reduce((total, item) => {
         const price = parseFloat(item.price) || 0;
-        const qty = parseInt(item.quantity) || 1;
-        return total + (price * qty);
+        return total + price;
       }, 0);
     },
     taxAmount: (state, getters) => {
@@ -61,16 +60,13 @@ export default {
     },
     ADD_TO_CART(state, item) {
       const existingIndex = state.items.findIndex((i) => i.id == item.id);
-      if (existingIndex > -1) {
-        state.items[existingIndex].quantity += (item.quantity || 1);
-      } else {
+      if (existingIndex === -1) {
         state.items.push({
           id: item.id,
           title: item.title || item.name || 'Curso',
           price: parseFloat(item.price_with_discount > 0 ? item.price_with_discount : (item.price || item.precio || 0)),
           originalPrice: parseFloat(item.precio || item.price || 0),
           url_portada: item.url_portada || item.img || item.coverUrl || '',
-          quantity: item.quantity || 1,
           category: item.categoria || item.category || 'Curso',
           slug: item.slug || '',
         });

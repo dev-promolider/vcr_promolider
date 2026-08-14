@@ -532,7 +532,7 @@ export default {
 }
 
 .search-box:focus-within {
-  border-color: var(--hm-primary, #10B981);
+  border-color: var(--hm-primary, var(--primary-color));
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
 }
 
@@ -651,7 +651,7 @@ export default {
 
 .content-card:hover {
   transform: translateY(-4px) !important;
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 12px 28px rgba(16, 185, 129, 0.14) !important;
 }
 
@@ -681,7 +681,7 @@ export default {
   top: 14px;
   right: 14px;
   background: rgba(16, 185, 129, 0.12);
-  color: #10B981;
+  color: var(--primary-color);
   font-family: 'Outfit', sans-serif;
   font-size: 11px;
   font-weight: 700;
@@ -741,7 +741,7 @@ export default {
 
 .price-current {
   font-family: 'Outfit', sans-serif !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   font-size: 1.35rem !important;
   font-weight: 800 !important;
 }
@@ -787,7 +787,7 @@ export default {
   width: 100%;
   height: 44px;
   border: none;
-  background: #10B981 !important;
+  background: var(--primary-color) !important;
   color: #FFFFFF !important;
   border-radius: 12px !important;
   font-family: 'Outfit', sans-serif !important;
@@ -798,7 +798,7 @@ export default {
 }
 
 .primary-action:hover {
-  background: #059669 !important;
+  background: var(--primary-hover) !important;
   box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
   transform: translateY(-1px);
 }

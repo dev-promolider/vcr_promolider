@@ -8,7 +8,7 @@
     <div class="tw-fixed tw-bottom-6 tw-right-6 tw-z-40 tw-group">
       <button
         @click="showRoulette = true"
-        class="tw-w-11 tw-h-11 tw-rounded-full tw-bg-gradient-to-r tw-from-[#18d600] tw-to-[#10b981] tw-p-2 tw-shadow-[0_6px_20px_rgba(24,214,0,0.35)] hover:tw-scale-110 hover:tw--translate-y-1 tw-transition-all tw-duration-200 tw-flex tw-items-center tw-justify-center border tw-border-white/20"
+        class="tw-w-11 tw-h-11 tw-rounded-full tw-bg-gradient-to-r tw-from-[#18d600] tw-to-[var(--primary-color)] tw-p-2 tw-shadow-[0_6px_20px_rgba(24,214,0,0.35)] hover:tw-scale-110 hover:tw--translate-y-1 tw-transition-all tw-duration-200 tw-flex tw-items-center tw-justify-center border tw-border-white/20"
         title="Gana recompensas en la Ruleta"
       >
         <img
@@ -18,7 +18,7 @@
         />
       </button>
       <!-- Tooltip sutil -->
-      <span class="tw-absolute tw-bottom-full tw-right-0 tw-mb-2 tw-hidden group-hover:tw-block tw-bg-[#0f172a] tw-text-white tw-text-xs tw-font-semibold tw-px-3 tw-py-1.5 tw-rounded-lg tw-shadow-xl tw-whitespace-nowrap tw-z-50">
+      <span class="tw-absolute tw-bottom-full tw-right-0 tw-mb-2 tw-hidden group-hover:tw-block tw-bg-[var(--text-bold)] tw-text-white tw-text-xs tw-font-semibold tw-px-3 tw-py-1.5 tw-rounded-lg tw-shadow-xl tw-whitespace-nowrap tw-z-50">
         ¡Recompensa Diaria! 🎁
       </span>
     </div>

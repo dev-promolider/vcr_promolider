@@ -40,7 +40,7 @@
                       {{ product.title }}
                     </h6>
                     <span class="certificate-badge">
-                      <v-icon color="#10B981" size="14" class="mr-1">mdi-award</v-icon>
+                      <v-icon color="var(--primary-color)" size="14" class="mr-1">mdi-award</v-icon>
                       Con certificado
                     </span>
                   </div>
@@ -57,7 +57,7 @@
           <!-- Estado de espera sin curso seleccionado -->
           <div v-if="waitSelection" class="empty-certificate-selection text-center py-5 my-auto">
             <div class="empty-icon-circle mb-3 mx-auto">
-              <v-icon color="#10B981" size="48">mdi-certificate-outline</v-icon>
+              <v-icon color="var(--primary-color)" size="48">mdi-certificate-outline</v-icon>
             </div>
             <h4 class="empty-title mb-2">Selecciona un curso</h4>
             <p class="empty-subtitle mb-0">
@@ -872,13 +872,13 @@ export default {
 
 .course-card-item:hover {
   transform: translateY(-2px);
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 6px 18px rgba(16, 185, 129, 0.12) !important;
 }
 
 .course-card-item.active {
   background: rgba(16, 185, 129, 0.08) !important;
-  border: 2px solid #10B981 !important;
+  border: 2px solid var(--primary-color) !important;
   box-shadow: 0 8px 24px rgba(16, 185, 129, 0.18) !important;
 }
 
@@ -907,7 +907,7 @@ export default {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 0.78rem !important;
   font-weight: 600 !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   display: inline-flex;
   align-items: center;
 }
@@ -1016,27 +1016,27 @@ export default {
 }
 
 .progress-bar {
-  background-color: #10B981 !important;
+  background-color: var(--primary-color) !important;
 }
 
 .btn-outline-success {
-  border-color: #10B981 !important;
-  color: #10B981 !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 .btn-outline-success:hover {
-  background-color: #10B981 !important;
+  background-color: var(--primary-color) !important;
   color: #FFFFFF !important;
 }
 
 .btn-success {
-  background-color: #10B981 !important;
-  border-color: #10B981 !important;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 
 .btn-success:hover {
-  background-color: #059669 !important;
-  border-color: #059669 !important;
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
 }
 
 .btn-success:disabled {

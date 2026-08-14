@@ -15,7 +15,7 @@
                 alt="Foto de perfil"
                 @error="onAvatarError"
               />
-              <button class="tw-absolute tw-bottom-1 tw-right-1 tw-w-9 tw-h-9 tw-rounded-full tw-bg-[#10B981] tw-border-[3px] tw-flex tw-items-center tw-justify-center tw-cursor-pointer tw-shadow-[0_4px_10px_rgba(16,185,129,0.3)] hover:tw-scale-110 hover:tw-bg-[#059669] tw-transition-all tw-duration-200" style="border-color: var(--card-sub-bg);" @click="modalImage = true" title="Cambiar foto">
+              <button class="tw-absolute tw-bottom-1 tw-right-1 tw-w-9 tw-h-9 tw-rounded-full tw-bg-[var(--primary-color)] tw-border-[3px] tw-flex tw-items-center tw-justify-center tw-cursor-pointer tw-shadow-[0_4px_10px_rgba(16,185,129,0.3)] hover:tw-scale-110 hover:tw-bg-[var(--primary-hover)] tw-transition-all tw-duration-200" style="border-color: var(--card-sub-bg);" @click="modalImage = true" title="Cambiar foto">
                 <svg class="tw-w-4 tw-h-4 tw-text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
               </button>
             </div>
@@ -25,12 +25,12 @@
 
             <!-- Chips de Rol y Membresía -->
             <div class="tw-flex tw-flex-wrap tw-justify-center tw-gap-2 tw-mb-5">
-              <span v-if="userUp.rol" class="tw-font-jakarta tw-text-sm tw-font-semibold tw-border tw-px-3 tw-py-1 tw-rounded-full tw-inline-flex tw-items-center" style="color: #10B981; background-color: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">
-                <svg class="tw-w-4 tw-h-4 tw-mr-1" style="color: #10B981;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+              <span v-if="userUp.rol" class="tw-font-jakarta tw-text-sm tw-font-semibold tw-border tw-px-3 tw-py-1 tw-rounded-full tw-inline-flex tw-items-center" style="color: var(--primary-color); background-color: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">
+                <svg class="tw-w-4 tw-h-4 tw-mr-1" style="color: var(--primary-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                 Rol: {{ userUp.rol }}
               </span>
-              <span v-if="userUp.plan" class="tw-font-jakarta tw-text-sm tw-font-semibold tw-border tw-px-3 tw-py-1 tw-rounded-full tw-inline-flex tw-items-center" style="color: #10B981; background-color: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">
-                <svg class="tw-w-4 tw-h-4 tw-mr-1" style="color: #10B981;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+              <span v-if="userUp.plan" class="tw-font-jakarta tw-text-sm tw-font-semibold tw-border tw-px-3 tw-py-1 tw-rounded-full tw-inline-flex tw-items-center" style="color: var(--primary-color); background-color: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">
+                <svg class="tw-w-4 tw-h-4 tw-mr-1" style="color: var(--primary-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
                 Membresía: {{ userUp.plan }}
               </span>
             </div>
@@ -65,7 +65,7 @@
           
           <!-- Native Tabs Header -->
           <div class="profile-tabs-header tw-flex tw-border-b" style="background-color: var(--card-sub-bg); border-color: var(--border-color);">
-            <button v-for="(ltab, index) in listTabs" :key="index" @click="tab = index" :class="['tw-px-6 tw-py-4 tw-font-outfit tw-font-bold tw-text-[0.95rem] tw-capitalize tw-transition-colors tw-flex tw-items-center tw-gap-2 tw-outline-none', tab === index ? 'tw-border-b-2 tw-border-[#10B981]' : 'hover:tw-text-[#10B981]']" :style="{ color: tab === index ? '#10B981' : 'var(--text-muted)' }">
+            <button v-for="(ltab, index) in listTabs" :key="index" @click="tab = index" :class="['tw-px-6 tw-py-4 tw-font-outfit tw-font-bold tw-text-[0.95rem] tw-capitalize tw-transition-colors tw-flex tw-items-center tw-gap-2 tw-outline-none', tab === index ? 'tw-border-b-2 tw-border-[var(--primary-color)]' : 'hover:tw-text-[var(--primary-color)]']" :style="{ color: tab === index ? 'var(--primary-color)' : 'var(--text-muted)' }">
               <svg v-if="ltab.icon === 'account'" class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
               <svg v-if="ltab.icon === 'lock-outline'" class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
               {{ ltab.title }}
@@ -83,25 +83,25 @@
                   <div class="tw-flex-1 tw-flex tw-flex-col tw-gap-4">
                     <div>
                       <label class="tw-block tw-text-sm tw-font-semibold tw-mb-1" style="color: var(--text-muted);">Usuario</label>
-                      <input type="text" v-model="dataUser.name" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[#10B981] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
+                      <input type="text" v-model="dataUser.name" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[var(--primary-color)] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
                     </div>
                     <div>
                       <label class="tw-block tw-text-sm tw-font-semibold tw-mb-1" style="color: var(--text-muted);">Teléfono</label>
-                      <input type="text" v-model="dataUser.phone" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[#10B981] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
+                      <input type="text" v-model="dataUser.phone" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[var(--primary-color)] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
                     </div>
                     <div>
                       <label class="tw-block tw-text-sm tw-font-semibold tw-mb-1" style="color: var(--text-muted);">Nro. de documento</label>
-                      <input type="text" v-model="dataUser.nro_document" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[#10B981] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
+                      <input type="text" v-model="dataUser.nro_document" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[var(--primary-color)] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
                     </div>
                   </div>
                   <div class="tw-flex-1 tw-flex tw-flex-col tw-gap-4">
                     <div>
                       <label class="tw-block tw-text-sm tw-font-semibold tw-mb-1" style="color: var(--text-muted);">Correo electrónico</label>
-                      <input type="email" v-model="dataUser.email" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[#10B981] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
+                      <input type="email" v-model="dataUser.email" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[var(--primary-color)] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
                     </div>
                     <div>
                       <label class="tw-block tw-text-sm tw-font-semibold tw-mb-1" style="color: var(--text-muted);">Tipo de documento</label>
-                      <select v-model="dataUser.id_document_type" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[#10B981] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);">
+                      <select v-model="dataUser.id_document_type" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[var(--primary-color)] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);">
                         <option value="" disabled>Seleccione una opción</option>
                         <option v-for="doc in docTypes" :key="doc.id" :value="doc.id" style="background-color: var(--card-sub-bg); color: var(--text-bold);">{{ doc.document }}</option>
                       </select>
@@ -109,7 +109,7 @@
                   </div>
                 </div>
                 <div class="tw-flex tw-justify-end tw-mt-6">
-                  <button type="submit" :disabled="isLoadingUpdateUser" class="tw-w-full sm:tw-w-auto tw-bg-[#10B981] hover:tw-bg-[#059669] tw-text-white tw-font-bold tw-py-3 tw-px-6 tw-rounded-xl tw-transition-colors disabled:tw-opacity-60 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-justify-center">
+                  <button type="submit" :disabled="isLoadingUpdateUser" class="tw-w-full sm:tw-w-auto tw-bg-[var(--primary-color)] hover:tw-bg-[var(--primary-hover)] tw-text-white tw-font-bold tw-py-3 tw-px-6 tw-rounded-xl tw-transition-colors disabled:tw-opacity-60 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-justify-center">
                     <svg class="tw-w-5 tw-h-5 tw-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     <span>{{ isLoadingUpdateUser ? 'Guardando...' : 'Guardar Cambios' }}</span>
                   </button>
@@ -126,8 +126,8 @@
                     <div>
                       <label class="tw-block tw-text-sm tw-font-semibold tw-mb-1" style="color: var(--text-muted);">Contraseña actual</label>
                       <div class="tw-relative">
-                        <input :type="value ? 'password' : 'text'" v-model="actual_pass" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[#10B981] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
-                        <button type="button" @click="value = !value" class="tw-absolute tw-right-3 tw-top-1/2 tw--translate-y-1/2 hover:tw-text-[#10B981] tw-mt-0.5" style="color: var(--text-muted);">
+                        <input :type="value ? 'password' : 'text'" v-model="actual_pass" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[var(--primary-color)] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
+                        <button type="button" @click="value = !value" class="tw-absolute tw-right-3 tw-top-1/2 tw--translate-y-1/2 hover:tw-text-[var(--primary-color)] tw-mt-0.5" style="color: var(--text-muted);">
                           <svg v-if="value" class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                           <svg v-else class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
                         </button>
@@ -138,8 +138,8 @@
                     <div>
                       <label class="tw-block tw-text-sm tw-font-semibold tw-mb-1" style="color: var(--text-muted);">Nueva contraseña</label>
                       <div class="tw-relative">
-                        <input :type="value ? 'password' : 'text'" v-model="new_pass" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[#10B981] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
-                        <button type="button" @click="value = !value" class="tw-absolute tw-right-3 tw-top-1/2 tw--translate-y-1/2 hover:tw-text-[#10B981] tw-mt-0.5" style="color: var(--text-muted);">
+                        <input :type="value ? 'password' : 'text'" v-model="new_pass" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[var(--primary-color)] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
+                        <button type="button" @click="value = !value" class="tw-absolute tw-right-3 tw-top-1/2 tw--translate-y-1/2 hover:tw-text-[var(--primary-color)] tw-mt-0.5" style="color: var(--text-muted);">
                           <svg v-if="value" class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                           <svg v-else class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
                         </button>
@@ -148,8 +148,8 @@
                     <div>
                       <label class="tw-block tw-text-sm tw-font-semibold tw-mb-1" style="color: var(--text-muted);">Repetir nueva contraseña</label>
                       <div class="tw-relative">
-                        <input :type="value2 ? 'password' : 'text'" v-model="repeat_pass" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[#10B981] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
-                        <button type="button" @click="value2 = !value2" class="tw-absolute tw-right-3 tw-top-1/2 tw--translate-y-1/2 hover:tw-text-[#10B981] tw-mt-0.5" style="color: var(--text-muted);">
+                        <input :type="value2 ? 'password' : 'text'" v-model="repeat_pass" class="profile-input-field tw-w-full tw-px-4 tw-py-2 tw-border tw-rounded-lg focus:tw-ring-2 focus:tw-ring-[var(--primary-color)] focus:tw-outline-none" style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-bold);" />
+                        <button type="button" @click="value2 = !value2" class="tw-absolute tw-right-3 tw-top-1/2 tw--translate-y-1/2 hover:tw-text-[var(--primary-color)] tw-mt-0.5" style="color: var(--text-muted);">
                           <svg v-if="value2" class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                           <svg v-else class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
                         </button>
@@ -162,7 +162,7 @@
                   Mínimo 8 caracteres de largo, mayúsculas y símbolos
                 </p>
                 <div class="tw-flex tw-justify-start">
-                  <button class="tw-w-full sm:tw-w-auto tw-bg-[#10B981] hover:tw-bg-[#059669] tw-text-white tw-font-bold tw-py-3 tw-px-6 tw-rounded-xl tw-transition-colors tw-flex tw-items-center tw-justify-center" type="submit">
+                  <button class="tw-w-full sm:tw-w-auto tw-bg-[var(--primary-color)] hover:tw-bg-[var(--primary-hover)] tw-text-white tw-font-bold tw-py-3 tw-px-6 tw-rounded-xl tw-transition-colors tw-flex tw-items-center tw-justify-center" type="submit">
                     <svg class="tw-w-5 tw-h-5 tw-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     <span>Cambiar contraseña</span>
                   </button>
@@ -186,14 +186,14 @@
 
         <div class="tw-mb-6">
           <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-700 dark:tw-text-[#94a3b8] tw-mb-2">Buscar Imagen</label>
-          <input type="file" accept="image/*" @change="file = $event.target.files[0]; onFileSelected()" class="tw-w-full tw-border tw-border-gray-300 dark:tw-border-[rgba(255,255,255,0.1)] tw-rounded-lg tw-px-4 tw-py-2 tw-text-sm tw-text-gray-700 dark:tw-text-[#e2e8f0] tw-file:mr-4 tw-file:py-2 tw-file:px-4 tw-file:rounded-full tw-file:border-0 tw-file:text-sm tw-file:font-semibold tw-file:bg-[#10B981]/10 tw-file:text-[#10B981] hover:tw-file:bg-[#10B981]/20 tw-transition-colors tw-cursor-pointer focus:tw-outline-none" />
+          <input type="file" accept="image/*" @change="file = $event.target.files[0]; onFileSelected()" class="tw-w-full tw-border tw-border-gray-300 dark:tw-border-[rgba(255,255,255,0.1)] tw-rounded-lg tw-px-4 tw-py-2 tw-text-sm tw-text-gray-700 dark:tw-text-[#e2e8f0] tw-file:mr-4 tw-file:py-2 tw-file:px-4 tw-file:rounded-full tw-file:border-0 tw-file:text-sm tw-file:font-semibold tw-file:bg-[var(--primary-color)]/10 tw-file:text-[var(--primary-color)] hover:tw-file:bg-[var(--primary-color)]/20 tw-transition-colors tw-cursor-pointer focus:tw-outline-none" />
         </div>
 
         <div class="tw-flex tw-justify-end tw-gap-3">
           <button @click="onCancel" class="tw-px-4 tw-py-2 tw-text-gray-600 dark:tw-text-[#94a3b8] tw-font-medium hover:tw-bg-gray-100 dark:hover:tw-bg-white/5 tw-rounded-lg tw-transition-colors">
             Cancelar
           </button>
-          <button @click="onUpload" :disabled="loadingSaveImage" class="tw-px-4 tw-py-2 tw-bg-[#10B981] tw-text-white tw-font-medium hover:tw-bg-[#059669] tw-rounded-lg tw-transition-colors disabled:tw-opacity-50">
+          <button @click="onUpload" :disabled="loadingSaveImage" class="tw-px-4 tw-py-2 tw-bg-[var(--primary-color)] tw-text-white tw-font-medium hover:tw-bg-[var(--primary-hover)] tw-rounded-lg tw-transition-colors disabled:tw-opacity-50">
             {{ loadingSaveImage ? 'Guardando...' : 'Guardar' }}
           </button>
         </div>

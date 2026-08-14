@@ -47,7 +47,7 @@
                     {{ product.title }}
                   </h6>
                   <span class="exam-badge">
-                    <v-icon color="#10B981" size="14" class="mr-1">mdi-file-document-edit-outline</v-icon>
+                    <v-icon color="var(--primary-color)" size="14" class="mr-1">mdi-file-document-edit-outline</v-icon>
                     Exámenes disponibles
                   </span>
                 </div>
@@ -63,7 +63,7 @@
           <!-- State: Wait selection -->
           <div v-if="waitSelection" class="empty-exam-selection text-center py-5 my-auto">
             <div class="empty-icon-circle mb-3 mx-auto">
-              <v-icon color="#10B981" size="48">mdi-file-certificate-outline</v-icon>
+              <v-icon color="var(--primary-color)" size="48">mdi-file-certificate-outline</v-icon>
             </div>
             <h4 class="empty-title mb-2">Selecciona un curso</h4>
             <p class="empty-subtitle mb-0">
@@ -137,7 +137,7 @@
                       </td>
                       <td class="text-end">
                         <span v-if="exam.approved" class="status-badge-approved">
-                          <v-icon color="#10B981" size="16" class="mr-1">mdi-check-circle</v-icon>
+                          <v-icon color="var(--primary-color)" size="16" class="mr-1">mdi-check-circle</v-icon>
                           Aprobado
                         </span>
                         <button v-else class="btn btn-take-exam btn-sm" @click="Testing(exam)">
@@ -157,7 +157,7 @@
                       </td>
                       <td class="text-end">
                         <span v-if="exam.approved" class="status-badge-approved">
-                          <v-icon color="#10B981" size="16" class="mr-1">mdi-check-circle</v-icon>
+                          <v-icon color="var(--primary-color)" size="16" class="mr-1">mdi-check-circle</v-icon>
                           Aprobado
                         </span>
                         <button v-else class="btn btn-take-exam btn-sm" @click="Testing(exam)">
@@ -171,13 +171,13 @@
                     <tr v-if="showCourseExam">
                       <td>
                         <div class="d-flex align-items-center">
-                          <v-icon color="#10B981" size="20" class="mr-2">mdi-school-outline</v-icon>
+                          <v-icon color="var(--primary-color)" size="20" class="mr-2">mdi-school-outline</v-icon>
                           <span class="exam-name-text font-weight-bold">{{ exam_course.title }}</span>
                         </div>
                       </td>
                       <td class="text-end">
                         <span v-if="exam_course.approved" class="status-badge-approved">
-                          <v-icon color="#10B981" size="16" class="mr-1">mdi-check-circle</v-icon>
+                          <v-icon color="var(--primary-color)" size="16" class="mr-1">mdi-check-circle</v-icon>
                           Aprobado
                         </span>
                         <button v-else class="btn btn-take-exam btn-sm" @click="Testing(exam_course)">
@@ -331,13 +331,13 @@ export default {
 
 .course-card-item:hover {
   transform: translateY(-2px);
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
   box-shadow: 0 6px 18px rgba(16, 185, 129, 0.12) !important;
 }
 
 .course-card-item.active {
   background: rgba(16, 185, 129, 0.08) !important;
-  border: 2px solid #10B981 !important;
+  border: 2px solid var(--primary-color) !important;
   box-shadow: 0 8px 24px rgba(16, 185, 129, 0.18) !important;
 }
 
@@ -366,7 +366,7 @@ export default {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 0.78rem !important;
   font-weight: 600 !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   display: inline-flex;
   align-items: center;
 }
@@ -448,7 +448,7 @@ export default {
   font-family: 'Outfit', sans-serif;
   font-size: 0.88rem;
   font-weight: 700;
-  color: #10B981;
+  color: var(--primary-color);
 }
 
 .custom-progress {
@@ -458,7 +458,7 @@ export default {
 }
 
 .bg-emerald {
-  background-color: #10B981 !important;
+  background-color: var(--primary-color) !important;
 }
 
 /* Card de Lista de Exámenes */
@@ -522,7 +522,7 @@ export default {
   display: inline-flex;
   align-items: center;
   background: rgba(16, 185, 129, 0.12) !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   padding: 6px 14px !important;
   border-radius: 20px !important;
   font-family: 'Outfit', sans-serif !important;
@@ -531,7 +531,7 @@ export default {
 }
 
 .btn-take-exam {
-  background-color: #10B981 !important;
+  background-color: var(--primary-color) !important;
   color: #FFFFFF !important;
   border: none !important;
   border-radius: 12px !important;
@@ -545,7 +545,7 @@ export default {
 }
 
 .btn-take-exam:hover {
-  background-color: #059669 !important;
+  background-color: var(--primary-hover) !important;
   box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
 }
 

@@ -82,7 +82,7 @@
             <!-- Contenido del chat -->
             <div class="chat-content p-4">
               <div v-if="actualMessageContent.length == 0" class="empty-chat text-center my-auto py-5">
-                <v-icon color="#10B981" size="48" class="mb-2">mdi-hand-wave-outline</v-icon>
+                <v-icon color="var(--primary-color)" size="48" class="mb-2">mdi-hand-wave-outline</v-icon>
                 <h5 class="empty-chat-title mb-1">¡Saluda a {{ actualContact.name }}!</h5>
                 <p class="empty-chat-sub mb-0">Envía un mensaje para iniciar la conversación</p>
               </div>

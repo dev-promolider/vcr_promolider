@@ -23,7 +23,7 @@
       </div>
 
       <!-- Main Gateway Card -->
-      <div class="tw-bg-[#0F172A] tw-border tw-border-slate-800 tw-rounded-3xl tw-p-6 md:tw-p-10 tw-shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+      <div class="tw-bg-[var(--text-bold)] tw-border tw-border-slate-800 tw-rounded-3xl tw-p-6 md:tw-p-10 tw-shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
         
         <!-- Header -->
         <div class="tw-flex tw-items-center tw-justify-between tw-pb-6 tw-mb-8 tw-border-b tw-border-slate-800">
@@ -83,7 +83,7 @@
                 </label>
                 <select 
                   v-model="selectedPais" 
-                  class="tw-w-full tw-bg-[#0F172A] tw-border tw-border-slate-700 tw-rounded-xl tw-px-4 tw-py-3 tw-text-white tw-font-medium focus:tw-outline-none focus:tw-border-[#18d600]"
+                  class="tw-w-full tw-bg-[var(--text-bold)] tw-border tw-border-slate-700 tw-rounded-xl tw-px-4 tw-py-3 tw-text-white tw-font-medium focus:tw-outline-none focus:tw-border-[#18d600]"
                 >
                   <option v-for="(c, idx) in countriesList" :key="idx" :value="c.state">
                     {{ c.state }}
@@ -105,7 +105,7 @@
                 <!-- Openpay Option -->
                 <label 
                   class="tw-flex tw-items-center tw-justify-between tw-p-4 tw-rounded-xl tw-border tw-cursor-pointer tw-transition-all"
-                  :class="selectedMethod === 'openpay' ? 'tw-bg-[#18d600]/10 tw-border-[#18d600]' : 'tw-bg-[#0F172A] tw-border-slate-800 hover:tw-border-slate-700'"
+                  :class="selectedMethod === 'openpay' ? 'tw-bg-[#18d600]/10 tw-border-[#18d600]' : 'tw-bg-[var(--text-bold)] tw-border-slate-800 hover:tw-border-slate-700'"
                 >
                   <div class="tw-flex tw-items-center tw-gap-3">
                     <input type="radio" v-model="selectedMethod" value="openpay" class="tw-accent-[#18d600]" />
@@ -122,7 +122,7 @@
                 <!-- PayPal Option -->
                 <label 
                   class="tw-flex tw-items-center tw-justify-between tw-p-4 tw-rounded-xl tw-border tw-cursor-pointer tw-transition-all"
-                  :class="selectedMethod === 'paypal' ? 'tw-bg-[#18d600]/10 tw-border-[#18d600]' : 'tw-bg-[#0F172A] tw-border-slate-800 hover:tw-border-slate-700'"
+                  :class="selectedMethod === 'paypal' ? 'tw-bg-[#18d600]/10 tw-border-[#18d600]' : 'tw-bg-[var(--text-bold)] tw-border-slate-800 hover:tw-border-slate-700'"
                 >
                   <div class="tw-flex tw-items-center tw-gap-3">
                     <input type="radio" v-model="selectedMethod" value="paypal" class="tw-accent-[#18d600]" />
@@ -137,7 +137,7 @@
                 <!-- Wallet Balance Option -->
                 <label 
                   class="tw-flex tw-items-center tw-justify-between tw-p-4 tw-rounded-xl tw-border tw-cursor-pointer tw-transition-all"
-                  :class="selectedMethod === 'wallet' ? 'tw-bg-[#18d600]/10 tw-border-[#18d600]' : 'tw-bg-[#0F172A] tw-border-slate-800 hover:tw-border-slate-700'"
+                  :class="selectedMethod === 'wallet' ? 'tw-bg-[#18d600]/10 tw-border-[#18d600]' : 'tw-bg-[var(--text-bold)] tw-border-slate-800 hover:tw-border-slate-700'"
                 >
                   <div class="tw-flex tw-items-center tw-gap-3">
                     <input type="radio" v-model="selectedMethod" value="wallet" class="tw-accent-[#18d600]" />
@@ -159,7 +159,7 @@
               </div>
 
               <!-- Extra Info for Wallet -->
-              <div v-if="selectedMethod === 'wallet'" class="tw-mt-6 tw-p-4 tw-bg-[#0F172A] tw-rounded-xl tw-border tw-border-slate-800">
+              <div v-if="selectedMethod === 'wallet'" class="tw-mt-6 tw-p-4 tw-bg-[var(--text-bold)] tw-rounded-xl tw-border tw-border-slate-800">
                 <div class="tw-flex tw-justify-between tw-text-sm tw-mb-2">
                   <span class="tw-text-slate-400">Saldo disponible en billetera:</span>
                   <span class="tw-text-white tw-font-bold">${{ saldoTotal.toFixed(2) }}</span>
@@ -189,7 +189,7 @@
                 <div 
                   v-for="item in cartItems" 
                   :key="item.id"
-                  class="tw-flex tw-items-center tw-gap-3 tw-p-3 tw-bg-[#0F172A] tw-rounded-xl tw-border tw-border-slate-800"
+                  class="tw-flex tw-items-center tw-gap-3 tw-p-3 tw-bg-[var(--text-bold)] tw-rounded-xl tw-border tw-border-slate-800"
                 >
                   <img :src="getCover(item)" :alt="item.title" class="tw-w-12 tw-h-12 tw-rounded-lg tw-object-cover tw-shrink-0" @error="onImgError" />
                   <div class="tw-flex-1 tw-min-w-0">
@@ -458,7 +458,7 @@ export default {
   width: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #0F172A;
+  background: var(--text-bold);
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #334155;

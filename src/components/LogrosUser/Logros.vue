@@ -179,7 +179,7 @@ export default {
 .achievement-card.obtained:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2) !important;
-  border-color: #10B981 !important;
+  border-color: var(--primary-color) !important;
 }
 
 .achievement-card.obtained .card-title {

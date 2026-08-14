@@ -88,14 +88,14 @@ export default {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1.5px solid #10B981;
+  border: 1.5px solid var(--primary-color);
   background: rgba(16, 185, 129, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  color: #10B981;
+  color: var(--primary-color);
   font-size: 0.85rem;
 }
 

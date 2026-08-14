@@ -150,7 +150,7 @@ export default {
 }
 
 .text-emerald {
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
 }
 
 .kpi-label {

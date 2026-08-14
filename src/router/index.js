@@ -44,6 +44,8 @@ const PasswordRecovery = () =>
 const pruebaJuego = () => import("../views/content/pruebaJuego.vue");
 const AutoLogin = () => import("../views/content/AutoLogin.vue");
 const Conector = () => import("../views/content/Conector.vue");
+const CartPage = () => import("../views/content/cart/Cart.vue");
+const WishlistPage = () => import("../views/content/wishlist/Wishlist.vue");
 
 // import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
 // import Suscription from '../components/suscription/suscription.vue'
@@ -98,6 +100,17 @@ const routes = [
         path: "/course-user/dinamic/:id",
         component: DinamicClass,
         name: "dinamic",
+        props: true,
+      },
+      {
+        path: "cart",
+        name: "cart",
+        component: CartPage,
+      },
+      {
+        path: "wishlist",
+        name: "wishlist",
+        component: WishlistPage,
       },
       { path: "/messages", component: Messages, name: "messages" },
       {

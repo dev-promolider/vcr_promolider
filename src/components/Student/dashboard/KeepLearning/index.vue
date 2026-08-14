@@ -143,7 +143,7 @@ export default {
   position: relative;
   overflow: hidden;
   border-radius: 24px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg, var(--text-bold) 0%, #1e293b 100%);
   padding: 40px;
   min-height: 220px;
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
@@ -206,7 +206,7 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
   color: #ffffff;
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
@@ -222,7 +222,7 @@ export default {
 .premium-explore-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(16, 185, 129, 0.35);
-  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 100%);
 }
 
 .premium-explore-btn .btn-icon {
@@ -269,7 +269,7 @@ export default {
 .graphic-icon {
   width: 48px;
   height: 48px;
-  color: #34d399;
+  color: var(--primary-color);
   z-index: 20;
   position: relative;
   filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.4));

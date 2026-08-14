@@ -44,7 +44,7 @@
           </div>
 
           <div class="tw-text-right tw-shrink-0">
-            <span class="sale-price tw-font-bold tw-block" style="color: #10B981">${{ item.price }}</span>
+            <span class="sale-price tw-font-bold tw-block" style="color: var(--primary-color)">${{ item.price }}</span>
             <span class="sale-date tw-text-gray-500 tw-block" style="font-size: 0.78rem">{{ item.created_at }}</span>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default {
 
 .header-link {
   font-family: 'Outfit', sans-serif !important;
-  color: #10B981 !important;
+  color: var(--primary-color) !important;
   font-weight: 600 !important;
   font-size: 0.88rem !important;
 }

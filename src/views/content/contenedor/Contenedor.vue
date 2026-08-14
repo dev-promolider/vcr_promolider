@@ -11,7 +11,7 @@
       <NavBarV />
 
       <!-- Main Content Column -->
-      <div class="tw-flex-1 tw-min-w-0 tw-flex tw-flex-col tw-relative tw-z-[5] tw-overflow-x-hidden">
+      <div class="tw-flex-1 tw-min-w-0 tw-flex tw-flex-col tw-relative tw-z-[5]">
         <!-- Topbar -->
         <TopBar />
 
@@ -24,8 +24,6 @@
       </div>
     </div>
 
-    <!-- Global Shopping Cart Modal -->
-    <ShoppingCartModal />
   </div>
 </template>
 
@@ -33,7 +31,6 @@
 import NavBarV from "@/components/Navbar/NavBarV.vue";
 import TopBar from "@/components/Navbar/TopBar.vue";
 import Preferencias from "@/views/content/preferences/PreferenceCateg.vue";
-import ShoppingCartModal from "@/components/Cart/ShoppingCartModal.vue";
 import { mapState } from "vuex";
 import { authGet } from "@/helpers/authStorage";
 
@@ -43,7 +40,6 @@ export default {
     NavBarV,
     TopBar,
     Preferencias,
-    ShoppingCartModal,
   },
   data() {
     return {
