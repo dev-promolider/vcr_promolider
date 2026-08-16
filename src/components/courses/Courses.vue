@@ -130,7 +130,7 @@
             <!-- Sección Única: Catálogo Completo (Grid) -->
             <div class="marketplace-section mb-5" v-if="filteredAllItems.length">
               <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 xl:tw-grid-cols-5 tw-gap-4">
-                <div v-for="item in filteredAllItems" :key="item.id + (item.product_type_id === 2 ? '-book' : '-course')">
+                <div v-for="item in filteredAllItems" :key="item.id + (Number(item.product_type_id) === 2 ? '-book' : '-course')">
                   <component :is="'Card'" :course="item" :cardType="1" :categories="Allcategories" />
                 </div>
               </div>

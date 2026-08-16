@@ -67,7 +67,6 @@
           <div v-if="isNotifPanelOpen" class="notif-flyout" id="topbar-notif-dropdown">
             <div class="nf-header-top">
               <h2 class="nf-title-main">Notificaciones</h2>
-              <router-link :to="{ name: 'option-preferences' }" class="nf-settings-link">Configuración</router-link>
             </div>
             <div class="nf-tabs">
               <button 

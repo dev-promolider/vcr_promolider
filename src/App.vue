@@ -230,6 +230,24 @@ html.dark body .skeleton-box {
 /* ======================================================
    3. MARKETPLACE (Courses.vue & Cards & Product Detail)
    ====================================================== */
+.marketplace-main-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 2.1rem !important;
+  color: #18181B !important;
+}
+
+.marketplace-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.9rem !important;
+  color: #71717A !important;
+  font-weight: 600 !important;
+}
+
+html.dark-mode body .marketplace-subtitle,
+html.dark body .marketplace-subtitle {
+  color: #a1a1aa !important;
+}
 html.dark-mode body .marketplace-card,
 html.dark body .marketplace-card,
 html.dark-mode body .tarjeta-cursos,

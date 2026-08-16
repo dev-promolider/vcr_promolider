@@ -47,7 +47,7 @@
                   </div>
                   <div class="d-flex align-items-center gap-1">
                     <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
-                    <span>Español</span>
+                    <span>{{ language }}</span>
                   </div>
                 </div>
               </div>
@@ -72,22 +72,9 @@
               <div class="tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-p-6 tw-mb-8 tw-bg-white dark:udemy-bg-dark">
                 <h2 class="tw-text-2xl tw-font-bold tw-mb-4 tw-text-gray-900 dark:tw-text-white">Lo que aprenderás</h2>
                 <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
-                  <div class="d-flex align-items-start gap-2" v-if="aprendera">
+                  <div class="d-flex align-items-start gap-2" v-for="(item, index) in parseList(aprendera)" :key="index">
                     <svg class="tw-w-5 tw-h-5 tw-mt-0.5 tw-text-gray-900 dark:tw-text-gray-300 tw-flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">{{ aprendera }}</span>
-                  </div>
-                  <!-- Static fillers for layout demo if no real array exists -->
-                  <div class="d-flex align-items-start gap-2">
-                    <svg class="tw-w-5 tw-h-5 tw-mt-0.5 tw-text-gray-900 dark:tw-text-gray-300 tw-flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">Desarrollo práctico con ejemplos reales paso a paso.</span>
-                  </div>
-                  <div class="d-flex align-items-start gap-2">
-                    <svg class="tw-w-5 tw-h-5 tw-mt-0.5 tw-text-gray-900 dark:tw-text-gray-300 tw-flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">Habilidades altamente demandadas en el mercado laboral.</span>
-                  </div>
-                  <div class="d-flex align-items-start gap-2">
-                    <svg class="tw-w-5 tw-h-5 tw-mt-0.5 tw-text-gray-900 dark:tw-text-gray-300 tw-flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">Aplica buenas prácticas y patrones de diseño modernos.</span>
+                    <span class="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">{{ item }}</span>
                   </div>
                 </div>
               </div>
@@ -98,17 +85,17 @@
                 <div class="row g-3 tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">
                   <div class="col-12 col-md-6 d-flex align-items-center gap-2">
                     <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                    <span>Video bajo demanda de nivel {{ level || 'Básico' }}</span>
+                    <span>Video bajo demanda de nivel {{ level }}</span>
                   </div>
-                  <div class="col-12 col-md-6 d-flex align-items-center gap-2">
-                    <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                  <div class="col-12 col-md-6 d-flex align-items-center gap-2" v-if="includes.includes('resources')">
+                    <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     <span>Recursos descargables</span>
                   </div>
-                  <div class="col-12 col-md-6 d-flex align-items-center gap-2">
+                  <div class="col-12 col-md-6 d-flex align-items-center gap-2" v-if="includes.includes('mobile')">
                     <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    <span>Acceso en dispositivos móviles y TV</span>
+                    <span>Acceso en dispositivos móviles</span>
                   </div>
-                  <div class="col-12 col-md-6 d-flex align-items-center gap-2">
+                  <div class="col-12 col-md-6 d-flex align-items-center gap-2" v-if="items.certificate == 1">
                     <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
                     <span>Certificado de finalización</span>
                   </div>
@@ -119,9 +106,7 @@
               <div class="tw-mb-8">
                 <h2 class="tw-text-2xl tw-font-bold tw-mb-4 tw-text-gray-900 dark:tw-text-white">Requisitos</h2>
                 <ul class="tw-list-disc tw-pl-5 tw-mb-6 tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">
-                  <li v-if="previos" class="tw-mb-1">{{ previos }}</li>
-                  <li v-else class="tw-mb-1">Ganas de aprender y superarse.</li>
-                  <li class="tw-mb-1">Conexión a internet estable.</li>
+                  <li v-for="(item, index) in parseList(previos)" :key="'prev-'+index" class="tw-mb-1">{{ item }}</li>
                 </ul>
               </div>
 
@@ -258,19 +243,12 @@
                   <div class="tw-text-3xl tw-font-extrabold tw-text-gray-900 dark:tw-text-white tw-flex tw-items-center tw-gap-2">
                     <span>${{ price_with_discount > 0 ? price_with_discount : precio }}</span> <span class="tw-text-base tw-font-semibold tw-text-gray-500">USD</span>
                   </div>
-                  <div v-if="precio > price_with_discount && price_with_discount > 0" class="tw-mt-1 tw-flex tw-items-center tw-gap-2">
+                  <div v-if="precio > 0 && precio !== importeCurso" class="tw-mt-1 tw-flex tw-items-center tw-gap-2">
                     <span class="tw-line-through tw-text-gray-500 tw-text-sm">${{ precio }}</span>
-                    <span class="tw-text-sm tw-font-bold tw-text-red-500">83% de descuento</span>
                   </div>
                 </div>
 
-                <div class="tw-flex tw-items-center tw-gap-2 tw-text-red-600 tw-text-sm tw-font-bold tw-mb-4">
-                  <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                  <span>Quedan 5 horas a este precio.</span>
-                </div>
-
-
-              <div class="tw-px-6 tw-pb-6">
+                <div class="tw-px-6 tw-pb-6">
                 <!-- Botones de Acción de Compra -->
                 <div class="action-buttons-wrapper d-flex flex-column gap-3 mb-4">
                   <template v-if="!isOwner">
@@ -496,8 +474,9 @@ export default {
       aprendera: "",
       previos: "",
       dirigido: "",
+      language: "Español",
+      includes: [],
       lecciones: [],
-      lecciones2: [],
       lecciones3: [],
       lecciones4: [],
       lecciones5: [],
@@ -973,27 +952,29 @@ export default {
       this.$router.push("/suscription-user");
     },
 
+    parseList(text) {
+      if (!text) return [];
+      return text.split('\n').map(t => t.replace(/^- /, '').trim()).filter(t => t.length > 0);
+    },
+    
     getAttributes() {
       this.pao_id = this.$route.params.ide;
       this.axios.get("marketing/courses/" + this.pao_id).then((datos) => {
         this.items = datos.data.data;
-        this.precio = this.items.price;
-        this.price_with_discount = this.items.price_with_discount;
-        this.importeCurso = this.items.price_with_discount;
+        
+        // Precio y Precio Tachado
+        this.importeCurso = this.items.price;
+        this.precio = this.items.old_price > 0 ? this.items.old_price : this.items.price_base;
+        this.price_with_discount = this.items.price;
+        
         this.isOwner = this.items.owner;
         this.showRecommendations = !this.items.owner;
 
-        console.log("AAAA:", datos.data.data);
         switch (this.items.course_level_id) {
-          case 1:
-            this.level = "Básico";
-            break;
-          case 2:
-            this.level = "Intermedio";
-            break;
-          case 3:
-            this.level = "Avanzado";
-            break;
+          case 1: this.level = "Principiante"; break;
+          case 2: this.level = "Intermedio"; break;
+          case 3: this.level = "Avanzado"; break;
+          case 4: this.level = "Todos los niveles"; break;
         }
         this.videoimg = this.items.path_url || "";
 
@@ -1013,6 +994,14 @@ export default {
         this.curso_detalle = this.items.course_about;
         this.aprendera = this.items.will_learn;
         this.previos = this.items.prev_knowledge;
+        this.dirigido = this.items.course_for;
+        this.language = this.items.language || "Español";
+        
+        try {
+          this.includes = typeof this.items.includes === 'string' ? JSON.parse(this.items.includes) : (this.items.includes || []);
+        } catch(e) {
+          this.includes = [];
+        }   this.previos = this.items.prev_knowledge;
         this.dirigido = this.items.course_for;
         this.isDetailsLoading = true;
 

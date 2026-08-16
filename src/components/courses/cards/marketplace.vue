@@ -10,7 +10,7 @@
       <div class="mc-card__img-wrap">
         <img :src="coverUrl" :alt="course.title" class="mc-card__img" @error="onImgError" />
         <div class="mc-card__tags">
-          <span class="mc-tag mc-tag--type">{{ course.product_type_id === 2 ? 'EBOOK' : 'CURSO' }}</span>
+          <span class="mc-tag mc-tag--type">{{ Number(course.product_type_id) === 2 ? 'EBOOK' : 'CURSO' }}</span>
           <span v-if="course.price === 0" class="mc-tag mc-tag--gratis">GRATIS</span>
           <span v-if="isBestRated" class="mc-tag mc-tag--best">⭐ Mejor Valorado</span>
           <span v-if="isNew" class="mc-tag mc-tag--new">NUEVO</span>
@@ -201,7 +201,7 @@ export default {
     handleCardClick() {
       if (this.cardType === 4) {
         this.$router.push({ name: "buy-certificate", params: { courseId: this.course.id } });
-      } else if (this.course.product_type_id === 2) {
+      } else if (Number(this.course.product_type_id) === 2) {
         this.$router.push({ name: "buy-books", params: { ide: this.course.id, slug: this.course.slug } });
       } else {
         this.$router.push({ name: "buy-cursos", params: { ide: this.course.id, slug: this.course.slug } });
