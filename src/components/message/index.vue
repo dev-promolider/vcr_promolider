@@ -22,9 +22,9 @@
             <div v-if="contacts.length > 0" class="chat-list">
               <div
                 v-for="contact in contacts"
-                :key="contact.id"
-                :class="['chat-item', { active: actualContact && actualContact.id === contact.id }]"
-                @click="cambiarChat(idOne, contact.id)"
+                :key="contact.conversationId"
+                :class="['chat-item', { active: contact.active }]"
+                @click="cambiarChat(contact.conversationId)"
               >
                 <div class="d-flex align-items-center">
                   <div class="position-relative mr-3 flex-shrink-0">
@@ -32,11 +32,14 @@
                     <span class="status-badge-sm"></span>
                   </div>
                   <div class="chat-item-info overflow-hidden">
-                    <h6 class="contact-name mb-1 text-truncate">{{ contact.name }}</h6>
-                    <p class="last-message mb-0 text-truncate">{{ contact.last_message || 'Sin mensajes anteriores' }}</p>
+                    <h6 class="contact-name mb-1 text-truncate">{{ contact.name }} {{ contact.lastname }}</h6>
+                    <p class="last-message mb-0 text-truncate">{{ contact.last_message }}</p>
                   </div>
                 </div>
               </div>
+            </div>
+            <div v-else-if="loading" class="empty-state py-4 text-center">
+              <p class="empty-text mb-0">Cargando chats...</p>
             </div>
             <div v-else class="empty-state py-4 text-center">
               <v-icon color="#A1A1AA" size="28" class="mb-1">mdi-message-text-outline</v-icon>
@@ -48,10 +51,13 @@
           <div class="new-contacts-section p-3 border-top-subtle">
             <h6 class="section-title mb-2">Nuevos contactos</h6>
             <div v-if="contacts2.length > 0" class="new-contacts-list">
-              <div v-for="contact in contacts2" :key="contact.id" class="contact-item" @click="sendMessage2(contact.id)">
+              <div v-for="contact in contacts2" :key="contact.course_id" class="contact-item" @click="openConversation(contact.course_id)">
                 <div class="d-flex align-items-center">
                   <img :src="contact.photo || defaultAvatar" class="avatar-sm mr-3 flex-shrink-0" :alt="contact.name" @error="onAvatarError" />
-                  <h6 class="contact-name mb-0 text-truncate">{{ contact.name }}</h6>
+                  <div class="overflow-hidden">
+                    <h6 class="contact-name mb-0 text-truncate">{{ contact.name }}</h6>
+                    <p class="last-message mb-0 text-truncate">{{ contact.course_title }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -73,15 +79,19 @@
                     {{ actualContact.name }} {{ actualContact.lastname || '' }}
                   </h6>
                   <span class="chat-header-status">
-                    <span class="status-dot mr-1"></span> Activo ahora
+                    <span class="status-dot mr-1"></span>
+                    {{ actualContact.course_title || 'Activo ahora' }}
                   </span>
                 </div>
               </div>
             </div>
 
             <!-- Contenido del chat -->
-            <div class="chat-content p-4">
-              <div v-if="actualMessageContent.length == 0" class="empty-chat text-center my-auto py-5">
+            <div class="chat-content p-4" ref="chatContent">
+              <div v-if="messagesLoading" class="text-center py-5">
+                <p class="empty-text mb-0">Cargando mensajes...</p>
+              </div>
+              <div v-else-if="actualMessageContent.length == 0" class="empty-chat text-center my-auto py-5">
                 <v-icon color="var(--primary-color)" size="48" class="mb-2">mdi-hand-wave-outline</v-icon>
                 <h5 class="empty-chat-title mb-1">¡Saluda a {{ actualContact.name }}!</h5>
                 <p class="empty-chat-sub mb-0">Envía un mensaje para iniciar la conversación</p>
@@ -93,24 +103,21 @@
                   :key="message.id"
                   :class="[
                     'message-group d-flex flex-column',
-                    message.transmitter_id == user.id ? 'message-outgoing' : 'message-incoming'
+                    isMine(message.transmitter_id) ? 'message-outgoing' : 'message-incoming'
                   ]"
                 >
-                  <!-- Nombre del remitente -->
                   <span class="sender-name mb-1">
-                    {{ message.transmitter_id == user.id ? 'Tú' : actualContact.name }}
+                    {{ isMine(message.transmitter_id) ? 'Tú' : actualContact.name }}
                   </span>
 
-                  <!-- Burbuja de mensaje -->
                   <div class="message-bubble shadow-sm">
                     <div class="message-text">
                       {{ message.message }}
                     </div>
                   </div>
 
-                  <!-- Estampa de tiempo -->
                   <span class="message-time mt-1">
-                    {{ moment(message.created_at).format("hh:mm A") }}
+                    {{ formatTime(message.created_at) }}
                   </span>
                 </div>
               </div>
@@ -123,10 +130,11 @@
                   type="text"
                   class="form-control chat-input"
                   v-model="message_input"
-                  @keyup.enter="sendMessage(actualContact.id)"
+                  @keyup.enter="sendMessage"
                   placeholder="Escribe un mensaje..."
+                  :disabled="sending"
                 />
-                <button class="btn send-btn ml-2" @click="sendMessage(actualContact.id)">
+                <button class="btn send-btn ml-2" @click="sendMessage" :disabled="sending">
                   <v-icon color="#FFFFFF" size="20">mdi-send</v-icon>
                 </button>
               </div>
@@ -146,11 +154,9 @@
 </template>
 
 <script>
-import Echo from "laravel-echo";
 import moment from "moment";
 import { authGet } from "@/helpers/authStorage";
-
-window.Pusher = require("pusher-js");
+import echoHelper from "@/helpers/echo";
 
 export default {
   props: {
@@ -161,29 +167,24 @@ export default {
     return {
       moment: moment,
       defaultAvatar: "https://cdn140.picsart.com/317925775068211.png?type=webp&to=min&r=240",
-      actualContact: {
-        photo: null,
-      },
-      actualMessageContent: [],
-      chats: null,
-      general: [],
-      name_user: null,
-      email: null,
-      idOne: authGet("id_user"),
-      session_user_name: `${authGet(
-        "name_user"
-      )} ${authGet("last_name_user")}`,
-      idTwo: null,
-      message_input: null,
-      mensaje: "",
-      newMessage: false,
-      mostrar: true,
+      conversations: [],
       contacts: [],
       contacts2: [],
+      actualConversation: null,
+      actualContact: null,
+      actualMessageContent: [],
+      message_input: "",
+      sending: false,
       loading: true,
-      cod1: null,
-      cod2: null,
+      messagesLoading: false,
+      currentChannel: null,
+      session_user_name: `${authGet("name_user") || ""} ${authGet("last_name_user") || ""}`.trim(),
     };
+  },
+  computed: {
+    myId() {
+      return Number(this.user && this.user.id);
+    },
   },
   methods: {
     onAvatarError(e) {
@@ -191,174 +192,232 @@ export default {
         e.target.src = this.defaultAvatar;
       }
     },
-    sendMessage(receiver_id) {
-      this.axios
-        .post("messages/add", {
-          receiver_id: receiver_id,
-          message: this.message_input,
-        })
-        .then(() => {
-          this.listActualContentMessage(this.idOne, receiver_id);
-          this.message_input = "";
-        })
-        .catch(() => {
-          console.log("Error en enviar");
-        });
+
+    isMine(transmitterId) {
+      return Number(transmitterId) === this.myId;
     },
 
-    cambiarChat(transmitter_id, receiver_id) {
-      window.Echo.leave("chat." + this.usersID());
-      this.listActualContentMessage(transmitter_id, receiver_id);
+    formatTime(createdAt) {
+      return createdAt ? moment(createdAt).format("hh:mm A") : "";
+    },
 
-      // Actualizar el contacto actual basado en el ID
-      const selectedContact = this.contacts.find(contact => contact.id === receiver_id);
-      if (selectedContact) {
-        this.actualContact = selectedContact;
+    async listConversations() {
+      const response = await this.axios.get("conversations");
+      this.conversations = response.data.data || [];
+      this.buildContacts();
+    },
+
+    buildContacts() {
+      this.contacts = this.conversations.map((conversation) => {
+        const other = Number(conversation.student_id) === this.myId
+          ? conversation.teacher
+          : conversation.student;
+        const last = conversation.latest_message;
+
+        return {
+          conversationId: conversation.id,
+          id: other ? other.id : null,
+          name: other ? other.name || "" : "",
+          lastname: other ? other.last_name || "" : "",
+          photo: other && other.photo ? other.photo : null,
+          course_title: conversation.course ? conversation.course.title : "",
+          course_id: conversation.course_id,
+          last_message: last ? last.message : "Sin mensajes anteriores",
+          last_message_time: last ? last.created_at : null,
+          active: false,
+        };
+      });
+
+      if (this.actualConversation) {
+        const selected = this.contacts.find(
+          (contact) => contact.conversationId === this.actualConversation.id
+        );
+        if (selected) {
+          selected.active = true;
+        }
       }
     },
 
-    listActualContentMessage(transmitter_id, receiver_id) {
-      this.axios
-        .post(`messages/content`, {
-          transmitter_id: transmitter_id,
-          receiver_id: receiver_id,
-        })
-        .then((r) => {
-          // ✅ CAMBIO: Acceder a r.data.data en lugar de r.data
-          this.actualMessageContent = r.data.data;
-          this.idTwo = receiver_id;
-        
-          window.Echo = new Echo({
-            broadcaster: "pusher",
-            key: "PROMOLIDER2021",
-            cluster: "mt1",
-            wsHost: "crm.promolider.email",
-            wsPort: 6001,
-            wssPort: 443,
-            forceTLS: true,
-            encrypted: true,
-            disableStats: true,
-            enabledTransports: ["wss"],
-            auth: {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-                "Access-Control-Allow-Headers":
-                  "Content-Type, X-Auth-Token, Origin, Authorization",
-              },
-            },
-          });
-        
-          window.Echo.channel("chat." + this.usersID()).listen(
-            "MessageSentEvent",
-            (e) => {
-              console.log(e);
-              this.actualMessageContent.push(e.message);
-            }
-          );
-          
-          for (let i = 0; i < this.contacts.length; i++) {
-            if (this.contacts[i].id == receiver_id) {
-              this.actualContact = this.contacts[i];
-            }
-          }
-        
-          if (transmitter_id > receiver_id) {
-            this.cod1 = receiver_id;
-            this.cod2 = transmitter_id;
-          } else {
-            this.cod2 = receiver_id;
-            this.cod1 = transmitter_id;
-          }
-        })
-        .catch((error) => {
-          console.log("Error al cargar mensajes:", error);
-          // ✅ MEJORA: Manejo de errores más específico
-          if (error.response && error.response.status === 403) {
-            console.error("No tienes permiso para ver estos mensajes");
-          }
-        });
-    },
-
-    async listContacts() {
+    async listAvailableCourses() {
       try {
-        const response = await this.axios.get(`messages/listContacts`);
+        const response = await this.axios.get("course/purchased-courses");
+        const courses = response.data.data || [];
+        const withConversation = new Set(
+          this.conversations.map((conversation) => String(conversation.course_id))
+        );
 
-        // La nueva API devuelve un objeto con 'data' y 'total'
-        const contactsData = response.data.data || [];
-
-        this.contacts = contactsData;
-        this.loading = false;
-
-        // Seleccionar el primer contacto si existe
-        if (contactsData.length > 0) {
-          const firstContact = contactsData[0];
-          this.actualContact = firstContact;
-          this.listActualContentMessage(this.idOne, firstContact.id);
-        }
-
-        console.log('Contactos cargados:', contactsData.length);
-
+        this.contacts2 = courses
+          .filter((course) => !withConversation.has(String(course.id)))
+          .map((course) => ({
+            course_id: course.id,
+            id: course.author_id,
+            name: `${course.author_name || ""} ${course.author_lastname || ""}`.trim() || course.title,
+            photo: course.author_photo || null,
+            course_title: course.title,
+          }));
       } catch (error) {
-        console.error('Error al cargar contactos:', error);
+        console.error("Error al cargar cursos comprados:", error);
+        this.contacts2 = [];
+      }
+    },
 
-        // Si no hay contactos (404), manejarlo graciosamente
-        if (error.response && error.response.status === 404) {
-          this.contacts = [];
-          this.actualContact = null;
+    async cambiarChat(conversationId) {
+      const contact = this.contacts.find(
+        (item) => item.conversationId === conversationId
+      );
+      if (!contact) {
+        return;
+      }
+
+      this.actualConversation =
+        this.conversations.find((item) => item.id === conversationId) ||
+        { id: conversationId };
+      this.actualContact = contact;
+      this.contacts.forEach((item) => {
+        item.active = item.conversationId === conversationId;
+      });
+
+      this.leaveChannel();
+      this.messagesLoading = true;
+      this.actualMessageContent = [];
+
+      try {
+        const response = await this.axios.get(`conversations/${conversationId}/messages`);
+        this.actualMessageContent = response.data.data || [];
+      } catch (error) {
+        console.error("Error al cargar mensajes:", error);
+        this.actualMessageContent = [];
+      } finally {
+        this.messagesLoading = false;
+        this.$nextTick(this.scrollToBottom);
+      }
+
+      this.joinChannel(conversationId);
+    },
+
+    async sendMessage() {
+      if (!this.actualConversation || this.sending) {
+        return;
+      }
+      const text = (this.message_input || "").trim();
+      if (!text) {
+        return;
+      }
+
+      this.sending = true;
+      this.message_input = "";
+
+      try {
+        const response = await this.axios.post(
+          `conversations/${this.actualConversation.id}/messages`,
+          { message: text }
+        );
+        const message = response.data.data;
+
+        this.actualMessageContent.push(message);
+
+        const contact = this.contacts.find(
+          (item) => item.conversationId === this.actualConversation.id
+        );
+        if (contact) {
+          contact.last_message = message.message;
+          contact.last_message_time = message.created_at;
         }
 
-        this.loading = false;
+        this.$nextTick(this.scrollToBottom);
+      } catch (error) {
+        console.error("Error al enviar mensaje:", error);
+        this.message_input = text;
+      } finally {
+        this.sending = false;
       }
     },
 
-    listContacts2() {
-      this.axios
-        .get(`messages/listNewContacts/${this.idOne}`)
-        .then((response) => {
-          this.contacts2 = response.data;
-        })
-        .catch(() => {
-          this.contacts2 = [];
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
+    async openConversation(courseId) {
+      try {
+        await this.axios.post("conversations", { course_id: courseId });
+        await this.listConversations();
+        await this.listAvailableCourses();
 
-    sendMessage2(id2) {
-      this.axios
-        .post("messages/sendNewMessage", {
-          id: this.idOne,
-          id2: id2,
-        })
-        .then(() => {
-          this.listContacts();
-          this.listContacts2();
-        })
-        .catch(() => {
-          console.log("Error en enviar");
-        });
-    },
-
-    usersID() {
-      let ids;
-      if (this.idOne > this.idTwo) {
-        ids = this.idTwo + "" + this.idOne;
-        return ids;
-      } else {
-        ids = this.idOne + "" + this.idTwo;
-        return ids;
+        const contact = this.contacts.find(
+          (item) => Number(item.course_id) === Number(courseId)
+        );
+        if (contact) {
+          await this.cambiarChat(contact.conversationId);
+        }
+      } catch (error) {
+        console.error("Error al abrir conversación:", error);
       }
     },
-    mostrara() {
-      this.mostrar = !this.mostrar;
+
+    joinChannel(conversationId) {
+      try {
+        const Echo = echoHelper.get();
+        this.leaveChannel();
+
+        this.currentChannel = Echo.private(
+          `chat.conversation.${conversationId}`
+        ).listen(".message.sent", (event) => {
+          if (this.isMine(event.transmitter_id)) {
+            return;
+          }
+
+          if (
+            this.actualConversation &&
+            Number(this.actualConversation.id) === Number(event.conversation_id)
+          ) {
+            this.actualMessageContent.push(event);
+            this.$nextTick(this.scrollToBottom);
+          }
+
+          const contact = this.contacts.find(
+            (item) => item.conversationId === Number(event.conversation_id)
+          );
+          if (contact) {
+            contact.last_message = event.message;
+            contact.last_message_time = event.created_at;
+          }
+        });
+      } catch (error) {
+        console.warn("No se pudo conectar al canal en tiempo real:", error);
+        this.currentChannel = null;
+      }
+    },
+
+    leaveChannel() {
+      if (this.currentChannel && window.Echo) {
+        window.Echo.leaveChannel(this.currentChannel.name);
+      }
+      this.currentChannel = null;
+    },
+
+    scrollToBottom() {
+      const container = this.$refs.chatContent;
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
     },
   },
 
-  created() {
-    this.listContacts();
-    this.listContacts2();
+  async created() {
+    this.loading = true;
+    try {
+      await this.listConversations();
+
+      if (this.contacts.length > 0 && !this.actualConversation) {
+        await this.cambiarChat(this.contacts[0].conversationId);
+      }
+    } catch (error) {
+      console.error("Error cargando conversaciones:", error);
+    } finally {
+      this.loading = false;
+    }
+
+    await this.listAvailableCourses();
+  },
+
+  beforeDestroy() {
+    this.leaveChannel();
   },
 };
 </script>

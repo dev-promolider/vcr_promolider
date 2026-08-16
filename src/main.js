@@ -17,6 +17,8 @@ Vue.config.productionTip = false;
 
 const apiUrl = process.env.VUE_APP_API_URL || "";
 axios.defaults.baseURL = apiUrl + "/api/v1";
+// Expuesto para que laravel-echo registre su interceptor (header X-Socket-ID)
+window.axios = axios;
 
 // En producción, exigir HTTPS en la API para evitar robo del bearer por HTTP
 if (process.env.NODE_ENV === "production") {
