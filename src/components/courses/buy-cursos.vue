@@ -216,25 +216,45 @@
           <!-- Columna Derecha: Tarjeta Flotante (Udemy Sidebar Card) -->
           <div class="col-12 col-lg-4 tw-relative tw-z-10 udemy-lg-mt-negative">
             <div class="udemy-sticky-card tw-bg-white dark:tw-bg-gray-800 tw-shadow-2xl tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-top-8 tw-sticky tw-rounded-lg tw-overflow-hidden">
-              <!-- Contenedor Multimedia Principal (Video / Imagen) movido aquí -->
-              <div class="product-media-container tw-w-full tw-bg-black">
-                <div v-if="tymedia == 1" class="video-container" :class="{ loader: !videoimg }">
-                  <video-player
-                    class="video-player-box"
-                    ref="videoPlayer"
-                    :options="playerOptions"
-                    :playsinline="true"
-                    @play="onPlayerPlay($event)"
-                    @pause="onPlayerPause($event)"
-                    @loadeddata="onPlayerLoadeddata($event)"
-                    @statechanged="playerStateChanged($event)"
-                    @ready="playerReadied"
+              <!-- Contenedor Multimedia Principal: Thumbnail + Play Overlay -->
+              <div class="product-media-container tw-w-full tw-bg-black tw-relative" style="cursor: pointer;">
+                <!-- Si ya está reproduciendo el video -->
+                <template v-if="isPlayingVideo && tymedia === 1">
+                  <video
+                    :src="videoimg"
+                    controls
+                    autoplay
+                    class="vcr-promo-video"
+                    style="width: 100%; border-radius: 8px 8px 0 0;"
+                    referrerpolicy="no-referrer"
+                  ></video>
+                </template>
+
+                <!-- Estado inicial: Thumbnail + Overlay -->
+                <template v-else>
+                  <!-- Imagen de portada (thumbnail) -->
+                  <img
+                    :src="coverUrl"
+                    class="promo-thumbnail"
+                    :alt="titulo"
+                    referrerpolicy="no-referrer"
+                    @error="$event.target.src = defaultCover"
+                  />
+
+                  <!-- Overlay oscuro con botón de play (solo si hay video promo mp4) -->
+                  <div
+                    v-if="tymedia === 1"
+                    class="promo-play-overlay"
+                    @click="isPlayingVideo = true"
                   >
-                  </video-player>
-                </div>
-                <div v-else class="image-container" :class="{ loader: !img }">
-                  <img :src="img || defaultCover" class="product-main-img tw-w-full tw-h-auto tw-object-cover" :alt="titulo" @error="onImgError" />
-                </div>
+                    <div class="promo-play-btn">
+                      <svg viewBox="0 0 24 24" fill="white" width="30" height="30">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                    <span class="promo-play-label">Vista previa de este curso</span>
+                  </div>
+                </template>
               </div>
 
               <div class="tw-p-6">
@@ -493,6 +513,7 @@ export default {
       approvalDateField: null,
       imgProductor: null,
       isOwner: false,
+      isPlayingVideo: false,
       openpayData: [],
       processPay: false,
       videoimg: "",
@@ -574,6 +595,13 @@ export default {
 
     shouldShowRecommendations() {
       return !this.isOwner && !this.courseFilter && this.showRecommendations;
+    },
+
+    coverUrl() {
+      const raw = this.items?.url_portada || this.img || '';
+      if (!raw) return this.defaultCover;
+      if (raw.startsWith('http')) return raw.replace('s3.sa-east-1', 's3-accelerate');
+      return 'https://promolider-storage-user.s3-accelerate.amazonaws.com/' + raw;
     },
   },
 
@@ -980,10 +1008,15 @@ export default {
 
         if (this.videoimg && this.videoimg.toLowerCase().endsWith(".mp4")) {
           this.tymedia = 1;
+          const finalVideoUrl = this.videoimg.startsWith('http')
+            ? this.videoimg
+            : 'https://promolider-storage-user.s3-accelerate.amazonaws.com/' + this.videoimg;
+            
           this.$set(this.playerOptions.sources, 0, {
             type: "video/mp4",
-            src: this.videoimg,
+            src: finalVideoUrl,
           });
+          this.videoimg = finalVideoUrl;
         } else {
           this.tymedia = 2;
           this.img = this.videoimg;
@@ -1504,6 +1537,56 @@ export default {
 .udemy-text-primary { color: var(--primary-color) !important; }
 @media (min-width: 992px) {
   .udemy-lg-mt-negative { margin-top: -450px !important; }
+}
+
+/* ── Thumbnail + Play Overlay (Udemy style) ── */
+.promo-thumbnail {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  filter: brightness(0.72);
+  transition: filter 0.25s ease;
+}
+.product-media-container:hover .promo-thumbnail {
+  filter: brightness(0.55);
+}
+
+.promo-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.promo-play-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  border: 3px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.promo-play-overlay:hover .promo-play-btn {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.30);
+}
+
+.promo-play-label {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+  letter-spacing: 0.3px;
 }
 </style>
 

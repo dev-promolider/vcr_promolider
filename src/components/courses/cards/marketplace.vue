@@ -83,29 +83,34 @@
           </ul>
 
           <div class="mc-pop__actions">
-            <button v-if="course.price === 0" class="mc-btn mc-btn--primary mc-btn--full" @click.stop="handleCardClick">
-              Inscribirse gratis
+            <button v-if="isMyCourse" class="mc-btn mc-btn--primary mc-btn--full" style="opacity: 0.9; cursor: default;" @click.stop>
+              Eres el creador
             </button>
-            <div v-else class="mc-pop__btn-row">
-              <button class="mc-btn mc-btn--primary mc-btn--flex" @click.stop="handleCardClick">
-                Comprar Ahora
+            <template v-else>
+              <button v-if="course.price === 0" class="mc-btn mc-btn--primary mc-btn--full" @click.stop="handleCardClick">
+                Inscribirse gratis
               </button>
-              <button class="mc-btn mc-btn--icon-round" title="Añadir a la cesta" @click.stop="addToCart">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                </svg>
-              </button>
-              <button
-                class="mc-btn mc-btn--icon-round"
-                :class="{ 'active-wish': inWishlist }"
-                title="Guardar en favoritos"
-                @click.stop="toggleWishlist"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                </svg>
-              </button>
-            </div>
+              <div v-else class="mc-pop__btn-row">
+                <button class="mc-btn mc-btn--primary mc-btn--flex" @click.stop="handleCardClick">
+                  Comprar Ahora
+                </button>
+                <button class="mc-btn mc-btn--icon-round" title="Añadir a la cesta" @click.stop="addToCart">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                </button>
+                <button
+                  class="mc-btn mc-btn--icon-round"
+                  :class="{ 'active-wish': inWishlist }"
+                  title="Guardar en favoritos"
+                  @click.stop="toggleWishlist"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                </button>
+              </div>
+            </template>
           </div>
         </div>
       </transition>
@@ -134,6 +139,10 @@ export default {
   },
   computed: {
     ...mapGetters('wishlist', ['wishlistItems']),
+    isMyCourse() {
+      const currentUserId = localStorage.getItem("id_user");
+      return currentUserId && Number(this.course.user_id) === Number(currentUserId);
+    },
     inWishlist() {
       return this.wishlistItems.some(item => item.id === this.course.id);
     },
