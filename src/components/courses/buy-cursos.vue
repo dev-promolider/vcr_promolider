@@ -448,8 +448,6 @@ import Video from "@/components/course/video";
 import Card from "@/components/courses/cards";
 import Openpay from "@/components/Buy/openpay.vue";
 import "video.js/dist/video-js.css";
-import { videoPlayer } from "vue-video-player";
-import "vue-video-player/src/custom-theme.css";
 import { mapState, mapActions } from "vuex";
 import $ from "jquery";
 
@@ -552,7 +550,6 @@ export default {
     Video,
     Card,
     Openpay,
-    videoPlayer,
   },
   computed: {
     shouldDisplayBuyButton() {
@@ -563,9 +560,6 @@ export default {
         return true;
       }
       return false;
-    },
-    player() {
-      return this.$refs.videoPlayer.player;
     },
     ...mapState("course", ["course", "renderVideo", "isLoading", "allRating"]),
 
