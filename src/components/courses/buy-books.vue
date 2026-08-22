@@ -89,8 +89,14 @@
                     <span>Libro digital completo</span>
                   </div>
                   <div class="col-12 col-md-6 d-flex align-items-center gap-2">
-                    <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    <span>Descarga inmediata</span>
+                    <template v-if="allowsDownload">
+                      <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                      <span>Descarga inmediata</span>
+                    </template>
+                    <template v-else>
+                      <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                      <span>Lectura en línea (sin descarga)</span>
+                    </template>
                   </div>
                   <div class="col-12 col-md-6 d-flex align-items-center gap-2">
                     <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -284,9 +290,13 @@
                         <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                         </svg>
-                        <div>
+                        <div v-if="allowsDownload">
                           <span class="trust-title">Descarga en PDF</span>
                           <p class="trust-desc mb-0">Guárdalo en tu dispositivo y léelo sin conexión.</p>
+                        </div>
+                        <div v-else>
+                          <span class="trust-title">Lectura en línea</span>
+                          <p class="trust-desc mb-0">Se lee dentro de la plataforma; el autor no habilitó la descarga.</p>
                         </div>
                       </div>
 
@@ -519,6 +529,11 @@ export default {
 
     shouldShowRecommendations() {
       return !this.isOwner && !this.courseFilter && this.showRecommendations;
+    },
+
+    // 'download' es el valor por defecto, igual que en el backend.
+    allowsDownload() {
+      return (this.items && this.items.reading_mode) !== 'online';
     },
 
     coverUrl() {
