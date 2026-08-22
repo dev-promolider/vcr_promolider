@@ -34,6 +34,9 @@ if (process.env.NODE_ENV === "production") {
 axios.interceptors.request.use((config) => {
   const token = authGet("access_token");
   config.headers.Authorization = token ? `Bearer ${token}` : "";
+  // NOTA: el header X-Socket-ID lo añade laravel-echo por su cuenta
+  // (usa window.axios expuesto arriba). NO duplicarlo aquí: si se envía
+  // dos veces, PHP lo fusiona como "id, id" y Soketi rechaza ->toOthers().
   return config;
 });
 

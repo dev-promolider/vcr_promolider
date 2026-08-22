@@ -154,6 +154,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import QuestionDaily from "../Student/questions/daily/index";
 import { authGet } from "../../helpers/authStorage";
 import { clearAuth } from "../../helpers/authStorage";
+import echoHelper from "../../helpers/echo";
 
 export default {
   components: {
@@ -261,6 +262,7 @@ export default {
     },
     optionAction(action, link) {
       if (action === "closeSesion") {
+        echoHelper.disconnect();
         clearAuth();
         this.$router.push({ name: link });
       }

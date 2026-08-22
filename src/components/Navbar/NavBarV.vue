@@ -52,12 +52,15 @@
               @click.native="isMobileOpen = false"
               class="nav-item"
               exact-active-class="active"
-              :title="(!isHovered && !isMobileOpen) ? link.nombre : ''"
+              :title="(!isHovered && !isMobileOpen) ? (link.nombre + (link.nombre === 'Mensajes' && chatUnread > 0 ? ` (${chatUnread} sin leer)` : '')) : ''"
             >
-              <span class="nav-item-icon">
+              <span class="nav-item-icon nav-item-icon-relative">
                 <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="link.icon"></path>
                 </svg>
+                <span v-if="link.nombre === 'Mensajes' && chatUnread > 0" class="nav-unread-badge">
+                  {{ chatUnread > 9 ? '9+' : chatUnread }}
+                </span>
               </span>
               <span v-show="isHovered || isMobileOpen" class="nav-item-text">{{ link.nombre }}</span>
             </router-link>
@@ -98,6 +101,9 @@
 </template>
 
 <script>
+import { authGet } from "@/helpers/authStorage";
+import echoHelper from "@/helpers/echo";
+
 export default {
   name: "NavBarV",
   data() {
@@ -106,6 +112,8 @@ export default {
       isHovered: false,
       showNav: false,
       role: null,
+      chatUnread: 0,
+      notifChannel: null,
       listNavBar: [
         { nombre: "Inicio", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6", path: "home" },
         { nombre: "Mi aprendizaje", icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253", path: "suscription-user" },
@@ -130,15 +138,55 @@ export default {
         this.showNav = true;
       }
     },
+    async fetchChatUnread() {
+      try {
+        const response = await this.axios.get("/conversations/unread-count");
+        this.chatUnread = Number(
+          (response.data && response.data.data && response.data.data.unread_count) || 0
+        );
+      } catch (error) {
+        this.chatUnread = 0;
+      }
+    },
+    setupRealtimeChatUnread(attempts = 0) {
+      try {
+        const userId = authGet("id_user");
+        if (!userId) {
+          // Tras el login el id puede tardar en estar disponible: reintentar.
+          if (attempts < 5) {
+            setTimeout(() => this.setupRealtimeChatUnread(attempts + 1), 1500);
+          }
+          return;
+        }
+        const Echo = echoHelper.get();
+        this.notifChannel = Echo.private(`App.Models.User.${userId}`).listen(
+          ".App\\Events\\NewNotificationEvent",
+          (e) => {
+            if (Number(e && e.type) === 99) {
+              this.fetchChatUnread();
+            }
+          }
+        );
+      } catch (error) {
+        console.warn("No se pudo suscribir al contador de chats:", error);
+        this.notifChannel = null;
+      }
+    },
   },
   mounted() {
     this.getRole();
+    this.fetchChatUnread();
+    this.setupRealtimeChatUnread();
     this.$root.$on("toggle-sidebar", () => {
       this.isMobileOpen = !this.isMobileOpen;
     });
   },
   beforeDestroy() {
     this.$root.$off("toggle-sidebar");
+    if (this.notifChannel && window.Echo) {
+      window.Echo.leaveChannel(this.notifChannel.name);
+    }
+    this.notifChannel = null;
   },
 };
 </script>
@@ -265,6 +313,30 @@ export default {
   flex-shrink: 0;
   width: 20px;
   height: 20px;
+}
+
+.nav-item-icon-relative {
+  position: relative;
+}
+
+/* Badge global de mensajes sin leer */
+.nav-unread-badge {
+  position: absolute;
+  top: -7px;
+  right: -10px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background-color: #ef4444;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
 .nav-item-text {

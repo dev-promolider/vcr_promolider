@@ -4,12 +4,19 @@ import { authGet } from "./authStorage";
 
 window.Pusher = Pusher;
 
+// Visibilidad en consola durante desarrollo para diagnosticar conexiones.
+if (process.env.NODE_ENV !== "production") {
+  Pusher.logToConsole = true;
+}
+
 let echo = null;
+let echoToken = null;
 
 function createEcho() {
   const apiUrl = process.env.VUE_APP_API_URL || "";
   const token = authGet("access_token");
 
+  echoToken = token;
   echo = new Echo({
     broadcaster: "pusher",
     key: process.env.VUE_APP_PUSHER_APP_KEY || "ABCABC12345",
@@ -32,6 +39,12 @@ function createEcho() {
 }
 
 export function getEcho() {
+  const token = authGet("access_token");
+  // Si el token cambió (logout + login sin recargar), la instancia anterior
+  // quedó autenticada con credenciales inválidas: hay que reconstruir todo.
+  if (echo && token !== echoToken) {
+    disconnectEcho();
+  }
   if (echo) {
     return echo;
   }
@@ -42,6 +55,7 @@ export function disconnectEcho() {
   if (echo) {
     echo.disconnect();
     echo = null;
+    echoToken = null;
     window.Echo = undefined;
   }
 }

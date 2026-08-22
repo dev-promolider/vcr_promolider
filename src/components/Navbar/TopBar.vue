@@ -70,20 +70,21 @@
               <router-link :to="{ name: 'option-preferences' }" class="nf-settings-link">Configuración</router-link>
             </div>
             <div class="nf-tabs">
-              <button 
-                class="nf-tab-btn" 
+              <button
+                class="nf-tab-btn"
                 :class="{ 'active': activeNotifTab === 'aula' }"
                 @click="activeNotifTab = 'aula'"
               >
                 Aula Virtual
+                <span v-if="aulaUnreadCount > 0" class="nf-tab-badge">{{ aulaUnreadCount > 9 ? '9+' : aulaUnreadCount }}</span>
               </button>
-              <button 
-                class="nf-tab-btn" 
+              <button
+                class="nf-tab-btn"
                 :class="{ 'active': activeNotifTab === 'crm' }"
                 @click="activeNotifTab = 'crm'"
               >
                 CRM
-                <span v-if="notificationsList.length > 0" class="nf-tab-badge">{{ notificationsList.length }}</span>
+                <span v-if="crmUnreadCount > 0" class="nf-tab-badge">{{ crmUnreadCount > 9 ? '9+' : crmUnreadCount }}</span>
               </button>
             </div>
 
@@ -125,8 +126,42 @@
             </template>
 
               <template v-if="activeNotifTab === 'aula'">
-                <div class="tw-flex tw-flex-col tw-items-center tw-py-12 tw-text-center">
-                  <p class="tw-text-base" style="color: var(--text-muted, #6b7280);">Sin notificaciones.</p>
+                <div v-if="isLoadingNotifications" class="tw-space-y-3">
+                  <div v-for="i in 3" :key="'aula-skel-'+i" class="tw-animate-pulse tw-flex tw-items-center tw-gap-4 tw-p-4 tw-rounded-2xl" style="background-color: var(--card-sub-bg, #f8fafc);">
+                    <div class="tw-w-10 tw-h-10 tw-rounded-full" style="background-color: var(--border-color, #e5e7eb);"></div>
+                    <div class="tw-flex-1 tw-space-y-2">
+                      <div class="tw-h-3 tw-rounded tw-w-3/4" style="background-color: var(--border-color, #e5e7eb);"></div>
+                      <div class="tw-h-3 tw-rounded tw-w-1/2" style="background-color: var(--border-color, #e5e7eb);"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="aulaNotificationsList.length === 0" class="tw-flex tw-flex-col tw-items-center tw-py-10 tw-text-center">
+                  <div class="tw-w-16 tw-h-16 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-mb-4" style="background-color: var(--card-sub-bg, #f8fafc);">
+                    <svg class="tw-w-8 tw-h-8" style="color: var(--text-muted, #6b7280);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                  </div>
+                  <h3 class="tw-font-bold tw-text-base tw-mb-2" style="color: var(--text-bold, #111827);">Sin notificaciones</h3>
+                  <p class="tw-text-sm tw-max-w-[240px]" style="color: var(--text-muted, #6b7280);">Aquí verás los mensajes de tus chats.</p>
+                </div>
+
+                <div v-else class="tw-space-y-3">
+                  <div
+                    v-for="(item, index) in aulaNotificationsList"
+                    :key="'aula-' + (item.id || index)"
+                    :class="['nf-item', { 'nf-item-unseen': !item.seen }]"
+                  >
+                    <div class="nf-item-avatar">
+                      <img v-if="item.avatar && !item.avatar.includes('default')" :src="item.avatar" class="tw-w-full tw-h-full tw-object-cover" @error="onAvatarError" />
+                      <svg v-else class="tw-w-5 tw-h-5 tw-text-[#18d600]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    </div>
+                    <div class="tw-flex-1 tw-min-w-0">
+                      <div class="tw-flex tw-justify-between tw-items-start tw-gap-2 tw-mb-1">
+                        <h4 class="tw-font-bold tw-text-sm tw-leading-snug" style="color: var(--text-bold, #111827);">{{ item.title }}</h4>
+                        <span class="tw-text-[11px] tw-font-semibold tw-shrink-0" style="color: var(--text-muted, #6b7280);">{{ formatDate(item.created_at) }}</span>
+                      </div>
+                      <p class="tw-text-xs tw-line-clamp-2" style="color: var(--text-muted, #6b7280);">{{ item.subtitle }}</p>
+                    </div>
+                  </div>
                 </div>
               </template>
             </div>
@@ -226,6 +261,7 @@ import QuestionDaily from "@/components/Student/questions/daily/index";
 import ShoppingCartModal from "@/components/Cart/ShoppingCartModal.vue";
 import WishlistModal from "@/components/Wishlist/WishlistModal.vue";
 import { authGet, clearAuth } from "@/helpers/authStorage";
+import echoHelper from "@/helpers/echo";
 
 export default {
   name: "TopBar",
@@ -239,7 +275,10 @@ export default {
       isUserMenuOpen: false,
       isLoadingNotifications: false,
       notificationsList: [],
-      unreadCount: 0,
+      aulaNotificationsList: [],
+      crmUnreadCount: 0,
+      aulaUnreadCount: 0,
+      notifChannel: null,
       role: null,
       userName: "",
       userPhoto: null,
@@ -249,6 +288,9 @@ export default {
     ...mapState("course", ["examDaily"]),
     ...mapGetters("cart", ["itemCount", "isCartOpen"]),
     ...mapGetters("wishlist", ["wishlistCount", "isWishlistOpen"]),
+    unreadCount() {
+      return this.crmUnreadCount + this.aulaUnreadCount;
+    },
     userInitials() {
       const name = this.userName || "U";
       const parts = name.trim().split(" ");
@@ -287,32 +329,139 @@ export default {
         this.toggleCart(false);
         this.toggleWishlist(false);
         this.isNotifPanelOpen = true;
-        this.fetchNotifications();
+        this.markAllSeen();
       }
     },
     async fetchNotifications() {
       this.isLoadingNotifications = true;
       try {
-        const resp = await this.axios.get("/notifications/list");
+        // with_chat=1: incluye type 99 (mensajes de chat) que son de Aula Virtual.
+        const resp = await this.axios.get("/notifications/list", {
+          params: { with_chat: 1 },
+        });
         let rawList = [];
         if (resp && resp.data) {
           if (Array.isArray(resp.data)) rawList = resp.data;
           else if (Array.isArray(resp.data.data)) rawList = resp.data.data;
         }
-        this.notificationsList = rawList.map((e) => ({
+
+        const mapItem = (e) => ({
           id: e.id || Math.random(),
+          idGenerator: e.id_generator || null,
           title: e.title || e.titulo || "Notificación",
           subtitle: e.body || e.mensaje || e.content || "",
           avatar: e.photo || e.avatar || require("@/assets/logo-inicial.png"),
           created_at: e.created_at || e.fecha || new Date().toISOString(),
-        }));
-        this.unreadCount = this.notificationsList.length;
+          seen: !!e.seen,
+        });
+
+        const crm = [];
+        const aula = [];
+        rawList.forEach((e) => {
+          if (Number(e.type) === 99) aula.push(mapItem(e));
+          else crm.push(mapItem(e));
+        });
+
+        this.notificationsList = crm;
+        this.aulaNotificationsList = aula;
+        this.crmUnreadCount = crm.filter((i) => !i.seen).length;
+        this.aulaUnreadCount = aula.filter((i) => !i.seen).length;
       } catch (e) {
         this.notificationsList = [];
-        this.unreadCount = 0;
+        this.aulaNotificationsList = [];
+        this.crmUnreadCount = 0;
+        this.aulaUnreadCount = 0;
       } finally {
         this.isLoadingNotifications = false;
       }
+    },
+    async markAllSeen() {
+      await this.fetchNotifications();
+      try {
+        await this.axios.put("/notifications/update");
+        this.crmUnreadCount = 0;
+        this.aulaUnreadCount = 0;
+      } catch (e) {
+        /* silencioso */
+      }
+    },
+    setupRealtimeNotifications(attempts = 0) {
+      try {
+        const userId = authGet("id_user");
+        if (!userId) {
+          // Tras el login el id puede tardar en estar disponible: reintentar.
+          if (attempts < 5) {
+            setTimeout(() => this.setupRealtimeNotifications(attempts + 1), 1500);
+          }
+          return;
+        }
+        const Echo = echoHelper.get();
+        this.notifChannel = Echo.private(`App.Models.User.${userId}`).listen(
+          ".App\\Events\\NewNotificationEvent",
+          (e) => {
+            const item = {
+              id: (e && e.id) || Math.random(),
+              // Necesario para agrupar por remitente en tiempo real.
+              idGenerator: (e && e.id_generator) || null,
+              title: (e && e.title) || "Notificación",
+              subtitle: (e && e.body) || "",
+              avatar:
+                (e && e.photo) || require("@/assets/logo-inicial.png"),
+              created_at: (e && e.created_at) || new Date().toISOString(),
+              seen: false,
+            };
+            if (Number(e && e.type) === 99) {
+              // Agrupar por remitente: solo queda la notificación con su
+              // mensaje más reciente.
+              const idx = this.aulaNotificationsList.findIndex(
+                (i) =>
+                  i.idGenerator &&
+                  Number(i.idGenerator) === Number(item.idGenerator)
+              );
+              if (idx >= 0) {
+                this.aulaNotificationsList.splice(idx, 1);
+                this.aulaNotificationsList.unshift(item);
+              } else {
+                this.aulaNotificationsList.unshift(item);
+                this.aulaUnreadCount++;
+              }
+            } else {
+              this.notificationsList.unshift(item);
+              this.crmUnreadCount++;
+            }
+          }
+        ).listen(".messages.read", (e) => {
+          // El usuario leyó el chat: quitar las notificaciones de ese remitente.
+          const ids = ((e && e.generator_ids) || []).map(Number);
+          if (!ids.length) return;
+          const keep = [];
+          let removedUnseen = 0;
+          this.aulaNotificationsList.forEach((i) => {
+            const gen = i.idGenerator ? Number(i.idGenerator) : null;
+            if (gen && ids.includes(gen)) {
+              if (!i.seen) removedUnseen++;
+              return;
+            }
+            keep.push(i);
+          });
+          this.aulaNotificationsList = keep;
+          if (removedUnseen > 0) {
+            this.aulaUnreadCount = Math.max(
+              0,
+              this.aulaUnreadCount - removedUnseen
+            );
+          }
+        });
+      } catch (error) {
+        console.warn("No se pudo suscribir a notificaciones en tiempo real:", error);
+        this.notifChannel = null;
+      }
+    },
+    teardownRealtimeNotifications() {
+      if (this.notifChannel && window.Echo) {
+        window.Echo.leaveChannel(this.notifChannel.name);
+      }
+      this.notifChannel = null;
     },
     formatDate(dateStr) {
       if (!dateStr) return "";
@@ -344,6 +493,8 @@ export default {
       }
     },
     closeSession() {
+      this.teardownRealtimeNotifications();
+      echoHelper.disconnect();
       clearAuth();
       this.$router.push({ name: "Login" });
     },
@@ -403,10 +554,12 @@ export default {
     this.getRole();
     this.fetchNotifications();
     this.fetchWishlist();
+    this.setupRealtimeNotifications();
     document.addEventListener("click", this.handleOutsideClick);
   },
   beforeDestroy() {
     document.removeEventListener("click", this.handleOutsideClick);
+    this.teardownRealtimeNotifications();
   },
 };
 </script>
@@ -680,6 +833,10 @@ export default {
   margin-bottom: 10px; transition: border-color 0.15s ease;
 }
 .nf-item:hover { border-color: #18d600; }
+.nf-item-unseen {
+  border-color: rgba(24, 214, 0, 0.45);
+  background-color: rgba(24, 214, 0, 0.06);
+}
 
 .nf-item-avatar {
   width: 40px; height: 40px; flex-shrink: 0;

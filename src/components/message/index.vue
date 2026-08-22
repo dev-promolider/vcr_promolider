@@ -35,6 +35,9 @@
                     <h6 class="contact-name mb-1 text-truncate">{{ contact.name }} {{ contact.lastname }}</h6>
                     <p class="last-message mb-0 text-truncate">{{ contact.last_message }}</p>
                   </div>
+                  <span v-if="contact.unread > 0" class="unread-badge ml-auto">
+                    {{ contact.unread > 9 ? '9+' : contact.unread }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -178,6 +181,7 @@ export default {
       loading: true,
       messagesLoading: false,
       currentChannel: null,
+      previewChannel: null,
       session_user_name: `${authGet("name_user") || ""} ${authGet("last_name_user") || ""}`.trim(),
     };
   },
@@ -224,6 +228,7 @@ export default {
           course_id: conversation.course_id,
           last_message: last ? last.message : "Sin mensajes anteriores",
           last_message_time: last ? last.created_at : null,
+          unread: Number(conversation.unread_messages_count) || 0,
           active: false,
         };
       });
@@ -284,6 +289,10 @@ export default {
       try {
         const response = await this.axios.get(`conversations/${conversationId}/messages`);
         this.actualMessageContent = response.data.data || [];
+        // Al abrirse la conversación el backend marca los mensajes como leídos.
+        if (contact) {
+          contact.unread = 0;
+        }
       } catch (error) {
         console.error("Error al cargar mensajes:", error);
         this.actualMessageContent = [];
@@ -362,12 +371,24 @@ export default {
             return;
           }
 
-          if (
+          const isCurrent =
             this.actualConversation &&
-            Number(this.actualConversation.id) === Number(event.conversation_id)
-          ) {
+            Number(this.actualConversation.id) === Number(event.conversation_id);
+
+          if (isCurrent) {
             this.actualMessageContent.push(event);
             this.$nextTick(this.scrollToBottom);
+            // El chat está abierto: marcar como leído en el servidor.
+            this.axios
+              .post(`conversations/${event.conversation_id}/read`)
+              .catch(() => {});
+          } else {
+            const pending = this.contacts.find(
+              (item) => item.conversationId === Number(event.conversation_id)
+            );
+            if (pending) {
+              pending.unread = Number(pending.unread || 0) + 1;
+            }
           }
 
           const contact = this.contacts.find(
@@ -376,6 +397,17 @@ export default {
           if (contact) {
             contact.last_message = event.message;
             contact.last_message_time = event.created_at;
+          }
+        }).listen(".messages.read", (event) => {
+          // Otro dispositivo del mismo usuario marcó la conversación como leída.
+          if (Number(event.reader_id) !== this.myId) {
+            return;
+          }
+          const contact = this.contacts.find(
+            (item) => item.conversationId === Number(event.conversation_id)
+          );
+          if (contact) {
+            contact.unread = 0;
           }
         });
       } catch (error) {
@@ -391,6 +423,46 @@ export default {
       this.currentChannel = null;
     },
 
+    // Previews en vivo de conversaciones NO abiertas: el canal del chat
+    // abierto solo cubre la conversación activa; este canal del usuario
+    // actualiza preview y globo del resto en tiempo real.
+    joinUserChannel() {
+      try {
+        if (!this.myId) return;
+        const Echo = echoHelper.get();
+        this.leavePreviewChannel();
+        this.previewChannel = Echo.private(
+          `App.Models.User.${this.myId}`
+        ).listen(".message.received", (event) => {
+          const convId = Number(event.conversation_id);
+          // La conversación abierta la maneja su propio canal (.message.sent).
+          if (
+            this.actualConversation &&
+            Number(this.actualConversation.id) === convId
+          ) {
+            return;
+          }
+          const contact = this.contacts.find(
+            (item) => item.conversationId === convId
+          );
+          if (!contact) return;
+          contact.last_message = event.message;
+          contact.last_message_time = event.created_at;
+          contact.unread = Number(contact.unread || 0) + 1;
+        });
+      } catch (error) {
+        console.warn("No se pudo suscribir al canal de previews:", error);
+        this.previewChannel = null;
+      }
+    },
+
+    leavePreviewChannel() {
+      if (this.previewChannel && window.Echo) {
+        window.Echo.leaveChannel(this.previewChannel.name);
+      }
+      this.previewChannel = null;
+    },
+
     scrollToBottom() {
       const container = this.$refs.chatContent;
       if (container) {
@@ -400,6 +472,7 @@ export default {
   },
 
   async created() {
+    this.joinUserChannel();
     this.loading = true;
     try {
       await this.listConversations();
@@ -418,10 +491,28 @@ export default {
 
   beforeDestroy() {
     this.leaveChannel();
+    this.leavePreviewChannel();
   },
 };
 </script>
 
 <style scoped>
 @import "./style.css";
+
+/* Badge de mensajes sin leer en la lista de chats */
+.unread-badge {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #18d600;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
 </style>
