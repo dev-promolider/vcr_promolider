@@ -226,6 +226,16 @@
                   <div class="tw-px-6 tw-pb-6">
                     <!-- Botones de Acción -->
                     <div class="action-buttons-wrapper d-flex flex-column gap-3 mb-4">
+                      <!-- Muestra gratuita: solo si el productor marcó un archivo como vista previa -->
+                      <button
+                        v-if="previewFile"
+                        class="btn-preview-book tw-w-full tw-font-bold tw-py-3 tw-px-4 tw-cursor-pointer tw-transition-colors d-flex align-items-center justify-content-center"
+                        @click="openPreview"
+                      >
+                        <svg width="18" height="18" class="mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        Leer una muestra gratis
+                      </button>
+
                       <template v-if="!isOwner">
                         <button v-if="courseFilter == false && precio == 0" class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" @click="inscribirCursoGratis()" :class="{ loader: !titulo }">
                           Obtener Gratis
@@ -325,6 +335,36 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Vista Previa del Libro -->
+    <div v-if="isPreviewOpen" class="book-preview-backdrop" @click.self="closePreview">
+      <div class="book-preview-dialog">
+        <div class="book-preview-header">
+          <div class="book-preview-titles">
+            <h5>Vista previa &mdash; {{ titulo }}</h5>
+            <span>Muestra gratuita &bull; {{ previewFile.file_name }}</span>
+          </div>
+          <button type="button" class="book-preview-close" @click="closePreview" aria-label="Cerrar">&times;</button>
+        </div>
+
+        <div class="book-preview-body">
+          <iframe :src="previewFile.url + '#toolbar=0&navpanes=0'" title="Vista previa del libro"></iframe>
+        </div>
+
+        <div class="book-preview-footer">
+          <span class="book-preview-note">
+            Esta es solo una muestra. Adquiere el libro para acceder al contenido completo.
+          </span>
+          <button
+            v-if="!isOwner && !courseFilter"
+            class="book-preview-cta"
+            @click="closePreview"
+          >
+            Seguir con la compra
+          </button>
         </div>
       </div>
     </div>
@@ -429,6 +469,8 @@ export default {
       tymedia: 0,
       lectores: 0,
       ratings: [],
+      previewFile: null,
+      isPreviewOpen: false,
       saldoTotal: 0,
       importeCurso: 0,
       paymentMethod: [],
@@ -734,6 +776,27 @@ export default {
         .catch((error) => console.error("Error al verificar compras:", error));
     },
 
+    getPreview() {
+      this.axios
+        .get(`marketing/courses/${this.pao_id}/book-preview`)
+        .then((res) => {
+          this.previewFile = res.data?.data || null;
+        })
+        .catch(() => {
+          this.previewFile = null;
+        });
+    },
+
+    openPreview() {
+      this.isPreviewOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+
+    closePreview() {
+      this.isPreviewOpen = false;
+      document.body.style.overflow = '';
+    },
+
     getRatings() {
       this.axios
         .get(`marketing/courses/${this.pao_id}/ratings`)
@@ -747,6 +810,7 @@ export default {
     getAttributes() {
       this.pao_id = this.$route.params.ide;
       this.getRatings();
+      this.getPreview();
 
       this.axios
         .get("marketing/courses/" + this.pao_id)
@@ -836,6 +900,11 @@ export default {
     this.getAttributes();
     this.FilterBtn();
     this.getPaymentMethod();
+  },
+
+  beforeDestroy() {
+    // Evita dejar el scroll bloqueado si se navega con la muestra abierta.
+    document.body.style.overflow = '';
   },
 };
 </script>
@@ -1017,6 +1086,121 @@ export default {
 .productor-email {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.78rem;
+}
+
+/* Botón y modal de la muestra gratuita */
+.btn-preview-book {
+  background: #FFFFFF !important;
+  border: 2px solid var(--primary-color) !important;
+  color: var(--primary-color) !important;
+  border-radius: 4px;
+}
+
+.btn-preview-book:hover {
+  background: rgba(24, 214, 0, 0.08) !important;
+}
+
+.book-preview-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.book-preview-dialog {
+  background: #FFFFFF;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.book-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #E5E3DC;
+}
+
+.book-preview-titles h5 {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #18181B;
+}
+
+.book-preview-titles span {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.book-preview-close {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #71717A;
+  cursor: pointer;
+}
+
+.book-preview-body {
+  flex: 1;
+  background: #52525B;
+  min-height: 0;
+}
+
+.book-preview-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.book-preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  border-top: 1px solid #E5E3DC;
+  background: #FAF9F5;
+}
+
+.book-preview-note {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #71717A;
+}
+
+.book-preview-cta {
+  background: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .book-preview-dialog { height: 94vh; }
+  .book-preview-footer { flex-direction: column; align-items: stretch; }
 }
 
 .udemy-bg-dark { background-color: #1c1d1f !important; }
