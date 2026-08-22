@@ -125,6 +125,53 @@
 
             <!-- Listas normales cuando no se está buscando -->
             <template v-else>
+            <!-- Vista PROFESOR: cursos que dicta con chats activos, en acordeón -->
+            <template v-if="hasTeacherChats">
+              <div v-if="courseGroups.length > 0" class="course-groups">
+                <div v-for="group in courseGroups" :key="'g-' + group.key" class="course-group">
+                  <div class="course-group-header" @click="toggleGroup(group.key)">
+                    <i :class="['bi', 'group-chevron', expandedGroups[group.key] ? 'bi-chevron-down' : 'bi-chevron-right']"></i>
+                    <span class="group-title text-truncate" :title="group.title">{{ group.title }}</span>
+                    <span v-if="group.unread > 0" class="unread-badge group-unread">
+                      {{ group.unread > 9 ? '9+' : group.unread }}
+                    </span>
+                    <span class="group-count">{{ group.conversations.length }}</span>
+                  </div>
+                  <div v-show="expandedGroups[group.key]" class="course-group-body">
+                    <div
+                      v-for="contact in group.conversations"
+                      :key="contact.conversationId"
+                      :class="['chat-item', { active: contact.active }]"
+                      @click="cambiarChat(contact.conversationId)"
+                    >
+                      <div class="d-flex align-items-center">
+                        <div class="position-relative mr-3 flex-shrink-0">
+                          <img :src="contact.photo || defaultAvatar" class="avatar-sm" :alt="contact.name" @error="onAvatarError" />
+                          <span class="status-badge-sm"></span>
+                        </div>
+                        <div class="chat-item-info overflow-hidden">
+                          <h6 class="contact-name mb-1 text-truncate">{{ contact.name }} {{ contact.lastname }}</h6>
+                          <p class="last-message mb-0 text-truncate">{{ contact.last_message }}</p>
+                        </div>
+                        <span v-if="contact.unread > 0" class="unread-badge ml-auto">
+                          {{ contact.unread > 9 ? '9+' : contact.unread }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="loading" class="empty-state py-4 text-center">
+                <p class="empty-text mb-0">Cargando chats...</p>
+              </div>
+              <div v-else class="empty-state py-4 text-center">
+                <i class="bi bi-chat-dots empty-icon"></i>
+                <p class="empty-text mb-0">Aún no tienes chats activos con tus estudiantes</p>
+              </div>
+            </template>
+
+            <!-- Vista ESTUDIANTE: lista plana de chats (igual que siempre) -->
+            <template v-else>
             <div v-if="contacts.length > 0" class="chat-list">
               <div
                 v-for="contact in contacts"
@@ -151,9 +198,10 @@
               <p class="empty-text mb-0">Cargando chats...</p>
             </div>
             <div v-else class="empty-state py-4 text-center">
-              <v-icon color="#A1A1AA" size="28" class="mb-1">mdi-message-text-outline</v-icon>
+              <i class="bi bi-chat-dots empty-icon"></i>
               <p class="empty-text mb-0">Comunícate con tus profesores y suscriptores</p>
             </div>
+            </template>
             </template>
           </div>
 
@@ -281,6 +329,7 @@ export default {
       contacts: [],
       contacts2: [],
       searchQuery: "",
+      expandedGroups: {},
       actualConversation: null,
       actualContact: null,
       actualMessageContent: [],
@@ -300,6 +349,67 @@ export default {
 
     isSearching() {
       return !!(this.searchQuery && this.searchQuery.trim());
+    },
+
+    // Vista de profesor: se detecta por datos (conversaciones donde el
+    // usuario es el teacher), no por id_account_type, porque en esta
+    // plataforma un profesor puede tener el mismo account_type que un
+    // estudiante.
+    hasTeacherChats() {
+      return this.contacts.some(
+        (contact) => Number(contact.teacherId) === this.myId
+      );
+    },
+
+    // Cursos que dicta el profesor con chats activos, agrupados para el
+    // acordeón. Los cursos sin chats activos no aparecen (no existen en
+    // conversations). Cualquier chat donde NO es el profesor va al final
+    // en un grupo "Mis otros chats" para no perder información.
+    courseGroups() {
+      const dictated = [];
+      const others = [];
+      this.contacts.forEach((contact) => {
+        if (Number(contact.teacherId) === this.myId) {
+          dictated.push(contact);
+        } else {
+          others.push(contact);
+        }
+      });
+
+      const map = new Map();
+      dictated.forEach((contact) => {
+        const key = contact.course_id != null ? contact.course_id : "sin-curso";
+        if (!map.has(key)) {
+          map.set(key, {
+            key,
+            title: contact.course_title || "Curso",
+            conversations: [],
+          });
+        }
+        map.get(key).conversations.push(contact);
+      });
+
+      const groups = Array.from(map.values()).map((group) => ({
+        ...group,
+        unread: group.conversations.reduce(
+          (total, contact) => total + Number(contact.unread || 0),
+          0
+        ),
+      }));
+
+      if (others.length > 0) {
+        groups.push({
+          key: "__otros__",
+          title: "Mis otros chats",
+          conversations: others,
+          unread: others.reduce(
+            (total, contact) => total + Number(contact.unread || 0),
+            0
+          ),
+        });
+      }
+
+      return groups;
     },
 
     // Resultados agrupados por tipo de coincidencia: usuarios (nombre del
@@ -410,6 +520,11 @@ export default {
       this.searchQuery = "";
     },
 
+    // Despliega/colapsa un curso del acordeón del profesor.
+    toggleGroup(groupKey) {
+      this.$set(this.expandedGroups, groupKey, !this.expandedGroups[groupKey]);
+    },
+
     isMine(transmitterId) {
       return Number(transmitterId) === this.myId;
     },
@@ -439,6 +554,8 @@ export default {
           photo: other && other.photo ? other.photo : null,
           course_title: conversation.course ? conversation.course.title : "",
           course_id: conversation.course_id,
+          teacherId: conversation.teacher_id,
+          studentId: conversation.student_id,
           last_message: last ? last.message : "Sin mensajes anteriores",
           last_message_time: last ? last.created_at : null,
           unread: Number(conversation.unread_messages_count) || 0,
@@ -789,5 +906,60 @@ export default {
 .kind-icon {
   font-size: 1rem;
   line-height: 1;
+}
+
+/* Acordeón de cursos para la vista del profesor */
+.course-group {
+  margin-bottom: 6px;
+  border: 1px solid #e4e4e7;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fafafa;
+}
+.course-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  cursor: pointer;
+  user-select: none;
+  background-color: #f4f4f5;
+  transition: background-color 0.15s ease;
+}
+.course-group-header:hover {
+  background-color: #ebebed;
+}
+.group-chevron {
+  font-size: 0.75rem;
+  color: #71717a;
+  flex-shrink: 0;
+}
+.group-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #3f3f46;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.group-unread {
+  margin-left: 0;
+}
+.group-count {
+  min-width: 22px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 10px;
+  background-color: #e4e4e7;
+  color: #52525b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.course-group-body {
+  padding: 4px 4px 4px 10px;
+  border-top: 1px solid #ececef;
 }
 </style>
