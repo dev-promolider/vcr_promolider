@@ -19,6 +19,112 @@
           <!-- Lista de chats activos -->
           <div class="chat-list-section p-3">
             <h6 class="section-title mb-3">Chats</h6>
+
+            <!-- Buscador: filtra chats existentes y nuevos contactos,
+                 diferenciando coincidencias por usuario y por curso -->
+            <div class="chat-search mb-3">
+              <i class="bi bi-search chat-search-icon"></i>
+              <input
+                v-model="searchQuery"
+                type="text"
+                class="form-control chat-search-input"
+                placeholder="Buscar usuarios o cursos..."
+                autocomplete="off"
+              />
+              <button
+                v-if="isSearching"
+                type="button"
+                class="btn chat-search-clear"
+                title="Limpiar búsqueda"
+                @click="searchQuery = ''"
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+
+            <!-- Resultados agrupados mientras se busca -->
+            <template v-if="isSearching">
+              <div v-if="searchResults.users.length > 0" class="mb-3">
+                <h6 class="section-title mb-2">
+                  <i class="bi bi-person me-1" style="color: #18d600"></i>
+                  Usuarios
+                </h6>
+                <div
+                  v-for="item in searchResults.users"
+                  :key="'u-' + item.key"
+                  :class="['chat-item', { active: isActiveConversation(item.conversationId) }]"
+                  @click="openResult(item)"
+                >
+                  <div class="d-flex align-items-center">
+                    <div class="position-relative mr-3 flex-shrink-0">
+                      <img :src="item.photo || defaultAvatar" class="avatar-sm" :alt="item.title" @error="onAvatarError" />
+                      <span class="status-badge-sm"></span>
+                    </div>
+                    <div class="chat-item-info overflow-hidden">
+                      <h6 class="contact-name mb-1 text-truncate">{{ item.title }}</h6>
+                      <p class="last-message mb-0 text-truncate">{{ item.subtitle }}</p>
+                    </div>
+                    <div class="result-meta">
+                      <span v-if="item.unread > 0" class="unread-badge">
+                        {{ item.unread > 9 ? '9+' : item.unread }}
+                      </span>
+                      <i
+                        :class="item.iconClass"
+                        class="kind-icon"
+                        :title="item.source === 'chat' ? 'Chat existente' : 'Nuevo contacto'"
+                        :style="{ color: item.source === 'chat' ? '#18d600' : '#b4690e' }"
+                      ></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="searchResults.courses.length > 0" class="mb-3">
+                <h6 class="section-title mb-2">
+                  <i class="bi bi-journal-bookmark me-1" style="color: #b4690e"></i>
+                  Cursos
+                </h6>
+                <div
+                  v-for="item in searchResults.courses"
+                  :key="'c-' + item.key"
+                  :class="['chat-item', { active: isActiveConversation(item.conversationId) }]"
+                  @click="openResult(item)"
+                >
+                  <div class="d-flex align-items-center">
+                    <div class="position-relative mr-3 flex-shrink-0">
+                      <img :src="item.photo || defaultAvatar" class="avatar-sm" :alt="item.title" @error="onAvatarError" />
+                      <span class="status-badge-sm"></span>
+                    </div>
+                    <div class="chat-item-info overflow-hidden">
+                      <h6 class="contact-name mb-1 text-truncate">{{ item.title }}</h6>
+                      <p class="last-message mb-0 text-truncate">{{ item.subtitle }}</p>
+                    </div>
+                    <div class="result-meta">
+                      <span v-if="item.unread > 0" class="unread-badge">
+                        {{ item.unread > 9 ? '9+' : item.unread }}
+                      </span>
+                      <i
+                        :class="item.iconClass"
+                        class="kind-icon"
+                        :title="item.source === 'chat' ? 'Chat existente' : 'Nuevo contacto'"
+                        :style="{ color: item.source === 'chat' ? '#18d600' : '#b4690e' }"
+                      ></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                v-if="searchResults.users.length === 0 && searchResults.courses.length === 0"
+                class="empty-state py-4 text-center"
+              >
+                <i class="bi bi-binoculars empty-icon"></i>
+                <p class="empty-text mb-0">Sin resultados para "{{ searchQuery }}"</p>
+              </div>
+            </template>
+
+            <!-- Listas normales cuando no se está buscando -->
+            <template v-else>
             <div v-if="contacts.length > 0" class="chat-list">
               <div
                 v-for="contact in contacts"
@@ -48,10 +154,11 @@
               <v-icon color="#A1A1AA" size="28" class="mb-1">mdi-message-text-outline</v-icon>
               <p class="empty-text mb-0">Comunícate con tus profesores y suscriptores</p>
             </div>
+            </template>
           </div>
 
           <!-- Nuevos contactos -->
-          <div class="new-contacts-section p-3 border-top-subtle">
+          <div v-if="!isSearching" class="new-contacts-section p-3 border-top-subtle">
             <h6 class="section-title mb-2">Nuevos contactos</h6>
             <div v-if="contacts2.length > 0" class="new-contacts-list">
               <div v-for="contact in contacts2" :key="contact.course_id" class="contact-item" @click="openConversation(contact.course_id)">
@@ -173,6 +280,7 @@ export default {
       conversations: [],
       contacts: [],
       contacts2: [],
+      searchQuery: "",
       actualConversation: null,
       actualContact: null,
       actualMessageContent: [],
@@ -189,12 +297,117 @@ export default {
     myId() {
       return Number(this.user && this.user.id);
     },
+
+    isSearching() {
+      return !!(this.searchQuery && this.searchQuery.trim());
+    },
+
+    // Resultados agrupados por tipo de coincidencia: usuarios (nombre del
+    // contacto/profesor) y cursos (título del curso). Cubre tanto chats
+    // existentes como nuevos contactos, sin llamadas al servidor.
+    searchResults() {
+      const query = this.normalizeText(this.searchQuery);
+      if (!query) {
+        return { users: [], courses: [] };
+      }
+
+      const users = [];
+      const courses = [];
+
+      this.contacts.forEach((contact) => {
+        const fullName = this.normalizeText(`${contact.name} ${contact.lastname}`);
+        const courseTitle = this.normalizeText(contact.course_title);
+        const base = {
+          photo: contact.photo,
+          unread: Number(contact.unread || 0),
+          conversationId: contact.conversationId,
+          source: "chat",
+        };
+
+        if (fullName.includes(query)) {
+          users.push({
+            ...base,
+            key: `chat-${contact.conversationId}`,
+            iconClass: "bi bi-chat-text",
+            title: `${contact.name} ${contact.lastname}`.trim(),
+            subtitle: contact.last_message,
+          });
+        }
+        if (courseTitle.includes(query)) {
+          courses.push({
+            ...base,
+            key: `chat-course-${contact.conversationId}`,
+            iconClass: "bi bi-journal-text",
+            title: contact.course_title || "Curso",
+            subtitle: `${contact.name} ${contact.lastname}`.trim(),
+          });
+        }
+      });
+
+      this.contacts2.forEach((course) => {
+        const teacherName = this.normalizeText(course.name);
+        const courseTitle = this.normalizeText(course.course_title);
+        const base = {
+          photo: course.photo,
+          unread: 0,
+          courseId: course.course_id,
+          source: "new",
+        };
+
+        if (teacherName.includes(query)) {
+          users.push({
+            ...base,
+            key: `new-${course.course_id}`,
+            iconClass: "bi bi-chat-plus",
+            title: course.name || "Usuario",
+            subtitle: course.course_title,
+          });
+        }
+        if (courseTitle.includes(query)) {
+          courses.push({
+            ...base,
+            key: `new-course-${course.course_id}`,
+            iconClass: "bi bi-bookmark-plus",
+            title: course.course_title || "Curso",
+            subtitle: course.name || "",
+          });
+        }
+      });
+
+      return { users, courses };
+    },
   },
   methods: {
     onAvatarError(e) {
       if (e && e.target) {
         e.target.src = this.defaultAvatar;
       }
+    },
+
+    // Normaliza para comparar: minúsculas y sin tildes/acentos.
+    normalizeText(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+    },
+
+    isActiveConversation(conversationId) {
+      return (
+        conversationId != null &&
+        this.actualConversation &&
+        Number(this.actualConversation.id) === Number(conversationId)
+      );
+    },
+
+    openResult(item) {
+      if (item.conversationId != null) {
+        this.cambiarChat(item.conversationId);
+      } else if (item.courseId != null) {
+        this.openConversation(item.courseId);
+      }
+      this.searchQuery = "";
     },
 
     isMine(transmitterId) {
@@ -514,5 +727,67 @@ export default {
   padding: 0 6px;
   flex-shrink: 0;
   margin-left: auto;
+}
+
+/* Buscador del sidebar */
+.chat-search {
+  position: relative;
+}
+.chat-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  pointer-events: none;
+  z-index: 5;
+}
+.chat-search-input {
+  padding-left: 34px;
+  padding-right: 32px;
+  border-radius: 18px;
+  border-color: #e4e4e7;
+  font-size: 0.85rem;
+  height: 36px;
+}
+.chat-search-input:focus {
+  border-color: #18d600;
+  box-shadow: 0 0 0 0.15rem rgba(24, 214, 0, 0.15);
+}
+.chat-search-clear {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a1a1aa;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+.chat-search-clear:hover {
+  color: #52525b;
+}
+.empty-icon {
+  font-size: 28px;
+  color: #a1a1aa;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Icono de tipo (chat existente / nuevo contacto) alineado a la derecha */
+.result-meta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.result-meta .unread-badge {
+  margin-left: 0;
+}
+.kind-icon {
+  font-size: 1rem;
+  line-height: 1;
 }
 </style>
