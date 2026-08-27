@@ -153,7 +153,7 @@ export default {
       return "https://promolider-storage-user.s3-accelerate.amazonaws.com/" + this.course.url_portada;
     },
     ratingScore() {
-      return parseFloat(this.course.ranking_by_user || 5).toFixed(1);
+      return parseFloat(this.course.ranking_by_user || 0).toFixed(1);
     },
     isBestRated() {
       return parseFloat(this.course.ranking_by_user || 0) >= 4.5;
@@ -185,7 +185,7 @@ export default {
       if (e?.target) e.target.src = require("@/assets/background-login.webp");
     },
     getStarClass(i) {
-      const v = parseFloat(this.course.ranking_by_user || 5);
+      const v = parseFloat(this.course.ranking_by_user || 0);
       if (i <= Math.floor(v)) return 'filled';
       if (i === Math.ceil(v) && v % 1 >= 0.5) return 'half';
       return 'empty';
