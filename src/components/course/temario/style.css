@@ -109,7 +109,7 @@ input[type="checkbox"]:disabled {
   border-radius: 4px;
   transition: border-color 0.3s, box-shadow 0.3s;
   height: 32px; 
-  width: 125%; 
+  width: 100%; 
   max-width: 250px;
   min-width: 50px;
   font-size: 0.8em;
@@ -152,17 +152,11 @@ input[type="checkbox"]:disabled {
 
 .nav-temario {
   list-style: none;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
   margin-right: 10px;
 }
 
 .nav-temario ul li {
   padding: 10px 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .nav-temario ul {
@@ -174,14 +168,12 @@ input[type="checkbox"]:disabled {
   position: relative;
   color: #333333;
   font-size: 0.8em;
-  line-height: 0.7rem;
+  line-height: 1.4;
   font-weight: 500;
-  top: 5px;
   cursor: pointer;
   margin-left: 2rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: inline-block;
+  width: calc(100% - 3rem);
 }
 
 input[type="checkbox"] {
@@ -213,32 +205,19 @@ input[type="checkbox"]:checked {
 }
 
 .activo {
-  font-weight: bold !important;
+  font-weight: 700 !important;
   pointer-events: none;
-  background-color: #1ae800;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-radius: 5px;
-  padding-left: 2px;
-  padding-right: 2px;
+  color: #18d600 !important;
+  background-color: rgba(24, 214, 0, 0.08);
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
 .progressBar {
   font-size: 12px;
 }
 
-.temario::-webkit-scrollbar {
-  width: 15px;
-  display: block;
-  background: #131b1e;
-  border-radius: 50px;
-}
 
-::-webkit-scrollbar-thumb {
-  display: block;
-  background: #60d950;
-  border-radius: 50px;
-}
 
 /* Estilos adicionales para responsividad */
 @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 <template>
   <div class="product-detail-wrapper w-100">
     <!-- UDEMY STYLE DARK HEADER BANNER -->
-    <div class="udemy-dark-header udemy-bg-dark tw-text-white tw-pt-8 tw-pb-12">
+    <div class="udemy-dark-header tw-text-gray-900 dark:tw-text-white tw-pt-10 tw-pb-16 tw-mb-12 md:tw-mb-16 tw--mx-4 md:tw--mx-8 tw--mt-4 md:tw--mt-8 tw-px-4 md:tw-px-8 tw-rounded-t-2xl">
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12 col-xl-11">
@@ -10,17 +10,17 @@
                 <!-- Breadcrumb Navigation -->
                 <nav aria-label="breadcrumb" class="mb-4">
                   <ol class="breadcrumb custom-breadcrumb bg-transparent p-0 mb-0">
-                    <li class="breadcrumb-item"><router-link to="/courses" class="udemy-text-link hover:tw-text-white tw-font-bold tw-transition-colors">Cursos</router-link></li>
-                    <li class="breadcrumb-item active tw-text-gray-300" aria-current="page"><span class="tw-text-gray-500 tw-mx-2">></span>{{ categoria || 'General' }}</li>
-                    <li class="breadcrumb-item active text-truncate max-w-200 tw-text-gray-300" aria-current="page"><span class="tw-text-gray-500 tw-mx-2">></span>{{ titulo || 'Detalle' }}</li>
+                    <li class="breadcrumb-item"><router-link to="/courses" class="udemy-text-link tw-text-blue-600 dark:tw-text-blue-400 hover:tw-text-blue-800 dark:hover:tw-text-blue-300 tw-font-bold tw-transition-colors">Cursos</router-link></li>
+                    <li class="breadcrumb-item active tw-text-gray-600 dark:tw-text-gray-300" aria-current="page"><span class="tw-text-gray-500 tw-mx-2">></span>{{ categoria || 'General' }}</li>
+                    <li class="breadcrumb-item active text-truncate max-w-200 tw-text-gray-600 dark:tw-text-gray-300" aria-current="page"><span class="tw-text-gray-500 tw-mx-2">></span>{{ titulo || 'Detalle' }}</li>
                   </ol>
                 </nav>
                 
-                <h1 class="product-main-title mb-3 tw-text-3xl md:tw-text-4xl tw-font-bold tw-text-white tw-leading-tight" :class="{ loader: !titulo }">
+                <h1 class="product-main-title mb-3 tw-text-3xl md:tw-text-4xl tw-font-bold tw-text-gray-900 dark:tw-text-white tw-leading-tight" :class="{ loader: !titulo }">
                   {{ titulo }}
                 </h1>
                 
-                <p class="product-description-subtitle mb-4 tw-text-lg tw-text-gray-200" v-if="descripcion">
+                <p class="product-description-subtitle mb-4 tw-text-lg tw-text-gray-700 dark:tw-text-gray-200" v-if="descripcion">
                   {{ descripcion.length > 200 ? descripcion.substring(0, 200) + '...' : descripcion }}
                 </p>
 
@@ -30,17 +30,17 @@
                   <div class="d-flex align-items-center rating-reviews-row">
                     <span class="rating-score-text font-weight-bold udemy-text-rating tw-mr-1">4.8</span>
                     <v-rating color="#F59E0B" hover readonly length="5" size="14" value="4.8" half-increments class="p-0 tw-mr-2"></v-rating>
-                    <a href="#" class="rating-count-text udemy-text-link hover:tw-text-white tw-underline tw-mr-3">(112 valoraciones)</a>
-                    <span class="tw-text-gray-200">10,665 estudiantes</span>
+                    <a href="#" class="rating-count-text udemy-text-link tw-text-blue-600 dark:tw-text-blue-400 hover:tw-text-blue-800 dark:hover:tw-text-blue-300 tw-underline tw-mr-3">(112 valoraciones)</a>
+                    <span class="tw-text-gray-600 dark:tw-text-gray-200">10,665 estudiantes</span>
                   </div>
                 </div>
                 
                 <div class="d-flex align-items-center gap-1 mb-2 tw-text-sm">
-                  <span class="tw-text-gray-200">Creado por</span>
-                  <a href="#" class="udemy-text-link hover:tw-text-white tw-underline">{{ nameProductor || 'Instructor Oficial' }}</a>
+                  <span class="tw-text-gray-600 dark:tw-text-gray-200">Creado por</span>
+                  <a href="#" class="udemy-text-link tw-text-blue-600 dark:tw-text-blue-400 hover:tw-text-blue-800 dark:hover:tw-text-blue-300 tw-underline">{{ nameProductor || 'Instructor Oficial' }}</a>
                 </div>
                 
-                <div class="d-flex flex-wrap align-items-center gap-4 tw-text-sm tw-text-gray-200 mt-3">
+                <div class="d-flex flex-wrap align-items-center gap-4 tw-text-sm tw-text-gray-600 dark:tw-text-gray-200 mt-3">
                   <div class="d-flex align-items-center gap-1">
                     <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span>Última actualización: {{ approvalDateField ? '8/2026' : 'Reciente' }}</span>
@@ -69,7 +69,7 @@
             <!-- Columna Izquierda: Contenido Principal -->
             <div class="col-12 col-lg-8 pr-lg-5">
               <!-- Lo que aprenderás (Estilo Udemy Box) -->
-              <div class="tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-p-6 tw-mb-8 tw-bg-white dark:udemy-bg-dark">
+              <div class="tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-p-6 tw-mb-8 tw-bg-white dark:tw-bg-gray-800 tw-rounded-lg">
                 <h2 class="tw-text-2xl tw-font-bold tw-mb-4 tw-text-gray-900 dark:tw-text-white">Lo que aprenderás</h2>
                 <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
                   <div class="d-flex align-items-start gap-2" v-for="(item, index) in parseList(aprendera)" :key="index">
@@ -130,51 +130,64 @@
                 </div>
               </div>
 
-            <!-- Temario del Curso -->
-            <div class="temary-card p-4 mb-4">
-              <h4 class="section-card-heading mb-4">Temario y Lecciones</h4>
-              <div v-if="isLoading" class="loader loader-temary py-4 text-center">Cargando temario...</div>
+            <!-- Contenido del Curso -->
+            <div class="course-content-section tw-mb-10">
+              <h2 class="tw-text-2xl tw-font-bold tw-mb-2 tw-text-gray-900 dark:tw-text-white">Contenido del curso</h2>
               
-              <div v-else-if="course && course.modules" class="accordion-syllabus">
-                <div v-for="(model, index) in course.modules" :key="index" class="module-item mb-3">
-                  <div class="module-header p-3 d-flex align-items-center justify-content-between" v-b-toggle="'module-' + index">
-                    <h6 class="module-title mb-0">
-                      <span class="module-index mr-2">{{ index + 1 }}.</span>
-                      {{ model.name }}
-                    </h6>
-                    <svg class="tw-w-5 tw-h-5 tw-text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
+              <div v-if="isLoading" class="loader py-4 text-center">Cargando contenido...</div>
+              
+              <div v-else-if="items && items.modules && items.modules.length > 0">
+                <!-- Estadísticas de las secciones -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <div class="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">
+                    {{ items.modules_count || items.modules.length }} secciones • {{ items.classes_count || items.modules.reduce((a, m) => a + ((m.lessons || m.classes) ? (m.lessons || m.classes).length : 0), 0) }} clases
                   </div>
+                </div>
 
-                  <b-collapse :visible="index === 0" :id="'module-' + index" class="module-collapse">
-                    <ul class="lessons-list list-unstyled p-3 mb-0">
-                      <li v-for="(less, lIndex) in model.lessons" :key="lIndex" class="lesson-item py-2 d-flex align-items-center justify-content-between border-bottom-subtle">
-                        <div class="d-flex align-items-center cursor-pointer" v-if="model.lessons[0].id === less.id" @click="getVideo(less.id)" data-toggle="modal" data-target="#video">
-                          <svg class="tw-w-5 tw-h-5 tw-mr-2 udemy-text-primary tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                          </svg>
-                          <span class="lesson-name active-lesson">{{ less.name }}</span>
-                        </div>
-                        <div v-else class="d-flex align-items-center text-muted">
-                          <svg class="tw-w-4.5 tw-h-4.5 tw-mr-2 tw-text-gray-400 tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                          </svg>
-                          <span class="lesson-name">{{ less.name }}</span>
-                        </div>
-                        <span v-if="model.lessons[0].id === less.id" class="preview-badge">Vista previa</span>
-                      </li>
-                    </ul>
-                  </b-collapse>
+                <!-- Acordeón de Módulos -->
+                <div class="tw-border tw-border-gray-300 dark:tw-border-gray-700">
+                  <div v-for="(model, index) in items.modules" :key="index" class="tw-border-b tw-border-gray-300 dark:tw-border-gray-700 last:tw-border-b-0">
+                    <div 
+                      class="p-3 d-flex align-items-center justify-content-between tw-bg-gray-50 dark:tw-bg-gray-800 tw-cursor-pointer tw-transition-colors" 
+                      @click="openedModule = openedModule === index ? null : index"
+                    >
+                      <div class="d-flex align-items-center">
+                        <svg class="tw-w-4 tw-h-4 tw-mr-3 tw-text-gray-500 tw-transition-transform tw-duration-200" :class="{'tw-rotate-180': openedModule === index}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                        <h6 class="mb-0 tw-font-bold tw-text-gray-900 dark:tw-text-white" style="font-size: 15px;">
+                          {{ model.name || model.title }}
+                        </h6>
+                      </div>
+                      <div class="tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-whitespace-nowrap ml-3">
+                        {{ (model.lessons || model.classes) ? (model.lessons || model.classes).length : 0 }} clases
+                      </div>
+                    </div>
+
+                    <div class="accordion-content" :class="{ 'is-open': openedModule === index }">
+                      <div class="accordion-inner">
+                        <ul class="list-unstyled mb-0 tw-bg-transparent">
+                          <li v-for="(less, lIndex) in (model.lessons || model.classes || [])" :key="lIndex" class="p-3 d-flex align-items-center justify-content-between tw-border-t tw-border-gray-200 dark:tw-border-gray-700">
+                            <div class="d-flex align-items-center tw-text-gray-700 dark:tw-text-gray-300">
+                              <svg class="tw-w-4 tw-h-4 tw-mr-3 tw-text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                              </svg>
+                              <span style="font-size: 14px;">{{ less.name || less.title }}</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Reseñas y Valoraciones de Estudiantes -->
-            <div class="reviews-card p-4 mb-4">
+            <div class="reviews-card tw-bg-white dark:tw-bg-gray-800 tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-rounded-lg p-4 mb-4">
               <div class="d-flex align-items-center justify-content-between mb-4">
-                <h4 class="section-card-heading mb-0">Valoraciones de estudiantes</h4>
+                <h4 class="section-card-heading mb-0 tw-text-gray-900 dark:tw-text-white">Valoraciones de estudiantes</h4>
                 <span class="verified-purchases-badge" v-if="ratingsList && ratingsList.length">
                   <svg class="tw-w-4 tw-h-4 tw-mr-1.5 udemy-text-primary tw-inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
@@ -185,153 +198,208 @@
 
               <!-- Si no hay reseñas en el endpoint -->
               <div v-if="!ratingsList || ratingsList.length === 0" class="text-center py-4 text-muted">
-                <p class="mb-0 font-weight-500">Aún no hay valoraciones registradas para este curso.</p>
+                <p class="mb-0 font-weight-500 tw-text-gray-500 dark:tw-text-gray-400">Aún no hay valoraciones registradas para este curso.</p>
               </div>
 
               <!-- Si existen reseñas en el endpoint -->
               <div v-else class="row g-3">
                 <div v-for="(review, rIdx) in ratingsList" :key="rIdx" class="col-12 col-md-6">
-                  <div class="student-review-item p-3">
+                  <div class="student-review-item tw-bg-gray-50 dark:tw-bg-gray-700 tw-border tw-border-gray-200 dark:tw-border-gray-600 tw-rounded-xl p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                       <div class="d-flex align-items-center">
                         <div class="review-avatar mr-2">
                           {{ (review.username || review.user_name || 'U').charAt(0).toUpperCase() }}
                         </div>
                         <div>
-                          <h6 class="reviewer-name mb-0">{{ review.username || review.user_name || 'Estudiante' }}</h6>
-                          <span class="review-time text-muted">{{ review.created_at || 'Reciente' }}</span>
+                          <h6 class="reviewer-name mb-0 tw-text-gray-900 dark:tw-text-white">{{ review.username || review.user_name || 'Estudiante' }}</h6>
+                          <span class="review-time tw-text-gray-500 dark:tw-text-gray-400">{{ review.created_at || 'Reciente' }}</span>
                         </div>
                       </div>
                       <v-rating color="#F59E0B" readonly length="5" size="14" :value="parseFloat(review.rating || review.rate || 5)" class="p-0"></v-rating>
                     </div>
-                    <p class="review-text mb-0">
+                    <p class="review-text mb-0 tw-text-gray-700 dark:tw-text-gray-300">
                       {{ review.comment || review.comments || review.description || 'Sin comentario.' }}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
+
+            <!-- Sección de Cursos Recomendados / Relacionados -->
+            <div v-if="shouldShowRecommendations" class="recommendations-section mt-5 pt-4 border-top-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 class="section-title mb-0 tw-text-gray-900 dark:tw-text-white">
+                  Cursos Recomendados
+                </h3>
+              </div>
+
+              <div v-if="loadingRelated" class="text-center py-4">
+                <b-spinner variant="success" label="Cargando recomendaciones"></b-spinner>
+              </div>
+
+              <div v-else>
+                <!-- Mostrar uno debajo del otro como lista horizontal, estilo Udemy -->
+                <a 
+                  v-for="course in filteredRecommendations" 
+                  :key="course.id"
+                  :href="'/buy-cursos/' + course.id + '/' + (course.slug || 'curso')"
+                  class="tw-bg-white dark:tw-bg-gray-800 tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-rounded-xl tw-p-4 d-flex align-items-center mb-3 tw-transition-colors hover:tw-bg-gray-50 dark:hover:tw-bg-gray-700 tw-no-underline"
+                  style="text-decoration: none;"
+                >
+                  <!-- Thumbnail a la izquierda -->
+                  <div class="tw-flex-shrink-0 tw-mr-5" style="width: 72px; height: 72px;">
+                    <img 
+                      :src="course.url_portada || defaultCover" 
+                      :alt="course.title || course.name" 
+                      class="tw-rounded-lg tw-border tw-border-gray-100 dark:tw-border-gray-600"
+                      style="width: 100%; height: 100%; object-fit: cover;"
+                      @error="$event.target.src = defaultCover"
+                    />
+                  </div>
+
+                  <!-- Contenido central (Título e info) -->
+                  <div class="flex-grow-1 min-w-0" style="min-width: 0;">
+                    <h6 class="tw-font-semibold tw-text-gray-900 dark:tw-text-white tw-truncate mb-2" style="font-size: 16px;">
+                      {{ course.title || course.name }}
+                    </h6>
+                    <div class="d-flex align-items-center flex-wrap tw-gap-2 tw-text-sm">
+                      
+                      <!-- Badge (Ej. Premium o Lo más vendido) -->
+                      <span v-if="course.categoria || course.category" class="tw-bg-purple-700 dark:tw-bg-purple-600 tw-text-white tw-px-2 tw-py-1 tw-rounded tw-font-bold tw-text-xs d-flex align-items-center">
+                        <svg class="tw-w-3 tw-h-3 tw-mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        {{ course.categoria || course.category || 'Premium' }}
+                      </span>
+
+                      <!-- Calificación -->
+                      <span class="tw-bg-yellow-50 dark:tw-bg-gray-700 tw-text-yellow-800 dark:tw-text-yellow-400 tw-px-2 tw-py-1 tw-rounded tw-font-bold tw-text-xs d-flex align-items-center">
+                        {{ parseFloat(course.ranking_by_user || 5).toFixed(1) }} 
+                        <svg class="tw-w-3 tw-h-3 tw-ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                      </span>
+
+                      <!-- Estudiantes -->
+                      <span class="tw-bg-gray-100 dark:tw-bg-gray-700 tw-text-gray-800 dark:tw-text-gray-200 tw-px-2 tw-py-1 tw-rounded tw-font-bold tw-text-xs d-flex align-items-center">
+                        <svg class="tw-w-3 tw-h-3 tw-mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        {{ course.students || '1.200' }}
+                      </span>
+
+                      <!-- Horas (Diseño visual) -->
+                      <span class="tw-border tw-border-gray-300 dark:tw-border-gray-600 tw-text-gray-500 dark:tw-text-gray-400 tw-px-2 tw-py-1 tw-rounded tw-text-xs">
+                        30,5 horas
+                      </span>
+
+                    </div>
+                  </div>
+
+                  <!-- Precio a la derecha -->
+                  <div class="tw-text-right tw-pl-5 tw-ml-5 tw-flex-shrink-0 d-flex flex-column justify-content-center tw-border-l tw-border-gray-200 dark:tw-border-gray-700" style="min-width: 90px;">
+                    <span class="tw-font-bold tw-text-gray-900 dark:tw-text-white" style="font-size: 16px;">
+                      {{ (course.price_with_discount > 0 ? course.price_with_discount : (course.price || course.precio || 0)) }} USD
+                    </span>
+                    <span v-if="(course.price || course.precio) > (course.price_with_discount || 0) && course.price_with_discount > 0" class="tw-line-through tw-text-gray-500" style="font-size: 13px;">
+                      {{ course.price || course.precio }} USD
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
           </div>
 
           <!-- Columna Derecha: Tarjeta Flotante (Udemy Sidebar Card) -->
-          <div class="col-12 col-lg-4 tw-relative tw-z-10 udemy-lg-mt-negative">
-            <div class="udemy-sticky-card tw-bg-white dark:tw-bg-gray-800 tw-shadow-2xl tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-top-8 tw-sticky tw-rounded-lg tw-overflow-hidden">
-              <!-- Contenedor Multimedia Principal: Thumbnail + Play Overlay -->
+          <div class="col-12 col-lg-4 tw-relative tw-z-10">
+            <!-- Tarjeta Unificada (Flotante en desktop, normal en móvil) -->
+            <div class="udemy-sticky-card udemy-desktop-fixed tw-bg-white dark:tw-bg-gray-800 tw-shadow-2xl tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-mb-4 lg:tw-mb-0">
+              <!-- Contenedor Multimedia Principal -->
               <div class="product-media-container tw-w-full tw-bg-black tw-relative" style="cursor: pointer;">
-                <!-- Si ya está reproduciendo el video -->
                 <template v-if="isPlayingVideo && tymedia === 1">
-                  <video
-                    :src="videoimg"
-                    controls
-                    autoplay
-                    class="vcr-promo-video"
-                    style="width: 100%; border-radius: 8px 8px 0 0;"
-                    referrerpolicy="no-referrer"
-                  ></video>
+                  <video :src="videoimg" controls autoplay class="vcr-promo-video" style="width: 100%; border-radius: 0 !important;" referrerpolicy="no-referrer"></video>
                 </template>
-
-                <!-- Estado inicial: Thumbnail + Overlay -->
                 <template v-else>
-                  <!-- Imagen de portada (thumbnail) -->
-                  <img
-                    :src="coverUrl"
-                    class="promo-thumbnail"
-                    :alt="titulo"
-                    referrerpolicy="no-referrer"
-                    @error="$event.target.src = defaultCover"
-                  />
-
-                  <!-- Overlay oscuro con botón de play (solo si hay video promo mp4) -->
-                  <div
-                    v-if="tymedia === 1"
-                    class="promo-play-overlay"
-                    @click="isPlayingVideo = true"
-                  >
-                    <div class="promo-play-btn">
-                      <svg viewBox="0 0 24 24" fill="white" width="30" height="30">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
+                  <img :src="coverUrl" class="promo-thumbnail" :alt="titulo" style="border-radius: 0 !important;" referrerpolicy="no-referrer" @error="$event.target.src = defaultCover" />
+                  <div v-if="tymedia === 1" class="promo-play-overlay" @click="isPlayingVideo = true">
+                    <div class="promo-play-btn" style="width: 48px; height: 48px;">
+                      <svg viewBox="0 0 24 24" fill="white" width="24" height="24"><path d="M8 5v14l11-7z" /></svg>
                     </div>
-                    <span class="promo-play-label">Vista previa de este curso</span>
+                    <span class="promo-play-label tw-text-xs">Vista previa</span>
                   </div>
                 </template>
               </div>
 
-              <div class="tw-p-6">
+              <div class="tw-px-4 tw-pt-3 tw-pb-4">
                 <!-- Tarjeta de Precio -->
-                <div class="d-flex flex-column mb-3">
-                  <div class="tw-text-3xl tw-font-extrabold tw-text-gray-900 dark:tw-text-white tw-flex tw-items-center tw-gap-2">
-                    <span>${{ price_with_discount > 0 ? price_with_discount : precio }}</span> <span class="tw-text-base tw-font-semibold tw-text-gray-500">USD</span>
+                <div class="tw-flex tw-items-end tw-gap-3 tw-mb-2">
+                  <div class="tw-text-3xl tw-font-extrabold tw-text-gray-900 dark:tw-text-white tw-flex tw-items-baseline tw-gap-1">
+                    <span>${{ price_with_discount > 0 ? price_with_discount : precio }}</span> <span class="tw-text-sm tw-font-semibold tw-text-gray-500 tw-ml-1">USD</span>
                   </div>
-                  <div v-if="precio > 0 && precio !== importeCurso" class="tw-mt-1 tw-flex tw-items-center tw-gap-2">
-                    <span class="tw-line-through tw-text-gray-500 tw-text-sm">${{ precio }}</span>
+                  <div v-if="precio > 0 && precio !== importeCurso" class="tw-text-gray-500 tw-pb-1">
+                    <span class="tw-line-through tw-text-base">${{ precio }}</span>
                   </div>
                 </div>
 
-                <div class="tw-px-6 tw-pb-6">
+                <div class="tw-px-0">
                 <!-- Botones de Acción de Compra -->
-                <div class="action-buttons-wrapper d-flex flex-column gap-3 mb-4">
+                <div class="action-buttons-wrapper d-flex flex-column gap-2 mb-2">
                   <template v-if="!isOwner">
-                    <button v-if="courseFilter == false && precio == 0" class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" @click="inscribirCursoGratis()" :class="{ loader: !titulo }">
+                    <button v-if="courseFilter == false && precio == 0" class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-2 tw-px-3 tw-border-none tw-cursor-pointer tw-text-base tw-transition-colors tw-rounded" @click="inscribirCursoGratis()" :class="{ loader: !titulo }">
                       Inscribirse Gratis
                     </button>
 
-                    <button v-if="courseFilter == false && precio > 0" class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" data-toggle="modal" data-target="#paymentModal" :class="{ loader: !titulo }">
-                      {{ price_with_discount > 0 ? `Comprar ahora` : "Inscribirte ahora" }}
+                    <button v-if="courseFilter == false && precio > 0" class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-2 tw-px-3 tw-border-none tw-cursor-pointer tw-text-base tw-transition-colors tw-rounded" @click="BuyCourse" :disabled="loadingCourse" :class="{ loader: !titulo }">
+                      {{ loadingCourse ? 'Procesando...' : (price_with_discount > 0 ? `Comprar ahora` : "Inscribirte ahora") }}
                     </button>
 
-                    <button v-if="courseFilter == false" @click="addCurrentCourseToCart" class="tw-w-full tw-bg-white hover:tw-bg-gray-100 dark:tw-bg-gray-700 dark:hover:tw-bg-gray-600 tw-border tw-border-gray-900 dark:tw-border-gray-500 tw-text-gray-900 dark:tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-cursor-pointer tw-transition-colors d-flex align-items-center justify-content-center">
+                    <button v-if="courseFilter == false" @click="addCurrentCourseToCart" class="tw-w-full tw-bg-white hover:tw-bg-gray-100 dark:tw-bg-gray-700 dark:hover:tw-bg-gray-600 tw-border tw-border-gray-900 dark:tw-border-gray-500 tw-text-gray-900 dark:tw-text-white tw-font-bold tw-py-2 tw-px-3 tw-cursor-pointer tw-transition-colors d-flex align-items-center justify-content-center tw-rounded tw-text-sm">
                       Añadir a la cesta
                     </button>
                     
-                    <button @click="shareURL" class="tw-w-full tw-bg-transparent hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700 tw-text-gray-900 dark:tw-text-white tw-font-bold tw-py-2 tw-px-4 tw-cursor-pointer tw-border-none tw-transition-colors tw-text-sm tw-mt-2 d-flex align-items-center justify-content-center">
-                      <svg width="18" height="18" class="tw-w-4.5 tw-h-4.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                    <button @click="shareURL" class="tw-w-full tw-bg-transparent hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700 tw-text-gray-900 dark:tw-text-white tw-font-bold tw-py-1 tw-px-3 tw-cursor-pointer tw-border-none tw-transition-colors tw-text-xs tw-mt-0 d-flex align-items-center justify-content-center tw-rounded">
+                      <svg width="14" height="14" class="mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
                       Compartir curso
                     </button>
                   </template>
 
                   <template v-else>
-                    <button class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" @click="goToCourse(pao_id)" :class="{ loader: !titulo }">
+                    <button class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-2 tw-px-3 tw-border-none tw-cursor-pointer tw-text-base tw-transition-colors tw-rounded" @click="goToCourse(pao_id)" :class="{ loader: !titulo }">
                       Ir al curso
                     </button>
                   </template>
 
                   <template v-if="courseFilter">
-                    <button class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-3 tw-px-4 tw-border-none tw-cursor-pointer tw-text-lg tw-transition-colors" @click="GoCourse()">
-                      <span>Curso ya adquirido - Ir a Aprendizaje</span>
+                    <button class="tw-w-full udemy-bg-primary hover:udemy-bg-primary tw-text-white tw-font-bold tw-py-2 tw-px-3 tw-border-none tw-cursor-pointer tw-text-base tw-transition-colors tw-rounded" @click="GoCourse()">
+                      <span>Curso ya adquirido - Ir</span>
                     </button>
                   </template>
                 </div>
 
               <!-- Garantías y Características de Confianza (Trust Features) -->
-              <div class="trust-features-list border-top-subtle pt-4 mb-4">
-                <div class="trust-feature-item d-flex align-items-start mb-3">
-                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="trust-features-list border-top-subtle pt-2 mb-2">
+                <div class="trust-feature-item d-flex align-items-start mb-2">
+                  <svg width="16" height="16" class="tw-mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                   </svg>
                   <div>
-                    <span class="trust-title">Acceso inmediato</span>
-                    <p class="trust-desc mb-0">Acceso de por vida a todas las lecciones y archivos.</p>
+                    <span class="trust-title tw-text-gray-900 dark:tw-text-white tw-text-sm tw-font-bold">Acceso inmediato</span>
+                    <p class="trust-desc mb-0 tw-text-gray-600 dark:tw-text-gray-300 tw-text-xs">Acceso de por vida a lecciones.</p>
                   </div>
                 </div>
 
-                <div class="trust-feature-item d-flex align-items-start mb-3">
-                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="trust-feature-item d-flex align-items-start mb-2">
+                  <svg width="16" height="16" class="tw-mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
                   </svg>
                   <div>
-                    <span class="trust-title">Certificado Oficial</span>
-                    <p class="trust-desc mb-0">Certificado digital al completar el curso.</p>
+                    <span class="trust-title tw-text-gray-900 dark:tw-text-white tw-text-sm tw-font-bold">Certificado Oficial</span>
+                    <p class="trust-desc mb-0 tw-text-gray-600 dark:tw-text-gray-300 tw-text-xs">Certificado al completar el curso.</p>
                   </div>
                 </div>
 
                 <div class="trust-feature-item d-flex align-items-start">
-                  <svg width="20" height="20" class="tw-w-5 tw-h-5 mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg width="16" height="16" class="tw-mr-3 mt-1 text-emerald-500" style="color: var(--primary-color); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                   </svg>
                   <div>
-                    <span class="trust-title">Pago 100% Seguro</span>
-                    <p class="trust-desc mb-0">Transacciones protegidas con cifrado bancario SSL.</p>
+                    <span class="trust-title tw-text-gray-900 dark:tw-text-white tw-text-sm tw-font-bold">Pago Seguro</span>
+                    <p class="trust-desc mb-0 tw-text-gray-600 dark:tw-text-gray-300 tw-text-xs">Transacciones con cifrado SSL.</p>
                   </div>
                 </div>
               </div>
@@ -339,38 +407,25 @@
               <!-- Tarjeta de Instructor / Productor -->
               <div class="productor-card-box p-3 border-top-subtle">
                 <div class="d-flex align-items-center">
-                  <div class="productor-avatar mr-3">
-                    <img :src="imgProductor || defaultAvatar" alt="Productor" class="rounded-circle" @error="onImgError" />
+                  <div class="productor-avatar mr-2">
+                    <img :src="imgProductor || defaultAvatar" alt="Productor" class="rounded-circle" style="width: 36px; height: 36px;" @error="onImgError" />
                   </div>
                   <div class="overflow-hidden">
-                    <h6 class="productor-name text-truncate mb-0">{{ nameProductor || 'Instructor Oficial' }}</h6>
-                    <span class="productor-email text-truncate text-muted d-block small">{{ emailProductor }}</span>
+                    <h6 class="productor-name text-truncate mb-0 tw-text-gray-900 dark:tw-text-white tw-text-sm">{{ nameProductor || 'Instructor Oficial' }}</h6>
+                    <span class="productor-email text-truncate text-muted d-block tw-text-xs tw-text-gray-600 dark:tw-text-gray-300">{{ emailProductor }}</span>
                   </div>
                 </div>
               </div>
+
+              <!-- Marca de la plataforma -->
+              <!-- (Removido porque el usuario se refería a la landing page) -->
             </div>
           </div>
         </div>
 
-        <!-- Sección de Cursos Recomendados / Relacionados -->
-        <div v-if="shouldShowRecommendations" class="recommendations-section mt-5 pt-4 border-top-subtle">
-          <div class="d-flex align-items-center justify-content-between mb-4">
-            <h3 class="section-title mb-0">
-              <v-icon color="var(--primary-color)" size="24" class="mr-2">mdi-grid</v-icon>
-              Cursos Recomendados
-            </h3>
-          </div>
 
-          <div v-if="loadingRelated" class="text-center py-4">
-            <b-spinner variant="success" label="Cargando recomendaciones"></b-spinner>
-          </div>
 
-          <div v-else class="row g-3">
-            <div class="col-12 col-md-4" v-for="course in filteredRecommendations" :key="course.id">
-              <Card :course="course" :cardType="1" :isMouseOverActive="true" />
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -395,49 +450,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Modal Metodos de Pago -->
-    <div class="modal fade" id="paymentModal" ref="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-      aria-hidden="true" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              MÉTODOS DE PAGO
-            </h5>
-            <button type="button" class="close" @click="closePaymentModal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <select class="custom-select" v-model="payment_method_id">
-              <option v-for="item in paymentMethod" :key="item.id" :value="item.id">
-                {{ item.name }}
-              </option>
-            </select>
-
-            <div class="form-group col-12 mb-0" v-if="payment_method_id == 5">
-              <p class="font-weight-bold">
-                Saldo Billetera: $/ {{ saldoTotal }}
-              </p>
-              <p class="font-weight-bold">
-                Precio Curso: $/ {{ importeCurso }}
-              </p>
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closePaymentModal">
-              Salir
-            </button>
-            <button type="button" v-show="shouldDisplayBuyButton" @click="setBuyCourse" class="btn btn-success"
-              :disabled="loadingCourse">
-              {{ loadingCourse ? "Procesando..." : "Comprar" }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 </div>
@@ -445,7 +457,6 @@
 
 <script>
 import Video from "@/components/course/video";
-import Card from "@/components/courses/cards";
 import Openpay from "@/components/Buy/openpay.vue";
 import "video.js/dist/video-js.css";
 import { mapState, mapActions } from "vuex";
@@ -544,11 +555,11 @@ export default {
       showModal: false,
       user_id: null,
       loadingCourse: false,
+      openedModule: 0,
     };
   },
   components: {
     Video,
-    Card,
     Openpay,
   },
   computed: {
@@ -934,10 +945,12 @@ export default {
 
     async BuyCourse() {
       try {
-        const form = {
-          course_id: this.pao_id,
-        };
-        const response = await this.axios.post("/pay/course-openpay", form);
+          const form = {
+            course_id: this.pao_id,
+            redirect_url: window.location.href.split('?')[0]
+          };
+          
+          let response = await this.axios.post("pay/course-openpay", form);
         if (response.data.payment_url) {
           window.location.href = response.data.payment_url;
         } else {
@@ -1082,7 +1095,29 @@ export default {
       this.getAttributes();
     },
   },
-  mounted() { },
+  async mounted() {
+    if (this.$route.query.payment_course === 'success' && this.$route.query.id) {
+      try {
+        const response = await this.axios.post('pay/course-confirm-openpay', {
+          id: this.$route.query.id
+        });
+        
+        if (response.data && response.data.status === 'ok') {
+          this.showMsg('success', "¡Pago exitoso! El curso ya está disponible en tu biblioteca.");
+          this.courseFilter = true; // Habilita el botón 'Ir al curso'
+          
+          // Limpiar la URL sin recargar
+          let query = Object.assign({}, this.$route.query);
+          delete query.payment_course;
+          delete query.id;
+          this.$router.replace({ query });
+        }
+      } catch (error) {
+        console.error("Error al confirmar el pago del curso:", error);
+        this.showMsg('error', "Ocurrió un error al confirmar tu pago. Si el pago fue descontado, contacta a soporte.");
+      }
+    }
+  },
   created() {
     this.getAttributes();
     this.getCourse(this.$route.params.ide);
@@ -1167,10 +1202,8 @@ export default {
 /* Contenedor Multimedia Principal */
 .product-media-container {
   background: #FFFFFF !important;
-  border: 1px solid #E5E3DC !important;
-  border-radius: 20px !important;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+  transition: filter 0.25s ease;
 }
 
 .product-main-img {
@@ -1320,12 +1353,6 @@ export default {
   border-color: var(--primary-color);
 }
 
-.student-review-item {
-  background: #FAF9F5 !important;
-  border: 1px solid #E5E3DC !important;
-  border-radius: 14px !important;
-}
-
 .review-avatar {
   width: 34px;
   height: 34px;
@@ -1344,7 +1371,6 @@ export default {
   font-family: 'Outfit', sans-serif !important;
   font-weight: 700 !important;
   font-size: 0.9rem !important;
-  color: #18181B !important;
 }
 
 .review-time {
@@ -1355,7 +1381,6 @@ export default {
 .review-text {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 0.88rem !important;
-  color: #71717A !important;
   line-height: 1.5 !important;
 }
 
@@ -1468,14 +1493,12 @@ export default {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 0.88rem;
-  color: #18181B;
   display: block;
 }
 
 .trust-desc {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.78rem;
-  color: #71717A;
 }
 
 /* Productor / Instructor Card */
@@ -1496,7 +1519,6 @@ export default {
   font-family: 'Outfit', sans-serif !important;
   font-weight: 700 !important;
   font-size: 0.92rem !important;
-  color: #18181B !important;
 }
 
 .productor-email {
@@ -1523,6 +1545,19 @@ export default {
 }
 
 .udemy-bg-dark { background-color: #1c1d1f !important; }
+.udemy-dark-header { 
+  background-color: #cbd5e1; 
+  transition: background-color 0.3s ease; 
+  padding-top: 3.5rem !important; 
+  padding-bottom: 4.5rem !important; 
+  margin-bottom: 3rem !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+html.dark-mode body .udemy-dark-header, html.dark body .udemy-dark-header { 
+  background-color: #050505 !important; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .udemy-text-link { color: #c0c4fc !important; }
 .udemy-text-rating { color: #f69c08 !important; }
 .udemy-bg-badge { background-color: #eceb98 !important; }
@@ -1581,6 +1616,41 @@ export default {
   font-weight: 700;
   text-shadow: 0 1px 6px rgba(0,0,0,0.7);
   letter-spacing: 0.3px;
+}
+
+/* Accordion Animation */
+.accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+.accordion-content.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.accordion-inner {
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .udemy-desktop-fixed {
+    position: fixed !important;
+    top: 140px !important;
+    width: 100% !important;
+    max-width: 300px !important;
+    z-index: 50 !important;
+  }
+}
+
+.vcr-promo-video {
+  border-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.promo-thumbnail {
+  border-radius: 0 !important;
 }
 </style>
 

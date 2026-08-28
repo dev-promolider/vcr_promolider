@@ -185,7 +185,7 @@ export const lastSeenLesson = async (_, { course_id, class_id }) => {
   if (!course_id || !class_id) return;
   try {
     await axios.patch(
-      `purchased/save-class-seen?course_id=${course_id}&class_id=${class_id}`
+      `marketing/courses/purchased/save-class-seen?course_id=${course_id}&class_id=${class_id}`
     );
     return { ok: true };
   } catch (error) {
@@ -202,7 +202,7 @@ export const getResources = async (context, less) => {
 
 // Obtener video de la clase
 export const getVideo = async (context, classId) => {
-  await axios.get(`video/stream-video?class_id=${classId}`).then((res) => {
+  await axios.get(`marketing/courses/video/stream-video?class_id=${classId}`).then((res) => {
     const data = res.data.data;
     context.commit("SET_VIDEO", data);
   });
@@ -217,7 +217,7 @@ export const getTimeReproduction = (context, time) => {
 export const updateTime = (_, { course, time, lessonId }) => {
   try {
     axios.patch(
-      `purchased/save-class-seen?course_id=${course}&display_time=${time}&class_id=${lessonId}`
+      `marketing/courses/purchased/save-class-seen?course_id=${course}&display_time=${time}&class_id=${lessonId}`
     );
     return { ok: true };
   } catch (error) {

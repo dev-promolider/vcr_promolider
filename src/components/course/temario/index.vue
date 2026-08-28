@@ -1,32 +1,10 @@
 <template>
   <!-- Contenedor principal del componente -->
-  <div class="mb-3 px-4" style="border-radius: 20px; margin-top: 40px; margin-right: 10px">
+  <div class="mb-3 px-4" style="border-radius: 20px; margin-top: 40px;">
     <div class="temario pb-3">
-      <div class="row">
-        <!-- Div para el título -->
-        <div class="col-lg-4 col-md-5 col-sm-6 mr-2">
-          <p class="text-left" style="
-              font-size: 1.3em;
-              font-weight: 600;
-              margin-left: 20px;
-              display: inline;
-            ">
-            {{ title }}
-          </p>
-          <!-- Mostrar progreso -->
-          <div v-if="content === 'temary'" class="progress-indicator mt-2" style="margin-left: 20px;">
-            <small class="text-muted">Progreso: {{ progress }}%</small>
-            <div class="progress-bar-mini">
-              <div 
-                class="progress-fill" 
-                :style="{ width: progress + '%' }"
-              ></div>
-            </div>
-          </div>
-        </div>
-
+      <div class="row justify-content-end mb-4">
         <!-- Div para el input de búsqueda -->
-        <div class="col-lg-5 col-md-4 col-sm-4 mr-2 text-right search-container">
+        <div class="col-12 col-md-6 text-right search-container">
           <div :class="[
             'search-input',
             { 'search-input-hover': isHover, 'search-input-focus': isFocus },
@@ -35,22 +13,6 @@
               @keyup.enter="performSearch" @focus="handleFocus(true)" @blur="handleFocus(false)"
               @mouseover="handleHover(true)" @mouseleave="handleHover(false)" />
           </div>
-        </div>
-
-        <!-- Div para el menú de puntos -->
-        <div class="col-lg-1 text-right">
-          <v-menu>
-            <template v-slot:activator="{ on: menu, attrs }">
-              <v-btn color="#1ad003" text small depressed plain v-bind="attrs" v-on="{ ...menu }">
-                <v-icon dark> mdi-dots-vertical </v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item v-for="(item, index) in items" :key="index" link @click="menuActionClick(item.action)">
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
         </div>
       </div>
 
@@ -62,7 +24,7 @@
       <!-- Contenido principal del componente -->
       <div v-else>
         <!-- Sección de temario -->
-        <div v-if="content == 'temary'" style="max-height: 300px; overflow-y: auto">
+        <div v-if="content == 'temary'" class="pb-4">
           <ul v-for="(module, moduleIndex) in filteredModules" :key="moduleIndex" class="mt-3">
             <li class="nav-temario" :title="module.name">
               <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -91,7 +53,7 @@
               </div>
 
               <b-collapse visible :id="module.name.replace(/ /g, 'AAAAA')">
-                <ul style="overflow: auto; max-height: 200px">
+                <ul class="py-2">
                   <!-- Listado de lecciones en cada módulo -->
                   <li v-for="(lesson, lessonIndex) in module.lessons" :key="lessonIndex">
                     <div style="display: flex; align-items: center">

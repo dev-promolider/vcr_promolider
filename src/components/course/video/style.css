@@ -1,58 +1,26 @@
-/* .player {
-  height: 500px;
+.player-container {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  background: #000;
 }
 
-.vjs-tech,
-.vjs-custom-skin {
-  width: 100% !important;
-  height: 500px !important;
+/* Plymouth Customizations */
+:root {
+  --plyr-color-main: #18d600;
+  --plyr-video-control-background-hover: #119e00;
 }
 
-.video-js {
-  width: 100%;
-  height: 500px;
-} */
-
-/* Make the video relative, instead of absolute, so that
-   the parent container will size based on the video. Also,
-   note the max-height rule. Note the line-height 0 is to prevent
-   a small artifact on the bottom of the video.
- */
- .video-js.vjs-fluid,
- .video-js.vjs-16-9,
- .video-js.vjs-4-3,
- video.video-js,
- video.vjs-tech {
-  /* max-height: calc(70vh - 64px); */
+.plyr {
+  border-radius: 12px;
   max-height: 700px;
-   position: relative !important;
-   /* width: 100%; */
-   height: auto !important;
-   max-width: 100% !important;
-   padding-top: 0 !important;
-   line-height: 0;
- }
- 
- /* Fix the control bar due to us resetting the line-height on the video-js */
- .vjs-control-bar {
-   line-height: 1;
- }
+}
 
- @media only screen and (max-width: 1700px) {
-  .video-js.vjs-fluid,
- .video-js.vjs-16-9,
- .video-js.vjs-4-3,
- video.video-js,
- video.vjs-tech {
-  /* max-height: calc(70vh - 64px); */
-  max-height: 450px;
-   position: relative !important;
-   /* width: 100%; */
-   height: auto !important;
-   max-width: 100% !important;
-   padding-top: 0 !important;
-   line-height: 0;
- }
-  
+@media only screen and (max-width: 1700px) {
+  .plyr {
+    max-height: 550px;
+  }
 }

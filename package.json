@@ -18,6 +18,7 @@
     "laravel-echo": "^1.11.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
+    "plyr": "^3.8.4",
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
     "pusher-js": "^4.4.0",
@@ -56,4 +57,3 @@
     "vue-template-compiler": "^2.7.16"
   }
 }
-

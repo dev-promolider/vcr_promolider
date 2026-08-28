@@ -31,96 +31,55 @@
         </div>
       </div>
 
-      <!-- State 3: Udemy Course View -->
-      <div v-else class="udemy-course-container">
-        
-        <!-- Header Dark Bar -->
-        <header class="udemy-course-header">
-          <div class="tw-flex tw-items-center tw-justify-between tw-w-full tw-px-4 md:tw-px-6">
-            <h1 class="tw-text-white tw-text-lg md:tw-text-xl tw-font-bold tw-truncate tw-max-w-[60%]">
+      <!-- State 3: Card Course View -->
+      <div v-else class="tw-w-full tw-bg-gray-100 tw-py-8 tw-px-4 md:tw-px-8 lg:tw-px-12 tw-min-h-screen">
+        <div class="tw-max-w-7xl tw-mx-auto tw-bg-white tw-rounded-2xl tw-shadow-lg tw-overflow-hidden tw-flex tw-flex-col">
+          
+          <!-- Header Dark Bar -->
+          <header class="tw-bg-gray-900 tw-py-4 tw-px-6 tw-flex tw-items-center tw-justify-between">
+            <h1 class="tw-text-white tw-text-lg md:tw-text-xl tw-font-bold tw-truncate" style="max-width: 70%;">
               {{ this.courseInfo.title || 'Cargando curso...' }}
             </h1>
-            <div class="tw-flex tw-items-center tw-gap-4">
-              <button class="tw-text-gray-300 hover:tw-text-white tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2">
-                <i class="fas fa-share-alt"></i>
-                <span class="d-none d-md-inline">Compartir</span>
-              </button>
-            </div>
-          </div>
-        </header>
+            <button class="tw-text-gray-300 hover:tw-text-white tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2">
+              <i class="fas fa-share-alt"></i>
+              <span class="d-none d-md-inline">Compartir</span>
+            </button>
+          </header>
 
-        <!-- Main Workspace (Video + Sidebar) -->
-        <div class="udemy-workspace">
-          
-          <!-- LEFT AREA: Video & Details -->
-          <div class="udemy-main-content">
+          <!-- Main Workspace (Video + Sidebar) -->
+          <div class="tw-flex-1" style="display: flex; flex-wrap: wrap;">
             
-            <!-- Video Player Wrapper (Black background) -->
-            <div class="udemy-video-wrapper">
-              <Video v-if="renderVideo && lessonId" :classId="lessonId" :courseId="this.$route.query.course"
-                @markLessonComplete="handleLessonComplete" class="udemy-video-player">
-              </Video>
-            </div>
-
-            <!-- Content Tabs under video -->
-            <div class="udemy-content-details tw-bg-white tw-px-4 tw-py-6 md:tw-px-8 md:tw-py-8">
+            <!-- LEFT AREA: Video & Details -->
+            <div style="flex: 1; min-width: 0; padding: 2rem;">
               
-              <!-- Tab Navigation (Mock visually, showing all below for now) -->
-              <div class="tw-border-b tw-border-gray-200 tw-mb-6">
-                <nav class="tw-flex tw-gap-6 tw-overflow-x-auto">
-                  <button class="tw-text-gray-900 tw-font-bold tw-border-b-2 tw-border-black tw-pb-3 tw-text-sm md:tw-text-base tw-whitespace-nowrap">Descripción general</button>
-                  <button class="tw-text-gray-500 hover:tw-text-gray-900 tw-font-bold tw-pb-3 tw-text-sm md:tw-text-base tw-whitespace-nowrap">Q&A</button>
-                  <button class="tw-text-gray-500 hover:tw-text-gray-900 tw-font-bold tw-pb-3 tw-text-sm md:tw-text-base tw-whitespace-nowrap">Notas</button>
-                  <button class="tw-text-gray-500 hover:tw-text-gray-900 tw-font-bold tw-pb-3 tw-text-sm md:tw-text-base tw-whitespace-nowrap">Avisos</button>
-                </nav>
+              <!-- Video Player Wrapper (Contained within left column) -->
+              <div class="tw-w-full tw-rounded-xl tw-overflow-hidden tw-bg-black tw-mb-8 tw-shadow-sm" style="min-height: 400px; position: relative;">
+                <Video v-if="renderVideo && lessonId" :classId="lessonId" :courseId="this.$route.query.course"
+                  @markLessonComplete="handleLessonComplete" class="tw-w-full">
+                </Video>
+                <div v-else class="tw-flex tw-items-center tw-justify-center" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+                   <div class="spinner-border text-light" role="status"></div>
+                </div>
               </div>
 
-              <!-- Detailed Content -->
-              <div class="tw-max-w-4xl">
-                <!-- Description -->
-                <div class="tw-mb-10">
-                  <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
-                </div>
-
-                <hr class="tw-border-gray-200 tw-my-8" />
-
-                <!-- Instructor -->
-                <div class="tw-mb-10">
-                  <h3 class="tw-text-xl tw-font-bold tw-mb-4">Acerca del instructor</h3>
-                  <Docente></Docente>
-                </div>
-
-                <hr class="tw-border-gray-200 tw-my-8" />
-
-                <!-- Comments -->
-                <div>
-                  <h3 class="tw-text-xl tw-font-bold tw-mb-4">Comentarios y reseñas</h3>
-                  <Comentarios></Comentarios>
-                </div>
-
+              <!-- Description under video -->
+              <div class="tw-mt-8 tw-max-w-4xl">
+                <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
               </div>
+
             </div>
 
+            <!-- RIGHT AREA: Sidebar Temario -->
+            <aside class="tw-border-l tw-border-gray-200 tw-bg-gray-50" style="flex: 0 0 380px; width: 380px;">
+              <div class="tw-p-6 tw-border-b tw-border-gray-200">
+                <h2 class="tw-text-lg tw-font-bold tw-text-gray-900">Contenido del curso</h2>
+              </div>
+              
+              <div class="tw-overflow-y-auto custom-scrollbar" style="max-height: 800px;">
+                <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
+              </div>
+            </aside>
           </div>
-
-          <!-- RIGHT AREA: Sidebar Temario -->
-          <aside class="udemy-sidebar tw-bg-white">
-            <div class="udemy-sidebar-header tw-p-4 tw-border-b tw-border-gray-200">
-              <h2 class="tw-text-base tw-font-bold tw-text-gray-900">Contenido del curso</h2>
-            </div>
-            
-            <div class="udemy-sidebar-content">
-              <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
-              
-              <!-- Extra Actions in Sidebar -->
-              <div class="tw-p-4 tw-mt-4">
-                <button class="btn text-white w-100 py-2 fw-bold shadow-sm" style="background-color: var(--primary-color); border-radius: 50px;">
-                  <i class="fas fa-user-plus me-2"></i> Invitar a otra persona
-                </button>
-              </div>
-            </div>
-          </aside>
-
         </div>
       </div>
     </div>
@@ -131,9 +90,7 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import Temario from "@/components/course/temario";
 import Descripcion from "@/components/course/descripcion";
-import Comentarios from "@/components/course/comentarios";
 import Video from "@/components/course/video";
-import Docente from "@/components/course/docente";
 
 export default {
   name: "Course",
@@ -149,9 +106,7 @@ export default {
   components: {
     Temario,
     Descripcion,
-    Comentarios,
     Video,
-    Docente,
   },
   computed: {
     ...mapState("course", ["lesson", "renderVideo", "courseSelect"]),
@@ -244,47 +199,21 @@ export default {
         } catch (error) {
           console.error("Error en getLesson:", error);
         }
+
+        // Terminar la carga principal aquí para no bloquear la UI
+        this.loading = false;
         
-        try {
-          await this.getVideo(res.data.id);
-        } catch (error) {
-          console.warn("Video no disponible para esta lección, continuando...");
-        }
-        
-        try {
-          await this.getComments(res.data.id);
-        } catch (error) {
-          console.error("Error en getComments:", error);
-        }
-        
-        try {
-          await this.getRating(this.$route.query.course);
-        } catch (error) {
-          console.error("Error en getRating:", error);
-        }
-        
-        try {
-          await this.getTest({ exam_type: "class", id_type: res.data.id });
-        } catch (error) {
-          console.error("Error en getTest:", error);
-        }
-        
-        try {
-          await this.getModuleExam(this.$route.query.course);
-        } catch (error) {
-          console.error("Error en getModuleExam:", error);
-        }
-        
-        try {
-          await this.getActiveDinamicModule(this.$route.query.course);
-        } catch (error) {
-          console.error("Error en getActiveDinamicModule:", error);
-        }
+        // El resto se carga en segundo plano sin bloquear
+        this.getVideo(res.data.id).catch(() => console.warn("Video no disponible para esta lección, continuando..."));
+        this.getComments(res.data.id).catch(err => console.error("Error en getComments:", err));
+        this.getRating(this.$route.query.course).catch(err => console.error("Error en getRating:", err));
+        this.getTest({ exam_type: "class", id_type: res.data.id }).catch(err => console.error("Error en getTest:", err));
+        this.getModuleExam(this.$route.query.course).catch(err => console.error("Error en getModuleExam:", err));
+        this.getActiveDinamicModule(this.$route.query.course).catch(err => console.error("Error en getActiveDinamicModule:", err));
         
       } catch (error) {
         console.error("Error general al cargar la lección activa:", error);
         this.error = true;
-      } finally {
         this.loading = false;
       }
     },
@@ -342,94 +271,21 @@ html.dark-mode .course-error-card p.text-muted {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #ffffff;
-}
-html.dark-mode .udemy-course-layout {
-  background-color: transparent !important;
 }
 
-.udemy-course-container {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-/* Header */
-.udemy-course-header {
-  height: 56px;
-  background-color: #1C1D1F; /* Udemy Dark */
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #3E4143;
-}
-
-/* Main Workspace Flex */
-.udemy-workspace {
-  display: flex;
-  flex-direction: column; /* Stack on mobile */
-  flex: 1;
-}
-
-/* Large screens: Row layout */
-@media (min-width: 992px) {
-  .udemy-workspace {
-    flex-direction: row;
-    align-items: stretch;
-  }
-  
-  .udemy-main-content {
-    flex: 1; /* Takes remaining space */
-    min-width: 0; /* Prevents flex blowout */
-  }
-
-  .udemy-sidebar {
-    width: 380px; /* Fixed sidebar width */
-    flex-shrink: 0;
-    border-left: 1px solid #D1D7DC;
-    display: flex;
-    flex-direction: column;
-    /* Fixed height relative to viewport minus header (approx) */
-    height: calc(100vh - 56px - 64px); /* Subtract top navs */
-    position: sticky;
-    top: 0;
-  }
-}
-
-/* Video Wrapper */
-.udemy-video-wrapper {
-  background-color: #1C1D1F; /* Blackish background for video */
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-}
-
-.udemy-video-player {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Sidebar Scrollable Area */
-.udemy-sidebar-content {
-  flex: 1;
-  overflow-y: auto;
-}
-
-/* Custom Scrollbar for Sidebar */
-.udemy-sidebar-content::-webkit-scrollbar {
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
-.udemy-sidebar-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f8fafc;
 }
-.udemy-sidebar-content::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
   border-radius: 4px;
 }
-.udemy-sidebar-content::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 </style>
