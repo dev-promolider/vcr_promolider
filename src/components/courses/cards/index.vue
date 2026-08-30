@@ -21,12 +21,12 @@
         <p v-if="courseDescription" class="card-description-text">
           {{ courseDescription }}
         </p>
-        <div v-else class="d-flex align-center mt-2 mb-1">
+        <div v-else-if="hasRating" class="d-flex align-center mt-2 mb-1">
           <div class="d-flex align-center custom-rating">
             <i class="fas fa-star" style="color: #F59E0B; font-size: 14px;"></i>
-            <span style="color: #F59E0B; font-size: 14px; margin-left: 4px; font-weight: bold;">{{ parseFloat(course.ranking_by_user || 5).toFixed(1) }}</span>
+            <span style="color: #F59E0B; font-size: 14px; margin-left: 4px; font-weight: bold;">{{ ratingScore }}</span>
           </div>
-          <span class="rating-number-text ml-2">{{ course.ranking_by_user || '5.0' }}</span>
+          <span class="rating-number-text ml-2">{{ ratingScore }}</span>
         </div>
 
         <div class="card-action-footer tw-mt-4 tw-flex tw-items-center tw-gap-2">
@@ -102,12 +102,12 @@
             <span v-else class="udemy-start-text">EMPEZAR CURSO</span>
           </div>
           
-          <div class="udemy-rating-section">
+          <div v-if="hasRating" class="udemy-rating-section">
             <div class="udemy-star-rating" style="display: flex; align-items: center; gap: 4px;">
               <i class="fas fa-star" style="color: #F59E0B; font-size: 12px;"></i>
-              <span style="color: #F59E0B; font-size: 12px; font-weight: bold;">{{ parseFloat(course.ranking_by_user || 5).toFixed(1) }}</span>
+              <span style="color: #F59E0B; font-size: 12px; font-weight: bold;">{{ ratingScore }}</span>
             </div>
-            <span class="udemy-rating-text">Tu calificación</span>
+            <span class="udemy-rating-text">Valoración promedio</span>
           </div>
         </div>
       </div>
@@ -141,6 +141,12 @@ export default {
     };
   },
   computed: {
+    hasRating() {
+      return Number(this.course.ranking_by_user) > 0;
+    },
+    ratingScore() {
+      return Number(this.course.ranking_by_user).toFixed(1);
+    },
     coverUrl() {
       if (!this.course || !this.course.url_portada) {
         return require("@/assets/background-login.webp");

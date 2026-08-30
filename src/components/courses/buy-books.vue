@@ -27,12 +27,12 @@
                 <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
                   <span class="bestseller-badge udemy-bg-badge udemy-text-badge tw-font-bold tw-px-2 tw-py-1 tw-text-xs">EBOOK</span>
 
-                  <div class="d-flex align-items-center rating-reviews-row">
+                  <div v-if="ratingsList.length" class="d-flex align-items-center rating-reviews-row">
                     <span class="rating-score-text font-weight-bold udemy-text-rating tw-mr-1">{{ ratingAverage }}</span>
-                    <span class="udemy-text-rating tw-mr-2">★★★★★</span>
+                    <v-rating color="#F59E0B" hover readonly length="5" size="14" :value="Number(ratingAverage)" half-increments class="p-0 tw-mr-2"></v-rating>
                     <span class="rating-count-text udemy-text-link tw-mr-3">({{ ratingsList.length }} valoraciones)</span>
-                    <span class="tw-text-gray-200">{{ lectores }} lectores</span>
                   </div>
+                  <span v-else class="tw-text-gray-200 tw-text-sm">Aún no hay valoraciones</span>
                 </div>
 
                 <div class="d-flex align-items-center gap-1 mb-2 tw-text-sm">
@@ -160,10 +160,10 @@
                             <span class="review-time text-muted">{{ review.created_at || 'Reciente' }}</span>
                           </div>
                         </div>
-                        <span class="udemy-text-rating">★ {{ review.rating || review.rate || 5 }}</span>
+                        <span class="udemy-text-rating">★ {{ review.rating || review.rate }}</span>
                       </div>
                       <p class="review-text mb-0">
-                        {{ review.comment || review.comments || review.description || 'Sin comentario.' }}
+                        {{ review.commentary || review.comment || review.comments || review.description || 'Sin comentario.' }}
                       </p>
                     </div>
                   </div>
@@ -502,7 +502,7 @@ export default {
     },
 
     ratingAverage() {
-      if (!this.ratingsList.length) return "5.0";
+      if (!this.ratingsList.length) return null;
       const total = this.ratingsList.reduce(
         (sum, r) => sum + (parseFloat(r.rating || r.rate) || 0),
         0

@@ -27,12 +27,12 @@
                 <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
                   <span class="bestseller-badge udemy-bg-badge udemy-text-badge tw-font-bold tw-px-2 tw-py-1 tw-text-xs">LO MÁS VENDIDO</span>
                   
-                  <div class="d-flex align-items-center rating-reviews-row">
-                    <span class="rating-score-text font-weight-bold udemy-text-rating tw-mr-1">4.8</span>
-                    <v-rating color="#F59E0B" hover readonly length="5" size="14" value="4.8" half-increments class="p-0 tw-mr-2"></v-rating>
-                    <a href="#" class="rating-count-text udemy-text-link hover:tw-text-white tw-underline tw-mr-3">(112 valoraciones)</a>
-                    <span class="tw-text-gray-200">10,665 estudiantes</span>
+                  <div v-if="ratingsList.length" class="d-flex align-items-center rating-reviews-row">
+                    <span class="rating-score-text font-weight-bold udemy-text-rating tw-mr-1">{{ ratingAverage }}</span>
+                    <v-rating color="#F59E0B" hover readonly length="5" size="14" :value="Number(ratingAverage)" half-increments class="p-0 tw-mr-2"></v-rating>
+                    <span class="rating-count-text udemy-text-link tw-mr-3">({{ ratingsList.length }} valoraciones)</span>
                   </div>
+                  <span v-else class="tw-text-gray-200 tw-text-sm">Aún no hay valoraciones</span>
                 </div>
                 
                 <div class="d-flex align-items-center gap-1 mb-2 tw-text-sm">
@@ -195,17 +195,17 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                       <div class="d-flex align-items-center">
                         <div class="review-avatar mr-2">
-                          {{ (review.username || review.user_name || 'U').charAt(0).toUpperCase() }}
+                          {{ reviewerName(review).charAt(0).toUpperCase() }}
                         </div>
                         <div>
-                          <h6 class="reviewer-name mb-0">{{ review.username || review.user_name || 'Estudiante' }}</h6>
+                          <h6 class="reviewer-name mb-0">{{ reviewerName(review) }}</h6>
                           <span class="review-time text-muted">{{ review.created_at || 'Reciente' }}</span>
                         </div>
                       </div>
-                      <v-rating color="#F59E0B" readonly length="5" size="14" :value="parseFloat(review.rating || review.rate || 5)" class="p-0"></v-rating>
+                      <v-rating color="#F59E0B" readonly length="5" size="14" :value="parseFloat(review.rating || review.rate)" class="p-0"></v-rating>
                     </div>
                     <p class="review-text mb-0">
-                      {{ review.comment || review.comments || review.description || 'Sin comentario.' }}
+                      {{ review.commentary || review.comment || review.comments || review.description || 'Sin comentario.' }}
                     </p>
                   </div>
                 </div>
@@ -544,6 +544,7 @@ export default {
       showModal: false,
       user_id: null,
       loadingCourse: false,
+      ratings: [],
     };
   },
   components: {
@@ -561,22 +562,19 @@ export default {
       }
       return false;
     },
-    ...mapState("course", ["course", "renderVideo", "isLoading", "allRating"]),
+    ...mapState("course", ["course", "renderVideo", "isLoading"]),
 
     ratingsList() {
-      if (Array.isArray(this.allRating) && this.allRating.length > 0) {
-        return this.allRating;
-      }
-      if (this.allRating && Array.isArray(this.allRating.data) && this.allRating.data.length > 0) {
-        return this.allRating.data;
-      }
-      if (this.items && Array.isArray(this.items.ratings) && this.items.ratings.length > 0) {
-        return this.items.ratings;
-      }
-      if (this.items && Array.isArray(this.items.reviews) && this.items.reviews.length > 0) {
-        return this.items.reviews;
-      }
-      return [];
+      return Array.isArray(this.ratings) ? this.ratings : [];
+    },
+
+    ratingAverage() {
+      if (!this.ratingsList.length) return null;
+      const total = this.ratingsList.reduce(
+        (sum, rating) => sum + (parseFloat(rating.rate || rating.rating) || 0),
+        0
+      );
+      return (total / this.ratingsList.length).toFixed(1);
     },
 
     filteredRecommendations() {
@@ -637,8 +635,23 @@ export default {
     ...mapActions("course", {
       getCourse: "getCourse",
       getVideo: "getVideo",
-      getRating: "getRating",
     }),
+
+    reviewerName(review) {
+      return (review.user && review.user.name) || review.username || review.user_name || "Estudiante";
+    },
+
+    getRatings() {
+      return this.axios
+        .get(`marketing/courses/${this.pao_id}/ratings`)
+        .then((response) => {
+          this.ratings = Array.isArray(response.data?.data) ? response.data.data : [];
+        })
+        .catch((error) => {
+          this.ratings = [];
+          console.error("Error al obtener valoraciones:", error);
+        });
+    },
 
     shareURL() {
       const url = window.location.href;
@@ -981,6 +994,7 @@ export default {
     
     getAttributes() {
       this.pao_id = this.$route.params.ide;
+      this.getRatings();
       this.axios.get("marketing/courses/" + this.pao_id).then((datos) => {
         this.items = datos.data.data;
         
@@ -1086,10 +1100,6 @@ export default {
   created() {
     this.getAttributes();
     this.getCourse(this.$route.params.ide);
-    if (this.$route.params.ide) {
-      this.getRating(this.$route.params.ide);
-    }
-
     this.FilterBtn();
 
     this.getPaymentMethod();

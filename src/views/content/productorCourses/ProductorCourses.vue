@@ -164,10 +164,10 @@
             <h3 class="mc-card__title">{{ item.title }}</h3>
             <p v-if="item.name" class="mc-card__author">{{ item.name }} {{ item.last_name }}</p>
 
-            <div class="mc-card__rating">
-              <span class="mc-rating__score">{{ parseFloat(item.ranking_by_user || 5).toFixed(1) }}</span>
+            <div v-if="Number(item.ranking_by_user) > 0" class="mc-card__rating">
+              <span class="mc-rating__score">{{ parseFloat(item.ranking_by_user).toFixed(1) }}</span>
               <span class="mc-rating__stars">
-                <span v-for="i in 5" :key="i" class="mc-star" :class="getStarClass(i, item.ranking_by_user || 5)">★</span>
+                <span v-for="i in 5" :key="i" class="mc-star" :class="getStarClass(i, item.ranking_by_user)">★</span>
               </span>
             </div>
 
