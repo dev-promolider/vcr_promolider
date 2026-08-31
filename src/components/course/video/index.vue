@@ -1,6 +1,6 @@
-﻿<template>
+<template>
   <div class="player-container">
-    <video ref="videoElement" playsinline crossorigin>
+    <video ref="videoElement" playsinline crossorigin poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
       <source :src="urlVideo" type="video/mp4" />
     </video>
   </div>
@@ -59,12 +59,13 @@ export default {
     },
 
     async playerReadied() {
+      if (!this.lesson || !this.lesson.id) return;
       try {
         const response = await this.axios.get(
-          "marketing/courses/purchased/get-time?courseId=${this.courseId}&classId=${this.classId}"
+          `marketing/courses/purchased/get-time?courseId=${this.courseId}&classId=${this.lesson.id}`
         );
         this.timeReprod = response.data.time || 0;
-        if (this.player) {
+        if (this.player && this.timeReprod > 0) {
           this.player.currentTime = this.timeReprod;
         }
       } catch (err) {
@@ -73,6 +74,7 @@ export default {
     },
 
     actualizarTiempo(time) {
+      if (!this.lesson || !this.lesson.id) return;
       this.updateTime({
         course: this.$route.query.course,
         time,
@@ -91,9 +93,14 @@ export default {
       }
     },
 
-    markLessonComplete() {
+    async markLessonComplete() {
+      if (!this.lesson || !this.lesson.id) return;
       if (!this.completedLessons.includes(this.lesson.id)) {
-        this.updateCompletedLessons(this.lesson.id);
+        // Enviar evento de completar al backend usando la acción que guarda en BD
+        await this.$store.dispatch("course/updateCompletedLesson", {
+          lessonId: this.lesson.id,
+          courseId: this.courseId
+        });
         this.$emit("markLessonComplete", this.lesson.id);
       }
     },
@@ -124,11 +131,13 @@ export default {
   beforeDestroy() {
     window.removeEventListener("unload", this.someMethod);
     if (this.player) {
-      this.updateTime({
-        course: this.idCourse,
-        time: this.player.currentTime,
-        lessonId: this.lesson.id,
-      });
+      if (this.lesson && this.lesson.id) {
+        this.updateTime({
+          course: this.idCourse,
+          time: this.player.currentTime,
+          lessonId: this.lesson.id,
+        });
+      }
       this.player.destroy();
     }
   },

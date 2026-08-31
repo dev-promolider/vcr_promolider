@@ -68,15 +68,13 @@ export const updateCourseProgress = ({ commit, state }, courseId) => {
 // Inicializar lecciones completadas desde el almacenamiento local
 export const initializeCompletedLessons = async ({ commit }, courseId) => {
   try {
-    // Obtener lecciones completadas del servidor
-    const response = await axios.get(`/course/${courseId}/completed-lessons`);
-    const completedLessons = response.data.completed_lessons || [];
+    // Obtener lecciones completadas y progreso del servidor
+    const response = await axios.get(`marketing/courses/${courseId}/progress`);
+    const data = response.data.data || {};
+    const completedLessons = data.completed_lessons || [];
+    const progress = data.progress || 0;
     
     commit("SET_COMPLETED_LESSONS", completedLessons);
-    
-    // También obtener el progreso del curso
-    const progressResponse = await axios.get(`/course/${courseId}/progress`);
-    const progress = progressResponse.data.progress || 0;
     commit("UPDATE_PROGRESS_COURSE", progress);
     
     return { ok: true, completedLessons, progress };
@@ -95,17 +93,15 @@ export const initializeCompletedLessons = async ({ commit }, courseId) => {
 export const updateCompletedLesson = async ({ commit }, { lessonId, courseId }) => {
   try {
     // Actualizar en el servidor
-    const response = await axios.post(`/course/${courseId}/complete-lesson`, {
-      lesson_id: lessonId
-    });
+    const response = await axios.post(`marketing/courses/${courseId}/lessons/${lessonId}/complete`);
     
     if (response.data.success) {
       // Actualizar estado local
       commit("ADD_COMPLETED_LESSON", lessonId);
       
       // Obtener progreso actualizado del servidor
-      const progressResponse = await axios.get(`/course/${courseId}/progress`);
-      const newProgress = progressResponse.data.progress || 0;
+      const progressResponse = await axios.get(`marketing/courses/${courseId}/progress`);
+      const newProgress = progressResponse.data?.data?.progress || 0;
       commit("UPDATE_PROGRESS_COURSE", newProgress);
       
       return { ok: true, progress: newProgress };
@@ -120,11 +116,11 @@ export const updateCompletedLesson = async ({ commit }, { lessonId, courseId }) 
 
 export const syncProgressWithServer = async ({ commit }, courseId) => {
   try {
-    const response = await axios.get(`/course/${courseId}/sync-progress`);
-    const { completed_lessons, progress } = response.data;
+    const response = await axios.get(`marketing/courses/${courseId}/progress`);
+    const data = response.data.data || {};
     
-    commit("SET_COMPLETED_LESSONS", completed_lessons);
-    commit("UPDATE_PROGRESS_COURSE", progress);
+    if (data.completed_lessons) commit("SET_COMPLETED_LESSONS", data.completed_lessons);
+    if (data.progress !== undefined) commit("UPDATE_PROGRESS_COURSE", data.progress);
     
     return { ok: true };
   } catch (error) {
@@ -226,16 +222,23 @@ export const updateTime = (_, { course, time, lessonId }) => {
 };
 
 // Obtener comentarios de la clase
-export const getComments = async (context, id) => {
-  await axios.get(`comments/show-comments?class_id=${id}`).then((res) => {
-    context.commit("GET_COMMENTS", res.data);
-  });
+export const getComments = async ({ commit }, id) => {
+  // En el nuevo backend los comentarios directos por clase no están disponibles (sólo para juegos).
+  // Se ignora la petición silenciosamente para evitar 404s en la consola.
+  commit("GET_COMMENTS", []);
 };
 
 // Obtener valoración del curso
-export const getRating = async (context, id) => {
-  await axios.get(`course/rate/show/${id}`).then((res) => {
-    context.commit("GET_RATING", res.data);
+export const getRating = async ({ commit }, id) => {
+  await axios.get(`marketing/courses/${id}/ratings`).then((res) => {
+    if (res.data.success) {
+      commit("GET_RATING", res.data.data);
+    } else {
+      commit("GET_RATING", res.data);
+    }
+  }).catch(error => {
+    console.error("Error fetching ratings:", error);
+    commit("GET_RATING", { total_rating: 5, list_rating: [] }); // fallback
   });
 };
 

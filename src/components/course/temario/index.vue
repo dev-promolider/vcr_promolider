@@ -2,18 +2,18 @@
   <!-- Contenedor principal del componente -->
   <div class="mb-3 px-4" style="border-radius: 20px; margin-top: 40px;">
     <div class="temario pb-3">
-      <div class="row justify-content-end mb-4">
-        <!-- Div para el input de búsqueda -->
-        <div class="col-12 col-md-6 text-right search-container">
-          <div :class="[
-            'search-input',
-            { 'search-input-hover': isHover, 'search-input-focus': isFocus },
-          ]">
-            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Buscar un tema"
-              @keyup.enter="performSearch" @focus="handleFocus(true)" @blur="handleFocus(false)"
-              @mouseover="handleHover(true)" @mouseleave="handleHover(false)" />
-          </div>
+      <div class="tw-mb-6 tw-relative tw-w-full">
+        <div class="tw-absolute tw-inset-y-0 tw-left-0 tw-pl-3 tw-flex tw-items-center tw-pointer-events-none">
+          <i class="fas fa-search tw-text-gray-400"></i>
         </div>
+        <input 
+          ref="searchInput" 
+          v-model="searchQuery" 
+          type="text" 
+          class="tw-block tw-w-full tw-pl-10 tw-pr-4 tw-py-3 tw-bg-gray-50 dark:tw-bg-gray-800 tw-border tw-border-gray-200 dark:tw-border-gray-700 dark:tw-text-white tw-rounded-xl tw-text-sm tw-placeholder-gray-500 dark:tw-placeholder-gray-400 focus:tw-bg-white dark:focus:tw-bg-gray-900 focus:tw-outline-none focus:tw-border-[#18d600] focus:tw-ring-4 focus:tw-ring-[rgba(24,214,0,0.1)] tw-transition-all tw-duration-300"
+          placeholder="Buscar una lección..."
+          @keyup.enter="performSearch" 
+        />
       </div>
 
       <!-- Spinner de carga -->
@@ -28,51 +28,24 @@
           <ul v-for="(module, moduleIndex) in filteredModules" :key="moduleIndex" class="mt-3">
             <li class="nav-temario" :title="module.name">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <p class="module-text" v-b-toggle="module.name.replace(/ /g, '')">
+                <p class="module-text">
                   {{ moduleIndex + 1 }}. {{ module.name }}
                 </p>
-                <!-- Indicador de completitud del módulo -->
-                <div style="display: flex; align-items: center; gap: 10px;">
-                  <span 
-                    v-if="moduleCompletionStatus[module.id]" 
-                    :class="moduleCompletionStatus[module.id].is_completed ? 'badge badge-success' : 'badge badge-warning'"
-                    style="font-size: 0.7em;"
-                  >
-                    {{ moduleCompletionStatus[module.id].is_completed ? 'Completado' : `${moduleCompletionStatus[module.id].completion_percentage}%` }}
-                  </span>
-                  <!-- Botón para verificar módulo específico -->
-                  <button 
-                    @click="checkSpecificModule(module.id)" 
-                    class="btn btn-xs btn-outline-primary"
-                    style="font-size: 0.7em; padding: 2px 6px;"
-                    title="Verificar este módulo"
-                  >
-                    ✓
-                  </button>
-                </div>
               </div>
 
-              <b-collapse visible :id="module.name.replace(/ /g, 'AAAAA')">
+              <div :id="module.name.replace(/ /g, 'AAAAA')">
                 <ul class="py-2">
                   <!-- Listado de lecciones en cada módulo -->
                   <li v-for="(lesson, lessonIndex) in module.lessons" :key="lessonIndex">
                     <div style="display: flex; align-items: center">
                       <div style="position: relative; margin-right: 0px;">
                         <input 
-                          style="position: relative" 
+                          class="checkbox"
+                          style="position: relative; pointer-events: none;" 
                           type="checkbox"
                           :checked="isLessonCompleted(lesson.id)" 
-                          @change="toggleLessonCompletion(lesson.id)"
-                          :disabled="isUpdatingProgress"
+                          readonly
                         />
-                        <!-- Spinner pequeño para mostrar carga -->
-                        <div 
-                          v-if="isUpdatingProgress" 
-                          class="mini-spinner"
-                          style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center;"
-                        >
-                          <div class="spinner-dot"></div>
-                        </div>
                       </div>
                       <a style="margin-left: 10px" @click="changeClass(lesson)"
                         :class="{ activo: lesson.name === clase }" :title="lesson.name">
@@ -81,7 +54,7 @@
                     </div>
                   </li>
                 </ul>
-              </b-collapse>
+              </div>
             </li>
           </ul>
         </div>
@@ -249,71 +222,10 @@ export default {
      * Verificar el estado de completitud de todos los módulos del curso
      */
     async checkModuleCompletion() {
-      try {
-        const courseId = this.$route.query.course;
-        if (!courseId) {
-          console.error("❌ No se encontró course_id en la ruta");
-          return;
-        }
-
-        console.log("🚀 Verificando completitud de módulos para el curso:", courseId);
-
-        const response = await this.axios.get(`/course/${courseId}/modules-completion`);
-        
-        console.log("✅ RESPUESTA ENDPOINT - Estado de todos los módulos:");
-        console.log("📊 Datos completos:", response.data);
-        
-        if (response.data.success) {
-          console.log("📈 RESUMEN GENERAL:");
-          console.log(`- Total de módulos: ${response.data.summary.total_modules}`);
-          console.log(`- Módulos completados: ${response.data.summary.completed_modules}`);
-          
-          console.log("\n📚 DETALLE POR MÓDULO:");
-          response.data.modules.forEach((module, index) => {
-            console.log(`\n${index + 1}. Módulo: ${module.module_name} (ID: ${module.module_id})`);
-            console.log(`   - Estado: ${module.is_completed ? '✅ COMPLETADO' : '⚠️ INCOMPLETO'}`);
-            console.log(`   - Progreso: ${module.completion_percentage}%`);
-            console.log(`   - Clases totales: ${module.total_classes}`);
-            console.log(`   - Clases completadas: ${module.completed_classes}`);
-            
-            if (module.completed_class_ids.length > 0) {
-              console.log(`   - IDs clases completadas: [${module.completed_class_ids.join(', ')}]`);
-            }
-            
-            if (module.pending_class_ids.length > 0) {
-              console.log(`   - IDs clases pendientes: [${module.pending_class_ids.join(', ')}]`);
-            }
-          });
-
-          // Actualizar el estado local para mostrar en la UI
-          const statusMap = {};
-          response.data.modules.forEach(module => {
-            statusMap[module.module_id] = {
-              is_completed: module.is_completed,
-              completion_percentage: module.completion_percentage,
-              total_classes: module.total_classes,
-              completed_classes: module.completed_classes
-            };
-          });
-          this.moduleCompletionStatus = statusMap;
-
-          // Mostrar toast con el resumen
-          if (response.data.summary.completed_modules === response.data.summary.total_modules) {
-            this.$toast.success(`🎉 ¡Todos los módulos completados! (${response.data.summary.completed_modules}/${response.data.summary.total_modules})`);
-          } else {
-            this.$toast.info(`📊 Progreso: ${response.data.summary.completed_modules}/${response.data.summary.total_modules} módulos completados`);
-          }
-        }
-
-      } catch (error) {
-        console.error("❌ ERROR al verificar módulos:", error);
-        if (error.response) {
-          console.error("📋 Respuesta del servidor:", error.response.data);
-          console.error("🔢 Status:", error.response.status);
-        }
-        this.$toast.error('Error al verificar estado de módulos');
-      }
+      // API removida temporalmente ya que causaba 404 (endpoint no implementado)
+      this.moduleCompletionStatus = {};
     },
+
 
     /**
      * Verificar el estado de un módulo específico
@@ -439,7 +351,7 @@ export default {
         const progressPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
         // Enviar progreso al backend
-        const response = await this.axios.post(`/class/${courseId}/progress`, {
+        const response = await this.axios.post(`marketing/courses/${courseId}/progress`, {
           progress: progressPercentage
         });
 
@@ -451,12 +363,10 @@ export default {
         // Emitir evento si el curso se completó
         if (response.data.completed) {
           this.$emit('courseCompleted', courseId);
-          this.$toast.success('¡Felicitaciones! Has completado el curso');
         }
 
       } catch (error) {
         console.error("Error al actualizar progreso del curso:", error);
-        this.$toast.error('Error al actualizar el progreso');
       }
     },
 
@@ -525,12 +435,16 @@ export default {
     // Calcula el progreso del curso
     async getProgress() {
       if (this.$route.query.course) {
-        await this.$store.dispatch(
-          "course/updateCourseProgress",
-          this.$route.query.course
-        );
-        // También actualizar el progreso en el backend
-        await this.updateCourseProgress();
+        try {
+          await this.$store.dispatch(
+            "course/updateCourseProgress",
+            this.$route.query.course
+          );
+          // También actualizar el progreso en el backend
+          await this.updateCourseProgress();
+        } catch (error) {
+          console.warn("No se pudo sincronizar el progreso:", error);
+        }
       }
     },
 

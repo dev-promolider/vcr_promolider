@@ -31,55 +31,76 @@
         </div>
       </div>
 
-      <!-- State 3: Card Course View -->
-      <div v-else class="tw-w-full tw-bg-gray-100 tw-py-8 tw-px-4 md:tw-px-8 lg:tw-px-12 tw-min-h-screen">
-        <div class="tw-max-w-7xl tw-mx-auto tw-bg-white tw-rounded-2xl tw-shadow-lg tw-overflow-hidden tw-flex tw-flex-col">
+      <!-- State 3: Full Course View -->
+      <div v-else class="tw-w-full tw-flex tw-flex-col tw-bg-white dark:tw-bg-gray-900" style="min-height: calc(100vh - 60px);">
+        
+        <!-- Header Dark Bar -->
+        <header class="tw-bg-gray-900 dark:tw-bg-black tw-py-4 tw-px-6 tw-flex tw-items-center tw-justify-between">
+          <h1 class="tw-text-white tw-text-lg md:tw-text-xl tw-font-bold tw-truncate" style="max-width: 70%;">
+            {{ this.courseInfo.title || 'Cargando curso...' }}
+          </h1>
+          <button class="tw-text-gray-300 hover:tw-text-white tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2">
+            <i class="fas fa-share-alt"></i>
+            <span class="d-none d-md-inline">Compartir</span>
+          </button>
+        </header>
+
+        <!-- Main Workspace (Video + Sidebar) -->
+        <div class="tw-flex-1 tw-flex tw-flex-wrap">
           
-          <!-- Header Dark Bar -->
-          <header class="tw-bg-gray-900 tw-py-4 tw-px-6 tw-flex tw-items-center tw-justify-between">
-            <h1 class="tw-text-white tw-text-lg md:tw-text-xl tw-font-bold tw-truncate" style="max-width: 70%;">
-              {{ this.courseInfo.title || 'Cargando curso...' }}
-            </h1>
-            <button class="tw-text-gray-300 hover:tw-text-white tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2">
-              <i class="fas fa-share-alt"></i>
-              <span class="d-none d-md-inline">Compartir</span>
-            </button>
-          </header>
-
-          <!-- Main Workspace (Video + Sidebar) -->
-          <div class="tw-flex-1" style="display: flex; flex-wrap: wrap;">
+          <!-- LEFT AREA: Video & Details -->
+          <div class="tw-flex-1 tw-p-4 md:tw-p-8" style="min-width: 0;">
             
-            <!-- LEFT AREA: Video & Details -->
-            <div style="flex: 1; min-width: 0; padding: 2rem;">
-              
-              <!-- Video Player Wrapper (Contained within left column) -->
-              <div class="tw-w-full tw-rounded-xl tw-overflow-hidden tw-bg-black tw-mb-8 tw-shadow-sm" style="min-height: 400px; position: relative;">
-                <Video v-if="renderVideo && lessonId" :classId="lessonId" :courseId="this.$route.query.course"
-                  @markLessonComplete="handleLessonComplete" class="tw-w-full">
-                </Video>
-                <div v-else class="tw-flex tw-items-center tw-justify-center" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
-                   <div class="spinner-border text-light" role="status"></div>
-                </div>
+            <!-- Video Player Wrapper (Contained within left column) -->
+            <div class="tw-w-full tw-bg-black tw-mb-8" style="min-height: 400px; position: relative;">
+              <Video v-if="renderVideo && lessonId" :classId="lessonId" :courseId="this.$route.query.course"
+                @markLessonComplete="handleLessonComplete" class="tw-w-full">
+              </Video>
+              <div v-else class="tw-flex tw-items-center tw-justify-center tw-absolute tw-inset-0">
+                 <div class="spinner-border text-light" role="status"></div>
               </div>
-
-              <!-- Description under video -->
-              <div class="tw-mt-8 tw-max-w-4xl">
-                <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
-              </div>
-
             </div>
 
-            <!-- RIGHT AREA: Sidebar Temario -->
-            <aside class="tw-border-l tw-border-gray-200 tw-bg-gray-50" style="flex: 0 0 380px; width: 380px;">
-              <div class="tw-p-6 tw-border-b tw-border-gray-200">
-                <h2 class="tw-text-lg tw-font-bold tw-text-gray-900">Contenido del curso</h2>
+            <!-- Description under video -->
+            <div class="tw-mt-8 tw-max-w-5xl tw-mx-auto">
+              <h2 v-if="lesson && lesson.name" class="tw-text-2xl md:tw-text-3xl tw-font-bold tw-text-gray-900 dark:tw-text-white tw-mb-4">
+                {{ lesson.name }}
+              </h2>
+              <Descripcion :id_lesson="lessonId" v-if="lessonId"></Descripcion>
+            </div>
+
+            <!-- Instructor Info -->
+            <div v-if="courseInfo && (courseInfo.instructor || courseInfo.user)" class="tw-mt-8 tw-max-w-5xl tw-mx-auto tw-bg-gray-50 dark:tw-bg-gray-800 tw-p-6 tw-rounded-xl tw-border tw-border-gray-200 dark:tw-border-gray-700">
+              <h3 class="tw-text-lg tw-font-bold tw-text-gray-900 dark:tw-text-white tw-mb-4">Acerca del Productor</h3>
+              <div class="tw-flex tw-items-start tw-gap-4">
+                <!-- Avatar -->
+                <img v-if="(courseInfo.instructor || courseInfo.user).photo && !(courseInfo.instructor || courseInfo.user).photo.includes('avatar1.png')" :src="(courseInfo.instructor || courseInfo.user).photo" class="tw-w-16 tw-h-16 tw-rounded-full tw-object-cover" alt="Productor">
+                <div v-else class="tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#18d600] tw-bg-opacity-20 tw-text-[#18d600] tw-flex tw-items-center tw-justify-center tw-text-xl tw-font-bold tw-flex-shrink-0">
+                  {{ (courseInfo.instructor || courseInfo.user).name ? (courseInfo.instructor || courseInfo.user).name.charAt(0).toUpperCase() : 'P' }}
+                </div>
+                
+                <!-- Info -->
+                <div class="tw-flex-1">
+                  <h4 class="tw-font-bold tw-text-gray-900 dark:tw-text-white tw-text-lg">{{ (courseInfo.instructor || courseInfo.user).name }} {{ (courseInfo.instructor || courseInfo.user).last_name }}</h4>
+                  <p class="tw-text-gray-600 dark:tw-text-gray-300 tw-text-sm tw-mt-1" style="white-space: pre-line;">
+                    {{ (courseInfo.instructor || courseInfo.user).biography || 'Productor de contenido en Promolíder.' }}
+                  </p>
+                </div>
               </div>
-              
-              <div class="tw-overflow-y-auto custom-scrollbar" style="max-height: 800px;">
-                <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
-              </div>
-            </aside>
+            </div>
+
           </div>
+
+          <!-- RIGHT AREA: Sidebar Temario -->
+          <aside class="tw-border-l tw-border-gray-200 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900" style="flex: 0 0 400px; width: 400px;">
+            <div class="tw-p-6 tw-border-b tw-border-gray-200 dark:tw-border-gray-700">
+              <h2 class="tw-text-lg tw-font-bold tw-text-gray-900 dark:tw-text-white">Contenido del curso</h2>
+            </div>
+            
+            <div class="tw-overflow-y-auto custom-scrollbar" style="height: calc(100vh - 150px);">
+              <Temario :completedLessons="completedLessons" @markLessonAsCompleted="handleLessonComplete" />
+            </div>
+          </aside>
         </div>
       </div>
     </div>
@@ -280,6 +301,10 @@ html.dark-mode .course-error-card p.text-muted {
 .custom-scrollbar::-webkit-scrollbar-track {
   background: #f8fafc;
 }
+html.dark .custom-scrollbar::-webkit-scrollbar-track,
+html.dark-mode .custom-scrollbar::-webkit-scrollbar-track {
+  background: #111827;
+}
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
@@ -288,4 +313,39 @@ html.dark-mode .course-error-card p.text-muted {
   background: #94a3b8;
 }
 
+</style>
+
+<style>
+/* Dark Mode Overrides for Course Layout (Unscoped to allow html.dark-mode to work) */
+html.dark-mode .udemy-course-layout .tw-bg-white {
+  background-color: #0f172a !important; /* slate-900 equivalent */
+}
+html.dark-mode .udemy-course-layout .tw-text-gray-900 {
+  color: #f8fafc !important;
+}
+html.dark-mode .udemy-course-layout header.tw-bg-gray-900 {
+  background-color: #000000 !important;
+}
+html.dark-mode .udemy-course-layout .tw-border-gray-200 {
+  border-color: #334155 !important; /* slate-700 equivalent */
+}
+html.dark-mode .udemy-course-layout .tw-bg-gray-50 {
+  background-color: #1e293b !important; /* slate-800 equivalent */
+}
+html.dark-mode .udemy-course-layout .tw-text-gray-600 {
+  color: #cbd5e1 !important;
+}
+html.dark-mode .udemy-course-layout .course-description {
+  color: #cbd5e1 !important;
+}
+html.dark-mode .udemy-course-layout .tw-text-gray-700 {
+  color: #e2e8f0 !important;
+}
+html.dark-mode .udemy-course-layout input {
+  color: #f8fafc !important;
+  background-color: #1e293b !important;
+}
+html.dark-mode .udemy-course-layout input::placeholder {
+  color: #94a3b8 !important;
+}
 </style>

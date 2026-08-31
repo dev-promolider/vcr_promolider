@@ -1,5 +1,5 @@
-﻿<template>
-  <div class="course-description tw-text-gray-700 tw-text-base md:tw-text-lg tw-leading-relaxed">
+<template>
+  <div class="course-description tw-text-gray-700 dark:tw-text-gray-300 tw-text-base md:tw-text-lg tw-leading-relaxed">
     {{ lesson.description }}
   </div>
 </template>
