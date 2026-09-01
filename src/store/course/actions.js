@@ -222,7 +222,7 @@ export const updateTime = (_, { course, time, lessonId }) => {
 };
 
 // Obtener comentarios de la clase
-export const getComments = async ({ commit }, id) => {
+export const getComments = async ({ commit }) => {
   // En el nuevo backend los comentarios directos por clase no están disponibles (sólo para juegos).
   // Se ignora la petición silenciosamente para evitar 404s en la consola.
   commit("GET_COMMENTS", []);
