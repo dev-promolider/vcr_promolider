@@ -1,8 +1,6 @@
 <template>
   <div class="tw-relative">
-    <DashboardProducer v-if="producer" />
     <DashboardStudent v-if="student" />
-    <DashboardDistributor v-if="distributor" />
 
     <!-- Botón Flotante de Ruleta Exclusivo de Inicio (Compacto 46px) -->
     <div class="tw-fixed tw-bottom-6 tw-right-6 tw-z-40 tw-group">
@@ -44,18 +42,14 @@
 </template>
 
 <script>
-import DashboardProducer from "@/components/dashboard";
 import DashboardStudent from "@/components/Student/dashboard";
-import DashboardDistributor from "@/components/Distributor/distributor";
 import VueWinWheel from "@/components/Student/dashboard/Roulette";
 import { authGet } from "@/helpers/authStorage";
 
 export default {
   name: "Dashboard",
   components: {
-    DashboardProducer,
     DashboardStudent,
-    DashboardDistributor,
     VueWinWheel,
   },
   data() {
@@ -80,14 +74,14 @@ export default {
     }
 
     if (role == 1 || role == 2 || role === "Producer" || role === "Admin") {
-      this.producer = true;
+      this.student = true;
     } else if (role == 3 || role === "Distributor") {
-      this.distributor = true;
+      this.student = true;
     } else if (role == 4 || role === "Student") {
       this.student = true;
     } else {
-      // Fallback a Producer dashboard para que se muestren las tarjetas principales
-      this.producer = true;
+      // Fallback a Student dashboard para que se muestren las tarjetas principales
+      this.student = true;
     }
   },
 };

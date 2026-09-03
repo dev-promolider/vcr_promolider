@@ -193,7 +193,7 @@ export default {
         // Si className viene vacío o indefinido, intentamos obtener la lección por defecto o vista previamente
         if (!className) {
           try {
-            const seenRes = await this.axios.get(`purchased/show-class-seen?course_id=${courseId}`);
+            const seenRes = await this.axios.get(`marketing/courses/purchased/show-class-seen?course_id=${courseId}`);
             const dataRequest = (seenRes && seenRes.data && seenRes.data.data) ? seenRes.data.data : {};
             if (dataRequest && dataRequest.name) {
               className = dataRequest.name;

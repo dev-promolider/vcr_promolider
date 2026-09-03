@@ -242,7 +242,7 @@ export default {
     async goToCourse(id) {
       let dataRequest;
       try {
-        const res = await this.axios.get(`purchased/show-class-seen?course_id=${id}`);
+        const res = await this.axios.get(`marketing/courses/purchased/show-class-seen?course_id=${id}`);
         dataRequest = res.data.data;
         if (dataRequest && dataRequest.display_time) {
           this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
@@ -545,7 +545,7 @@ export default {
 
 .udemy-progress-bar-fill {
   height: 100%;
-  background-color: #8B5CF6; /* Purple color matching mockup */
+  background-color: var(--primary-color);
   border-radius: 3px;
   transition: width 0.3s ease;
 }

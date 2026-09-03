@@ -509,7 +509,7 @@ export default {
           return;
         }
 
-        const res = await this.axios.get(`purchased/show-class-seen?course_id=${id}`);
+        const res = await this.axios.get(`marketing/courses/purchased/show-class-seen?course_id=${id}`);
         const dataRequest = (res && res.data && res.data.data) ? res.data.data : {};
           
         this.$store.commit("course/UPDATE_TIME", dataRequest.display_time || 0);

@@ -147,7 +147,7 @@ export default {
             let dataRequest;
             try {
                 const res = await this.axios.get(
-                    `purchased/show-class-seen?course_id=${id}`
+                    `marketing/courses/purchased/show-class-seen?course_id=${id}`
                 );
                 if (!res?.data?.data) {
                     throw new Error("No se encontraron datos del curso");

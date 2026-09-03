@@ -736,7 +736,7 @@ export default {
 
       try {
         const response = await this.axios.get(
-          `purchased/show-class-seen?course_id=${id}`
+          `marketing/courses/purchased/show-class-seen?course_id=${id}`
         );
         dataRequest = response.data.data;
         this.$store.commit("course/UPDATE_TIME", dataRequest.display_time);
