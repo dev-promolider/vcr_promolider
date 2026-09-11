@@ -75,11 +75,26 @@
             class="download-all-btn"
             type="button"
             :disabled="!book.files || book.files.length === 0"
+            @click="readOnline(book.files && book.files[0])"
+          >
+            <span><BookOpenIcon /></span>
+            Leer en línea
+          </button>
+
+          <button
+            v-if="canDownload"
+            class="download-all-btn"
+            type="button"
+            :disabled="!book.files || book.files.length === 0"
             @click="downloadAllFiles"
           >
             <span><DownloadIcon /></span>
             Descargar todo
           </button>
+
+          <p v-else class="online-only-note">
+            <LockIcon size="14" /> Este libro es de lectura en línea. El autor no habilitó la descarga.
+          </p>
         </div>
       </section>
 
@@ -144,6 +159,16 @@
                   <button
                     class="download-file-btn"
                     type="button"
+                    title="Leer en línea"
+                    @click="readOnline(file)"
+                  >
+                    <BookOpenIcon size="16" />
+                  </button>
+
+                  <button
+                    v-if="canDownload"
+                    class="download-file-btn"
+                    type="button"
                     title="Descargar archivo"
                     @click="downloadFile(file)"
                   >
@@ -206,6 +231,28 @@
         </aside>
       </section>
     </template>
+
+    <!-- Lector en línea -->
+    <div v-if="readerFile" class="reader-backdrop" @click.self="closeReader">
+      <div class="reader-dialog">
+        <div class="reader-header">
+          <div class="reader-titles">
+            <h5>{{ book.title }}</h5>
+            <span>{{ readerFile.file_name }}</span>
+          </div>
+          <button type="button" class="reader-close" @click="closeReader" aria-label="Cerrar">&times;</button>
+        </div>
+
+        <div class="reader-body">
+          <iframe :src="readerFile.url + '#toolbar=0&navpanes=0'" title="Lector del libro"></iframe>
+        </div>
+
+        <div v-if="!canDownload" class="reader-footer">
+          <LockIcon size="14" />
+          <span>Lectura en línea. El autor de este libro no habilitó la descarga.</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -217,7 +264,9 @@ import {
   TargetIcon,
   UserIcon,
   ZapIcon,
-  CalendarIcon
+  CalendarIcon,
+  BookOpenIcon,
+  LockIcon
 } from "vue-feather-icons";
 
 export default {
@@ -229,6 +278,7 @@ export default {
       loading: false,
       error: null,
       activeTab: "contents",
+      readerFile: null,
 
       // Ajusta esto según tu proyecto.
       // Si tus URLs ya vienen completas, no afecta.
@@ -246,10 +296,17 @@ export default {
     TargetIcon,
     UserIcon,
     ZapIcon,
-    CalendarIcon
+    CalendarIcon,
+    BookOpenIcon,
+    LockIcon
   },
 
   computed: {
+    // El productor decide si su libro solo se lee en línea o además se descarga.
+    canDownload() {
+      return this.book && this.book.can_download === true;
+    },
+
     willLearnList() {
       return this.toList(this.book && this.book.will_learn);
     },
@@ -277,17 +334,40 @@ export default {
       const bookId = this.$route.params.id;
 
       await this.axios
-        .get(`/books/${bookId}`)
+        .get(`/course/${bookId}/book-access`)
         .then((response) => {
-          this.book = response.data.data || response.data;
+          const data = response.data.data || {};
+
+          // El endpoint devuelve la ficha, los archivos con URL temporal y si
+          // el productor permite descargarlos.
+          this.book = {
+            ...(data.book || {}),
+            files: data.files || [],
+            can_download: data.can_download === true,
+          };
         })
         .catch((error) => {
           console.error(error);
-          this.error = "No se pudo cargar el contenido del libro.";
+          this.error =
+            error.response && error.response.status === 403
+              ? "Necesitas adquirir este libro para acceder a su contenido."
+              : "No se pudo cargar el contenido del libro.";
         })
         .finally(() => {
           this.loading = false;
         });
+    },
+
+    readOnline(file) {
+      if (!file || !file.url) return;
+
+      this.readerFile = file;
+      document.body.style.overflow = "hidden";
+    },
+
+    closeReader() {
+      this.readerFile = null;
+      document.body.style.overflow = "";
     },
 
     toList(value) {
@@ -378,10 +458,102 @@ export default {
       });
     },
   },
+
+  beforeDestroy() {
+    // Evita dejar el scroll bloqueado si se navega con el lector abierto.
+    document.body.style.overflow = "";
+  },
 };
 </script>
 
 <style scoped>
+/* Lector en línea */
+.reader-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.reader-dialog {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 1000px;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+.reader-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e5e3dc;
+}
+
+.reader-titles h5 {
+  margin: 0;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #18181b;
+}
+
+.reader-titles span {
+  font-size: 0.8rem;
+  color: #71717a;
+}
+
+.reader-close {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #71717a;
+  cursor: pointer;
+}
+
+.reader-body {
+  flex: 1;
+  background: #52525b;
+  min-height: 0;
+}
+
+.reader-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.reader-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid #e5e3dc;
+  background: #faf9f5;
+  font-size: 0.82rem;
+  color: #71717a;
+}
+
+.online-only-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0 0;
+  font-size: 0.82rem;
+  color: #71717a;
+}
+
 .book-page {
   width: 100%;
   max-width: 1480px;
