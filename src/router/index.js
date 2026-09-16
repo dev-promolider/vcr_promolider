@@ -46,6 +46,7 @@ const AutoLogin = () => import("../views/content/AutoLogin.vue");
 const Conector = () => import("../views/content/Conector.vue");
 const CartPage = () => import("../views/content/cart/Cart.vue");
 const WishlistPage = () => import("../views/content/wishlist/Wishlist.vue");
+const CourseLanding = () => import("../views/public/CourseLanding.vue");
 
 // import PreferencesCateg from '../views/content/preferences/PreferenceCateg.vue'
 // import Suscription from '../components/suscription/suscription.vue'
@@ -196,6 +197,12 @@ const routes = [
     name: "conector",
     component: Conector,
     props: true,
+  },
+  {
+    path: "/landing/course/:id",
+    name: "course-landing",
+    component: CourseLanding,
+    meta: { autenticado: false },
   },
   // { path: '/preferences', name: 'Preferences', component: PreferencesCateg, meta: { autenticado: true } },
 ];

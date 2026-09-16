@@ -20,24 +20,24 @@ export default {
 </script>
 
 <style>
-/* Scrollbar personalizado */
+/* Scrollbar personalizado moderno */
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px var(--primary-color);
-  box-shadow: inset 0 0 6px var(--primary-color);
-  border-radius: 10px;
-  background-color: #121614;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar {
-  width: 12px;
-  background-color: #121614;
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px var(--primary-color);
-  box-shadow: inset 0 0 6px var(--primary-color);
-  background-color: var(--primary-color);
+  background-color: rgba(156, 163, 175, 0.4); /* tailwind gray-400 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.8);
 }
 
 /* Animacion esqueleto de pre-carga */

@@ -39,7 +39,7 @@
           <h1 class="tw-text-white tw-text-lg md:tw-text-xl tw-font-bold tw-truncate" style="max-width: 70%;">
             {{ this.courseInfo.title || 'Cargando curso...' }}
           </h1>
-          <button class="tw-text-gray-300 hover:tw-text-white tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2">
+          <button @click="openShareModal" class="tw-text-gray-300 hover:tw-text-white tw-text-sm tw-font-semibold tw-flex tw-items-center tw-gap-2">
             <i class="fas fa-share-alt"></i>
             <span class="d-none d-md-inline">Compartir</span>
           </button>
@@ -104,6 +104,13 @@
         </div>
       </div>
     </div>
+    
+    <ShareModal 
+      :show="showShareModal" 
+      :shareLink="generatedShareLink" 
+      :courseTitle="courseInfo.title"
+      @close="showShareModal = false" 
+    />
   </div>
 </template>
 
@@ -112,6 +119,8 @@ import { mapState, mapActions, mapMutations } from "vuex";
 import Temario from "@/components/course/temario";
 import Descripcion from "@/components/course/descripcion";
 import Video from "@/components/course/video";
+import ShareModal from "@/components/Modals/ShareModal.vue";
+import { authGet } from "@/helpers/authStorage";
 
 export default {
   name: "Course",
@@ -122,12 +131,15 @@ export default {
       lessonId: "",
       courseInfo: [],
       completedLessons: [],
+      showShareModal: false,
+      generatedShareLink: "",
     };
   },
   components: {
     Temario,
     Descripcion,
     Video,
+    ShareModal,
   },
   computed: {
     ...mapState("course", ["lesson", "renderVideo", "courseSelect"]),
@@ -152,6 +164,14 @@ export default {
       "DESTROY_PROGRESS",
       "CLEAR_ALL_DATA",
     ]),
+
+    openShareModal() {
+      const courseId = this.$route.query.course;
+      const userId = authGet("id_user");
+      const baseUrl = window.location.origin;
+      this.generatedShareLink = `${baseUrl}/landing/course/${courseId}?ref=${userId}`;
+      this.showShareModal = true;
+    },
 
     handleLessonComplete(lessonId) {
       console.log(

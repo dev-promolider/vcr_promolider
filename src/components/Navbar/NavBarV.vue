@@ -248,7 +248,7 @@ export default {
   font-size: 14px;
   font-weight: 500;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  border-radius: 12px;
+  border-radius: 4px;
   transition: all 0.2s ease;
   cursor: pointer;
   border: none;

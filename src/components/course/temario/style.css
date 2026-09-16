@@ -133,38 +133,50 @@ input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   position: absolute;
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
+  border: 2px solid #6b7280; /* Tailwind gray-500 */
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: default;
 }
 
 input[type="checkbox"]:after {
-  font-family: "Font Awesome 5 Free";
-  content: "\f058";
-  color: #1ae800;
-  font-size: 24px;
-  background: transparent;
-  border-radius: 50%;
+  content: "";
+  display: none;
 }
 
 input[type="checkbox"]:checked {
-  font-family: "Font Awesome 5 Free";
-  content: "\f058";
-  font-weight: 900;
-  color: #1ae800;
-  font-size: 24px;
-  pointer-events: none;
+  border-color: var(--primary-color, #18d600);
+  background-color: var(--primary-color, #18d600);
+}
+
+input[type="checkbox"]:checked:after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 2px;
+  left: 6px;
 }
 
 .activo {
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   pointer-events: none;
-  color: #18d600 !important;
-  background-color: rgba(24, 214, 0, 0.08);
+  color: var(--primary-color, #18d600) !important;
+  background-color: transparent;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-left: 3px solid var(--primary-color, #18d600);
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(90deg, rgba(24, 214, 0, 0.1) 0%, transparent 100%);
+  transition: all 0.3s ease;
 }
 
 .progressBar {
